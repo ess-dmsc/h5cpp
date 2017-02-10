@@ -40,8 +40,8 @@
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_b1mFMO7DEeaVqae7M1m7ow" source="org.eclipse.papyrus">
       <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_b1mFMe7DEeaVqae7M1m7ow" key="nature" value="UML_Nature"/>
     </eAnnotations>
-    <ownedEnd xmi:type="uml:Property" xmi:id="_b1pIgO7DEeaVqae7M1m7ow" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_b1jo8O7DEeaVqae7M1m7ow"/>
     <ownedEnd xmi:type="uml:Property" xmi:id="_b1pvkO7DEeaVqae7M1m7ow" type="_X9VzgO6-EeaVqae7M1m7ow" association="_b1jo8O7DEeaVqae7M1m7ow"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_b1pIgO7DEeaVqae7M1m7ow" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_b1jo8O7DEeaVqae7M1m7ow"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_t_hfAO7DEeaVqae7M1m7ow" visibility="private" memberEnd="_t_iGEe7DEeaVqae7M1m7ow _t_itIO7DEeaVqae7M1m7ow">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_t_hfAe7DEeaVqae7M1m7ow" source="org.eclipse.papyrus">
