@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_uYINYO-hEeaKneflegtjzg" name="hdf5c">
+  <ownedComment xmi:type="uml:Comment" xmi:id="_ZfG6oO-iEeaKneflegtjzg">
+    <body>This package contains types, classes and functions provided by the original HDF5 C-API.</body>
+  </ownedComment>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_cjyzoO-iEeaKneflegtjzg" name="hsize_t"/>
+</uml:Model>

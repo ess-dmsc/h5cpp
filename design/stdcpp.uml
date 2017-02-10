@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_oAANsO-hEeaKneflegtjzg" name="std">
+  <packagedElement xmi:type="uml:Class" xmi:id="_0QK-0O-hEeaKneflegtjzg" name="vector">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_80gXYO-hEeaKneflegtjzg" name="RedefinableTemplateSignature1" parameter="_9iHrUO-hEeaKneflegtjzg">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_9iHrUO-hEeaKneflegtjzg" parameteredElement="_BUuaQO-iEeaKneflegtjzg">
+        <ownedParameteredElement xmi:type="uml:DataType" xmi:id="_BUuaQO-iEeaKneflegtjzg" name="T" templateParameter="_9iHrUO-hEeaKneflegtjzg"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_5ey_0O-hEeaKneflegtjzg" name="array">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_CyW14O-iEeaKneflegtjzg" name="RedefinableTemplateSignature1" parameter="_DsSukO-iEeaKneflegtjzg _GJVYwO-iEeaKneflegtjzg">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_DsSukO-iEeaKneflegtjzg" parameteredElement="_FLOKsO-iEeaKneflegtjzg">
+        <ownedParameteredElement xmi:type="uml:DataType" xmi:id="_FLOKsO-iEeaKneflegtjzg" name="T" templateParameter="_DsSukO-iEeaKneflegtjzg"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_GJVYwO-iEeaKneflegtjzg" default="_ISMisO-iEeaKneflegtjzg" parameteredElement="_SaxVMO-iEeaKneflegtjzg">
+        <ownedParameteredElement xmi:type="uml:PrimitiveType" xmi:id="_SaxVMO-iEeaKneflegtjzg" name="N" templateParameter="_GJVYwO-iEeaKneflegtjzg"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_ISMisO-iEeaKneflegtjzg" name="size_t"/>
+</uml:Model>
