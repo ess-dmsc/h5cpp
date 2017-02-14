@@ -4,4 +4,7 @@
     <body>This package contains types, classes and functions provided by the original HDF5 C-API.</body>
   </ownedComment>
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_cjyzoO-iEeaKneflegtjzg" name="hsize_t"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_jfOTcPK9EeaaJvdMJL_JRw" name="hid_t"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_aeckkPK_EeaaJvdMJL_JRw" name="H5I_type_t"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_xFBd8PLBEeaaJvdMJL_JRw" name="herr_t"/>
 </uml:Model>

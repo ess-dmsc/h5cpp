@@ -9,8 +9,14 @@ be used.</body>
     <body>In fact we return references
 to offset, stride,count and block.</body>
   </ownedComment>
-  <packagedElement xmi:type="uml:Class" xmi:id="_WrWnMO6-EeaVqae7M1m7ow" name="id_t"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_X9VzgO6-EeaVqae7M1m7ow" name="object_t"/>
+  <ownedComment xmi:type="uml:Comment" xmi:id="_q6roIPKsEeapp5nR02EHRw" annotatedElement="_GJcOoPHgEeak_6YPwcx0Tw">
+    <body>A path is basically a thin wrapper around a std::list. Thus it is easy to add data on both sides of the path.
+Though std::list maybe slower than std::vector when accessing data path operations are for now not 
+considered performance critical.
+
+
+</body>
+  </ownedComment>
   <packagedElement xmi:type="uml:Class" xmi:id="_dcrxEO6-EeaVqae7M1m7ow" name="dataset_t">
     <ownedOperation xmi:type="uml:Operation" xmi:id="_TwVpsO-REeaKneflegtjzg" name="read"/>
     <ownedOperation xmi:type="uml:Operation" xmi:id="_VUSvwO-REeaKneflegtjzg" name="write"/>
@@ -45,7 +51,6 @@ to offset, stride,count and block.</body>
     <packagedElement xmi:type="uml:Class" xmi:id="_Y48OMO7AEeaVqae7M1m7ow" name="link_access_t"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_bJ9OkO7AEeaVqae7M1m7ow" name="link_create_t"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="attribute_manager_t"/>
   <packagedElement xmi:type="uml:Class" xmi:id="_zPL3QO7CEeaVqae7M1m7ow" name="hyperslab_t">
     <ownedComment xmi:type="uml:Comment" xmi:id="_tVamcO-REeaKneflegtjzg">
       <body>This class represents a selection of elements within a dataset.</body>
@@ -139,5 +144,172 @@ to offset, stride,count and block.</body>
       </parameterSubstitution>
       <signature xmi:type="uml:RedefinableTemplateSignature" href="stdcpp.uml#_80gXYO-hEeaKneflegtjzg"/>
     </templateBinding>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xTkBYPHeEeak_6YPwcx0Tw" name="link_t">
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_Tu8wIPHiEeak_6YPwcx0Tw" name="name">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_pK4tQPHiEeak_6YPwcx0Tw" name="link_name" direction="return">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="type">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="EXTERNAL"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="ERROR"/>
+    </nestedClassifier>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_GJcOoPHgEeak_6YPwcx0Tw" name="path_t">
+    <templateBinding xmi:type="uml:TemplateBinding" xmi:id="_B1E8wPKsEeapp5nR02EHRw">
+      <parameterSubstitution xmi:type="uml:TemplateParameterSubstitution" xmi:id="_FIWrYPKsEeapp5nR02EHRw">
+        <actual xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+        <formal xmi:type="uml:ClassifierTemplateParameter" href="stdcpp.uml#_jJDUUPKrEeapp5nR02EHRw"/>
+      </parameterSubstitution>
+      <signature xmi:type="uml:RedefinableTemplateSignature" href="stdcpp.uml#_fIJDoPKrEeapp5nR02EHRw"/>
+    </templateBinding>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_QE7DgPHkEeak_6YPwcx0Tw" name="_absolute">
+      <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_jqOWcPKlEeapp5nR02EHRw"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_FtdLQPKmEeapp5nR02EHRw" name="_elements" type="_slNCkPHjEeak_6YPwcx0Tw"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_-k5XwPHiEeak_6YPwcx0Tw" name="size">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_D3ocsPHjEeak_6YPwcx0Tw" name="number of elements" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_euq7IPHkEeak_6YPwcx0Tw" name="begin">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_lLJPUPHkEeak_6YPwcx0Tw" name="iterator" type="_QfkYIPHkEeak_6YPwcx0Tw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_n03DkPHkEeak_6YPwcx0Tw" name="end">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_qq_jMPHkEeak_6YPwcx0Tw" name="iterator" type="_QfkYIPHkEeak_6YPwcx0Tw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_tzGjoPHkEeak_6YPwcx0Tw" name="begin">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_zvb_MPHkEeak_6YPwcx0Tw" type="_MjincPHkEeak_6YPwcx0Tw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_4qyboPKkEeapp5nR02EHRw" name="cbegin">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_8HpkEPKkEeapp5nR02EHRw" name="iterator" type="_MjincPHkEeak_6YPwcx0Tw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_9VRNwPKkEeapp5nR02EHRw" name="cend">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_BCH6APKlEeapp5nR02EHRw" name="iterator" type="_MjincPHkEeak_6YPwcx0Tw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_CMOVoPKlEeapp5nR02EHRw" name="rbegin">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_GV9LIPKlEeapp5nR02EHRw" name="iterator" type="_19RFcPKkEeapp5nR02EHRw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_G4AIQPKlEeapp5nR02EHRw" name="rend">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_Jxk9cPKlEeapp5nR02EHRw" name="iterator" type="_19RFcPKkEeapp5nR02EHRw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_MWfxQPKlEeapp5nR02EHRw" name="crbegin">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_ZeIRsPKsEeapp5nR02EHRw" name="iterator" type="_3ORaUPKkEeapp5nR02EHRw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_Nbm_MPKlEeapp5nR02EHRw" name="crend">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_b5EDEPKsEeapp5nR02EHRw" name="iterator" type="_3ORaUPKkEeapp5nR02EHRw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_SmMNsPKlEeapp5nR02EHRw" name="push_back">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_fBJ1YPKsEeapp5nR02EHRw" name="value">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_UWftsPKlEeapp5nR02EHRw" name="pop_back">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_hd5koPKsEeapp5nR02EHRw" name="value" direction="return">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_VSsQMPKlEeapp5nR02EHRw" name="empty">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_jwxmMPKsEeapp5nR02EHRw" name="value" direction="return">
+        <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_jqOWcPKlEeapp5nR02EHRw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_affFMPKlEeapp5nR02EHRw" name="front">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_mTZT8PKsEeapp5nR02EHRw" name="value" direction="return">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_bMG6oPKlEeapp5nR02EHRw" name="back">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_n_zycPKsEeapp5nR02EHRw" name="value" direction="return">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_OzzEsPKmEeapp5nR02EHRw" name="from_string" isStatic="true">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_UQFHMPKmEeapp5nR02EHRw" name="input" effect="read">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_Xb8mQPKmEeapp5nR02EHRw" name="path" type="_GJcOoPHgEeak_6YPwcx0Tw" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_b3-FoPKmEeapp5nR02EHRw" name="to_string" isStatic="true">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_fVIJAPKmEeapp5nR02EHRw" name="input" type="_GJcOoPHgEeak_6YPwcx0Tw"/>
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_hfjZMPKmEeapp5nR02EHRw" name="str" direction="return">
+        <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+      </ownedParameter>
+    </ownedOperation>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_slNCkPHjEeak_6YPwcx0Tw" name="container_type" visibility="private">
+      <templateBinding xmi:type="uml:TemplateBinding" xmi:id="_0gVtIPHjEeak_6YPwcx0Tw">
+        <parameterSubstitution xmi:type="uml:TemplateParameterSubstitution" xmi:id="_5Xu54PHjEeak_6YPwcx0Tw">
+          <actual xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          <formal xmi:type="uml:ClassifierTemplateParameter" href="stdcpp.uml#_9iHrUO-hEeaKneflegtjzg"/>
+        </parameterSubstitution>
+        <signature xmi:type="uml:RedefinableTemplateSignature" href="stdcpp.uml#_80gXYO-hEeaKneflegtjzg"/>
+      </templateBinding>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_DplkMPHkEeak_6YPwcx0Tw" name="value_type"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_MjincPHkEeak_6YPwcx0Tw" name="const_iterator"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_QfkYIPHkEeak_6YPwcx0Tw" name="iterator"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_19RFcPKkEeapp5nR02EHRw" name="reverse_iterator"/>
+    <nestedClassifier xmi:type="uml:DataType" xmi:id="_3ORaUPKkEeapp5nR02EHRw" name="const_reverse_iterator"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_OVbhIPK7Eeapp5nR02EHRw" name="id" visibility="public">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_eo-gwPK-EeaaJvdMJL_JRw" annotatedElement="_WrWnMO6-EeaVqae7M1m7ow">
+      <body>Need to overload the following operators and constructor
+
+-> copy constructor
+-> move constructor
+-> copy assignment
+-> move assignment
+
+This should ensure correct reference counting for an ID.
+The destructor ensures that the correct close function is called whenever an instance of id_t losses scope.</body>
+    </ownedComment>
+    <packagedElement xmi:type="uml:Class" xmi:id="_WrWnMO6-EeaVqae7M1m7ow" name="id_t" visibility="public">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_nCXfgPK8Eeapp5nR02EHRw" name="reference_counter">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Dp4SgPK9Eeapp5nR02EHRw" name="value" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_3Uo0IPK8Eeapp5nR02EHRw"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_pQSIkPK8Eeapp5nR02EHRw" name="increment_reference_counter" visibility="private">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_fDRFgPK9EeaaJvdMJL_JRw" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_OqzCQPK9Eeapp5nR02EHRw"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_sgc40PK8Eeapp5nR02EHRw" name="decrement_reference_counter" visibility="private">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_hBdQgPK9EeaaJvdMJL_JRw" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_OqzCQPK9Eeapp5nR02EHRw"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_x9NccPK8Eeapp5nR02EHRw" name="operator()">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_ooq5gPK9EeaaJvdMJL_JRw" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_jfOTcPK9EeaaJvdMJL_JRw"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_pdBuoPK9EeaaJvdMJL_JRw" name="operator=">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_uIuBsPK9EeaaJvdMJL_JRw" name="id" type="_WrWnMO6-EeaVqae7M1m7ow"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_wfo1wPK9EeaaJvdMJL_JRw" type="_WrWnMO6-EeaVqae7M1m7ow" direction="return"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_xwINQPK9EeaaJvdMJL_JRw" name="id_t">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_0fTwUPK9EeaaJvdMJL_JRw" name="id" type="_WrWnMO6-EeaVqae7M1m7ow"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_nql1wPK_EeaaJvdMJL_JRw" name="id_type_t">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_TWP9YPLAEeaaJvdMJL_JRw" name="increment_reference_counter"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_VYaCYPLAEeaaJvdMJL_JRw" name="decrement_reference_counter"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_W7b7YPLAEeaaJvdMJL_JRw" name="reference_counter"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_VTs60PK7Eeapp5nR02EHRw" name="object" visibility="public">
+    <packagedElement xmi:type="uml:Class" xmi:id="_X9VzgO6-EeaVqae7M1m7ow" name="object_t"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
+    <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="manager_t"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_MHPU0PLHEeaaJvdMJL_JRw" name="iterator_t"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Package" xmi:id="_Uu1cwPLHEeaaJvdMJL_JRw" name="link">
+    <packagedElement xmi:type="uml:Class" xmi:id="_KnZ_8PKqEeapp5nR02EHRw" name="iterator_t"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_NcDR0PKqEeapp5nR02EHRw" name="link_iterator_t"/>
   </packagedElement>
 </uml:Model>

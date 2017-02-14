@@ -90,8 +90,8 @@ STL compliant interface to the attached attributes.
 Managing selections
 ===================
 
-.. figure:: images/selection_classes.png
-   :width: 75%
+.. figure:: images/hyperslab_uml.png
+   :width: 100%
    :align: center
 
 A selection (hyperslab) is represented by an instance of

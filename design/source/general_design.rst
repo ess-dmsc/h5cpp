@@ -75,6 +75,24 @@ none of the programs relying on the library will have to be recompiled.
 .. _How to write shared libraries, Drepper, 2011: https://software.intel.com/sites/default/files/m/a/1/e/dsohowto.pdf
 .. _Libtools versioning system: https://www.gnu.org/software/libtool/manual/html_node/Libtool-versioning.html
 
+
+.. _design-dependencies:
+
+Acceptable dependencies
+=======================
+
+To make the library easy to distribute 3rd party dependencies should be kept
+as small as possible. Aside from the dependencies required by the HDF5 C-library
+the only acceptable requirement for me would be the `Boost libraries`_.
+
+.. admonition:: Rational
+
+    The `Boost libraries`_ can be considered an extension of the C++ 
+    standard library. So it can be expected to be available on all 
+    development plattforms for C++. 
+
+.. _Boost libraries: http://www.boost.org/
+
 .. _design-read-write:
 
 How to read and write data
@@ -382,7 +400,7 @@ Referencing file system objects
 
 
 It is common for C++ and C programs to use an instance of
-:cpp:type:`std::string` or :cpp:type:`char[]` to store the path 
+:cpp:type:`std::string` or :cpp:type:`char` to store the path 
 of an object on a computers file system. 
 
 I strongly discourage this approach as, again, the semantics of a string and a

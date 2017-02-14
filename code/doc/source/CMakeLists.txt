@@ -7,7 +7,8 @@ set(RSTFILES classes.rst
              datasets.rst
              files.rst
              general_design.rst
-             groups.rst)
+             groups.rst
+             adapters.rst)
 foreach(RSTFILE ${RSTFILES})
     configure_file(${RSTFILE} ${RSTFILE} COPYONLY)
 endforeach()

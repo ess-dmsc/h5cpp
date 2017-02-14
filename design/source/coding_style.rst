@@ -32,17 +32,17 @@ Some examples would be
     };
 
 
-Rational
---------
 
-This convention is quite contrary to the far more common Pascal- and Camelcase
-convention used today. However, there are, in my opinion, good reasons to
-prefer the above rules 
+.. admonition:: Rational
 
-* all lower case is simpler to type 
-* the underscore is much closer to a blank an separates word more clearly
-* this convention is closer to what programmers are used to from the C++
-  standard  library.
+    This convention is quite contrary to the far more common Pascal- and
+    Camelcase convention used today. However, there are, in my opinion, good
+    reasons to prefer the above rules 
+
+    * all lower case is simpler to type 
+    * the underscore is much closer to a blank an separates word more clearly
+    * this convention is closer to what programmers are used to from the C++
+      standard  library.
 
 
 Indentation
@@ -67,13 +67,13 @@ indented except for nested namespaces.
     } // end of namespace second
     } // end of namespace first
 
-Rational
---------
 
-* 4 characters indicate a new block clear enough without reducing the 
-  number of available characters per line too much
-* tab characters are no good choice as their size depends on the local
-  configuration of the users text editor. 
+.. admonition:: Rational
+
+    * 4 characters indicate a new block clear enough without reducing the 
+      number of available characters per line too much
+    * tab characters are no good choice as their size depends on the local
+      configuration of the users text editor. 
 
 Bracketing style
 ================
@@ -101,12 +101,19 @@ Maximum line length
 
 Lines must not exceed a maximum number of 80 characters. 
 
-Rational
---------
+.. admonition:: Rational
 
-Though some people may claim that the times of 80 character displays are gone
-(I totally agree with  this) there is another good reason why to limit 
-the number of character per line: **it is simpler to read!!**
+    Though some people may claim that the times of 80 character displays are
+    gone (I totally agree with  this) there is another good reason why to limit 
+    the number of character per line: **it is simpler to read!!**
+    
+    
+Comments
+========
+
+.. todo::
+
+    Under construction
 
 
 .. _Ada Style Guide: https://en.wikibooks.org/wiki/Ada_Style_Guide

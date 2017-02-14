@@ -18,4 +18,25 @@
     </ownedTemplateSignature>
   </packagedElement>
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_ISMisO-iEeaKneflegtjzg" name="size_t"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_sOscgPHiEeak_6YPwcx0Tw" name="string"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_jqOWcPKlEeapp5nR02EHRw" name="bool"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_c2a4oPKrEeapp5nR02EHRw" name="list">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_fIJDoPKrEeapp5nR02EHRw" name="RedefinableTemplateSignature1" parameter="_jJDUUPKrEeapp5nR02EHRw _sspKcPKrEeapp5nR02EHRw">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_jJDUUPKrEeapp5nR02EHRw" parameteredElement="_mASAIPKrEeapp5nR02EHRw">
+        <ownedParameteredElement xmi:type="uml:DataType" xmi:id="_mASAIPKrEeapp5nR02EHRw" name="T" templateParameter="_jJDUUPKrEeapp5nR02EHRw"/>
+      </ownedParameter>
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_sspKcPKrEeapp5nR02EHRw" default="_nGLRMPKrEeapp5nR02EHRw" parameteredElement="_ythu0PKrEeapp5nR02EHRw">
+        <ownedParameteredElement xmi:type="uml:DataType" xmi:id="_ythu0PKrEeapp5nR02EHRw" name="Allocator" templateParameter="_sspKcPKrEeapp5nR02EHRw"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_nGLRMPKrEeapp5nR02EHRw" name="allocator">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_otYfkPKrEeapp5nR02EHRw" name="RedefinableTemplateSignature1" parameter="_pXd-YPKrEeapp5nR02EHRw">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_pXd-YPKrEeapp5nR02EHRw" parameteredElement="_qaSGQPKrEeapp5nR02EHRw">
+        <ownedParameteredElement xmi:type="uml:DataType" xmi:id="_qaSGQPKrEeapp5nR02EHRw" name="T" templateParameter="_pXd-YPKrEeapp5nR02EHRw"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_3Uo0IPK8Eeapp5nR02EHRw" name="int"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_OqzCQPK9Eeapp5nR02EHRw" name="void"/>
 </uml:Model>
