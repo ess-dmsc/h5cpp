@@ -13,6 +13,14 @@ written for the C++ language I personally like the authors approach to put a
 of mere personal taste but are the result of rational reasoning (at least to
 some extent).
 
+The aim of these coding guidelines is to produce easily readable code with 
+or without using a sophisticated IDE. Thus, arguing that some of these 
+conventions are not necessary as the IDE will, for instance, discriminate 
+between type and variable names with appropriate syntax highlightening is 
+not valid. 
+The code should remain readable even in the most basic text editor on a 
+command line.  
+
 Naming conventions
 ==================
 
@@ -24,7 +32,7 @@ Some examples would be
 
 .. code-block:: cpp
 
-    using dims_t = std::vector<hsize_t>;
+    using hdims_t = std::vector<hsize_t>;
 
     class dataset_t
     {
@@ -43,6 +51,48 @@ Some examples would be
     * the underscore is much closer to a blank an separates word more clearly
     * this convention is closer to what programmers are used to from the C++
       standard  library.
+    * avoid nameclashes between type and variable names.
+    
+A more elaborate rational on the `_t` suffix
+--------------------------------------------
+
+It is reasonable to have self-explanatory type names as it is for variable 
+names (names of instances of a particular type). However, this can 
+lead to name-clashes if both names are obvious choices. 
+
+Consider as an example IDs in HDF5. It is reasonable to have a type 
+:cpp:class:`id` encapsulating a single :cpp:type:`hid_t` value, taking care 
+about alle the reference counting. However, at the same time it would be 
+reasonable to give an instance of this type the name *id*. 
+Which would lead to something like 
+
+.. code-block:: cpp
+
+    id id;
+    
+which is wrong for obvious reasons. Other languages like Java or C# use 
+CamelCase or PascalCase conventions for class names and we could do the same 
+for C++ (and many projects are doing it). However, this causes some other 
+issues
+
+* neither Camel- nor PascalCase conventions are used in the STL or anywhere 
+  else in the C or C++ standard libraries.
+* it leads to inconsistencies has it is unclear why, for instance, a type is 
+  named :cpp:class:`DataSet` and the other :cpp:type:`uint8_t`.
+  
+.. admonition:: Conclusion
+
+   We should use `_t` for the following additional reasons
+   
+   * the meaning of the `_t` suffix is well known among C and C++ programmers.
+   * `_t` itself has no other meaning than indicating that the name 
+     refers to a type (class). From :cpp:class:`dataset_t` it is still 
+     clear that the type describes a dataset within an HDF5 file.
+   * it is **consistent** with what is already around.
+   * using `_type` as some parts of the STL do is difficult as *type* itself
+     is an English noun. Is :cpp:class:`dataset_type` describing a single 
+     dataset or is it maybe an enumeration distinguishing between different
+     types of datasets?     
 
 
 Indentation
