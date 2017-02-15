@@ -14,6 +14,7 @@ Contents:
    general_design 
    coding_style 
    concepts
+   design_issues
    package_overview
    utility_types
 

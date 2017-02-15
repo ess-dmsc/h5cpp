@@ -22,7 +22,9 @@ considered performance critical.
     <ownedOperation xmi:type="uml:Operation" xmi:id="_VUSvwO-REeaKneflegtjzg" name="write"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_e1ySAO6-EeaVqae7M1m7ow" name="attribute_t"/>
-  <packagedElement xmi:type="uml:Class" xmi:id="_gMDhYO6-EeaVqae7M1m7ow" name="group_t"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_gMDhYO6-EeaVqae7M1m7ow" name="group_t">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_Bp0X0vOEEeaIH_UI4hbfHQ" name="group_t" type="_gMDhYO6-EeaVqae7M1m7ow"/>
+  </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_hUBPAO6-EeaVqae7M1m7ow" name="dataspace_t"/>
   <packagedElement xmi:type="uml:Class" xmi:id="_jdQMYO6-EeaVqae7M1m7ow" name="datatype_t"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_qvM6kO6_EeaVqae7M1m7ow" name="property_list">
