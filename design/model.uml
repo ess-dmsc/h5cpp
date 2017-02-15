@@ -136,7 +136,7 @@ considered performance critical.
     <ownedEnd xmi:type="uml:Property" xmi:id="_2QHo4O-XEeaKneflegtjzg" name="hyperslab_t" type="_zPL3QO7CEeaVqae7M1m7ow" association="_2QFzsO-XEeaKneflegtjzg"/>
     <ownedEnd xmi:type="uml:Property" xmi:id="_2QHB0O-XEeaKneflegtjzg" name="selection_t" type="_ToH6IO-XEeaKneflegtjzg" aggregation="composite" association="_2QFzsO-XEeaKneflegtjzg"/>
   </packagedElement>
-  <packagedElement xmi:type="uml:Class" xmi:id="_Wnd0kO-hEeaKneflegtjzg" name="dims_t">
+  <packagedElement xmi:type="uml:Class" xmi:id="_Wnd0kO-hEeaKneflegtjzg" name="hdims_t">
     <templateBinding xmi:type="uml:TemplateBinding" xmi:id="_HNvmoO-jEeaKneflegtjzg">
       <parameterSubstitution xmi:type="uml:TemplateParameterSubstitution" xmi:id="_N7J50O-jEeaKneflegtjzg">
         <actual xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_cjyzoO-iEeaKneflegtjzg"/>
@@ -311,5 +311,10 @@ The destructor ensures that the correct close function is called whenever an ins
   <packagedElement xmi:type="uml:Package" xmi:id="_Uu1cwPLHEeaaJvdMJL_JRw" name="link">
     <packagedElement xmi:type="uml:Class" xmi:id="_KnZ_8PKqEeapp5nR02EHRw" name="iterator_t"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_NcDR0PKqEeapp5nR02EHRw" name="link_iterator_t"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_CpnjkPNmEeaIH_UI4hbfHQ" name="index_range_t">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_JpffwPNmEeaIH_UI4hbfHQ">
+      <body>Describes an sequence of indices </body>
+    </ownedComment>
   </packagedElement>
 </uml:Model>
