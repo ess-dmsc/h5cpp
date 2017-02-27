@@ -18,5 +18,5 @@ data structures.
    :maxdepth: 2
    
    name_problem
-   parent_problem
+   thread_safety
     
