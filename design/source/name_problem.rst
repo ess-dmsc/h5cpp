@@ -5,12 +5,12 @@ The name problem
 The objects in an HDF5 file are organized as a directed graph. Where groups and 
 datasets represent the nodes which are connected via links (the edges between
 the nodes). Every object within the file can be accessed via its path which 
- which is referenced by the HDF5 reference manual in some occasions as the 
- *name* of an object. 
+which is referenced by the HDF5 reference manual in some occasions as the  
+*name* of an object. 
 It is a common misconception made by HDF5 users that the name (path) of an
 object is something which is associated with the object itself. Instead the 
-name (path) describes only a particular route taken to obtain a specific object,
- which is not necessarily unique.
+name (path) describes only a particular route taken to obtain a specific 
+object, which is not necessarily unique.
 
 Consider the following situation
 

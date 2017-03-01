@@ -34,10 +34,18 @@ considered performance critical.
   <packagedElement xmi:type="uml:Class" xmi:id="_hUBPAO6-EeaVqae7M1m7ow" name="dataspace_t"/>
   <packagedElement xmi:type="uml:Class" xmi:id="_jdQMYO6-EeaVqae7M1m7ow" name="datatype_t"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_qvM6kO6_EeaVqae7M1m7ow" name="property_list">
-    <packagedElement xmi:type="uml:Class" xmi:id="_o9gv8O6-EeaVqae7M1m7ow" name="attribute_create_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_gSKT8O6_EeaVqae7M1m7ow" name="file_create_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_ZDnpoO6_EeaVqae7M1m7ow" name="datatype_access_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_W7gGkO6_EeaVqae7M1m7ow" name="datatype_create_t"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_o9gv8O6-EeaVqae7M1m7ow" name="attribute_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_aX3c8P2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_gSKT8O6_EeaVqae7M1m7ow" name="file_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_h3cM4P2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ZDnpoO6_EeaVqae7M1m7ow" name="datatype_access_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_XpOscP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_W7gGkO6_EeaVqae7M1m7ow" name="datatype_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_WWTsAP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_S2Ty0O6_EeaVqae7M1m7ow" name="dataset_transfer_t">
       <generalization xmi:type="uml:Generalization" xmi:id="_xTsQYO7BEeaVqae7M1m7ow" general="_k94RoO6-EeaVqae7M1m7ow"/>
     </packagedElement>
@@ -47,17 +55,37 @@ considered performance critical.
     <packagedElement xmi:type="uml:Class" xmi:id="_NEhaYO6_EeaVqae7M1m7ow" name="dataset_create_t">
       <generalization xmi:type="uml:Generalization" xmi:id="_u6F7wO7BEeaVqae7M1m7ow" general="_k94RoO6-EeaVqae7M1m7ow"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_I-W2QO6_EeaVqae7M1m7ow" name="object_create_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_F3NfIO6_EeaVqae7M1m7ow" name="object_copy_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_CsugIO6_EeaVqae7M1m7ow" name="string_create_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_3PaIQO6-EeaVqae7M1m7ow" name="attribute_access_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_k94RoO6-EeaVqae7M1m7ow" name="list_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_PszOwO7AEeaVqae7M1m7ow" name="file_access_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_RktyoO7AEeaVqae7M1m7ow" name="file_mount_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_TirUIO7AEeaVqae7M1m7ow" name="group_access_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_XKkn4O7AEeaVqae7M1m7ow" name="group_create_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_Y48OMO7AEeaVqae7M1m7ow" name="link_access_t"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_bJ9OkO7AEeaVqae7M1m7ow" name="link_create_t"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_I-W2QO6_EeaVqae7M1m7ow" name="object_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_ddQgkP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_F3NfIO6_EeaVqae7M1m7ow" name="object_copy_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_eAJyQP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_CsugIO6_EeaVqae7M1m7ow" name="string_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_gvP1wP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_3PaIQO6-EeaVqae7M1m7ow" name="attribute_access_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_bIMtsP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_k94RoO6-EeaVqae7M1m7ow" name="property_list_t"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_PszOwO7AEeaVqae7M1m7ow" name="file_access_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_ijy8kP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_RktyoO7AEeaVqae7M1m7ow" name="file_mount_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_jKo6IP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_TirUIO7AEeaVqae7M1m7ow" name="group_access_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_c59mQP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_XKkn4O7AEeaVqae7M1m7ow" name="group_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_cRX8QP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Y48OMO7AEeaVqae7M1m7ow" name="link_access_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_gMbckP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_bJ9OkO7AEeaVqae7M1m7ow" name="link_create_t">
+      <generalization xmi:type="uml:Generalization" xmi:id="_frboUP2rEeaeS6woxEviZA" general="_k94RoO6-EeaVqae7M1m7ow"/>
+    </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:Class" xmi:id="_zPL3QO7CEeaVqae7M1m7ow" name="hyperslab_t">
     <ownedComment xmi:type="uml:Comment" xmi:id="_tVamcO-REeaKneflegtjzg">
@@ -247,7 +275,6 @@ The destructor ensures that the correct close function is called whenever an ins
       <ownedOperation xmi:type="uml:Operation" xmi:id="_W7b7YPLAEeaaJvdMJL_JRw" name="reference_counter"/>
     </packagedElement>
   </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_VTs60PK7Eeapp5nR02EHRw" name="object" visibility="public"/>
   <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
     <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="manager_t"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_MHPU0PLHEeaaJvdMJL_JRw" name="iterator_t"/>
@@ -548,5 +575,12 @@ The destructor ensures that the correct close function is called whenever an ins
       <node xmi:type="uml:JoinNode" xmi:id="_CG6oUPzsEeaNdpVv9shH6A" name="Stop worker threads" incoming="_UM5WQPzsEeaNdpVv9shH6A _U-fLQPzsEeaNdpVv9shH6A" outgoing="_UmtkcPzsEeaNdpVv9shH6A"/>
       <node xmi:type="uml:ActivityFinalNode" xmi:id="_C5acQPzsEeaNdpVv9shH6A" name="Terminate program" incoming="_UmtkcPzsEeaNdpVv9shH6A"/>
     </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_GWP20P2tEeaeS6woxEviZA" name="property_list_id" memberEnd="_GWUIQP2tEeaeS6woxEviZA _GWUIQf2tEeaeS6woxEviZA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GWS6IP2tEeaeS6woxEviZA" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_GWS6If2tEeaeS6woxEviZA" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_GWUIQf2tEeaeS6woxEviZA" name="property_list_t" type="_k94RoO6-EeaVqae7M1m7ow" association="_GWP20P2tEeaeS6woxEviZA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_GWUIQP2tEeaeS6woxEviZA" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_GWP20P2tEeaeS6woxEviZA"/>
   </packagedElement>
 </uml:Model>

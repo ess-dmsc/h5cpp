@@ -36,5 +36,10 @@ The following namespaces are available
 Classes which are used in everyday business are directly placed below the 
 top-level namespace :cpp:any:`h5`.
 
-Ok let's give this a try again. Feels much better. No more slow editing 
-window. 
+
+Class overview
+==============
+
+.. figure:: images/classes_uml.png
+   :align: center
+   :width: 75%
