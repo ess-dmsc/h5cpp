@@ -16,8 +16,7 @@ Contents:
    concepts
    issues/index
    package_overview
-   utility_types
-   property_lists
+   design/index
 
 
 

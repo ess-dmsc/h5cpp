@@ -60,7 +60,7 @@ We thus define the utility type :cpp:type:`hdims_t` with
 
     using hdims_t = std::vector<hsize_t>;
     
-.. figure:: images/hdims_t_uml.png
+.. figure:: ../images/hdims_t_uml.png
    :align: center
    :width: 35%
     
@@ -131,7 +131,7 @@ of an object. This has two major disadvantages
 To circumvent these issues a new type :cpp:class:`path_t` is introduced. 
 It is basically a thin wrapper around :cpp:class:`std::list`.
 
-.. figure:: images/path_t_uml.png
+.. figure:: ../images/path_t_uml.png
    :align: center
    :width: 40%
     

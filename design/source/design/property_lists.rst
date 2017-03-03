@@ -10,7 +10,7 @@ of :cpp:type:`hid_t` instance. Hence, the compiler cannot check if the correct
 property list is passed to as an argument. The C++ wrapper provides an extensive
 set of property list types which make type checking at compile time possible.
 
-.. figure:: images/property_lists_inheritance.png
+.. figure:: ../images/property_lists_inheritance.png
    :align: center
    :width: 75%
    
