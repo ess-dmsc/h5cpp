@@ -60,6 +60,10 @@ We thus define the utility type :cpp:type:`hdims_t` with
 
     using hdims_t = std::vector<hsize_t>;
     
+.. figure:: images/hdims_t_uml.png
+   :align: center
+   :width: 35%
+    
 The above code than reads
 
 .. code-block:: cpp
@@ -126,6 +130,75 @@ of an object. This has two major disadvantages
 
 To circumvent these issues a new type :cpp:class:`path_t` is introduced. 
 It is basically a thin wrapper around :cpp:class:`std::list`.
+
+.. figure:: images/path_t_uml.png
+   :align: center
+   :width: 40%
+    
+Path construction
+=================
+
+Typically a path will be constructed from a string 
+
+.. code-block:: cpp
+
+    path_t p("/run_091/sensors/temperature/data");
     
     
+    
+Construction from a pair of iterators should also be supported 
+
+.. code-block:: cpp
+
+    path_t p("/run_091/sensors/temperature/data");
+    
+    path_t base_path(p.begin(),--p.end());
+    
+For obvious reaons such an interator constructor would be implemented as  a
+template
+
+.. code-block:: cpp
+
+    class path_t
+    {
+        public:
+            template<typename IterT> paht_t(IterT first,IterT last);
+    };
+    
+String conversion
+=================
+
+In many cases it would be necessary to convert an instance of :cpp:class:`path_t`
+back to its string representation. We definitely should support stream IO by 
+overloading the operators
+
+.. code-block:: cpp
+
+    std::ostream &operator<<(std::ostream &stream, const path_t &path);
+    std::istream &operator>>(std::istream &stream, path_t &path);
+
+One application here would be for instance :cpp:any:`boost::program_options` 
+which uses theses operators to read command line options. Providing these 
+operators would make it possible to directly use :cpp:class:`path_t` as a 
+valid option type.
+
+For all other purposes we should provide two static member functions 
+
+.. code-block:: cpp
+
+    class path_t
+    {
+        public:
+        
+            static std::string to_string(const path_t &path);
+            static path_t from_string(const std::string &string);
+    };
+    
+Implicit conversion by a conversion constructor and operator is discouraged 
+as it can lead to strange side-effects. 
+
+Some non-member functions
+=========================
+
+
     

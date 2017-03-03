@@ -9,7 +9,7 @@ Welcome to h5++ library design's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1 
   
    general_design 
    coding_style 

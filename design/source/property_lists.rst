@@ -40,8 +40,8 @@ A possible wrapper for this function in C++ could look like this
 
     id_t create_dataset(const id_t &location,
                         const path_t &path,
-                        const datatype_t &dtype,
-                        const dataspace_t &dspace,
+                        const datatype::datatype_t &dtype,
+                        const dataspace::dataspace_t &dspace,
                         const property_list::link_create_t &lcpl,
                         const property_list::dataset_create_t &dcpl,
                         const property_list::dataset_access_t &dapl)

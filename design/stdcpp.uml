@@ -39,4 +39,32 @@
   </packagedElement>
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_3Uo0IPK8Eeapp5nR02EHRw" name="int"/>
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_OqzCQPK9Eeapp5nR02EHRw" name="void"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_3JPswP9PEea2ltmgEEYVLg" name="reference_wrapper">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_4-k2sP9PEea2ltmgEEYVLg" name="RedefinableTemplateSignature1" parameter="_5Y6CQP9PEea2ltmgEEYVLg">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_5Y6CQP9PEea2ltmgEEYVLg" parameteredElement="_K0RF4P9QEea2ltmgEEYVLg">
+        <ownedParameteredElement xmi:type="uml:Class" xmi:id="_K0RF4P9QEea2ltmgEEYVLg" name="T" templateParameter="_5Y6CQP9PEea2ltmgEEYVLg"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_M1yRsP9QEea2ltmgEEYVLg" name="weak_ptr">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_PS83sP9QEea2ltmgEEYVLg" name="RedefinableTemplateSignature1" parameter="_QA3toP9QEea2ltmgEEYVLg">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_QA3toP9QEea2ltmgEEYVLg" parameteredElement="_RDDjYP9QEea2ltmgEEYVLg">
+        <ownedParameteredElement xmi:type="uml:Class" xmi:id="_RDDjYP9QEea2ltmgEEYVLg" name="T" templateParameter="_QA3toP9QEea2ltmgEEYVLg"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Rs808P9QEea2ltmgEEYVLg" name="shared_ptr">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_TTqUEP9QEea2ltmgEEYVLg" name="RedefinableTemplateSignature1" parameter="_T5JmwP9QEea2ltmgEEYVLg">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_T5JmwP9QEea2ltmgEEYVLg" parameteredElement="_Uysd4P9QEea2ltmgEEYVLg">
+        <ownedParameteredElement xmi:type="uml:Class" xmi:id="_Uysd4P9QEea2ltmgEEYVLg" name="T" templateParameter="_T5JmwP9QEea2ltmgEEYVLg"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_V5npsP9QEea2ltmgEEYVLg" name="unique_ptr">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_W-HzoP9QEea2ltmgEEYVLg" name="RedefinableTemplateSignature1" parameter="_XPU4YP9QEea2ltmgEEYVLg">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_XPU4YP9QEea2ltmgEEYVLg" parameteredElement="_YLnhgP9QEea2ltmgEEYVLg">
+        <ownedParameteredElement xmi:type="uml:Class" xmi:id="_YLnhgP9QEea2ltmgEEYVLg" name="T" templateParameter="_XPU4YP9QEea2ltmgEEYVLg"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
 </uml:Model>
