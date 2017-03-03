@@ -14,7 +14,7 @@ Contents:
    general_design 
    coding_style 
    concepts
-   design_issues
+   issues/index
    package_overview
    utility_types
    property_lists

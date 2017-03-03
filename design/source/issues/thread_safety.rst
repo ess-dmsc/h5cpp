@@ -23,7 +23,7 @@ before we can continue with this topic.
     
 Consider here the default situations.
 
-.. figure:: images/threads_one_dataset.png
+.. figure:: ../images/threads_one_dataset.png
    :align: center
    :width: 75%
   
@@ -33,7 +33,7 @@ sufficient to protect the system from race conditions.
 
 However, in the next example a slightly different appraoch was taken. 
    
-.. figure:: images/threads_two_datasets.png
+.. figure:: ../images/threads_two_datasets.png
    :align: center
    :width: 75%
    
