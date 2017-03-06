@@ -765,4 +765,6 @@ be used.</body>
   <Concepts:CopyConstructible xmi:id="_VLWRYP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
   <Concepts:Destructible xmi:id="_VL8uUP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
   <Concepts:Iterator xmi:id="_lU5u4P_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
+  <Concepts:ForwardIterator xmi:id="_ZHaggAJzEeeXUd39xgE0rQ" base_Class="_nRstYP_gEea3Te7FZhcDeA"/>
+  <Concepts:ForwardIterator xmi:id="_brV10AJzEeeXUd39xgE0rQ" base_Class="_hHIBgP_gEea3Te7FZhcDeA"/>
 </xmi:XMI>

@@ -1,3 +1,5 @@
+.. _the-name-problem:
+
 ================
 The name problem
 ================
