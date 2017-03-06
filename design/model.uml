@@ -195,6 +195,13 @@ The destructor ensures that the correct close function is called whenever an ins
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_MHPU0PLHEeaaJvdMJL_JRw" name="iterator_t"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_e1ySAO6-EeaVqae7M1m7ow" name="attribute_t"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_fbJvQAJOEeeXUd39xgE0rQ" name="attribute_manager_node_association" memberEnd="_fbMLgAJOEeeXUd39xgE0rQ _fbMykAJOEeeXUd39xgE0rQ" navigableOwnedEnd="_fbMLgAJOEeeXUd39xgE0rQ _fbMykAJOEeeXUd39xgE0rQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_fbK9YAJOEeeXUd39xgE0rQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_fbLkcAJOEeeXUd39xgE0rQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_fbMykAJOEeeXUd39xgE0rQ" name="node_t" type="_gjhzkPg9EearHstUE6s_yg" aggregation="composite" association="_fbJvQAJOEeeXUd39xgE0rQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_fbMLgAJOEeeXUd39xgE0rQ" name="manager_t" type="_xMQ9QO7CEeaVqae7M1m7ow" association="_fbJvQAJOEeeXUd39xgE0rQ"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_Uu1cwPLHEeaaJvdMJL_JRw" name="link">
       <packagedElement xmi:type="uml:Class" xmi:id="_jXRCUPhEEearHstUE6s_yg" name="link_t">
