@@ -1,6 +1,6 @@
-=============
-Utility types
-=============
+======================================================
+General utilities (namespace :cpp:any:`h5::utilities`)
+======================================================
 
 This chapter describes utility types introduced by this C++ wrapper which 
 should make working with the interface easier. 
@@ -136,7 +136,7 @@ It is basically a thin wrapper around :cpp:class:`std::list`.
    :width: 40%
     
 Path construction
-=================
+-----------------
 
 Typically a path will be constructed from a string 
 
@@ -166,7 +166,7 @@ template
     };
     
 String conversion
-=================
+-----------------
 
 In many cases it would be necessary to convert an instance of :cpp:class:`path_t`
 back to its string representation. We definitely should support stream IO by 
@@ -197,8 +197,37 @@ For all other purposes we should provide two static member functions
 Implicit conversion by a conversion constructor and operator is discouraged 
 as it can lead to strange side-effects. 
 
-Some non-member functions
-=========================
+
+Iterator utilities
+==================
+
+All iterator functions in HDF5 share a set of configuration options 
+allowing to configure the way how iteration is performed. This option are 
+mapped on enumeration types
+
++--------------------------+-----------------------------------------------+
+| enumeration type         | description                                   |
++==========================+===============================================+
+| :cpp:enum:`iter_dir_t`   | controls the direction of iteration           |
++--------------------------+-----------------------------------------------+
+| :cpp:enum:`iter_index_t` | determines the index which is used to iterate |
++--------------------------+-----------------------------------------------+
+
+For the iteration direction the following values are available 
+
++---------------------------------------+------------------------------+
+| enumeration value                     | description                  |
++=======================================+==============================+
+| :cpp:enumerator:`iter_dir_t::FORWARD` | iterate in forward direction |
++---------------------------------------+------------------------------+
+| :cpp:enumerator:`iter_dir_t::REVERSE` | iterate in reverse direction |
++---------------------------------------+------------------------------+
+| :cpp:enumerator:`iter_dir_t::FASTEST` | use the fastest direction    |
+|                                       | possible                     |
++---------------------------------------+------------------------------+
+
+
+
 
 
     

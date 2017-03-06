@@ -1,30 +1,42 @@
-===========================
-Namespace :cpp:any:`h5::id`
-===========================
+===========================================
+ID management (namespace :cpp:any:`h5::id`)
+===========================================
 
-In the C-API of HDF5 objects are referenced by IDs which are returned by 
-creation or access functions. Theses IDs are potentially dangerous. 
+In the C-API of HDF5, objects are referenced by IDs, which are returned by 
+creation or access functions. Theses IDs are a potential source for resource
+leaks.
+There are two major sources of issues
 
-Possible issues
+* the user does not close an object. A typical situation could look like this  
 
-* the user forgets to close an object which prohibits the file containing 
-  the object to be closed properly. 
-* side effects can occur when IDs are copied without managing their reference
-  counter correctly.
+    .. code-block:: cpp
+        
+        int dosomething(...)
+        {
+            hid_t group = H5Gopen(...);
+            
+            if(error)
+            {
+                return 1;
+            }
+            
+            H5Gclose(group);
+        }  
+               
+  If an error occurs the group never gets closed. Consequently the file 
+  containing the group is never closed properly.
+* The user copies IDs around without proper management of their reference 
+  counters. This can cause parts of the code to deal with invalid IDs. 
 
 The C++ wrapper uses a thin guard class :cpp:class:`id_t` around such an 
 ID which solves all the problems described above. 
 
-* it manages the reference counting when an *object* is moved or copied 
-* it ensures that the object gets closed once its instance looses scope.
+* it manages the reference counting when an *id* is moved or copied 
+* it ensures that the *id* is closed whenever it looses scope.
 
 
 .. figure:: ../images/id_classes.png 
    :align: center
-
-.. figure:: ../images/id_composition.png
-   :align: center
-
 
 A possible interface could look like this 
 
@@ -141,3 +153,15 @@ For assignment we get
     id2 = id;   //copy assignment - will increment the reference counter
     id3 = std::move(id); //move assigment - will not increment the reference
                          //counter
+
+Usage of IDs in *h5++*
+======================
+
+As every open object in the C-API, on which *h5++* is based upon, is represented
+by an ID, :cpp:class:`id_t` is a corner-stone of *h5++*.
+Virtually every class in *h5++* stores an instance of :cpp:class:`id_t` in 
+order to manage the lifetime of the ID used to acess an object. 
+
+.. figure:: ../images/id_composition.png
+   :align: center
+
