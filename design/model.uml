@@ -145,7 +145,54 @@ The destructor ensures that the correct close function is called whenever an ins
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
-      <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="manager_t"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="manager_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_CCSCsAJMEeeXUd39xgE0rQ" name="begin">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_rNpX0AJMEeeXUd39xgE0rQ" name="index_type" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_z1GV0AJMEeeXUd39xgE0rQ" name="order" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_BZKXwAJNEeeXUd39xgE0rQ" name="iter" type="_MHPU0PLHEeaaJvdMJL_JRw" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_HgszMAJMEeeXUd39xgE0rQ" name="end">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_6WyhMAJMEeeXUd39xgE0rQ" name="index_type" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_8SicMAJMEeeXUd39xgE0rQ" name="order" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_-YUc8AJMEeeXUd39xgE0rQ" name="iter" type="_MHPU0PLHEeaaJvdMJL_JRw" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_KtjJsAJMEeeXUd39xgE0rQ" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_hBzO4AJMEeeXUd39xgE0rQ" name="nattributes" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_MZLlEAJMEeeXUd39xgE0rQ" name="operator[]">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_RUmWMAJMEeeXUd39xgE0rQ" name="index" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_UgqpkAJMEeeXUd39xgE0rQ" name="attribute" type="_e1ySAO6-EeaVqae7M1m7ow" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_VvtPkAJMEeeXUd39xgE0rQ" name="operator[]">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ZV2P0AJMEeeXUd39xgE0rQ" name="name" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_bt1a4AJMEeeXUd39xgE0rQ" name="attribute" type="_e1ySAO6-EeaVqae7M1m7ow" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_DH2HIAJNEeeXUd39xgE0rQ" name="remove">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_FrNbwAJNEeeXUd39xgE0rQ" name="index" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_GweasAJNEeeXUd39xgE0rQ" name="remove">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_JmatEAJNEeeXUd39xgE0rQ" name="name" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_SM9FEAJNEeeXUd39xgE0rQ" name="create">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_YMN40AJNEeeXUd39xgE0rQ" name="name" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_dC_agAJNEeeXUd39xgE0rQ" name="type" type="_3aR3oP55EeaZ1-3y1hN2zw" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_fj1moAJNEeeXUd39xgE0rQ" name="space" type="_nvpKwP55EeaZ1-3y1hN2zw" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_jiX4wAJNEeeXUd39xgE0rQ" name="cplist" type="_o9gv8O6-EeaVqae7M1m7ow" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_nIiuMAJNEeeXUd39xgE0rQ" name="aplist" type="_3PaIQO6-EeaVqae7M1m7ow" effect="read"/>
+        </ownedOperation>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_MHPU0PLHEeaaJvdMJL_JRw" name="iterator_t"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_e1ySAO6-EeaVqae7M1m7ow" name="attribute_t"/>
     </packagedElement>
@@ -432,6 +479,11 @@ be used.</body>
       </templateBinding>
       <packagedElement xmi:type="uml:Class" xmi:id="_uDSTEP55EeaZ1-3y1hN2zw" name="group_t">
         <generalization xmi:type="uml:Generalization" xmi:id="_uDSTEf55EeaZ1-3y1hN2zw" general="_gjhzkPg9EearHstUE6s_yg"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_b2A1kAJDEeeXUd39xgE0rQ" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_gPpIQAJDEeeXUd39xgE0rQ" name="nchildren" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
         <nestedClassifier xmi:type="uml:Class" xmi:id="_xZhUYP9QEea2ltmgEEYVLg" name="weak_ptr_t"/>
       </packagedElement>
       <packagedElement xmi:type="uml:InformationFlow" xmi:id="_i1IKsP_8Eea3Te7FZhcDeA" name="dataset name" conveyed="_jXRCUPhEEearHstUE6s_yg" informationSource="_uDSTEP55EeaZ1-3y1hN2zw" informationTarget="_RcVgwP55EeaZ1-3y1hN2zw" realization="_2czU4P_8Eea3Te7FZhcDeA"/>
@@ -461,16 +513,34 @@ be used.</body>
         <ownedEnd xmi:type="uml:Property" xmi:id="_tsvn0v8oEeaZaM7lOsGynA" name="group_t" type="_uDSTEP55EeaZ1-3y1hN2zw" aggregation="composite" association="_tsvAwP8oEeaZaM7lOsGynA"/>
       </packagedElement>
     </packagedElement>
-    <packagedElement xmi:type="uml:Package" xmi:id="_RAlBwP6NEeaZ1-3y1hN2zw" name="object">
-      <packagedElement xmi:type="uml:Class" xmi:id="_gjhzkPg9EearHstUE6s_yg" name="linkable_object_t">
+    <packagedElement xmi:type="uml:Package" xmi:id="_RAlBwP6NEeaZ1-3y1hN2zw" name="node">
+      <ownedComment xmi:type="uml:Comment" xmi:id="_ZwrnIAJLEeeXUd39xgE0rQ">
+        <body>The node package is equivalent to the HDF5 object namespace.</body>
+      </ownedComment>
+      <packagedElement xmi:type="uml:Class" xmi:id="_gjhzkPg9EearHstUE6s_yg" name="node_t">
         <ownedAttribute xmi:type="uml:Property" xmi:id="_k-p0EP_dEea3Te7FZhcDeA" name="_root_group" visibility="private" type="_xZhUYP9QEea2ltmgEEYVLg"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_sDehsP_dEea3Te7FZhcDeA" name="_path" visibility="private" type="_cUbrsP55EeaZ1-3y1hN2zw"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_97LjEP_dEea3Te7FZhcDeA" name="_id" visibility="private" type="_WrWnMO6-EeaVqae7M1m7ow"/>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_IM7fsP_eEea3Te7FZhcDeA" name="id" visibility="protected">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_OGvywP_eEea3Te7FZhcDeA" name="HDF5 ID" direction="return">
-            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_jfOTcPK9EeaaJvdMJL_JRw"/>
-          </ownedParameter>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_4DNm8AJKEeeXUd39xgE0rQ" name="attributes" type="_xMQ9QO7CEeaVqae7M1m7ow"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_yVxAIAJDEeeXUd39xgE0rQ" name="parent">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_1acSEAJDEeeXUd39xgE0rQ" name="parent" type="_uDSTEP55EeaZ1-3y1hN2zw" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_2UeRYAJDEeeXUd39xgE0rQ" name="path">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_6aRpIAJDEeeXUd39xgE0rQ" name="path" type="_cUbrsP55EeaZ1-3y1hN2zw" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Xbi_8AJEEeeXUd39xgE0rQ" name="type">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_cdB80AJEEeeXUd39xgE0rQ" name="type" type="_GlYUEAJEEeeXUd39xgE0rQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_2VTiYAJEEeeXUd39xgE0rQ" name="id">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_5gaMcAJEEeeXUd39xgE0rQ" name="id" type="_WrWnMO6-EeaVqae7M1m7ow" direction="return"/>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_GlYUEAJEEeeXUd39xgE0rQ" name="type_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_LDvVwAJEEeeXUd39xgE0rQ" name="UNKOWN"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Me8IcAJEEeeXUd39xgE0rQ" name="GROUP"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Nj5lYAJEEeeXUd39xgE0rQ" name="DATASET"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Ot8WoAJEEeeXUd39xgE0rQ" name="NAMED_DATATYPE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_QEsuMAJEEeeXUd39xgE0rQ" name="NTYPES"/>
+        </nestedClassifier>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_uu4pAP8iEeaZaM7lOsGynA" name="linkable_root_reference" memberEnd="_uu7sUP8iEeaZaM7lOsGynA _uu8TYP8iEeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_uu6eMP8iEeaZaM7lOsGynA" source="org.eclipse.papyrus">
