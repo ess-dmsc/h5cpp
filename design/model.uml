@@ -359,28 +359,28 @@ be used.</body>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_JnGFsP_gEea3Te7FZhcDeA" name="CREATION_ORDER"/>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_O-y-4P9LEeaZaM7lOsGynA">
-        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Acu8QP9OEea2ltmgEEYVLg" source="PapyrusVersion">
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Acu8Qf9OEea2ltmgEEYVLg" key="Version" value="0.0.9"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Acu8Qv9OEea2ltmgEEYVLg" key="Comment" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Acu8Q_9OEea2ltmgEEYVLg" key="Copyright" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Acu8RP9OEea2ltmgEEYVLg" key="Date" value="2017-03-02"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Acu8Rf9OEea2ltmgEEYVLg" key="Author" value=""/>
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_14WdcAJAEeeXUd39xgE0rQ" source="PapyrusVersion">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14WdcQJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14WdcgJAEeeXUd39xgE0rQ" key="Comment" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14WdcwJAEeeXUd39xgE0rQ" key="Copyright" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14WddAJAEeeXUd39xgE0rQ" key="Date" value="2017-03-03"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14WddQJAEeeXUd39xgE0rQ" key="Author" value=""/>
         </eAnnotations>
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_O-00EP9LEeaZaM7lOsGynA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_vyWCkf9NEeazQqlVAR2jNw"/>
+          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_FUtawP_xEea3Te7FZhcDeA"/>
         </eAnnotations>
         <appliedProfile xmi:type="uml:Profile" href="cpp.profile.uml#_utzYQP6QEeaZ1-3y1hN2zw"/>
       </profileApplication>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_O-1bJv9LEeaZaM7lOsGynA">
-        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_AcvjUP9OEea2ltmgEEYVLg" source="PapyrusVersion">
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcvjUf9OEea2ltmgEEYVLg" key="Version" value="0.0.9"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcvjUv9OEea2ltmgEEYVLg" key="Comment" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcvjU_9OEea2ltmgEEYVLg" key="Copyright" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcvjVP9OEea2ltmgEEYVLg" key="Date" value="2017-03-02"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcvjVf9OEea2ltmgEEYVLg" key="Author" value=""/>
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_14YSoAJAEeeXUd39xgE0rQ" source="PapyrusVersion">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14YSoQJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14YSogJAEeeXUd39xgE0rQ" key="Comment" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14YSowJAEeeXUd39xgE0rQ" key="Copyright" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14YSpAJAEeeXUd39xgE0rQ" key="Date" value="2017-03-03"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_14YSpQJAEeeXUd39xgE0rQ" key="Author" value=""/>
         </eAnnotations>
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_O-2CMP9LEeaZaM7lOsGynA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_vyZs8P9NEeazQqlVAR2jNw"/>
+          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_FUxFIP_xEea3Te7FZhcDeA"/>
         </eAnnotations>
         <appliedProfile xmi:type="uml:Profile" href="cpp.profile.uml#_sikzYP8rEeaZaM7lOsGynA"/>
       </profileApplication>
@@ -498,28 +498,28 @@ be used.</body>
         <language>C++</language>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
-        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_AclyUP9OEea2ltmgEEYVLg" source="PapyrusVersion">
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcmZYP9OEea2ltmgEEYVLg" key="Version" value="0.0.9"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcmZYf9OEea2ltmgEEYVLg" key="Comment" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcmZYv9OEea2ltmgEEYVLg" key="Copyright" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcmZY_9OEea2ltmgEEYVLg" key="Date" value="2017-03-02"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcmZZP9OEea2ltmgEEYVLg" key="Author" value=""/>
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2AqE4AJAEeeXUd39xgE0rQ" source="PapyrusVersion">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4QJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4gJAEeeXUd39xgE0rQ" key="Comment" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4wJAEeeXUd39xgE0rQ" key="Copyright" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE5AJAEeeXUd39xgE0rQ" key="Date" value="2017-03-03"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE5QJAEeeXUd39xgE0rQ" key="Author" value=""/>
         </eAnnotations>
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_04wygP88EeaZaM7lOsGynA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_vyWCkf9NEeazQqlVAR2jNw"/>
+          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_FUtawP_xEea3Te7FZhcDeA"/>
         </eAnnotations>
         <appliedProfile xmi:type="uml:Profile" href="cpp.profile.uml#_utzYQP6QEeaZ1-3y1hN2zw"/>
       </profileApplication>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04xZlv88EeaZaM7lOsGynA">
-        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_AcnAcP9OEea2ltmgEEYVLg" source="PapyrusVersion">
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcnAcf9OEea2ltmgEEYVLg" key="Version" value="0.0.9"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcnAcv9OEea2ltmgEEYVLg" key="Comment" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcnAc_9OEea2ltmgEEYVLg" key="Copyright" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcnAdP9OEea2ltmgEEYVLg" key="Date" value="2017-03-02"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_AcnAdf9OEea2ltmgEEYVLg" key="Author" value=""/>
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2Aqr8AJAEeeXUd39xgE0rQ" source="PapyrusVersion">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2Aqr8QJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2Aqr8gJAEeeXUd39xgE0rQ" key="Comment" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2Aqr8wJAEeeXUd39xgE0rQ" key="Copyright" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2Aqr9AJAEeeXUd39xgE0rQ" key="Date" value="2017-03-03"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2Aqr9QJAEeeXUd39xgE0rQ" key="Author" value=""/>
         </eAnnotations>
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_04xZl_88EeaZaM7lOsGynA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_vyZs8P9NEeazQqlVAR2jNw"/>
+          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_FUxFIP_xEea3Te7FZhcDeA"/>
         </eAnnotations>
         <appliedProfile xmi:type="uml:Profile" href="cpp.profile.uml#_sikzYP8rEeaZaM7lOsGynA"/>
       </profileApplication>
