@@ -79,40 +79,43 @@ for normal operations.
 
 The following namespaces are available
 
-+------------------------------+----------------------------------------+
-| namespace                    | description                            |
-+==============================+========================================+
-| :cpp:any:`h5`                | the top-level namespace of the library |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::id`            | classes and functions dealing with ID  |
-|                              | management                             |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::property_list` | property list classes and related      |
-|                              | functions                              |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::attribute`     | attribute related classes and          |
-|                              | functions                              |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::link`          | classes and functions related to links |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::dataspace`     | classes and functions related to       |
-|                              | HDF5 data spaces                       |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::utilities`     | namespace with general utilty types,   |
-|                              | and functions used throughout the      |
-|                              | the library                            |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::datatype`      | datatype related classes and functions |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::dataset`       | dataset related classes and functions  |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::file`          | file related classes and functions     |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::group`         | group related classes and functions    |
-+------------------------------+----------------------------------------+
-| :cpp:any:`h5::node`          | classes and functions for general      |
-|                              | node management                        |
-+------------------------------+----------------------------------------+
++------------------------------+----------------------------------------+-+
+| namespace                    | description                            | |
++==============================+========================================+=+
+| :cpp:any:`h5`                | the top-level namespace of the library | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::id`            | classes and functions dealing with ID  | |
+|                              | management                             | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::error`         | package providing error management     | |
+|                              | related functions and classes.         | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::property_list` | property list classes and related      | |
+|                              | functions                              | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::attribute`     | attribute related classes and          | |
+|                              | functions                              | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::link`          | classes and functions related to links | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::dataspace`     | classes and functions related to       | |
+|                              | HDF5 data spaces                       | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::utilities`     | namespace with general utilty types,   | |
+|                              | and functions used throughout the      | |
+|                              | the library                            | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::datatype`      | datatype related classes and functions | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::dataset`       | dataset related classes and functions  | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::file`          | file related classes and functions     | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::group`         | group related classes and functions    | |
++------------------------------+----------------------------------------+-+
+| :cpp:any:`h5::node`          | classes and functions for general      | |
+|                              | node management                        | |
++------------------------------+----------------------------------------+-+
 
 The namespaces mimic in some way the organization of HDF5's C-API. 
 For the sake of simplicity some of the types are made available to the 

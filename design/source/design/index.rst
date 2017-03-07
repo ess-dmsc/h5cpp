@@ -7,6 +7,7 @@ Design details
    
    utility_types.rst
    ids.rst
+   error.rst
    node.rst
    link.rst
    attribute.rst

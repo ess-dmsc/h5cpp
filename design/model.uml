@@ -143,6 +143,27 @@ The destructor ensures that the correct close function is called whenever an ins
         <ownedEnd xmi:type="uml:Property" xmi:id="_ZB8so_6MEeaZ1-3y1hN2zw" name="datatype_t" type="_3aR3oP55EeaZ1-3y1hN2zw" association="_ZB8FkP6MEeaZ1-3y1hN2zw"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_ZB8sov6MEeaZ1-3y1hN2zw" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_ZB8FkP6MEeaZ1-3y1hN2zw"/>
       </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_0E96kAMMEee3-49tdJOkXQ" name="stack_id_association" memberEnd="_0E_vwAMMEee3-49tdJOkXQ _0FAW0AMMEee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0E_IsAMMEee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_0E_IsQMMEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_0FAW0AMMEee3-49tdJOkXQ" name="stack_t" type="_etrUQAMJEee3-49tdJOkXQ" association="_0E96kAMMEee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_0E_vwAMMEee3-49tdJOkXQ" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_0E96kAMMEee3-49tdJOkXQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_3XYGgAMMEee3-49tdJOkXQ" name="message_id_association" memberEnd="_3XYtkgMMEee3-49tdJOkXQ _3XZ7sAMMEee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XYtkAMMEee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XYtkQMMEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_3XZ7sAMMEee3-49tdJOkXQ" name="message_t" type="__0K-kAMKEee3-49tdJOkXQ" association="_3XYGgAMMEee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_3XYtkgMMEee3-49tdJOkXQ" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_3XYGgAMMEee3-49tdJOkXQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_6yp6kAMMEee3-49tdJOkXQ" name="class_id_association" memberEnd="_6yrIsQMMEee3-49tdJOkXQ _6yrvwAMMEee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6yqhoAMMEee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6yrIsAMMEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_6yrvwAMMEee3-49tdJOkXQ" name="class_t" type="_nc2D0AMJEee3-49tdJOkXQ" association="_6yp6kAMMEee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_6yrIsQMMEee3-49tdJOkXQ" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_6yp6kAMMEee3-49tdJOkXQ"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
       <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="manager_t">
@@ -205,45 +226,26 @@ The destructor ensures that the correct close function is called whenever an ins
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_Uu1cwPLHEeaaJvdMJL_JRw" name="link">
       <packagedElement xmi:type="uml:Class" xmi:id="_jXRCUPhEEearHstUE6s_yg" name="link_t">
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_qBcJYPhGEearHstUE6s_yg" name="name" isReadOnly="true">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_qBcJYPhGEearHstUE6s_yg" name="_name" visibility="private" isReadOnly="true">
           <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
         </ownedAttribute>
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_usXAYPhGEearHstUE6s_yg" name="type" type="_9dV2oPHeEeak_6YPwcx0Tw" isReadOnly="true"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_slh0IAJ1EeeXUd39xgE0rQ" name="name">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wMvLYAJ1EeeXUd39xgE0rQ" name="name" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_w20DIAJ1EeeXUd39xgE0rQ" name="type">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_0rRMMAJ1EeeXUd39xgE0rQ" name="type" type="_9dV2oPHeEeak_6YPwcx0Tw" direction="return"/>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="type_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="EXTERNAL"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="ERROR"/>
+        </nestedClassifier>
       </packagedElement>
-      <packagedElement xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="type_t">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="EXTERNAL"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="ERROR"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_KnZ_8PKqEeapp5nR02EHRw" name="iterator_t">
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_OAEWcP_zEea3Te7FZhcDeA" name="Operation1"/>
-      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_KnZ_8PKqEeapp5nR02EHRw" name="iterator_t"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_NcDR0PKqEeapp5nR02EHRw" name="recursive_iterator_t"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_O-xFQP_xEea3Te7FZhcDeA" name="iterator functions">
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_WGLz4P_xEea3Te7FZhcDeA" name="begin">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_hpDaIP_xEea3Te7FZhcDeA" name="iter" type="_KnZ_8PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_lw4LIP_xEea3Te7FZhcDeA" name="group" type="_uDSTEP55EeaZ1-3y1hN2zw" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_sjRE8P_xEea3Te7FZhcDeA" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_xhTsQP_xEea3Te7FZhcDeA" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_0AjV4P_xEea3Te7FZhcDeA" name="end">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_3IaesP_xEea3Te7FZhcDeA" name="iter" type="_KnZ_8PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7BOjUP_xEea3Te7FZhcDeA" name="group" type="_uDSTEP55EeaZ1-3y1hN2zw" effect="read"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_8_SygP_xEea3Te7FZhcDeA" name="begin_recursive">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Cdrt0P_yEea3Te7FZhcDeA" name="iter" type="_NcDR0PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_E5oL0P_yEea3Te7FZhcDeA" name="group" type="_uDSTEP55EeaZ1-3y1hN2zw" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_HRyWAP_yEea3Te7FZhcDeA" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MyygcP_yEea3Te7FZhcDeA" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_OqoL0P_yEea3Te7FZhcDeA" name="end_recursive">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_SyuCkP_yEea3Te7FZhcDeA" name="iter" type="_NcDR0PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_b3t4MP_yEea3Te7FZhcDeA" name="group" type="_uDSTEP55EeaZ1-3y1hN2zw" effect="read"/>
-        </ownedOperation>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Usage" xmi:id="_w7744P_yEea3Te7FZhcDeA" name="create" client="_O-xFQP_xEea3Te7FZhcDeA" supplier="_KnZ_8PKqEeapp5nR02EHRw"/>
-      <packagedElement xmi:type="uml:Usage" xmi:id="_1kQH0P_yEea3Te7FZhcDeA" name="create recursive" client="_O-xFQP_xEea3Te7FZhcDeA" supplier="_NcDR0PKqEeapp5nR02EHRw"/>
       <packagedElement xmi:type="uml:Association" xmi:id="_2czU4P_8Eea3Te7FZhcDeA" name="group_link_association" memberEnd="_2c1xIP_8Eea3Te7FZhcDeA _2c1xIf_8Eea3Te7FZhcDeA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2c0jAP_8Eea3Te7FZhcDeA" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2c0jAf_8Eea3Te7FZhcDeA" key="nature" value="UML_Nature"/>
@@ -721,6 +723,32 @@ be used.</body>
         <packagedElement xmi:type="uml:InformationFlow" xmi:id="_GbYNQAAEEee3Te7FZhcDeA" name="name=data_3" conveyed="_jXRCUPhEEearHstUE6s_yg" informationSource="_2v7XkPgtEearHstUE6s_yg" informationTarget="_CoZD0AAEEee3Te7FZhcDeA" realization="_2czU4P_8Eea3Te7FZhcDeA"/>
       </packagedElement>
     </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_ZNXtYAMJEee3-49tdJOkXQ" name="error">
+      <packagedElement xmi:type="uml:Class" xmi:id="_etrUQAMJEee3-49tdJOkXQ" name="stack_t"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_nc2D0AMJEee3-49tdJOkXQ" name="class_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_rRqHUAMLEee3-49tdJOkXQ" name="register" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wp_d8AMLEee3-49tdJOkXQ" name="name" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_zeBr0AMLEee3-49tdJOkXQ" name="libname" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_1mHZsAMLEee3-49tdJOkXQ" name="version" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_4yYhYAMLEee3-49tdJOkXQ" name="class" type="_nc2D0AMJEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_58m40AMLEee3-49tdJOkXQ" name="unregister" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="__CRyIAMLEee3-49tdJOkXQ" name="class" type="_nc2D0AMJEee3-49tdJOkXQ" effect="update"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Hv6QoAMMEee3-49tdJOkXQ" name="name">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MTqIoAMMEee3-49tdJOkXQ" name="class_name" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="__0K-kAMKEee3-49tdJOkXQ" name="message_t"/>
+    </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_NY5wMP8sEeaZaM7lOsGynA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_I1sOMP_xEea3Te7FZhcDeA" source="PapyrusVersion">
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_I1sOMf_xEea3Te7FZhcDeA" key="Version" value="0.0.10"/>
@@ -756,15 +784,8 @@ be used.</body>
   <Concepts:Destructible xmi:id="_ieW1EP8uEeaZaM7lOsGynA" base_Class="_WrWnMO6-EeaVqae7M1m7ow"/>
   <cpp:weakpointer xmi:id="_B2fkgP9OEea2ltmgEEYVLg" base_Association="_uu4pAP8iEeaZaM7lOsGynA"/>
   <cpp:sharedpointer xmi:id="_IcHNoP9OEea2ltmgEEYVLg" base_Association="_tsvAwP8oEeaZaM7lOsGynA"/>
-  <cpp:freefunctions xmi:id="_SpDlsP_xEea3Te7FZhcDeA" base_Class="_O-xFQP_xEea3Te7FZhcDeA"/>
   <Concepts:ForwardIterator xmi:id="_D2eQQP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
-  <Concepts:InputIterator xmi:id="_D3lqkP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
   <Concepts:ForwardIterator xmi:id="_HJvX0P_zEea3Te7FZhcDeA" base_Class="_NcDR0PKqEeapp5nR02EHRw"/>
-  <Concepts:InputIterator xmi:id="_HLCYUP_zEea3Te7FZhcDeA" base_Class="_NcDR0PKqEeapp5nR02EHRw"/>
-  <Concepts:CopyAssignable xmi:id="_VKQsQP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
-  <Concepts:CopyConstructible xmi:id="_VLWRYP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
-  <Concepts:Destructible xmi:id="_VL8uUP_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
-  <Concepts:Iterator xmi:id="_lU5u4P_zEea3Te7FZhcDeA" base_Class="_KnZ_8PKqEeapp5nR02EHRw"/>
   <Concepts:ForwardIterator xmi:id="_ZHaggAJzEeeXUd39xgE0rQ" base_Class="_nRstYP_gEea3Te7FZhcDeA"/>
   <Concepts:ForwardIterator xmi:id="_brV10AJzEeeXUd39xgE0rQ" base_Class="_hHIBgP_gEea3Te7FZhcDeA"/>
 </xmi:XMI>

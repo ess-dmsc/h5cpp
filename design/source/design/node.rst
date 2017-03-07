@@ -87,10 +87,10 @@ The iterators can be created using the free standing functions
                          h5::utilities::iter_dir_t &direction);
         iterator_t end(const h5::gruop::group_t &group);
         
-        recursive_iterator_t recursive_begin(const h5::group::group_t &group,
+        recursive_iterator_t begin_recursive(const h5::group::group_t &group,
                                              h5::utilities::iter_index_t &index,
                                              h5::utilities::iter_dir_t &direction);
-        recursive_iterator_t recursive_end(const h5::group::group_t &group);
+        recursive_iterator_t end_recursive(const h5::group::group_t &group);
     
     }   // end of namespace node
     }   // end of namespace h5
