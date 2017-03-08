@@ -197,6 +197,7 @@ For all other purposes we should provide two static member functions
 Implicit conversion by a conversion constructor and operator is discouraged 
 as it can lead to strange side-effects. 
 
+.. _iterator-utilities:
 
 Iterator utilities
 ==================
