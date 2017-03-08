@@ -68,11 +68,6 @@
 This should ensure correct reference counting for an ID.
 The destructor ensures that the correct close function is called whenever an instance of id_t losses scope.</body>
         </ownedComment>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_nCXfgPK8Eeapp5nR02EHRw" name="reference_counter">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Dp4SgPK9Eeapp5nR02EHRw" name="value" direction="return">
-            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_3Uo0IPK8Eeapp5nR02EHRw"/>
-          </ownedParameter>
-        </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_pQSIkPK8Eeapp5nR02EHRw" name="increment_reference_counter" visibility="private">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_fDRFgPK9EeaaJvdMJL_JRw" direction="return">
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_OqzCQPK9Eeapp5nR02EHRw"/>
@@ -83,18 +78,35 @@ The destructor ensures that the correct close function is called whenever an ins
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_OqzCQPK9Eeapp5nR02EHRw"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_x9NccPK8Eeapp5nR02EHRw" name="operator()">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ooq5gPK9EeaaJvdMJL_JRw" direction="return">
-            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_jfOTcPK9EeaaJvdMJL_JRw"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_nCXfgPK8Eeapp5nR02EHRw" name="reference_counter">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Dp4SgPK9Eeapp5nR02EHRw" name="value" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_3Uo0IPK8Eeapp5nR02EHRw"/>
           </ownedParameter>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_pdBuoPK9EeaaJvdMJL_JRw" name="operator=">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_uIuBsPK9EeaaJvdMJL_JRw" name="id" type="_WrWnMO6-EeaVqae7M1m7ow"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wfo1wPK9EeaaJvdMJL_JRw" type="_WrWnMO6-EeaVqae7M1m7ow" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_xwINQPK9EeaaJvdMJL_JRw" name="id_t">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_0fTwUPK9EeaaJvdMJL_JRw" name="id" type="_WrWnMO6-EeaVqae7M1m7ow"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6m3X8AMlEee3-49tdJOkXQ" name="type">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_BAnIQAMmEee3-49tdJOkXQ" name="type" type="_yrDNYAMkEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_yrDNYAMkEee3-49tdJOkXQ" name="type_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_3W3cQAMkEee3-49tdJOkXQ" name="UNINIT"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_DnI7EAMlEee3-49tdJOkXQ" name="BADID"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_E04gkAMlEee3-49tdJOkXQ" name="FILE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_G-6IIAMlEee3-49tdJOkXQ" name="GROUP"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ISwVoAMlEee3-49tdJOkXQ" name="DATATYPE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_JnmosAMlEee3-49tdJOkXQ" name="DATASPACE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_LmPfoAMlEee3-49tdJOkXQ" name="DATASET"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_OXBlMAMlEee3-49tdJOkXQ" name="ATTR"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Pg7MgAMlEee3-49tdJOkXQ" name="REFERENCE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Q4h4oAMlEee3-49tdJOkXQ" name="VFL"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_S_vcwAMlEee3-49tdJOkXQ" name="GENPROP_CLS"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_UTarIAMlEee3-49tdJOkXQ" name="GENPROP_LST"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_VaOiMAMlEee3-49tdJOkXQ" name="ERROR_CLASS"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_WVdbYAMlEee3-49tdJOkXQ" name="ERROR_MSG"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Xw6FsAMlEee3-49tdJOkXQ" name="ERROR_STACK"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_YahqcAMlEee3-49tdJOkXQ" name="NTYPES"/>
+        </nestedClassifier>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_nql1wPK_EeaaJvdMJL_JRw" name="id_type_t">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_TWP9YPLAEeaaJvdMJL_JRw" name="increment_reference_counter"/>
@@ -143,21 +155,21 @@ The destructor ensures that the correct close function is called whenever an ins
         <ownedEnd xmi:type="uml:Property" xmi:id="_ZB8so_6MEeaZ1-3y1hN2zw" name="datatype_t" type="_3aR3oP55EeaZ1-3y1hN2zw" association="_ZB8FkP6MEeaZ1-3y1hN2zw"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_ZB8sov6MEeaZ1-3y1hN2zw" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_ZB8FkP6MEeaZ1-3y1hN2zw"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_0E96kAMMEee3-49tdJOkXQ" name="stack_id_association" memberEnd="_0E_vwAMMEee3-49tdJOkXQ _0FAW0AMMEee3-49tdJOkXQ">
+      <packagedElement xmi:type="uml:Association" xmi:id="_0E96kAMMEee3-49tdJOkXQ" name="stack_id_association" visibility="private" memberEnd="_0E_vwAMMEee3-49tdJOkXQ _0FAW0AMMEee3-49tdJOkXQ">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_0E_IsAMMEee3-49tdJOkXQ" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_0E_IsQMMEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
         </eAnnotations>
         <ownedEnd xmi:type="uml:Property" xmi:id="_0FAW0AMMEee3-49tdJOkXQ" name="stack_t" type="_etrUQAMJEee3-49tdJOkXQ" association="_0E96kAMMEee3-49tdJOkXQ"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_0E_vwAMMEee3-49tdJOkXQ" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_0E96kAMMEee3-49tdJOkXQ"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_3XYGgAMMEee3-49tdJOkXQ" name="message_id_association" memberEnd="_3XYtkgMMEee3-49tdJOkXQ _3XZ7sAMMEee3-49tdJOkXQ">
+      <packagedElement xmi:type="uml:Association" xmi:id="_3XYGgAMMEee3-49tdJOkXQ" name="message_id_association" visibility="private" memberEnd="_3XYtkgMMEee3-49tdJOkXQ _3XZ7sAMMEee3-49tdJOkXQ">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XYtkAMMEee3-49tdJOkXQ" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XYtkQMMEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
         </eAnnotations>
         <ownedEnd xmi:type="uml:Property" xmi:id="_3XZ7sAMMEee3-49tdJOkXQ" name="message_t" type="__0K-kAMKEee3-49tdJOkXQ" association="_3XYGgAMMEee3-49tdJOkXQ"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_3XYtkgMMEee3-49tdJOkXQ" name="id_t" type="_WrWnMO6-EeaVqae7M1m7ow" aggregation="composite" association="_3XYGgAMMEee3-49tdJOkXQ"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_6yp6kAMMEee3-49tdJOkXQ" name="class_id_association" memberEnd="_6yrIsQMMEee3-49tdJOkXQ _6yrvwAMMEee3-49tdJOkXQ">
+      <packagedElement xmi:type="uml:Association" xmi:id="_6yp6kAMMEee3-49tdJOkXQ" name="class_id_association" visibility="private" memberEnd="_6yrIsQMMEee3-49tdJOkXQ _6yrvwAMMEee3-49tdJOkXQ">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6yqhoAMMEee3-49tdJOkXQ" source="org.eclipse.papyrus">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_6yrIsAMMEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
         </eAnnotations>
@@ -724,7 +736,37 @@ be used.</body>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_ZNXtYAMJEee3-49tdJOkXQ" name="error">
-      <packagedElement xmi:type="uml:Class" xmi:id="_etrUQAMJEee3-49tdJOkXQ" name="stack_t"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_etrUQAMJEee3-49tdJOkXQ" name="stack_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_28crwAMREee3-49tdJOkXQ" name="stack_t"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6gvR4AMREee3-49tdJOkXQ" name="close"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_B2TUwAMTEee3-49tdJOkXQ" name="push">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_FKZiwAMTEee3-49tdJOkXQ" name="record" type="_2OSv0AMSEee3-49tdJOkXQ" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_8TNDIAMTEee3-49tdJOkXQ" name="current" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_CluKEAMUEee3-49tdJOkXQ" name="stack" type="_etrUQAMJEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_l1yPUAMdEee3-49tdJOkXQ" name="clear"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_g0IVgAMsEee3-49tdJOkXQ" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kKtPwAMsEee3-49tdJOkXQ" name="size" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_m4BKkAMsEee3-49tdJOkXQ" name="pop">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_tSq50AMsEee3-49tdJOkXQ" name="record" type="_2OSv0AMSEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_HzWRQAMvEee3-49tdJOkXQ" name="begin">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_K1IAMAMvEee3-49tdJOkXQ" name="iter" type="_EL4bUAMvEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_LubmwAMvEee3-49tdJOkXQ" name="end">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_OKZ58AMvEee3-49tdJOkXQ" name="iter" type="_EL4bUAMvEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_SieGYAMvEee3-49tdJOkXQ" name="rbegin">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Vhus0AMvEee3-49tdJOkXQ" name="iter" type="_FgonwAMvEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_YvebMAMvEee3-49tdJOkXQ" name="rend">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_a2iOUAMvEee3-49tdJOkXQ" name="iter" type="_FgonwAMvEee3-49tdJOkXQ" direction="return"/>
+        </ownedOperation>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_nc2D0AMJEee3-49tdJOkXQ" name="class_t">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_rRqHUAMLEee3-49tdJOkXQ" name="register" isStatic="true">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_wp_d8AMLEee3-49tdJOkXQ" name="name" effect="read">
@@ -746,8 +788,110 @@ be used.</body>
             <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
           </ownedParameter>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_ZPvgYAMTEee3-49tdJOkXQ" name="message">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_e1gPAAMTEee3-49tdJOkXQ" name="message" type="__0K-kAMKEee3-49tdJOkXQ" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kxDAYAMTEee3-49tdJOkXQ" name="type" type="_X3MrAAMREee3-49tdJOkXQ" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_nulvkAMTEee3-49tdJOkXQ" name="content" effect="read">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="__0K-kAMKEee3-49tdJOkXQ" name="message_t"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="__0K-kAMKEee3-49tdJOkXQ" name="message_t">
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_X3MrAAMREee3-49tdJOkXQ" name="type_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_aKrJgAMREee3-49tdJOkXQ" name="MAJOR"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_bFzVAAMREee3-49tdJOkXQ" name="MINOR"/>
+        </nestedClassifier>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_2OSv0AMSEee3-49tdJOkXQ" name="record_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_EnxQoAMwEee3-49tdJOkXQ" name="file">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_IY1ugAMwEee3-49tdJOkXQ" name="filename" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_JrozIAMwEee3-49tdJOkXQ" name="function">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MwoOIAMwEee3-49tdJOkXQ" name="signature" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_TvCxwAMwEee3-49tdJOkXQ" name="line">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_WLdw4AMwEee3-49tdJOkXQ" name="number" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_ZD4IcAMwEee3-49tdJOkXQ" name="class">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_dQhIAAMwEee3-49tdJOkXQ" name="error_class" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_eIuiYAMwEee3-49tdJOkXQ" name="major">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_g11o4AMwEee3-49tdJOkXQ" name="message" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_lg8tIAMwEee3-49tdJOkXQ" name="minor">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_nw9n8AMwEee3-49tdJOkXQ" name="message" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_qtu7EAMwEee3-49tdJOkXQ" name="description">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_s6-1wAMwEee3-49tdJOkXQ" name="message" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_ackFkAMjEee3-49tdJOkXQ" name="major messages" memberEnd="_acksogMjEee3-49tdJOkXQ _aclTsAMjEee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_acksoAMjEee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_acksoQMjEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_aclTsAMjEee3-49tdJOkXQ" name="class_t" type="_nc2D0AMJEee3-49tdJOkXQ" association="_ackFkAMjEee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_acksogMjEee3-49tdJOkXQ" name="message_t" type="__0K-kAMKEee3-49tdJOkXQ" aggregation="shared" association="_ackFkAMjEee3-49tdJOkXQ">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ew-hEAMjEee3-49tdJOkXQ"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_exCygAMjEee3-49tdJOkXQ" value="*"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_frpZkAMjEee3-49tdJOkXQ" name="minor messages" memberEnd="_frqAogMjEee3-49tdJOkXQ _frqnsAMjEee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_frqAoAMjEee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_frqAoQMjEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_frqnsAMjEee3-49tdJOkXQ" name="class_t" type="_nc2D0AMJEee3-49tdJOkXQ" association="_frpZkAMjEee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_frqAogMjEee3-49tdJOkXQ" name="message_t" type="__0K-kAMKEee3-49tdJOkXQ" aggregation="shared" association="_frpZkAMjEee3-49tdJOkXQ">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_h8JckAMjEee3-49tdJOkXQ"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_h8NG8AMjEee3-49tdJOkXQ" value="*"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_EL4bUAMvEee3-49tdJOkXQ" name="iterator_t"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_FgonwAMvEee3-49tdJOkXQ" name="reverse_iterator_t"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_pNVUwAMvEee3-49tdJOkXQ" name="stack record association" memberEnd="_pNV70gMvEee3-49tdJOkXQ _pNWi4AMvEee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pNV70AMvEee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pNV70QMvEee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_pNWi4AMvEee3-49tdJOkXQ" name="stack_t" type="_etrUQAMJEee3-49tdJOkXQ" association="_pNVUwAMvEee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_pNV70gMvEee3-49tdJOkXQ" name="record_t" type="_2OSv0AMSEee3-49tdJOkXQ" aggregation="shared" association="_pNVUwAMvEee3-49tdJOkXQ">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_s0clYAMvEee3-49tdJOkXQ"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_s0qAwAMvEee3-49tdJOkXQ" value="*"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_vm-TMAM2Eee3-49tdJOkXQ" name="error class for the record" memberEnd="_vnAIYQM2Eee3-49tdJOkXQ _vnAIYgM2Eee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vm_hUAM2Eee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vnAIYAM2Eee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_vnAIYgM2Eee3-49tdJOkXQ" name="record_t" type="_2OSv0AMSEee3-49tdJOkXQ" association="_vm-TMAM2Eee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_vnAIYQM2Eee3-49tdJOkXQ" name="class_t" type="_nc2D0AMJEee3-49tdJOkXQ" aggregation="shared" association="_vm-TMAM2Eee3-49tdJOkXQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_zf2pQAM2Eee3-49tdJOkXQ" name="minor message of the record" memberEnd="_zf3QUAM2Eee3-49tdJOkXQ _zf3QUQM2Eee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_zf2pQQM2Eee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_zf2pQgM2Eee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_zf3QUQM2Eee3-49tdJOkXQ" name="record_t" type="_2OSv0AMSEee3-49tdJOkXQ" association="_zf2pQAM2Eee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_zf3QUAM2Eee3-49tdJOkXQ" name="message_t" type="__0K-kAMKEee3-49tdJOkXQ" aggregation="shared" association="_zf2pQAM2Eee3-49tdJOkXQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_qgoSMAM7Eee3-49tdJOkXQ" name="major message of the record" memberEnd="_qgpgUAM7Eee3-49tdJOkXQ _qgpgUQM7Eee3-49tdJOkXQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_qgo5QAM7Eee3-49tdJOkXQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_qgo5QQM7Eee3-49tdJOkXQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_qgpgUQM7Eee3-49tdJOkXQ" name="record_t" type="_2OSv0AMSEee3-49tdJOkXQ" association="_qgoSMAM7Eee3-49tdJOkXQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_qgpgUAM7Eee3-49tdJOkXQ" name="message_t" type="__0K-kAMKEee3-49tdJOkXQ" aggregation="shared" association="_qgoSMAM7Eee3-49tdJOkXQ"/>
+      </packagedElement>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_NY5wMP8sEeaZaM7lOsGynA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_I1sOMP_xEea3Te7FZhcDeA" source="PapyrusVersion">

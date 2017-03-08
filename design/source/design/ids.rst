@@ -35,9 +35,11 @@ ID which solves all the problems described above.
 * it ensures that the *id* is closed whenever it looses scope.
 
 
-.. figure:: ../images/id_classes.png 
+.. figure:: ../images/id_t_details_uml.png 
    :align: center
 
+The nested enumeration type :cpp:enum:`id_t::type_t` provides information about
+what kind of object is referenced by an instance of :cpp:class:`id_t`.
 A possible interface could look like this 
 
 .. code-block:: cpp
