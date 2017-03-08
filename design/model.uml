@@ -181,13 +181,9 @@ The destructor ensures that the correct close function is called whenever an ins
       <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="view_t">
         <generalization xmi:type="uml:Generalization" xmi:id="_uO8rEAQMEees69QdhumwSQ" general="_FgEdoAQMEees69QdhumwSQ"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_CCSCsAJMEeeXUd39xgE0rQ" name="begin">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_rNpX0AJMEeeXUd39xgE0rQ" name="index_type" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_z1GV0AJMEeeXUd39xgE0rQ" name="order" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_BZKXwAJNEeeXUd39xgE0rQ" name="iter" type="_MHPU0PLHEeaaJvdMJL_JRw" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_HgszMAJMEeeXUd39xgE0rQ" name="end">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_6WyhMAJMEeeXUd39xgE0rQ" name="index_type" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_8SicMAJMEeeXUd39xgE0rQ" name="order" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_-YUc8AJMEeeXUd39xgE0rQ" name="iter" type="_MHPU0PLHEeaaJvdMJL_JRw" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_KtjJsAJMEeeXUd39xgE0rQ" name="size">
@@ -312,23 +308,15 @@ The destructor ensures that the correct close function is called whenever an ins
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_TQVi0AP8Eees69QdhumwSQ" name="begin">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_ZMq-YAP8Eees69QdhumwSQ" name="iterator" type="_KnZ_8PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_h_9Y8AP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kKjoQAP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_UHsooAP8Eees69QdhumwSQ" name="end">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_bKXaIAP8Eees69QdhumwSQ" name="iterator" type="_KnZ_8PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_pJr0sAP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_qrDg0AP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_UzqWwAP8Eees69QdhumwSQ" name="begin_recursive">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_dmbz8AP8Eees69QdhumwSQ" name="iterator" type="_NcDR0PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_sra2EAP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_uWwWgAP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_VdeIwAP8Eees69QdhumwSQ" name="end_recursive">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_gEyFsAP8Eees69QdhumwSQ" name="iterator" type="_NcDR0PKqEeapp5nR02EHRw" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wP7eoAP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_xzWZMAP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_-fQEEAP8Eees69QdhumwSQ" name="remove">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_BxTDoAP9Eees69QdhumwSQ" name="path" type="_cUbrsP55EeaZ1-3y1hN2zw" effect="read"/>
@@ -687,23 +675,15 @@ be used.</body>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_E42SIAP3Eees69QdhumwSQ" name="begin">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_NnHCwAP3Eees69QdhumwSQ" name="iterator" type="_hHIBgP_gEea3Te7FZhcDeA" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_hoXxoAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kB_7cAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_F62hsAP3Eees69QdhumwSQ" name="end">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_QV0rwAP3Eees69QdhumwSQ" name="iterator" type="_hHIBgP_gEea3Te7FZhcDeA" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_onuJYAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_qXh6IAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_HH91EAP3Eees69QdhumwSQ" name="begin_recursive">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_TT4_YAP3Eees69QdhumwSQ" name="iterator" type="_nRstYP_gEea3Te7FZhcDeA" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_seJBUAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_yyXYcAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_JCzKEAP3Eees69QdhumwSQ" name="end_recursive">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_VtbpoAP3Eees69QdhumwSQ" name="iterator" type="_nRstYP_gEea3Te7FZhcDeA" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_3SRSQAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_4W_eoAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
         </ownedOperation>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">

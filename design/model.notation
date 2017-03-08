@@ -6014,7 +6014,7 @@
       <children xmi:type="notation:DecorationNode" xmi:id="_HSafoAP5Eees69QdhumwSQ" type="Class_FloatingNameLabel">
         <layoutConstraint xmi:type="notation:Location" xmi:id="_HSafoQP5Eees69QdhumwSQ" y="5"/>
       </children>
-      <children xmi:type="notation:BasicCompartment" xmi:id="_HSafogP5Eees69QdhumwSQ" type="Class_AttributeCompartment">
+      <children xmi:type="notation:BasicCompartment" xmi:id="_HSafogP5Eees69QdhumwSQ" visible="false" type="Class_AttributeCompartment">
         <styles xmi:type="notation:TitleStyle" xmi:id="_HSafowP5Eees69QdhumwSQ"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_HSafpAP5Eees69QdhumwSQ"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_HSafpQP5Eees69QdhumwSQ"/>
@@ -6058,14 +6058,14 @@
         <styles xmi:type="notation:FilteringStyle" xmi:id="_HSafqgP5Eees69QdhumwSQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HSafqwP5Eees69QdhumwSQ"/>
       </children>
-      <children xmi:type="notation:BasicCompartment" xmi:id="_HSafrAP5Eees69QdhumwSQ" type="Class_NestedClassifierCompartment">
+      <children xmi:type="notation:BasicCompartment" xmi:id="_HSafrAP5Eees69QdhumwSQ" visible="false" type="Class_NestedClassifierCompartment">
         <styles xmi:type="notation:TitleStyle" xmi:id="_HSafrQP5Eees69QdhumwSQ"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_HSafrgP5Eees69QdhumwSQ"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_HSafrwP5Eees69QdhumwSQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HSafsAP5Eees69QdhumwSQ"/>
       </children>
       <element xmi:type="uml:Class" href="model.uml#_Ex5qsAP5Eees69QdhumwSQ"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HSZ4kQP5Eees69QdhumwSQ" x="110" y="149"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HSZ4kQP5Eees69QdhumwSQ" x="295" y="153" height="174"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_GkdNcQP5Eees69QdhumwSQ" name="diagram_compatibility_version" stringValue="1.2.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_GkdNcgP5Eees69QdhumwSQ"/>

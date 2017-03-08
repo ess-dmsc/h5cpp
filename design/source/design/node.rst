@@ -57,8 +57,8 @@ this two member functions see :ref:`the-name-problem`.
 
 .. _node-iterators:
 
-Iterators
-=========
+Iterators and views
+===================
 
 The namespace :cpp:any:`h5::node` provides two iterators 
 
@@ -75,43 +75,16 @@ one iterates recursively over all children and subchildren of a group.
 
 Both iterators satisfy the *ForwardIterator* concept as defined by the 
 C++ standard (see `ForwardIterator concept`_ for details).
-The iterators can be created using the free standing functions
+Instances of those iterators are created by the :cpp:func:`view_t::begin`, 
+:cpp:func:`view_t::end`, :cpp:func:`view_t::begin_recursive` and 
+:cpp:func:`view_t::end_recursive` member functions of the node view.
 
-.. code-block:: cpp
-
-    namespace h5 {
-    namespace node {
-        
-        iterator_t begin(const h5::group::group_t &group,
-                         h5::utilities::iter_index_t &index,
-                         h5::utilities::iter_dir_t &direction);
-        iterator_t end(const h5::gruop::group_t &group);
-        
-        recursive_iterator_t begin_recursive(const h5::group::group_t &group,
-                                             h5::utilities::iter_index_t &index,
-                                             h5::utilities::iter_dir_t &direction);
-        recursive_iterator_t end_recursive(const h5::group::group_t &group);
-    
-    }   // end of namespace node
-    }   // end of namespace h5
-
-
-.. _ForwardIterator concept: http://en.cppreference.com/w/cpp/concept/ForwardIterator
-
-
-View
-====
-
-An instance of :cpp:class:`group_t` can be interpreted in three ways
-
-* as a container of attributes
-* as a container of other nodes (datasets, groups and name datatypes)
-* and as a container of links
-
-Access to theses different representations is given by view types. 
 :cpp:class:`h5::node::view_t` provides an STL container compliant view 
 on the child-nodes of a group
 
 .. figure:: ../images/node_view_t_details.png
    :align: center
-   :width: 800px
+   :width: 600px
+   
+.. _ForwardIterator concept: http://en.cppreference.com/w/cpp/concept/ForwardIterator
+   

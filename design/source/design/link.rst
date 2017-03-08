@@ -19,8 +19,8 @@ Links are the glue between the nodes in an HDF5 object tree.
 
 .. _link-iterators:
 
-Iterators
-=========
+Iterators and views
+===================
 
 
 .. figure:: ../images/link_iterators.png
@@ -31,25 +31,12 @@ Both iterators satisfy the *ForwardIterator* concept as defined by the
 C++ standard (see `ForwardIterator concept`_ for details).
 Creation of the iterators works the same as for node iterators (
 see :ref:`node-iterators` for details).
+Instances of these iterators are created by the appropriate *begin* and *end*
+functions of the :cpp:class:`link::view_t` view class.
 
-.. code-block:: cpp
-
-    namespace h5 {
-    namespace link {
-        
-        iterator_t begin(const h5::group::group_t &group,
-                         h5::utilities::iter_index_t &index,
-                         h5::utilities::iter_dir_t &direction);
-        iterator_t end(const h5::gruop::group_t &group);
-        
-        recursive_iterator_t begin_recursive(const h5::group::group_t &group,
-                                             h5::utilities::iter_index_t &index,
-                                             h5::utilities::iter_dir_t &direction);
-        recursive_iterator_t end_recursive(const h5::group::group_t &group);
-    
-    }   // end of namespace node
-    }   // end of namespace h5
-
+.. figure:: ../images/link_view_t_details.png
+   :align: center
+   :width: 300px
 
 .. _ForwardIterator concept: http://en.cppreference.com/w/cpp/concept/ForwardIterator
    
