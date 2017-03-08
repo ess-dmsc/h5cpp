@@ -12,7 +12,7 @@ Nodes (namespace :cpp:any:`h5::node`)
 
 .. figure:: ../images/node_t_detail_uml.png
    :align: center
-   :width: 250px
+   :width: 600px
 
 As nodes are the only objects which can hold attributes :cpp:class:`node_t` 
 also stores the public :cpp:member:`attributes` attribute which is an 
