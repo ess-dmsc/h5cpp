@@ -137,121 +137,117 @@ top-level namespace :cpp:any:`h5` via aliases.
         using group_t     = group::group_t;
     
     } // end of namespace h5
-    
-Iterators
-=========
+   
+.. _containers-views-iterators:
+ 
+Containers, views and iterators
+===============================
 
 One of the general design goals is to provide an interface as close as possible 
 to the STL. This would allow users, for instance, to select objects from 
 an HDF5 tree according to a predefined predicate. 
-Though HDF5 provides iterator/visitor functions for nodes, links, and 
-attributes, the concept behind this functions is quite different from the 
-standard iterator concept in C++. While C++ basically distinguishes between 
-forward and reverse iterators, HDF5 provides far more flexibility.
+From the above description  it follows that we can treat the node types in HDF5
+as STL containers. However, there is a complication. STL containers typically
+store data of a homogeneous type. HDF5 node objects are more complex as they 
+can be viewed as containers whose elements do not only have different types 
+(nodes, attributes, links) but those types also have different semantics. 
+An attribute is obviously something different than an other node or a link. 
 
-HDF5 not only provides the concept of forward and reverse iteration but also 
-allows a *fastest* iteration direction which is determined by the C-API. Thus 
-the concept of forward and reverse iteration does not make sense at all. 
-In addition HDF5 allows the user to select the key by which the sequence 
-of objects is sorted: this can be either done lexicographically by the name
-of an object or by the order in which the child-objects of a parent have been 
-created. *h5++* accounts for this additional degree of freedom by providing
-two utility types :cpp:enum:`iter_index_t` and :cpp:enum:`iter_dir_t` (see 
-:ref:`iterator-utilities` for details).
+Every node object can be considered an attribute container. But a group 
+can be considered as a container of 
+
+* attributes
+* or links
+* or other nodes. 
+
+To provide a coherent STL compliant view on these different types of objects
+views are used on each container. There are currently three view types
+available 
+
+* :cpp:class:`h5::attribute::view_t` - attribute container view, whose elements
+  are of type :cpp:class:`h5::attribute::attribute_t`
+* :cpp:class:`h5::node::view_t` - node container view, whose elements are of 
+  type :cpp:class:`h5::node::node_t`
+* :cpp:class:`h5::link::view_t` - link container view, whose elements are of 
+  type :cpp:class:`h5::link::link_t`.
+
+Each of these views provides an STL compliant container interface to elements
+of the appropriate type. However, due to some peculiarities of the HDF5 library
+there are certain adjustments we have to make the the standard STL interface. 
+
+The first difference with respect to the STL is that HDF5 allows the user 
+to choose between different index types which determine the ordering of the 
+elements in the container. In *h5++* this index type is represented by the 
+enumeration type :cpp:enum:`h5::utilties::iter_index_t`. 
+
+Secondly the user can pick the direction in which the elements are ordered 
+according to the selected index type. This includes not only *increasing* and 
+*reverse* (which would correspond to *forward* and *reverse* iteration in C++),
+but also a third ordering named *fastest* which is automatically picked by 
+the library. The concept of forward and backward iteration thus makes no sense
+in the HDF5 world. 
+
+It is important to note that these two parameters do not only influence the 
+behavior of iterators but all situations where an objects is accessed via 
+a numeric index. Thus :cpp:any:`object[10]` may returns something different
+depending on the index type and the ordering direction. 
 
 Last but not least HDF5 allows for *direct* and *recursive* iteration. In the 
 former case the iterator runs only over the direct children of a parent while
 in the latter case all subgroups are covered too.
 
-Iterators in C++ are instantiated typically by two functions :cpp:func:`begin` 
-and :cpp:func:`end` which come in two flavors:
+In standard C++ a minimal container interface may looks like this
 
-* as member functions of a container class
+.. code-block:: cpp
 
-    .. code-block:: cpp
+    class container
+    {
+        public:
+            using value_type = ....;
+            using iterator = ...;
+            
+            size_t size() const; 
+            value_type operator[](size_t index) const; 
+            
+            iterator begin();
+            iterator end(); 
+    };
     
-        class container
-        {
-            public:
-                using iterator = ...;
-                
-                iterator begin();
-                iterator end(); 
-        };
-        
-* or as free standing functions
+For our :cpp:class:`view_t` classes we used a slightly different interface
+accounting for the special behavior of HDF5.
 
-    .. code-block:: cpp
+.. code-block:: cpp
+
+    class view_concept_t
+    {
+        public:
+            using value_type = ...;
+            using iterator   = ...;
+            using recursive_iterator = ....;
+            
+            //get the current index type
+            iter_index_t index() const;
+            //set the index
+            void index(iter_index_t idx);
+            
+            //get the current order direction
+            iter_dir_t dir() const;
+            //set the current order
+            void dir(iter_dir_t dir);
+            
+            size_t size() const;
+            value_type operator[](size_t index) const; 
     
-        class container 
-        {
-            .....
-        };
+            //iterate only over the direct children        
+            iterator begin();
+            iterator end();
+           
+            //recursive iteration 
+            recursive_iterator begin_recursive();
+            recursive_iterator end_recursive();
+    };
         
-        container::iterator begin(container &c);
-        container::iterator end(container &c);
-        
-For HDF5 these functions need some extensions concerning their argument list
-as they must take the additional degrees of freedom into account. In addition 
-we have to distinguish between recursive and direct iteration
-
-* for the member functions we get now  
-
-    .. code-block:: cpp
-    
-        class container
-        {
-            public:
-                // iterator for direct iteration
-                using iterator = ...;
-                // iterator for recursive iteration
-                using recursive_iterator = ...
-                
-                iterator begin(iter_index_t index,
-                               iter_dir_t dir);
-                iterator end(iter_index_t index,
-                             iter_dir_t dir); 
-                recursive_iterator begin_recursive(iter_index_t index,
-                                         iter_dir_t dir);
-                recursive_iterator end_recursive(iter_index_t index,
-                                                 iter_dir_t dir);
-                          
-        };
-        
-* and the signatures of the free standing functions would alter to 
-
-    .. code-block:: cpp
-    
-        class container 
-        {
-            .....
-        };
-        
-        container::iterator begin(container &c,
-                                  iter_index_t index,
-                                  iter_dir_t dir);
-        container::iterator end(container &c,
-                                iter_index_t index,
-                                iter_dir_t dir);
-        container::recursive_iterator begin_recursive(container &c,
-                                                      iter_index_t index,
-                                                      iter_dir_t dir);
-        container::recursive_iterator end_recursive(container &c,
-                                                    iter_index_t index,
-                                                    iter_dir_t dir);        
- 
-We can mabye omit the :cpp:func:`begin_recursive` and 
-:cpp:func:`end_recursive` by adding a tag-type to the signature of 
-:cpp:func:`begin` and :cpp:func:`end` to distinguish between direct and 
-recursive iteration. However, in any case, this additional information must 
-be conveyed in some or the other way.
-
-As a matter for fact this is not a real complication for most of the STL 
-algorithms which required the *begin* and *end* iterator to be passed 
-explicitly. However, this is a problem for range based algorithms and 
-statements like the *range-for* loop. 
-
 .. note::
-
-    There is currently no good solution for this as long as we want to keep 
-    the flexiblity of the HDF5 iterators.
+    
+    Need to find a solution for range-based algorithms end statements like 
+    the range-for loop.

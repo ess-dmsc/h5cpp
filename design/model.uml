@@ -292,6 +292,46 @@ The destructor ensures that the correct close function is called whenever an ins
         <ownedEnd xmi:type="uml:Property" xmi:id="_n4KlcQPbEeep-_nPIUnDDw" name="link_t" type="_jXRCUPhEEearHstUE6s_yg" association="_n4FF4APbEeep-_nPIUnDDw"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_n4KlcAPbEeep-_nPIUnDDw" name="group_t" type="_uDSTEP55EeaZ1-3y1hN2zw" aggregation="shared" association="_n4FF4APbEeep-_nPIUnDDw"/>
       </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Ex5qsAP5Eees69QdhumwSQ" name="view_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_ZPmd8AP5Eees69QdhumwSQ" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_cp-TEAP5Eees69QdhumwSQ" name="nlinks" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_fsDkAAP5Eees69QdhumwSQ" name="operator[]">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ip7DUAP5Eees69QdhumwSQ" name="index" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_9lyh8AP7Eees69QdhumwSQ" name="link" type="_jXRCUPhEEearHstUE6s_yg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="__Ou1sAP7Eees69QdhumwSQ" name="operator[]">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_CsZ2cAP8Eees69QdhumwSQ" name="path" type="_cUbrsP55EeaZ1-3y1hN2zw" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_FYS08AP8Eees69QdhumwSQ" name="link" type="_jXRCUPhEEearHstUE6s_yg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_TQVi0AP8Eees69QdhumwSQ" name="begin">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ZMq-YAP8Eees69QdhumwSQ" name="iterator" type="_KnZ_8PKqEeapp5nR02EHRw" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_h_9Y8AP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kKjoQAP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_UHsooAP8Eees69QdhumwSQ" name="end">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_bKXaIAP8Eees69QdhumwSQ" name="iterator" type="_KnZ_8PKqEeapp5nR02EHRw" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_pJr0sAP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_qrDg0AP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_UzqWwAP8Eees69QdhumwSQ" name="begin_recursive">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_dmbz8AP8Eees69QdhumwSQ" name="iterator" type="_NcDR0PKqEeapp5nR02EHRw" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_sra2EAP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_uWwWgAP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_VdeIwAP8Eees69QdhumwSQ" name="end_recursive">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_gEyFsAP8Eees69QdhumwSQ" name="iterator" type="_NcDR0PKqEeapp5nR02EHRw" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wP7eoAP8Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_xzWZMAP8Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_-fQEEAP8Eees69QdhumwSQ" name="remove">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_BxTDoAP9Eees69QdhumwSQ" name="path" type="_cUbrsP55EeaZ1-3y1hN2zw" effect="read"/>
+        </ownedOperation>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_O0t-QP55EeaZ1-3y1hN2zw" name="dataset">
       <packagedElement xmi:type="uml:Class" xmi:id="_RcVgwP55EeaZ1-3y1hN2zw" name="dataset_t">
@@ -611,7 +651,7 @@ be used.</body>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_zAZfUAP1Eees69QdhumwSQ" name="view_t">
         <ownedComment xmi:type="uml:Comment" xmi:id="_BSuDgAP4Eees69QdhumwSQ" annotatedElement="_zAZfUAP1Eees69QdhumwSQ">
-          <body>Make all constructors and assignment operators protected. To use this class make it a friend class of the using class.</body>
+          <body>Make all constructors and assignment operators protected. Make h5::group::group_t a friend class.</body>
         </ownedComment>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_6sV3UAP1Eees69QdhumwSQ" name="size">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_VB8SEAP2Eees69QdhumwSQ" name="nnodes" direction="return">
