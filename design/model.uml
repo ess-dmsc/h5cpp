@@ -609,6 +609,46 @@ be used.</body>
       <packagedElement xmi:type="uml:FunctionBehavior" xmi:id="_sSiKAP_gEea3Te7FZhcDeA" name="begin" visibility="public" body="">
         <language>C++</language>
       </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_zAZfUAP1Eees69QdhumwSQ" name="view_t">
+        <ownedComment xmi:type="uml:Comment" xmi:id="_BSuDgAP4Eees69QdhumwSQ" annotatedElement="_zAZfUAP1Eees69QdhumwSQ">
+          <body>Make all constructors and assignment operators protected. To use this class make it a friend class of the using class.</body>
+        </ownedComment>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6sV3UAP1Eees69QdhumwSQ" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_VB8SEAP2Eees69QdhumwSQ" name="nnodes" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Wll2IAP2Eees69QdhumwSQ" name="operator[]">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Z2WcQAP2Eees69QdhumwSQ" name="index" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_cJLagAP2Eees69QdhumwSQ" name="node" type="_gjhzkPg9EearHstUE6s_yg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_c1mboAP2Eees69QdhumwSQ" name="operator[]">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_fn_qwAP2Eees69QdhumwSQ" name="path" type="_cUbrsP55EeaZ1-3y1hN2zw" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_h3XFUAP2Eees69QdhumwSQ" name="node" type="_gjhzkPg9EearHstUE6s_yg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_E42SIAP3Eees69QdhumwSQ" name="begin">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_NnHCwAP3Eees69QdhumwSQ" name="iterator" type="_hHIBgP_gEea3Te7FZhcDeA" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_hoXxoAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kB_7cAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_F62hsAP3Eees69QdhumwSQ" name="end">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_QV0rwAP3Eees69QdhumwSQ" name="iterator" type="_hHIBgP_gEea3Te7FZhcDeA" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_onuJYAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_qXh6IAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_HH91EAP3Eees69QdhumwSQ" name="begin_recursive">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_TT4_YAP3Eees69QdhumwSQ" name="iterator" type="_nRstYP_gEea3Te7FZhcDeA" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_seJBUAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_yyXYcAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_JCzKEAP3Eees69QdhumwSQ" name="end_recursive">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_VtbpoAP3Eees69QdhumwSQ" name="iterator" type="_nRstYP_gEea3Te7FZhcDeA" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_3SRSQAP3Eees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_4W_eoAP3Eees69QdhumwSQ" name="dir" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+      </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2AqE4AJAEeeXUd39xgE0rQ" source="PapyrusVersion">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4QJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>

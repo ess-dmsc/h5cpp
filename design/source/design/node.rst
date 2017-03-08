@@ -97,3 +97,21 @@ The iterators can be created using the free standing functions
 
 
 .. _ForwardIterator concept: http://en.cppreference.com/w/cpp/concept/ForwardIterator
+
+
+View
+====
+
+An instance of :cpp:class:`group_t` can be interpreted in three ways
+
+* as a container of attributes
+* as a container of other nodes (datasets, groups and name datatypes)
+* and as a container of links
+
+Access to theses different representations is given by view types. 
+:cpp:class:`h5::node::view_t` provides an STL container compliant view 
+on the child-nodes of a group
+
+.. figure:: ../images/node_view_t_details.png
+   :align: center
+   :width: 800px
