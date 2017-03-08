@@ -178,7 +178,7 @@ The destructor ensures that the correct close function is called whenever an ins
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
-      <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="manager_t">
+      <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="view_t">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_CCSCsAJMEeeXUd39xgE0rQ" name="begin">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_rNpX0AJMEeeXUd39xgE0rQ" name="index_type" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_z1GV0AJMEeeXUd39xgE0rQ" name="order" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
@@ -224,6 +224,7 @@ The destructor ensures that the correct close function is called whenever an ins
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_fj1moAJNEeeXUd39xgE0rQ" name="space" type="_nvpKwP55EeaZ1-3y1hN2zw" effect="read"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_jiX4wAJNEeeXUd39xgE0rQ" name="cplist" type="_o9gv8O6-EeaVqae7M1m7ow" effect="read"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_nIiuMAJNEeeXUd39xgE0rQ" name="aplist" type="_3PaIQO6-EeaVqae7M1m7ow" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_PrxJgAP0Eees69QdhumwSQ" name="attribute" type="_e1ySAO6-EeaVqae7M1m7ow" direction="return"/>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_MHPU0PLHEeaaJvdMJL_JRw" name="iterator_t"/>
@@ -234,6 +235,13 @@ The destructor ensures that the correct close function is called whenever an ins
         </eAnnotations>
         <ownedEnd xmi:type="uml:Property" xmi:id="_fbMykAJOEeeXUd39xgE0rQ" name="node_t" type="_gjhzkPg9EearHstUE6s_yg" aggregation="composite" association="_fbJvQAJOEeeXUd39xgE0rQ"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_fbMLgAJOEeeXUd39xgE0rQ" name="manager_t" type="_xMQ9QO7CEeaVqae7M1m7ow" association="_fbJvQAJOEeeXUd39xgE0rQ"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_I1GXMAP1Eees69QdhumwSQ" name="attribute view node assocation" memberEnd="_I1HlUAP1Eees69QdhumwSQ _I1HlUQP1Eees69QdhumwSQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_I1G-QAP1Eees69QdhumwSQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_I1G-QQP1Eees69QdhumwSQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_I1HlUQP1Eees69QdhumwSQ" name="node_t" type="_gjhzkPg9EearHstUE6s_yg" association="_I1GXMAP1Eees69QdhumwSQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_I1HlUAP1Eees69QdhumwSQ" name="view_t" type="_xMQ9QO7CEeaVqae7M1m7ow" aggregation="composite" association="_I1GXMAP1Eees69QdhumwSQ"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_Uu1cwPLHEeaaJvdMJL_JRw" name="link">
