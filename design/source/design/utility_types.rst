@@ -216,16 +216,29 @@ mapped on enumeration types
 
 For the iteration direction the following values are available 
 
-+---------------------------------------+------------------------------+
-| enumeration value                     | description                  |
-+=======================================+==============================+
-| :cpp:enumerator:`iter_dir_t::FORWARD` | iterate in forward direction |
-+---------------------------------------+------------------------------+
-| :cpp:enumerator:`iter_dir_t::REVERSE` | iterate in reverse direction |
-+---------------------------------------+------------------------------+
-| :cpp:enumerator:`iter_dir_t::FASTEST` | use the fastest direction    |
-|                                       | possible                     |
-+---------------------------------------+------------------------------+
++-----------------------------------------+------------------------------+
+| enumeration value                       | description                  |
++=========================================+==============================+
+| :cpp:enumerator:`iter_order_t::FORWARD` | iterate in forward direction |
++-----------------------------------------+------------------------------+
+| :cpp:enumerator:`iter_order_t::REVERSE` | iterate in reverse direction |
++-----------------------------------------+------------------------------+
+| :cpp:enumerator:`iter_order_t::FASTEST` | use the fastest direction    |
+|                                         | possible                     |
++-----------------------------------------+------------------------------+
+
+
+Views
+=====
+
+Views are the general concept in *h5++* to expose STL compatible container
+interfaces of different types from a single class. 
+The :cpp:any:`h5::utilities` namespace contains the base class for all 
+view types :cpp:class:`h5::utilities::view_t`.
+
+.. figure:: ../images/view_hierarchy.png
+   :align: center
+   :width: 500px
 
 
 

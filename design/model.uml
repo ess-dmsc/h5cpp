@@ -179,6 +179,7 @@ The destructor ensures that the correct close function is called whenever an ins
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
       <packagedElement xmi:type="uml:Class" xmi:id="_xMQ9QO7CEeaVqae7M1m7ow" name="view_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_uO8rEAQMEees69QdhumwSQ" general="_FgEdoAQMEees69QdhumwSQ"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_CCSCsAJMEeeXUd39xgE0rQ" name="begin">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_rNpX0AJMEeeXUd39xgE0rQ" name="index_type" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_z1GV0AJMEeeXUd39xgE0rQ" name="order" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
@@ -293,6 +294,7 @@ The destructor ensures that the correct close function is called whenever an ins
         <ownedEnd xmi:type="uml:Property" xmi:id="_n4KlcAPbEeep-_nPIUnDDw" name="group_t" type="_uDSTEP55EeaZ1-3y1hN2zw" aggregation="shared" association="_n4FF4APbEeep-_nPIUnDDw"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_Ex5qsAP5Eees69QdhumwSQ" name="view_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_t4suQAQMEees69QdhumwSQ" general="_FgEdoAQMEees69QdhumwSQ"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_ZPmd8AP5Eees69QdhumwSQ" name="size">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_cp-TEAP5Eees69QdhumwSQ" name="nlinks" direction="return">
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
@@ -471,7 +473,7 @@ be used.</body>
           <body>Describes an sequence of indices </body>
         </ownedComment>
       </packagedElement>
-      <packagedElement xmi:type="uml:Enumeration" xmi:id="_9_-RkP_fEea3Te7FZhcDeA" name="iter_dir_t">
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_9_-RkP_fEea3Te7FZhcDeA" name="iter_order_t">
         <ownedComment xmi:type="uml:Comment" xmi:id="_q9TYQP_nEea3Te7FZhcDeA" annotatedElement="_9_-RkP_fEea3Te7FZhcDeA">
           <body>For the implementation: the base type would be H5_iter_order_t</body>
         </ownedComment>
@@ -486,6 +488,20 @@ be used.</body>
         </ownedComment>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_I0rxUP_gEea3Te7FZhcDeA" name="NAME"/>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_JnGFsP_gEea3Te7FZhcDeA" name="CREATION_ORDER"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_FgEdoAQMEees69QdhumwSQ" name="view_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Q-Q_QAQMEees69QdhumwSQ" name="order">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Uao_gAQMEees69QdhumwSQ" type="_9_-RkP_fEea3Te7FZhcDeA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_U_h1QAQMEees69QdhumwSQ" name="order">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_YHOmAAQMEees69QdhumwSQ" name="value" type="_9_-RkP_fEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_YskuwAQMEees69QdhumwSQ" name="index">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_cOJYEAQMEees69QdhumwSQ" name="index" type="_G57U0P_gEea3Te7FZhcDeA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_c6p4wAQMEees69QdhumwSQ" name="index">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_fr__AAQMEees69QdhumwSQ" name="value" type="_G57U0P_gEea3Te7FZhcDeA" effect="read"/>
+        </ownedOperation>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_O-y-4P9LEeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_14WdcAJAEeeXUd39xgE0rQ" source="PapyrusVersion">
@@ -653,6 +669,7 @@ be used.</body>
         <ownedComment xmi:type="uml:Comment" xmi:id="_BSuDgAP4Eees69QdhumwSQ" annotatedElement="_zAZfUAP1Eees69QdhumwSQ">
           <body>Make all constructors and assignment operators protected. Make h5::group::group_t a friend class.</body>
         </ownedComment>
+        <generalization xmi:type="uml:Generalization" xmi:id="_tW_IUAQMEees69QdhumwSQ" general="_FgEdoAQMEees69QdhumwSQ"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_6sV3UAP1Eees69QdhumwSQ" name="size">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_VB8SEAP2Eees69QdhumwSQ" name="nnodes" direction="return">
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
