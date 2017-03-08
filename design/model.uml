@@ -249,6 +249,12 @@ The destructor ensures that the correct close function is called whenever an ins
         <ownedOperation xmi:type="uml:Operation" xmi:id="_w20DIAJ1EeeXUd39xgE0rQ" name="type">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_0rRMMAJ1EeeXUd39xgE0rQ" name="type" type="_9dV2oPHeEeak_6YPwcx0Tw" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_vf0ZsAPjEees69QdhumwSQ" name="resolve">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_zqRA4APjEees69QdhumwSQ" name="node" type="_gjhzkPg9EearHstUE6s_yg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_4RfqsAPjEees69QdhumwSQ" name="target">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7rd3MAPjEees69QdhumwSQ" name="target_path" type="_cUbrsP55EeaZ1-3y1hN2zw" direction="return"/>
+        </ownedOperation>
         <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="type_t">
           <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
           <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
@@ -270,6 +276,13 @@ The destructor ensures that the correct close function is called whenever an ins
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_8XxegP_8Eea3Te7FZhcDeA"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_8Xz6wP_8Eea3Te7FZhcDeA" value="*"/>
         </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_n4FF4APbEeep-_nPIUnDDw" name="link - parent - association" memberEnd="_n4KlcAPbEeep-_nPIUnDDw _n4KlcQPbEeep-_nPIUnDDw">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_n4JXUAPbEeep-_nPIUnDDw" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_n4J-YAPbEeep-_nPIUnDDw" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_n4KlcQPbEeep-_nPIUnDDw" name="link_t" type="_jXRCUPhEEearHstUE6s_yg" association="_n4FF4APbEeep-_nPIUnDDw"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_n4KlcAPbEeep-_nPIUnDDw" name="group_t" type="_uDSTEP55EeaZ1-3y1hN2zw" aggregation="shared" association="_n4FF4APbEeep-_nPIUnDDw"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_O0t-QP55EeaZ1-3y1hN2zw" name="dataset">
@@ -938,4 +951,10 @@ be used.</body>
   <Concepts:CopyAssignable xmi:id="_0y_5oAPaEeep-_nPIUnDDw" base_Class="_gjhzkPg9EearHstUE6s_yg"/>
   <Concepts:MoveAssignable xmi:id="_0ztrUAPaEeep-_nPIUnDDw" base_Class="_gjhzkPg9EearHstUE6s_yg"/>
   <Concepts:Destructible xmi:id="_00XyoAPaEeep-_nPIUnDDw" base_Class="_gjhzkPg9EearHstUE6s_yg"/>
+  <Concepts:DefaultConstructible xmi:id="_CHKIQAPkEees69QdhumwSQ" base_Class="_jXRCUPhEEearHstUE6s_yg"/>
+  <Concepts:CopyConstructible xmi:id="_CJcAMAPkEees69QdhumwSQ" base_Class="_jXRCUPhEEearHstUE6s_yg"/>
+  <Concepts:MoveConstructible xmi:id="_CKw14APkEees69QdhumwSQ" base_Class="_jXRCUPhEEearHstUE6s_yg"/>
+  <Concepts:CopyAssignable xmi:id="_CL9IsAPkEees69QdhumwSQ" base_Class="_jXRCUPhEEearHstUE6s_yg"/>
+  <Concepts:MoveAssignable xmi:id="_CN0J4APkEees69QdhumwSQ" base_Class="_jXRCUPhEEearHstUE6s_yg"/>
+  <Concepts:Destructible xmi:id="_CPm5oAPkEees69QdhumwSQ" base_Class="_jXRCUPhEEearHstUE6s_yg"/>
 </xmi:XMI>
