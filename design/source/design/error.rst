@@ -13,6 +13,22 @@ HDF5 provides a quite versatile error reporting facility. *h5++* provides a
 thin wrapper around this for situations where users do not want or cannot 
 use exceptions for error reporting. 
 
+Exceptions vs return values
+===========================
+
+The default way of reporting errors in C++ are exceptions. As a pure C-library
+all error checking in HDF5 is done by return values. Now, which of these 
+two approaches is favorable depends mostly  on 
+
+* personal taste of the developer
+* policy of the software to be implemented
+* hard technical requirements. 
+
+*h5++* thus tries to provide an infrastructure which supports both approaches 
+providing the user with all the flexibility he or she may needs. 
+
+
+
 The anatomy of an HDF5 error message
 ====================================
 
@@ -73,3 +89,9 @@ The error stack :cpp:class:`stack_t`
 HDF5 error messages are stored on a stack. Beside the default stack users can 
 create an arbitrary number of error stacks to which they can push and 
 pop error messages. 
+
+The *h5++* error class
+======================
+
+*h5++* should register its own error class to report errors to the error stack.
+

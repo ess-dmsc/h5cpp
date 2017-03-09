@@ -69,6 +69,14 @@ A possible interface could look like this
            
             //close the ID deliberately 
             void close(); 
+            
+            
+            //check for the validity of an ID
+            bool is_valid() const;
+            
+            
+            //returns the type of the object referenced by this ID
+            id_t::type_t type() const;
            
             // copy assigment - will increment the reference counter 
             id_t &operator=(const id_t &id);
@@ -96,6 +104,33 @@ requires us to use :cpp:any:`static_cast` to obtain the ID.
     
 This should make it sufficiently difficult to access the unguarded ID an do 
 anything harmful with it.
+
+
+Dealing with invalid IDs
+========================
+
+Many C-API functions return a negative ID in case of a failure. As this 
+is used for error checking :cpp:class:`id_t` should be capable of storing 
+invalid (negative) ID values. 
+It is thus neccessary to check for the validity of an ID
+
+.. code-block:: cpp
+
+    class id_t 
+    {
+        public:
+        
+            bool is_valid() const noexcept;
+    };
+    
+As such IDs should still be copy- and moveable we have to check for the 
+validity of an ID in two situations in the implementation
+
+* when performing updates to the reference counter of an ID 
+* in the destructor. 
+
+In both cases we simply do nothing when the ID stored in the class is not 
+valid. 
 
 Construction of an ID
 =====================
