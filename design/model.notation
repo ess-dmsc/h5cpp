@@ -6404,20 +6404,20 @@
         <styles xmi:type="notation:FilteringStyle" xmi:id="_wohqOAQPEees69QdhumwSQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wohqOQQPEees69QdhumwSQ"/>
       </children>
-      <children xmi:type="notation:BasicCompartment" xmi:id="_woiRQAQPEees69QdhumwSQ" type="Class_OperationCompartment">
+      <children xmi:type="notation:BasicCompartment" xmi:id="_woiRQAQPEees69QdhumwSQ" visible="false" type="Class_OperationCompartment">
         <styles xmi:type="notation:TitleStyle" xmi:id="_woiRQQQPEees69QdhumwSQ"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_woiRQgQPEees69QdhumwSQ"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_woiRQwQPEees69QdhumwSQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_woiRRAQPEees69QdhumwSQ"/>
       </children>
-      <children xmi:type="notation:BasicCompartment" xmi:id="_woiRRQQPEees69QdhumwSQ" type="Class_NestedClassifierCompartment">
+      <children xmi:type="notation:BasicCompartment" xmi:id="_woiRRQQPEees69QdhumwSQ" visible="false" type="Class_NestedClassifierCompartment">
         <styles xmi:type="notation:TitleStyle" xmi:id="_woiRRgQPEees69QdhumwSQ"/>
         <styles xmi:type="notation:SortingStyle" xmi:id="_woiRRwQPEees69QdhumwSQ"/>
         <styles xmi:type="notation:FilteringStyle" xmi:id="_woiRSAQPEees69QdhumwSQ"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_woiRSQQPEees69QdhumwSQ"/>
       </children>
       <element xmi:type="uml:Class" href="model.uml#_uDSTEP55EeaZ1-3y1hN2zw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wohqMQQPEees69QdhumwSQ" x="689" y="209"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wohqMQQPEees69QdhumwSQ" x="600" y="217" height="78"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_IUCSsQQPEees69QdhumwSQ" name="diagram_compatibility_version" stringValue="1.2.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_IUCSsgQPEees69QdhumwSQ"/>
