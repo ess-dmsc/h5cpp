@@ -16,8 +16,12 @@ Nodes (namespace :cpp:any:`h5::node`)
 
 As nodes are the only objects which can hold attributes :cpp:class:`node_t` 
 also stores the public :cpp:member:`attributes` attribute which is an 
-instance of :cpp:class:`attribute::manager_t` (see :ref:`attribute-namespace` 
+instance of :cpp:class:`attribute::view_t` (see :ref:`attribute-namespace` 
 for more information about attribute management).
+
+.. figure:: ../images/node_attribute_association.png
+   :align: center
+   :width: 600px
 
 :cpp:class:`node_t` provides only minimum functionality. To do something 
 reasonable we have to cast it to one of it child classes

@@ -702,6 +702,13 @@ be used.</body>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_VtbpoAP3Eees69QdhumwSQ" name="iterator" type="_nRstYP_gEea3Te7FZhcDeA" direction="return"/>
         </ownedOperation>
       </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_8jTSgASxEee_68bTpp_Q6g" name="node attribute view association" memberEnd="_8jaAMASxEee_68bTpp_Q6g _8jcccASxEee_68bTpp_Q6g">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_8jYyEASxEee_68bTpp_Q6g" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_8jZZIASxEee_68bTpp_Q6g" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_8jcccASxEee_68bTpp_Q6g" name="node_t" type="_gjhzkPg9EearHstUE6s_yg" association="_8jTSgASxEee_68bTpp_Q6g"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_8jaAMASxEee_68bTpp_Q6g" name="view_t" type="_xMQ9QO7CEeaVqae7M1m7ow" aggregation="composite" association="_8jTSgASxEee_68bTpp_Q6g"/>
+      </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2AqE4AJAEeeXUd39xgE0rQ" source="PapyrusVersion">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4QJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>
