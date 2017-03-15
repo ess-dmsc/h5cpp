@@ -7,4 +7,5 @@
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_jfOTcPK9EeaaJvdMJL_JRw" name="hid_t"/>
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_aeckkPK_EeaaJvdMJL_JRw" name="H5I_type_t"/>
   <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_xFBd8PLBEeaaJvdMJL_JRw" name="herr_t"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_fQfVIAV0Eee7r5GnPtOdvA" name="hssize_t"/>
 </uml:Model>

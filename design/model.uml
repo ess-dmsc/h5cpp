@@ -519,27 +519,146 @@ be used.</body>
       </profileApplication>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_g4uWQP55EeaZ1-3y1hN2zw" name="dataspace">
-      <packagedElement xmi:type="uml:Class" xmi:id="_nvpKwP55EeaZ1-3y1hN2zw" name="dataspace_t"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_MN20QP56EeaZ1-3y1hN2zw" name="hyperslab_t">
+      <packagedElement xmi:type="uml:Class" xmi:id="_nvpKwP55EeaZ1-3y1hN2zw" name="dataspace_t">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_8MXrEAVzEee7r5GnPtOdvA" name="id">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_GbpigAV0Eee7r5GnPtOdvA" name="id" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_jfOTcPK9EeaaJvdMJL_JRw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_HGnLEAV0Eee7r5GnPtOdvA" name="type">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_KPmVQAV0Eee7r5GnPtOdvA" name="type" type="_t6m1oAVzEee7r5GnPtOdvA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_MdgFUAV2Eee7r5GnPtOdvA" name="size" isAbstract="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_RMinUAV2Eee7r5GnPtOdvA" name="npoints" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_t6m1oAVzEee7r5GnPtOdvA" name="type_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_v6BvsAVzEee7r5GnPtOdvA" name="NO_CLASS"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_w8M-YAVzEee7r5GnPtOdvA" name="SCALAR"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_yehswAVzEee7r5GnPtOdvA" name="SIMPLE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zPX64AVzEee7r5GnPtOdvA" name="NULL"/>
+        </nestedClassifier>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_bnRoMAVzEee7r5GnPtOdvA" name="simple_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_qE4hQAVzEee7r5GnPtOdvA" general="_nvpKwP55EeaZ1-3y1hN2zw"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_xizO4AV0Eee7r5GnPtOdvA" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_zFcGUAV0Eee7r5GnPtOdvA" name="npoints" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_21KgYAV0Eee7r5GnPtOdvA" name="rank">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7KAZsAV0Eee7r5GnPtOdvA" name="ndims" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_3Uo0IPK8Eeapp5nR02EHRw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_7tv_8AV0Eee7r5GnPtOdvA" name="current_dims">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_AE6NcAV1Eee7r5GnPtOdvA" name="dims" type="_cUadkP55EeaZ1-3y1hN2zw" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_KpIaIAV1Eee7r5GnPtOdvA" name="maximum_dims">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_NXZ-QAV1Eee7r5GnPtOdvA" name="dims" type="_cUadkP55EeaZ1-3y1hN2zw" direction="return"/>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_djy_QAVzEee7r5GnPtOdvA" name="null_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_qgBlIAVzEee7r5GnPtOdvA" general="_nvpKwP55EeaZ1-3y1hN2zw"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_VRxz0AV1Eee7r5GnPtOdvA" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_cJ7XYAV1Eee7r5GnPtOdvA" name="npoints" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+            <defaultValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cJ7XYQV1Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_fHXDwAVzEee7r5GnPtOdvA" name="scalar_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_q84gQAVzEee7r5GnPtOdvA" general="_nvpKwP55EeaZ1-3y1hN2zw"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_gE70YAV1Eee7r5GnPtOdvA" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_jy_agAV1Eee7r5GnPtOdvA" name="npoints" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+            <defaultValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jy_agQV1Eee7r5GnPtOdvA" value="1"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_MN20QP56EeaZ1-3y1hN2zw" name="selection_t">
         <ownedComment xmi:type="uml:Comment" xmi:id="_MN20Qf56EeaZ1-3y1hN2zw">
           <body>This class represents a selection of elements within a dataset.</body>
         </ownedComment>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_MN20Qv56EeaZ1-3y1hN2zw" name="read"/>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_MN20Q_56EeaZ1-3y1hN2zw" name="write"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_WtNvsAV4Eee7r5GnPtOdvA" name="type" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_c57woAV4Eee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_schUwAV4Eee7r5GnPtOdvA" name="type" type="_R7qFMAV4Eee7r5GnPtOdvA" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_icFxoAV4Eee7r5GnPtOdvA" name="size" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_lgNp8AV4Eee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wq718AV4Eee7r5GnPtOdvA" name="npoints" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_JRWxEAWEEee7r5GnPtOdvA" name="all" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_PJzLIAWEEee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" direction="inout" effect="update"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_SzU2kAWEEee7r5GnPtOdvA" name="none" isStatic="true">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_U3qs4AWEEee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" direction="inout" effect="update"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_rtoYAAWEEee7r5GnPtOdvA" name="clear">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ucNeIAWEEee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" direction="inout" effect="update"/>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_R7qFMAV4Eee7r5GnPtOdvA" name="type_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_TZq7UAV4Eee7r5GnPtOdvA" name="NONE"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_T9AR4AV4Eee7r5GnPtOdvA" name="POINTS"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Uv-m8AV4Eee7r5GnPtOdvA" name="HYBERSLABS"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_VrE9QAV4Eee7r5GnPtOdvA" name="ALL"/>
+        </nestedClassifier>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_MN3bUP56EeaZ1-3y1hN2zw" name="selection_t">
+      <packagedElement xmi:type="uml:Class" xmi:id="_MN3bUP56EeaZ1-3y1hN2zw" name="hyperslab_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_7QUxMAWBEee7r5GnPtOdvA" general="_MN20QP56EeaZ1-3y1hN2zw"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_MN3bUf56EeaZ1-3y1hN2zw" name="offset">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bUv56EeaZ1-3y1hN2zw" name="value" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bUv56EeaZ1-3y1hN2zw" name="value" type="_cUadkP55EeaZ1-3y1hN2zw" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_MN3bU_56EeaZ1-3y1hN2zw" name="stride">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bVP56EeaZ1-3y1hN2zw" name="value" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bVP56EeaZ1-3y1hN2zw" name="value" type="_cUadkP55EeaZ1-3y1hN2zw" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_MN3bVf56EeaZ1-3y1hN2zw" name="count">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bVv56EeaZ1-3y1hN2zw" name="value" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bVv56EeaZ1-3y1hN2zw" name="value" type="_cUadkP55EeaZ1-3y1hN2zw" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_MN3bV_56EeaZ1-3y1hN2zw" name="block">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bWP56EeaZ1-3y1hN2zw" name="value" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MN3bWP56EeaZ1-3y1hN2zw" name="value" type="_cUadkP55EeaZ1-3y1hN2zw" direction="return"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_OJq1wAWCEee7r5GnPtOdvA" name="apply">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvdE8AWEEee7r5GnPtOdvA" name="op" type="_YvP_QAWAEee7r5GnPtOdvA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_RcsswAWCEee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" direction="inout" effect="update"/>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_YvP_QAWAEee7r5GnPtOdvA" name="operator_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_bCl64AWAEee7r5GnPtOdvA" name="SET"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_cDwc8AWAEee7r5GnPtOdvA" name="OR"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_c204oAWAEee7r5GnPtOdvA" name="AND"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_d7R_QAWAEee7r5GnPtOdvA" name="XOR"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_e4gcgAWAEee7r5GnPtOdvA" name="NOTB"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_fiXR0AWAEee7r5GnPtOdvA" name="NOTA"/>
+        </nestedClassifier>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_JuwmIAWBEee7r5GnPtOdvA" name="points_t">
+        <generalization xmi:type="uml:Generalization" xmi:id="_7k7IMAWBEee7r5GnPtOdvA" general="_MN20QP56EeaZ1-3y1hN2zw"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_hPcscAWFEee7r5GnPtOdvA" name="apply">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_kxeowAWFEee7r5GnPtOdvA" name="op" type="_t4cxIAWBEee7r5GnPtOdvA" effect="read"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ml5zwAWFEee7r5GnPtOdvA" name="space" type="_bnRoMAVzEee7r5GnPtOdvA" direction="inout" effect="update"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_FNxNkAWJEee7r5GnPtOdvA" name="points_t">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_KZqDoAWJEee7r5GnPtOdvA" name="rank" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_QPkHEAWJEee7r5GnPtOdvA" name="points_t">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_TH_swAWJEee7r5GnPtOdvA" name="rank" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_WbUesAWJEee7r5GnPtOdvA" name="n" effect="read">
+            <type xmi:type="uml:PrimitiveType" href="hdf5_c_api.uml#_fQfVIAV0Eee7r5GnPtOdvA"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_pToBcAWJEee7r5GnPtOdvA" name="size"/>
+        <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_t4cxIAWBEee7r5GnPtOdvA" name="operator_t">
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_voGw4AWBEee7r5GnPtOdvA" name="SET"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wgoUUAWBEee7r5GnPtOdvA" name="APPEND"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_xai-4AWBEee7r5GnPtOdvA" name="PREPEND"/>
+        </nestedClassifier>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_bty88P6OEeaZ1-3y1hN2zw" name="dataset_reference" visibility="private" memberEnd="_btzkAv6OEeaZ1-3y1hN2zw _btzkA_6OEeaZ1-3y1hN2zw">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_btzkAP6OEeaZ1-3y1hN2zw" source="org.eclipse.papyrus">
