@@ -4,69 +4,140 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#define FILE "file.h5"
+#define FILE1 "file1.h5"
+#define FILE2 "file2.h5"
 
-// single file, multiple paths to same node
 // copy file, see if id's are the same
 // external link vs. native path
 // file & symbolic link
 
-BOOST_AUTO_TEST_CASE( hard_link )
+struct IdInfo
 {
-//  herr_t status;
+  IdInfo(hid_t object)
+  {
+    std::vector<char> namec;
+    H5O_info_t info;
+    H5Oget_info(object, &info);
+    ssize_t size = H5Fget_name(object, NULL, 0);
+    namec.resize(size + 2, '\0');
+    size = H5Fget_name(object, namec.data(), size);
+    file_name = std::string(namec.data());
+    file_num = info.fileno;
+    obj_addr = info.addr;
+  }
 
-  hid_t file_id =
-      H5Fcreate(FILE, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+  std::string    file_name;
+  unsigned long  file_num;
+  haddr_t        obj_addr;
+};
 
-  hid_t group1 = H5Gcreate(file_id, "/group1",
-                           H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+struct OneFile
+{
+  OneFile(std::string fname)
+  {
+    fname_ = fname;
+    file = H5Fcreate(fname.data(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+    group1 = H5Gcreate(file, "/group1",
+                       H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    group2 = H5Gcreate(file, "/group2",
+                       H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
-  hsize_t dims[2];
-  dims[0] = 4;
-  dims[1] = 6;
-  hid_t dataspace = H5Screate_simple(2, dims, NULL);
+    hsize_t dims[2];
+    dims[0] = 3;
+    dims[1] = 3;
+    hid_t dataspace = H5Screate_simple(2, dims, NULL);
 
-  hid_t dset1 = H5Dcreate(group1, "dset1", H5T_NATIVE_DOUBLE, dataspace,
-                         H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    dset1 = H5Dcreate(group1, "dset1", H5T_NATIVE_DOUBLE, dataspace,
+                      H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+  }
 
+  ~OneFile()
+  {
+    H5Dclose(dset1);
+    H5Gclose(group1);
+    H5Gclose(group2);
+    H5Fclose(file);
+    boost::filesystem::remove(fname_);
+  }
 
-  hid_t group2 = H5Gcreate(file_id, "/group2",
-                           H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+  std::string fname_;
+  hid_t file, group1, group2, dset1;
+};
 
-  herr_t lstatus = H5Lcreate_hard(group1, "dset1", group2, "dset2",
-                                 H5P_DEFAULT, H5P_DEFAULT);
-  BOOST_CHECK_GE(lstatus, 0);
+BOOST_AUTO_TEST_CASE( hard_group )
+{
+  OneFile file(FILE1);
 
-  hid_t dset2 = H5Dopen2(group2, "dset2", H5P_DEFAULT);
+  H5Lcreate_hard(file.file, "/group1",
+                 file.file, "/group3",
+                 H5P_DEFAULT, H5P_DEFAULT);
+  hid_t group3 = H5Gopen(file.file, "/group3", H5P_DEFAULT);
 
-  H5O_info_t info1;
-  herr_t istatus1 = H5Oget_info(dset1, &info1);
-  BOOST_CHECK_GE(istatus1, 0);
-  ssize_t size1 = H5Fget_name(dset1, NULL, 0);
-  std::vector<char> name1c;
-  name1c.resize(size1 + 2, '\0');
-  size1 = H5Fget_name(dset1, name1c.data(), size1);
-  std::string name1(name1c.data());
+  IdInfo info1(file.group1);
+  IdInfo info2(group3);
 
-  H5O_info_t info2;
-  herr_t istatus2 = H5Oget_info(dset2, &info2);
-  BOOST_CHECK_GE(istatus2, 0);
-  ssize_t size2 = H5Fget_name(dset2, NULL, 0);
-  std::vector<char> name2c;
-  name2c.resize(size2 + 2, '\0');
-  size2 = H5Fget_name(dset2, name2c.data(), size2);
-  std::string name2(name2c.data());
+  BOOST_CHECK_NE(file.group1, group3);
+  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
+  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
 
-  BOOST_CHECK_NE(dset1, dset2);
-  BOOST_CHECK_EQUAL(info1.addr, info2.addr);
-  BOOST_CHECK_EQUAL(name1, name2);
+  H5Gclose(group3);
+}
 
-  BOOST_CHECK_GE(H5Dclose(dset2), 0);
-  BOOST_CHECK_GE(H5Gclose(group2), 0);
+BOOST_AUTO_TEST_CASE( hard_dset )
+{
+  OneFile file(FILE1);
 
-  BOOST_CHECK_GE(H5Dclose(dset1), 0);
-  BOOST_CHECK_GE(H5Gclose(group1), 0);
+  H5Lcreate_hard(file.group1, "dset1",
+                 file.group2, "dset2",
+                 H5P_DEFAULT, H5P_DEFAULT);
+  hid_t dset2 = H5Dopen(file.group2, "dset2", H5P_DEFAULT);
 
-  BOOST_CHECK_GE(H5Fclose(file_id), 0);
-//  boost::filesystem::remove(FILE);
+  IdInfo info1(file.dset1);
+  IdInfo info2(dset2);
+
+  BOOST_CHECK_NE(file.dset1, dset2);
+  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
+  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+
+  H5Dclose(dset2);
+}
+
+BOOST_AUTO_TEST_CASE( soft_group )
+{
+  OneFile file(FILE1);
+
+  H5Lcreate_soft("/group1", file.file, "/group3",
+                 H5P_DEFAULT, H5P_DEFAULT);
+  hid_t group3 = H5Gopen(file.file, "/group3", H5P_DEFAULT);
+
+  IdInfo info1(file.group1);
+  IdInfo info2(group3);
+
+  BOOST_CHECK_NE(file.group1, group3);
+  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
+  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+
+  H5Gclose(group3);
+}
+
+BOOST_AUTO_TEST_CASE( soft_dset )
+{
+  OneFile file(FILE1);
+
+  H5Lcreate_soft("/group1/dset1", file.file, "/group2/dset2",
+                 H5P_DEFAULT, H5P_DEFAULT);
+  hid_t dset2 = H5Dopen(file.group2, "dset2", H5P_DEFAULT);
+
+  IdInfo info1(file.dset1);
+  IdInfo info2(dset2);
+
+  BOOST_CHECK_NE(file.dset1, dset2);
+  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
+  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+
+  H5Dclose(dset2);
 }
