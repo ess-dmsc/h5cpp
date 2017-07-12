@@ -35,13 +35,14 @@ endfunction(dirs_of)
 
 # HDF5
 set(HDF5_USE_SHARED_LIBRARIES ON)
-FIND_PACKAGE(HDF5 1.8.15 COMPONENTS C REQUIRED)
+find_package(HDF5 1.8.15 COMPONENTS C REQUIRED)
 add_library(HDF5 INTERFACE IMPORTED)
 set_property(TARGET HDF5 PROPERTY
     INTERFACE_INCLUDE_DIRECTORIES ${HDF5_INCLUDE_DIRS})
 
-find_package(Threads)
-find_package(GTest)
+# Boost
+SET(Boost_USE_STATIC_LIBS ON)
+find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
 
 file(GLOB ${PROJECT_NAME}_sources *.cpp)
 file(GLOB ${PROJECT_NAME}_headers *.h)
@@ -56,12 +57,11 @@ add_executable(
 target_include_directories(
   ${PROJECT_NAME}
   PRIVATE ${HDF5_INCLUDE_DIRS}
-  PRIVATE ${GTEST_INCLUDE_DIRS}
 )
 
 target_link_libraries(
   ${PROJECT_NAME}
-  ${GTEST_BOTH_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${HDF5_LIBRARIES}
+  ${Boost_LIBRARIES}
 )
