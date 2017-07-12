@@ -1,15 +1,15 @@
 #include <hdf5.h>
+#include <iostream>
 
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#define FILE1 "file1.h5"
-#define FILE2 "file2.h5"
+// path will be absolute in external links, so to compare correctly, all paths should be made absolute
+// symlinks should be dereferenced too, though file_num will reflect identity
 
-// copy file, see if id's are the same
-// external link vs. native path
-// file & symbolic link
+#define FILE1 boost::filesystem::absolute("file1.h5").string().data()
+#define FILE2 boost::filesystem::absolute("file2.h5").string().data()
 
 struct IdInfo
 {
@@ -24,6 +24,14 @@ struct IdInfo
     file_name = std::string(namec.data());
     file_num = info.fileno;
     obj_addr = info.addr;
+  }
+
+  void print(std::string name)
+  {
+    std::cout << "[" << name << "] "
+              << file_num << ":" << obj_addr
+              << " \"" << file_name << "\""
+              << std::endl;
   }
 
   std::string    file_name;
@@ -57,7 +65,6 @@ struct OneFile
     H5Gclose(group1);
     H5Gclose(group2);
     H5Fclose(file);
-    boost::filesystem::remove(fname_);
   }
 
   std::string fname_;
@@ -82,6 +89,7 @@ BOOST_AUTO_TEST_CASE( hard_group )
   BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
 
   H5Gclose(group3);
+  boost::filesystem::remove(FILE1);
 }
 
 BOOST_AUTO_TEST_CASE( hard_dset )
@@ -102,6 +110,7 @@ BOOST_AUTO_TEST_CASE( hard_dset )
   BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
 
   H5Dclose(dset2);
+  boost::filesystem::remove(FILE1);
 }
 
 BOOST_AUTO_TEST_CASE( soft_group )
@@ -121,6 +130,7 @@ BOOST_AUTO_TEST_CASE( soft_group )
   BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
 
   H5Gclose(group3);
+  boost::filesystem::remove(FILE1);
 }
 
 BOOST_AUTO_TEST_CASE( soft_dset )
@@ -140,4 +150,157 @@ BOOST_AUTO_TEST_CASE( soft_dset )
   BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
 
   H5Dclose(dset2);
+  boost::filesystem::remove(FILE1);
+}
+
+BOOST_AUTO_TEST_CASE( file_copy )
+{
+  OneFile* file = new OneFile(FILE1);
+  delete file;
+
+  boost::filesystem::copy_file(FILE1, FILE2,
+                               boost::filesystem::copy_option::overwrite_if_exists);
+
+  hid_t file1 = H5Fopen(FILE1, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t file2 = H5Fopen(FILE2, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t group1 = H5Gopen(file1, "/group1", H5P_DEFAULT);
+  hid_t group2 = H5Gopen(file2, "/group1", H5P_DEFAULT);
+
+  IdInfo info1(group1);
+  IdInfo info2(group2);
+
+  BOOST_CHECK_NE(group1, group2);
+  BOOST_CHECK_NE(info1.file_name, info2.file_name);
+  BOOST_CHECK_NE(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+
+  H5Gclose(group1);
+  H5Gclose(group2);
+  H5Fclose(file1);
+  H5Fclose(file2);
+  boost::filesystem::remove(FILE1);
+  boost::filesystem::remove(FILE2);
+}
+
+BOOST_AUTO_TEST_CASE( file_copy2 )
+{
+  OneFile* file;
+  file = new OneFile(FILE1);
+  delete file;
+
+  file = new OneFile(FILE2);
+  delete file;
+
+  hid_t file1 = H5Fopen(FILE1, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t file2 = H5Fopen(FILE2, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t group1 = H5Gopen(file1, "/group1", H5P_DEFAULT);
+  hid_t group2 = H5Gopen(file2, "/group1", H5P_DEFAULT);
+
+  IdInfo info1(group1);
+  IdInfo info2(group2);
+
+  BOOST_CHECK_NE(group1, group2);
+  BOOST_CHECK_NE(info1.file_name, info2.file_name);
+  BOOST_CHECK_NE(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+
+  H5Gclose(group1);
+  H5Gclose(group2);
+  H5Fclose(file1);
+  H5Fclose(file2);
+  boost::filesystem::remove(FILE1);
+  boost::filesystem::remove(FILE2);
+}
+
+BOOST_AUTO_TEST_CASE( symlink_id )
+{
+  OneFile* file = new OneFile(FILE1);
+  delete file;
+
+  boost::filesystem::create_symlink(FILE1, FILE2);
+
+  hid_t file1 = H5Fopen(FILE1, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t file2 = H5Fopen(FILE2, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t group1 = H5Gopen(file1, "/group1", H5P_DEFAULT);
+  hid_t group2 = H5Gopen(file2, "/group1", H5P_DEFAULT);
+
+  IdInfo info1(group1);
+  IdInfo info2(group2);
+
+  BOOST_CHECK_NE(group1, group2);
+  BOOST_CHECK_NE(info1.file_name, info2.file_name);
+  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
+  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+
+  BOOST_CHECK_EQUAL(boost::filesystem::canonical(FILE1),
+                    boost::filesystem::canonical(FILE2));
+
+  H5Gclose(group1);
+  H5Gclose(group2);
+  H5Fclose(file1);
+  H5Fclose(file2);
+  boost::filesystem::remove(FILE1);
+  boost::filesystem::remove(FILE2);
+}
+
+BOOST_AUTO_TEST_CASE( file_external_group )
+{
+  OneFile* file1 = new OneFile(FILE1);
+  OneFile* file2 = new OneFile(FILE2);
+
+  H5Lcreate_external(FILE1, "/group1",
+                     file2->file, "/group3",
+                     H5P_DEFAULT, H5P_DEFAULT);
+
+  hid_t group11 = H5Gopen(file1->file, "/group1", H5P_DEFAULT);
+  hid_t group12 = H5Gopen(file1->file, "/group2", H5P_DEFAULT);
+  hid_t group21 = H5Gopen(file2->file, "/group1", H5P_DEFAULT);
+  hid_t group23 = H5Gopen(file2->file, "/group3", H5P_DEFAULT);
+
+  IdInfo info11(group11);
+  IdInfo info12(group12);
+  IdInfo info21(group21);
+  IdInfo info23(group23);
+
+//  info11.print("f1/g1");
+//  info12.print("f1/g2");
+//  info21.print("f2/g1");
+//  info23.print("f2/LL");
+
+  BOOST_CHECK_NE(group11, group12);
+  BOOST_CHECK_NE(group11, group21);
+  BOOST_CHECK_NE(group11, group23);
+  BOOST_CHECK_NE(group12, group21);
+  BOOST_CHECK_NE(group12, group23);
+  BOOST_CHECK_NE(group21, group23);
+
+  BOOST_CHECK_EQUAL(info11.file_name, info12.file_name);
+  BOOST_CHECK_NE(info11.file_name, info21.file_name);
+  BOOST_CHECK_EQUAL(info11.file_name, info23.file_name);
+  BOOST_CHECK_NE(info12.file_name, info21.file_name);
+  BOOST_CHECK_EQUAL(info12.file_name, info23.file_name);
+  BOOST_CHECK_NE(info21.file_name, info23.file_name);
+
+  BOOST_CHECK_EQUAL(info11.file_num, info12.file_num);
+  BOOST_CHECK_EQUAL(info11.file_num, info23.file_num);
+  BOOST_CHECK_EQUAL(info12.file_num, info23.file_num);
+  BOOST_CHECK_NE(info21.file_num, info23.file_num);
+
+  BOOST_CHECK_EQUAL(info11.obj_addr, info23.obj_addr);
+  BOOST_CHECK_NE(info11.obj_addr, info12.obj_addr);
+  BOOST_CHECK_EQUAL(info11.obj_addr, info21.obj_addr);
+  BOOST_CHECK_NE(info12.obj_addr, info21.obj_addr);
+  BOOST_CHECK_NE(info12.obj_addr, info23.obj_addr);
+  BOOST_CHECK_EQUAL(info21.obj_addr, info23.obj_addr);
+
+  H5Gclose(group11);
+  H5Gclose(group12);
+  H5Gclose(group21);
+  H5Gclose(group23);
+
+  delete file1;
+  delete file2;
+
+  boost::filesystem::remove(FILE1);
+  boost::filesystem::remove(FILE2);
 }
