@@ -9,13 +9,13 @@ id::id()
 
 id::id(hid_t object)
 {
-  std::vector<char> namec;
-  H5O_info_t info;
-  H5Oget_info(object, &info);
   ssize_t size = H5Fget_name(object, NULL, 0);
-  namec.resize(size + 2, '\0');
+  std::vector<char> namec(size + 2, '\0');
   size = H5Fget_name(object, namec.data(), size);
   file_name_ = std::string(namec.data());
+
+  H5O_info_t info;
+  H5Oget_info(object, &info);
   file_num_ = info.fileno;
   obj_addr_ = info.addr;
 }
