@@ -8,3 +8,4 @@ add_custom_target(html)
 
 add_subdirectory(doc)
 
+add_subdirectory(src)

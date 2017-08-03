@@ -1,5 +1,8 @@
-#include <hdf5.h>
 #include <iostream>
+#include "id.h"
+#include "global.h"
+
+#include <hdf5.h>
 
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
@@ -11,33 +14,7 @@
 #define FILE1 boost::filesystem::absolute("file1.h5").string().data()
 #define FILE2 boost::filesystem::absolute("file2.h5").string().data()
 
-struct IdInfo
-{
-  IdInfo(hid_t object)
-  {
-    std::vector<char> namec;
-    H5O_info_t info;
-    H5Oget_info(object, &info);
-    ssize_t size = H5Fget_name(object, NULL, 0);
-    namec.resize(size + 2, '\0');
-    size = H5Fget_name(object, namec.data(), size);
-    file_name = std::string(namec.data());
-    file_num = info.fileno;
-    obj_addr = info.addr;
-  }
-
-  void print(std::string name)
-  {
-    std::cout << "[" << name << "] "
-              << file_num << ":" << obj_addr
-              << " \"" << file_name << "\""
-              << std::endl;
-  }
-
-  std::string    file_name;
-  unsigned long  file_num;
-  haddr_t        obj_addr;
-};
+using namespace h5cpp;
 
 struct OneFile
 {
@@ -80,13 +57,13 @@ BOOST_AUTO_TEST_CASE( hard_group )
                  H5P_DEFAULT, H5P_DEFAULT);
   hid_t group3 = H5Gopen(file.file, "/group3", H5P_DEFAULT);
 
-  IdInfo info1(file.group1);
-  IdInfo info2(group3);
+  id info1(file.group1);
+  id info2(group3);
 
   BOOST_CHECK_NE(file.group1, group3);
-  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
-  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
+  BOOST_CHECK_EQUAL(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   H5Gclose(group3);
   boost::filesystem::remove(FILE1);
@@ -101,13 +78,13 @@ BOOST_AUTO_TEST_CASE( hard_dset )
                  H5P_DEFAULT, H5P_DEFAULT);
   hid_t dset2 = H5Dopen(file.group2, "dset2", H5P_DEFAULT);
 
-  IdInfo info1(file.dset1);
-  IdInfo info2(dset2);
+  id info1(file.dset1);
+  id info2(dset2);
 
   BOOST_CHECK_NE(file.dset1, dset2);
-  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
-  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
+  BOOST_CHECK_EQUAL(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   H5Dclose(dset2);
   boost::filesystem::remove(FILE1);
@@ -121,13 +98,13 @@ BOOST_AUTO_TEST_CASE( soft_group )
                  H5P_DEFAULT, H5P_DEFAULT);
   hid_t group3 = H5Gopen(file.file, "/group3", H5P_DEFAULT);
 
-  IdInfo info1(file.group1);
-  IdInfo info2(group3);
+  id info1(file.group1);
+  id info2(group3);
 
   BOOST_CHECK_NE(file.group1, group3);
-  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
-  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
+  BOOST_CHECK_EQUAL(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   H5Gclose(group3);
   boost::filesystem::remove(FILE1);
@@ -141,13 +118,13 @@ BOOST_AUTO_TEST_CASE( soft_dset )
                  H5P_DEFAULT, H5P_DEFAULT);
   hid_t dset2 = H5Dopen(file.group2, "dset2", H5P_DEFAULT);
 
-  IdInfo info1(file.dset1);
-  IdInfo info2(dset2);
+  id info1(file.dset1);
+  id info2(dset2);
 
   BOOST_CHECK_NE(file.dset1, dset2);
-  BOOST_CHECK_EQUAL(info1.file_name, info2.file_name);
-  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
+  BOOST_CHECK_EQUAL(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   H5Dclose(dset2);
   boost::filesystem::remove(FILE1);
@@ -166,13 +143,13 @@ BOOST_AUTO_TEST_CASE( file_copy )
   hid_t group1 = H5Gopen(file1, "/group1", H5P_DEFAULT);
   hid_t group2 = H5Gopen(file2, "/group1", H5P_DEFAULT);
 
-  IdInfo info1(group1);
-  IdInfo info2(group2);
+  id info1(group1);
+  id info2(group2);
 
   BOOST_CHECK_NE(group1, group2);
-  BOOST_CHECK_NE(info1.file_name, info2.file_name);
-  BOOST_CHECK_NE(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_NE(info1.file_name(), info2.file_name());
+  BOOST_CHECK_NE(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   H5Gclose(group1);
   H5Gclose(group2);
@@ -196,13 +173,13 @@ BOOST_AUTO_TEST_CASE( file_copy2 )
   hid_t group1 = H5Gopen(file1, "/group1", H5P_DEFAULT);
   hid_t group2 = H5Gopen(file2, "/group1", H5P_DEFAULT);
 
-  IdInfo info1(group1);
-  IdInfo info2(group2);
+  id info1(group1);
+  id info2(group2);
 
   BOOST_CHECK_NE(group1, group2);
-  BOOST_CHECK_NE(info1.file_name, info2.file_name);
-  BOOST_CHECK_NE(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_NE(info1.file_name(), info2.file_name());
+  BOOST_CHECK_NE(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   H5Gclose(group1);
   H5Gclose(group2);
@@ -224,13 +201,13 @@ BOOST_AUTO_TEST_CASE( symlink_id )
   hid_t group1 = H5Gopen(file1, "/group1", H5P_DEFAULT);
   hid_t group2 = H5Gopen(file2, "/group1", H5P_DEFAULT);
 
-  IdInfo info1(group1);
-  IdInfo info2(group2);
+  id info1(group1);
+  id info2(group2);
 
   BOOST_CHECK_NE(group1, group2);
-  BOOST_CHECK_NE(info1.file_name, info2.file_name);
-  BOOST_CHECK_EQUAL(info1.file_num, info2.file_num);
-  BOOST_CHECK_EQUAL(info1.obj_addr, info1.obj_addr);
+  BOOST_CHECK_NE(info1.file_name(), info2.file_name());
+  BOOST_CHECK_EQUAL(info1.file_num(), info2.file_num());
+  BOOST_CHECK_EQUAL(info1.obj_addr(), info1.obj_addr());
 
   BOOST_CHECK_EQUAL(boost::filesystem::canonical(FILE1),
                     boost::filesystem::canonical(FILE2));
@@ -257,10 +234,10 @@ BOOST_AUTO_TEST_CASE( file_external_group )
   hid_t group21 = H5Gopen(file2->file, "/group1", H5P_DEFAULT);
   hid_t group23 = H5Gopen(file2->file, "/group3", H5P_DEFAULT);
 
-  IdInfo info11(group11);
-  IdInfo info12(group12);
-  IdInfo info21(group21);
-  IdInfo info23(group23);
+  id info11(group11);
+  id info12(group12);
+  id info21(group21);
+  id info23(group23);
 
 //  info11.print("f1/g1");
 //  info12.print("f1/g2");
@@ -274,24 +251,24 @@ BOOST_AUTO_TEST_CASE( file_external_group )
   BOOST_CHECK_NE(group12, group23);
   BOOST_CHECK_NE(group21, group23);
 
-  BOOST_CHECK_EQUAL(info11.file_name, info12.file_name);
-  BOOST_CHECK_NE(info11.file_name, info21.file_name);
-  BOOST_CHECK_EQUAL(info11.file_name, info23.file_name);
-  BOOST_CHECK_NE(info12.file_name, info21.file_name);
-  BOOST_CHECK_EQUAL(info12.file_name, info23.file_name);
-  BOOST_CHECK_NE(info21.file_name, info23.file_name);
+  BOOST_CHECK_EQUAL(info11.file_name(), info12.file_name());
+  BOOST_CHECK_NE(info11.file_name(), info21.file_name());
+  BOOST_CHECK_EQUAL(info11.file_name(), info23.file_name());
+  BOOST_CHECK_NE(info12.file_name(), info21.file_name());
+  BOOST_CHECK_EQUAL(info12.file_name(), info23.file_name());
+  BOOST_CHECK_NE(info21.file_name(), info23.file_name());
 
-  BOOST_CHECK_EQUAL(info11.file_num, info12.file_num);
-  BOOST_CHECK_EQUAL(info11.file_num, info23.file_num);
-  BOOST_CHECK_EQUAL(info12.file_num, info23.file_num);
-  BOOST_CHECK_NE(info21.file_num, info23.file_num);
+  BOOST_CHECK_EQUAL(info11.file_num(), info12.file_num());
+  BOOST_CHECK_EQUAL(info11.file_num(), info23.file_num());
+  BOOST_CHECK_EQUAL(info12.file_num(), info23.file_num());
+  BOOST_CHECK_NE(info21.file_num(), info23.file_num());
 
-  BOOST_CHECK_EQUAL(info11.obj_addr, info23.obj_addr);
-  BOOST_CHECK_NE(info11.obj_addr, info12.obj_addr);
-  BOOST_CHECK_EQUAL(info11.obj_addr, info21.obj_addr);
-  BOOST_CHECK_NE(info12.obj_addr, info21.obj_addr);
-  BOOST_CHECK_NE(info12.obj_addr, info23.obj_addr);
-  BOOST_CHECK_EQUAL(info21.obj_addr, info23.obj_addr);
+  BOOST_CHECK_EQUAL(info11.obj_addr(), info23.obj_addr());
+  BOOST_CHECK_NE(info11.obj_addr(), info12.obj_addr());
+  BOOST_CHECK_EQUAL(info11.obj_addr(), info21.obj_addr());
+  BOOST_CHECK_NE(info12.obj_addr(), info21.obj_addr());
+  BOOST_CHECK_NE(info12.obj_addr(), info23.obj_addr());
+  BOOST_CHECK_EQUAL(info21.obj_addr(), info23.obj_addr());
 
   H5Gclose(group11);
   H5Gclose(group12);
@@ -308,13 +285,14 @@ BOOST_AUTO_TEST_CASE( file_external_group )
 BOOST_AUTO_TEST_CASE( repeated_open )
 {
   OneFile* file = new OneFile(FILE1);
-  IdInfo i1(file->file);
+  id i1(file->file);
   delete file;
 
   file = new OneFile(FILE1);
-  IdInfo i2(file->file);
+  id i2(file->file);
   delete file;
 
-  BOOST_CHECK_EQUAL(i1.file_name, i2.file_name);
-  BOOST_CHECK_NE(i1.file_num, i2.file_num);
+  BOOST_CHECK_EQUAL(i1.file_name(), i2.file_name());
+  BOOST_CHECK_NE(i1.file_num(), i2.file_num());
+  std::cout << i1 << "   ??   " << i2 << std::endl;
 }
