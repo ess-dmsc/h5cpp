@@ -1,35 +1,35 @@
-#include "global.h"
+#include "context.hpp"
 #include <list>
 
-namespace h5cpp
+namespace h5
 {
 
-void global::open(const hid_t& hid)
+void context::open(const hid_t& hid)
 {
   std::lock_guard<std::mutex> guard(mutex_);
   objects_[id(hid)] = hid;
 }
 
-bool global::is_open(const hid_t& hid) const
+bool context::is_open(const hid_t& hid) const
 {
   std::lock_guard<std::mutex> guard(mutex_);
   return objects_.count(id(hid));
 }
 
-void global::close(const hid_t& hid)
+void context::close(const hid_t& hid)
 {
   std::lock_guard<std::mutex> guard(mutex_);
   close(id(hid));
 }
 
-void global::close(const id& i)
+void context::close(const id& i)
 {
   //could do actual object destruction?
 
   objects_.erase(i);
 }
 
-global::~global()
+context::~context()
 {
   std::list<id> ids;
   for (auto o : objects_)

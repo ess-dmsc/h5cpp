@@ -1,8 +1,7 @@
 #include <iostream>
-#include "id.h"
-#include "global.h"
+#include "id.hpp"
+#include "context.hpp"
 
-#include <hdf5.h>
 
 #define BOOST_TEST_MODULE MyTest
 #include <boost/test/unit_test.hpp>
@@ -14,7 +13,7 @@
 #define FILE1 boost::filesystem::absolute("file1.h5").string().data()
 #define FILE2 boost::filesystem::absolute("file2.h5").string().data()
 
-using namespace h5cpp;
+using namespace h5;
 
 struct OneFile
 {

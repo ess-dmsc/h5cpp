@@ -1,7 +1,7 @@
-#include "id.h"
+#include "id.hpp"
 #include <vector>
 
-namespace h5cpp
+namespace h5
 {
 
 id::id()

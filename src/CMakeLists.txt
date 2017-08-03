@@ -45,7 +45,7 @@ SET(Boost_USE_STATIC_LIBS ON)
 find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
 
 file(GLOB ${PROJECT_NAME}_sources *.cpp)
-file(GLOB ${PROJECT_NAME}_headers *.h)
+file(GLOB ${PROJECT_NAME}_headers *.hpp)
 dirs_of(${PROJECT_NAME}_include_dirs "${${PROJECT_NAME}_headers}")
 
 add_executable(
