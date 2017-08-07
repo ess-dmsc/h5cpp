@@ -1,0 +1,1 @@
+cmake --build . --target RUN_TESTS --config @CMAKE_BUILD_TYPE@

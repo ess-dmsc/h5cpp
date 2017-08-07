@@ -1,0 +1,3 @@
+
+find_package(HDF5 REQUIRED COMPONENTS C)
+

@@ -1,0 +1,291 @@
+//
+// (c) Copyright 2017 DESY,ESS
+//
+// This file is part of h5pp.
+//
+// h5cpp is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// h5cpp is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  ee the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with h5cpp.  If not, see <http://www.gnu.org/licenses/>.
+// ===========================================================================
+//
+// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Created on: Aug 07, 2017
+//
+
+#pragma once
+
+extern "C"{
+#include <hdf5.h>
+}
+
+#include "windows.hpp"
+
+namespace hdf5
+{
+
+//! 
+//! \brief Wrapper for hid_t object identifiers
+//!
+//! Objects in HDf5 are referenced using an handle of type hid_t. Though
+//! the name of the type and the API reference of the HDF5 C-API suggest
+//! this value is an ID it should be rather considered a handle which is 
+//! used to reference a particular object. 
+//!
+//!
+//! The aim of this class is to encapsulate an HDF5 handler and controll 
+//! the reference counting for that handler for copy and move construction
+//! and assignment.
+//! 
+//! * copy construction and assignment increments the reference count of an
+//!   handler
+//! * move construction and assignment leaves the reference count unchanged
+//! * closing an object decrements the reference count 
+//! * in addition, the reference count is decreased if the destructor of 
+//! * an instance of ObjectHandle is called 
+//!
+//! From that point of view ObjectHandle could also be considered as a
+//! guard object for a handle which ensures that an object gets closed 
+//! once it looses scope. 
+//!
+//! The class also comprises a set of static member functions which provide
+//! operations on the handler.
+//! 
+//!
+class DLL_EXPORT ObjectHandle
+{
+  public:
+    enum class Type 
+    {
+      UNINITIALIZED,
+      BADOBJECT,
+      FILE,
+      GROUP,
+      DATATYPE,
+      DATASPACE,
+      DATASET,
+      ATTRIBUTE,
+      PROPERTY_LIST,
+      REFERENCE,
+      VIRTUAL_FILE_LAYER,
+      PROPERTY_LIST_CLASS,
+      ERROR_CLASS,
+      ERROR_MESSAGE,
+      ERROR_STACK
+    };
+  private:
+    hid_t handle_; //!< ID of the object
+  public:
+    //================constructors and destructors=====================
+    //! 
+    //! \brief construct from HDF5 ID
+    //!
+    //! This constructor can be used to construct an instance of 
+    //! h5object from an HDF5 ID. 
+    //! h5object takes full control over the constructed object. Thus
+    //! the constructor has move semantics and does not allow to use 
+    //! const & or & to the hid_t argument.
+    //! A typical usage example would look like this
+    /*!
+    \code
+    .....
+    h5object o(H5Gopen(fid,"data",H5P_DEFAULT));
+    ...
+    \endcode
+    */
+    //! Due to move semantics the following construction would cause a 
+    //! compile time error
+    /*!
+    \code
+    hid_t type = H5Tcopy(H5T_NATIVE_FLOAT);
+    h5object o(type);
+    \endcode
+    */
+    //! An exception is thrown if the ID passed is negative.
+    //!
+    //! \throws object_error if id<0
+    //!
+    //! \param id HDF5 object ID.
+    //!
+    explicit ObjectHandle(hid_t &&id);
+
+    //-----------------------------------------------------------------
+    //! 
+    //! \brief default constructor
+    //! 
+    //! The default constructor does not throw. However, after default 
+    //! construction the object will be in an invalid state. 
+    //!
+    explicit ObjectHandle() noexcept;
+
+    //-----------------------------------------------------------------
+    //! 
+    //! \brief copy constructor
+    //!
+    //! Copies the ID of the o and increments its reference counter if 
+    //! the object is valid.
+    //!
+    //! \throws object_error in cases where object validity could not 
+    //!                      be determined or reference counter
+    //!                      increment failed
+    //! 
+    //! \param o object which to cpy
+    //!
+    ObjectHandle(const ObjectHandle &o);
+
+    //-----------------------------------------------------------------
+    //! 
+    //! \brief move constructor
+    //!
+    //! Copies the ID of the original object and sets the ID of the 
+    //! original object to 0. As this is a move process the reference 
+    //! counter of the ID will not be incremented.
+    //!
+    //! \param o object to move
+    //!
+    ObjectHandle(ObjectHandle &&o) noexcept;
+
+    //-----------------------------------------------------------------
+    //!
+    //! \brief destructor
+    //! 
+    //! \throws object_error if closing object failed or its validity
+    //!                      could not be determined
+    //! \throws type_error if object type could not be determined
+    //!
+    ~ObjectHandle();
+
+    //================assignment operators=============================
+    //!
+    //! \brief copy assignment operator
+    //! 
+    //! Just like for the copy constructor the reference counter for 
+    //! the original ID is incremented.
+    //!
+    //! \throws object_error if reference counter increment fails or 
+    //!                      object validity could not be determined
+    //! \throws type_error if object type could not be determined
+    //!
+    //! \param o object to assign
+    //! \return refence to object
+    //!
+    ObjectHandle &operator=(const ObjectHandle &o);
+
+    //-----------------------------------------------------------------
+    //!
+    //! \brief move assignment operator
+    //!
+    //! Like the move constructor this operator has no influence on the
+    //! value of the IDs reference counter.
+    //!
+    //! \throws object_error if closing the original object fails
+    //! \throws type_error if object type could not be determined
+    //!
+    //! \param o object form which to move data
+    //! \return reference to object
+    //!
+    ObjectHandle &operator=(ObjectHandle &&o) noexcept;
+
+
+    //------------------------------------------------------------------
+    //! 
+    //! \brief return HDF5 id
+    //!
+    //! Returns the HDF5 ID of the object. The ID is returned as a 
+    //! const reference and thus cannot be altered.
+    //! \return HDF5 ID
+    //!
+    const hid_t &handle() const noexcept;
+        
+    //=====================static member functions ====================
+    //! 
+    //! \brief close the object
+    //! 
+    //! This will decrement the reference counter of the ID held by this
+    //! object or close it if the reference counter approaches 0. 
+    //! The close method runs an object introspection by means of the 
+    //! HDF5 library and calls the appropriate close function. 
+    //! 
+    //! \throws object_error if object validity could not be determined
+    //! \throws type_error if the type of the object could not be
+    //!         determined 
+    //!
+    void close();
+    
+    //------------------------------------------------------------------
+    //! 
+    //! \brief check validity 
+    //!
+    //! This method returns true of the object refers to a valid HDF5
+    //! object. In other words this means that the object is valid and
+    //! available. For a file object this would mean that the file is 
+    //! open.
+    //! 
+    //! \throws object_error if querying the object validity fails
+    //! \returns true if valid HDF5 object
+    //!
+    bool is_valid() const;
+
+    //-----------------------------------------------------------------
+    //!
+    //! \brief get nexus object type
+    //!
+    //! \throws type_error in case of an unkown type
+    //! \throws invalid object_error if object is not valid
+    //! \throws object_error in case of any other error
+    //!
+    //! \return Nexus type of the object
+    //!
+    ObjectHandle::Type get_type() const;
+
+    //!
+    //! \brief increment reference counter 
+    //! 
+    //! Increment the reference counter on the current handle if the 
+    //! handle is valid. 
+    //! 
+    void increment_reference_count() const;
+    
+    //!
+    //! \brief decrement reference counter 
+    //!
+    //! Decrement the reference counter on the current handle if it  
+    //! references a valid object.
+    //! 
+    //! 
+    void decrement_reference_count() const;
+    
+    //!
+    //! \brief return reference counter value
+    //!
+    //! \return 
+    int get_reference_count() const;
+
+    ObjectHandle get_file() const;
+};
+
+
+//!
+//! \brief equality operator
+//! 
+//! Two instances of ObjectHandle are considered equal when their internal
+//! have equal value. This is not a sufficient criteria for object equality!
+//! 
+//! 
+bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
+
+//!
+//! \brief not equal to operator
+//! 
+//! Simply the 
+bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
+
+} // namespace hdf5 
