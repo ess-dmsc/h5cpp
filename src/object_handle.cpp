@@ -22,6 +22,8 @@
 //
 
 #include "object_handle.hpp"
+#include <sstream>
+#include <stdexcept>
 
 namespace hdf5
 {
@@ -31,7 +33,9 @@ ObjectHandle::ObjectHandle(hid_t &&id) :handle_(id)
 {
   if(handle()<0)
   {
-    //TODO: error handling
+    std::stringstream ss;
+    ss<<"Invalid object handler ("<<id<<")";
+    throw std::runtime_error(ss.str());
   }
 }
     
@@ -103,8 +107,10 @@ bool ObjectHandle::is_valid() const
   htri_t value = H5Iis_valid(handle());
   
   if(value < 0)
-  { 
-    //TODO: error handling
+  {
+    std::stringstream ss;
+    ss<<"Could not retrieve validity status for handle ("<<handle()<<")";
+    throw std::runtime_error(ss.str());
   }
 
   if(value)
@@ -117,7 +123,7 @@ bool ObjectHandle::is_valid() const
   }
 }
 
-//-------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 void ObjectHandle::close() 
 {
   //if the ID is valid this will decrement the reference counter or close
@@ -141,15 +147,26 @@ void ObjectHandle::close()
       case ObjectHandle::Type::PROPERTY_LIST:
         error_code = H5Pclose(handle());
         break;
+      case ObjectHandle::Type::ERROR_MESSAGE:
+        error_code = H5Eclose_msg(handle());
+        break;
+      case ObjectHandle::Type::ERROR_STACK:
+        error_code = H5Eclose_stack(handle());
+        break;
+      case ObjectHandle::Type::ERROR_CLASS:
+        error_code = H5Eunregister_class(handle());
+        break;
       default:
         error_code = H5Oclose(handle());
-
-        //TODO: have to check here how to deal with all other types!!!
     }
 
     if(error_code<0)
     {
-      //TODO: error handling
+      //TODO: maybe we should add here an entry to the error stack
+      std::stringstream ss;
+      ss<<"Could not close object of type "<<get_type()<<"with handle "
+        <<"("<<handle()<<")!";
+      throw std::runtime_error(ss.str());
     }
   }
 
@@ -157,29 +174,47 @@ void ObjectHandle::close()
   handle_ = 0; 
 }
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 ObjectHandle::Type ObjectHandle::get_type() const
 {
   H5I_type_t type = H5Iget_type(handle_);
   
   switch(type)
   {
-    case H5I_UNINIT: return ObjectHandle::Type::UNINITIALIZED;	
-    case H5I_BADID:  return ObjectHandle::Type::BADOBJECT;
-    case H5I_FILE: 	return ObjectHandle::Type::FILE;
-    case H5I_GROUP: return ObjectHandle::Type::GROUP;
-    case H5I_DATATYPE: return ObjectHandle::Type::DATATYPE;
-    case H5I_DATASPACE: return ObjectHandle::Type::DATASPACE;
-    case H5I_DATASET: return ObjectHandle::Type::DATASET;
-    case H5I_ATTR: return ObjectHandle::Type::ATTRIBUTE;
-    case H5I_REFERENCE: return ObjectHandle::Type::REFERENCE;
-    case H5I_VFL: return ObjectHandle::Type::VIRTUAL_FILE_LAYER;
-    case H5I_GENPROP_CLS: return ObjectHandle::Type::PROPERTY_LIST_CLASS;
-    case H5I_GENPROP_LST: return ObjectHandle::Type::PROPERTY_LIST;
-    case H5I_ERROR_CLASS: return ObjectHandle::Type::ERROR_CLASS;
-    case H5I_ERROR_MSG: return ObjectHandle::Type::ERROR_MESSAGE;
-    case H5I_ERROR_STACK: return ObjectHandle::Type::ERROR_STACK;
-                          //TODO: error handling
+    case H5I_UNINIT: 
+      return ObjectHandle::Type::UNINITIALIZED;	
+    case H5I_BADID:  
+      return ObjectHandle::Type::BADOBJECT;
+    case H5I_FILE: 	
+      return ObjectHandle::Type::FILE;
+    case H5I_GROUP: 
+      return ObjectHandle::Type::GROUP;
+    case H5I_DATATYPE: 
+      return ObjectHandle::Type::DATATYPE;
+    case H5I_DATASPACE: 
+      return ObjectHandle::Type::DATASPACE;
+    case H5I_DATASET: 
+      return ObjectHandle::Type::DATASET;
+    case H5I_ATTR: 
+      return ObjectHandle::Type::ATTRIBUTE;
+    case H5I_REFERENCE: 
+      return ObjectHandle::Type::REFERENCE;
+    case H5I_VFL: 
+      return ObjectHandle::Type::VIRTUAL_FILE_LAYER;
+    case H5I_GENPROP_CLS: 
+      return ObjectHandle::Type::PROPERTY_LIST_CLASS;
+    case H5I_GENPROP_LST: 
+      return ObjectHandle::Type::PROPERTY_LIST;
+    case H5I_ERROR_CLASS: 
+      return ObjectHandle::Type::ERROR_CLASS;
+    case H5I_ERROR_MSG: 
+      return ObjectHandle::Type::ERROR_MESSAGE;
+    case H5I_ERROR_STACK: 
+      return ObjectHandle::Type::ERROR_STACK;
+    default:
+      std::stringstream ss;
+      ss<<"Unkown object type ("<<type<<")";
+      throw std::runtime_error(ss.str());
   };
 }
 
@@ -192,6 +227,7 @@ void ObjectHandle::increment_reference_count() const
     
     //Failing to succesfully inrement the reference counter for an internal
     //object ID is a serious issue and justifies to throw an exception here.
+    throw std::runtime_error("Error incrementing the reference counter!");
 
   }
 }
@@ -202,7 +238,8 @@ void ObjectHandle::decrement_reference_count() const
 {
   if(H5Idec_ref(handle_)<0)
   {
-    //TODO: error handling
+    //TODO: maybe we should add an entry here on the error stack
+    throw std::runtime_error("Could not decrement the reference counter");
   }
 }
 
@@ -212,7 +249,8 @@ int ObjectHandle::get_reference_count() const
   int ref_cnt = H5Iget_ref(handle_);
   if(ref_cnt<0)
   {
-    //TODO: error handling
+    //TODO: maybe we should add here an entry to the error stack.
+    throw std::runtime_error("Could not retrieve reference count for object!");
   }
 
   return ref_cnt;
@@ -248,6 +286,31 @@ bool operator!=(const ObjectHandle &a,const ObjectHandle &b)
     }
 }
 
+//----------------------------------------------------------------------------
+std::ostream &operator<<(std::ostream &stream,const ObjectHandle::Type &type)
+{
+  switch(type)
+  {
+    case ObjectHandle::Type::UNINITIALIZED: stream<<"UNINITIALIZED"; break;
+    case ObjectHandle::Type::BADOBJECT: stream<<"BADOBJECT"; break;
+    case ObjectHandle::Type::FILE: stream<<"FILE"; break;
+    case ObjectHandle::Type::GROUP: stream<<"GROUP"; break;
+    case ObjectHandle::Type::DATATYPE: stream<<"DATATYPE"; break;
+    case ObjectHandle::Type::DATASPACE: stream<<"DATASPACE"; break;
+    case ObjectHandle::Type::DATASET: stream<<"DATASET"; break;
+    case ObjectHandle::Type::ATTRIBUTE: stream<<"ATTRIBUTE"; break;
+    case ObjectHandle::Type::PROPERTY_LIST: stream<<"PROPERTY_LIST"; break;
+    case ObjectHandle::Type::REFERENCE: stream<<"REFERENCE"; break;
+    case ObjectHandle::Type::VIRTUAL_FILE_LAYER: stream<<"VIRTUAL_FILE_LAYER"; break;
+    case ObjectHandle::Type::PROPERTY_LIST_CLASS: stream<<"PROPERTY_LIST_CLASS"; break;
+    case ObjectHandle::Type::ERROR_CLASS: stream<<"ERROR_CLASS"; break;
+    case ObjectHandle::Type::ERROR_MESSAGE: stream<<"ERROR_MESSAGE"; break;
+    case ObjectHandle::Type::ERROR_STACK: stream<<"ERROR_STACK"; break;
+    default:
+                                            stream<<"unknown";
+  };
 
+  return stream;
+}
 
 } // namespace hdf5

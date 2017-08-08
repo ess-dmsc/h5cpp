@@ -26,6 +26,7 @@
 extern "C"{
 #include <hdf5.h>
 }
+#include <iostream>
 
 #include "windows.hpp"
 
@@ -97,7 +98,7 @@ class DLL_EXPORT ObjectHandle
     /*!
     \code
     .....
-    h5object o(H5Gopen(fid,"data",H5P_DEFAULT));
+    hdf5::ObjectHandle handle(H5Gopen(fid,"data",H5P_DEFAULT));
     ...
     \endcode
     */
@@ -111,10 +112,9 @@ class DLL_EXPORT ObjectHandle
     */
     //! An exception is thrown if the ID passed is negative.
     //!
-    //! \throws object_error if id<0
+    //! \throws std::runtime_error if the passed id is invalid (<0)
     //!
     //! \param id HDF5 object ID.
-    //!
     explicit ObjectHandle(hid_t &&id);
 
     //-----------------------------------------------------------------
@@ -133,12 +133,9 @@ class DLL_EXPORT ObjectHandle
     //! Copies the ID of the o and increments its reference counter if 
     //! the object is valid.
     //!
-    //! \throws object_error in cases where object validity could not 
-    //!                      be determined or reference counter
-    //!                      increment failed
+    //! \throws std::runtime_error in case of errors
     //! 
     //! \param o object which to cpy
-    //!
     ObjectHandle(const ObjectHandle &o);
 
     //-----------------------------------------------------------------
@@ -150,17 +147,13 @@ class DLL_EXPORT ObjectHandle
     //! counter of the ID will not be incremented.
     //!
     //! \param o object to move
-    //!
     ObjectHandle(ObjectHandle &&o) noexcept;
 
     //-----------------------------------------------------------------
     //!
     //! \brief destructor
     //! 
-    //! \throws object_error if closing object failed or its validity
-    //!                      could not be determined
-    //! \throws type_error if object type could not be determined
-    //!
+    //! \throws std::runtime_error in case of errors
     ~ObjectHandle();
 
     //================assignment operators=============================
@@ -170,13 +163,10 @@ class DLL_EXPORT ObjectHandle
     //! Just like for the copy constructor the reference counter for 
     //! the original ID is incremented.
     //!
-    //! \throws object_error if reference counter increment fails or 
-    //!                      object validity could not be determined
-    //! \throws type_error if object type could not be determined
+    //! \throws std::runtime_error in case of errors 
     //!
     //! \param o object to assign
     //! \return refence to object
-    //!
     ObjectHandle &operator=(const ObjectHandle &o);
 
     //-----------------------------------------------------------------
@@ -186,12 +176,10 @@ class DLL_EXPORT ObjectHandle
     //! Like the move constructor this operator has no influence on the
     //! value of the IDs reference counter.
     //!
-    //! \throws object_error if closing the original object fails
-    //! \throws type_error if object type could not be determined
+    //! \throws std::runtime_error in case of errors 
     //!
     //! \param o object form which to move data
     //! \return reference to object
-    //!
     ObjectHandle &operator=(ObjectHandle &&o) noexcept;
 
 
@@ -202,7 +190,6 @@ class DLL_EXPORT ObjectHandle
     //! Returns the HDF5 ID of the object. The ID is returned as a 
     //! const reference and thus cannot be altered.
     //! \return HDF5 ID
-    //!
     const hid_t &handle() const noexcept;
         
     //=====================static member functions ====================
@@ -214,10 +201,7 @@ class DLL_EXPORT ObjectHandle
     //! The close method runs an object introspection by means of the 
     //! HDF5 library and calls the appropriate close function. 
     //! 
-    //! \throws object_error if object validity could not be determined
-    //! \throws type_error if the type of the object could not be
-    //!         determined 
-    //!
+    //! \throws std::runtime_error if the close operation fails
     void close();
     
     //------------------------------------------------------------------
@@ -229,44 +213,45 @@ class DLL_EXPORT ObjectHandle
     //! available. For a file object this would mean that the file is 
     //! open.
     //! 
-    //! \throws object_error if querying the object validity fails
+    //! \throws std::runtime_error if object status retrieval fails
     //! \returns true if valid HDF5 object
-    //!
     bool is_valid() const;
 
-    //-----------------------------------------------------------------
+    //------------------------------------------------------------------------
     //!
     //! \brief get nexus object type
     //!
-    //! \throws type_error in case of an unkown type
-    //! \throws invalid object_error if object is not valid
-    //! \throws object_error in case of any other error
-    //!
-    //! \return Nexus type of the object
-    //!
+    //! \throws std::runtime_error if the type is unknown
+    //! \return object type
     ObjectHandle::Type get_type() const;
 
+    //------------------------------------------------------------------------
     //!
     //! \brief increment reference counter 
     //! 
     //! Increment the reference counter on the current handle if the 
     //! handle is valid. 
-    //! 
+    //!
+    //! \throws std::runtime_error if incrementing the reference count fails
     void increment_reference_count() const;
     
+    //------------------------------------------------------------------------
     //!
     //! \brief decrement reference counter 
     //!
     //! Decrement the reference counter on the current handle if it  
     //! references a valid object.
-    //! 
-    //! 
+    //!
+    //! \throws std::runtime_error if decrementing the reference count fails
     void decrement_reference_count() const;
     
+    //------------------------------------------------------------------------
     //!
     //! \brief return reference counter value
     //!
-    //! \return 
+    //! \throws std::runtime_error if retrieval of the reference count fails
+    //! 
+    //! \return the actual reference count
     int get_reference_count() const;
 
     ObjectHandle get_file() const;
@@ -287,5 +272,10 @@ bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
 //! 
 //! Simply the 
 bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
+
+//!
+//! \brief output operator for Types
+//!
+std::ostream &operator<<(std::ostream &stream,const ObjectHandle::Type &type);
 
 } // namespace hdf5 
