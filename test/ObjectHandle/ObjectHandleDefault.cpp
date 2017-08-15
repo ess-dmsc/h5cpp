@@ -1,3 +1,25 @@
+//
+// (c) Copyright 2017 DESY,ESS
+//
+// This file is part of h5pp.
+//
+// h5cpp is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// h5cpp is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  ee the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with h5cpp.  If not, see <http://www.gnu.org/licenses/>.
+// ===========================================================================
+//
+// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Created on: Aug 14, 2017
+//
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/bind.hpp>
@@ -33,10 +55,10 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
       test = new FileObjectHandleTest("test.h5");
       break;
     case hdf5::ObjectHandle::Type::DATATYPE:
-      test = new DatatypeObjectHandleTest("object_handle_datatype_test.h5");
+      test = new DatatypeObjectHandleTest();
       break;
     case hdf5::ObjectHandle::Type::DATASPACE:
-      test = new DataspaceObjectHandleTest("object_handle_dataspace_test.h5");
+      test = new DataspaceObjectHandleTest();
       break;
     case hdf5::ObjectHandle::Type::GROUP:
       test = new GroupObjectHandleTest("object_handle_group_test.h5");
@@ -46,6 +68,21 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
       break;
     case hdf5::ObjectHandle::Type::ATTRIBUTE:
       test = new AttributeObjectHandleTest("object_handle_attribute_test.h5");
+      break;
+    case hdf5::ObjectHandle::Type::PROPERTY_LIST:
+      test = new PropertyListObjectHandleTest();
+      break;
+    case hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS:
+      test = new PropertyListClassObjectHandleTest();
+      break;
+    case hdf5::ObjectHandle::Type::ERROR_CLASS:
+      test = new ErrorClassObjectHandleTest();
+      break;
+    case hdf5::ObjectHandle::Type::ERROR_MESSAGE:
+      test = new ErrorMessageObjectHandleTest();
+      break;
+    case hdf5::ObjectHandle::Type::ERROR_STACK:
+      test = new ErrorStackObjectHandleTest();
       break;
     default:
       return nullptr;
@@ -72,6 +109,11 @@ bool init_function()
   framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::GROUP));
   framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::DATASET));
   framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ATTRIBUTE));
+  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::PROPERTY_LIST));
+  //framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS));
+  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ERROR_MESSAGE));
+  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ERROR_CLASS));
+  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ERROR_STACK));
 
   return true;
 }

@@ -93,7 +93,11 @@ void ObjectHandleTest::test_increment_reference_count()
 
 void ObjectHandleTest::test_decrement_reference_count()
 {
-
+  hdf5::ObjectHandle handle(create_object());
+  BOOST_CHECK_EQUAL(handle.get_reference_count(),1);
+  BOOST_CHECK_NO_THROW(handle.decrement_reference_count());
+  BOOST_CHECK(!handle.is_valid());
+  BOOST_CHECK_THROW(handle.get_reference_count(),std::runtime_error);
 }
 
 hdf5::ObjectHandle::Type ObjectHandleTest::get_type() const

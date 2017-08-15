@@ -7,6 +7,8 @@ set(SOURCE ObjectHandleDefault.cpp
            group_object_handle_test.cpp
            dataset_object_handle_test.cpp
            attribute_object_handle_test.cpp
+           property_objects_handle_test.cpp
+           error_objects_handle_test.cpp
            test_environment.cpp)
 
 

@@ -23,14 +23,8 @@
 
 #include "object_handle_test.hpp"
 
-DataspaceObjectHandleTest::DataspaceObjectHandleTest(const std::string &filename):
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATASPACE),
-  environment_(filename)
-{
-
-}
-
-DataspaceObjectHandleTest::~DataspaceObjectHandleTest()
+DataspaceObjectHandleTest::DataspaceObjectHandleTest():
+  ObjectHandleTest(hdf5::ObjectHandle::Type::DATASPACE)
 {
 
 }

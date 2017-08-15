@@ -30,39 +30,39 @@ extern "C"{
 
 class TestEnvironment
 {
-  hdf5::ObjectHandle file_handle_;
-public:
-  TestEnvironment(const std::string &filename);
-  void close();
+    hdf5::ObjectHandle file_handle_;
+  public:
+    TestEnvironment(const std::string &filename);
+    void close();
 
-  const hdf5::ObjectHandle &file_handle() const;
+    const hdf5::ObjectHandle &file_handle() const;
 
 };
 
 class ObjectHandleTest
 {
-private:
-  hdf5::ObjectHandle::Type type_;
-public:
-  ObjectHandleTest(hdf5::ObjectHandle::Type type);
+  private:
+    hdf5::ObjectHandle::Type type_;
+  public:
+    ObjectHandleTest(hdf5::ObjectHandle::Type type);
 
-  virtual ~ObjectHandleTest();
+    virtual ~ObjectHandleTest();
 
-  virtual hid_t create_object() = 0;
+    virtual hid_t create_object() = 0;
 
-  virtual void test_copy_construction();
+    virtual void test_copy_construction();
 
-  virtual void test_move_construction();
+    virtual void test_move_construction();
 
-  virtual void test_copy_assignment();
+    virtual void test_copy_assignment();
 
-  virtual void test_move_assignment();
+    virtual void test_move_assignment();
 
-  virtual void test_increment_reference_count();
+    virtual void test_increment_reference_count();
 
-  virtual void test_decrement_reference_count();
+    virtual void test_decrement_reference_count();
 
-  hdf5::ObjectHandle::Type get_type() const;
+    hdf5::ObjectHandle::Type get_type() const;
 
 };
 
@@ -70,76 +70,106 @@ std::string string_from_type(hdf5::ObjectHandle::Type type);
 
 class FileObjectHandleTest : public ObjectHandleTest
 {
-private:
-  std::string filename_;
-public:
-  FileObjectHandleTest(const std::string &filename);
-  ~FileObjectHandleTest();
+  private:
+    std::string filename_;
+  public:
+    FileObjectHandleTest(const std::string &filename);
+    ~FileObjectHandleTest();
 
-  virtual hid_t create_object();
+    virtual hid_t create_object();
 };
 
 class DatatypeObjectHandleTest : public ObjectHandleTest
 {
-private:
-  TestEnvironment environment_;
-public:
-  DatatypeObjectHandleTest(const std::string &filename);
-  ~DatatypeObjectHandleTest();
+  public:
+    DatatypeObjectHandleTest();
 
-  virtual hid_t create_object();
+    virtual hid_t create_object();
 };
 
 class DataspaceObjectHandleTest : public ObjectHandleTest
 {
-private:
-  TestEnvironment environment_;
-public:
-  DataspaceObjectHandleTest(const std::string &filename);
-  ~DataspaceObjectHandleTest();
+  public:
+    DataspaceObjectHandleTest();
 
-  virtual hid_t create_object();
+    virtual hid_t create_object();
 };
 
 class GroupObjectHandleTest : public ObjectHandleTest
 {
-private:
-  std::string filename_;
-  TestEnvironment environment_;
-public:
-  GroupObjectHandleTest(const std::string &filename);
-  ~GroupObjectHandleTest();
+  private:
+    std::string filename_;
+    TestEnvironment environment_;
+  public:
+    GroupObjectHandleTest(const std::string &filename);
+    ~GroupObjectHandleTest();
 
-  virtual hid_t create_object();
+    virtual hid_t create_object();
 };
 
 class DatasetObjectHandleTest : public ObjectHandleTest
 {
-private:
-  std::string filename_;
-  TestEnvironment environment_;
-  hdf5::ObjectHandle dtype_;
-  hdf5::ObjectHandle dspace_;
-public:
-  DatasetObjectHandleTest(const std::string &filename);
-  ~DatasetObjectHandleTest();
+  private:
+    std::string filename_;
+    TestEnvironment environment_;
+    hdf5::ObjectHandle dtype_;
+    hdf5::ObjectHandle dspace_;
+  public:
+    DatasetObjectHandleTest(const std::string &filename);
+    ~DatasetObjectHandleTest();
 
-  virtual hid_t create_object();
+    virtual hid_t create_object();
 };
 
 class AttributeObjectHandleTest : public ObjectHandleTest
 {
-private:
-  std::string filename_;
-  TestEnvironment environment_;
-  hdf5::ObjectHandle group_;
-public:
-  AttributeObjectHandleTest(const std::string &filename);
-  ~AttributeObjectHandleTest();
+  private:
+    std::string filename_;
+    TestEnvironment environment_;
+    hdf5::ObjectHandle group_;
+  public:
+    AttributeObjectHandleTest(const std::string &filename);
+    ~AttributeObjectHandleTest();
 
-  virtual hid_t create_object();
+    virtual hid_t create_object();
 };
 
+class PropertyListObjectHandleTest : public ObjectHandleTest
+{
+  public:
+    PropertyListObjectHandleTest();
+
+    virtual hid_t create_object();
+};
+
+class PropertyListClassObjectHandleTest : public ObjectHandleTest
+{
+  public:
+    PropertyListClassObjectHandleTest();
+
+    virtual hid_t create_object();
+};
+
+class ErrorMessageObjectHandleTest : public ObjectHandleTest
+{
+  public:
+    ErrorMessageObjectHandleTest();
+    virtual hid_t create_object();
+};
+
+class ErrorStackObjectHandleTest : public ObjectHandleTest
+{
+  public:
+    ErrorStackObjectHandleTest();
+    virtual hid_t create_object();
+};
+
+class ErrorClassObjectHandleTest : public ObjectHandleTest
+{
+  public:
+    ErrorClassObjectHandleTest();
+    virtual hid_t create_object();
+};
 
 
 

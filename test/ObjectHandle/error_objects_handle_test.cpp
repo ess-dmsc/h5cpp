@@ -18,19 +18,45 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Aug 07, 2017
 //
 
 #include "object_handle_test.hpp"
 
-
-DatatypeObjectHandleTest::DatatypeObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATATYPE)
+ErrorMessageObjectHandleTest::ErrorMessageObjectHandleTest():
+  ObjectHandleTest(hdf5::ObjectHandle::Type::ERROR_MESSAGE)
 {
 
 }
 
-hid_t DatatypeObjectHandleTest::create_object()
+hid_t ErrorMessageObjectHandleTest::create_object()
 {
-  return H5Tcopy(H5T_NATIVE_DOUBLE);
+  hid_t cid = H5Eregister_class("TestError","h5cpp","1.0.0");
+  return H5Ecreate_msg(cid ,H5E_MAJOR,"hello");
 }
+
+ErrorStackObjectHandleTest::ErrorStackObjectHandleTest():
+  ObjectHandleTest(hdf5::ObjectHandle::Type::ERROR_STACK)
+{
+
+}
+
+hid_t ErrorStackObjectHandleTest::create_object()
+{
+  return H5Ecreate_stack();
+}
+
+ErrorClassObjectHandleTest::ErrorClassObjectHandleTest():
+  ObjectHandleTest(hdf5::ObjectHandle::Type::ERROR_CLASS)
+{
+
+}
+
+hid_t ErrorClassObjectHandleTest::create_object()
+{
+  return H5Eregister_class("TestError","h5cpp","1.0.0");
+}
+
+
+
+

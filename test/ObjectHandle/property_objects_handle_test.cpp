@@ -23,14 +23,24 @@
 
 #include "object_handle_test.hpp"
 
-
-DatatypeObjectHandleTest::DatatypeObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATATYPE)
+PropertyListObjectHandleTest::PropertyListObjectHandleTest():
+  ObjectHandleTest(hdf5::ObjectHandle::Type::PROPERTY_LIST)
 {
 
 }
 
-hid_t DatatypeObjectHandleTest::create_object()
+hid_t PropertyListObjectHandleTest::create_object()
 {
-  return H5Tcopy(H5T_NATIVE_DOUBLE);
+  return H5Pcreate(H5P_ATTRIBUTE_CREATE);
+}
+
+PropertyListClassObjectHandleTest::PropertyListClassObjectHandleTest():
+  ObjectHandleTest(hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS)
+{
+
+}
+
+hid_t PropertyListClassObjectHandleTest::create_object()
+{
+  return 0;
 }
