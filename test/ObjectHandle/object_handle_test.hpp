@@ -98,11 +98,9 @@ class DataspaceObjectHandleTest : public ObjectHandleTest
 class GroupObjectHandleTest : public ObjectHandleTest
 {
   private:
-    std::string filename_;
     TestEnvironment environment_;
   public:
     GroupObjectHandleTest(const std::string &filename);
-    ~GroupObjectHandleTest();
 
     virtual hid_t create_object();
 };

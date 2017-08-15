@@ -88,12 +88,18 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
       return nullptr;
   }
 
-  suite->add(BOOST_TEST_CASE(boost::bind(&ObjectHandleTest::test_copy_assignment,test)));
-  suite->add(BOOST_TEST_CASE(boost::bind(&ObjectHandleTest::test_move_assignment,test)));
-  suite->add(BOOST_TEST_CASE(boost::bind(&ObjectHandleTest::test_copy_construction,test)));
-  suite->add(BOOST_TEST_CASE(boost::bind(&ObjectHandleTest::test_move_construction,test)));
-  suite->add(BOOST_TEST_CASE(boost::bind(&ObjectHandleTest::test_increment_reference_count,test)));
-  suite->add(BOOST_TEST_CASE(boost::bind(&ObjectHandleTest::test_decrement_reference_count,test)));
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_assignment,test),
+			    "Copy assignment test"));
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_assignment,test),
+			    "Move assignment test"));
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_construction,test),
+			    "Copy construction test"));
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_construction,test),
+			    "Move construction test"));
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_increment_reference_count,test),
+			    "Test increment reference count"));
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_decrement_reference_count,test),
+			    "Test decrement reference count"));
 
   return suite;
 

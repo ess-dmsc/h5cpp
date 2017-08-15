@@ -26,23 +26,15 @@
 
 GroupObjectHandleTest::GroupObjectHandleTest(const std::string &filename):
   ObjectHandleTest(hdf5::ObjectHandle::Type::GROUP),
-  filename_(filename),
-  environment_(filename_)
+  environment_(filename)
 {
-
-}
-
-GroupObjectHandleTest::~GroupObjectHandleTest()
-{
-
+  H5Gcreate(environment_.file_handle().handle(),"test",
+	    H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
 }
 
 hid_t GroupObjectHandleTest::create_object()
 {
-  environment_.close();
-  environment_ = TestEnvironment(filename_);
-  return H5Gcreate(hid_t(environment_.file_handle().handle()),"test",
-		   H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
+  return H5Gopen(environment_.file_handle().handle(),"test",H5P_DEFAULT);
 }
 
 
