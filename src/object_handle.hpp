@@ -190,7 +190,7 @@ class DLL_EXPORT ObjectHandle
     //! Returns the HDF5 ID of the object. The ID is returned as a 
     //! const reference and thus cannot be altered.
     //! \return HDF5 ID
-    const hid_t &handle() const noexcept;
+    hid_t handle() const noexcept;
         
     //=====================static member functions ====================
     //! 
@@ -277,5 +277,10 @@ bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
 //! \brief output operator for Types
 //!
 std::ostream &operator<<(std::ostream &stream,const ObjectHandle::Type &type);
+
+//!
+//! \brief input operator for object types
+//!
+std::istream &operator>>(std::istream &stream,ObjectHandle::Type &type);
 
 } // namespace hdf5 

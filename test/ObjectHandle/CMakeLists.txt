@@ -1,5 +1,13 @@
 
-set(SOURCE ObjectHandleDefault.cpp)
+set(SOURCE ObjectHandleDefault.cpp
+           object_handle_test.cpp
+           file_object_handle_test.cpp
+           datatype_object_handle_test.cpp
+           dataspace_object_handle_test.cpp
+           group_object_handle_test.cpp
+           dataset_object_handle_test.cpp
+           attribute_object_handle_test.cpp
+           test_environment.cpp)
 
 
 add_executable(ObjectHandleTest ${SOURCE})
