@@ -30,9 +30,9 @@ DatasetObjectHandleTest::DatasetObjectHandleTest(const std::string &filename):
   dtype_(H5Tcopy(H5T_NATIVE_DOUBLE)),
   dspace_(H5Screate(H5S_SCALAR))
 {
-  H5Dcreate(environment_.file_handle().handle(),"test",
-	    dtype_.handle(),
-	    dspace_.handle(),
+  H5Dcreate(static_cast<hid_t>(environment_.file_handle()),"test",
+	    static_cast<hid_t>(dtype_),
+	    static_cast<hid_t>(dspace_),
 	    H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
 }
 
@@ -43,7 +43,7 @@ DatasetObjectHandleTest::~DatasetObjectHandleTest()
 
 hid_t DatasetObjectHandleTest::create_object()
 {
-  return H5Dopen(environment_.file_handle().handle(),"test",H5P_DEFAULT);
+  return H5Dopen(static_cast<hid_t>(environment_.file_handle()),"test",H5P_DEFAULT);
 }
 
 

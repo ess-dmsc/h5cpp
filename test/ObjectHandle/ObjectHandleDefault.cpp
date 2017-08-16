@@ -38,8 +38,6 @@ void test_default_construction()
     BOOST_CHECK(!handle.is_valid());
     BOOST_CHECK_EQUAL(handle.get_type(),hdf5::ObjectHandle::Type::BADOBJECT);
     BOOST_CHECK_THROW(handle.get_reference_count(),std::runtime_error);
-    BOOST_CHECK_THROW(handle.increment_reference_count(),std::runtime_error);
-    BOOST_CHECK_THROW(handle.decrement_reference_count(),std::runtime_error);
     BOOST_CHECK_NO_THROW(handle.close());
   }
 
@@ -96,10 +94,6 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
 			    "Copy construction test"));
   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_construction,test),
 			    "Move construction test"));
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_increment_reference_count,test),
-			    "Test increment reference count"));
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_decrement_reference_count,test),
-			    "Test decrement reference count"));
 
   return suite;
 

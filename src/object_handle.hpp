@@ -42,7 +42,7 @@ namespace hdf5
 //! used to reference a particular object. 
 //!
 //!
-//! The aim of this class is to encapsulate an HDF5 handler and controll 
+//! The aim of this class is to encapsulate an HDF5 handler and control
 //! the reference counting for that handler for copy and move construction
 //! and assignment.
 //! 
@@ -51,7 +51,7 @@ namespace hdf5
 //! * move construction and assignment leaves the reference count unchanged
 //! * closing an object decrements the reference count 
 //! * in addition, the reference count is decreased if the destructor of 
-//! * an instance of ObjectHandle is called 
+//!   an instance of ObjectHandle is called
 //!
 //! From that point of view ObjectHandle could also be considered as a
 //! guard object for a handle which ensures that an object gets closed 
@@ -82,8 +82,34 @@ class DLL_EXPORT ObjectHandle
       ERROR_MESSAGE,
       ERROR_STACK
     };
+
+    enum class Policy
+    {
+      WITH_WARD = 1,
+      WITHOUT_WARD = 2
+    };
   private:
     hid_t handle_; //!< ID of the object
+
+    //------------------------------------------------------------------------
+    //!
+    //! \brief increment reference counter
+    //!
+    //! Increment the reference counter on the current handle if the
+    //! handle is valid.
+    //!
+    //! \throws std::runtime_error if incrementing the reference count fails
+    void increment_reference_count() const;
+
+    //------------------------------------------------------------------------
+    //!
+    //! \brief decrement reference counter
+    //!
+    //! Decrement the reference counter on the current handle if it
+    //! references a valid object.
+    //!
+    //! \throws std::runtime_error if decrementing the reference count fails
+    void decrement_reference_count() const;
   public:
     //================constructors and destructors=====================
     //! 
@@ -115,7 +141,7 @@ class DLL_EXPORT ObjectHandle
     //! \throws std::runtime_error if the passed id is invalid (<0)
     //!
     //! \param id HDF5 object ID.
-    explicit ObjectHandle(hid_t &&id);
+    explicit ObjectHandle(hid_t id,Policy policy=Policy::WITH_WARD);
 
     //-----------------------------------------------------------------
     //! 
@@ -183,14 +209,13 @@ class DLL_EXPORT ObjectHandle
     ObjectHandle &operator=(ObjectHandle &&o) noexcept;
 
 
-    //------------------------------------------------------------------
-    //! 
-    //! \brief return HDF5 id
     //!
-    //! Returns the HDF5 ID of the object. The ID is returned as a 
-    //! const reference and thus cannot be altered.
-    //! \return HDF5 ID
-    hid_t handle() const noexcept;
+    //! \brief conversion operator
+    //! 
+    explicit operator hid_t() const
+    {
+      return handle_;
+    }
         
     //=====================static member functions ====================
     //! 
@@ -225,25 +250,7 @@ class DLL_EXPORT ObjectHandle
     //! \return object type
     ObjectHandle::Type get_type() const;
 
-    //------------------------------------------------------------------------
-    //!
-    //! \brief increment reference counter 
-    //! 
-    //! Increment the reference counter on the current handle if the 
-    //! handle is valid. 
-    //!
-    //! \throws std::runtime_error if incrementing the reference count fails
-    void increment_reference_count() const;
-    
-    //------------------------------------------------------------------------
-    //!
-    //! \brief decrement reference counter 
-    //!
-    //! Decrement the reference counter on the current handle if it  
-    //! references a valid object.
-    //!
-    //! \throws std::runtime_error if decrementing the reference count fails
-    void decrement_reference_count() const;
+
     
     //------------------------------------------------------------------------
     //!
@@ -254,6 +261,12 @@ class DLL_EXPORT ObjectHandle
     //! \return the actual reference count
     int get_reference_count() const;
 
+    //!
+    //! \brief return file handle
+    //!
+    //! Returns a handle to the file this instance belongs to.
+    //! \return instance of ObjectHandle to the file
+    //!
     ObjectHandle get_file() const;
 };
 
@@ -262,16 +275,17 @@ class DLL_EXPORT ObjectHandle
 //! \brief equality operator
 //! 
 //! Two instances of ObjectHandle are considered equal when their internal
-//! have equal value. This is not a sufficient criteria for object equality!
-//! 
+//! representation have equal value. This is not a sufficient criteria for
+//! object equality!
 //! 
 bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
 
 //!
 //! \brief not equal to operator
 //! 
-//! Simply the 
-bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
+//! Simply the inverse of the == operator.
+//!
+bool operator!=(const ObjectHandle &lhs,const ObjectHandle &rhs);
 
 //!
 //! \brief output operator for Types

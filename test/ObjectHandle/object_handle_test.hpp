@@ -58,10 +58,6 @@ class ObjectHandleTest
 
     virtual void test_move_assignment();
 
-    virtual void test_increment_reference_count();
-
-    virtual void test_decrement_reference_count();
-
     hdf5::ObjectHandle::Type get_type() const;
 
 };

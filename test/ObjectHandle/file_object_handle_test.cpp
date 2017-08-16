@@ -28,7 +28,6 @@ FileObjectHandleTest::FileObjectHandleTest(const std::string &filename):
     ObjectHandleTest(hdf5::ObjectHandle::Type::FILE),
     filename_(filename)
 {
-
 }
 
 FileObjectHandleTest::~FileObjectHandleTest()

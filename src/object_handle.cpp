@@ -29,14 +29,18 @@ namespace hdf5
 {
 
 //=================constrcutors and destructors============================
-ObjectHandle::ObjectHandle(hid_t &&id) :handle_(id)
+ObjectHandle::ObjectHandle(hid_t id,ObjectHandle::Policy policy)
+  :handle_(id)
 {
-  if(handle()<0)
+  if(handle_<0)
   {
     std::stringstream ss;
     ss<<"Invalid object handler ("<<id<<")";
     throw std::runtime_error(ss.str());
   }
+
+  if(policy == Policy::WITHOUT_WARD)
+    increment_reference_count();
 }
     
 //-------------------------------------------------------------------------
@@ -98,18 +102,20 @@ ObjectHandle &ObjectHandle::operator=(ObjectHandle &&o) noexcept
 
   return *this;
 }
+
+
    
 //=============basic manipulation methods==================================
 bool ObjectHandle::is_valid() const 
 {
-  if(handle()==0) return false;
+  if(handle_==0) return false;
 
-  htri_t value = H5Iis_valid(handle());
+  htri_t value = H5Iis_valid(handle_);
   
   if(value < 0)
   {
     std::stringstream ss;
-    ss<<"Could not retrieve validity status for handle ("<<handle()<<")";
+    ss<<"Could not retrieve validity status for handle ("<<handle_<<")";
     throw std::runtime_error(ss.str());
   }
 
@@ -136,28 +142,31 @@ void ObjectHandle::close()
     switch(get_type())
     {
       case ObjectHandle::Type::DATASPACE: 
-        error_code = H5Sclose(handle());
+        error_code = H5Sclose(handle_);
         break;
       case ObjectHandle::Type::ATTRIBUTE:
-        error_code = H5Aclose(handle());
+        error_code = H5Aclose(handle_);
         break;
       case ObjectHandle::Type::FILE:
-        error_code = H5Fclose(handle());
+        error_code = H5Fclose(handle_);
         break;
       case ObjectHandle::Type::PROPERTY_LIST:
-        error_code = H5Pclose(handle());
+        error_code = H5Pclose(handle_);
         break;
+      case ObjectHandle::Type::PROPERTY_LIST_CLASS:
+	error_code = H5Pclose_class(handle_);
+	break;
       case ObjectHandle::Type::ERROR_MESSAGE:
-        error_code = H5Eclose_msg(handle());
+        error_code = H5Eclose_msg(handle_);
         break;
       case ObjectHandle::Type::ERROR_STACK:
-        error_code = H5Eclose_stack(handle());
+        error_code = H5Eclose_stack(handle_);
         break;
       case ObjectHandle::Type::ERROR_CLASS:
-        error_code = H5Eunregister_class(handle());
+        error_code = H5Eunregister_class(handle_);
         break;
       default:
-        error_code = H5Oclose(handle());
+        error_code = H5Oclose(handle_);
     }
 
     if(error_code<0)
@@ -165,7 +174,7 @@ void ObjectHandle::close()
       //TODO: maybe we should add here an entry to the error stack
       std::stringstream ss;
       ss<<"Could not close object of type "<<get_type()<<"with handle "
-        <<"("<<handle()<<")!";
+        <<"("<<handle_<<")!";
       throw std::runtime_error(ss.str());
     }
   }
@@ -256,12 +265,6 @@ int ObjectHandle::get_reference_count() const
   return ref_cnt;
 }
 
-//-------------------------------------------------------------------------
-hid_t ObjectHandle::handle() const noexcept
-{ 
-  return handle_; 
-}
-
 //=============comparison operators========================================
 //implementation of equality check
 bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs)
@@ -269,7 +272,7 @@ bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs)
   //if one of the object is not valid they are considered as in not-equal
   if((!rhs.is_valid()) || (!lhs.is_valid())) return false;
   
-  return lhs.handle()==rhs.handle();
+  return static_cast<hid_t>(lhs)==static_cast<hid_t>(rhs);
 }
 
 //-------------------------------------------------------------------------
