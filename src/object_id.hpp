@@ -23,40 +23,35 @@
 //
 #pragma once
 
-#include <object_id.hpp>
-#include <map>
-#include <mutex>
+extern "C" {
+#include <hdf5.h>
+}
+
+#include <string>
+#include <sstream>
 
 namespace hdf5
 {
 
-class Context
+class ObjectId
 {
   public:
-    void open(const hid_t&);
-    bool is_open(const hid_t&) const;
-    void close(const hid_t&);
+    ObjectId();
+    ObjectId(hid_t object);
+
+    bool operator== (const ObjectId& other) const;
+    bool operator< (const ObjectId& other) const;
+
+    friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+
+    std::string   file_name() const;
+    unsigned long file_number() const;
+    haddr_t       object_address() const;
 
   private:
-    mutable std::mutex mutex_;
-    std::map<id, hid_t> objects_;
-
-    void close(const id&);
-
-    //singleton assurance
-  public:
-    static Context& singleton()
-    {
-      static Context singleton_instance;
-      return singleton_instance;
-    }
-
-    Context(Context const&)         = delete;
-    void operator=(Context const&)  = delete;
-
-  private:
-    Context() {}
-    ~Context();
+    std::string   file_name_;
+    unsigned long file_num_ {0};
+    haddr_t       obj_addr_ {0};
 };
 
 
