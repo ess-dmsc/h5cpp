@@ -20,33 +20,41 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 07, 2017
+// Created on: Aug 15, 2017
 //
 
-#include "object_handle_test.hpp"
+#include "datatype.hpp"
 
-DatasetObjectHandleTest::DatasetObjectHandleTest(const std::string &filename):
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATASET),
-  filename_(filename),
-  environment_(filename_),
-  dtype_(H5Tcopy(H5T_NATIVE_DOUBLE)),
-  dspace_(H5Screate(H5S_SCALAR))
-{
-  H5Dcreate(static_cast<hid_t>(environment_.file_handle()),"test",
-	    static_cast<hid_t>(dtype_),
-	    static_cast<hid_t>(dspace_),
-	    H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
-}
 
-DatasetObjectHandleTest::~DatasetObjectHandleTest()
+namespace hdf5 {
+
+Datatype Datatype::create(Datatype::Class type_class,size_t size)
 {
 
+  return Datatype();
 }
 
-hid_t DatasetObjectHandleTest::create_object()
+template<>
+Datatype Datatype::create<double>()
 {
-  return H5Dopen(static_cast<hid_t>(environment_.file_handle()),"test",H5P_DEFAULT);
+  return Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_DOUBLE)));
+}
+
+template<>
+Datatype Datatype::create<float>()
+{
+  return Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+}
+
+template<>
+Datatype Datatype::create<long double>()
+{
+  return Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
 }
 
 
+Datatype::Datatype(ObjectHandle &&handle):
+      handle_(std::move(handle))
+{}
 
+} // namespace hdf5
