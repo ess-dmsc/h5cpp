@@ -54,6 +54,13 @@ BOOST_AUTO_TEST_SUITE(PropertyListClassTest)
     BOOST_CHECK_EQUAL(pl::kObjectCreate.name(),"object create");
     BOOST_CHECK_EQUAL(pl::kStringCreate.name(),"string create");
   }
+
+  BOOST_AUTO_TEST_CASE(test_equality_operator)
+  {
+    BOOST_CHECK(pl::kAttributeCreate == pl::kAttributeCreate);
+    BOOST_CHECK(pl::kAttributeCreate != pl::kFileAccess);
+
+  }
 BOOST_AUTO_TEST_SUITE_END()
 
 
