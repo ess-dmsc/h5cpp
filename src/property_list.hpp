@@ -25,6 +25,8 @@
 
 #pragma once
 
+#include <type_traits>
+#include <boost/filesystem.hpp>
 extern "C" {
 #include <hdf5.h>
 }
@@ -79,16 +81,100 @@ class FileAccess : public List
     FileAccess();
 };
 
+class LinkCreationOrder
+{
+  public:
+    LinkCreationOrder();
+    LinkCreationOrder(const LinkCreationOrder &c)=default;
+    explicit LinkCreationOrder(unsigned value);
+
+    LinkCreationOrder &enable_tracked();
+    LinkCreationOrder &disable_tracked();
+    LinkCreationOrder &enable_indexed();
+    LinkCreationOrder &disable_indexed();
+
+    bool tracked() const;
+    bool indexed() const;
+
+    operator unsigned() const
+    {
+      unsigned result = 0;
+      if(tracked_) result|=H5P_CRT_ORDER_TRACKED;
+
+      if(indexed_) result|=H5P_CRT_ORDER_INDEXED;
+
+      return result;
+
+    }
+
+  private:
+    unsigned tracked_:1;
+    unsigned indexed_:1;
+    unsigned reserved_:sizeof(unsigned)-2;
+
+};
+
 class GroupCreation : public List
 {
-public:
-  GroupCreation();
+  public:
+    GroupCreation();
 
+    size_t local_heap_size_hint() const;
+    void local_heap_size_hint(size_t size) const;
+
+    unsigned estimated_number_of_links() const;
+    void estimated_number_of_links(unsigned nlinks) const;
+
+    unsigned estimated_link_name_length() const;
+    void estimated_link_name_length(unsigned name_length) const;
+
+    void link_creation_order(LinkCreationOrder order) const;
+    LinkCreationOrder link_creation_order() const;
+
+    void maximum_links_for_compact_group(unsigned nlinks) const;
+    unsigned maximum_links_for_compact_group() const;
+
+    void minimum_links_for_dense_group(unsigned nlinks) const;
+    unsigned minimum_links_for_dense_group() const;
+
+
+  private:
+
+    void set_estimated_link_info_(unsigned nlinks,unsigned name_length,
+                                  const std::string &error_message) const;
+    void get_estimated_link_info_(unsigned &nlinks,unsigned &name_length,
+                                  const std::string &error_message) const;
+
+    void set_link_phase_change_(unsigned max_links,unsigned min_links,
+                                const std::string &error_message) const;
+    void get_link_phase_change_(unsigned &max_links,unsigned &min_links,
+                                const std::string &error_message) const;
 
 };
 
 class GroupAccess : public List
 {
+  public:
+    GroupAccess();
+
+};
+
+class LinkCreation : public List
+{
+  public:
+    LinkCreation();
+};
+
+class LinkAccess : public List
+{
+  public:
+    LinkAccess();
+
+    size_t nlinks() const;
+    void nlinks(size_t size) const;
+
+    boost::filesystem::path external_link_prefix() const;
+    void external_link_prefix(const boost::filesystem::path &path) const;
 
 };
 
