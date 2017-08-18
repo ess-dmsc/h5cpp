@@ -1,3 +1,4 @@
+
 //
 // (c) Copyright 2017 DESY,ESS
 //
@@ -25,22 +26,22 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Testing object creation property list implementation
 #include <boost/test/unit_test.hpp>
-#include <property_list.hpp>
-#include <property_list_class.hpp>
+#include <h5cpp/property/object_creation_list.hpp>
+#include <h5cpp/property/class.hpp>
 
-namespace pl = hdf5::property_list;
+namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(ObjectCreationTest)
+BOOST_AUTO_TEST_SUITE(ObjectCreationListTest)
 
   BOOST_AUTO_TEST_CASE(default_construction)
   {
-    pl::ObjectCreation ocpl;
+    pl::ObjectCreationList ocpl;
     BOOST_CHECK(ocpl.get_class()==pl::kObjectCreate);
   }
 
   BOOST_AUTO_TEST_CASE(test_time_tracking)
   {
-    pl::ObjectCreation ocpl;
+    pl::ObjectCreationList ocpl;
     BOOST_CHECK_NO_THROW(ocpl.enable_time_tracking());
     BOOST_CHECK(ocpl.time_tracking());
 
@@ -50,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(ObjectCreationTest)
 
   BOOST_AUTO_TEST_CASE(test_attribute_creation_order)
   {
-    pl::ObjectCreation ocpl;
+    pl::ObjectCreationList ocpl;
 
     BOOST_CHECK_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()));
     BOOST_CHECK(ocpl.attribute_creation_order().tracked());
@@ -63,7 +64,7 @@ BOOST_AUTO_TEST_SUITE(ObjectCreationTest)
 
   BOOST_AUTO_TEST_CASE(test_attribute_storage_threshold)
   {
-    pl::ObjectCreation ocpl;
+    pl::ObjectCreationList ocpl;
     BOOST_CHECK_NO_THROW(ocpl.attribute_storage_thresholds(100,50));
     BOOST_CHECK_EQUAL(ocpl.attribute_storage_maximum_compact(),100);
     BOOST_CHECK_EQUAL(ocpl.attribute_storage_minimum_dense(),50);

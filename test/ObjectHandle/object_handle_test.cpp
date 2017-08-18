@@ -23,9 +23,10 @@
 // Created on: Aug 14, 2017
 //
 
+#include "../../src/include/h5cpp/object_handle.hpp"
+
 #include <boost/test/unit_test.hpp>
 #include <boost/bind.hpp>
-#include <object_handle.hpp>
 #include "object_handle_test.hpp"
 
 ObjectHandleTest::ObjectHandleTest(hdf5::ObjectHandle::Type type):

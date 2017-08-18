@@ -1,3 +1,4 @@
+
 //
 // (c) Copyright 2017 DESY,ESS
 //
@@ -23,10 +24,10 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Testing property list class implementation
 #include <boost/test/unit_test.hpp>
-#include <property_list_class.hpp>
-#include <object_handle.hpp>
+#include <h5cpp/property/class.hpp>
+#include <h5cpp/object_handle.hpp>
 
-namespace pl = hdf5::property_list;
+namespace pl = hdf5::property;
 
 BOOST_AUTO_TEST_SUITE(PropertyListClassTest)
 

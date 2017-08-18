@@ -28,7 +28,7 @@
 extern "C"{
 #include<hdf5.h>
 }
-#include "object_handle.hpp"
+#include "include/h5cpp/object_handle.hpp"
 
 
 namespace hdf5{

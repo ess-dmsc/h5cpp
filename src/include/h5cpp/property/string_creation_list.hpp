@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,18 +20,35 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 17, 2017
+// Created on: Aug 18, 2017
 //
+#pragma once
 
-#include "property_list.hpp"
-#include "property_list_class.hpp"
+#include "list.hpp"
+#include "../type/types.hpp"
 
-namespace hdf5 {
-namespace property_list {
+namespace hdf5{
+namespace property{
 
-  FileAccess::FileAccess():
-      List(kFileAccess)
-  {}
+class StringCreationList : public List
+{
+  public:
+    //!
+    //! \brief constructor
+    //!
+    StringCreationList();
 
-} // namespace property_list
-} // namespace hdf5
+    //!
+    //! \brief destructor
+    //!
+    virtual ~StringCreationList();
+
+    CharacterEncoding character_encoding() const;
+    void character_encoding(CharacterEncoding encoding) const;
+
+  protected:
+    StringCreation(const Class &plist_class);
+};
+
+}
+}

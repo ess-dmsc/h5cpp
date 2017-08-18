@@ -1,3 +1,4 @@
+
 //
 // (c) Copyright 2017 DESY,ESS
 //
@@ -25,7 +26,7 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/bind.hpp>
-#include <object_handle.hpp>
+#include "../../src/include/h5cpp/object_handle.hpp"
 #include <vector>
 #include <string>
 

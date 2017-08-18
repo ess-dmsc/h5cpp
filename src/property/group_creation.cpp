@@ -23,17 +23,18 @@
 // Created on: Aug 17, 2017
 //
 
-#include "property_list.hpp"
-#include "property_list_class.hpp"
+#include <stdexcept>
+#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/group_creation_list.hpp>
 
 namespace hdf5 {
-namespace property_list {
+namespace property {
 
 //=============================================================================
 // private member function implementation
 //=============================================================================
 
-void GroupCreation::set_estimated_link_info_(unsigned nlinks,
+void GroupCreationList::set_estimated_link_info_(unsigned nlinks,
                                              unsigned name_length,
                                              const std::string &error_message) const
 {
@@ -44,7 +45,7 @@ void GroupCreation::set_estimated_link_info_(unsigned nlinks,
 }
 
 //============================================================================
-void GroupCreation::get_estimated_link_info_(unsigned &nlinks,
+void GroupCreationList::get_estimated_link_info_(unsigned &nlinks,
                                              unsigned &name_length,
                                              const std::string &error_message) const
 {
@@ -55,7 +56,7 @@ void GroupCreation::get_estimated_link_info_(unsigned &nlinks,
 }
 
 //============================================================================
-void GroupCreation::set_link_phase_change_(unsigned max_links,
+void GroupCreationList::set_link_phase_change_(unsigned max_links,
                                            unsigned min_links,
                                            const std::string &error_message) const
 {
@@ -66,7 +67,7 @@ void GroupCreation::set_link_phase_change_(unsigned max_links,
 }
 
 //============================================================================
-void GroupCreation::get_link_phase_change_(unsigned &max_links,
+void GroupCreationList::get_link_phase_change_(unsigned &max_links,
                                            unsigned &min_links,
                                            const std::string &error_message) const
 {
@@ -80,12 +81,12 @@ void GroupCreation::get_link_phase_change_(unsigned &max_links,
 // public member function implementation
 //=============================================================================
 
-GroupCreation::GroupCreation():
+GroupCreationList::GroupCreationList():
         List(kGroupCreate)
 {}
 
 //============================================================================
-size_t GroupCreation::local_heap_size_hint() const
+size_t GroupCreationList::local_heap_size_hint() const
 {
   size_t buffer = 0;
   if(H5Pget_local_heap_size_hint(static_cast<hid_t>(*this),&buffer)<0)
@@ -97,7 +98,7 @@ size_t GroupCreation::local_heap_size_hint() const
 }
 
 //============================================================================
-void GroupCreation::local_heap_size_hint(size_t size) const
+void GroupCreationList::local_heap_size_hint(size_t size) const
 {
   if(H5Pset_local_heap_size_hint(static_cast<hid_t>(*this),size)<0)
   {
@@ -107,7 +108,7 @@ void GroupCreation::local_heap_size_hint(size_t size) const
 }
 
 //============================================================================
-unsigned GroupCreation::estimated_number_of_links () const
+unsigned GroupCreationList::estimated_number_of_links () const
 {
   unsigned nlinks = 0,
            name_length = 0;
@@ -118,7 +119,7 @@ unsigned GroupCreation::estimated_number_of_links () const
 }
 
 //============================================================================
-void GroupCreation::estimated_number_of_links (unsigned nlinks) const
+void GroupCreationList::estimated_number_of_links (unsigned nlinks) const
 {
   std::string error_message = "Failure to set the estimated number of links "
                               " for group creation property list!";
@@ -126,7 +127,7 @@ void GroupCreation::estimated_number_of_links (unsigned nlinks) const
 }
 
 //============================================================================
-unsigned GroupCreation::estimated_link_name_length() const
+unsigned GroupCreationList::estimated_link_name_length() const
 {
   unsigned nlinks=0,
            name_length=0;
@@ -137,7 +138,7 @@ unsigned GroupCreation::estimated_link_name_length() const
 }
 
 //============================================================================
-void GroupCreation::estimated_link_name_length (unsigned name_length) const
+void GroupCreationList::estimated_link_name_length (unsigned name_length) const
 {
   std::string error_message = "Failure setting the estimated linke name length"
                               " for group creation property list!";
@@ -146,7 +147,7 @@ void GroupCreation::estimated_link_name_length (unsigned name_length) const
 }
 
 //============================================================================
-void GroupCreation::link_creation_order(CreationOrder order) const
+void GroupCreationList::link_creation_order(CreationOrder order) const
 {
   if(H5Pset_link_creation_order(static_cast<hid_t>(*this),order)<0)
   {
@@ -157,7 +158,7 @@ void GroupCreation::link_creation_order(CreationOrder order) const
 }
 
 //============================================================================
-CreationOrder GroupCreation::link_creation_order() const
+CreationOrder GroupCreationList::link_creation_order() const
 {
   unsigned order;
   if(H5Pget_link_creation_order(static_cast<hid_t>(*this),&order)<0)
@@ -171,7 +172,7 @@ CreationOrder GroupCreation::link_creation_order() const
 }
 
 //============================================================================
-void GroupCreation::maximum_links_for_compact_group(unsigned nlinks) const
+void GroupCreationList::maximum_links_for_compact_group(unsigned nlinks) const
 {
   std::string error_message = "Failure to set the number of maximum links "
       "for compact groups in a group creation property list!";
@@ -179,7 +180,7 @@ void GroupCreation::maximum_links_for_compact_group(unsigned nlinks) const
 }
 
 //============================================================================
-unsigned GroupCreation::maximum_links_for_compact_group() const
+unsigned GroupCreationList::maximum_links_for_compact_group() const
 {
   unsigned max_links = 0,
            min_links = 0;
@@ -190,7 +191,7 @@ unsigned GroupCreation::maximum_links_for_compact_group() const
 }
 
 //============================================================================
-void GroupCreation::minimum_links_for_dense_group(unsigned nlinks) const
+void GroupCreationList::minimum_links_for_dense_group(unsigned nlinks) const
 {
   std::string error_message = "Failure to set the minimum number of links "
       "for dense groups in a group creation property list!";
@@ -198,7 +199,7 @@ void GroupCreation::minimum_links_for_dense_group(unsigned nlinks) const
 }
 
 //============================================================================
-unsigned GroupCreation::minimum_links_for_dense_group() const
+unsigned GroupCreationList::minimum_links_for_dense_group() const
 {
   unsigned max_links = 0,
            min_links = 0;
@@ -209,5 +210,5 @@ unsigned GroupCreation::minimum_links_for_dense_group() const
 
 }
 
-} // namespace property_list
+} // namespace property
 } // namespace hdf5

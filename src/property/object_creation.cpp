@@ -23,17 +23,17 @@
 // Created on: Aug 17, 2017
 //
 
-#include "property_list.hpp"
-#include "property_list_class.hpp"
+#include <stdexcept>
+#include <h5cpp/property/object_creation_list.hpp>
 
 namespace hdf5 {
-namespace property_list {
+namespace property {
 
 //============================================================================
 // implementation of private member functions
 //============================================================================
 
-void ObjectCreation::get_attribute_phase_change_(unsigned &max_compact,
+void ObjectCreationList::get_attribute_phase_change_(unsigned &max_compact,
                                                  unsigned &min_dense,
                                                  const std::string &error_message) const
 {
@@ -47,21 +47,21 @@ void ObjectCreation::get_attribute_phase_change_(unsigned &max_compact,
 // implementation of protected member functions
 //============================================================================
 
-ObjectCreation::ObjectCreation(const Class &plist_class):
+ObjectCreationList::ObjectCreationList(const Class &plist_class):
     List(plist_class)
 {}
 
 //============================================================================
 // implementation of public member functions
 //============================================================================
-ObjectCreation::ObjectCreation():
+ObjectCreationList::ObjectCreationList():
     List(kObjectCreate)
 {}
 
-ObjectCreation::~ObjectCreation()
+ObjectCreationList::~ObjectCreationList()
 {}
 
-void ObjectCreation::enable_create_intermediate_group() const
+void ObjectCreationList::enable_create_intermediate_group() const
 {
   if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),1)<0)
   {
@@ -69,7 +69,7 @@ void ObjectCreation::enable_create_intermediate_group() const
   }
 }
 
-void ObjectCreation::disable_create_intermediate_group() const
+void ObjectCreationList::disable_create_intermediate_group() const
 {
   if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),-1)<0)
   {
@@ -77,7 +77,7 @@ void ObjectCreation::disable_create_intermediate_group() const
   }
 }
 
-bool ObjectCreation::create_intermediate_group() const
+bool ObjectCreationList::create_intermediate_group() const
 {
   unsigned buffer=0;
   if(H5Pget_create_intermediate_group(static_cast<hid_t>(*this),&buffer)<0)
@@ -91,7 +91,7 @@ bool ObjectCreation::create_intermediate_group() const
     return false;
 }
 
-void ObjectCreation::enable_time_tracking() const
+void ObjectCreationList::enable_time_tracking() const
 {
   if(H5Pset_obj_track_times(static_cast<hid_t>(*this),1)<0)
   {
@@ -99,7 +99,7 @@ void ObjectCreation::enable_time_tracking() const
   }
 }
 
-void ObjectCreation::disable_time_tracking() const
+void ObjectCreationList::disable_time_tracking() const
 {
   if(H5Pset_obj_track_times(static_cast<hid_t>(*this),0)<0)
   {
@@ -107,7 +107,7 @@ void ObjectCreation::disable_time_tracking() const
   }
 }
 
-bool ObjectCreation::time_tracking() const
+bool ObjectCreationList::time_tracking() const
 {
   unsigned buffer = 0;
   if(H5Pget_obj_track_times(static_cast<hid_t>(*this),&buffer))
@@ -120,7 +120,7 @@ bool ObjectCreation::time_tracking() const
     return false;
 }
 
-void ObjectCreation::attribute_creation_order(const CreationOrder &order) const
+void ObjectCreationList::attribute_creation_order(const CreationOrder &order) const
 {
   if(H5Pset_attr_creation_order(static_cast<hid_t>(*this),order)<0)
   {
@@ -128,7 +128,7 @@ void ObjectCreation::attribute_creation_order(const CreationOrder &order) const
   }
 }
 
-CreationOrder ObjectCreation::attribute_creation_order() const
+CreationOrder ObjectCreationList::attribute_creation_order() const
 {
   unsigned buffer = 0;
   if(H5Pget_attr_creation_order(static_cast<hid_t>(*this),&buffer)<0)
@@ -139,7 +139,7 @@ CreationOrder ObjectCreation::attribute_creation_order() const
   return CreationOrder(buffer);
 }
 
-void ObjectCreation::attribute_storage_thresholds(unsigned max_compact,unsigned min_dense) const
+void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact,unsigned min_dense) const
 {
   if(H5Pset_attr_phase_change(static_cast<hid_t>(*this),max_compact,min_dense)<0)
     {
@@ -149,7 +149,7 @@ void ObjectCreation::attribute_storage_thresholds(unsigned max_compact,unsigned 
 
 }
 
-unsigned ObjectCreation::attribute_storage_maximum_compact() const
+unsigned ObjectCreationList::attribute_storage_maximum_compact() const
 {
   unsigned max_compact = 0,
            min_dense = 0;
@@ -160,7 +160,7 @@ unsigned ObjectCreation::attribute_storage_maximum_compact() const
   return max_compact;
 }
 
-unsigned ObjectCreation::attribute_storage_minimum_dense() const
+unsigned ObjectCreationList::attribute_storage_minimum_dense() const
 {
   unsigned max_compact = 0,
            min_dense = 0;
@@ -172,5 +172,5 @@ unsigned ObjectCreation::attribute_storage_minimum_dense() const
 }
 
 
-} // namespace property_list
+} // namespace property
 } // namespace hdf5

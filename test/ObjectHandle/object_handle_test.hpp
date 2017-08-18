@@ -24,8 +24,9 @@
 //
 #pragma once
 
+#include "../../src/include/h5cpp/object_handle.hpp"
+
 #include <boost/test/unit_test.hpp>
-#include <object_handle.hpp>
 extern "C"{
 #include<hdf5.h>
 }

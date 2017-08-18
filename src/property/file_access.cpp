@@ -20,42 +20,18 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Aug 17, 2017
 //
 
-
-#include "property_list.hpp"
-#include "property_list_class.hpp"
+#include <h5cpp/property/file_access_list.hpp>
+#include <h5cpp/property/class.hpp>
 
 namespace hdf5 {
-namespace property_list {
+namespace property {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
-{
-}
+  FileAccessList::FileAccessList():
+      List(kFileAccess)
+  {}
 
-List::List(const List &plist):
-          handle_(H5Pcopy(static_cast<hid_t>(plist.handle_)))
-{
-}
-
-List::~List()
-{
-}
-
-void List::close()
-{
-  handle_.close();
-}
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
-
-
-} // namespace property_list
+} // namespace property
 } // namespace hdf5
-
-

@@ -23,17 +23,18 @@
 // Created on: Aug 16, 2017
 //
 
+#include <h5cpp/property/class.hpp>
+
 #include <iterator>
 #include <string>
 #include <cctype>
 #include <iostream>
 #include <cstring>
 #include <stdexcept>
-#include "property_list_class.hpp"
 
 
 namespace hdf5{
-namespace property_list{
+namespace property{
 
 Class::Class(ObjectHandle &&handle):
     handle_(handle)

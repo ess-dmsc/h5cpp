@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,32 +20,20 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 17, 2017
+// Created on: Aug 18, 2017
 //
+#pragma once
 
-#include "property_list.hpp"
-#include "property_list_class.hpp"
+#include "list.hpp"
 
 namespace hdf5 {
-namespace property_list {
+namespace property {
 
-GroupAccess::GroupAccess():
-    List(kGroupAccess)
+class FileAccessList : public List
 {
-}
+  public:
+    FileAccessList();
+};
 
-void GroupAccess::collective_metadata_io(bool value) const
-{
-  hbool_t is_collective = 0;
-  if(value)
-    is_collective = 1;
-
-}
-
-bool GroupAccess::collective_metadata_io() const
-{
-
-}
-
-} // namespace property_list
+} // namespace property
 } // namespace hdf5

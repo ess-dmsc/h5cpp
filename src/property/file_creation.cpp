@@ -24,17 +24,18 @@
 //
 
 #include <stdexcept>
-#include "property_list.hpp"
+
+#include <h5cpp/property/file_creation_list.hpp>
 
 namespace hdf5 {
-namespace property_list {
+namespace property{
 
-FileCreation::FileCreation():
+FileCreationList::FileCreationList():
     List(kFileCreate)
 {
 }
 
-hsize_t FileCreation::userblock() const
+hsize_t FileCreationList::userblock() const
 {
   hsize_t buffer;
   if(H5Pget_userblock(static_cast<hid_t>(*this),&buffer)<0)
@@ -44,7 +45,7 @@ hsize_t FileCreation::userblock() const
   return buffer;
 }
 
-void FileCreation::userblock(hsize_t size) const
+void FileCreationList::userblock(hsize_t size) const
 {
   if(H5Pset_userblock(static_cast<hid_t>(*this),size)<0)
   {
@@ -52,7 +53,7 @@ void FileCreation::userblock(hsize_t size) const
   }
 }
 
-void FileCreation::object_offset_size(size_t size) const
+void FileCreationList::object_offset_size(size_t size) const
 {
   if(H5Pset_sizes(static_cast<hid_t>(*this),size,object_length_size())<0)
   {
@@ -60,7 +61,7 @@ void FileCreation::object_offset_size(size_t size) const
   }
 }
 
-size_t FileCreation::object_offset_size() const
+size_t FileCreationList::object_offset_size() const
 {
   size_t offset_size = 0,
          length_size = 0;
@@ -73,7 +74,7 @@ size_t FileCreation::object_offset_size() const
   return offset_size;
 }
 
-void FileCreation::object_length_size(size_t size) const
+void FileCreationList::object_length_size(size_t size) const
 {
   if(H5Pset_sizes(static_cast<hid_t>(*this),object_offset_size(),size)<0)
   {
@@ -81,7 +82,7 @@ void FileCreation::object_length_size(size_t size) const
   }
 }
 
-size_t FileCreation::object_length_size() const
+size_t FileCreationList::object_length_size() const
 {
   size_t offset_size = 0,
          length_size = 0;
@@ -94,5 +95,5 @@ size_t FileCreation::object_length_size() const
   return length_size;
 }
 
-} // namespace property_list
+} // namespace property
 } // namespace hdf5

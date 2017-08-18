@@ -23,63 +23,29 @@
 // Created on: Aug 17, 2017
 //
 
-#include "property_list.hpp"
+#include <h5cpp/property/group_access_list.hpp>
+#include <h5cpp/property/class.hpp>
 
 namespace hdf5 {
-namespace property_list {
+namespace property {
 
-CreationOrder::CreationOrder():
-  tracked_(0),
-  indexed_(0),
-  reserved_(0)
+GroupAccessList::GroupAccessList():
+    List(kGroupAccess)
+{
+}
+
+void GroupAccessList::collective_metadata_io(bool value) const
+{
+  hbool_t is_collective = 0;
+  if(value)
+    is_collective = 1;
+
+}
+
+bool GroupAccessList::collective_metadata_io() const
 {
 
 }
 
-CreationOrder::CreationOrder(unsigned value):
-  tracked_(0),
-  indexed_(0),
-  reserved_(0)
-{
-  tracked_ = value & H5P_CRT_ORDER_TRACKED;
-  indexed_ = (value & H5P_CRT_ORDER_INDEXED) >> 1;
-}
-
-CreationOrder &CreationOrder::enable_tracked()
-{
-  tracked_=1;
-  return *this;
-}
-
-CreationOrder &CreationOrder::disable_tracked()
-{
-  tracked_=0;
-  return *this;
-}
-
-CreationOrder &CreationOrder::enable_indexed()
-{
-  tracked_=1;
-  indexed_=1;
-  return *this;
-}
-
-CreationOrder &CreationOrder::disable_indexed()
-{
-  indexed_=0;
-  return *this;
-}
-
-bool CreationOrder::tracked() const
-{
-  return tracked_;
-}
-
-bool CreationOrder::indexed() const
-{
-  return indexed_;
-}
-
-
-} // namespace property_list
+} // namespace property
 } // namespace hdf5

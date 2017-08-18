@@ -1,3 +1,4 @@
+
 //
 // (c) Copyright 2017 DESY,ESS
 //
@@ -25,9 +26,9 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE testing LinkCreationOrder implementation
 #include <boost/test/unit_test.hpp>
-#include <property_list.hpp>
+#include <h5cpp/property/creation_order.hpp>
 
-namespace pl = hdf5::property_list;
+namespace pl = hdf5::property;
 
 BOOST_AUTO_TEST_SUITE(LinkCreationOrderTest)
 

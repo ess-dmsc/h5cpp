@@ -27,11 +27,11 @@
 extern "C"{
 #include <hdf5.h>
 }
-#include "object_handle.hpp"
+#include "../object_handle.hpp"
 
 
 namespace hdf5{
-namespace property_list{
+namespace property{
 
 //!
 //! \brief property list class
@@ -100,5 +100,5 @@ extern const Class kObjectCreate;
 extern const Class kStringCreate;
 
 
-} // namespace property_list
+} // namespace property
 } // namespace hdf5

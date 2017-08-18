@@ -1,3 +1,4 @@
+
 //
 // (c) Copyright 2017 DESY,ESS
 //
@@ -25,21 +26,22 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE testing group creation property list implementation
 #include <boost/test/unit_test.hpp>
-#include <property_list.hpp>
+#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/property/class.hpp>
 
-namespace pl = hdf5::property_list;
+namespace pl = hdf5::property;
 
 BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   BOOST_AUTO_TEST_CASE(test_construction)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK(gcpl.get_class()==pl::kGroupCreate);
   }
 
   BOOST_AUTO_TEST_CASE(test_local_heap_size_hint)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK_NO_THROW(gcpl.local_heap_size_hint(1024));
     BOOST_CHECK_EQUAL(gcpl.local_heap_size_hint(),1024);
 
@@ -49,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   BOOST_AUTO_TEST_CASE(test_estimated_number_of_links)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK_NO_THROW(gcpl.estimated_number_of_links(10));
     BOOST_CHECK_EQUAL(gcpl.estimated_number_of_links(),10);
     BOOST_CHECK_NO_THROW(gcpl.estimated_number_of_links(33));
@@ -59,7 +61,7 @@ BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   BOOST_AUTO_TEST_CASE(test_estimated_link_name_length)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK_NO_THROW(gcpl.estimated_link_name_length(100));
     BOOST_CHECK_EQUAL(gcpl.estimated_link_name_length(),100);
 
@@ -69,7 +71,7 @@ BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   BOOST_AUTO_TEST_CASE(test_link_creation_order)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK_NO_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_indexed()));
     pl::CreationOrder flags = gcpl.link_creation_order();
     BOOST_CHECK(flags.tracked());
@@ -84,7 +86,7 @@ BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   BOOST_AUTO_TEST_CASE(test_maximum_links_for_compact_group)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK_NO_THROW(gcpl.maximum_links_for_compact_group(100));
     BOOST_CHECK_EQUAL(gcpl.maximum_links_for_compact_group(),100);
 
@@ -94,7 +96,7 @@ BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   BOOST_AUTO_TEST_CASE(test_minimum_links_for_dense_group)
   {
-    pl::GroupCreation gcpl;
+    pl::GroupCreationList gcpl;
     BOOST_CHECK_NO_THROW(gcpl.minimum_links_for_dense_group(5));
     BOOST_CHECK_EQUAL(gcpl.minimum_links_for_dense_group(),5);
 
