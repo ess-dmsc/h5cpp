@@ -20,42 +20,66 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Aug 17, 2017
 //
 
-
 #include "property_list.hpp"
-#include "property_list_class.hpp"
 
 namespace hdf5 {
 namespace property_list {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
+CreationOrder::CreationOrder():
+  tracked_(0),
+  indexed_(0),
+  reserved_(0)
 {
+
 }
 
-List::List(const List &plist):
-          handle_(H5Pcopy(static_cast<hid_t>(plist.handle_)))
+CreationOrder::CreationOrder(unsigned value):
+  tracked_(0),
+  indexed_(0),
+  reserved_(0)
 {
+  tracked_ = value & H5P_CRT_ORDER_TRACKED;
+  indexed_ = (value & H5P_CRT_ORDER_INDEXED) >> 1;
 }
 
-List::~List()
+CreationOrder &CreationOrder::enable_tracked()
 {
+  tracked_=1;
+  return *this;
 }
 
-void List::close()
+CreationOrder &CreationOrder::disable_tracked()
 {
-  handle_.close();
+  tracked_=0;
+  return *this;
 }
 
-Class List::get_class() const
+CreationOrder &CreationOrder::enable_indexed()
 {
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
+  tracked_=1;
+  indexed_=1;
+  return *this;
+}
+
+CreationOrder &CreationOrder::disable_indexed()
+{
+  indexed_=0;
+  return *this;
+}
+
+bool CreationOrder::tracked() const
+{
+  return tracked_;
+}
+
+bool CreationOrder::indexed() const
+{
+  return indexed_;
 }
 
 
 } // namespace property_list
 } // namespace hdf5
-
-

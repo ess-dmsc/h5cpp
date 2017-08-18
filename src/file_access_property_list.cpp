@@ -24,62 +24,14 @@
 //
 
 #include "property_list.hpp"
+#include "property_list_class.hpp"
 
 namespace hdf5 {
 namespace property_list {
 
-LinkCreationOrder::LinkCreationOrder():
-  tracked_(0),
-  indexed_(0),
-  reserved_(0)
-{
-
-}
-
-LinkCreationOrder::LinkCreationOrder(unsigned value):
-  tracked_(0),
-  indexed_(0),
-  reserved_(0)
-{
-  tracked_ = value & H5P_CRT_ORDER_TRACKED;
-  indexed_ = (value & H5P_CRT_ORDER_INDEXED) >> 1;
-}
-
-LinkCreationOrder &LinkCreationOrder::enable_tracked()
-{
-  tracked_=1;
-  return *this;
-}
-
-LinkCreationOrder &LinkCreationOrder::disable_tracked()
-{
-  tracked_=0;
-  return *this;
-}
-
-LinkCreationOrder &LinkCreationOrder::enable_indexed()
-{
-  tracked_=1;
-  indexed_=1;
-  return *this;
-}
-
-LinkCreationOrder &LinkCreationOrder::disable_indexed()
-{
-  indexed_=0;
-  return *this;
-}
-
-bool LinkCreationOrder::tracked() const
-{
-  return tracked_;
-}
-
-bool LinkCreationOrder::indexed() const
-{
-  return indexed_;
-}
-
+  FileAccess::FileAccess():
+      List(kFileAccess)
+  {}
 
 } // namespace property_list
 } // namespace hdf5

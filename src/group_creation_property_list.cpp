@@ -146,7 +146,7 @@ void GroupCreation::estimated_link_name_length (unsigned name_length) const
 }
 
 //============================================================================
-void GroupCreation::link_creation_order(LinkCreationOrder order) const
+void GroupCreation::link_creation_order(CreationOrder order) const
 {
   if(H5Pset_link_creation_order(static_cast<hid_t>(*this),order)<0)
   {
@@ -157,7 +157,7 @@ void GroupCreation::link_creation_order(LinkCreationOrder order) const
 }
 
 //============================================================================
-LinkCreationOrder GroupCreation::link_creation_order() const
+CreationOrder GroupCreation::link_creation_order() const
 {
   unsigned order;
   if(H5Pget_link_creation_order(static_cast<hid_t>(*this),&order)<0)
@@ -167,7 +167,7 @@ LinkCreationOrder GroupCreation::link_creation_order() const
   }
 
 
-  return static_cast<LinkCreationOrder>(order);
+  return static_cast<CreationOrder>(order);
 }
 
 //============================================================================

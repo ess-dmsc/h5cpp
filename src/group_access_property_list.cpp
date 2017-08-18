@@ -20,9 +20,8 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Aug 17, 2017
 //
-
 
 #include "property_list.hpp"
 #include "property_list_class.hpp"
@@ -30,32 +29,23 @@
 namespace hdf5 {
 namespace property_list {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
+GroupAccess::GroupAccess():
+    List(kGroupAccess)
 {
 }
 
-List::List(const List &plist):
-          handle_(H5Pcopy(static_cast<hid_t>(plist.handle_)))
+void GroupAccess::collective_metadata_io(bool value) const
 {
+  hbool_t is_collective = 0;
+  if(value)
+    is_collective = 1;
+
 }
 
-List::~List()
+bool GroupAccess::collective_metadata_io() const
 {
-}
 
-void List::close()
-{
-  handle_.close();
 }
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
-
 
 } // namespace property_list
 } // namespace hdf5
-
-
