@@ -26,4 +26,11 @@ target_link_libraries(property_object_creation_list_test h5cpp_shared
 Boost::unit_test_framework Boost::system)
 add_logging_test("hdf5::property::ObjectCreationList"
                  property_object_creation_list_test
-                 ${WORKING_DIRECTORY})                      
+                 ${WORKING_DIRECTORY})     
+                 
+add_executable(property_string_creation_list_test string_creation_list_test.cpp)
+target_link_libraries(property_string_creation_list_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::StringCreationList"
+                 property_string_creation_list_test
+                 ${WORKING_DIRECTORY})               
