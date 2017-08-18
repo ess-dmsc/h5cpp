@@ -85,6 +85,14 @@ GroupCreationList::GroupCreationList():
         ObjectCreationList(kGroupCreate)
 {}
 
+GroupCreationList::~GroupCreationList()
+{}
+
+GroupCreationList::GroupCreationList(const Class &plist_class):
+    ObjectCreationList(plist_class)
+{
+}
+
 //============================================================================
 size_t GroupCreationList::local_heap_size_hint() const
 {

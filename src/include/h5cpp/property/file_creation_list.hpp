@@ -24,12 +24,12 @@
 //
 #pragma once
 
-#include "list.hpp"
+#include "group_creation_list.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class FileCreationList : public List
+class FileCreationList : public GroupCreationList
 {
   public:
     FileCreationList();

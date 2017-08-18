@@ -31,7 +31,7 @@ namespace hdf5 {
 namespace property{
 
 FileCreationList::FileCreationList():
-    List(kFileCreate)
+    GroupCreationList(kFileCreate)
 {
 }
 

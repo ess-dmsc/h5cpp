@@ -34,6 +34,7 @@ class GroupCreationList : public ObjectCreationList
 {
   public:
     GroupCreationList();
+    virtual ~GroupCreationList();
 
     size_t local_heap_size_hint() const;
     void local_heap_size_hint(size_t size) const;
@@ -50,6 +51,9 @@ class GroupCreationList : public ObjectCreationList
     void link_storage_thresholds(unsigned max_compact,unsigned min_dense) const;
     unsigned link_storage_maximum_compact() const;
     unsigned link_storage_minimum_dense() const;
+
+  public:
+    GroupCreationList(const Class &plist_class);
 
   private:
 
