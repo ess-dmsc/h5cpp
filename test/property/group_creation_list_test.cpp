@@ -84,24 +84,15 @@ BOOST_AUTO_TEST_SUITE(GroupCreation_test)
 
   }
 
-  BOOST_AUTO_TEST_CASE(test_maximum_links_for_compact_group)
+  BOOST_AUTO_TEST_CASE(test_link_storage_threshold)
   {
     pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.maximum_links_for_compact_group(100));
-    BOOST_CHECK_EQUAL(gcpl.maximum_links_for_compact_group(),100);
+    BOOST_CHECK_NO_THROW(gcpl.link_storage_thresholds(100,60));
+    BOOST_CHECK_EQUAL(gcpl.link_storage_maximum_compact(),100);
+    BOOST_CHECK_EQUAL(gcpl.link_storage_minimum_dense(),60);
 
-    BOOST_CHECK_NO_THROW(gcpl.maximum_links_for_compact_group(45));
-    BOOST_CHECK_EQUAL(gcpl.maximum_links_for_compact_group(),45);
-  }
+    BOOST_CHECK_THROW(gcpl.link_storage_thresholds(60,100),std::runtime_error);
 
-  BOOST_AUTO_TEST_CASE(test_minimum_links_for_dense_group)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.minimum_links_for_dense_group(5));
-    BOOST_CHECK_EQUAL(gcpl.minimum_links_for_dense_group(),5);
-
-    BOOST_CHECK_NO_THROW(gcpl.minimum_links_for_dense_group(4));
-    BOOST_CHECK_EQUAL(gcpl.minimum_links_for_dense_group(),4);
   }
 
 BOOST_AUTO_TEST_SUITE_END()

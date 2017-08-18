@@ -82,7 +82,7 @@ void GroupCreationList::get_link_phase_change_(unsigned &max_links,
 //=============================================================================
 
 GroupCreationList::GroupCreationList():
-        List(kGroupCreate)
+        ObjectCreationList(kGroupCreate)
 {}
 
 //============================================================================
@@ -167,20 +167,19 @@ CreationOrder GroupCreationList::link_creation_order() const
                              "group creation property list!");
   }
 
-
   return static_cast<CreationOrder>(order);
 }
 
 //============================================================================
-void GroupCreationList::maximum_links_for_compact_group(unsigned nlinks) const
+void GroupCreationList::link_storage_thresholds(unsigned max_compact,unsigned min_dense) const
 {
   std::string error_message = "Failure to set the number of maximum links "
       "for compact groups in a group creation property list!";
-  set_link_phase_change_(nlinks,minimum_links_for_dense_group(),error_message);
+  set_link_phase_change_(max_compact,min_dense,error_message);
 }
 
 //============================================================================
-unsigned GroupCreationList::maximum_links_for_compact_group() const
+unsigned GroupCreationList::link_storage_maximum_compact() const
 {
   unsigned max_links = 0,
            min_links = 0;
@@ -191,15 +190,7 @@ unsigned GroupCreationList::maximum_links_for_compact_group() const
 }
 
 //============================================================================
-void GroupCreationList::minimum_links_for_dense_group(unsigned nlinks) const
-{
-  std::string error_message = "Failure to set the minimum number of links "
-      "for dense groups in a group creation property list!";
-  set_link_phase_change_(maximum_links_for_compact_group(),nlinks,error_message);
-}
-
-//============================================================================
-unsigned GroupCreationList::minimum_links_for_dense_group() const
+unsigned GroupCreationList::link_storage_minimum_dense() const
 {
   unsigned max_links = 0,
            min_links = 0;

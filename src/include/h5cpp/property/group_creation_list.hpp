@@ -24,13 +24,13 @@
 //
 #pragma once
 
-#include "list.hpp"
+#include "object_creation_list.hpp"
 #include "creation_order.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class GroupCreationList : public List
+class GroupCreationList : public ObjectCreationList
 {
   public:
     GroupCreationList();
@@ -47,12 +47,9 @@ class GroupCreationList : public List
     void link_creation_order(CreationOrder order) const;
     CreationOrder link_creation_order() const;
 
-    void maximum_links_for_compact_group(unsigned nlinks) const;
-    unsigned maximum_links_for_compact_group() const;
-
-    void minimum_links_for_dense_group(unsigned nlinks) const;
-    unsigned minimum_links_for_dense_group() const;
-
+    void link_storage_thresholds(unsigned max_compact,unsigned min_dense) const;
+    unsigned link_storage_maximum_compact() const;
+    unsigned link_storage_minimum_dense() const;
 
   private:
 
