@@ -1,0 +1,9 @@
+
+We obey to the Google C++ coding style with a few exceptions:
+
+.) Indentations are always 2 spaces (Google uses 2 but 1 for class level
+   indentation)
+
+   Rational: simply easier to use only one style
+
+.) Use ANSI Standard for braces (put them to a new line)

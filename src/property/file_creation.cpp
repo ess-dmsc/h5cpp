@@ -35,6 +35,9 @@ FileCreationList::FileCreationList():
 {
 }
 
+FileCreationList::~FileCreationList()
+{}
+
 hsize_t FileCreationList::userblock() const
 {
   hsize_t buffer;

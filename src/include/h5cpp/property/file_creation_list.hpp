@@ -33,6 +33,7 @@ class FileCreationList : public GroupCreationList
 {
   public:
     FileCreationList();
+    ~FileCreationList();
 
     void userblock(hsize_t size) const;
     hsize_t userblock() const;

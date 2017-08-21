@@ -29,9 +29,12 @@
 namespace hdf5 {
 namespace property {
 
-  FileAccessList::FileAccessList():
-      List(kFileAccess)
-  {}
+FileAccessList::FileAccessList():
+    List(kFileAccess)
+{}
+
+FileAccessList::~FileAccessList()
+{}
 
 } // namespace property
 } // namespace hdf5

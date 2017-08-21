@@ -33,7 +33,7 @@ include(cmake/BoostLibraryConfig.cmake)
 
 
 
-#add_custom_target(html)
-#add_subdirectory(doc)
+add_custom_target(html)
+add_subdirectory(doc)
 add_subdirectory(src)
 add_subdirectory(test)

@@ -55,3 +55,17 @@ Boost::unit_test_framework Boost::system)
 add_logging_test("hdf5::property::AttributeCreationList"
                  property_attribute_creation_list_test
                  ${WORKING_DIRECTORY}) 
+                 
+add_executable(property_file_access_list_test file_access_list_test.cpp)
+target_link_libraries(property_file_access_list_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::FileAccessList"
+                 property_file_access_list_test
+                 ${WORKING_DIRECTORY}) 
+                 
+add_executable(property_file_create_list_test file_creation_list_test.cpp)
+target_link_libraries(property_file_create_list_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::FileCreationList"
+                 property_file_create_list_test
+                 ${WORKING_DIRECTORY}) 
