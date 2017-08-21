@@ -24,15 +24,45 @@
 //
 #pragma once
 
-#include "list.hpp"
+#include "string_creation_list.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class LinkCreationList : public List
+class LinkCreationList : public StringCreationList
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     LinkCreationList();
+
+    //!
+    //! \brief destructor
+    //!
+    ~LinkCreationList();
+
+    //!
+    //! \brief enable intermediate group creation
+    //!
+    //! With this flag set, intermediate groups in a path to an object to be
+    //! created will be created if necessary.
+    //! \sa disable_intermediate_group_creation
+    //! \sa intermediate_group_creation
+    void enable_intermediate_group_creation() const;
+
+    //!
+    //! \brief disable intermediate group creation
+    //! \sa enable_intermediate_group_creation
+    //! \sa intermediate_group_creation
+    void disable_intermediate_group_creation() const;
+
+    //!
+    //! \brief query intermediate group creation flag
+    //! @return true if intermediate group creation flag is set, false otherwise
+    //! \sa enable_intermediate_group_creation
+    //! \sa disable_intermediate_group_creation
+    bool intermediate_group_creation() const;
 };
 
 

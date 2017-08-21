@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,28 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 21, 2017
 //
-#pragma once
 
-extern "C"{
-#include <hdf5.h>
-}
+#include <h5cpp/property/type_creation_list.hpp>
+#include <h5cpp/property/class.hpp>
 
 namespace hdf5 {
-namespace type {
+namespace property {
 
-//!
-//! \brief character set encoding
-//!
-//! Enumeration type determining the character encoding used by string types
-//! and links.
-//!
-enum class CharacterEncoding :  std::underlying_type<H5T_cset_t>::type
-{
-  ASCII = H5T_CSET_ASCII,//!< ASCII
-  UTF8  = H5T_CSET_UTF8  //!< UTF8
-};
+TypeCreationList::TypeCreationList():
+    ObjectCreationList(kDatatypeCreate)
+{}
 
-} // namespace type
+TypeCreationList::~TypeCreationList()
+{}
+
+} // namespace property
 } // namespace hdf5

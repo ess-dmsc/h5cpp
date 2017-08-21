@@ -20,28 +20,29 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 21, 2017
 //
 #pragma once
 
-extern "C"{
-#include <hdf5.h>
-}
+#include "object_creation_list.hpp"
 
 namespace hdf5 {
-namespace type {
+namespace property {
 
-//!
-//! \brief character set encoding
-//!
-//! Enumeration type determining the character encoding used by string types
-//! and links.
-//!
-enum class CharacterEncoding :  std::underlying_type<H5T_cset_t>::type
+class TypeCreationList : public ObjectCreationList
 {
-  ASCII = H5T_CSET_ASCII,//!< ASCII
-  UTF8  = H5T_CSET_UTF8  //!< UTF8
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    TypeCreationList();
+
+    //!
+    //! \brief destructor
+    //!
+    ~TypeCreationList();
+
 };
 
-} // namespace type
+} // namespace property
 } // namespace hdf5

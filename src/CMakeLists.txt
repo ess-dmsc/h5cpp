@@ -8,7 +8,9 @@ set(PROPERTY_SOURCES  property/class.cpp
                       property/group_creation.cpp
                       property/group_access.cpp
                       property/object_creation.cpp
-                      property/string_creation_list.cpp)
+                      property/string_creation_list.cpp
+                      property/type_creation_list.cpp
+                      property/link_creation_list.cpp)
 
 set(SOURCES object_handle.cpp
             datatype.cpp

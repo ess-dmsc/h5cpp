@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,28 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 21, 2017
 //
-#pragma once
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE Datatype creation property list implementation test
+#include <boost/test/unit_test.hpp>
+#include <h5cpp/property/type_creation_list.hpp>
 
-extern "C"{
-#include <hdf5.h>
-}
+namespace pl = hdf5::property;
 
-namespace hdf5 {
-namespace type {
+BOOST_AUTO_TEST_SUITE(TypeCreationList_test)
 
-//!
-//! \brief character set encoding
-//!
-//! Enumeration type determining the character encoding used by string types
-//! and links.
-//!
-enum class CharacterEncoding :  std::underlying_type<H5T_cset_t>::type
-{
-  ASCII = H5T_CSET_ASCII,//!< ASCII
-  UTF8  = H5T_CSET_UTF8  //!< UTF8
-};
+  BOOST_AUTO_TEST_CASE(test_default_construction)
+  {
+    pl::TypeCreationList tcpl;
+    BOOST_CHECK(tcpl.get_class()==pl::kDatatypeCreate);
+  }
 
-} // namespace type
-} // namespace hdf5
+BOOST_AUTO_TEST_SUITE_END()
