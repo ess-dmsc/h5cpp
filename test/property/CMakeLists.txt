@@ -48,3 +48,10 @@ Boost::unit_test_framework Boost::system)
 add_logging_test("hdf5::property::LinkCreationList"
                  property_link_creation_list_test
                  ${WORKING_DIRECTORY})    
+                 
+add_executable(property_attribute_creation_list_test attribute_creation_list_test.cpp)
+target_link_libraries(property_attribute_creation_list_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::AttributeCreationList"
+                 property_attribute_creation_list_test
+                 ${WORKING_DIRECTORY}) 
