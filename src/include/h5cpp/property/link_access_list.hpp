@@ -80,12 +80,6 @@ class DLL_EXPORT LinkAccessList : public List
     //! \sa external_link_prefix
     void external_link_prefix(const boost::filesystem::path &path);
 
-#if H5_VERSION_GE(1,10,0)
-    void enable_collective_metadata_operations() const;
-    void disable_collective_metadata_operations() const;
-    bool collective_metadata_operations() const;
-#endif
-
   protected:
     //!
     //! \brief constructor

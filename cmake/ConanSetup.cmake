@@ -5,9 +5,15 @@
 #
 # looking up the conan executable itself
 #
-find_program(CONAN conan)
-if(CONAN MATCHES "CONAN-NONFOUND")
-    message(FATAL_ERROR "Could not find conan executable to install dependencies")
+find_program(CONAN NAMES conan PATHS ${CONAN_PATH})
+if(CONAN MATCHES CONAN-NOTFOUND)
+    message(FATAL_ERROR "Could not find conan executable to install dependencies ${CONAN_PATH}")
+else()
+    message(STATUS "Found conan: ${CONAN}")
+    
+    #need to add the directory to the path
+    get_filename_component(CONAN_EXEC_PATH ${CONAN} DIRECTORY)
+    set(ENV{PATH} "$ENV{PATH}:${CONAN_EXEC_PATH}")
 endif()
 
 #

@@ -109,7 +109,11 @@ void ObjectCreationList::disable_time_tracking() const
 
 bool ObjectCreationList::time_tracking() const
 {
+#if H5_VERSION_GE(1,10,0)
+  hbool_t buffer = 0;
+#else
   unsigned buffer = 0;
+#endif
   if(H5Pget_obj_track_times(static_cast<hid_t>(*this),&buffer))
   {
     throw std::runtime_error("Failure to retrieve object time tracking mode!");

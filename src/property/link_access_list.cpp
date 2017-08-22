@@ -26,6 +26,7 @@
 #include <h5cpp/property/link_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 
+
 namespace hdf5 {
 namespace property {
 
@@ -75,37 +76,6 @@ void LinkAccessList::external_link_prefix(const boost::filesystem::path &path)
     std::runtime_error("Failure setting the external link prefix to ["+path.string()+"]");
   }
 }
-
-#if H5_VERSION_GE(1,10,0)
-void LinkAccessList::enable_collective_metadata_operations() const
-{
-  if(H5Pset_all_coll_metadata_ops(static_cast<hid_t>(*this),1)<0)
-  {
-    std::runtime_error("Failure to enable collective metadata operations!");
-  }
-}
-
-void LinkAccessList::disable_collective_metadata_operations() const
-{
-  if(H5Pset_all_coll_metadata_ops(static_cast<hid_t>(*this),0)<0)
-  {
-    std::runtime_error("Failure to disable collective metadata operations!");
-  }
-}
-
-bool LinkAccessList::collective_metadata_operations() const
-{
-  hbool_t buffer;
-  if(H5Pget_all_coll_metadata_ops(static_cast<hid_t>(*this),&buffer)<0)
-  {
-    std::runtime_error("Failure to retrieve collective metadata operations status!")
-  }
-  if(buffer)
-    return true;
-  else
-    return false;
-}
-#endif
 
 
 } // namespace property

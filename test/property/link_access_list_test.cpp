@@ -56,16 +56,4 @@ BOOST_AUTO_TEST_SUITE(LinkAccessList_test)
     BOOST_CHECK_EQUAL(lapl.external_link_prefix().string(),"/home/wintersb");
   }
 
-#if H5_VERSION_GE(1,10,0)
-  BOOST_AUTO_TEST_CASE(test_collective_metadata_operations)
-  {
-    pl::LinkAccessList lapl;
-    BOOST_CHECK_NO_THROW(lapl.enable_collective_metadata_operations());
-    BOOST_CHECK(lapl.collective_metadata_operations());
-
-    BOOST_CHECK_NO_THROW(lapl.disable_collective_metadata_operations());
-    BOOST_CHECK(!lapl.collective_metadata_operations());
-  }
-#endif
-
 BOOST_AUTO_TEST_SUITE_END()

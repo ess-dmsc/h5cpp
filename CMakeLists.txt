@@ -5,6 +5,24 @@ project(h5++
     )
 
 include(CTest)
+
+#=============================================================================
+# setting up conan for use from within cmake
+#=============================================================================
+set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
+if(CMAKE_SYSTEM_NAME MATCHES Windows)
+	set(WITH_CONAN ON)
+endif()
+
+if(WITH_CONAN)
+	include(cmake/ConanSetup.cmake)
+	
+	conan_cmake_run(CONANFILE conanfile.txt
+		            BASIC_SETUP
+		            BUILD missing)
+endif()
+
+
 #=============================================================================
 # some general configuration
 #=============================================================================

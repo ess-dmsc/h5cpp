@@ -26,6 +26,7 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <boost/bind.hpp>
+#include <boost/version.hpp>
 #include "../../src/include/h5cpp/object_handle.hpp"
 #include <vector>
 #include <string>
@@ -89,6 +90,7 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
       return nullptr;
   }
 
+#if BOOST_VERSION < 106000
   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_assignment,test),
 			    "Copy assignment test"));
   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_assignment,test),
@@ -97,6 +99,16 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
 			    "Copy construction test"));
   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_construction,test),
 			    "Move construction test"));
+#else
+  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_assignment,test),
+           "Copy assignment test",__FILE__,__LINE__));
+   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_assignment,test),
+           "Move assignment test",__FILE__,__LINE__));
+   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_construction,test),
+           "Copy construction test",__FILE__,__LINE__));
+   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_construction,test),
+           "Move construction test",__FILE__,__LINE__));
+#endif
 
   return suite;
 
