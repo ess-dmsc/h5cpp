@@ -30,20 +30,68 @@
 namespace hdf5 {
 namespace property {
 
+//!
+//! \brief link access property list
+//!
 class LinkAccessList : public List
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     LinkAccessList();
+
+    //!
+    //! \brief destructor
+    //!
     virtual ~LinkAccessList();
 
-    size_t nlinks() const;
-    void nlinks(size_t size) const;
+    //!
+    //! \brief get maximum number of link traversals
+    //!
+    size_t maximum_link_traversals() const;
 
+    //!
+    //! \brief set maximum number of link traversals
+    //!
+    void maximum_link_traversals(size_t size) const;
+
+    //!
+    //! \brief get external link prefix
+    //!
+    //! Returns the prefix prepended to every path in an external link.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return prefix as an instance of boost::filesystem
+    //! \sa external_link_prefix
     boost::filesystem::path external_link_prefix() const;
-    void external_link_prefix(const boost::filesystem::path &path) const;
+
+    //!
+    //! \brief set external link prefix
+    //!
+    //! Sets the external link prefix for a path. As the this information is
+    //! stored internally and must be kept valid throughout the lifetime of the
+    //! property list this method cannot be const.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \param path reference to a boost::filesystem path containing the prefix
+    //! \sa external_link_prefix
+    void external_link_prefix(const boost::filesystem::path &path);
 
   protected:
+    //!
+    //! \brief constructor
+    //!
+    //! This protected constructor is used for the construction of child-classes.
+    //!
     LinkAccessList(const Class &plist_class);
+  private:
+
+    //!
+    //! \brief local storage for the external link prefix
+    //!
+    std::string elink_prefix_;
 };
 
 } // namespace property
