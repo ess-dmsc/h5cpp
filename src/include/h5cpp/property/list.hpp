@@ -32,6 +32,7 @@ extern "C" {
 }
 #include "../object_handle.hpp"
 #include "class.hpp"
+#include "../windows.hpp"
 
 
 namespace hdf5 {
@@ -44,7 +45,7 @@ class Class;
 //!
 //! \brief base class for property lists
 //!
-class List
+class DLL_EXPORT List
 {
   public:
     //!

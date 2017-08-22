@@ -25,11 +25,17 @@
 #pragma once
 
 #include "link_access_list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class ChunkCacheParameters
+//!
+//! \brief chunk cache parameter class
+//!
+//! Class holding chunk cache parameters for a dataset.
+//! \sa DatasetAccessList
+class DLL_EXPORT ChunkCacheParameters
 {
   public:
     ChunkCacheParameters(size_t nslots,size_t nbytes,double preempt_policy) noexcept;
@@ -50,16 +56,34 @@ class ChunkCacheParameters
     double w0_;
 };
 	
-class DatasetAccessList : public LinkAccessList
+//!
+//! \brief dataset access property list
+//!
+class DLL_EXPORT DatasetAccessList : public LinkAccessList
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     DatasetAccessList();
+
+    //!
+    //! \brief destructor
+    //!
     ~DatasetAccessList();
 
+    //!
+    //! \brief set the chunk cache parameters
+    //! \throws std::runtime_error in case of a failure
+    //!
     void chunk_cache_parameters(const ChunkCacheParameters &params) const;
+
+    //!
+    //! \brief get chunk cache parameters
+    //! \throws std::runtime_error in case of a failure
+    //!
     ChunkCacheParameters chunk_cache_parameters() const;
-
-
 };
+
 } // namespace property
 } // namespace hdf5

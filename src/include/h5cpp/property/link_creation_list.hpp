@@ -25,11 +25,12 @@
 #pragma once
 
 #include "string_creation_list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class LinkCreationList : public StringCreationList
+class DLL_EXPORT LinkCreationList : public StringCreationList
 {
   public:
     //!

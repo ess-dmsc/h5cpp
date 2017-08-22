@@ -25,11 +25,12 @@
 #pragma once
 
 #include "object_creation_list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class TypeCreationList : public ObjectCreationList
+class DLL_EXPORT TypeCreationList : public ObjectCreationList
 {
   public:
     //!

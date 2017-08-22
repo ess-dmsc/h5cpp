@@ -25,11 +25,12 @@
 #pragma once
 
 #include "list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property {
 
-class FileAccessList : public List
+class DLL_EXPORT FileAccessList : public List
 {
   public:
     FileAccessList();

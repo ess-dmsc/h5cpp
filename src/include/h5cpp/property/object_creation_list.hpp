@@ -26,11 +26,12 @@
 
 #include "list.hpp"
 #include "creation_order.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property{
 
-class ObjectCreationList : public List
+class DLL_EXPORT ObjectCreationList : public List
 {
   public:
     //!

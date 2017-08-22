@@ -20,33 +20,17 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 21, 2017
 //
 #pragma once
 
-
-#include "group_creation_list.hpp"
-#include "../windows.hpp"
+extern "C" {
+#include <hdf5.h>
+}
+#include <vector>
 
 namespace hdf5 {
-namespace property {
 
-class DLL_EXPORT FileCreationList : public GroupCreationList
-{
-  public:
-    FileCreationList();
-    ~FileCreationList();
+using Dimensions = std::vector<hsize_t>;
 
-    void userblock(hsize_t size) const;
-    hsize_t userblock() const;
-
-    void object_offset_size(size_t size) const;
-    size_t object_offset_size() const;
-
-    void object_length_size(size_t size) const;
-    size_t object_length_size() const;
-
-};
-
-} // namespace property
 } // namespace hdf5

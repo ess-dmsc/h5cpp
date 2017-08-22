@@ -28,6 +28,7 @@ extern "C"{
 #include <hdf5.h>
 }
 #include "../object_handle.hpp"
+#include "../windows.hpp"
 
 
 namespace hdf5{
@@ -42,7 +43,7 @@ namespace property{
 //! classes on the fly. Though this functionality is currently not implemented
 //! we are on the save side with a class implementation instead of an enumeration.
 //!
-class Class
+class DLL_EXPORT Class
 {
   public:
     //!
@@ -79,8 +80,8 @@ class Class
     ObjectHandle handle_;
 };
 
-bool operator==(const Class &lhs, const Class &rhs);
-bool operator!=(const Class &lhs, const Class &rhs);
+DLL_EXPORT bool operator==(const Class &lhs, const Class &rhs);
+DLL_EXPORT bool operator!=(const Class &lhs, const Class &rhs);
 
 extern const Class kAttributeCreate;
 extern const Class kDatasetAccess;

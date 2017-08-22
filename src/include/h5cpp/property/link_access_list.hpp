@@ -26,6 +26,7 @@
 
 #include <boost/filesystem.hpp>
 #include "list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property {
@@ -33,7 +34,7 @@ namespace property {
 //!
 //! \brief link access property list
 //!
-class LinkAccessList : public List
+class DLL_EXPORT LinkAccessList : public List
 {
   public:
     //!

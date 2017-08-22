@@ -26,11 +26,12 @@
 
 #include "list.hpp"
 #include "../type/types.hpp"
+#include "../windows.hpp"
 
 namespace hdf5{
 namespace property{
 
-class StringCreationList : public List
+class DLL_EXPORT StringCreationList : public List
 {
   public:
     //!

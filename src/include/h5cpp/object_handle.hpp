@@ -280,23 +280,25 @@ class DLL_EXPORT ObjectHandle
 //! representation have equal value. This is not a sufficient criteria for
 //! object equality!
 //! 
-bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
+DLL_EXPORT bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
 
 //!
 //! \brief not equal to operator
 //! 
 //! Simply the inverse of the == operator.
 //!
-bool operator!=(const ObjectHandle &lhs,const ObjectHandle &rhs);
+DLL_EXPORT bool operator!=(const ObjectHandle &lhs,const ObjectHandle &rhs);
 
 //!
 //! \brief output operator for Types
 //!
-std::ostream &operator<<(std::ostream &stream,const ObjectHandle::Type &type);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
+                                    const ObjectHandle::Type &type);
 
 //!
 //! \brief input operator for object types
 //!
-std::istream &operator>>(std::istream &stream,ObjectHandle::Type &type);
+DLL_EXPORT std::istream &operator>>(std::istream &stream,
+                                    ObjectHandle::Type &type);
 
 } // namespace hdf5 

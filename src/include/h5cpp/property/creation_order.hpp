@@ -29,10 +29,12 @@ extern "C" {
 #include <hdf5.h>
 }
 
+#include "../windows.hpp"
+
 namespace hdf5 {
 namespace property{
 
-class CreationOrder
+class DLL_EXPORT CreationOrder
 {
   public:
     //!
