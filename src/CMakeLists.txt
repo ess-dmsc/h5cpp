@@ -22,7 +22,7 @@ set(SOURCES object_handle.cpp
             object_id.cpp
             )
 
-add_library(h5cpp_shared ${SOURCES} ${PROPERTY_SOURCES})
+add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES})
 target_link_libraries(h5cpp_shared ${HDF5_LIBRARIES})
 target_include_directories(h5cpp_shared PUBLIC
     ${HDF5_INCLUDE_DIRS}
