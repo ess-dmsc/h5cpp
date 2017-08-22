@@ -97,3 +97,17 @@ Boost::unit_test_framework Boost::system)
 add_logging_test("hdf5::property::DatatypeAccessList"
                  property_datatype_access_list_test
                  ${WORKING_DIRECTORY}) 
+                
+add_executable(property_chunk_cache_parameters_test chunk_cache_parameters_test.cpp)
+target_link_libraries(property_chunk_cache_parameters_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::ChunkCacheParameters"
+                 property_chunk_cache_parameters_test
+                 ${WORKING_DIRECTORY}) 
+                
+add_executable(property_dataset_access_list_test dataset_access_list_test.cpp)
+target_link_libraries(property_dataset_access_list_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::DatasetAccessList"
+                 property_dataset_access_list_test
+                 ${WORKING_DIRECTORY}) 
