@@ -30,22 +30,13 @@ namespace hdf5 {
 namespace property {
 
 GroupAccessList::GroupAccessList():
-    List(kGroupAccess)
+    LinkAccessList(kGroupAccess)
 {
 }
 
-void GroupAccessList::collective_metadata_io(bool value) const
-{
-  hbool_t is_collective = 0;
-  if(value)
-    is_collective = 1;
+GroupAccessList::~GroupAccessList()
+{}
 
-}
-
-bool GroupAccessList::collective_metadata_io() const
-{
-
-}
 
 } // namespace property
 } // namespace hdf5

@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,23 +20,22 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 22, 2017
 //
-#pragma once
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE testing group access property list implementation
+#include <boost/test/unit_test.hpp>
+#include <h5cpp/property/group_access_list.hpp>
+#include <h5cpp/property/class.hpp>
 
-#include "link_access_list.hpp"
+namespace pl = hdf5::property;
 
-namespace hdf5 {
-namespace property {
+BOOST_AUTO_TEST_SUITE(GroupAccessList_test)
 
-class GroupAccessList : public LinkAccessList
+BOOST_AUTO_TEST_CASE(test_default)
 {
-  public:
-    GroupAccessList();
-    ~GroupAccessList();
+  pl::GroupAccessList gapl;
+  BOOST_CHECK(gapl.get_class()==pl::kGroupAccess);
+}
 
-
-};
-
-} // namespace property
-} // namespace hdf5
+BOOST_AUTO_TEST_SUITE_END()
