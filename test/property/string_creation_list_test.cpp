@@ -29,7 +29,7 @@
 #include <h5cpp/property/string_creation_list.hpp>
 
 namespace prop = hdf5::property;
-namespace type = hdf5::type;
+namespace type = hdf5::datatype;
 
 BOOST_AUTO_TEST_SUITE(StringCreationListTest)
 

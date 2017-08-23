@@ -28,65 +28,49 @@
 extern "C"{
 #include<hdf5.h>
 }
-#include "include/h5cpp/object_handle.hpp"
+#include "../object_handle.hpp"
+#include "types.hpp"
 
 
-namespace hdf5{
+namespace hdf5 {
+namespace datatype {
 
 
-
+//!
+//! \brief base class for all data types
+//!
 class Datatype
 {
-public:
-  enum class Class : std::underlying_type<H5T_class_t>::type
-  {
-    NONE      = H5T_NO_CLASS,
-    INTEGER   = H5T_INTEGER,
-    FLOAT     = H5T_FLOAT,
-    TIME      = H5T_TIME,
-    STRING    = H5T_STRING,
-    BITFIELD  = H5T_BITFIELD,
-    OPAQUE    = H5T_OPAQUE,
-    COMPOUND  = H5T_COMPOUND,
-    REFERENCE = H5T_REFERENCE,
-    ENUM      = H5T_ENUM,
-    VARLENGTH = H5T_VLEN,
-    ARRAY     = H5T_ARRAY
+  public:
 
-  };
+    Datatype &operator=(const Datatype &type) = default;
+    Datatype &operator=(Datatype &&type) = default;
+    Datatype(const Datatype &type) = default;
+    Datatype(Datatype &&type) = default;
+    Datatype() = default;
 
-  enum class Order : std::underlying_type<H5T_order_t>::type
-  {
-    LE = H5T_ORDER_LE,
-    BE = H5T_ORDER_BE
-  };
+    Class get_class() const;
 
-  enum class Sign : std::underlying_type<H5T_sign_t>::type
-  {
-    TWOS_COMPLEMENT = H5T_SGN_2,
-    UNSIGNED        = H5T_SGN_NONE
-  };
-
-  static Datatype create(Class type,size_t size);
-
-  template<typename T>
-  static Datatype create();
+    Datatype super() const;
+    Datatype native_type(Direction dir=Direction::ASCEND) const;
+    bool has_class(Class type_class) const;
 
 
-  Datatype &operator=(const Datatype &type) = default;
-  Datatype &operator=(Datatype &&type) = default;
-  Datatype(const Datatype &type) = default;
-  Datatype(Datatype &&type) = default;
-  Datatype() = default;
+    explicit operator hid_t() const
+    {
+      return static_cast<hid_t>(handle_);
+    }
 
-private:
-  Datatype(ObjectHandle &&handle);
 
-  ObjectHandle handle_;
+  private:
+    Datatype(ObjectHandle &&handle);
 
-  friend class AccessHandle;
+    ObjectHandle handle_;
 
 };
+
+bool operator==(const Datatype &lhs,const Datatype &rhs);
+bool operator!=(const Datatype &lhs,const Datatype &rhs);
 
 namespace prefdefined_types {
 
@@ -99,5 +83,5 @@ static const Datatype native_short;
 } // namespace predefined_types
 
 
-
+} // namespace datatype
 } // namespace hdf5

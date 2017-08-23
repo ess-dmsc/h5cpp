@@ -27,10 +27,10 @@
 #include <boost/test/unit_test.hpp>
 #include <h5cpp/property/link_creation_list.hpp>
 #include <h5cpp/property/class.hpp>
-#include <h5cpp/type/types.hpp>
+#include <h5cpp/datatype/types.hpp>
 
 namespace pl = hdf5::property;
-namespace tp = hdf5::type;
+namespace tp = hdf5::datatype;
 
 BOOST_AUTO_TEST_SUITE(LinkCreationList_test)
 

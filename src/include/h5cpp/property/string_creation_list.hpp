@@ -25,7 +25,7 @@
 #pragma once
 
 #include "list.hpp"
-#include "../type/types.hpp"
+#include "../datatype/types.hpp"
 #include "../windows.hpp"
 
 namespace hdf5{
@@ -48,13 +48,13 @@ class DLL_EXPORT StringCreationList : public List
     //! \brief get character encoding
     //! @return current character encoding
     //! \sa character_encoding
-    type::CharacterEncoding character_encoding() const;
+    datatype::CharacterEncoding character_encoding() const;
 
     //!
     //! \brief set character encoding
     //! @param encoding the required character encoding
     //! \sa character_encoding
-    void character_encoding(type::CharacterEncoding encoding) const;
+    void character_encoding(datatype::CharacterEncoding encoding) const;
 
   protected:
     StringCreationList(const Class &plist_class);

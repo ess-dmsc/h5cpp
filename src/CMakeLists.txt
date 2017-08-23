@@ -16,13 +16,15 @@ set(PROPERTY_SOURCES  property/class.cpp
                       property/link_creation_list.cpp
                       property/link_access_list.cpp
                       property/attribute_creation_list.cpp)
+                     
+set(DATATYPE_SOURCES datatype/datatype.cpp
+	)
 
 set(SOURCES object_handle.cpp
-            datatype.cpp
             object_id.cpp
             )
 
-add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES})
+add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} ${DATATYPE_SOURCES})
 target_link_libraries(h5cpp_shared ${HDF5_LIBRARIES} Boost::filesystem)
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 target_include_directories(h5cpp_shared PUBLIC ${HDF5_INCLUDE_DIRS})

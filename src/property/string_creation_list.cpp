@@ -38,17 +38,17 @@ StringCreationList::StringCreationList():
 StringCreationList::~StringCreationList()
 {}
 
-type::CharacterEncoding StringCreationList::character_encoding() const
+datatype::CharacterEncoding StringCreationList::character_encoding() const
 {
    H5T_cset_t encoding;
    if(H5Pget_char_encoding(static_cast<hid_t>(*this),&encoding)<0)
    {
      throw std::runtime_error("Failure retrieving character encoding!");
    }
-   return static_cast<type::CharacterEncoding>(encoding);
+   return static_cast<datatype::CharacterEncoding>(encoding);
 }
 
-void StringCreationList::character_encoding(type::CharacterEncoding encoding) const
+void StringCreationList::character_encoding(datatype::CharacterEncoding encoding) const
 {
   if(H5Pset_char_encoding(static_cast<hid_t>(*this),static_cast<H5T_cset_t>(encoding))<0)
   {
