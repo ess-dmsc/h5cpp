@@ -42,7 +42,7 @@ namespace datatype {
 class Datatype
 {
   public:
-
+    virtual ~Datatype();
     Datatype &operator=(const Datatype &type) = default;
     Datatype &operator=(Datatype &&type) = default;
     Datatype(const Datatype &type) = default;
@@ -54,6 +54,8 @@ class Datatype
     Datatype super() const;
     Datatype native_type(Direction dir=Direction::ASCEND) const;
     bool has_class(Class type_class) const;
+    size_t size() const;
+    void size(size_t size) const;
 
 
     explicit operator hid_t() const
@@ -62,8 +64,9 @@ class Datatype
     }
 
 
-  private:
+  protected:
     Datatype(ObjectHandle &&handle);
+  private:
 
     ObjectHandle handle_;
 

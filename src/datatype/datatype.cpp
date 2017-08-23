@@ -34,6 +34,9 @@ Datatype::Datatype(ObjectHandle &&handle):
     handle_(std::move(handle))
 {}
 
+Datatype::~Datatype()
+{}
+
 Class Datatype::get_class() const
 {
   switch(H5Tget_class(static_cast<hid_t>(*this)))
@@ -97,6 +100,24 @@ bool Datatype::has_class(Class type_class) const
     return true;
   else
     return false;
+}
+
+size_t Datatype::size() const
+{
+  size_t s = H5Tget_size(static_cast<hid_t>(*this));
+  if(s==0)
+  {
+    throw std::runtime_error("Failure to retrieve the datatype size!");
+  }
+  return s;
+}
+
+void Datatype::size(size_t size) const
+{
+  if(H5Tset_size(static_cast<hid_t>(*this),size)<0)
+  {
+    throw std::runtime_error("Failure to set the datatype size!");
+  }
 }
 
 

@@ -18,6 +18,7 @@ set(PROPERTY_SOURCES  property/class.cpp
                       property/attribute_creation_list.cpp)
                      
 set(DATATYPE_SOURCES datatype/datatype.cpp
+	datatype/integer.cpp
 	)
 
 set(SOURCES object_handle.cpp
