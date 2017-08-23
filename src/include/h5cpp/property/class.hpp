@@ -83,22 +83,22 @@ class DLL_EXPORT Class
 DLL_EXPORT bool operator==(const Class &lhs, const Class &rhs);
 DLL_EXPORT bool operator!=(const Class &lhs, const Class &rhs);
 
-extern const Class kAttributeCreate;
-extern const Class kDatasetAccess;
-extern const Class kDatasetCreate;
-extern const Class kDatasetXfer;
-extern const Class kDatatypeAccess;
-extern const Class kDatatypeCreate;
-extern const Class kFileAccess;
-extern const Class kFileCreate;
-extern const Class kFileMount;
-extern const Class kGroupAccess;
-extern const Class kGroupCreate;
-extern const Class kLinkAccess;
-extern const Class kLinkCreate;
-extern const Class kObjectCopy;
-extern const Class kObjectCreate;
-extern const Class kStringCreate;
+DLL_EXPORT extern const Class kAttributeCreate;
+DLL_EXPORT extern const Class kDatasetAccess;
+DLL_EXPORT extern const Class kDatasetCreate;
+DLL_EXPORT extern const Class kDatasetXfer;
+DLL_EXPORT extern const Class kDatatypeAccess;
+DLL_EXPORT extern const Class kDatatypeCreate;
+DLL_EXPORT extern const Class kFileAccess;
+DLL_EXPORT extern const Class kFileCreate;
+DLL_EXPORT extern const Class kFileMount;
+DLL_EXPORT extern const Class kGroupAccess;
+DLL_EXPORT extern const Class kGroupCreate;
+DLL_EXPORT extern const Class kLinkAccess;
+DLL_EXPORT extern const Class kLinkCreate;
+DLL_EXPORT extern const Class kObjectCopy;
+DLL_EXPORT extern const Class kObjectCreate;
+DLL_EXPORT extern const Class kStringCreate;
 
 
 } // namespace property

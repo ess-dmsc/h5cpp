@@ -10,9 +10,6 @@ include(CTest)
 # setting up conan for use from within cmake
 #=============================================================================
 set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
-if(CMAKE_SYSTEM_NAME MATCHES Windows)
-	set(WITH_CONAN ON)
-endif()
 
 if(WITH_CONAN)
 	include(cmake/ConanSetup.cmake)
@@ -20,6 +17,12 @@ if(WITH_CONAN)
 	conan_cmake_run(CONANFILE conanfile.txt
 		            BASIC_SETUP
 		            BUILD missing)
+endif()
+
+if(EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
+    message(STATUS "Using existing conanbuildinfo.cmake file")
+    include(${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
+    conan_basic_setup()
 endif()
 
 

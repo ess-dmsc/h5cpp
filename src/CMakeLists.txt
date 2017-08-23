@@ -23,8 +23,7 @@ set(SOURCES object_handle.cpp
             )
 
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES})
-target_link_libraries(h5cpp_shared ${HDF5_LIBRARIES})
-target_include_directories(h5cpp_shared PUBLIC
-    ${HDF5_INCLUDE_DIRS}
-    Boost::filesystem)
+target_link_libraries(h5cpp_shared ${HDF5_LIBRARIES} Boost::filesystem)
+target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
+target_include_directories(h5cpp_shared PUBLIC ${HDF5_INCLUDE_DIRS})
 
