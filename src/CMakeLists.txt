@@ -25,6 +25,7 @@ set(DATATYPE_SOURCES datatype/datatype.cpp
 
 set(SOURCES object_handle.cpp
             object_id.cpp
+            path.cpp
             )
 
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} ${DATATYPE_SOURCES})
