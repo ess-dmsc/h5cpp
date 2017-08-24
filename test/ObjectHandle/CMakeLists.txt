@@ -13,6 +13,7 @@ set(SOURCE ObjectHandleDefault.cpp
 
 
 add_executable(ObjectHandleTest ${SOURCE})
+add_coverage(ObjectHandleTest)
 target_link_libraries(ObjectHandleTest 
   ${HDF5_LIBRARIES} h5cpp_shared Boost::unit_test_framework)
 

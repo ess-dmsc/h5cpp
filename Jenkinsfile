@@ -26,7 +26,7 @@ node ("boost && root && fedora") {
                 sh 'rm -rf ./*'
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake -DCMAKE_BUILD_TYPE=Debug ../code"
+                    cmake -DCOV=on -DCMAKE_BUILD_TYPE=Debug ../code"
             }
         } catch (e) {
             failure_function(e, 'CMake failed')
@@ -41,5 +41,29 @@ node ("boost && root && fedora") {
         } catch (e) {
             failure_function(e, 'Build failed')
         }
+
+        try {
+            stage("Run test") {
+                sh "make test"
+                sh "make coverage"
+                step([
+                    $class: 'CoberturaPublisher',
+                    autoUpdateHealth: false,
+                    autoUpdateStability: false,
+                    coberturaReportFile: 'coverage.xml',
+                    failUnhealthy: false,
+                    failUnstable: false,
+                    maxNumberOfBuilds: 0,
+                    onlyStable: false,
+                    sourceEncoding: 'ASCII',
+                    zoomCoverageChart: false
+                ])
+          }
+        } catch (e) {
+            junit '*Tests.xml'
+            failure_function(e, 'Tests failed')
+        }
     }
+
+
 }

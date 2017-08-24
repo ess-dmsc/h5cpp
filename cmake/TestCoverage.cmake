@@ -1,0 +1,32 @@
+option(COV "Enable code coverage test for unit tests (if possible)." OFF)
+
+mark_as_advanced(DO_COV)
+
+if (${COV})
+    if (${CMAKE_COMPILER_IS_GNUCXX})
+        message(STATUS "Code coverage enabled.")
+        set(DO_COV ON)
+        set(CMAKE_BUILD_TYPE Debug)
+    else()
+        message(FATAL_ERROR "Unable to enable code coverage as this functionality only works with the g++ compiler.")
+    endif()
+endif()
+
+if(DO_COV)
+    find_program(GCOV_PATH gcov)
+    find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
+    if (NOT GCOV_PATH OR NOT GCOVR_PATH)
+        message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
+    else()
+        message(STATUS "Generating coverage target.")
+        add_custom_target(coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "-x" "-o" "${CMAKE_BINARY_DIR}/coverage.xml"
+          "--object-directory=${PROJECT_BINARY_DIR}/test/CMakeFiles/coverage.dir/" "-e" ".*_test.h" "-e" ".*main.cpp")
+    endif()
+endif()
+
+function(add_coverage proj_name)
+  if(DO_COV)
+    set_target_properties(${proj_name} PROPERTIES LINK_FLAGS "-coverage -fprofile-generate")
+    set_target_properties(${proj_name} PROPERTIES COMPILE_FLAGS "-g -O0 -coverage -fprofile-generate")
+  endif()
+endfunction(add_coverage)
