@@ -5,6 +5,7 @@ project(h5++
     )
 
 include(CTest)
+option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
 #=============================================================================
 # setting up conan for use from within cmake
