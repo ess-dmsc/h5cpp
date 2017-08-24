@@ -222,4 +222,11 @@ Path operator+(const Path &path,const std::string &link_name)
   return result;
 }
 
+Path operator+(const Path &lhs,const Path &rhs)
+{
+  Path result(lhs);
+  std::copy(rhs.begin(),rhs.end(),std::back_inserter(lhs));
+  return result;
+}
+
 } // namespace hdf5

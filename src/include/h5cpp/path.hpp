@@ -80,6 +80,8 @@ class Path
 
 };
 
+Path operator+(const Path &lhs,const Path &rhs);
+
 Path operator+(const std::string &link_name,const Path &path);
 Path operator+(const Path &path,const std::string &link_name);
 

@@ -106,4 +106,13 @@ BOOST_AUTO_TEST_CASE(test_prepend_link_name)
   BOOST_CHECK(p.is_absolute_path());
 }
 
+BOOST_AUTO_TEST_CASE(test_adding_two_paths)
+{
+  hdf5::Path p1("/entry/instrument"), p2("detector/data");
+  hdf5::Path p = p1+p2;
+  BOOST_CHECK_EQUAL(p.size(),4);
+  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
