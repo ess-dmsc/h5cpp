@@ -41,6 +41,22 @@ BOOST_AUTO_TEST_CASE(test_case_1)
   space.selection(dataspace::SelectionOperation::SET,slab);
   BOOST_CHECK_EQUAL(space.selection.size(),25);
   BOOST_CHECK(space.selection.type()==dataspace::SelectionType::HYPERSLAB);
+
+  BOOST_CHECK_NO_THROW(space.selection.all());
+  BOOST_CHECK(space.selection.type()==dataspace::SelectionType::ALL);
+}
+
+BOOST_AUTO_TEST_CASE(test_case_2)
+{
+  dataspace::Simple space({10,1024,1024});
+  BOOST_CHECK(space.selection.type()==dataspace::SelectionType::ALL);
+
+  dataspace::Hyperslab frame({0,0,0},{1,1,1},{1,1,1},{1,1024,1024});
+  BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
+  frame.start()[0]=9;
+  BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
+  BOOST_CHECK_EQUAL(space.selection.size(),2*1024*1024);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()
