@@ -6,6 +6,7 @@ include(${PROJECT_SOURCE_DIR}/cmake/BoostTestLogConfig.cmake)
 add_subdirectory(ObjectHandle)
 add_subdirectory(property)
 add_subdirectory(datatype)
+add_subdirectory(dataspace)
 add_subdirectory(logs)
 
 add_executable(hdf5_path_test path_test.cpp)

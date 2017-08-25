@@ -23,12 +23,19 @@ set(DATATYPE_SOURCES datatype/datatype.cpp
 	datatype/float.cpp
 	)
 
+set(DATASPACE_SOURCES dataspace/dataspace.cpp
+                      dataspace/scalar.cpp
+                      dataspace/simple.cpp
+                      dataspace/selection.cpp
+                      dataspace/selection_manager.cpp)
+
 set(SOURCES object_handle.cpp
             object_id.cpp
             path.cpp
             )
 
-add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} ${DATATYPE_SOURCES})
+add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 
+			${DATATYPE_SOURCES} ${DATASPACE_SOURCES})
 target_link_libraries(h5cpp_shared ${HDF5_LIBRARIES} Boost::filesystem)
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 target_include_directories(h5cpp_shared PUBLIC ${HDF5_INCLUDE_DIRS})

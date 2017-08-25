@@ -26,6 +26,7 @@
 
 #include "type.hpp"
 #include "../object_handle.hpp"
+#include "selection_manager.hpp"
 
 
 namespace hdf5 {
@@ -51,6 +52,8 @@ class Dataspace
     //! \brief get the type of the dataset
     //!
     Type type() const;
+
+    SelectionManager selection;
 
   protected:
     Dataspace(Type type);

@@ -54,4 +54,18 @@ BOOST_AUTO_TEST_CASE(test_construction_only_current)
   BOOST_CHECK_EQUAL_COLLECTIONS(c.begin(),c.end(),m.begin(),m.end());
 }
 
+BOOST_AUTO_TEST_CASE(test_construction_current_and_max)
+{
+  Dimensions s = {30,20,10}, m = {100,200,dataspace::Simple::UNLIMITED};
+  dataspace::Simple space(s,m);
+  BOOST_CHECK_EQUAL(space.rank(),3);
+  BOOST_CHECK_EQUAL(space.size(),10*20*30);
+
+  Dimensions c = space.current_dimensions();
+  Dimensions max = space.maximum_dimensions();
+
+  BOOST_CHECK_EQUAL_COLLECTIONS(s.begin(),s.end(),c.begin(),c.end());
+  BOOST_CHECK_EQUAL_COLLECTIONS(m.begin(),m.end(),max.begin(),max.end());
+}
+
 BOOST_AUTO_TEST_SUITE_END()

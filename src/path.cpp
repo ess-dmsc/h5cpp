@@ -171,7 +171,7 @@ Path::value_type Path::pop_front()
   return result;
 }
 
-void Path::push_back(const value_type &link_name)
+void Path::push_back(const Path::value_type &link_name)
 {
   link_names_.push_back(link_name);
 }
@@ -225,7 +225,7 @@ Path operator+(const Path &path,const std::string &link_name)
 Path operator+(const Path &lhs,const Path &rhs)
 {
   Path result(lhs);
-  std::copy(rhs.begin(),rhs.end(),std::back_inserter(lhs));
+  std::copy(rhs.begin(),rhs.end(),std::back_inserter(result));
   return result;
 }
 
