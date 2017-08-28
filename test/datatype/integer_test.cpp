@@ -26,6 +26,7 @@
 #define BOOST_TEST_MODULE Testing integral type implementation
 #include <boost/test/unit_test.hpp>
 #include <boost/mpl/list.hpp>
+#include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/integer.hpp>
 
 namespace type = hdf5::datatype;
@@ -40,7 +41,8 @@ BOOST_AUTO_TEST_SUITE(Integer_test)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_construction,T,test_types)
 {
-  type::Integer t = type::Integer::create<T>();
+  auto t = type::create<T>();
+  BOOST_CHECK((std::is_same<decltype(t),type::Integer>::value));
   BOOST_CHECK(t.get_class()==type::Class::INTEGER);
   BOOST_CHECK_EQUAL(t.size(),sizeof(T));
 

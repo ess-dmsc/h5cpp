@@ -13,3 +13,8 @@ add_logging_test("hdf5::datatype::Float"
                  datatype_float_test
                  ${WORKING_DIRECTORY})
                  
+add_executable(datatype_type_trait_test type_trait_test.cpp)
+target_link_libraries(datatype_type_trait_test h5cpp_shared Boost::unit_test_framework)
+add_logging_test("hdf5::datatype::TypeTrait"
+                 datatype_type_trait_test
+                 ${WORKING_DIRECTORY})

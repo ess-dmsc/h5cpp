@@ -20,32 +20,25 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Created on: Aug 28, 2017
 //
+#pragma once
 
-#include <h5cpp/datatype/copy_native_type.hpp>
+#include "type_trait.hpp"
+
 
 namespace hdf5 {
 namespace datatype {
 
-  COPY_NATIVE_TYPE_SPECIALIZATION(char,H5T_NATIVE_CHAR)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned char,H5T_NATIVE_UCHAR)
-  COPY_NATIVE_TYPE_SPECIALIZATION(signed char,H5T_NATIVE_SCHAR)
-  COPY_NATIVE_TYPE_SPECIALIZATION(short,H5T_NATIVE_SHORT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned short,H5T_NATIVE_USHORT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(int,H5T_NATIVE_INT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned int,H5T_NATIVE_UINT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(long,H5T_NATIVE_LONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned long,H5T_NATIVE_ULONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(long long,H5T_NATIVE_LLONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned long long,H5T_NATIVE_ULLONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(float,H5T_NATIVE_FLOAT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(double,H5T_NATIVE_DOUBLE)
-  COPY_NATIVE_TYPE_SPECIALIZATION(long double,H5T_NATIVE_LDOUBLE)
+
+//!
+//! \brief factory function for creating data types
+//!
+template<typename T>
+typename TypeTrait<T>::TypeClass create()
+{
+  return TypeTrait<T>::create();
+}
 
 } // namespace datatype
 } // namespace hdf5
-
-
-
-

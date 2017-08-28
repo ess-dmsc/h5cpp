@@ -26,7 +26,6 @@
 
 #include <type_traits>
 #include "datatype.hpp"
-#include "copy_native_type.hpp"
 
 namespace hdf5 {
 namespace datatype {
@@ -35,21 +34,10 @@ namespace datatype {
 class Integer : public Datatype
 {
   public:
-    template<typename T>
-    static Integer create();
-
-  private:
     Integer(ObjectHandle &&handle);
 
 };
 
-template<typename T>
-Integer Integer::create()
-{
-  static_assert(std::is_integral<T>::value,"Type must be integral");
-
-  return Integer(ObjectHandle(copy_native_type<T>()));
-}
 
 } // namespace datatype
 } // namespace hdf5

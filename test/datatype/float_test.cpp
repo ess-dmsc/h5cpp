@@ -26,6 +26,7 @@
 #define BOOST_TEST_MODULE Testing floating point type implementation
 #include <boost/test/unit_test.hpp>
 #include <boost/mpl/list.hpp>
+#include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 
 namespace type = hdf5::datatype;
@@ -36,7 +37,8 @@ BOOST_AUTO_TEST_SUITE(Float_test)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_construction,T,test_types)
 {
-  type::Float t = type::Float::create<T>();
+  auto t = type::create<T>();
+  BOOST_CHECK((std::is_same<decltype(t),type::Float>::value));
   BOOST_CHECK(t.get_class()==type::Class::FLOAT);
   BOOST_CHECK_EQUAL(t.size(),sizeof(T));
 

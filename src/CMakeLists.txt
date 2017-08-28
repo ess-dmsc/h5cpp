@@ -19,7 +19,6 @@ set(PROPERTY_SOURCES  property/class.cpp
                       property/attribute_creation_list.cpp)
                      
 set(DATATYPE_SOURCES datatype/datatype.cpp
-	datatype/copy_native_type.cpp
 	datatype/integer.cpp
 	datatype/float.cpp
 	)
