@@ -25,9 +25,12 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE testing dataset creation property list implementation
 #include <boost/test/unit_test.hpp>
+#include <boost/test/floating_point_comparison.hpp>
 #include <h5cpp/property/dataset_creation_list.hpp>
+#include <h5cpp/datatype/factory.hpp>
 
 namespace prop = hdf5::property;
+namespace type = hdf5::datatype;
 
 BOOST_AUTO_TEST_SUITE(DatasetCreationList_test)
 
@@ -90,6 +93,18 @@ BOOST_AUTO_TEST_CASE(test_fill_value_default)
   BOOST_CHECK_NO_THROW(pl.fill_value(1024));
   BOOST_CHECK_EQUAL(pl.fill_value<int>(),1024);
   BOOST_CHECK_EQUAL(pl.fill_value_status(),prop::DatasetFillValueStatus::USER_DEFINED);
+}
+
+BOOST_AUTO_TEST_CASE(test_fill_value_custom_type)
+{
+  prop::DatasetCreationList pl;
+  auto set_type = type::create<int>();
+  auto get_type = type::create<float>();
+
+  BOOST_CHECK_NO_THROW(pl.fill_value(1024,set_type));
+  float buffer;
+  BOOST_CHECK_NO_THROW(buffer = pl.fill_value<float>(get_type));
+  BOOST_CHECK_CLOSE(buffer,float(1024),0.0001);
 }
 
 

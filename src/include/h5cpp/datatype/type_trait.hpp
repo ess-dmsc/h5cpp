@@ -31,10 +31,28 @@
 namespace hdf5 {
 namespace datatype {
 
+//!
+//! \brief trait to create HDF5 datatypes
+//!
+//! This trait provides a static function which creates a new HDF5 data type
+//! for a particular C++ type.
+//!
+//! Specializations for this template exist for the following native types
+//!
+//! \list \c char, \c unsigned char, \c singed char
+//!
+//! \tparam T type for which to create a new HDF5 data type
 template<typename T> class TypeTrait
 {
   public:
+    //!
+    //! \brief subtype of Datatype which will be used
+    //!
     using TypeClass = Datatype;
+
+    //!
+    //! \brief create the new type instance
+    //!
     static TypeClass create();
 };
 
