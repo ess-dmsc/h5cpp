@@ -8,6 +8,7 @@ set(PROPERTY_SOURCES  property/class.cpp
             		  property/file_mount_list.cpp
             		  property/dataset_access_list.cpp
             		  property/dataset_creation_list.cpp
+            		  property/dataset_transfer_list.cpp
                       property/group_creation.cpp
                       property/group_access.cpp
                       property/object_creation.cpp
