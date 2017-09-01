@@ -29,6 +29,12 @@ endif()
 #=============================================================================
 # some general configuration
 #=============================================================================
+
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Build type was not set. Using Relese mode.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 include(cmake/InstallConfig.cmake)
 include(cmake/OutputDirConfig.cmake)
 include(cmake/EnsureBuildType.cmake)

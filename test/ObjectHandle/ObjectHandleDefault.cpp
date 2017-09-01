@@ -89,8 +89,7 @@ test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
     default:
       return nullptr;
   }
-
-#if BOOST_VERSION < 106000
+#if BOOST_VERSION < 105900
   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_assignment,test),
 			    "Copy assignment test"));
   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_assignment,test),
