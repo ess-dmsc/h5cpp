@@ -10,4 +10,6 @@ This project uses CMake for setting up a build system, usually GNU Make. This is
  * To compile run: ``make``.
 
 ### Requirements
-This library requires the *HDF5 C* library and the *Boost* library.
+The H5CPP library requires the [*HDF5 C-library*](https://www.hdfgroup.org) in order to build. The [*Boost*](http://www.boost.org) library is also required as it is used to implement filesystem access and to do unit testing.
+
+In order to generate the documentation, [*Sphinx*](http://www.sphinx-doc.org/) with the [Read the Docs Sphinx Theme](https://github.com/rtfd/sphinx_rtd_theme) are required.
