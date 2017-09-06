@@ -36,6 +36,7 @@ include(cmake/EnsureBuildType.cmake)
 include(cmake/WindowsUtils.cmake)
 include(Sphinx)
 include(utilities)
+include(DoxygenUtilities)
 
 #=============================================================================
 # Internal compiler options

@@ -9,12 +9,11 @@ configure_file(mainpage.dox mainpage.dox COPYONLY)
 set_source_files_properties(Doxyfile groups.dox mainpage.dox
 	PROPERTIES GENERATED TRUE)
 
-get_property(DOXYGEN_HEADERS GLOBAL PROPERTY DOXYGEN_HEADERS)
-message(STATUS "header files for doxygen build: ${DOXYGEN_HEADERS}")
 add_custom_command(OUTPUT doxygen.stamp
                    COMMAND doxygen
                    COMMAND echo "timestamp" > doxygen.stamp
-                   DEPENDS Doxyfile groups.dox mainpage.dox ${DOXYGEN_HEADERS}
+                   DEPENDS Doxyfile groups.dox mainpage.dox 
+                           ${CMAKE_DOXYGEN_BUILD_DEPENDENCIES}
                    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doc)
 
 add_custom_target(api_doc DEPENDS doxygen.stamp)

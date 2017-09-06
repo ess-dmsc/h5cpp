@@ -40,6 +40,7 @@ namespace datatype {
 //! Specializations for this template exist for the following native types
 //!
 //! \list \c char, \c unsigned char, \c singed char
+//! \list \c double
 //!
 //! \tparam T type for which to create a new HDF5 data type
 template<typename T> class TypeTrait

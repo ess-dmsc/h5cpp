@@ -1,4 +1,5 @@
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
+add_subdirectory(include)
 
 set(PROPERTY_SOURCES  property/class.cpp
 					  property/creation_order.cpp
@@ -40,4 +41,6 @@ add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES}
 target_link_libraries(h5cpp_shared ${HDF5_LIBRARIES} Boost::filesystem)
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 target_include_directories(h5cpp_shared PUBLIC ${HDF5_INCLUDE_DIRS})
+
+
 

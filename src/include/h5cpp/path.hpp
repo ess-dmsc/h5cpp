@@ -32,6 +32,11 @@ namespace hdf5 {
 //!
 //! \brief path to a node object
 //!
+//! Every object within an HDF5 file can be addressed via a path. Such a path is a
+//! list of link names separated by a slash /.
+//! While HDF5s C-API uses a simple string to represent a path, the C++ wrapper
+//! provides a class for this purpose.
+//!
 class Path
 {
   public:
