@@ -29,10 +29,12 @@ endif()
 #=============================================================================
 # some general configuration
 #=============================================================================
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(cmake/InstallConfig.cmake)
 include(cmake/OutputDirConfig.cmake)
 include(cmake/EnsureBuildType.cmake)
 include(cmake/WindowsUtils.cmake)
+include(cmake/Sphinx.cmake)
 
 #=============================================================================
 # Internal compiler options
@@ -52,11 +54,8 @@ include(cmake/HDF5LibraryConfig.cmake)
 include(cmake/BoostLibraryConfig.cmake)
 
 
-
 add_custom_target(html)
-define_property(GLOBAL PROPERTY DOC_HEADERS 
-	            BRIEF_DOCS "Public headers"
-	            FULL_DOCS "Headers which should be included in the documentation")
 add_subdirectory(src)
 add_subdirectory(doc)
 add_subdirectory(test)
+

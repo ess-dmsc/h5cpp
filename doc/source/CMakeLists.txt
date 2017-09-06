@@ -1,10 +1,7 @@
 configure_file(conf.py.in conf.py @ONLY)
 configure_file(index.rst.in index.rst @ONLY)
 
-
-set_property(GLOBAL APPEND PROPERTY RST_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/conf.py)
-set_property(GLOBAL APPEND PROPERTY RST_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/index.rst)
-
+add_sphinx_source(conf.py index.rst)
 
 add_subdirectory(_static)
 add_subdirectory(_templates)
