@@ -34,7 +34,8 @@ include(cmake/InstallConfig.cmake)
 include(cmake/OutputDirConfig.cmake)
 include(cmake/EnsureBuildType.cmake)
 include(cmake/WindowsUtils.cmake)
-include(cmake/Sphinx.cmake)
+include(Sphinx)
+include(utilities)
 
 #=============================================================================
 # Internal compiler options
