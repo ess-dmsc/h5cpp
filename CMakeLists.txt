@@ -53,8 +53,10 @@ include(cmake/BoostLibraryConfig.cmake)
 
 
 
-
 add_custom_target(html)
-add_subdirectory(doc)
+define_property(GLOBAL PROPERTY DOC_HEADERS 
+	            BRIEF_DOCS "Public headers"
+	            FULL_DOCS "Headers which should be included in the documentation")
 add_subdirectory(src)
+add_subdirectory(doc)
 add_subdirectory(test)
