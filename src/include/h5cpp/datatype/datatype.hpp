@@ -77,10 +77,10 @@ bool operator!=(const Datatype &lhs,const Datatype &rhs);
 
 namespace prefdefined_types {
 
-static const Datatype native_int;
-static const Datatype native_double;
-static const Datatype native_long_double;
-static const Datatype native_short;
+static const Datatype native_int{};
+static const Datatype native_double{};
+static const Datatype native_long_double{};
+static const Datatype native_short{};
 
 
 } // namespace predefined_types

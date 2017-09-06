@@ -29,7 +29,16 @@ endif()
 #=============================================================================
 # some general configuration
 #=============================================================================
+<<<<<<< HEAD
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+=======
+
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Build type was not set. Using Relese mode.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+>>>>>>> branch 'master' of git@github.com:ess-dmsc/h5cpp.git
 include(cmake/InstallConfig.cmake)
 include(cmake/OutputDirConfig.cmake)
 include(cmake/EnsureBuildType.cmake)
