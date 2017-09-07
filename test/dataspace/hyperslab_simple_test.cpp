@@ -40,16 +40,16 @@ BOOST_AUTO_TEST_CASE(test_case_1)
   dataspace::Hyperslab slab({1,1},{1,1},{1,1},{5,5});
   space.selection(dataspace::SelectionOperation::SET,slab);
   BOOST_CHECK_EQUAL(space.selection.size(),25);
-  BOOST_CHECK(space.selection.type()==dataspace::SelectionType::HYPERSLAB);
+  BOOST_CHECK_EQUAL(space.selection.type(),dataspace::SelectionType::HYPERSLAB);
 
   BOOST_CHECK_NO_THROW(space.selection.all());
-  BOOST_CHECK(space.selection.type()==dataspace::SelectionType::ALL);
+  BOOST_CHECK_EQUAL(space.selection.type(),dataspace::SelectionType::ALL);
 }
 
 BOOST_AUTO_TEST_CASE(test_case_2)
 {
   dataspace::Simple space({10,1024,1024});
-  BOOST_CHECK(space.selection.type()==dataspace::SelectionType::ALL);
+  BOOST_CHECK_EQUAL(space.selection.type(),dataspace::SelectionType::ALL);
 
   dataspace::Hyperslab frame({0,0,0},{1,1,1},{1,1,1},{1,1024,1024});
   BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));

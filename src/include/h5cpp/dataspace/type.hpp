@@ -24,6 +24,7 @@
 //
 #pragma once
 
+#include <iostream>
 #include <type_traits>
 extern "C" {
 #include <hdf5.h>
@@ -39,6 +40,8 @@ enum class Type : std::underlying_type<H5S_class_t>::type
   NODATA = H5S_NULL
 };
 
+std::ostream &operator<<(std::ostream &stream,const Type &t);
+
 //!
 //! \brief selection type
 //!
@@ -51,6 +54,8 @@ enum class SelectionType : std::underlying_type<H5S_sel_type>::type
   HYPERSLAB = H5S_SEL_HYPERSLABS,
   ALL       = H5S_SEL_ALL
 };
+
+std::ostream &operator<<(std::ostream &stream,const SelectionType &t);
 
 //!
 //! \brief selection operator
@@ -66,6 +71,8 @@ enum class SelectionOperation : std::underlying_type<H5S_seloper_t>::type
   APPEND  = H5S_SELECT_APPEND,
   PREPEND = H5S_SELECT_PREPEND
 };
+
+std::ostream &operator<<(std::ostream &stream,const SelectionOperation &o);
 
 } // namespace dataspace
 } // namespace hdf5

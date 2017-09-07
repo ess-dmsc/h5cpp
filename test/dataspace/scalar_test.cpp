@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
 {
   dataspace::Scalar space;
   BOOST_CHECK_EQUAL(space.size(),1);
-  BOOST_CHECK(space.type()==dataspace::Type::SCALAR);
+  BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SCALAR);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

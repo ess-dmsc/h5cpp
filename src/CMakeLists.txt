@@ -29,7 +29,8 @@ set(DATASPACE_SOURCES dataspace/dataspace.cpp
                       dataspace/scalar.cpp
                       dataspace/simple.cpp
                       dataspace/selection.cpp
-                      dataspace/selection_manager.cpp)
+                      dataspace/selection_manager.cpp
+                      dataspace/type.cpp)
 
 set(SOURCES object_handle.cpp
             object_id.cpp

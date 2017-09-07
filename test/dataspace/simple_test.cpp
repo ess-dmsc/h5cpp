@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
   dataspace::Simple space;
   BOOST_CHECK_EQUAL(space.size(),0);
   BOOST_CHECK_EQUAL(space.rank(),0);
-  BOOST_CHECK(space.type()==dataspace::Type::SIMPLE);
+  BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SIMPLE);
   BOOST_CHECK(space.current_dimensions().empty());
   BOOST_CHECK(space.maximum_dimensions().empty());
 }

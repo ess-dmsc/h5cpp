@@ -34,7 +34,7 @@ namespace hdf5 {
 namespace datatype {
 
 //!
-//! \brief data type class
+//! \enum data type class
 //!
 //! Enumeration type describing the class a particular data type belongs to.
 //!

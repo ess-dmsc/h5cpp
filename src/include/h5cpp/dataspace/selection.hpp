@@ -75,12 +75,12 @@ class Hyperslab : public Selection
 
 };
 
-class PointSelection : public Selection
+class Points : public Selection
 {
   public:
-    PointSelection();
-    PointSelection(size_t rank);
-    ~PointSelection();
+    Points();
+    Points(size_t rank);
+    ~Points();
 
     virtual void apply(const Dataspace &space,
                        SelectionOperation ops) const;
