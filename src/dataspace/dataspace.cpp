@@ -29,6 +29,9 @@
 namespace hdf5 {
 namespace dataspace {
 
+Dataspace::~Dataspace()
+{}
+
 Dataspace::Dataspace(Type type):
     selection(*this),
     handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type))))

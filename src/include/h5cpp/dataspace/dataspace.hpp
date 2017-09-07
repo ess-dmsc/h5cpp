@@ -35,6 +35,7 @@ namespace dataspace {
 class Dataspace
 {
   public:
+    virtual ~Dataspace();
 
     void close();
 
