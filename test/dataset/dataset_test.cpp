@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,37 +20,8 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 7, 2017
 //
-#pragma once
-
-#include "../object_handle.hpp"
-#include "../path.hpp"
-#include "types.hpp"
-
-namespace hdf5 {
-namespace node {
-
-class Node
-{
-  public:
 
 
-    Path path() const;
-
-    Type type() const;
-
-    explicit operator hid_t() const
-    {
-      return static_cast<hid_t>(handle_);
-    }
-
-  protected:
-    Node(ObjectHandle &&handle,const Path &path);
-  private:
-    ObjectHandle handle_;
-    Path path_;
-};
-
-} // namespace node
-} // namespace hdf5
+#include <h5cpp/node/dataset.hpp>

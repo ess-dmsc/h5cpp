@@ -20,37 +20,66 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 8, 2017
 //
 #pragma once
 
-#include "../object_handle.hpp"
-#include "../path.hpp"
 #include "types.hpp"
+#include <boost/filesystem.hpp>
+#include "../windows.hpp"
+#include "../object_handle.hpp"
 
 namespace hdf5 {
-namespace node {
+namespace file {
 
-class Node
+class DLL_EXPORT File
 {
   public:
+    File()             = default;
+    File(const File &) = default;
+    File(File &&)      = default;
 
+    //!
+    //! \brief constructor
+    //!
+    explicit File(ObjectHandle &&handle);
 
-    Path path() const;
+    //!
+    //! \brief get access flags for the file
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    AccessFlags intent() const;
 
-    Type type() const;
+    //!
+    //! \brief get the file size in bytes
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    size_t size() const;
+
+    //!
+    //! \brief flush the file
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param scope the scope within which the file should be flushed
+    //!
+    void flush(Scope scope) const;
+    void close();
+
+    boost::filesystem::path path() const;
+    size_t count_open_objects(SearchFlags flag) const;
+    size_t count_open_objects(SearchFlagsBase flags) const;
 
     explicit operator hid_t() const
     {
       return static_cast<hid_t>(handle_);
     }
 
-  protected:
-    Node(ObjectHandle &&handle,const Path &path);
   private:
     ObjectHandle handle_;
-    Path path_;
+
 };
 
-} // namespace node
+} // namespace file
 } // namespace hdf5

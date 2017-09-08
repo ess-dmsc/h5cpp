@@ -20,37 +20,76 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 7, 2017
 //
 #pragma once
 
-#include "../object_handle.hpp"
-#include "../path.hpp"
-#include "types.hpp"
+#include "node.hpp"
 
 namespace hdf5 {
 namespace node {
 
-class Node
+class Selection;
+
+class Dataset : public Node
 {
   public:
 
+    Dataspace dataspace() const;
+    Datatype dataspace() const;
 
-    Path path() const;
-
-    Type type() const;
-
-    explicit operator hid_t() const
+    //!
+    //! \brief write entire dataset
+    //!
+    template<typename T>
+    void write(const T &data) const
     {
-      return static_cast<hid_t>(handle_);
+      auto memory_space = hdf5::dataspace::create(data);
+      auto memory_type  = hdf5::datatype::create(data);
+
+      Dataspace file_space = dataspace();
+
+      if(H5Dwrite(........)<0)
+      {
+
+      }
     }
 
-  protected:
-    Node(ObjectHandle &&handle,const Path &path);
-  private:
-    ObjectHandle handle_;
-    Path path_;
+    //!
+    //! \brief read entire dataset
+    //!
+    template<typename T>
+    void read(T &data) const;
+
+    //!
+    //! \brief
+    //!
+    template<typename T>
+    void write(const Dataspace &filespace,const T &data) const
+    {
+
+    }
+
+    template<typename T>
+    void write(const Dataspace &filespace,const Dataspace &memspace, const T &data);
+
+    template<typename T>
+    void write(const Selection &file_selection,const T &data) const;
+
+
+
+
+
 };
+
+ds.push_back(data);
+
+std::vector<double> data(4);
+ds.write(Points{{2},{3},{10},{56}},data);
+
+ds.write(Hyperslab{{3},{6}},data)
+
+
 
 } // namespace node
 } // namespace hdf5

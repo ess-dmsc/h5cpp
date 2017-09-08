@@ -32,7 +32,9 @@ set(DATASPACE_SOURCES dataspace/dataspace.cpp
                       dataspace/selection_manager.cpp
                       dataspace/type.cpp)
                      
-set(FILE_SOURCES file/types.cpp)
+set(FILE_SOURCES file/types.cpp
+	             file/file.cpp
+)
 
 set(SOURCES object_handle.cpp
             object_id.cpp

@@ -20,37 +20,47 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 8, 2017
 //
 #pragma once
 
-#include "../object_handle.hpp"
-#include "../path.hpp"
-#include "types.hpp"
+extern "C" {
+#include <hdf5.h>
+}
 
 namespace hdf5 {
 namespace node {
 
-class Node
+//!
+//! \brief enumeration for node type
+//!
+enum class Type : std::underlying_type<H5O_type_t>::type
 {
-  public:
-
-
-    Path path() const;
-
-    Type type() const;
-
-    explicit operator hid_t() const
-    {
-      return static_cast<hid_t>(handle_);
-    }
-
-  protected:
-    Node(ObjectHandle &&handle,const Path &path);
-  private:
-    ObjectHandle handle_;
-    Path path_;
+  UNKNOWN = H5O_TYPE_UNKNOWN,
+  GROUP   = H5O_TYPE_GROUP,
+  DATASET = H5O_TYPE_DATASET,
+  DATATYPE = H5O_TYPE_NAMED_DATATYPE
 };
+
+//!
+//! \brief iteration order
+//!
+enum class IterationOrder : std::underlying_type<H5_iter_order_t>::type
+{
+  INCREASING = H5_ITER_INC,
+  DECREASING = H5_ITER_DEC,
+  NATIVE     = H5_ITER_NATIVE
+};
+
+//!
+//! \brief iteration index
+//!
+enum class IterationIndex : std::underlying_type<H5_index_t>::type
+{
+  NAME = H5_INDEX_NAME,
+  CREATION_ORDER = H5_INDEX_CRT_ORDER
+};
+
 
 } // namespace node
 } // namespace hdf5
