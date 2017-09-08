@@ -18,3 +18,9 @@ target_link_libraries(dataspace_hyperslab_simple_test h5cpp_shared Boost::unit_t
 add_logging_test("hdf5::dataspace::HyperslabSimple"
                  dataspace_hyperslab_simple_test
                  ${WORKING_DIRECTORY})
+                
+add_executable(dataspace_type_trait_test type_trait_test.cpp)
+target_link_libraries(dataspace_type_trait_test h5cpp_shared Boost::unit_test_framework)
+add_logging_test("hdf5::dataspace::TypeTrait"
+                 dataspace_type_trait_test
+                 ${WORKING_DIRECTORY})

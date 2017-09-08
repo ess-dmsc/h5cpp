@@ -57,6 +57,12 @@ template<typename T> class TypeTrait
     static TypeClass create();
 };
 
+template<typename T>
+typename TypeTrait<T>::TypeClass create(const T &value)
+{
+  return TypeTrait<T>::create();
+}
+
 template<> class TypeTrait<char>
 {
   public:
@@ -196,6 +202,7 @@ template<> class TypeTrait<long double>
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
     }
 };
+
 
 
 

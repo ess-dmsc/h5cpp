@@ -6,6 +6,11 @@ project(h5cpp
 
 include(CTest)
 
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Build type was not set. Using Relese mode.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 #=============================================================================
 # setting up conan for use from within cmake
 #=============================================================================
@@ -30,11 +35,6 @@ endif()
 # some general configuration
 #=============================================================================
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-
-if (NOT CMAKE_BUILD_TYPE)
-    message(STATUS "Build type was not set. Using Relese mode.")
-    set(CMAKE_BUILD_TYPE "Release")
-endif()
 
 include(cmake/InstallConfig.cmake)
 include(cmake/OutputDirConfig.cmake)
