@@ -25,11 +25,12 @@
 #pragma once
 
 #include "datatype.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace datatype {
 
-class Float : public Datatype
+class DLL_EXPORT Float : public Datatype
 {
   public:
     Float(ObjectHandle &&handle);

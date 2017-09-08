@@ -26,12 +26,13 @@
 
 #include <type_traits>
 #include "datatype.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace datatype {
 
 
-class Integer : public Datatype
+class DLL_EXPORT Integer : public Datatype
 {
   public:
     Integer(ObjectHandle &&handle);

@@ -26,11 +26,12 @@
 
 #include "dataspace.hpp"
 #include "../types.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace dataspace {
 
-class Simple : public Dataspace
+class DLL_EXPORT Simple : public Dataspace
 {
   public:
     //!

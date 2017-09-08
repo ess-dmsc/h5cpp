@@ -29,6 +29,7 @@
 extern "C" {
 #include <hdf5.h>
 }
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace datatype {
@@ -55,7 +56,7 @@ enum class Class : std::underlying_type<H5T_class_t>::type
 
 };
 
-std::ostream &operator<<(std::ostream &stream,const Class &c);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Class &c);
 
 //!
 //! \brief enumeration type for byte order
@@ -66,7 +67,7 @@ enum class Order : std::underlying_type<H5T_order_t>::type
   BE = H5T_ORDER_BE
 };
 
-std::ostream &operator<<(std::ostream &stream,const Order &o);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Order &o);
 
 //!
 //! \brief enumeration for sign
@@ -77,7 +78,7 @@ enum class Sign : std::underlying_type<H5T_sign_t>::type
   UNSIGNED        = H5T_SGN_NONE
 };
 
-std::ostream &operator<<(std::ostream &stream,const Sign &s);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Sign &s);
 
 //!
 //! \brief enumeration describes mantissa norm
@@ -89,7 +90,7 @@ enum class Norm : std::underlying_type<H5T_norm_t>::type
   NONE    = H5T_NORM_NONE
 };
 
-std::ostream &operator<<(std::ostream &stream,const Norm &n);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Norm &n);
 
 //!
 //! \brief enumeration for floating point padding
@@ -101,7 +102,7 @@ enum class Pad : std::underlying_type<H5T_pad_t>::type
   BACKGROUND = H5T_PAD_BACKGROUND
 };
 
-std::ostream &operator<<(std::ostream &stream,const Pad &p);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Pad &p);
 
 //!
 //! \brief enumeration determining string padding
@@ -113,7 +114,7 @@ enum class StringPad : std::underlying_type<H5T_str_t>::type
   SPACEPAD = H5T_STR_SPACEPAD
 };
 
-std::ostream &operator<<(std::ostream &stream,const StringPad &pad);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const StringPad &pad);
 
 enum class Direction : std::underlying_type<H5T_direction_t>::type
 {
@@ -121,7 +122,7 @@ enum class Direction : std::underlying_type<H5T_direction_t>::type
   DESCEND = H5T_DIR_DESCEND
 };
 
-std::ostream &operator<<(std::ostream &stream,const Direction &d);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Direction &d);
 
 //!
 //! \brief character set encoding
@@ -135,7 +136,7 @@ enum class CharacterEncoding :  std::underlying_type<H5T_cset_t>::type
   UTF8  = H5T_CSET_UTF8  //!< UTF8
 };
 
-std::ostream &operator<<(std::ostream &stream,const CharacterEncoding &enc);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const CharacterEncoding &enc);
 
 
 } // namespace datatype

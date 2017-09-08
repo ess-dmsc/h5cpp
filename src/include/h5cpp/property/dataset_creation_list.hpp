@@ -29,6 +29,7 @@
 #include "../types.hpp"
 #include "../datatype/datatype.hpp"
 #include "../datatype/type_trait.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace property {
@@ -43,7 +44,7 @@ enum class DatasetFillValueStatus : std::underlying_type<H5D_fill_value_t>::type
   USER_DEFINED = H5D_FILL_VALUE_USER_DEFINED
 };
 
-std::ostream &operator<<(std::ostream &stream,const DatasetFillValueStatus &status);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const DatasetFillValueStatus &status);
 
 
 //!
@@ -56,7 +57,7 @@ enum class DatasetFillTime : std::underlying_type<H5D_fill_time_t>::type
   NEVER = H5D_FILL_TIME_NEVER
 };
 
-std::ostream &operator<<(std::ostream &stream,const DatasetFillTime &time);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const DatasetFillTime &time);
 
 
 //!
@@ -89,7 +90,7 @@ enum class DatasetAllocTime : std::underlying_type<H5D_alloc_time_t>::type
   LATE    = H5D_ALLOC_TIME_LATE
 };
 
-std::ostream &operator<<(std::ostream &stream,const DatasetAllocTime &time);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const DatasetAllocTime &time);
 
 //!
 //! \brief enumeration describing the layout of a dataset
@@ -104,12 +105,12 @@ enum class DatasetLayout : std::underlying_type<H5D_layout_t>::type
 #endif
 };
 
-std::ostream &operator<<(std::ostream &stream,const DatasetLayout &layout);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const DatasetLayout &layout);
 
 //!
 //! \brief dataset creation property list
 //!
-class DatasetCreationList : public ObjectCreationList
+class DLL_EXPORT DatasetCreationList : public ObjectCreationList
 {
   public:
     DatasetCreationList();

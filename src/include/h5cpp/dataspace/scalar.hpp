@@ -25,11 +25,12 @@
 #pragma once
 
 #include "dataspace.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace dataspace {
 
-class Scalar : public Dataspace
+class DLL_EXPORT Scalar : public Dataspace
 {
   public:
     Scalar();

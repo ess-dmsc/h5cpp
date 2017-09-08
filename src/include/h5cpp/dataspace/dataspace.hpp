@@ -27,12 +27,13 @@
 #include "type.hpp"
 #include "../object_handle.hpp"
 #include "selection_manager.hpp"
+#include "../windows.hpp"
 
 
 namespace hdf5 {
 namespace dataspace {
 
-class Dataspace
+class DLL_EXPORT Dataspace
 {
   public:
     virtual ~Dataspace();

@@ -27,11 +27,12 @@
 #include "type.hpp"
 #include "dataspace.hpp"
 #include "../types.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace dataspace {
 
-class Selection
+class DLL_EXPORT Selection
 {
   public:
     Selection();
@@ -42,7 +43,7 @@ class Selection
                        SelectionOperation ops) const = 0;
 };
 
-class Hyperslab : public Selection
+class DLL_EXPORT Hyperslab : public Selection
 {
   public:
     Hyperslab();
@@ -75,7 +76,7 @@ class Hyperslab : public Selection
 
 };
 
-class Points : public Selection
+class DLL_EXPORT Points : public Selection
 {
   public:
     Points();

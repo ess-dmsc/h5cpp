@@ -29,6 +29,7 @@
 extern "C" {
 #include <hdf5.h>
 }
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace dataspace {
@@ -40,7 +41,7 @@ enum class Type : std::underlying_type<H5S_class_t>::type
   NODATA = H5S_NULL
 };
 
-std::ostream &operator<<(std::ostream &stream,const Type &t);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Type &t);
 
 //!
 //! \brief selection type
@@ -55,7 +56,7 @@ enum class SelectionType : std::underlying_type<H5S_sel_type>::type
   ALL       = H5S_SEL_ALL
 };
 
-std::ostream &operator<<(std::ostream &stream,const SelectionType &t);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const SelectionType &t);
 
 //!
 //! \brief selection operator
@@ -72,7 +73,7 @@ enum class SelectionOperation : std::underlying_type<H5S_seloper_t>::type
   PREPEND = H5S_SELECT_PREPEND
 };
 
-std::ostream &operator<<(std::ostream &stream,const SelectionOperation &o);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const SelectionOperation &o);
 
 } // namespace dataspace
 } // namespace hdf5

@@ -25,6 +25,7 @@
 #pragma once
 
 #include "type.hpp"
+#include "../windows.hpp"
 
 
 namespace hdf5 {
@@ -33,7 +34,7 @@ namespace dataspace {
 class Dataspace;
 class Selection;
 
-class SelectionManager
+class DLL_EXPORT SelectionManager
 {
   public:
     SelectionManager() = delete;

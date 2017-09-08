@@ -26,6 +26,7 @@
 
 #include <list>
 #include <string>
+#include "windows.hpp"
 
 namespace hdf5 {
 
@@ -37,7 +38,7 @@ namespace hdf5 {
 //! While HDF5s C-API uses a simple string to represent a path, the C++ wrapper
 //! provides a class for this purpose.
 //!
-class Path
+class DLL_EXPORT Path
 {
   public:
     using value_type = std::string;
