@@ -43,8 +43,8 @@ enum class AccessFlags : unsigned
   READWRITE = 0x0001,
   READONLY  = 0x0000,
 #if H5_VERSION_GE(1,10,0)
-  SWMR_READ = H5F_ACC_SWMR_WRITE,
-  SWMR_READ = H5F_ACC_SWMR_READ
+  SWMR_READ = 0x0040,
+  SWMR_WRITE = 0x0020
 #endif
 };
 

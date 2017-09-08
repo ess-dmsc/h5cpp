@@ -44,6 +44,12 @@ BOOST_AUTO_TEST_CASE(test_output_stream)
   BOOST_CHECK(stream.is_equal("READWRITE"));
   stream<<file::AccessFlags::TRUNCATE;
   BOOST_CHECK(stream.is_equal("TRUNCATE"));
+#if H5_VERSION_GE(1,10,0)
+  stream<<file::AccessFlags::SWMR_WRITE;
+  BOOST_CHECK(stream.is_equal("SWMR WRITE"));
+  stream<<file::AccessFlags::SWMR_READ;
+  BOOST_CHECK(stream.is_equal("SWMR READ"));
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(test_values)
