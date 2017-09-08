@@ -901,7 +901,9 @@ Such an approach needs to be discussed to. </body>
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_VmAykJR8EeeoI7oI9Ds2zg" name="flush"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_VmAykJR8EeeoI7oI9Ds2zg" name="flush">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_5lak4JSXEeeoI7oI9Ds2zg" name="scope" type="_dmyBsJSVEeeoI7oI9Ds2zg"/>
+        </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_WgEAAJR8EeeoI7oI9Ds2zg" name="close"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_XZW_gJR8EeeoI7oI9Ds2zg" name="path">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_Z7CSEJR8EeeoI7oI9Ds2zg" direction="return">
@@ -1010,6 +1012,22 @@ Such an approach needs to be discussed to. </body>
       </packagedElement>
       <packagedElement xmi:type="uml:Usage" xmi:id="_wUxwsJR7EeeoI7oI9Ds2zg" client="_zHFPUJRyEeeoI7oI9Ds2zg" supplier="_ESB0MJR6EeeoI7oI9Ds2zg"/>
       <packagedElement xmi:type="uml:Usage" xmi:id="_BXdOkJR8EeeoI7oI9Ds2zg" client="_qYoNQJR5EeeoI7oI9Ds2zg" supplier="_B_hJkJR7EeeoI7oI9Ds2zg"/>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_dmyBsJSVEeeoI7oI9Ds2zg" name="Scope">
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_fM4c0JSVEeeoI7oI9Ds2zg" name="GLOBAL"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_gyV-wJSVEeeoI7oI9Ds2zg" name="LOCAL"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_indGQJSVEeeoI7oI9Ds2zg" name="Scope operations">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_kKyhQJSVEeeoI7oI9Ds2zg" name="operator&lt;&lt;">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_m8RKYJSVEeeoI7oI9Ds2zg" name="stream">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_vdW18JR6EeeoI7oI9Ds2zg"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_pjbZ4JSVEeeoI7oI9Ds2zg" name="scope" type="_dmyBsJSVEeeoI7oI9Ds2zg"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_rC2lQJSVEeeoI7oI9Ds2zg" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_vdW18JR6EeeoI7oI9Ds2zg"/>
+          </ownedParameter>
+        </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_xPMywJSVEeeoI7oI9Ds2zg" client="_dmyBsJSVEeeoI7oI9Ds2zg" supplier="_indGQJSVEeeoI7oI9Ds2zg"/>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_NY5wMP8sEeaZaM7lOsGynA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_iBnpkJR6EeeoI7oI9Ds2zg" source="PapyrusVersion">
@@ -1041,4 +1059,5 @@ Such an approach needs to be discussed to. </body>
   <cpp:freefunctions xmi:id="_bkZZYJR4EeeoI7oI9Ds2zg" base_Class="_YckFwJR4EeeoI7oI9Ds2zg"/>
   <cpp:operators xmi:id="_nVWNAJR6EeeoI7oI9Ds2zg" base_Class="_ESB0MJR6EeeoI7oI9Ds2zg"/>
   <cpp:operators xmi:id="_EmWo8JR7EeeoI7oI9Ds2zg" base_Class="_B_hJkJR7EeeoI7oI9Ds2zg"/>
+  <cpp:operators xmi:id="_vi63IJSVEeeoI7oI9Ds2zg" base_Class="_indGQJSVEeeoI7oI9Ds2zg"/>
 </xmi:XMI>

@@ -68,4 +68,22 @@ BOOST_AUTO_TEST_CASE(test_or_left_three)
                     H5F_OBJ_ATTR | H5F_OBJ_DATASET | H5F_OBJ_DATATYPE);
 }
 
+BOOST_AUTO_TEST_CASE(test_values)
+{
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::ALL),
+                    H5F_OBJ_ALL);
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::ATTRIBUTE),
+                      H5F_OBJ_ATTR);
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATASET),
+                      H5F_OBJ_DATASET);
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATATYPE),
+                      H5F_OBJ_DATATYPE);
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::FILE),
+                      H5F_OBJ_FILE);
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::GROUP),
+                        H5F_OBJ_GROUP);
+  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::LOCAL),
+                        H5F_OBJ_LOCAL);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -76,6 +76,17 @@ SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs)
   return rhs | lhs;
 }
 
+std::ostream &operator<<(std::ostream &stream,const Scope &scope)
+{
+  switch(scope)
+  {
+    case Scope::GLOBAL: return stream<<"GLOBAL";
+    case Scope::LOCAL: return stream<<"LOCAL";
+    default:
+      return stream;
+  }
+}
+
 
 } // namespace file
 } // namespace hdf5

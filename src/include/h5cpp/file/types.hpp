@@ -48,6 +48,8 @@ enum class AccessFlags : unsigned
 #endif
 };
 
+using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
+
 std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
 
 
@@ -73,6 +75,18 @@ SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlags &rhs);
 SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs);
 SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs);
 
+//!
+//! \brief file scope
+//!
+enum class Scope : std::underlying_type<H5F_scope_t>::type
+{
+  LOCAL = H5F_SCOPE_LOCAL,
+  GLOBAL = H5F_SCOPE_GLOBAL
+};
+
+using ScopeBase = std::underlying_type<Scope>::type;
+
+std::ostream &operator<<(std::ostream &stream,const Scope &scope);
 
 } // namespace file
 } // namespace hdf5
