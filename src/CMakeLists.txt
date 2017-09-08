@@ -31,6 +31,8 @@ set(DATASPACE_SOURCES dataspace/dataspace.cpp
                       dataspace/selection.cpp
                       dataspace/selection_manager.cpp
                       dataspace/type.cpp)
+                     
+set(FILE_SOURCES file/types.cpp)
 
 set(SOURCES object_handle.cpp
             object_id.cpp
@@ -38,7 +40,8 @@ set(SOURCES object_handle.cpp
             )
 
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 
-			${DATATYPE_SOURCES} ${DATASPACE_SOURCES})
+			${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
+		    ${FILE_SOURCES})
 target_link_libraries(h5cpp_shared PUBLIC ${HDF5_LIBRARIES} Boost::filesystem)
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 target_include_directories(h5cpp_shared
