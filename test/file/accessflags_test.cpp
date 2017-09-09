@@ -62,6 +62,13 @@ BOOST_AUTO_TEST_CASE(test_values)
                     H5F_ACC_RDWR);
   BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE),
                     H5F_ACC_TRUNC);
+#if H5_VERSION_GE(1,10,0)
+  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE),
+                    H5F_ACC_SWMR_WRITE);
+  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ),
+                    H5F_ACC_SWMR_READ);
+
+#endif
 }
 
 BOOST_AUTO_TEST_SUITE_END()
