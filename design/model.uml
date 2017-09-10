@@ -526,15 +526,15 @@ Such an approach needs to be discussed to. </body>
       <packagedElement xmi:type="uml:Usage" xmi:id="_BHYLQJO4EeeoI7oI9Ds2zg" client="_3rKvgJO3EeeoI7oI9Ds2zg" supplier="_in-CgJO3EeeoI7oI9Ds2zg"/>
       <packagedElement xmi:type="uml:Usage" xmi:id="_CoQIIJO4EeeoI7oI9Ds2zg" client="_3rKvgJO3EeeoI7oI9Ds2zg" supplier="_uKHQAJO3EeeoI7oI9Ds2zg"/>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
-        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_2AqE4AJAEeeXUd39xgE0rQ" source="PapyrusVersion">
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4QJAEeeXUd39xgE0rQ" key="Version" value="0.0.10"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4gJAEeeXUd39xgE0rQ" key="Comment" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE4wJAEeeXUd39xgE0rQ" key="Copyright" value=""/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE5AJAEeeXUd39xgE0rQ" key="Date" value="2017-03-03"/>
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_2AqE5QJAEeeXUd39xgE0rQ" key="Author" value=""/>
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XNNwJWQEee7vqXOLcolPQ" source="PapyrusVersion">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNwZWQEee7vqXOLcolPQ" key="Version" value="0.0.11"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNwpWQEee7vqXOLcolPQ" key="Comment" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNw5WQEee7vqXOLcolPQ" key="Copyright" value=""/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNxJWQEee7vqXOLcolPQ" key="Date" value="2017-09-08"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNxZWQEee7vqXOLcolPQ" key="Author" value=""/>
         </eAnnotations>
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_04wygP88EeaZaM7lOsGynA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_FUtawP_xEea3Te7FZhcDeA"/>
+          <references xmi:type="ecore:EPackage" href="cpp.profile.uml#_Br3qQJR6EeeoI7oI9Ds2zg"/>
         </eAnnotations>
         <appliedProfile xmi:type="uml:Profile" href="cpp.profile.uml#_utzYQP6QEeaZ1-3y1hN2zw"/>
       </profileApplication>
