@@ -29,3 +29,9 @@ target_link_libraries(file_open_test h5cpp_shared Boost::unit_test_framework)
 add_logging_test("hdf5::file::open"
                  file_open_test
                  ${WORKING_DIRECTORY})                 
+                
+add_executable(file_is_hdf5_test is_hdf5_test.cpp)
+target_link_libraries(file_is_hdf5_test h5cpp_shared Boost::unit_test_framework)
+add_logging_test("hdf5::file::is_hdf5_file"
+                 file_is_hdf5_test
+                 ${WORKING_DIRECTORY}) 
