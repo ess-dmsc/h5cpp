@@ -45,6 +45,23 @@ std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags)
   }
 }
 
+AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs)
+{
+  return static_cast<AccessFlagsBase>(lhs) |
+         static_cast<AccessFlagsBase>(rhs);
+}
+
+AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs)
+{
+  return lhs | static_cast<AccessFlagsBase>(rhs);
+}
+
+AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs)
+{
+  return static_cast<AccessFlagsBase>(lhs) | rhs;
+}
+
+
 std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags)
 {
   switch(flags)

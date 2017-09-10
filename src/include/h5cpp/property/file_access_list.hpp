@@ -30,11 +30,44 @@
 namespace hdf5 {
 namespace property {
 
+//!
+//! \brief library version enumeration
+//!
+enum class LibVersion : std::underlying_type<H5F_libver_t>::type
+{
+  LATEST = H5F_LIBVER_LATEST,
+  EARLIEST = H5F_LIBVER_EARLIEST
+};
+
+using LibVersionBase = std::underlying_type<LibVersion>::type;
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const LibVersion &version);
+
+
+//!
+//! \brief file access property list
+//!
+//! Class provides object oriented interface to the file access property list.
+//!
 class DLL_EXPORT FileAccessList : public List
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     FileAccessList();
+
+    //!
+    //! \brief destructor
+    //!
     ~FileAccessList();
+
+    //!
+    //! \brief setting library version boundaries
+    //!
+    void library_version_bounds(LibVersion high,LibVersion low) const;
+    LibVersion library_version_bound_high() const;
+    LibVersion library_version_bound_low() const;
 };
 
 } // namespace property

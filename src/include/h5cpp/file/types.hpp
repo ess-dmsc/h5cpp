@@ -52,6 +52,10 @@ using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
 
 std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
 
+AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs);
+AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
+AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
+
 
 //!
 //! \brief flags controlling object search in a file
@@ -87,6 +91,7 @@ enum class Scope : std::underlying_type<H5F_scope_t>::type
 using ScopeBase = std::underlying_type<Scope>::type;
 
 std::ostream &operator<<(std::ostream &stream,const Scope &scope);
+
 
 } // namespace file
 } // namespace hdf5

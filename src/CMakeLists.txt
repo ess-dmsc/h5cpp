@@ -34,6 +34,7 @@ set(DATASPACE_SOURCES dataspace/dataspace.cpp
                      
 set(FILE_SOURCES file/types.cpp
 	             file/file.cpp
+	             file/functions.cpp
 )
 
 set(SOURCES object_handle.cpp
