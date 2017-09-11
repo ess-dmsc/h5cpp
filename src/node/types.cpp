@@ -20,53 +20,47 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 8, 2017
+// Created on: Sep 10, 2017
 //
-#pragma once
 
-#include <iostream>
-extern "C" {
-#include <hdf5.h>
-}
+#include <h5cpp/node/types.hpp>
 
 namespace hdf5 {
 namespace node {
 
-//!
-//! \brief enumeration for node type
-//!
-enum class Type : std::underlying_type<H5O_type_t>::type
+
+std::ostream &operator<<(std::ostream &stream,const Type &type)
 {
-  UNKNOWN = H5O_TYPE_UNKNOWN,
-  GROUP   = H5O_TYPE_GROUP,
-  DATASET = H5O_TYPE_DATASET,
-  DATATYPE = H5O_TYPE_NAMED_DATATYPE
-};
+  switch(type)
+  {
+    case Type::UNKNOWN: return stream<<"UNKOWN";
+    case Type::GROUP: return stream<<"GROUP";
+    case Type::DATASET: return stream<<"DATASET";
+    case Type::DATATYPE: return stream<<"DATATYPE";
+    default:
+      return stream;
+  }
+}
 
-std::ostream &operator<<(std::ostream &stream,const Type &type);
-
-//!
-//! \brief iteration order
-//!
-enum class IterationOrder : std::underlying_type<H5_iter_order_t>::type
+std::ostream &operator<<(std::ostream &stream,const IterationOrder &order)
 {
-  INCREASING = H5_ITER_INC,
-  DECREASING = H5_ITER_DEC,
-  NATIVE     = H5_ITER_NATIVE
-};
+  switch(order)
+  {
+    case IterationOrder::DECREASING: return stream<<"DECREASING";
+    case IterationOrder::INCREASING: return stream<<"INCREASING";
+    case IterationOrder::NATIVE: return stream<<"NATIVE";
+    default:
+      return stream;
+  }
 
-std::ostream &operator<<(std::ostream &stream,const IterationOrder &order);
+}
 
-//!
-//! \brief iteration index
-//!
-enum class IterationIndex : std::underlying_type<H5_index_t>::type
+std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
 {
-  NAME = H5_INDEX_NAME,
-  CREATION_ORDER = H5_INDEX_CRT_ORDER
-};
 
-std::ostream &operator<<(std::ostream &stream,const IterationIndex &index);
+}
 
 } // namespace node
 } // namespace hdf5
+
+
