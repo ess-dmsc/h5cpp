@@ -103,12 +103,14 @@ BOOST_AUTO_TEST_CASE(test_long_long)
   BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LLONG));
 }
 
+#ifndef _MSC_VER
 BOOST_AUTO_TEST_CASE(test_unsigned_long_long)
 {
   auto type = ds::TypeTrait<unsigned long>::create();
   BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
   BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_ULLONG));
 }
+#endif
 
 BOOST_AUTO_TEST_CASE(test_float)
 {

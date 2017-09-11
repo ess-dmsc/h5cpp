@@ -78,10 +78,10 @@ DLL_EXPORT bool operator!=(const Datatype &lhs,const Datatype &rhs);
 
 namespace prefdefined_types {
 
-DLL_EXPORT static const Datatype native_int{};
-DLL_EXPORT static const Datatype native_double{};
-DLL_EXPORT static const Datatype native_long_double{};
-DLL_EXPORT static const Datatype native_short{};
+DLL_EXPORT extern const Datatype native_int;
+DLL_EXPORT extern const Datatype native_double;
+DLL_EXPORT extern const Datatype native_long_double;
+DLL_EXPORT extern const Datatype native_short;
 
 
 } // namespace predefined_types

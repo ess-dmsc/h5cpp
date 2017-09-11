@@ -28,6 +28,7 @@
 extern "C" {
 #include <hdf5.h>
 }
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -43,7 +44,7 @@ enum class Type : std::underlying_type<H5O_type_t>::type
   DATATYPE = H5O_TYPE_NAMED_DATATYPE
 };
 
-std::ostream &operator<<(std::ostream &stream,const Type &type);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Type &type);
 
 //!
 //! \brief iteration order
@@ -55,7 +56,7 @@ enum class IterationOrder : std::underlying_type<H5_iter_order_t>::type
   NATIVE     = H5_ITER_NATIVE
 };
 
-std::ostream &operator<<(std::ostream &stream,const IterationOrder &order);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationOrder &order);
 
 //!
 //! \brief iteration index
@@ -66,7 +67,7 @@ enum class IterationIndex : std::underlying_type<H5_index_t>::type
   CREATION_ORDER = H5_INDEX_CRT_ORDER
 };
 
-std::ostream &operator<<(std::ostream &stream,const IterationIndex &index);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationIndex &index);
 
 } // namespace node
 } // namespace hdf5

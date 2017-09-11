@@ -113,6 +113,21 @@ void Hyperslab::apply(const Dataspace &space,SelectionOperation ops) const
 }
 
 
+Points::Points():
+    Selection()
+{}
+
+Points::~Points()
+{}
+
+Points::Points(size_t rank):
+    Selection()
+{}
+
+void Points::apply(const Dataspace &space,
+                   SelectionOperation ops) const
+{
+}
 
 } // namespace dataspace
 } // namespace hdf5

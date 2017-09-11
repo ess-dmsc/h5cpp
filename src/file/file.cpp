@@ -70,7 +70,7 @@ void File::close()
 
 boost::filesystem::path File::path() const
 {
-
+    return boost::filesystem::path();
 }
 
 size_t File::count_open_objects(SearchFlagsBase flags) const
