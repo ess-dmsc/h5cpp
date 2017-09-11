@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 17, 2017
 //
-
+#include <stdexcept>
 #include <h5cpp/property/file_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 

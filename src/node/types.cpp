@@ -33,7 +33,7 @@ std::ostream &operator<<(std::ostream &stream,const Type &type)
 {
   switch(type)
   {
-    case Type::UNKNOWN: return stream<<"UNKOWN";
+    case Type::UNKNOWN: return stream<<"UNKNOWN";
     case Type::GROUP: return stream<<"GROUP";
     case Type::DATASET: return stream<<"DATASET";
     case Type::DATATYPE: return stream<<"DATATYPE";
@@ -57,6 +57,13 @@ std::ostream &operator<<(std::ostream &stream,const IterationOrder &order)
 
 std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
 {
+  switch(index)
+  {
+    case IterationIndex::CREATION_ORDER: return stream<<"CREATION_ORDER";
+    case IterationIndex::NAME: return stream<<"NAME";
+    default:
+      return stream;
+  }
 
 }
 
