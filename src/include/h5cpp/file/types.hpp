@@ -28,6 +28,7 @@
 extern "C" {
 #include <hdf5.h>
 }
+#include "../windows.hpp"
 
 
 namespace hdf5 {
@@ -50,11 +51,11 @@ enum class AccessFlags : unsigned
 
 using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
 
-std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
 
-AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs);
-AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
-AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
+DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
 
 
 //!
@@ -73,11 +74,11 @@ enum class SearchFlags : unsigned int
 
 using SearchFlagsBase = std::underlying_type<SearchFlags>::type;
 
-std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags);
 
-SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlags &rhs);
-SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs);
-SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs);
+DLL_EXPORT SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlags &rhs);
+DLL_EXPORT SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs);
+DLL_EXPORT SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs);
 
 //!
 //! \brief file scope
@@ -90,7 +91,7 @@ enum class Scope : std::underlying_type<H5F_scope_t>::type
 
 using ScopeBase = std::underlying_type<Scope>::type;
 
-std::ostream &operator<<(std::ostream &stream,const Scope &scope);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Scope &scope);
 
 
 } // namespace file

@@ -28,6 +28,7 @@
 #include "types.hpp"
 #include "../property/file_creation_list.hpp"
 #include "../property/file_access_list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace file {
@@ -45,14 +46,14 @@ namespace file {
 //! \sa FileCreationList
 //! \sa FileAccessList
 //!
-File create(const boost::filesystem::path &path,
-            AccessFlags flags = AccessFlags::EXCLUSIVE,
-            const property::FileCreationList &fcpl = property::FileCreationList(),
-            const property::FileAccessList &fapl = property::FileAccessList());
-File create(const boost::filesystem::path &path,
-            AccessFlagsBase flags,
-            const property::FileCreationList &fcpl = property::FileCreationList(),
-            const property::FileAccessList &fapl = property::FileAccessList());
+DLL_EXPORT File create(const boost::filesystem::path &path,
+                       AccessFlags flags = AccessFlags::EXCLUSIVE,
+                       const property::FileCreationList &fcpl = property::FileCreationList(),
+                       const property::FileAccessList &fapl = property::FileAccessList());
+DLL_EXPORT File create(const boost::filesystem::path &path,
+                       AccessFlagsBase flags,
+                       const property::FileCreationList &fcpl = property::FileCreationList(),
+                       const property::FileAccessList &fapl = property::FileAccessList());
 
 //!
 //! \brief open an existing file
@@ -65,12 +66,12 @@ File create(const boost::filesystem::path &path,
 //! \sa AccessFlags
 //! \sa FileAccessList
 //!
-File open(const boost::filesystem::path &path,
-          AccessFlags flags = AccessFlags::READONLY,
-          const property::FileAccessList &fapl = property::FileAccessList());
-File open(const boost::filesystem::path &path,
-          AccessFlagsBase flags,
-          const property::FileAccessList &fapl = property::FileAccessList());
+DLL_EXPORT File open(const boost::filesystem::path &path,
+                     AccessFlags flags = AccessFlags::READONLY,
+                     const property::FileAccessList &fapl = property::FileAccessList());
+DLL_EXPORT File open(const boost::filesystem::path &path,
+                     AccessFlagsBase flags,
+                     const property::FileAccessList &fapl = property::FileAccessList());
 
 //!
 //! \brief check if the file reference by the path is an HDF5 file
@@ -79,7 +80,7 @@ File open(const boost::filesystem::path &path,
 //! \throws std::runtime_error in case of a failure
 //! \return true if the path references an HDF5 file, false otherwise
 //!
-bool is_hdf5_file(const boost::filesystem::path &path);
+DLL_EXPORT bool is_hdf5_file(const boost::filesystem::path &path);
 
 } // namespace file
 } // namespace hdf5
