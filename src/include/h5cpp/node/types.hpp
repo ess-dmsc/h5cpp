@@ -46,28 +46,5 @@ enum class Type : std::underlying_type<H5O_type_t>::type
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Type &type);
 
-//!
-//! \brief iteration order
-//!
-enum class IterationOrder : std::underlying_type<H5_iter_order_t>::type
-{
-  INCREASING = H5_ITER_INC,
-  DECREASING = H5_ITER_DEC,
-  NATIVE     = H5_ITER_NATIVE
-};
-
-DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationOrder &order);
-
-//!
-//! \brief iteration index
-//!
-enum class IterationIndex : std::underlying_type<H5_index_t>::type
-{
-  NAME = H5_INDEX_NAME,
-  CREATION_ORDER = H5_INDEX_CRT_ORDER
-};
-
-DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationIndex &index);
-
 } // namespace node
 } // namespace hdf5

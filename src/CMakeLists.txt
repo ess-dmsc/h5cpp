@@ -37,11 +37,17 @@ set(FILE_SOURCES file/types.cpp
 	             file/functions.cpp
 )
 
-set(NODE_SOURCES node/types.cpp)
+set(NODE_SOURCES node/types.cpp
+	             node/group_view.cpp
+	             node/node_view.cpp
+	             node/link_view.cpp
+	             node/node.cpp
+)
 
 set(SOURCES object_handle.cpp
             object_id.cpp
             path.cpp
+            iterator_config.cpp
             )
 
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 

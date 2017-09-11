@@ -229,4 +229,9 @@ Path operator+(const Path &lhs,const Path &rhs)
   return result;
 }
 
+std::ostream &operator<<(std::ostream &stream,const Path &path)
+{
+  return stream<<static_cast<std::string>(path);
+}
+
 } // namespace hdf5

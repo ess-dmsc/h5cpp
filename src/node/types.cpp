@@ -42,30 +42,6 @@ std::ostream &operator<<(std::ostream &stream,const Type &type)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream,const IterationOrder &order)
-{
-  switch(order)
-  {
-    case IterationOrder::DECREASING: return stream<<"DECREASING";
-    case IterationOrder::INCREASING: return stream<<"INCREASING";
-    case IterationOrder::NATIVE: return stream<<"NATIVE";
-    default:
-      return stream;
-  }
-
-}
-
-std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
-{
-  switch(index)
-  {
-    case IterationIndex::CREATION_ORDER: return stream<<"CREATION_ORDER";
-    case IterationIndex::NAME: return stream<<"NAME";
-    default:
-      return stream;
-  }
-
-}
 
 } // namespace node
 } // namespace hdf5

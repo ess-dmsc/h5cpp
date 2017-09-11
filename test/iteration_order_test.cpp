@@ -26,7 +26,7 @@
 #define BOOST_TEST_MODULE testing IterationOrder enumeration
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
-#include <h5cpp/node/types.hpp>
+#include <h5cpp/iterator_config.hpp>
 
 using boost::test_tools::output_test_stream;
 using namespace hdf5;
@@ -36,21 +36,21 @@ BOOST_AUTO_TEST_SUITE(IterationOrder_test)
 BOOST_AUTO_TEST_CASE(test_string_representation)
 {
   output_test_stream stream;
-  stream<<node::IterationOrder::DECREASING;
+  stream<<IterationOrder::DECREASING;
   BOOST_CHECK(stream.is_equal("DECREASING"));
-  stream<<node::IterationOrder::INCREASING;
+  stream<<IterationOrder::INCREASING;
   BOOST_CHECK(stream.is_equal("INCREASING"));
-  stream<<node::IterationOrder::NATIVE;
+  stream<<IterationOrder::NATIVE;
   BOOST_CHECK(stream.is_equal("NATIVE"));
 }
 
 BOOST_AUTO_TEST_CASE(test_value)
 {
-  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(node::IterationOrder::DECREASING),
+  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
                     H5_ITER_DEC);
-  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(node::IterationOrder::INCREASING),
+  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(IterationOrder::INCREASING),
                     H5_ITER_INC);
-  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(node::IterationOrder::NATIVE),
+  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
                     H5_ITER_NATIVE);
 }
 
