@@ -42,6 +42,18 @@ std::ostream &operator<<(std::ostream &stream,const Type &type)
   }
 }
 
+std::ostream &operator<<(std::ostream &stream,const LinkType &type)
+{
+  switch(type)
+  {
+    case LinkType::ERROR: return stream<<"ERROR";
+    case LinkType::EXTERNAL: return stream<<"EXTERNAL";
+    case LinkType::HARD: return stream<<"HARD";
+    case LinkType::SOFT: return stream<<"SOFT";
+    default:
+      return stream;
+  }
+}
 
 } // namespace node
 } // namespace hdf5

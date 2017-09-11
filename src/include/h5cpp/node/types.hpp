@@ -46,5 +46,15 @@ enum class Type : std::underlying_type<H5O_type_t>::type
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Type &type);
 
+enum class LinkType : std::underlying_type<H5L_type_t>::type
+{
+  HARD = H5L_TYPE_HARD,
+  SOFT = H5L_TYPE_SOFT,
+  EXTERNAL = H5L_TYPE_EXTERNAL,
+  ERROR = H5L_TYPE_ERROR
+};
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const LinkType &type);
+
 } // namespace node
 } // namespace hdf5
