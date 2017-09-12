@@ -123,4 +123,44 @@ BOOST_AUTO_TEST_CASE(test_root_path)
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/");
 }
 
+BOOST_AUTO_TEST_CASE(test_front)
+{
+  hdf5::Path p("/hello/world");
+  BOOST_CHECK_EQUAL(p.front(),"hello");
+
+  p = hdf5::Path("/");
+  BOOST_CHECK(p.is_root());
+  BOOST_CHECK_EQUAL(p.front(),"/");
+}
+
+BOOST_AUTO_TEST_CASE(test_back)
+{
+  hdf5::Path p("hello/world");
+  BOOST_CHECK_EQUAL(p.back(),"world");
+
+  p = hdf5::Path("/");
+  BOOST_CHECK(p.is_root());
+  BOOST_CHECK_EQUAL(p.back(),"/");
+}
+
+BOOST_AUTO_TEST_CASE(test_object_name)
+{
+  hdf5::Path p("hello/world");
+  BOOST_CHECK_EQUAL(hdf5::Path::object_name(p),"world");
+
+  p = hdf5::Path("/");
+  BOOST_CHECK(p.is_root());
+  BOOST_CHECK_EQUAL(hdf5::Path::object_name(p),"/");
+}
+
+BOOST_AUTO_TEST_CASE(test_parent_path)
+{
+  hdf5::Path p("hello/world");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"hello");
+
+  p = hdf5::Path("/");
+  BOOST_CHECK(p.is_root());
+  BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"/");
+}
+
 BOOST_AUTO_TEST_SUITE_END()

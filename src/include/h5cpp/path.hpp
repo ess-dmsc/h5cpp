@@ -112,6 +112,9 @@ class DLL_EXPORT Path
     bool is_absolute_path() const noexcept;
     void is_absolute_path(bool value) noexcept;
 
+    value_type back() const;
+    value_type front() const;
+
     //!
     //! \brief true if the path refers to the root group
     //!
@@ -119,6 +122,21 @@ class DLL_EXPORT Path
     //! of elements is empty but the absolute path flag is set.
     //!
     bool is_root() const;
+
+    //!
+    //! \brief get object name from a path
+    //!
+    //! The object name is the last element of a path. In the case
+    //! of the root group it is the same.
+    //!
+    static std::string object_name(const Path &path);
+
+    //!
+    //! \brief get parent path
+    //!
+    //! This is basically the path with the last component stripped of.
+    //!
+    static Path parent_path(const Path &path);
 
   private:
     bool absolute_;

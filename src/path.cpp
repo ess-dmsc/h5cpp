@@ -62,8 +62,9 @@ std::list<std::string> str_to_list(const std::string &str)
   return result;
 }
 
-}
+} // end of anonymous name space
 
+//=============================================================================
 void Path::from_string(const std::string &str)
 {
   auto string_start = str.begin();
@@ -244,6 +245,41 @@ Path operator+(const Path &lhs,const Path &rhs)
 std::ostream &operator<<(std::ostream &stream,const Path &path)
 {
   return stream<<static_cast<std::string>(path);
+}
+
+Path::value_type Path::front() const
+{
+  if(is_root())
+    return "/";
+
+  return link_names_.front();
+}
+
+Path::value_type Path::back() const
+{
+  if(is_root())
+    return "/";
+
+  return link_names_.back();
+}
+
+std::string Path::object_name(const Path &path)
+{
+  if(path.is_root())
+    return "/";
+
+  return path.back();
+}
+
+Path Path::parent_path(const Path &path)
+{
+  if(path.is_root())
+    return path;
+
+  Path p(path);
+
+  p.pop_back();
+  return p;
 }
 
 } // namespace hdf5
