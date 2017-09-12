@@ -27,6 +27,7 @@
 #include "group.hpp"
 #include "../path.hpp"
 #include "../windows.hpp"
+#include "../property/link_access_list.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -87,7 +88,7 @@ class DLL_EXPORT Link
     //!
     //! \brief constructor
     //!
-    Link(const Group &parent_group,const Path &path);
+    Link(const Group &parent_group,const std::string &name);
     Link() = default;
     Link(const Link &) = default;
 
@@ -103,17 +104,22 @@ class DLL_EXPORT Link
     //! \brief path to reference object
     //!
     //! Return the path to the object which is reference by this link.
-    LinkTarget target() const;
+    LinkTarget target(const property::LinkAccessList &lapl = property::LinkAccessList()) const;
 
 
     //!
     //! \brief get type of link
     //!
-    LinkType type() const;
+    LinkType type(const property::LinkAccessList &lapl = property::LinkAccessList()) const;
 
   private:
     Group parent_group_;
-    Path  path_;
+    std::string  name_;
+
+    H5L_info_t get_link_info(const property::LinkAccessList &lapl) const;
+    std::string get_link_value(const property::LinkAccessList &lapl) const;
+    LinkTarget get_soft_link_target(const property::LinkAccessList &lapl) const;
+    LinkTarget get_external_link_target(const property::LinkAccessList &lapl) const;
 };
 
 

@@ -109,25 +109,26 @@ The destructor ensures that the correct close function is called whenever an ins
         <ownedOperation xmi:type="uml:Operation" xmi:id="_KqOJkJOvEeeoI7oI9Ds2zg" name="close"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_1n4DEJOsEeeoI7oI9Ds2zg" name="Manager">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_h2JdkpbkEeeoI7oI9Ds2zg" name="iteratorconfig" type="_ed3XUJbdEeeoI7oI9Ds2zg" aggregation="composite" association="_h2I2gJbkEeeoI7oI9Ds2zg"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_dc2-oJOuEeeoI7oI9Ds2zg" name="size">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_hI2IMJOuEeeoI7oI9Ds2zg" name="return" direction="out">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_hI2IMJOuEeeoI7oI9Ds2zg" name="return" direction="return">
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_h4hRoJOuEeeoI7oI9Ds2zg" name="operator[]">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_lvC3QJOuEeeoI7oI9Ds2zg" name="return" type="_Zr9agJObEeeoI7oI9Ds2zg" direction="out"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_h4hRoJOuEeeoI7oI9Ds2zg" name="operator[]" visibility="public">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_lvC3QJOuEeeoI7oI9Ds2zg" name="return" type="_Zr9agJObEeeoI7oI9Ds2zg" direction="return"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_oP5DYJOuEeeoI7oI9Ds2zg" name="index">
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
           </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_o5goIJOuEeeoI7oI9Ds2zg" name="operator[]">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_rWx70JOuEeeoI7oI9Ds2zg" name="return" type="_Zr9agJObEeeoI7oI9Ds2zg" direction="out"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_rWx70JOuEeeoI7oI9Ds2zg" name="return" type="_Zr9agJObEeeoI7oI9Ds2zg" direction="return"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_tMHs0JOuEeeoI7oI9Ds2zg" name="name">
             <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
           </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_0hJZoJOuEeeoI7oI9Ds2zg" name="create">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_A97qcJOvEeeoI7oI9Ds2zg" name="return" type="_Zr9agJObEeeoI7oI9Ds2zg" direction="out"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_A97qcJOvEeeoI7oI9Ds2zg" name="return" type="_Zr9agJObEeeoI7oI9Ds2zg" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_2SNuoJOuEeeoI7oI9Ds2zg" name="delete">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_540o8JOuEeeoI7oI9Ds2zg" name="index" effect="update">
@@ -140,39 +141,21 @@ The destructor ensures that the correct close function is called whenever an ins
           </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_MrsSEJOvEeeoI7oI9Ds2zg" name="begin">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_PyMwAJOvEeeoI7oI9Ds2zg" name="return" type="_byKXYJOuEeeoI7oI9Ds2zg" direction="out"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_PyMwAJOvEeeoI7oI9Ds2zg" name="return" type="_byKXYJOuEeeoI7oI9Ds2zg" direction="return"/>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_QmZ0IJOvEeeoI7oI9Ds2zg" name="end">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_S7jtoJOvEeeoI7oI9Ds2zg" name="return" type="_byKXYJOuEeeoI7oI9Ds2zg" direction="out"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_S7jtoJOvEeeoI7oI9Ds2zg" name="return" type="_byKXYJOuEeeoI7oI9Ds2zg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_p9LPEJbkEeeoI7oI9Ds2zg" name="iterator_config">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_sRDWMJbkEeeoI7oI9Ds2zg" type="_ed3XUJbdEeeoI7oI9Ds2zg" direction="return"/>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_byKXYJOuEeeoI7oI9Ds2zg" name="Iterator"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Package" xmi:id="_Uu1cwPLHEeaaJvdMJL_JRw" name="link">
-      <packagedElement xmi:type="uml:Class" xmi:id="_jXRCUPhEEearHstUE6s_yg" name="Link">
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_qBcJYPhGEearHstUE6s_yg" name="_name" visibility="private" isReadOnly="true">
-          <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
-        </ownedAttribute>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_slh0IAJ1EeeXUd39xgE0rQ" name="name">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wMvLYAJ1EeeXUd39xgE0rQ" name="name" direction="return">
-            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
-          </ownedParameter>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_w20DIAJ1EeeXUd39xgE0rQ" name="type">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_0rRMMAJ1EeeXUd39xgE0rQ" name="type" type="_9dV2oPHeEeak_6YPwcx0Tw" direction="return"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_vf0ZsAPjEees69QdhumwSQ" name="resolve">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_zqRA4APjEees69QdhumwSQ" name="node" type="_VYW3UJObEeeoI7oI9Ds2zg" direction="return"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_4RfqsAPjEees69QdhumwSQ" name="target">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7rd3MAPjEees69QdhumwSQ" name="target_path" type="_wv4CEJObEeeoI7oI9Ds2zg" direction="return"/>
-        </ownedOperation>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="Type">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="EXTERNAL"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="ERROR"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_h2I2gJbkEeeoI7oI9Ds2zg" memberEnd="_h2JdkpbkEeeoI7oI9Ds2zg _h2KEoJbkEeeoI7oI9Ds2zg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_h2JdkJbkEeeoI7oI9Ds2zg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_h2JdkZbkEeeoI7oI9Ds2zg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_h2KEoJbkEeeoI7oI9Ds2zg" name="manager" type="_1n4DEJOsEeeoI7oI9Ds2zg" association="_h2I2gJbkEeeoI7oI9Ds2zg"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_g4uWQP55EeaZ1-3y1hN2zw" name="dataspace">
@@ -379,11 +362,6 @@ Such an approach needs to be discussed to. </body>
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
           </ownedParameter>
         </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_s5z7MJO2EeeoI7oI9Ds2zg" name="size">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_3AU4MJO2EeeoI7oI9Ds2zg" name="return" direction="return">
-            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
-          </ownedParameter>
-        </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_ax9TEJO4EeeoI7oI9Ds2zg" name="operator[]">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_e2I6MJO4EeeoI7oI9Ds2zg" name="return" type="_VYW3UJObEeeoI7oI9Ds2zg" direction="return"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_iC04oJO4EeeoI7oI9Ds2zg" name="index">
@@ -392,7 +370,9 @@ Such an approach needs to be discussed to. </body>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_fc4KEJO4EeeoI7oI9Ds2zg" name="operator[]">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_jwIvAJO4EeeoI7oI9Ds2zg" name="return" type="_VYW3UJObEeeoI7oI9Ds2zg" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_obPMMJO4EeeoI7oI9Ds2zg" name="path" type="_wv4CEJObEeeoI7oI9Ds2zg"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_obPMMJO4EeeoI7oI9Ds2zg" name="name">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_LSaJ8JO6EeeoI7oI9Ds2zg" name="begin">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_OSvHYJO6EeeoI7oI9Ds2zg" name="return" type="_rDfuEJObEeeoI7oI9Ds2zg" direction="return"/>
@@ -410,11 +390,6 @@ Such an approach needs to be discussed to. </body>
       <packagedElement xmi:type="uml:Class" xmi:id="_iV99QJObEeeoI7oI9Ds2zg" name="LinkView">
         <generalization xmi:type="uml:Generalization" xmi:id="_9ppgIJO3EeeoI7oI9Ds2zg" general="_3rKvgJO3EeeoI7oI9Ds2zg"/>
         <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_uQGBYJOlEeeoI7oI9Ds2zg" client="_iV99QJObEeeoI7oI9Ds2zg" supplier="_PmBgwJOlEeeoI7oI9Ds2zg" contract="_PmBgwJOlEeeoI7oI9Ds2zg"/>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_tQ0bEJO4EeeoI7oI9Ds2zg" name="size">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_v5UHUJO4EeeoI7oI9Ds2zg" name="return" direction="return">
-            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
-          </ownedParameter>
-        </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_AsJ88JO6EeeoI7oI9Ds2zg" name="operator[]">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_DyZVIJO6EeeoI7oI9Ds2zg" name="return" type="_jXRCUPhEEearHstUE6s_yg" direction="return"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_FI0VgJO6EeeoI7oI9Ds2zg" name="index">
@@ -423,7 +398,9 @@ Such an approach needs to be discussed to. </body>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_GCGt8JO6EeeoI7oI9Ds2zg" name="operator[]">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_IVcpkJO6EeeoI7oI9Ds2zg" name="return" type="_jXRCUPhEEearHstUE6s_yg" direction="return"/>
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_J_UxcJO6EeeoI7oI9Ds2zg" name="path" type="_wv4CEJObEeeoI7oI9Ds2zg"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_J_UxcJO6EeeoI7oI9Ds2zg" name="name">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_eeC4YJO6EeeoI7oI9Ds2zg" name="begin">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_h6MPIJO6EeeoI7oI9Ds2zg" name="return" type="_qLMNEJObEeeoI7oI9Ds2zg" direction="return"/>
@@ -465,6 +442,9 @@ Such an approach needs to be discussed to. </body>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_t1s4gJOyEeeoI7oI9Ds2zg" name="gcpl" type="_0PIM4JL7EeeoI7oI9Ds2zg"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_yTkyAJOyEeeoI7oI9Ds2zg" name="gapl" type="_FFlMoJL8EeeoI7oI9Ds2zg"/>
         </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_GS7ZIJbkEeeoI7oI9Ds2zg" name="iterator_config">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_KGua4JbkEeeoI7oI9Ds2zg" type="_ed3XUJbdEeeoI7oI9Ds2zg" direction="return"/>
+        </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_8znxsJOkEeeoI7oI9Ds2zg" name="RecursiveView">
         <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_xoUU4JO6EeeoI7oI9Ds2zg" name="RedefinableTemplateSignature1" parameter="_yF-hQJO6EeeoI7oI9Ds2zg">
@@ -500,31 +480,52 @@ Such an approach needs to be discussed to. </body>
         <ownedEnd xmi:type="uml:Property" xmi:id="_jAwksJOxEeeoI7oI9Ds2zg" name="group" type="_W5TFoJObEeeoI7oI9Ds2zg" association="_jAvWkJOxEeeoI7oI9Ds2zg"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_jAv9opOxEeeoI7oI9Ds2zg" name="linkview" type="_iV99QJObEeeoI7oI9Ds2zg" aggregation="composite" association="_jAvWkJOxEeeoI7oI9Ds2zg"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Enumeration" xmi:id="_in-CgJO3EeeoI7oI9Ds2zg" name="IterationOrder">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oSac0JO3EeeoI7oI9Ds2zg" name="INCREASING"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_pg3M8JO3EeeoI7oI9Ds2zg" name="DECREASING"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ra4poJO3EeeoI7oI9Ds2zg" name="NATIVE"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Enumeration" xmi:id="_uKHQAJO3EeeoI7oI9Ds2zg" name="IterationIndex">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wHlCQJO3EeeoI7oI9Ds2zg" name="NAME"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_w9q8wJO3EeeoI7oI9Ds2zg" name="CREATION_ORDER"/>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_3rKvgJO3EeeoI7oI9Ds2zg" name="View">
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_HStsIJO4EeeoI7oI9Ds2zg" name="iteration_order">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Lcp9AJO4EeeoI7oI9Ds2zg" name="order" type="_in-CgJO3EeeoI7oI9Ds2zg"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_MBXzoJO4EeeoI7oI9Ds2zg" name="iteration_order">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_OUoPsJO4EeeoI7oI9Ds2zg" name="order" type="_in-CgJO3EeeoI7oI9Ds2zg" direction="return"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_QZlKAJO4EeeoI7oI9Ds2zg" name="iteration_index">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_TyHzIJO4EeeoI7oI9Ds2zg" name="index" type="_uKHQAJO3EeeoI7oI9Ds2zg"/>
-        </ownedOperation>
-        <ownedOperation xmi:type="uml:Operation" xmi:id="_UUv_EJO4EeeoI7oI9Ds2zg" name="iteration_index">
-          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Wrd-0JO4EeeoI7oI9Ds2zg" name="index" type="_uKHQAJO3EeeoI7oI9Ds2zg" direction="return"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_3rKvgJO3EeeoI7oI9Ds2zg" name="GroupView">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_6YDikJbjEeeoI7oI9Ds2zg" name="size">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_9ON3YJbjEeeoI7oI9Ds2zg" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_ISMisO-iEeaKneflegtjzg"/>
+          </ownedParameter>
         </ownedOperation>
       </packagedElement>
-      <packagedElement xmi:type="uml:Usage" xmi:id="_BHYLQJO4EeeoI7oI9Ds2zg" client="_3rKvgJO3EeeoI7oI9Ds2zg" supplier="_in-CgJO3EeeoI7oI9Ds2zg"/>
-      <packagedElement xmi:type="uml:Usage" xmi:id="_CoQIIJO4EeeoI7oI9Ds2zg" client="_3rKvgJO3EeeoI7oI9Ds2zg" supplier="_uKHQAJO3EeeoI7oI9Ds2zg"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_qgFzEJbdEeeoI7oI9Ds2zg" memberEnd="_qgHBMpbdEeeoI7oI9Ds2zg _qgHBM5bdEeeoI7oI9Ds2zg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_qgHBMJbdEeeoI7oI9Ds2zg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_qgHBMZbdEeeoI7oI9Ds2zg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_qgHBM5bdEeeoI7oI9Ds2zg" name="iteratorconfig" type="_ed3XUJbdEeeoI7oI9Ds2zg" association="_qgFzEJbdEeeoI7oI9Ds2zg"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_qgHBMpbdEeeoI7oI9Ds2zg" name="linkaccesslist" type="_D-S0cJL8EeeoI7oI9Ds2zg" aggregation="composite" association="_qgFzEJbdEeeoI7oI9Ds2zg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_pdC6UJbgEeeoI7oI9Ds2zg" memberEnd="_pdDhYpbgEeeoI7oI9Ds2zg _pdEIcJbgEeeoI7oI9Ds2zg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pdDhYJbgEeeoI7oI9Ds2zg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pdDhYZbgEeeoI7oI9Ds2zg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_pdEIcJbgEeeoI7oI9Ds2zg" name="group" type="_W5TFoJObEeeoI7oI9Ds2zg" association="_pdC6UJbgEeeoI7oI9Ds2zg"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_pdDhYpbgEeeoI7oI9Ds2zg" name="iteratorconfig" type="_ed3XUJbdEeeoI7oI9Ds2zg" aggregation="composite" association="_pdC6UJbgEeeoI7oI9Ds2zg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="LinkType">
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="EXTERNAL"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="ERROR"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_jXRCUPhEEearHstUE6s_yg" name="Link">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_qBcJYPhGEearHstUE6s_yg" name="_name" visibility="private" isReadOnly="true">
+          <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+        </ownedAttribute>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_slh0IAJ1EeeXUd39xgE0rQ" name="name">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_wMvLYAJ1EeeXUd39xgE0rQ" name="name" direction="return">
+            <type xmi:type="uml:Class" href="stdcpp.uml#_sOscgPHiEeak_6YPwcx0Tw"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_w20DIAJ1EeeXUd39xgE0rQ" name="type">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_0rRMMAJ1EeeXUd39xgE0rQ" name="type" type="_9dV2oPHeEeak_6YPwcx0Tw" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_vf0ZsAPjEees69QdhumwSQ" name="resolve">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_zqRA4APjEees69QdhumwSQ" name="node" type="_VYW3UJObEeeoI7oI9Ds2zg" direction="return"/>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_4RfqsAPjEees69QdhumwSQ" name="target">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7rd3MAPjEees69QdhumwSQ" name="target_path" type="_wv4CEJObEeeoI7oI9Ds2zg" direction="return"/>
+        </ownedOperation>
+      </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XNNwJWQEee7vqXOLcolPQ" source="PapyrusVersion">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNwZWQEee7vqXOLcolPQ" key="Version" value="0.0.11"/>
@@ -865,7 +866,6 @@ Such an approach needs to be discussed to. </body>
         <generalization xmi:type="uml:Generalization" xmi:id="_kdJFYJL8EeeoI7oI9Ds2zg" general="_lqmMcJL7EeeoI7oI9Ds2zg"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_I8A2MJL9EeeoI7oI9Ds2zg" name="ChunkCacheParameters"/>
-      <packagedElement xmi:type="uml:Class" xmi:id="_K4a4gJL9EeeoI7oI9Ds2zg" name="Class"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_LxWroJL9EeeoI7oI9Ds2zg" name="CreationOrder"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_wv4CEJObEeeoI7oI9Ds2zg" name="Path"/>
@@ -1028,6 +1028,42 @@ Such an approach needs to be discussed to. </body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Usage" xmi:id="_xPMywJSVEeeoI7oI9Ds2zg" client="_dmyBsJSVEeeoI7oI9Ds2zg" supplier="_indGQJSVEeeoI7oI9Ds2zg"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_in-CgJO3EeeoI7oI9Ds2zg" name="IterationOrder">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oSac0JO3EeeoI7oI9Ds2zg" name="INCREASING"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_pg3M8JO3EeeoI7oI9Ds2zg" name="DECREASING"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ra4poJO3EeeoI7oI9Ds2zg" name="NATIVE"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_uKHQAJO3EeeoI7oI9Ds2zg" name="IterationIndex">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wHlCQJO3EeeoI7oI9Ds2zg" name="NAME"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_w9q8wJO3EeeoI7oI9Ds2zg" name="CREATION_ORDER"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ed3XUJbdEeeoI7oI9Ds2zg" name="IteratorConfig">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_9vVHwJbgEeeoI7oI9Ds2zg" name="index">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_IcEXQJbhEeeoI7oI9Ds2zg" name="index" type="_uKHQAJO3EeeoI7oI9Ds2zg"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_I9GAsJbhEeeoI7oI9Ds2zg" name="index">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_LB2twJbhEeeoI7oI9Ds2zg" type="_uKHQAJO3EeeoI7oI9Ds2zg" direction="return"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_OWj_wJbhEeeoI7oI9Ds2zg" name="order">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Q3edUJbhEeeoI7oI9Ds2zg" name="order" type="_in-CgJO3EeeoI7oI9Ds2zg"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_RRaAQJbhEeeoI7oI9Ds2zg" name="order">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_TcqW4JbhEeeoI7oI9Ds2zg" type="_in-CgJO3EeeoI7oI9Ds2zg" direction="return"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_VpZ7QJbhEeeoI7oI9Ds2zg" name="link_access_list">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_YCbBEJbhEeeoI7oI9Ds2zg" name="list" type="_D-S0cJL8EeeoI7oI9Ds2zg"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_YgW6QJbhEeeoI7oI9Ds2zg" name="link_access_list">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_aq77cJbhEeeoI7oI9Ds2zg" type="_D-S0cJL8EeeoI7oI9Ds2zg" direction="return"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_gcPLsJbhEeeoI7oI9Ds2zg" memberEnd="_gcQZ0pbhEeeoI7oI9Ds2zg _gcQZ05bhEeeoI7oI9Ds2zg">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_gcQZ0JbhEeeoI7oI9Ds2zg" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_gcQZ0ZbhEeeoI7oI9Ds2zg" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_gcQZ05bhEeeoI7oI9Ds2zg" name="iteratorconfig" type="_ed3XUJbdEeeoI7oI9Ds2zg" association="_gcPLsJbhEeeoI7oI9Ds2zg"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_gcQZ0pbhEeeoI7oI9Ds2zg" name="linkaccesslist" type="_D-S0cJL8EeeoI7oI9Ds2zg" aggregation="composite" association="_gcPLsJbhEeeoI7oI9Ds2zg"/>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_NY5wMP8sEeaZaM7lOsGynA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_iBnpkJR6EeeoI7oI9Ds2zg" source="PapyrusVersion">

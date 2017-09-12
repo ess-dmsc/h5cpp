@@ -39,6 +39,9 @@ class DLL_EXPORT LinkView : public GroupView
     LinkView(const LinkView &) = default;
     LinkView() = delete;
 
+    bool exists(const std::string &name,
+                const property::LinkAccessList &lapl=property::LinkAccessList()) const;
+
     Link operator[](size_t index) const;
     Link operator[](const std::string &name) const;
 

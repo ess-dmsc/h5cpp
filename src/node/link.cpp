@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-
+#include <sstream>
 #include <h5cpp/node/link.hpp>
 
 namespace hdf5 {
@@ -53,6 +53,111 @@ hdf5::Path LinkTarget::object_path() const
 {
   return object_path_;
 }
+
+Link::Link(const Group &parent_group,const std::string &name):
+    parent_group_(parent_group),
+    name_(name)
+{}
+
+Path Link::path() const
+{
+  return parent_group_.path() + name_;
+}
+
+H5L_info_t Link::get_link_info(const property::LinkAccessList &lapl) const
+{
+  H5L_info_t info;
+   if(H5Lget_info(static_cast<hid_t>(parent_group_),
+                  name_.c_str(),
+                  &info,
+                  static_cast<hid_t>(lapl))<0)
+   {
+     std::stringstream ss;
+     ss<<"Failure retrieving information for link ["<<name_<<"] on group"
+       <<" ["<<static_cast<std::string>(parent_group_.path())<<"]!";
+     throw std::runtime_error(ss.str());
+   }
+
+   return info;
+}
+
+std::string Link::get_link_value(const property::LinkAccessList &lapl) const
+{
+  H5L_info_t info = get_link_info(lapl);
+  std::string value(info.u.val_size-1,' ');
+
+  if(H5Lget_val(static_cast<hid_t>(parent_group_),
+                name_.c_str(),
+                reinterpret_cast<void*>(const_cast<char*>(value.data())),
+                info.u.val_size,
+                static_cast<hid_t>(lapl))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to retrieve link value for link ["<<name_<<"] below "
+      <<"group ["<<static_cast<std::string>(parent_group_.path())<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return value;
+}
+
+LinkTarget Link::get_soft_link_target(const property::LinkAccessList &lapl ) const
+{
+  std::string value = get_link_value(lapl);
+
+  return LinkTarget(Path(value));
+}
+
+LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) const
+{
+  std::string value = get_link_value(lapl);
+
+  const char *filename_buffer,
+             *objectpath_buffer;
+
+  if(H5Lunpack_elink_val(value.data(),value.size(),0,
+                         &filename_buffer,&objectpath_buffer)<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure decoding external link target for link ["<<name_<<"] below"
+      <<" group ["<<static_cast<std::string>(parent_group_.path())<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return LinkTarget(Path(std::string(objectpath_buffer)),
+                    boost::filesystem::path(filename_buffer));
+
+}
+
+LinkTarget Link::target(const property::LinkAccessList &lapl) const
+{
+  switch(type(lapl))
+  {
+    case LinkType::HARD:
+      return LinkTarget(parent_group_.path()+name_);
+    case LinkType::SOFT:
+      return get_soft_link_target(lapl);
+    case LinkType::EXTERNAL:
+      return get_external_link_target(lapl);
+    default:
+      throw std::runtime_error("Unkown link type - cannot determine target!");
+  }
+
+}
+
+LinkType Link::type(const property::LinkAccessList &lapl) const
+{
+  H5L_info_t info = get_link_info(lapl);
+  switch(info.type)
+  {
+    case H5L_TYPE_HARD: return LinkType::HARD;
+    case H5L_TYPE_SOFT: return LinkType::SOFT;
+    case H5L_TYPE_EXTERNAL: return LinkType::EXTERNAL;
+    default:
+      return LinkType::ERROR;
+  }
+}
+
 
 } // namespace node
 } // namespace hdf5
