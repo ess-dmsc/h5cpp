@@ -28,6 +28,8 @@
 #include <boost/filesystem.hpp>
 #include "../windows.hpp"
 #include "../object_handle.hpp"
+#include "../node/group.hpp"
+#include "../property/group_access_list.hpp"
 
 namespace hdf5 {
 namespace file {
@@ -70,6 +72,8 @@ class DLL_EXPORT File
     boost::filesystem::path path() const;
     size_t count_open_objects(SearchFlags flag) const;
     size_t count_open_objects(SearchFlagsBase flags) const;
+
+    node::Group root(const property::GroupAccessList &gapl = property::GroupAccessList()) const;
 
     explicit operator hid_t() const
     {

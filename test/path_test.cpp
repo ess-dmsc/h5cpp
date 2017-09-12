@@ -115,4 +115,12 @@ BOOST_AUTO_TEST_CASE(test_adding_two_paths)
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
 }
 
+BOOST_AUTO_TEST_CASE(test_root_path)
+{
+  hdf5::Path p("/");
+  BOOST_CHECK(p.is_root());
+  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/");
+}
+
 BOOST_AUTO_TEST_SUITE_END()

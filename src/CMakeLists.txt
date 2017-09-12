@@ -42,6 +42,9 @@ set(NODE_SOURCES node/types.cpp
 	             node/node_view.cpp
 	             node/link_view.cpp
 	             node/node.cpp
+	             node/link.cpp
+	             node/group.cpp
+	             node/utilities.cpp
 )
 
 set(SOURCES object_handle.cpp

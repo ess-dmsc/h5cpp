@@ -25,24 +25,73 @@
 #pragma once
 
 #include "node.hpp"
-#include "node_view.hpp"
-#include "attribute_view.hpp"
 #include "link_view.hpp"
+#include "node_view.hpp"
+#include "../iterator_config.hpp"
+#include "../property/link_creation_list.hpp"
+#include "../property/group_creation_list.hpp"
+#include "../property/group_access_list.hpp"
 
 
 namespace hdf5 {
+namespace node {
 
-class Group : public Node
+class DLL_EXPORT Group : public Node
 {
   public:
-    AttributeView attributes;
     LinkView      links;
     NodeView      nodes;
 
+    Group();
+    Group(const Group &group);
+    Group(const Node &node);
 
+    Group &operator=(const Group &group);
+
+    //!
+    //! \brief close the group
+    //!
     void close() const;
+
+    //!
+    //! \brief flush group
+    //!
     void flush() const;
+
+    //!
+    //! \brief get reference to the iterator configuration
+    //!
+    //! Return a non-const reference to the iterator configuration for the group.
+    //! \return reference to iterator configuration
+    //!
+    IteratorConfig &iterator_config() noexcept
+    {
+      return iter_config_;
+    }
+
+    //!
+    //! \brief get reference to the interator configuration
+    //!
+    //! Return a const reference to the iterator configuration of the gruop.
+    //! \return reference to iterator configuration
+    //!
+    const IteratorConfig &iterator_config() const noexcept
+    {
+      return iter_config_;
+    }
+
+    //!
+    //! \brief create a new group
+    //!
+    Group create_group(const std::string &name,
+                       const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                       const property::GroupCreationList &gcpl = property::GroupCreationList(),
+                       const property::GroupAccessList &gapl = property::GroupAccessList());
+
+  private:
+    IteratorConfig iter_config_;
 
 };
 
+} // namespace node
 } // namespace hdf5

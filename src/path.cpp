@@ -78,6 +78,10 @@ void Path::from_string(const std::string &str)
     absolute_ = false;
   }
 
+  //check if we are already at the end
+  if(string_start == string_end)
+    return;
+
   //remove a trailing / from the input string
   if(str.back()=='/') string_end--;
 
@@ -191,6 +195,14 @@ bool Path::is_absolute_path() const noexcept
 void Path::is_absolute_path(bool v) noexcept
 {
   absolute_ = v;
+}
+
+bool Path::is_root() const
+{
+  if(is_absolute_path() && link_names_.empty())
+    return true;
+  else
+    return false;
 }
 
 Path operator+(const std::string &link_name,const Path &path)

@@ -47,8 +47,25 @@ class DLL_EXPORT Path
     using reverse_iterator = std::list<value_type>::reverse_iterator;
     using const_reverse_iterator= std::list<value_type>::const_reverse_iterator;
 
+    //!
+    //! \brief default constructor
+    //!
+    //! After default construction is list of path elements is empty and the
+    //! absolute path flag is set to false.
+    //!
     Path();
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a path from a string. We use an explicit constructor here
+    //! to avoid accidental conversions.
+    //!
     explicit Path(const std::string &str);
+
+    //!
+    //! \brief copy constructor
+    //!
     Path(const Path &p) = default;
 
     explicit operator std::string() const
@@ -56,11 +73,29 @@ class DLL_EXPORT Path
       return to_string();
     }
 
+    //!
+    //! \brief return number of path elements
+    //!
     size_t size() const;
 
+    //!
+    //! \brief const iterator to first path element
+    //!
     const_iterator begin() const;
+
+    //!
+    //! \brief const iterator to last + 1 element
+    //!
     const_iterator end() const;
+
+    //!
+    //! \brief iterator to the first element
+    //!
     iterator begin();
+
+    //!
+    //! \brief iterator to the last+1 element
+    //!
     iterator end();
 
     reverse_iterator rbegin();
@@ -76,6 +111,14 @@ class DLL_EXPORT Path
 
     bool is_absolute_path() const noexcept;
     void is_absolute_path(bool value) noexcept;
+
+    //!
+    //! \brief true if the path refers to the root group
+    //!
+    //! A path is considered to reference the root group if the list
+    //! of elements is empty but the absolute path flag is set.
+    //!
+    bool is_root() const;
 
   private:
     bool absolute_;

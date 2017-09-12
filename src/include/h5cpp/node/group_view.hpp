@@ -20,78 +20,63 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 11, 2017
 //
 #pragma once
 
-#include "../object_handle.hpp"
-#include "../path.hpp"
 #include "types.hpp"
-#include "../windows.hpp"
+#include "../property/link_access_list.hpp"
 
 namespace hdf5 {
 namespace node {
 
-class DLL_EXPORT Node
+// forward declaration
+class Group;
+
+//!
+//! \brief base class for group views
+//!
+//! This is the base class for all views on a group. Views
+//! provide an STL compliant read only interface to links and
+//! nodes stored below a group.
+class GroupView
 {
   public:
+    GroupView() = delete;
+    GroupView(const GroupView &)=default;
+
     //!
     //! \brief constructor
     //!
-    //! \param handle rvalue reference to a handle instance
-    //! \param path the path to the node
+    //! \param parent_group reference to the parent group
     //!
-    Node(ObjectHandle &&handle,const Path &path);
+    GroupView(Group &parent_group);
+    virtual ~GroupView();
 
     //!
-    //! \brief default constructor
+    //! \brief get number of links
     //!
-    //! We use the default implementation here
+    //! Return the number of links attached to a group.
     //!
-    Node() = default;
+    //! \return number of link
+    //!
+    size_t size() const;
 
     //!
-    //! \brief copy constructor
+    //! \brief return reference to the parent group
     //!
-    //! We use the default implementation
+    //! Returns a reference to the group this very view belongs to.
     //!
-    Node(const Node &) = default;
-
+    //! \return reference to group
     //!
-    //! \brief destructor
-    //!
-    //! Must be virtual as we want to derive child classes
-    //! from here.
-    //!
-    virtual ~Node();
-
-    //!
-    //! \brief return the path to the node
-    //!
-    //! The path returned by this function is the one used to
-    //! access the object. Thus ambiguities with links to the same
-    //! object can be avoided.
-    //!
-    //! \return path instance
-    //!
-    Path path() const;
-
-    //!
-    //! \brief return the node type
-    //!
-    Type type() const;
-
-    explicit operator hid_t() const
+    const Group& group() const noexcept
     {
-      return static_cast<hid_t>(handle_);
+      return group_;
     }
-
-    bool is_valid() const;
-
-
   private:
-    ObjectHandle handle_;
-    Path path_;
+
+    Group &group_;
+
 };
 
 } // namespace node
