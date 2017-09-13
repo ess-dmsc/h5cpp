@@ -35,6 +35,7 @@
 #include <h5cpp/property/group_creation_list.hpp>
 #include <h5cpp/property/file_creation_list.hpp>
 #include <h5cpp/property/file_access_list.hpp>
+#include <h5cpp/iterator_config.hpp>
 
 using boost::test_tools::output_test_stream;
 using namespace hdf5;
@@ -114,10 +115,15 @@ BOOST_AUTO_TEST_CASE(group_index_name_order_access)
   root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
   BOOST_CHECK_EQUAL(root_group.nodes[0].type(),node::Type::GROUP);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[0].path()),"/g3");
   BOOST_CHECK_EQUAL(root_group.nodes[1].type(),node::Type::GROUP);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[1].path()),"/g2");
   BOOST_CHECK_EQUAL(root_group.nodes[2].type(),node::Type::GROUP);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[2].path()),"/g1");
   BOOST_CHECK_EQUAL(root_group.nodes[3].type(),node::Type::DATASET);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[3].path()),"/d2");
   BOOST_CHECK_EQUAL(root_group.nodes[4].type(),node::Type::DATASET);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[4].path()),"/d1");
 }
 
 BOOST_AUTO_TEST_CASE(group_index_creation_order_access)
@@ -128,10 +134,15 @@ BOOST_AUTO_TEST_CASE(group_index_creation_order_access)
   root_group.iterator_config().order(hdf5::IterationOrder::INCREASING);
 
   BOOST_CHECK_EQUAL(root_group.nodes[0].type(),node::Type::GROUP);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[0].path()),"/g1");
   BOOST_CHECK_EQUAL(root_group.nodes[1].type(),node::Type::GROUP);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[1].path()),"/g2");
   BOOST_CHECK_EQUAL(root_group.nodes[2].type(),node::Type::GROUP);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[2].path()),"/g3");
   BOOST_CHECK_EQUAL(root_group.nodes[3].type(),node::Type::DATASET);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[3].path()),"/d1");
   BOOST_CHECK_EQUAL(root_group.nodes[4].type(),node::Type::DATASET);
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[4].path()),"/d2");
 }
 
 BOOST_AUTO_TEST_CASE(group_name_access)

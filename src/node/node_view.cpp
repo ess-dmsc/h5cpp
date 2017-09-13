@@ -28,6 +28,7 @@
 #include <h5cpp/node/node_view.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/iterator_config.hpp>
+#include <h5cpp/node/link.hpp>
 
 #include "utilities.hpp"
 
@@ -61,7 +62,7 @@ Node NodeView::operator[](size_t index) const
     throw std::runtime_error(ss.str());
   }
 
-  Path new_path = group().path();
+  Path new_path = group().path()+Path::object_name(group().links[index].path());
 
   return Node(ObjectHandle(id),new_path);
 }
