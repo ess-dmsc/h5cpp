@@ -46,12 +46,14 @@ set(NODE_SOURCES node/types.cpp
 	             node/group.cpp
 	             node/utilities.cpp
 	             node/dataset.cpp
+	             node/node_iterator.cpp
 )
 
 set(SOURCES object_handle.cpp
             object_id.cpp
             path.cpp
             iterator_config.cpp
+            iterator.cpp
             )
 
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 

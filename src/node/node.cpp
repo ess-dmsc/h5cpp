@@ -57,5 +57,10 @@ bool Node::is_valid() const
   return handle_.is_valid();
 }
 
+ObjectId Node::id() const
+{
+  return ObjectId(static_cast<hid_t>(*this));
+}
+
 } // namespace node
 } // namespace hdf5

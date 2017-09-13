@@ -28,6 +28,7 @@
 #include "../path.hpp"
 #include "types.hpp"
 #include "../windows.hpp"
+#include "../object_id.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -80,6 +81,8 @@ class DLL_EXPORT Node
     //! \brief return the node type
     //!
     Type type() const;
+
+    ObjectId id() const;
 
     explicit operator hid_t() const
     {

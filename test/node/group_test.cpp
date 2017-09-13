@@ -24,6 +24,7 @@
 //
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE testing group creation
+#include <vector>
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 #include <h5cpp/file/functions.hpp>
@@ -36,6 +37,7 @@
 #include <h5cpp/property/file_creation_list.hpp>
 #include <h5cpp/property/file_access_list.hpp>
 #include <h5cpp/iterator_config.hpp>
+#include <h5cpp/node/node_iterator.hpp>
 
 using boost::test_tools::output_test_stream;
 using namespace hdf5;
@@ -154,6 +156,53 @@ BOOST_AUTO_TEST_CASE(group_name_access)
   BOOST_CHECK_NO_THROW(n=root_group.nodes["d1"]);
   BOOST_CHECK_EQUAL(n.type(),node::Type::DATASET);
   BOOST_CHECK_EQUAL(static_cast<std::string>(n.path()),"/d1");
+
+}
+
+BOOST_AUTO_TEST_CASE(group_node_iteration)
+{
+  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
+  //setup creation order
+  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+
+  std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
+  std::vector<node::Type> types{node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::DATASET,
+                                node::Type::DATASET};
+  auto name_iter = names.begin();
+  auto type_iter = types.begin();
+
+  for(auto iter = root_group.nodes.begin();iter!=root_group.nodes.end();++iter)
+  {
+    BOOST_CHECK_EQUAL(static_cast<std::string>(iter->path()),*name_iter++);
+    BOOST_CHECK_EQUAL((*iter).type(),*type_iter++);
+  }
+}
+
+BOOST_AUTO_TEST_CASE(group_node_foreach)
+{
+  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
+  //setup creation order
+  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+
+  std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
+  std::vector<node::Type> types{node::Type::GROUP,
+    node::Type::GROUP,
+    node::Type::GROUP,
+    node::Type::DATASET,
+    node::Type::DATASET};
+  auto name_iter = names.begin();
+  auto type_iter = types.begin();
+
+  for(auto node: root_group.nodes)
+  {
+    BOOST_CHECK_EQUAL(static_cast<std::string>(node.path()),*name_iter++);
+    BOOST_CHECK_EQUAL(node.type(),*type_iter++);
+  }
 
 }
 

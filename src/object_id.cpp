@@ -21,7 +21,7 @@
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
 //
-#include "object_id.hpp"
+#include <h5cpp/object_id.hpp>
 #include <vector>
 
 namespace hdf5
@@ -57,6 +57,11 @@ bool ObjectId::operator== (const ObjectId& other) const
 //        (file_num_ == other.file_num_) &&
         (obj_addr_ == other.obj_addr_)
         );
+}
+
+bool ObjectId::operator!= (const ObjectId &other) const
+{
+  return !(*this == other);
 }
 
 bool ObjectId::operator< (const ObjectId& other) const

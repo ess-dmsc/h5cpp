@@ -27,13 +27,19 @@
 #include <h5cpp/node/group_view.hpp>
 #include "../path.hpp"
 #include "../property/link_access_list.hpp"
+#include "node.hpp"
 
 namespace hdf5 {
 namespace node {
 
+class NodeIterator;
+
 class NodeView : public GroupView
 {
   public:
+    using value_type = Node;
+    using const_iterator = NodeIterator;
+
     NodeView() = delete;
     NodeView(const NodeView &) = default;
     NodeView(Group &node);
@@ -69,6 +75,11 @@ class NodeView : public GroupView
     //! \return instance of Node
     //!
     Node operator[](const std::string &name) const;
+
+    const_iterator begin() const;
+    const_iterator end() const;
+
+
 
 };
 

@@ -40,6 +40,7 @@ class ObjectId
     ObjectId(hid_t object);
 
     bool operator== (const ObjectId& other) const;
+    bool operator!= (const ObjectId& other) const;
     bool operator< (const ObjectId& other) const;
 
     friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);

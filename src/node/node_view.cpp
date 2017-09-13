@@ -29,6 +29,7 @@
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/iterator_config.hpp>
 #include <h5cpp/node/link.hpp>
+#include <h5cpp/node/node_iterator.hpp>
 
 #include "utilities.hpp"
 
@@ -105,6 +106,16 @@ bool NodeView::exists(const std::string &name,const property::LinkAccessList &la
   {
     throw std::runtime_error("Could not check if link resolves to object!");
   }
+}
+
+NodeView::const_iterator NodeView::begin() const
+{
+  return NodeIterator(*this,0);
+}
+
+NodeView::const_iterator NodeView::end() const
+{
+  return NodeIterator(*this,size());
 }
 
 
