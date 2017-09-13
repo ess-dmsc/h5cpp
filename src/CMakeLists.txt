@@ -45,6 +45,7 @@ set(NODE_SOURCES node/types.cpp
 	             node/link.cpp
 	             node/group.cpp
 	             node/utilities.cpp
+	             node/dataset.cpp
 )
 
 set(SOURCES object_handle.cpp

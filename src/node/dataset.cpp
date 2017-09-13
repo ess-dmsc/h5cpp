@@ -20,64 +20,56 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 12, 2017
 //
 
+#include <sstream>
 #include <stdexcept>
-#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/node/dataset.hpp>
 
 namespace hdf5 {
-namespace dataspace {
+namespace node {
 
-Dataspace::Dataspace():
-    selection(*this),
-    handle_()
+Dataset::Dataset(const Node &node):
+    Node(node)
 {}
 
-Dataspace::Dataspace(const Dataspace &space):
-    selection(*this),
-    handle_(space.handle_)
-{}
-
-Dataspace::Dataspace(ObjectHandle &&handle):
-    selection(*this),
-    handle_(std::move(handle))
-{}
-
-Dataspace::~Dataspace()
-{}
-
-Dataspace::Dataspace(Type type):
-    selection(*this),
-    handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type))))
-{}
-
-void Dataspace::close()
+dataspace::Dataspace Dataset::dataspace() const
 {
-  handle_.close();
-}
-
-hssize_t Dataspace::size() const
-{
-  hssize_t s = H5Sget_simple_extent_npoints(static_cast<hid_t>(*this));
-  if(s<0)
+  hid_t id = H5Dget_space(static_cast<hid_t>(*this));
+  if(id<0)
   {
-    throw std::runtime_error("Failure retrieving the number of elements in the dataspace!");
+    std::stringstream ss;
+    ss<<"Failure retrieving dataspace for dataset "<<path()<<"!";
+    throw std::runtime_error(ss.str());
   }
-  return s;
+  return dataspace::Dataspace(ObjectHandle(id));
 }
 
-Type Dataspace::type() const
+datatype::Datatype Dataset::datatype() const
 {
-  H5S_class_t buffer = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
-  if(buffer == H5S_NO_CLASS)
+  hid_t id = H5Dget_type(static_cast<hid_t>(*this));
+  if(id<0)
   {
-    throw std::runtime_error("Failure to retrieve the dataspace type!");
+    std::stringstream ss;
+    ss<<"Failure retrieving datatype for dataset "<<path()<<"!";
+    throw std::runtime_error(ss.str());
   }
 
-  return static_cast<Type>(buffer);
-
+  return datatype::Datatype(ObjectHandle(id));
 }
 
-} // namespace dataspace
+void Dataset::extent(const Dimensions &dims) const
+{
+  if(H5Dset_extent(static_cast<hid_t>(*this),dims.data())<0)
+  {
+    std::stringstream ss;
+    ss<<"Failed to set extent for dataset "<<path()<<"!";
+    throw std::runtime_error(ss.str());
+  }
+}
+
+
+
+} // namespace node
 } // namespace hdf5

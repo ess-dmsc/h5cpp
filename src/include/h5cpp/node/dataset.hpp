@@ -25,56 +25,65 @@
 #pragma once
 
 #include "node.hpp"
+#include "../dataspace/dataspace.hpp"
+#include "../datatype/datatype.hpp"
+#include "../types.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
 
 class Selection;
 
-class Dataset : public Node
+class DLL_EXPORT Dataset : public Node
 {
   public:
+    Dataset() = default;
+    Dataset(const Dataset &) = default;
+    Dataset(const Node &node);
 
-    Dataspace dataspace() const;
-    Datatype dataspace() const;
+    dataspace::Dataspace dataspace() const;
+    datatype::Datatype datatype() const;
+
+    void extent(const Dimensions &dims) const;
 
     //!
     //! \brief write entire dataset
     //!
-    template<typename T>
-    void write(const T &data) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::datatype::create(data);
-
-      Dataspace file_space = dataspace();
-
-      if(H5Dwrite(........)<0)
-      {
-
-      }
-    }
-
-    //!
-    //! \brief read entire dataset
-    //!
-    template<typename T>
-    void read(T &data) const;
-
-    //!
-    //! \brief
-    //!
-    template<typename T>
-    void write(const Dataspace &filespace,const T &data) const
-    {
-
-    }
-
-    template<typename T>
-    void write(const Dataspace &filespace,const Dataspace &memspace, const T &data);
-
-    template<typename T>
-    void write(const Selection &file_selection,const T &data) const;
+//    template<typename T>
+//    void write(const T &data) const
+//    {
+//      auto memory_space = hdf5::dataspace::create(data);
+//      auto memory_type  = hdf5::datatype::create(data);
+//
+//      Dataspace file_space = dataspace();
+//
+//      if(H5Dwrite(........)<0)
+//      {
+//
+//      }
+//    }
+//
+//    //!
+//    //! \brief read entire dataset
+//    //!
+//    template<typename T>
+//    void read(T &data) const;
+//
+//    //!
+//    //! \brief
+//    //!
+//    template<typename T>
+//    void write(const Dataspace &filespace,const T &data) const
+//    {
+//
+//    }
+//
+//    template<typename T>
+//    void write(const Dataspace &filespace,const Dataspace &memspace, const T &data);
+//
+//    template<typename T>
+//    void write(const Selection &file_selection,const T &data) const;
 
 
 
@@ -82,12 +91,12 @@ class Dataset : public Node
 
 };
 
-ds.push_back(data);
-
-std::vector<double> data(4);
-ds.write(Points{{2},{3},{10},{56}},data);
-
-ds.write(Hyperslab{{3},{6}},data)
+//ds.push_back(data);
+//
+//std::vector<double> data(4);
+//ds.write(Points{{2},{3},{10},{56}},data);
+//
+//ds.write(Hyperslab{{3},{6}},data)
 
 
 

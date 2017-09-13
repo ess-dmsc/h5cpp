@@ -36,6 +36,9 @@ namespace dataspace {
 class DLL_EXPORT Dataspace
 {
   public:
+    Dataspace(ObjectHandle &&handle);
+    Dataspace(const Dataspace & space);
+    Dataspace();
     virtual ~Dataspace();
 
     void close();

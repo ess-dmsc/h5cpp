@@ -25,6 +25,7 @@
 
 #include <sstream>
 #include <h5cpp/node/group.hpp>
+#include "utilities.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -67,6 +68,13 @@ Group Group::create_group(const std::string &name,
                           const property::GroupCreationList &gcpl,
                           const property::GroupAccessList &gapl)
 {
+  if(!is_valid_child_name(name))
+  {
+    std::stringstream ss;
+    ss<<"["<<name<<"] is not a valid child name!";
+    throw std::runtime_error(ss.str());
+  }
+
   try
   {
     ObjectHandle handle(H5Gcreate(static_cast<hid_t>(*this),
@@ -88,6 +96,39 @@ Group Group::create_group(const std::string &name,
   }
 }
 
+Dataset Group::create_dataset(const std::string &name,
+                              const datatype::Datatype &type,
+                              const dataspace::Dataspace &space,
+                              const property::LinkCreationList &lcpl,
+                              const property::DatasetCreationList &dcpl,
+                              const property::DatasetAccessList &dapl)
+{
+  if(!is_valid_child_name(name))
+  {
+    std::stringstream ss;
+    ss<<"["<<name<<"] is not a valid name for a dataset!";
+    throw std::runtime_error(ss.str());
+  }
+
+  try
+  {
+    ObjectHandle handle(H5Dcreate(static_cast<hid_t>(*this),
+                                  name.c_str(),
+                                  static_cast<hid_t>(type),
+                                  static_cast<hid_t>(space),
+                                  static_cast<hid_t>(lcpl),
+                                  static_cast<hid_t>(dcpl),
+                                  static_cast<hid_t>(dapl)));
+    return Dataset(Node(std::move(handle),path()+name));
+
+  }
+  catch(const std::runtime_error &error)
+  {
+    std::stringstream ss;
+    ss<<"Failure creating dataset ["<<name<<"] below ["<<path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+}
 
 } // namespace node
 } // namespace hdf5

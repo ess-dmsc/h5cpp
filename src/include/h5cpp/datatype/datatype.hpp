@@ -44,6 +44,7 @@ class DLL_EXPORT Datatype
 {
   public:
     virtual ~Datatype();
+    Datatype(ObjectHandle &&handle);
     Datatype &operator=(const Datatype &type) = default;
     Datatype &operator=(Datatype &&type) = default;
     Datatype(const Datatype &type) = default;
@@ -63,10 +64,6 @@ class DLL_EXPORT Datatype
     {
       return static_cast<hid_t>(handle_);
     }
-
-
-  protected:
-    Datatype(ObjectHandle &&handle);
   private:
 
     ObjectHandle handle_;
