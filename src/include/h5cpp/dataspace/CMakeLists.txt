@@ -4,6 +4,7 @@ set(HEADERS dataspace.hpp
 	        selection.hpp
 	        simple.hpp
 	        type.hpp
+	        type_trait.hpp
 	        )
 	       
 add_doxygen_source_deps(${HEADERS})
