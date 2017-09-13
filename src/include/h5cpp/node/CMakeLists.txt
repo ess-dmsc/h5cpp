@@ -4,6 +4,7 @@ set(HEADERS dataset.hpp
 	        link_view.hpp
 	        link.hpp
 	        node_iterator.hpp
+	        link_iterator.hpp
 	        node_view.hpp
 	        types.hpp
 	        )

@@ -20,39 +20,38 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 11, 2017
+// Created on: Sep 13, 2017
 //
-#pragma once
+#pragma once 
 
-#include "group_view.hpp"
-#include "../windows.hpp"
+#include <h5cpp/file/functions.hpp>
+#include <h5cpp/node/group.hpp>
+#include <h5cpp/node/types.hpp>
+#include <h5cpp/datatype/factory.hpp>
+#include <h5cpp/dataspace/scalar.hpp>
+#include <h5cpp/property/link_creation_list.hpp>
+#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/property/file_creation_list.hpp>
+#include <h5cpp/property/file_access_list.hpp>
+#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/node/node_iterator.hpp>
+#include <h5cpp/node/link_iterator.hpp>
 
-namespace hdf5 {
-namespace node {
-
-class Link;
-class LinkIterator;
-
-class DLL_EXPORT LinkView : public GroupView
+struct BasicTestFixture
 {
-  public:
-    using value_type = Link;
-    using const_iterator = LinkIterator;
+    hdf5::file::File file;
 
-    LinkView(Group &group);
-    LinkView(const LinkView &) = default;
-    LinkView() = delete;
-
-    bool exists(const std::string &name,
-                const property::LinkAccessList &lapl=property::LinkAccessList()) const;
-
-    Link operator[](size_t index) const;
-    Link operator[](const std::string &name) const;
-
-    const_iterator begin() const;
-    const_iterator end() const;
-
+    BasicTestFixture();
 };
 
-} // namespace node
-} // namespace hdf5
+struct NodeIterationFixture : public BasicTestFixture
+{
+    hdf5::node::Group root_group;
+
+    NodeIterationFixture();
+};
+
+struct LinkIterationFixture : public NodeIterationFixture
+{
+    LinkIterationFixture();
+};

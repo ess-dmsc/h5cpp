@@ -47,6 +47,7 @@ set(NODE_SOURCES node/types.cpp
 	             node/utilities.cpp
 	             node/dataset.cpp
 	             node/node_iterator.cpp
+	             node/link_iterator.cpp
 )
 
 set(SOURCES object_handle.cpp

@@ -20,37 +20,56 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 11, 2017
+// Created on: Sep 13, 2017
 //
 #pragma once
 
-#include "group_view.hpp"
+#include <functional>
+#include "../iterator.hpp"
+#include "link_view.hpp"
+#include "link.hpp"
 #include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
 
-class Link;
-class LinkIterator;
-
-class DLL_EXPORT LinkView : public GroupView
+class DLL_EXPORT LinkIterator : public Iterator
 {
   public:
     using value_type = Link;
-    using const_iterator = LinkIterator;
+    using pointer = value_type*;
+    using reference = value_type&;
+    using difference_type = ssize_t;
+    using iterator_category = std::random_access_iterator_tag;
 
-    LinkView(Group &group);
-    LinkView(const LinkView &) = default;
-    LinkView() = delete;
+    LinkIterator() = delete;
+    LinkIterator(const LinkIterator&) = default;
+    LinkIterator(const LinkView &view,ssize_t index);
 
-    bool exists(const std::string &name,
-                const property::LinkAccessList &lapl=property::LinkAccessList()) const;
+    explicit operator bool() const
+    {
+      return !(index()<0 || index()>=view_.get().size());
+    }
 
-    Link operator[](size_t index) const;
-    Link operator[](const std::string &name) const;
+    value_type operator*() const;
 
-    const_iterator begin() const;
-    const_iterator end() const;
+    value_type *operator->();
+
+    LinkIterator &operator++();
+    LinkIterator operator++(int);
+    LinkIterator &operator--();
+    LinkIterator operator--(int);
+
+    LinkIterator &operator+=(ssize_t i);
+    LinkIterator &operator-=(ssize_t i);
+
+    bool operator==(const LinkIterator &a) const;
+
+    bool operator!=(const LinkIterator &a) const;
+
+  private:
+    std::reference_wrapper<const LinkView> view_;
+    Link current_link_;
 
 };
 

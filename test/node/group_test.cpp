@@ -27,58 +27,17 @@
 #include <vector>
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
-#include <h5cpp/node/types.hpp>
-#include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/dataspace/scalar.hpp>
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/group_creation_list.hpp>
-#include <h5cpp/property/file_creation_list.hpp>
-#include <h5cpp/property/file_access_list.hpp>
-#include <h5cpp/iterator_config.hpp>
-#include <h5cpp/node/node_iterator.hpp>
+
+
+#include "group_test_fixtures.hpp"
 
 using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-struct TestFixture
-{
-    file::File file;
 
-    TestFixture():
-      file()
-    {
-      property::FileCreationList fcpl;
-      property::FileAccessList fapl;
-      fcpl.link_creation_order(property::CreationOrder().enable_indexed());
-      fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
+BOOST_AUTO_TEST_SUITE(group_test)
 
-      file = file::create("group_test.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
-
-    }
-};
-
-struct NodeIterationFixture : public TestFixture
-{
-    node::Group root_group;
-
-    NodeIterationFixture():
-      TestFixture(),
-      root_group(file.root())
-    {
-      property::LinkCreationList lcpl;
-      property::GroupCreationList gcpl;
-      gcpl.link_creation_order(property::CreationOrder().enable_indexed());
-      root_group.create_group("g1",lcpl,gcpl);
-      root_group.create_group("g2",lcpl,gcpl);
-      root_group.create_group("g3",lcpl,gcpl);
-      root_group.create_dataset("d1",datatype::create<float>(),dataspace::Scalar());
-      root_group.create_dataset("d2",datatype::create<int>(),dataspace::Scalar());
-    }
-};
-
-BOOST_FIXTURE_TEST_SUITE(group_test,TestFixture)
+BOOST_FIXTURE_TEST_SUITE(group_basics,BasicTestFixture)
 
 BOOST_AUTO_TEST_CASE(test_root_group)
 {
@@ -107,105 +66,7 @@ BOOST_AUTO_TEST_CASE(test_group_creation)
 
 }
 
-BOOST_FIXTURE_TEST_SUITE(group_node_iteration,NodeIterationFixture)
-
-BOOST_AUTO_TEST_CASE(group_index_name_order_access)
-{
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
-  //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
-
-  BOOST_CHECK_EQUAL(root_group.nodes[0].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[0].path()),"/g3");
-  BOOST_CHECK_EQUAL(root_group.nodes[1].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[1].path()),"/g2");
-  BOOST_CHECK_EQUAL(root_group.nodes[2].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[2].path()),"/g1");
-  BOOST_CHECK_EQUAL(root_group.nodes[3].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[3].path()),"/d2");
-  BOOST_CHECK_EQUAL(root_group.nodes[4].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[4].path()),"/d1");
-}
-
-BOOST_AUTO_TEST_CASE(group_index_creation_order_access)
-{
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
-  //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
-  root_group.iterator_config().order(hdf5::IterationOrder::INCREASING);
-
-  BOOST_CHECK_EQUAL(root_group.nodes[0].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[0].path()),"/g1");
-  BOOST_CHECK_EQUAL(root_group.nodes[1].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[1].path()),"/g2");
-  BOOST_CHECK_EQUAL(root_group.nodes[2].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[2].path()),"/g3");
-  BOOST_CHECK_EQUAL(root_group.nodes[3].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[3].path()),"/d1");
-  BOOST_CHECK_EQUAL(root_group.nodes[4].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[4].path()),"/d2");
-}
-
-BOOST_AUTO_TEST_CASE(group_name_access)
-{
-  node::Node n;
-  BOOST_CHECK_NO_THROW(n=root_group.nodes["g1"]);
-  BOOST_CHECK_EQUAL(n.type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(n.path()),"/g1");
-  BOOST_CHECK_NO_THROW(n=root_group.nodes["d1"]);
-  BOOST_CHECK_EQUAL(n.type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(n.path()),"/d1");
-
-}
-
-BOOST_AUTO_TEST_CASE(group_node_iteration)
-{
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
-  //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
-
-  std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
-  std::vector<node::Type> types{node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::DATASET,
-                                node::Type::DATASET};
-  auto name_iter = names.begin();
-  auto type_iter = types.begin();
-
-  for(auto iter = root_group.nodes.begin();iter!=root_group.nodes.end();++iter)
-  {
-    BOOST_CHECK_EQUAL(static_cast<std::string>(iter->path()),*name_iter++);
-    BOOST_CHECK_EQUAL((*iter).type(),*type_iter++);
-  }
-}
-
-BOOST_AUTO_TEST_CASE(group_node_foreach)
-{
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
-  //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
-
-  std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
-  std::vector<node::Type> types{node::Type::GROUP,
-    node::Type::GROUP,
-    node::Type::GROUP,
-    node::Type::DATASET,
-    node::Type::DATASET};
-  auto name_iter = names.begin();
-  auto type_iter = types.begin();
-
-  for(auto node: root_group.nodes)
-  {
-    BOOST_CHECK_EQUAL(static_cast<std::string>(node.path()),*name_iter++);
-    BOOST_CHECK_EQUAL(node.type(),*type_iter++);
-  }
-
-}
-
 BOOST_AUTO_TEST_SUITE_END()
+
 
 BOOST_AUTO_TEST_SUITE_END()

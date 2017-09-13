@@ -28,6 +28,7 @@
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/iterator_config.hpp>
+#include <h5cpp/node/link_iterator.hpp>
 #include "utilities.hpp"
 
 namespace hdf5 {
@@ -126,6 +127,16 @@ bool LinkView::exists(const std::string &name,const property::LinkAccessList &la
       <<group().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
+}
+
+LinkView::const_iterator LinkView::begin() const
+{
+  return LinkIterator(*this,0);
+}
+
+LinkView::const_iterator LinkView::end() const
+{
+  return LinkIterator(*this,size());
 }
 
 } // namespace node
