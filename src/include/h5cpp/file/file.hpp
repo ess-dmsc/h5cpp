@@ -46,6 +46,8 @@ class DLL_EXPORT File
     //!
     explicit File(ObjectHandle &&handle);
 
+    File &operator=(const File&) = default;
+
     //!
     //! \brief get access flags for the file
     //!
