@@ -6,6 +6,7 @@ set(HEADERS dataset.hpp
 	        node_iterator.hpp
 	        link_iterator.hpp
 	        node_view.hpp
+	        functions.hpp
 	        types.hpp
 	        )
 	       
