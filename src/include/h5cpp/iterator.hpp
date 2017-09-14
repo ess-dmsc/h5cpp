@@ -25,10 +25,11 @@
 #pragma once
 
 #include <stdexcept>
+#include "windows.hpp"
 
 namespace hdf5{
 
-class Iterator
+class DLL_EXPORT Iterator
 {
   private:
     //! actual position state of the iterator
@@ -64,12 +65,12 @@ class Iterator
 
 
 
-Iterator &operator+(const Iterator&a,ssize_t b);
+DLL_EXPORT Iterator &operator+(const Iterator&a,ssize_t b);
 
-Iterator operator+(ssize_t a,const Iterator &b);
+DLL_EXPORT Iterator operator+(ssize_t a,const Iterator &b);
 
-Iterator operator-(const Iterator &a,ssize_t b);
+DLL_EXPORT Iterator operator-(const Iterator &a,ssize_t b);
 
-ssize_t operator-(const Iterator &a,const Iterator &b);
+DLL_EXPORT ssize_t operator-(const Iterator &a,const Iterator &b);
 
 } // namespace hdf5

@@ -22,8 +22,6 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 13, 2017
 //
-#include <boost/test/unit_test.hpp>
-
 #include "group_test_fixtures.hpp"
 
 using namespace hdf5;

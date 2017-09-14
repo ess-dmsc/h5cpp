@@ -26,6 +26,7 @@
 
 #include "types.hpp"
 #include "../property/link_access_list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -39,7 +40,7 @@ class Group;
 //! This is the base class for all views on a group. Views
 //! provide an STL compliant read only interface to links and
 //! nodes stored below a group.
-class GroupView
+class DLL_EXPORT GroupView
 {
   public:
     GroupView() = delete;

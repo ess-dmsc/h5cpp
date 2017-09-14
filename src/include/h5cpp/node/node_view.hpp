@@ -28,13 +28,14 @@
 #include "../path.hpp"
 #include "../property/link_access_list.hpp"
 #include "node.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
 
 class NodeIterator;
 
-class NodeView : public GroupView
+class DLL_EXPORT NodeView : public GroupView
 {
   public:
     using value_type = Node;
