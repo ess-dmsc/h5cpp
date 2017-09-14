@@ -33,6 +33,8 @@
 namespace hdf5 {
 namespace node {
 
+class Group;
+
 class DLL_EXPORT Node
 {
   public:
@@ -47,7 +49,13 @@ class DLL_EXPORT Node
     //!
     //! \brief default constructor
     //!
-    //! We use the default implementation here
+    //! We use the default implementation here. In order to store
+    //! objects in a container like a std::vector they must be default
+    //! constructible. A default constructed object cannot be used
+    //! for anything. Use the is_valid() function to check whether or
+    //! not a Node instance refers to a valid HDF5 object or not.
+    //!
+    //! \sa is_valid()
     //!
     Node() = default;
 
@@ -82,6 +90,15 @@ class DLL_EXPORT Node
     //!
     Type type() const;
 
+    //!
+    //! \brief get unique ID
+    //!
+    //! Return the unique ID of an object. This identifier must not be confused
+    //! with an HDF5 handle (called `hid_t` in the C-API. This ID identifies
+    //! an object uniquely within a program context.
+    //!
+    //! \return instance of ObjectId
+    //!
     ObjectId id() const;
 
     explicit operator hid_t() const
@@ -89,6 +106,12 @@ class DLL_EXPORT Node
       return static_cast<hid_t>(handle_);
     }
 
+    //!
+    //! \brief true if an object is valid
+    //!
+    //!
+    //! \sa Node()
+    //!
     bool is_valid() const;
 
 
