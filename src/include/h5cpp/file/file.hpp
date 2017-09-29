@@ -28,8 +28,13 @@
 #include <boost/filesystem.hpp>
 #include "../windows.hpp"
 #include "../object_handle.hpp"
-#include "../node/group.hpp"
 #include "../property/group_access_list.hpp"
+
+namespace hdf5 {
+namespace node {
+class Group;
+}
+}
 
 namespace hdf5 {
 namespace file {
@@ -71,7 +76,18 @@ class DLL_EXPORT File
     void flush(Scope scope) const;
     void close();
 
+    //!
+    //! \brief get path on file system
+    //!
+    //! Return the file system path of the file.
+    //!
     boost::filesystem::path path() const;
+
+    //!
+    //! \brief count number of open objects
+    //!
+    //! Return the number of open objects belonging to that very file instance.
+    //!
     size_t count_open_objects(SearchFlags flag) const;
     size_t count_open_objects(SearchFlagsBase flags) const;
 
@@ -82,8 +98,10 @@ class DLL_EXPORT File
       return static_cast<hid_t>(handle_);
     }
 
+    bool is_valid() const;
+
   private:
-    ObjectHandle handle_;
+    ObjectHandle handle_; //!< handle for the file object
 
 };
 

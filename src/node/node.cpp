@@ -24,22 +24,18 @@
 //
 #include <stdexcept>
 #include <h5cpp/node/node.hpp>
+#include <h5cpp/node/link.hpp>
 
 namespace hdf5 {
 namespace node {
 
-Node::Node(ObjectHandle &&handle,const Path &path):
+Node::Node(ObjectHandle &&handle,const Link &link):
     handle_(std::move(handle)),
-    path_(path)
+    link_(link)
 {}
 
 Node::~Node()
 {}
-
-Path Node::path() const
-{
-  return path_;
-}
 
 Type Node::type() const
 {
@@ -60,6 +56,11 @@ bool Node::is_valid() const
 ObjectId Node::id() const
 {
   return ObjectId(static_cast<hid_t>(*this));
+}
+
+const Link &Node::link() const
+{
+  return link_;
 }
 
 } // namespace node

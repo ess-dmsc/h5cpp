@@ -20,49 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 12, 2017
+// Created on: Sep 25, 2017
 //
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing group creation
-#include <vector>
-#include "group_test_fixtures.hpp"
+#define BOOST_TEST_MODULE testing the Link class implementation
+#include <boost/test/unit_test.hpp>
+#include <h5cpp/node/link.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-
-BOOST_AUTO_TEST_SUITE(group_test)
-
-BOOST_FIXTURE_TEST_SUITE(group_basics,BasicTestFixture)
-
-BOOST_AUTO_TEST_CASE(test_root_group)
-{
-  node::Group root;
-  BOOST_CHECK_NO_THROW(root = file.root());
-  BOOST_CHECK(root.is_valid());
-  BOOST_CHECK_EQUAL(root.type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(root.links.size(),0);
-  BOOST_CHECK_EQUAL(root.nodes.size(),0);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root.link().path()),"/");
-}
+BOOST_AUTO_TEST_SUITE(link_test)
 
 BOOST_AUTO_TEST_CASE(test_default_construction)
 {
-  node::Group group;
-  BOOST_CHECK(!group.is_valid());
+  node::Link link;
+  BOOST_CHECK_EQUAL(link.type(),node::LinkType::ERROR);
 }
-
-BOOST_AUTO_TEST_CASE(test_group_creation)
-{
-  node::Group g = file.root();
-  BOOST_CHECK_NO_THROW(g.create_group("group_1"));
-  BOOST_CHECK_NO_THROW(g.create_group("group_2"));
-  BOOST_CHECK_EQUAL(g.nodes.size(),2);
-  BOOST_CHECK_EQUAL(g.links.size(),2);
-
-}
-
-BOOST_AUTO_TEST_SUITE_END()
-
 
 BOOST_AUTO_TEST_SUITE_END()

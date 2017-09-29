@@ -11,6 +11,13 @@ target_link_libraries(node_link_type_test h5cpp_shared Boost::unit_test_framewor
 add_logging_test("hdf5::node::LinkType"
                  node_link_type_test
                  ${WORKING_DIRECTORY})
+                
+                
+add_executable(node_link_test link_test.cpp)
+target_link_libraries(node_link_test h5cpp_shared Boost::unit_test_framework)
+add_logging_test("hdf5::node::Link"
+                 node_link_test
+                 ${WORKING_DIRECTORY})
 
 add_executable(node_group_test group_test.cpp group_test_fixtures.cpp
                                group_node_iteration_test.cpp

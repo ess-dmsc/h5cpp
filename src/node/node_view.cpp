@@ -59,13 +59,15 @@ Node NodeView::operator[](size_t index) const
   {
     std::stringstream ss;
     ss<<"Failure opening child with index "<<index<<" from group ";
-    ss<<group().path();
+    ss<<group().link().path();
     throw std::runtime_error(ss.str());
   }
 
-  Path new_path = group().path()+Path::object_name(group().links[index].path());
 
-  return Node(ObjectHandle(id),new_path);
+  Link new_link(group().link().file(),group().link().path(),
+                Path::object_name(group().links[index].path()));
+
+  return Node(ObjectHandle(id),new_link);
 }
 
 Node NodeView::operator[](const std::string &name) const
@@ -85,7 +87,7 @@ Node NodeView::operator[](const std::string &name) const
   }
 
   //returning an object with the new path
-  return Node(ObjectHandle(id),group().path()+name);
+  return Node(ObjectHandle(id),Link(group().link().file(),group().link().path(),name));
 
 }
 
