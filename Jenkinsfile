@@ -7,7 +7,7 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-node ("boost && centos7") {
+node ("boost && fedora") {
 
     dir("code") {
         try {
@@ -22,6 +22,8 @@ node ("boost && centos7") {
     dir("build") {
         try {
             stage("Run CMake") {
+                sh 'gcov --version'
+                sh 'gcovr --version'
                 sh 'rm -rf ./*'
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
