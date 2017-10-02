@@ -59,8 +59,7 @@ BOOST_AUTO_TEST_CASE(test_copy_node)
   auto g1 = g.create_group("group_1");
   auto gt = g1.create_group("target");
   auto g2 = g.create_group("group_2");
-  Path tp("gt");
-  BOOST_CHECK_NO_THROW(nd::copy(g1, gt.path(), g2, tp));
+  BOOST_CHECK_NO_THROW(nd::copy(g1, gt.path(), g2, Path("gt")));
   BOOST_CHECK(g2.nodes.exists("gt"));
 }
 

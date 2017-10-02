@@ -59,7 +59,8 @@ void copy(const Node &source, const Group &destination);
 
 void copy(const Node &source, const Group &base, const Path &rel_path);
 
-void copy(const Node &source, const Path &obj, const Group &base, const Path &rel_path);
+void copy(const Node &source_parent, const Path &obj,
+          const Group &target_base, const Path &rel_path);
 
 //!
 //! \brief move an object

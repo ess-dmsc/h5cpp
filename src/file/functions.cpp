@@ -83,10 +83,10 @@ bool is_hdf5_file(const boost::filesystem::path &path)
 
 namespace node {
 
-void copy(const Node &source, const Path &obj, const Group &base,const Path &rel_path)
+void copy(const Node &source_parent, const Path &obj, const Group &target_base, const Path &rel_path)
 {
-  H5Ocopy(static_cast<hid_t>(source), static_cast<std::string>(obj).c_str(),
-          static_cast<hid_t>(base), static_cast<std::string>(rel_path).c_str(),
+  H5Ocopy(static_cast<hid_t>(source_parent), static_cast<std::string>(obj).c_str(),
+          static_cast<hid_t>(target_base), static_cast<std::string>(rel_path).c_str(),
           0, 0);
 }
 
