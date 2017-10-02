@@ -62,5 +62,15 @@ ObjectId Node::id() const
   return ObjectId(static_cast<hid_t>(*this));
 }
 
+bool operator==(const Node &lhs, const Node &rhs)
+{
+  return lhs.id() == rhs.id();
+}
+
+bool operator!=(const Node &lhs, const Node &rhs)
+{
+  return lhs.id() != rhs.id();
+}
+
 } // namespace node
 } // namespace hdf5

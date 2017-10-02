@@ -120,5 +120,8 @@ class DLL_EXPORT Node
     Path path_;
 };
 
+DLL_EXPORT bool operator==(const Node &lhs, const Node &rhs);
+DLL_EXPORT bool operator!=(const Node &lhs, const Node &rhs);
+
 } // namespace node
 } // namespace hdf5
