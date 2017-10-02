@@ -7,7 +7,7 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-node ("boost") {
+node ("boost && centos7") {
 
     dir("code") {
         try {
