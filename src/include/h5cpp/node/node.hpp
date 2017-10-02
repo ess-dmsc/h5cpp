@@ -20,6 +20,7 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once

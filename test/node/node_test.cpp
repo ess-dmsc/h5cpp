@@ -22,25 +22,50 @@
 // Created on: Oct 2, 2017
 //
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing node:Node creation
-#include <boost/test/unit_test.hpp>
-#include <h5cpp/node/node.hpp>
+#define BOOST_TEST_MODULE testing node creation
 
+#include <h5cpp/node/node.hpp>
+#include <h5cpp/node/functions.hpp>
+
+#include "group_test_fixtures.hpp"
+
+using boost::test_tools::output_test_stream;
+using namespace hdf5;
 namespace nd = hdf5::node;
 
 BOOST_AUTO_TEST_SUITE(NodeTest)
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    nd::Node n;
-  }
+BOOST_FIXTURE_TEST_SUITE(node_basics,BasicTestFixture)
 
-  BOOST_AUTO_TEST_CASE(test_equality_operator)
-  {
-    nd::Node m, n;
-    BOOST_CHECK(m == n);
-    BOOST_CHECK(!(m != n));
-  }
+BOOST_AUTO_TEST_CASE(test_default_construction)
+{
+  nd::Node n;
+}
+
+BOOST_AUTO_TEST_CASE(test_equality_operator)
+{
+  nd::Node m, n;
+  BOOST_CHECK(m == n);
+  BOOST_CHECK(!(m != n));
+
+  nd::Group g = file.root();
+  auto g2 = g.create_group("group_1");
+  BOOST_CHECK(g != g2);
+}
+
+BOOST_AUTO_TEST_CASE(test_copy_node)
+{
+  nd::Group g = file.root();
+  auto g1 = g.create_group("group_1");
+  auto gt = g1.create_group("target");
+  auto g2 = g.create_group("group_2");
+  Path tp("gt");
+  BOOST_CHECK_NO_THROW(nd::copy(g1, gt.path(), g2, tp));
+  BOOST_CHECK(g2.nodes.exists("gt"));
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

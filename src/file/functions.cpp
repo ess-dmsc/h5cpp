@@ -20,6 +20,7 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 9, 2017
 //
 #include <sstream>
@@ -28,33 +29,33 @@
 namespace hdf5 {
 namespace file {
 
-File create(const boost::filesystem::path &path,AccessFlags flags,
-            const property::FileCreationList &fcpl,const property::FileAccessList &fapl)
+File create(const boost::filesystem::path &path, AccessFlags flags,
+            const property::FileCreationList &fcpl, const property::FileAccessList &fapl)
 {
-  return create(path,static_cast<AccessFlagsBase>(flags),fcpl,fapl);
+  return create(path, static_cast<AccessFlagsBase>(flags), fcpl, fapl);
 }
 
-File create(const boost::filesystem::path &path,AccessFlagsBase flags,
-            const property::FileCreationList &fcpl,const property::FileAccessList &fapl)
+File create(const boost::filesystem::path &path, AccessFlagsBase flags,
+            const property::FileCreationList &fcpl, const property::FileAccessList &fapl)
 {
   return File(hdf5::ObjectHandle(
-          H5Fcreate(path.string().c_str(),flags,
-                    static_cast<hid_t>(fcpl),static_cast<hid_t>(fapl))
+          H5Fcreate(path.string().c_str(), flags,
+                    static_cast<hid_t>(fcpl), static_cast<hid_t>(fapl))
                   ));
 }
 
 
-File open(const boost::filesystem::path &path,AccessFlags flags,
+File open(const boost::filesystem::path &path, AccessFlags flags,
           const property::FileAccessList &fapl)
 {
-  return open(path,static_cast<AccessFlagsBase>(flags),fapl);
+  return open(path, static_cast<AccessFlagsBase>(flags), fapl);
 }
 
-File open(const boost::filesystem::path &path,AccessFlagsBase flags,
+File open(const boost::filesystem::path &path, AccessFlagsBase flags,
           const property::FileAccessList &fapl)
 {
   return File(ObjectHandle(
-      H5Fopen(path.string().c_str(),flags,static_cast<hid_t>(fapl))
+      H5Fopen(path.string().c_str(), flags, static_cast<hid_t>(fapl))
   ));
 }
 
@@ -78,6 +79,36 @@ bool is_hdf5_file(const boost::filesystem::path &path)
 }
 
 } // namespace file
+
+
+namespace node {
+
+void copy(const Node &source, const Path &obj, const Group &base,const Path &rel_path)
+{
+  H5Ocopy(static_cast<hid_t>(source), static_cast<std::string>(obj).c_str(),
+          static_cast<hid_t>(base), static_cast<std::string>(rel_path).c_str(),
+          0, 0);
+}
+
+void copy(const Node &source, const Group& base, const Path &rel_path)
+{
+//  auto f = source
+//  auto parent = Path::parent_path(source.path());
+  auto name = source.path().back();
+  H5Ocopy(static_cast<hid_t>(source), name.c_str(),
+          static_cast<hid_t>(base), static_cast<std::string>(rel_path).c_str(),
+          0, 0);
+}
+
+void copy(const Node &source, const Group& destination)
+{
+  Path name(source.path().back());
+  copy(source, destination, name);
+}
+
+} // namespace node
+
+
 } // namespace hdf5
 
 
