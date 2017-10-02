@@ -25,28 +25,16 @@
 #pragma once
 
 #include "datatype.hpp"
-#include "copy_native_type.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace datatype {
 
-class Float : public Datatype
+class DLL_EXPORT Float : public Datatype
 {
   public:
-    template<typename T>
-    static Float create();
-
-  private:
     Float(ObjectHandle &&handle);
 };
-
-template<typename T>
-Float Float::create()
-{
-	static_assert(std::is_floating_point<T>::value,"T must be a floating point type!");
-
-	return Float(ObjectHandle(copy_native_type<T>()));
-}
 
 } // namespace datatype
 } // namespace hdf5

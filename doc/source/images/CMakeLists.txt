@@ -5,6 +5,5 @@ set(IMAGES attribute_manager_uml.png
            selection_classes.png
            )
 
-foreach(IMAGE ${IMAGES})
-    configure_file(${IMAGE} ${IMAGE} COPYONLY)
-endforeach()
+add_sphinx_source(${IMAGES})
+copy_to_current_build(${IMAGES})

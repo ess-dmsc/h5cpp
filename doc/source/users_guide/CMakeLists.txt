@@ -1,7 +1,5 @@
-set(SOURCES index.rst)
+set(SOURCES index.rst
+            using.rst)
 
-list(APPEND RST_SOURCES ${SOURCES})
-
-foreach(SRC ${SOURCES})
-	configure_file(${SRC} ${SRC} COPYONLY)
-endforeach()
+add_sphinx_source(${SOURCES})
+copy_to_current_build(${SOURCES})

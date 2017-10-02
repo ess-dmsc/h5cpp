@@ -30,6 +30,7 @@ extern "C"{
 }
 #include "../object_handle.hpp"
 #include "types.hpp"
+#include "../windows.hpp"
 
 
 namespace hdf5 {
@@ -39,10 +40,11 @@ namespace datatype {
 //!
 //! \brief base class for all data types
 //!
-class Datatype
+class DLL_EXPORT Datatype
 {
   public:
     virtual ~Datatype();
+    Datatype(ObjectHandle &&handle);
     Datatype &operator=(const Datatype &type) = default;
     Datatype &operator=(Datatype &&type) = default;
     Datatype(const Datatype &type) = default;
@@ -62,25 +64,21 @@ class Datatype
     {
       return static_cast<hid_t>(handle_);
     }
-
-
-  protected:
-    Datatype(ObjectHandle &&handle);
   private:
 
     ObjectHandle handle_;
 
 };
 
-bool operator==(const Datatype &lhs,const Datatype &rhs);
-bool operator!=(const Datatype &lhs,const Datatype &rhs);
+DLL_EXPORT bool operator==(const Datatype &lhs,const Datatype &rhs);
+DLL_EXPORT bool operator!=(const Datatype &lhs,const Datatype &rhs);
 
 namespace prefdefined_types {
 
-static const Datatype native_int;
-static const Datatype native_double;
-static const Datatype native_long_double;
-static const Datatype native_short;
+DLL_EXPORT extern const Datatype native_int;
+DLL_EXPORT extern const Datatype native_double;
+DLL_EXPORT extern const Datatype native_long_double;
+DLL_EXPORT extern const Datatype native_short;
 
 
 } // namespace predefined_types

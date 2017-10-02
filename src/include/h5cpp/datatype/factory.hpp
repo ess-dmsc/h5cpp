@@ -20,49 +20,25 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Created on: Aug 28, 2017
 //
 #pragma once
 
-extern "C" {
-#include <hdf5.h>
-}
+#include "type_trait.hpp"
+
 
 namespace hdf5 {
 namespace datatype {
 
+
+//!
+//! \brief factory function for creating data types
+//!
 template<typename T>
-hid_t copy_native_type()
+typename TypeTrait<T>::TypeClass create()
 {
-  return 0;
+  return TypeTrait<T>::create();
 }
-
-#define COPY_NATIVE_TYPE_SPECIALIZATION_DECL(type) \
-  template<> hid_t copy_native_type<type>();
-
-#define COPY_NATIVE_TYPE_SPECIALIZATION(type,native_id)\
-  template<> \
-  hid_t copy_native_type<type>() \
-  { \
-    return H5Tcopy(native_id); \
-  }
-
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(char)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(unsigned char)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(signed char)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(short)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(unsigned short)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(int)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(unsigned int)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(long)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(unsigned long)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(long long)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(unsigned long long)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(float)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(double)
-COPY_NATIVE_TYPE_SPECIALIZATION_DECL(long double)
-
-
 
 } // namespace datatype
 } // namespace hdf5

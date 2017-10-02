@@ -67,4 +67,8 @@
       </ownedParameter>
     </ownedTemplateSignature>
   </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_vdW18JR6EeeoI7oI9Ds2zg" name="ostream"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_wkbLsJR6EeeoI7oI9Ds2zg" name="istream"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_i9kfAJR7EeeoI7oI9Ds2zg" name="unsigned int"/>
+  <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_k5_vcJR7EeeoI7oI9Ds2zg" name="char"/>
 </uml:Model>

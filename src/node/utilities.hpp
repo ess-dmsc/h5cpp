@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,40 +19,21 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Martin Shetty <martin.shetty@esss.se>
+// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Created on: Sep 12, 2017
 //
 #pragma once
 
-extern "C" {
-#include <hdf5.h>
-}
-
 #include <string>
-#include <sstream>
 
-namespace hdf5
-{
-
-class ObjectId
-{
-  public:
-    ObjectId();
-    ObjectId(hid_t object);
-
-    bool operator== (const ObjectId& other) const;
-    bool operator< (const ObjectId& other) const;
-
-    friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
-
-    std::string   file_name() const;
-    unsigned long file_number() const;
-    haddr_t       object_address() const;
-
-  private:
-    std::string   file_name_;
-    unsigned long file_num_ {0};
-    haddr_t       obj_addr_ {0};
-};
+namespace hdf5 {
+namespace node {
 
 
+
+
+bool is_valid_child_name(const std::string &name);
+
+
+}
 }

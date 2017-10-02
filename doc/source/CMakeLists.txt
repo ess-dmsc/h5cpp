@@ -1,8 +1,7 @@
 configure_file(conf.py.in conf.py @ONLY)
 configure_file(index.rst.in index.rst @ONLY)
 
-list(APPEND RST_SOURCES conf.py index.rst)
-
+add_sphinx_source(conf.py index.rst)
 
 add_subdirectory(_static)
 add_subdirectory(_templates)

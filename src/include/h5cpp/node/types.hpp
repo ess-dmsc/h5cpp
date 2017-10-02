@@ -20,32 +20,41 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Created on: Sep 8, 2017
 //
+#pragma once
 
-#include <h5cpp/datatype/copy_native_type.hpp>
+#include <iostream>
+extern "C" {
+#include <hdf5.h>
+}
+#include "../windows.hpp"
 
 namespace hdf5 {
-namespace datatype {
+namespace node {
 
-  COPY_NATIVE_TYPE_SPECIALIZATION(char,H5T_NATIVE_CHAR)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned char,H5T_NATIVE_UCHAR)
-  COPY_NATIVE_TYPE_SPECIALIZATION(signed char,H5T_NATIVE_SCHAR)
-  COPY_NATIVE_TYPE_SPECIALIZATION(short,H5T_NATIVE_SHORT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned short,H5T_NATIVE_USHORT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(int,H5T_NATIVE_INT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned int,H5T_NATIVE_UINT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(long,H5T_NATIVE_LONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned long,H5T_NATIVE_ULONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(long long,H5T_NATIVE_LLONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(unsigned long long,H5T_NATIVE_ULLONG)
-  COPY_NATIVE_TYPE_SPECIALIZATION(float,H5T_NATIVE_FLOAT)
-  COPY_NATIVE_TYPE_SPECIALIZATION(double,H5T_NATIVE_DOUBLE)
-  COPY_NATIVE_TYPE_SPECIALIZATION(long double,H5T_NATIVE_LDOUBLE)
+//!
+//! \brief enumeration for node type
+//!
+enum class Type : std::underlying_type<H5O_type_t>::type
+{
+  UNKNOWN = H5O_TYPE_UNKNOWN,
+  GROUP   = H5O_TYPE_GROUP,
+  DATASET = H5O_TYPE_DATASET,
+  DATATYPE = H5O_TYPE_NAMED_DATATYPE
+};
 
-} // namespace datatype
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Type &type);
+
+enum class LinkType : std::underlying_type<H5L_type_t>::type
+{
+  HARD = H5L_TYPE_HARD,
+  SOFT = H5L_TYPE_SOFT,
+  EXTERNAL = H5L_TYPE_EXTERNAL,
+  ERROR = H5L_TYPE_ERROR
+};
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const LinkType &type);
+
+} // namespace node
 } // namespace hdf5
-
-
-
-

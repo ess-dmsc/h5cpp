@@ -1,11 +1,16 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(h5++
+project(h5cpp
     LANGUAGES CXX C
     VERSION 0.0.1
     )
 
 include(CTest)
 option(COV "Enable code coverage test for unit tests (if possible)." OFF)
+
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Build type was not set. Using Relese mode.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
 
 #=============================================================================
 # setting up conan for use from within cmake
@@ -30,10 +35,16 @@ endif()
 #=============================================================================
 # some general configuration
 #=============================================================================
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
 include(cmake/InstallConfig.cmake)
 include(cmake/OutputDirConfig.cmake)
 include(cmake/EnsureBuildType.cmake)
 include(cmake/WindowsUtils.cmake)
+include(cmake/PackageConfig.cmake)
+include(Sphinx)
+include(utilities)
+include(DoxygenUtilities)
 
 #=============================================================================
 # Internal compiler options
@@ -53,9 +64,34 @@ include(cmake/HDF5LibraryConfig.cmake)
 include(cmake/BoostLibraryConfig.cmake)
 
 
-
-
 add_custom_target(html)
-add_subdirectory(doc)
 add_subdirectory(src)
+add_subdirectory(doc)
 add_subdirectory(test)
+
+#=============================================================================
+# create package file
+#=============================================================================
+
+#
+# create and install the version file
+#
+write_basic_package_version_file(
+	${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
+	VERSION ${PROJECT_VERSION}
+	COMPATIBILITY AnyNewerVersion)
+
+install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
+	    DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
+	    COMPONENT development)
+	   
+#
+# create and install the package file
+#
+configure_file(${PACKAGE_CONFIG_FILE_NAME} ${PACKAGE_CONFIG_FILE_NAME} COPYONLY)
+install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
+	    DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
+	    COMPONENT development)
+	   
+
+
