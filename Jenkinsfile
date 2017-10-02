@@ -36,8 +36,8 @@ node ("boost && fedora") {
         
         try {
             stage("Build project") {
-                sh "make VERBOSE=1"
-                sh "make api_doc"
+                sh "make"
+                /*sh "make VERBOSE=1"*/
             }
         } catch (e) {
             failure_function(e, 'Build failed')
