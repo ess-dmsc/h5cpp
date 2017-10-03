@@ -46,7 +46,7 @@ node ("boost && fedora") {
         try {
             stage("Run test") {
                 sh "make test"
-                junit '*Tests.xml'
+                //junit '*Tests.xml'
                 sh "make coverage"
                 step([
                     $class: 'CoberturaPublisher',
@@ -62,7 +62,7 @@ node ("boost && fedora") {
                 ])
           }
         } catch (e) {
-            junit '*Tests.xml'
+            //junit '*Tests.xml'
             failure_function(e, 'Tests failed')
         }
     }
