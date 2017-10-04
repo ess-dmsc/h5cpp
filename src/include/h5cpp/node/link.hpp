@@ -24,13 +24,16 @@
 //
 #pragma once
 
-#include "group.hpp"
+#include "../file/file.hpp"
 #include "../path.hpp"
 #include "../windows.hpp"
 #include "../property/link_access_list.hpp"
+#include "types.hpp"
 
 namespace hdf5 {
 namespace node {
+
+class Group;
 
 //!
 //! \brief link target descriptor
@@ -40,7 +43,7 @@ namespace node {
 //! * the path to the file within which the object is stored
 //!
 //! The latter one is required in order to handle external links where the
-//! objet is not stored in the same file.
+//! object is not stored in the same file.
 //!
 class DLL_EXPORT LinkTarget
 {
@@ -70,7 +73,18 @@ class DLL_EXPORT LinkTarget
     //!
     explicit LinkTarget(const hdf5::Path &object_path,const boost::filesystem::path &file_path);
 
+    //!
+    //! \brief get file path
+    //!
+    //! Return the path to the file where the link target is located.
+    //!
     boost::filesystem::path file_path() const;
+
+    //!
+    //! \brief get object path
+    //!
+    //! Return the object path to the link target within its file.
+    //!
     hdf5::Path object_path() const;
 
   private:
@@ -81,6 +95,11 @@ class DLL_EXPORT LinkTarget
 //!
 //! \brief a link
 //!
+//! Class representing a link to an object within an HDF5 file. In order to store links
+//! in a container they have to be default constructible. A default constructed link has the
+//! type LinkType::ERROR.
+//! Instead of a node type only the handle to the parent is stored. Thus, the parent can
+//! also be a File which would identify the link as the link to the root group.
 //!
 class DLL_EXPORT Link
 {
@@ -88,8 +107,24 @@ class DLL_EXPORT Link
     //!
     //! \brief constructor
     //!
-    Link(const Group &parent_group,const std::string &name);
+    //! \param file reference to the file via which the link was accessed
+    //! \param parent_path the object path to the links parent
+    //1 \param link_name the name of the link below its parent
+    //!
+    Link(const file::File &file,
+         const Path &parent_path,
+         const std::string &link_name);
+
+    //!
+    //! \brief default constructor
+    //!
+    //! Leaves a link of type LinkType::ERROR.
+    //!
     Link() = default;
+
+    //!
+    //! \brief copy constructor
+    //!
     Link(const Link &) = default;
 
     //!
@@ -112,9 +147,20 @@ class DLL_EXPORT Link
     //!
     LinkType type(const property::LinkAccessList &lapl = property::LinkAccessList()) const;
 
+    //!
+    //! \brief get reference to parent group
+    //!
+    //! Return a const reference to the parent group of the link.
+    //!
+    Group parent() const;
+
+    const file::File &file() const;
+
+
   private:
-    Group parent_group_;
-    std::string  name_;
+    file::File parent_file_;   //!< the file via which the link was accessed
+    Path parent_path_;   //!< the object path to the parent of the link
+    std::string  name_;  //!< the name of the link
 
     H5L_info_t get_link_info(const property::LinkAccessList &lapl) const;
     std::string get_link_value(const property::LinkAccessList &lapl) const;

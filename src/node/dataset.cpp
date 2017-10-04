@@ -40,7 +40,7 @@ dataspace::Dataspace Dataset::dataspace() const
   if(id<0)
   {
     std::stringstream ss;
-    ss<<"Failure retrieving dataspace for dataset "<<path()<<"!";
+    ss<<"Failure retrieving dataspace for dataset "<<link().path()<<"!";
     throw std::runtime_error(ss.str());
   }
   return dataspace::Dataspace(ObjectHandle(id));
@@ -52,7 +52,7 @@ datatype::Datatype Dataset::datatype() const
   if(id<0)
   {
     std::stringstream ss;
-    ss<<"Failure retrieving datatype for dataset "<<path()<<"!";
+    ss<<"Failure retrieving datatype for dataset "<<link().path()<<"!";
     throw std::runtime_error(ss.str());
   }
 
@@ -64,7 +64,7 @@ void Dataset::extent(const Dimensions &dims) const
   if(H5Dset_extent(static_cast<hid_t>(*this),dims.data())<0)
   {
     std::stringstream ss;
-    ss<<"Failed to set extent for dataset "<<path()<<"!";
+    ss<<"Failed to set extent for dataset "<<link().path()<<"!";
     throw std::runtime_error(ss.str());
   }
 }

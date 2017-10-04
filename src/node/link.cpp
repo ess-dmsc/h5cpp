@@ -24,6 +24,9 @@
 //
 #include <sstream>
 #include <h5cpp/node/link.hpp>
+#include <h5cpp/node/node.hpp>
+#include <h5cpp/file/file.hpp>
+#include <h5cpp/node/group.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -54,27 +57,32 @@ hdf5::Path LinkTarget::object_path() const
   return object_path_;
 }
 
-Link::Link(const Group &parent_group,const std::string &name):
-    parent_group_(parent_group),
-    name_(name)
+Link::Link(const file::File &file,const Path &parent_path,
+           const std::string &link_name):
+    parent_file_(file),
+    parent_path_(parent_path),
+    name_(link_name)
 {}
 
 Path Link::path() const
 {
-  return parent_group_.path() + name_;
+  if(name_ == "/")
+    return parent_path_;
+  else
+    return parent_path_+ name_;
 }
 
 H5L_info_t Link::get_link_info(const property::LinkAccessList &lapl) const
 {
   H5L_info_t info;
-   if(H5Lget_info(static_cast<hid_t>(parent_group_),
+   if(H5Lget_info(static_cast<hid_t>(parent()),
                   name_.c_str(),
                   &info,
                   static_cast<hid_t>(lapl))<0)
    {
      std::stringstream ss;
      ss<<"Failure retrieving information for link ["<<name_<<"] on group"
-       <<" ["<<static_cast<std::string>(parent_group_.path())<<"]!";
+       <<" ["<<parent_path_<<"]!";
      throw std::runtime_error(ss.str());
    }
 
@@ -86,7 +94,7 @@ std::string Link::get_link_value(const property::LinkAccessList &lapl) const
   H5L_info_t info = get_link_info(lapl);
   std::string value(info.u.val_size-1,' ');
 
-  if(H5Lget_val(static_cast<hid_t>(parent_group_),
+  if(H5Lget_val(static_cast<hid_t>(parent()),
                 name_.c_str(),
                 reinterpret_cast<void*>(const_cast<char*>(value.data())),
                 info.u.val_size,
@@ -94,7 +102,7 @@ std::string Link::get_link_value(const property::LinkAccessList &lapl) const
   {
     std::stringstream ss;
     ss<<"Failure to retrieve link value for link ["<<name_<<"] below "
-      <<"group ["<<static_cast<std::string>(parent_group_.path())<<"]!";
+      <<"group ["<<parent_path_<<"]!";
     throw std::runtime_error(ss.str());
   }
 
@@ -120,7 +128,7 @@ LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) 
   {
     std::stringstream ss;
     ss<<"Failure decoding external link target for link ["<<name_<<"] below"
-      <<" group ["<<static_cast<std::string>(parent_group_.path())<<"]!";
+      <<" group ["<<static_cast<std::string>(parent_path_)<<"]!";
     throw std::runtime_error(ss.str());
   }
 
@@ -134,7 +142,7 @@ LinkTarget Link::target(const property::LinkAccessList &lapl) const
   switch(type(lapl))
   {
     case LinkType::HARD:
-      return LinkTarget(parent_group_.path()+name_);
+      return LinkTarget(parent_path_+name_);
     case LinkType::SOFT:
       return get_soft_link_target(lapl);
     case LinkType::EXTERNAL:
@@ -147,6 +155,10 @@ LinkTarget Link::target(const property::LinkAccessList &lapl) const
 
 LinkType Link::type(const property::LinkAccessList &lapl) const
 {
+  //in the case of a default constructed instance the link type is ERROR
+  if(!parent_file_.is_valid())
+    return LinkType::ERROR;
+
   H5L_info_t info = get_link_info(lapl);
   switch(info.type)
   {
@@ -157,6 +169,24 @@ LinkType Link::type(const property::LinkAccessList &lapl) const
       return LinkType::ERROR;
   }
 }
+
+Group Link::parent() const
+{
+  Group result = parent_file_.root();
+
+  if(name_=="/") return result;
+
+  for(auto link_name: parent_path_)
+    result = result.nodes[link_name];
+
+  return result;
+}
+
+const file::File &Link::file() const
+{
+  return parent_file_;
+}
+
 
 
 } // namespace node
