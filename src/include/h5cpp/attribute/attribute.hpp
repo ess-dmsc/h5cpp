@@ -35,36 +35,74 @@ namespace attribute {
 class DLL_EXPORT Attribute
 {
   public:
+    //!
+    //! \brief constructor
+    //!
+    //! \param handle rvalue reference to the attributes handle
+    //!
     Attribute(ObjectHandle &&handle);
+
+    //!
+    //! \brief default constructor
+    //!
+    //! Uses default compiler implementation.
+    //!
     Attribute() = default;
+
+    //!
+    //! \brief copy assignment operator
+    //!
+    //! Uses default compiler implementation.
+    //!
     Attribute(const Attribute &) = default;
 
+    //!
+    //! \brief return the data type of the attribute
+    //!
+    //! Returns a copy of the datatype used to create the attribute.
+    //!
     datatype::Datatype datatype() const;
+
+    //!
+    //! \brief return the dataspace of the attribute
+    //!
+    //! Returns the dataspace used to create the attribute.
+    //!
     dataspace::Dataspace dataspace() const;
 
+    //!
+    //! \brief return the name of the attribute
+    //!
     std::string name() const;
 
-    template<typename T>
-    void write(const &T) const;
+    //!
+    //! \brief check if object is valid
+    //!
+    bool is_valid() const;
 
     template<typename T>
-    void read(&T) const;
+    void write(const T& data) const;
+
+    template<typename T>
+    void read(T &data) const;
 
   private:
     ObjectHandle handle_;
 };
 
 template<typename T>
-void Attribute::write(const &T) const
+void Attribute::write(const T &data) const
 {
 
 }
 
 template<typename T>
-void Attribute::read(&T) const
+void Attribute::read(T &data) const
 {
 
 }
+
+
 
 } // namespace attribute
 } // namespace hdf5
