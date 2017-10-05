@@ -100,8 +100,10 @@ void move(const Node &source,const Group &destination_base,const Path &rel_path,
 //! \param object the object which to remove
 //!
 //! \pre `object` must be a valid HDF5 object instance
+//! \param lapl optional reference to a link access property list
 //!
-void remove(const Node &object);
+void remove(const Node &object,
+            const property::LinkAccessList &lapl = property::LinkAccessList());
 
 //!
 //! \brief remove an object relative to a base group
@@ -112,10 +114,12 @@ void remove(const Node &object);
 //! \throws std::runtime_error in case of a failure
 //! \brief base group relative to which the link or object resides
 //! \brief rel_path path relative to base determining the link or object to remove
+//! \param lapl optional reference to a link access property list
 //!
 //! \sa remove(const Node &node)
 //!
-void remove(const Group &base,const Path &rel_path);
+void remove(const Group &base,const Path &rel_path,
+            const property::LinkAccessList &lapl = property::LinkAccessList());
 
 
 //!

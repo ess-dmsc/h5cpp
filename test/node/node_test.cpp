@@ -53,6 +53,23 @@ BOOST_AUTO_TEST_CASE(test_equality_operator)
   BOOST_CHECK(g != g2);
 }
 
+BOOST_AUTO_TEST_CASE(test_remove_node)
+{
+  nd::Group f = file.root();
+
+  f.create_group("group");
+  BOOST_CHECK(f.exists("group"));
+  BOOST_CHECK_NO_THROW(nd::remove(f, Path("group")));
+  BOOST_CHECK(!f.exists("group"));
+
+  BOOST_CHECK_THROW(nd::remove(f, Path("group")), std::runtime_error);
+
+  auto g = f.create_group("group2");
+  BOOST_CHECK(f.exists("group2"));
+  BOOST_CHECK_NO_THROW(nd::remove(g));
+  BOOST_CHECK(!f.exists("group2"));
+}
+
 BOOST_AUTO_TEST_CASE(test_copy_node)
 {
   nd::Group f = file.root();

@@ -61,6 +61,26 @@ void copy(const Node &source, const Group& destination)
           0, 0);
 }
 
+void remove(const Node &object,
+            const property::LinkAccessList &lapl)
+{
+  remove(object.link().parent(), Path(object.link().path().back()), lapl);
+}
+
+void remove(const Group &base,const Path &rel_path,
+            const property::LinkAccessList &lapl)
+{
+  if (!base.exists(static_cast<std::string>(rel_path)))
+  {
+    std::stringstream ss;
+    ss << "Node " << rel_path << " in " << base.link() << " already exists!";
+    throw std::runtime_error(ss.str());
+  }
+  H5Ldelete(static_cast<hid_t>(base),
+            static_cast<std::string>(rel_path).c_str(),
+            static_cast<hid_t>(lapl));
+}
+
 } // namespace node
 } // namespace hdf5
 
