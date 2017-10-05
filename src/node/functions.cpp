@@ -70,7 +70,7 @@ void remove(const Node &object,
 void remove(const Group &base,const Path &rel_path,
             const property::LinkAccessList &lapl)
 {
-  if (!base.exists(static_cast<std::string>(rel_path)))
+  if (!base.links.exists(static_cast<std::string>(rel_path)))
   {
     std::stringstream ss;
     ss << "Node " << rel_path << " in " << base.link() << " already exists!";
