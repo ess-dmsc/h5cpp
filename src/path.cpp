@@ -282,4 +282,15 @@ Path Path::parent_path(const Path &path)
   return p;
 }
 
+bool operator==(const Path &lhs, const Path &rhs)
+{
+  return (lhs.absolute_ == rhs.absolute_) && (lhs.link_names_ == rhs.link_names_);
+}
+
+bool operator!=(const Path &lhs, const Path &rhs)
+{
+  return !(lhs == rhs);
+}
+
+
 } // namespace hdf5

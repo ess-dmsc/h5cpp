@@ -102,6 +102,17 @@ class DLL_EXPORT Group : public Node
     }
 
     //!
+    //! \brief checks existence of a node
+    //!
+    //! The name must be a valid link and valid child name. This function checks
+    //! whether a link of a particular name exists and can be resolved into an
+    //! object.
+    //!
+    bool exists(const std::string &name,
+                const property::LinkAccessList &lapl = property::LinkAccessList()) const;
+
+
+    //!
     //! \brief create a new group
     //!
     Group create_group(const std::string &name,

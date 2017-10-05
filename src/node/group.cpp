@@ -62,6 +62,11 @@ Group &Group::operator=(const Group &group)
   return *this;
 }
 
+bool Group::exists(const std::string &name,
+                   const property::LinkAccessList &lapl) const
+{
+  return (links.exists(name, lapl) && nodes.exists(name, lapl));
+}
 
 Group Group::create_group(const std::string &name,
                           const property::LinkCreationList &lcpl,
@@ -139,6 +144,11 @@ Dataset Group::create_dataset(const std::string &name,
     ss<<"Failure creating dataset ["<<name<<"] below ["<<link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
+}
+
+Node Group::operator[](const std::string &name) const
+{
+  return nodes[name];
 }
 
 } // namespace node
