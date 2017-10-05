@@ -32,13 +32,43 @@
 namespace hdf5 {
 namespace dataspace {
 
+//!
+//! \brief selection base class
+//!
 class DLL_EXPORT Selection
 {
   public:
-    Selection();
+    //!
+    //! \brief default constructor
+    //!
+    //! Use the compiler provided default implementation.
+    Selection() = default;
+
+    //!
+    //! \brief copy constructor
+    //!
+    //! Use the compiler provided default implementation.
+    //!
     Selection(const Selection &) = default;
+
+    //!
+    //! \brief destructor
+    //!
+    //! The destructor has to be virtual to inherit from this class.
+    //!
     virtual ~Selection();
 
+    //!
+    //! \brief apply a selection onto a dataspace
+    //!
+    //! The current selection will be applied to dataspace \c space using the
+    //! operator determined by \c ops.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \param space reference to the dataspace onto which to apply the
+    //!              selection
+    //! \param ops operator for the selection
     virtual void apply(const Dataspace &space,
                        SelectionOperation ops) const = 0;
 };
@@ -73,8 +103,8 @@ class DLL_EXPORT Hyperslab : public Selection
     Dimensions count_;
     Dimensions block_;
 
-
 };
+
 
 class DLL_EXPORT Points : public Selection
 {

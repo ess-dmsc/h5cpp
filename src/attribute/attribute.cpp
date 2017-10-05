@@ -71,7 +71,7 @@ std::string Attribute::name() const
     throw std::runtime_error("Could not determine the size of the attributes name!");
   }
 
-  std::string buffer(size+1,' ');
+  std::string buffer(size,' ');
   char *ptr = const_cast<char*>(buffer.data());
   if(H5Aget_name(static_cast<hid_t>(handle_),size+1,ptr)<0)
   {

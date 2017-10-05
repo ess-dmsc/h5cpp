@@ -30,6 +30,7 @@
 #include "link.hpp"
 #include "../windows.hpp"
 #include "../object_id.hpp"
+#include "../attribute/attribute_manager.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -48,7 +49,7 @@ class DLL_EXPORT Node
     //!
     //! \brief default constructor
     //!
-    //! We use the default implementation here. In order to store
+    //! In order to store
     //! objects in a container like a std::vector they must be default
     //! constructible. A default constructed object cannot be used
     //! for anything. Use the is_valid() function to check whether or
@@ -56,14 +57,19 @@ class DLL_EXPORT Node
     //!
     //! \sa is_valid()
     //!
-    Node() = default;
+    Node();
 
     //!
     //! \brief copy constructor
     //!
     //! We use the default implementation
     //!
-    Node(const Node &) = default;
+    Node(const Node &);
+
+    //!
+    //! \brief copy assignment
+    //!
+    Node &operator=(const Node &node);
 
     //!
     //! \brief destructor
@@ -110,6 +116,10 @@ class DLL_EXPORT Node
     //!
     const Link &link() const;
 
+    //!
+    //! \brief access to the attribute manager
+    //!
+    attribute::AttributeManager attributes;
 
   private:
     ObjectHandle handle_; //!< access handle to the object

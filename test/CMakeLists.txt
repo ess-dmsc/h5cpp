@@ -10,6 +10,7 @@ add_subdirectory(dataspace)
 add_subdirectory(logs)
 add_subdirectory(file)
 add_subdirectory(node)
+add_subdirectory(attribute)
 
 add_executable(hdf5_path_test path_test.cpp)
 target_link_libraries(hdf5_path_test h5cpp_shared Boost::unit_test_framework)

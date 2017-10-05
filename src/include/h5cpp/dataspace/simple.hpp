@@ -31,6 +31,9 @@
 namespace hdf5 {
 namespace dataspace {
 
+//!
+//! \brief simple multidimensional dataspace
+//!
 class DLL_EXPORT Simple : public Dataspace
 {
   public:
@@ -45,7 +48,21 @@ class DLL_EXPORT Simple : public Dataspace
     Simple();
 
     //!
+    //! \brief constructor
+    //!
+    //! Construct a simple dataspace from a reference to its base
+    //! instance. If space does not refer to a simple dataspace an
+    //! exception will be thrown.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param space reference to a dataspace instance
+    //!
+    explicit Simple(const Dataspace &space);
+
+    //!
     //! \brief copy constructor
+    //!
+    //! Use default implementation of the copy constructor
     //!
     Simple(const Simple &) = default;
 
@@ -54,6 +71,8 @@ class DLL_EXPORT Simple : public Dataspace
     //!
     //! If the maximum dimensions is not provided it will be set to the
     //! current number of elements along each dimension.
+    //!
+    //! \throws std::runtime_error in case of a failure
     //!
     //! \param current current number of elements along each dimension
     //! \param maximum maximum number of elements along each dimension
@@ -65,10 +84,14 @@ class DLL_EXPORT Simple : public Dataspace
     //!
     //! \brief get number of dimensions
     //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     int rank() const;
 
     //!
-    //! \brief set number of elements
+    //! \brief set number of elements along each dimension
+    //!
+    //! \throws std::runtime_error in case of a failure
     //!
     void dimensions(const Dimensions &current,
                     const Dimensions &maximum=Dimensions());
@@ -76,10 +99,14 @@ class DLL_EXPORT Simple : public Dataspace
     //!
     //! \brief get current dimensions
     //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     Dimensions current_dimensions() const;
 
     //!
     //! \brief get maximum dimensions
+    //!
+    //! \throws std::runtime_error in case of a failure
     //!
     Dimensions maximum_dimensions() const;
 };

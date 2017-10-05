@@ -50,7 +50,9 @@ set(NODE_SOURCES node/types.cpp
 	             node/link_iterator.cpp
 )
 
-set(ATTRIBUTE_SOURCES attribute/attribute.cpp)
+set(ATTRIBUTE_SOURCES attribute/attribute.cpp
+	                  attribute/attribute_manager.cpp
+)
 
 set(SOURCES object_handle.cpp
             object_id.cpp

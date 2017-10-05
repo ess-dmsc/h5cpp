@@ -20,44 +20,30 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Oct 5, 2017
 //
 #pragma once
 
-#include "dataspace.hpp"
-#include "../windows.hpp"
+#include <h5cpp/file/file.hpp>
+#include <h5cpp/node/group.hpp>
+#include <boost/filesystem.hpp>
 
-namespace hdf5 {
-namespace dataspace {
-
-//!
-//! \brief scalar dataspace
-//!
-//! Dataspace for a single value
-//!
-class DLL_EXPORT Scalar : public Dataspace
+struct Fixture
 {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    Scalar();
+    hdf5::file::File file;
+    hdf5::node::Group root_group;
 
-    //!
-    //! \brief constructor
-    //!
-    //! Construct a scalar dataspace from its base class. In this case.
-    //! If the Dataspace instance is not a scalar instance an exception
-    //! will be thrown.
-    //!
-    //! \throws std::runtime_error in case of an error
-    //!
-    //! \param space reference to a Dataspace instance
-    //!
-    Scalar(const Dataspace &space);
+    Fixture(const boost::filesystem::path &file_path);
+};
 
+
+struct AttributeFixture : public Fixture
+{
+    AttributeFixture();
 
 };
 
-} // namespace dataspace
-} // namespace hdf5
+struct AttributeIterationFixture : public Fixture
+{
+    AttributeIterationFixture();
+};
