@@ -55,12 +55,24 @@ BOOST_AUTO_TEST_CASE(test_equality_operator)
 
 BOOST_AUTO_TEST_CASE(test_copy_node)
 {
-  nd::Group g = file.root();
-  auto g1 = g.create_group("group_1");
+  nd::Group f = file.root();
+  auto g1 = f.create_group("group_1");
   auto gt = g1.create_group("target");
-  auto g2 = g.create_group("group_2");
-  BOOST_CHECK_NO_THROW(nd::copy(g1, gt.path(), g2, Path("gt")));
-  BOOST_CHECK(g2.nodes.exists("gt"));
+  auto g2 = f.create_group("group_2");
+
+//  BOOST_CHECK(!g2.nodes.exists("gt"));
+
+  BOOST_CHECK_NO_THROW(nd::copy(gt, g2, Path("gt")));
+//  BOOST_CHECK(g2.nodes.exists("gt"));
+
+//  BOOST_CHECK_NO_THROW(nd::copy(gt, g2));
+//  BOOST_CHECK(g2.nodes.exists("target"));
+
+
+//  BOOST_CHECK_NO_THROW(nd::copy(gt, f));
+//  BOOST_CHECK(f.nodes.exists("target"));
+
+//  BOOST_CHECK_THROW(nd::copy(gt, f), std::runtime_error);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
