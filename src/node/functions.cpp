@@ -30,11 +30,12 @@ namespace node {
 
 void copy(const Node &source, const Group& base, const Path &rel_path)
 {
-//  if (base.nodes.exists(static_cast<std::string>(rel_path)))
-//  {
-//    //todo: Make more informative
-//    throw std::runtime_error("Node already exists!");
-//  }
+  if (base.exists(static_cast<std::string>(rel_path)))
+  {
+    std::stringstream ss;
+    ss << "Node " << rel_path << " in " << base.link() << " already exists!";
+    throw std::runtime_error(ss.str());
+  }
 
   H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
           source.link().path().back().c_str(),        //object name
@@ -46,11 +47,12 @@ void copy(const Node &source, const Group& base, const Path &rel_path)
 void copy(const Node &source, const Group& destination)
 {
   auto name = source.link().path().back();
-//  if (destination.nodes.exists(name))
-//  {
-//    //todo: Make more informative
-//    throw std::runtime_error("Node already exists!");
-//  }
+  if (destination.exists(name))
+  {
+    std::stringstream ss;
+    ss << "Node " << name << " in " << destination.link() << " already exists!";
+    throw std::runtime_error(ss.str());
+  }
 
   H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
           name.c_str(),                               //object name
@@ -60,8 +62,6 @@ void copy(const Node &source, const Group& destination)
 }
 
 } // namespace node
-
-
 } // namespace hdf5
 
 

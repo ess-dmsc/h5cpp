@@ -60,19 +60,21 @@ BOOST_AUTO_TEST_CASE(test_copy_node)
   auto gt = g1.create_group("target");
   auto g2 = f.create_group("group_2");
 
-//  BOOST_CHECK(!g2.nodes.exists("gt"));
-
+  BOOST_CHECK(!g2.exists("gt"));
   BOOST_CHECK_NO_THROW(nd::copy(gt, g2, Path("gt")));
-//  BOOST_CHECK(g2.nodes.exists("gt"));
+  BOOST_CHECK(g2.exists("gt"));
+  BOOST_CHECK_THROW(nd::copy(gt, g2, Path("gt")), std::runtime_error);
 
-//  BOOST_CHECK_NO_THROW(nd::copy(gt, g2));
-//  BOOST_CHECK(g2.nodes.exists("target"));
+  BOOST_CHECK_NO_THROW(nd::copy(gt, g2));
+  BOOST_CHECK(g2.exists("target"));
 
+  BOOST_CHECK_NO_THROW(nd::copy(gt, f));
+  BOOST_CHECK(f.exists("target"));
 
-//  BOOST_CHECK_NO_THROW(nd::copy(gt, f));
-//  BOOST_CHECK(f.nodes.exists("target"));
+  BOOST_CHECK_THROW(nd::copy(gt, f), std::runtime_error);
 
-//  BOOST_CHECK_THROW(nd::copy(gt, f), std::runtime_error);
+  //copying root does not work
+  BOOST_CHECK_THROW(nd::copy(f, g2), std::runtime_error);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
