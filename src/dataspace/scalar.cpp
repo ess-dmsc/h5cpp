@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 24, 2017
 //
-
+#include <stdexcept>
 #include <h5cpp/dataspace/scalar.hpp>
 
 namespace hdf5 {
@@ -31,6 +31,16 @@ namespace dataspace {
 Scalar::Scalar():
     Dataspace(Type::SCALAR)
 {}
+
+Scalar::Scalar(const Dataspace &space):
+    Dataspace(space)
+{
+  if(space.type()!=Type::SCALAR)
+  {
+    throw std::runtime_error("Cannot construct a scalar dataspace from a simple one!");
+  }
+}
+
 
 
 } // namespace dataspace

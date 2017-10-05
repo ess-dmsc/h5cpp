@@ -29,10 +29,34 @@
 namespace hdf5 {
 namespace node {
 
+Node::Node():
+    attributes(*this),
+    handle_(),
+    link_()
+{}
+
 Node::Node(ObjectHandle &&handle,const Link &link):
+    attributes(*this),
     handle_(std::move(handle)),
     link_(link)
 {}
+
+Node::Node(const Node &node):
+    attributes(*this),
+    handle_(node.handle_),
+    link_(node.link_)
+{}
+
+Node &Node::operator=(const Node &node)
+{
+  if(this == &node)
+    return *this;
+
+  handle_ = node.handle_;
+  link_   = node.link_;
+
+  return *this;
+}
 
 Node::~Node()
 {}
