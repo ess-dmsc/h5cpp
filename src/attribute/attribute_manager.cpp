@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/attribute/attribute_manager.hpp>
+#include <h5cpp/attribute/attribute_iterator.hpp>
 
 namespace hdf5 {
 namespace attribute {
@@ -171,6 +172,21 @@ IteratorConfig &AttributeManager::iterator_config() noexcept
 const IteratorConfig &AttributeManager::iterator_config() const noexcept
 {
   return iter_config_;
+}
+
+const node::Node &AttributeManager::node() const
+{
+  return node_;
+}
+
+AttributeIterator AttributeManager::begin() const
+{
+  return AttributeIterator(*this,0);
+}
+
+AttributeIterator AttributeManager::end() const
+{
+  return AttributeIterator(*this,size());
 }
 
 } // namespace attribute

@@ -52,6 +52,7 @@ set(NODE_SOURCES node/types.cpp
 
 set(ATTRIBUTE_SOURCES attribute/attribute.cpp
 	                  attribute/attribute_manager.cpp
+	                  attribute/attribute_iterator.cpp
 )
 
 set(SOURCES object_handle.cpp

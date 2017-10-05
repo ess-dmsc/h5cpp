@@ -48,6 +48,9 @@ class Node;
 namespace hdf5 {
 namespace attribute {
 
+//forward declaration
+class AttributeIterator;
+
 class DLL_EXPORT AttributeManager
 {
   public:
@@ -148,6 +151,10 @@ class DLL_EXPORT AttributeManager
 
     IteratorConfig &iterator_config() noexcept;
     const IteratorConfig &iterator_config() const noexcept;
+    const node::Node &node() const;
+
+    AttributeIterator begin() const;
+    AttributeIterator end() const;
 
   private:
     node::Node &node_;
