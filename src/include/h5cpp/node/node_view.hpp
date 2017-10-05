@@ -24,15 +24,15 @@
 //
 #pragma once
 
-#include <h5cpp/node/group_view.hpp>
+#include "group_view.hpp"
 #include "../path.hpp"
 #include "../property/link_access_list.hpp"
-#include "node.hpp"
 #include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
 
+class Node;
 class NodeIterator;
 
 class DLL_EXPORT NodeView : public GroupView

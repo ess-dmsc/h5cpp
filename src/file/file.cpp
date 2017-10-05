@@ -25,6 +25,9 @@
 
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/node/node.hpp>
+#include <h5cpp/node/group.hpp>
+#include <h5cpp/node/link.hpp>
+#include <h5cpp/path.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -91,18 +94,24 @@ size_t File::count_open_objects(SearchFlags flag) const
   return count_open_objects(static_cast<SearchFlagsBase>(flag));
 }
 
-node::Group File::root(const property::GroupAccessList &gapl) const
+class node::Group File::root(const property::GroupAccessList &gapl) const
 {
   try
   {
     ObjectHandle handle(H5Gopen(static_cast<hid_t>(*this),"/",static_cast<hid_t>(gapl)));
+    node::Link root_link(*this,Path("/"),"/");
 
-    return node::Group(node::Node(std::move(handle),Path("/")));
+    return node::Group(node::Node(std::move(handle),root_link));
   }
   catch(const std::runtime_error &error)
   {
     throw std::runtime_error("Error obtaining root group from file!");
   }
+}
+
+bool File::is_valid() const
+{
+  return handle_.is_valid();
 }
 
 } // namespace file

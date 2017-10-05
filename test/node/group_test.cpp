@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(test_root_group)
   BOOST_CHECK_EQUAL(root.type(),node::Type::GROUP);
   BOOST_CHECK_EQUAL(root.links.size(),0);
   BOOST_CHECK_EQUAL(root.nodes.size(),0);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root.path()),"/");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root.link().path()),"/");
 }
 
 BOOST_AUTO_TEST_CASE(test_default_construction)

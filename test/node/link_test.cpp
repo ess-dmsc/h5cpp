@@ -20,45 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 25, 2017
 //
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing scalar dataspace implementation
+#define BOOST_TEST_MODULE testing the Link class implementation
 #include <boost/test/unit_test.hpp>
-#include <h5cpp/dataspace/scalar.hpp>
+#include <h5cpp/node/link.hpp>
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(Simple_test)
+BOOST_AUTO_TEST_SUITE(link_test)
 
 BOOST_AUTO_TEST_CASE(test_default_construction)
 {
-  dataspace::Scalar space;
-  BOOST_CHECK_EQUAL(space.size(),1);
-  BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SCALAR);
-}
-
-BOOST_AUTO_TEST_CASE(test_copy_construction)
-{
-  dataspace::Scalar space1;
-  dataspace::Scalar space2(space1);
-}
-
-BOOST_AUTO_TEST_CASE(test_copy_construction_from_dataspace)
-{
-  dataspace::Scalar space;
-  dataspace::Dataspace &dspace = space;
-  dataspace::Scalar space2(dspace);
-}
-
-BOOST_AUTO_TEST_CASE(test_copy_assignment_from_dataspace)
-{
-  dataspace::Scalar space;
-  dataspace::Dataspace &dspace = space;
-  dataspace::Scalar space2;
-
-  space2 = dspace;
-  BOOST_CHECK_EQUAL(space2.type(),dataspace::Type::SCALAR);
+  node::Link link;
+  BOOST_CHECK_EQUAL(link.type(),node::LinkType::ERROR);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
