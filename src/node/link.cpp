@@ -201,7 +201,7 @@ bool operator!=(const Link &lhs, const Link &rhs)
 
 std::ostream &operator<<(std::ostream &stream,const Link &link)
 {
-  return stream<< link.file().path() << ":" << link.path();
+  return stream << link.file().path() << ":" << link.path();
 }
 
 } // namespace node
