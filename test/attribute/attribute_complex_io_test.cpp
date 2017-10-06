@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,46 +20,40 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 11, 2017
+// Created on: Oct 5, 2017
 //
-#pragma once
+#include <boost/test/unit_test.hpp>
+#include <boost/test/floating_point_comparison.hpp>
+#include "attribute_test_fixtures.hpp"
+#include <complex>
 
-#include "group_view.hpp"
-#include "../windows.hpp"
+using namespace hdf5;
 
 namespace hdf5 {
-namespace node {
+namespace datatype {
 
-class Link;
-class LinkIterator;
-
-class DLL_EXPORT LinkView : public GroupView
+template<typename T> class TypeTrait<std::complex<T>>
 {
   public:
-    using value_type = Link;
-    using const_iterator = LinkIterator;
-
-    LinkView(Group &group);
-    LinkView(const LinkView &) = default;
-    LinkView() = delete;
-
-    //!
-    //! \brief checks existence of a link
-    //!
-    //! The name must be a valid link. This function checks
-    //! whether a link of a particular name exists.
-    //!
-    //!
-    bool exists(const std::string &name,
-                const property::LinkAccessList &lapl=property::LinkAccessList()) const;
-
-    Link operator[](size_t index) const;
-    Link operator[](const std::string &name) const;
-
-    const_iterator begin() const;
-    const_iterator end() const;
-
 };
 
-} // namespace node
-} // namespace hdf5
+}
+}
+
+BOOST_AUTO_TEST_SUITE(AttributeTest)
+
+BOOST_FIXTURE_TEST_SUITE(AttributeComplexIOTest,AttributeFixture)
+
+BOOST_AUTO_TEST_CASE(test_complex_scalar)
+{
+
+}
+
+BOOST_AUTO_TEST_CASE(test_complex_vector)
+{
+
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE_END()

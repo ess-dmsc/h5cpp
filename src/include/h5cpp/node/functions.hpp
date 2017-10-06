@@ -55,9 +55,9 @@ namespace node {
 //! \param destination the destination group where the new copy will be stored
 //! \throws std::runtime_error in case of a failure
 //!
-void copy(const Node &source,const Group &destination)
+void copy(const Node &source, const Group &destination);
 
-void copy(const Node &source,const Group &base,const Path &rel_path);
+void copy(const Node &source, const Group &base, const Path &rel_path);
 
 //!
 //! \brief move an object
@@ -71,6 +71,7 @@ void copy(const Node &source,const Group &base,const Path &rel_path);
 //!
 //! \param source reference to the object to move
 //! \param destination_group the new group where the object should be located
+//! \throws std::runtime_error in case of a failure
 //!
 //! \sa copy for the naming convention
 //!
@@ -78,7 +79,7 @@ void move(const Node &source,const Group &destination_group,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
-void move(const Node &source,const Group &destination_base,const Path &rel_path,
+void move(const Node &source,const Group &destination,const Path &rel_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
@@ -100,8 +101,10 @@ void move(const Node &source,const Group &destination_base,const Path &rel_path,
 //! \param object the object which to remove
 //!
 //! \pre `object` must be a valid HDF5 object instance
+//! \param lapl optional reference to a link access property list
 //!
-void remove(const Node &object);
+void remove(const Node &object,
+            const property::LinkAccessList &lapl = property::LinkAccessList());
 
 //!
 //! \brief remove an object relative to a base group
@@ -110,12 +113,14 @@ void remove(const Node &object);
 //! rel_path must be a relative path otherwise an exception is thrown.
 //!
 //! \throws std::runtime_error in case of a failure
-//! \brief base group relative to which the link or object resides
-//! \brief rel_path path relative to base determining the link or object to remove
+//! \param base group relative to which the link or object resides
+//! \param rel_path path relative to base determining the link or object to remove
+//! \param lapl optional reference to a link access property list
 //!
 //! \sa remove(const Node &node)
 //!
-void remove(const Group &base,const Path &rel_path);
+void remove(const Group &base,const Path &rel_path,
+            const property::LinkAccessList &lapl = property::LinkAccessList());
 
 
 //!

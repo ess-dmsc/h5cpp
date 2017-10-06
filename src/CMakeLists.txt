@@ -47,7 +47,8 @@ set(NODE_SOURCES node/types.cpp
 	             node/group.cpp
 	             node/utilities.cpp
 	             node/dataset.cpp
-	             node/node_iterator.cpp
+               node/functions.cpp
+               node/node_iterator.cpp
 	             node/link_iterator.cpp
 )
 

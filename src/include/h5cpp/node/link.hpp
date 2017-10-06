@@ -156,6 +156,7 @@ class DLL_EXPORT Link
 
     const file::File &file() const;
 
+    DLL_EXPORT friend bool operator==(const Link &lhs, const Link &rhs);
 
   private:
     file::File parent_file_;   //!< the file via which the link was accessed
@@ -168,6 +169,9 @@ class DLL_EXPORT Link
     LinkTarget get_external_link_target(const property::LinkAccessList &lapl) const;
 };
 
+DLL_EXPORT bool operator!=(const Link &lhs, const Link &rhs);
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Link &link);
 
 } // namespace node
 } // namespace hdf5

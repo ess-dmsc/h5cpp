@@ -187,7 +187,22 @@ const file::File &Link::file() const
   return parent_file_;
 }
 
+bool operator==(const Link &lhs, const Link &rhs)
+{
+  return (lhs.parent_file_.path() == rhs.parent_file_.path()) &&
+      (lhs.parent_path_ == rhs.parent_path_) &&
+      (lhs.name_ == rhs.name_);
+}
 
+bool operator!=(const Link &lhs, const Link &rhs)
+{
+  return !(lhs == rhs);
+}
+
+std::ostream &operator<<(std::ostream &stream,const Link &link)
+{
+  return stream << link.file().path() << ":" << link.path();
+}
 
 } // namespace node
 } // namespace hdf5
