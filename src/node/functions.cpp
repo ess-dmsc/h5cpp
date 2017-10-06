@@ -96,8 +96,8 @@ void remove(const Group &base, const Path &rel_path,
     throw std::runtime_error(ss.str());
   }
   if (0 > H5Ldelete(static_cast<hid_t>(base),
-            static_cast<std::string>(rel_path).c_str(),
-            static_cast<hid_t>(lapl)))
+                    static_cast<std::string>(rel_path).c_str(),
+                    static_cast<hid_t>(lapl)))
   {
     std::stringstream ss;
     ss << "node::remove failed. Could not remove"
@@ -120,19 +120,27 @@ void move(const Node &source,const Group &destination,const Path &rel_path,
           const property::LinkAccessList &lapl)
 {
   auto name = source.link().path().back();
-  if (destination.exists(name))
+  if (destination.links.exists(name))
   {
     std::stringstream ss;
-    ss << "Node " << name << " in " << destination.link() << " already exists!";
+    ss << "node::move failed. "
+       << destination.link() << " / " << name << " already exists!";
     throw std::runtime_error(ss.str());
   }
 
-  H5Lmove(static_cast<hid_t>(source.link().parent()),
-          name.c_str(),
-          static_cast<hid_t>(destination),
-          static_cast<std::string>(rel_path).c_str(),
-          static_cast<hid_t>(lcpl),
-          static_cast<hid_t>(lapl));
+  if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
+                  name.c_str(),
+                  static_cast<hid_t>(destination),
+                  static_cast<std::string>(rel_path).c_str(),
+                  static_cast<hid_t>(lcpl),
+                  static_cast<hid_t>(lapl)))
+  {
+    std::stringstream ss;
+    ss << "node::move failed. Could not move "
+       << source.link() << " to "
+       << destination.link() << " / " << rel_path;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 } // namespace node

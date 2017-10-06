@@ -71,6 +71,7 @@ void copy(const Node &source, const Group &base, const Path &rel_path);
 //!
 //! \param source reference to the object to move
 //! \param destination_group the new group where the object should be located
+//! \throws std::runtime_error in case of a failure
 //!
 //! \sa copy for the naming convention
 //!
