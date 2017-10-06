@@ -138,6 +138,8 @@ class DLL_EXPORT Path
     //!
     static Path parent_path(const Path &path);
 
+    DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+
   private:
     bool absolute_;
     std::list<std::string> link_names_;
@@ -146,6 +148,8 @@ class DLL_EXPORT Path
     std::string to_string() const;
 
 };
+
+DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 
 DLL_EXPORT Path operator+(const Path &lhs,const Path &rhs);
 

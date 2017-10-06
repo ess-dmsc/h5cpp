@@ -55,9 +55,9 @@ namespace node {
 //! \param destination the destination group where the new copy will be stored
 //! \throws std::runtime_error in case of a failure
 //!
-void copy(const Node &source,const Group &destination)
+void copy(const Node &source, const Group &destination);
 
-void copy(const Node &source,const Group &base,const Path &rel_path);
+void copy(const Node &source, const Group &base, const Path &rel_path);
 
 //!
 //! \brief move an object
