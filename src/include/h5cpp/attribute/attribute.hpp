@@ -26,6 +26,8 @@
 
 #include "../datatype/datatype.hpp"
 #include "../dataspace/dataspace.hpp"
+#include "../datatype/factory.hpp"
+#include "../dataspace/type_trait.hpp"
 #include "../object_handle.hpp"
 #include "../windows.hpp"
 
@@ -84,20 +86,53 @@ class DLL_EXPORT Attribute
     void write(const T& data) const;
 
     template<typename T>
+    void write(const T& data,const datatype::Datatype &mem_type) const;
+
+    template<typename T>
     void read(T &data) const;
+
+    template<typename T>
+    void read(T &data,const datatype::Datatype &mem_type) const;
 
   private:
     ObjectHandle handle_;
 };
 
 template<typename T>
-void Attribute::write(const T &data) const
+void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 {
 
 }
 
 template<typename T>
+void Attribute::write(const T &data) const
+{
+  auto type = datatype::create<T>();
+  auto space = dataspace::create(data);
+  const void *ptr = dataspace::cptr(data);
+
+  if(H5Awrite(static_cast<hid_t>(handle_),static_cast<hid_t>(type),ptr)<0)
+  {
+    throw std::runtime_error("Failure to write data to attribute!");
+  }
+
+}
+
+template<typename T>
 void Attribute::read(T &data) const
+{
+  auto type = datatype::create<T>();
+  auto space = dataspace::create(data);
+  void *ptr = dataspace::ptr(data);
+
+  if(H5Aread(static_cast<hid_t>(handle_),static_cast<hid_t>(type),ptr)<0)
+  {
+    throw std::runtime_error("Failure to read data from attribute!");
+  }
+}
+
+template<typename T>
+void Attribute::read(T &data,const datatype::Datatype &mem_type) const
 {
 
 }
