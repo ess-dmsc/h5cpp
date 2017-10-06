@@ -28,6 +28,9 @@
 #include "integer.hpp"
 #include "float.hpp"
 
+#include <vector>
+#include <array>
+
 namespace hdf5 {
 namespace datatype {
 
@@ -200,6 +203,26 @@ template<> class TypeTrait<long double>
     static TypeClass create()
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
+    }
+};
+
+template<typename T> class TypeTrait<std::vector<T>>
+{
+  public:
+    using TypeClass = typename TypeTrait<T>::TypeClass;
+    static TypeClass create()
+    {
+      return TypeTrait<T>::create();
+    }
+};
+
+template<typename T,size_t N> class TypeTrait<std::array<T,N>>
+{
+  public:
+    using TypeClass = typename TypeTrait<T>::TypeClass;
+    static TypeClass create()
+    {
+      return TypeTrait<T>::create();
     }
 };
 
