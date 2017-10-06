@@ -30,35 +30,53 @@ namespace node {
 
 void copy(const Node &source, const Group& base, const Path &rel_path)
 {
-  if (base.exists(static_cast<std::string>(rel_path)))
+  //what if rel_path is actually absolute?
+  if (base.links.exists(static_cast<std::string>(rel_path)))
   {
     std::stringstream ss;
-    ss << "Node " << rel_path << " in " << base.link() << " already exists!";
+    ss << "node::copy failed. "
+       << base.link() << " / " << rel_path << " already exists!";
     throw std::runtime_error(ss.str());
   }
 
-  H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
-          source.link().path().back().c_str(),        //object name
-          static_cast<hid_t>(base),                   //destination parent
-          static_cast<std::string>(rel_path).c_str(), //destination name
-          0, 0);
+  if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
+                  source.link().path().back().c_str(),        //object name
+                  static_cast<hid_t>(base),                   //destination parent
+                  static_cast<std::string>(rel_path).c_str(), //destination name
+                  0, 0))
+  {
+    std::stringstream ss;
+    ss << "node::copy failed. Could not copy "
+       << source.link() << " to "
+       << base.link() << " / " << rel_path;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 void copy(const Node &source, const Group& destination)
 {
-  auto name = source.link().path().back();
-  if (destination.exists(name))
+  //what if rel_path is actually absolute?
+  auto name = source.link().path().back(); //this feels awkward
+  if (destination.links.exists(name))
   {
     std::stringstream ss;
-    ss << "Node " << name << " in " << destination.link() << " already exists!";
+    ss << "node::copy failed. "
+       << destination.link() << " / " << name << " already exists!";
     throw std::runtime_error(ss.str());
   }
 
-  H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
-          name.c_str(),                               //object name
-          static_cast<hid_t>(destination),            //destination parent
-          name.c_str(),                               //...same name
-          0, 0);
+  if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
+                  name.c_str(),                               //object name
+                  static_cast<hid_t>(destination),            //destination parent
+                  name.c_str(),                               //...same name
+                  0, 0))
+  {
+    std::stringstream ss;
+    ss << "node::copy failed. Could not copy "
+       << source.link() << " to "
+       << destination.link() << " / " << name;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 } // namespace node
