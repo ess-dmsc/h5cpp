@@ -29,6 +29,7 @@
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/factory.hpp>
+#include <cstdint>
 
 using namespace hdf5;
 
@@ -37,6 +38,15 @@ struct complex_struct
   double real;
   double imag;
 
+};
+
+class Pixel
+{
+  private:
+   std::uint8_t red_;
+   std::uint8_t green_;
+   std::uint8_t blue_;
+  public:
 };
 
 BOOST_AUTO_TEST_SUITE(CompoundTest)
@@ -58,6 +68,10 @@ BOOST_AUTO_TEST_CASE(test_complex_number)
 
 BOOST_AUTO_TEST_CASE(test_pixel_type)
 {
+  datatype::Compound type(sizeof(Pixel));
+  BOOST_CHECK_NO_THROW(type.insert("red",0,datatype::create<std::uint8_t>()));
+  BOOST_CHECK_NO_THROW(type.insert("green",1,datatype::create<std::uint8_t>()));
+  BOOST_CHECK_NO_THROW(type.insert("blue",2,datatype::create<std::uint8_t>()));
 
 }
 
