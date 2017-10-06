@@ -116,6 +116,24 @@ BOOST_AUTO_TEST_CASE(test_move_node)
   BOOST_CHECK_THROW(nd::move(gm, g1), std::runtime_error);
 }
 
+BOOST_AUTO_TEST_CASE(test_soft_link)
+{
+  nd::Group f = file.root();
+  auto g = f.create_group("group");
+  auto g1 = g.create_group("group_1");
+  auto gt = g1.create_group("target");
+
+  BOOST_CHECK(g.links.exists("group_1"));
+  BOOST_CHECK(g1.links.exists("target"));
+
+  BOOST_CHECK_EQUAL(g.links.size(), 1);
+  BOOST_CHECK_NO_THROW(nd::link(g1, g, Path("group_2")));
+  BOOST_CHECK_EQUAL(g.links.size(), 2);
+  BOOST_CHECK(g.links.exists("group_2"));
+  nd::Group gg2 = g["group_2"];
+  BOOST_CHECK(gg2.exists("target"));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
