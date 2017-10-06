@@ -35,9 +35,14 @@ namespace datatype {
 //! A compound data type can be used for data elements of heterogeneous
 //! type like C-structures or a C++ class.
 //!
-class Compound : public Datatype
+class DLL_EXPORT Compound : public Datatype
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
+    Compound() = default;
+
     //!
     //! \brief constructor
     //!
@@ -72,7 +77,7 @@ class Compound : public Datatype
     //!
     size_t number_of_fields() const;
 
-    void insert(std::string &name,size_t offset,const Datatype &type) const;
+    void insert(const std::string &name,size_t offset,const Datatype &type) const;
 
     void pack() const;
 

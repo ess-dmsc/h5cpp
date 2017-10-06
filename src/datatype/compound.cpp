@@ -138,7 +138,7 @@ size_t Compound::number_of_fields() const
   return n;
 }
 
-void Compound::insert(std::string &name,size_t offset,const Datatype &type) const
+void Compound::insert(const std::string &name,size_t offset,const Datatype &type) const
 {
   if(H5Tinsert(static_cast<hid_t>(*this),name.c_str(),offset,static_cast<hid_t>(type))<0)
   {
