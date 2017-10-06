@@ -112,8 +112,8 @@ void remove(const Node &object,
 //! rel_path must be a relative path otherwise an exception is thrown.
 //!
 //! \throws std::runtime_error in case of a failure
-//! \brief base group relative to which the link or object resides
-//! \brief rel_path path relative to base determining the link or object to remove
+//! \param base group relative to which the link or object resides
+//! \param rel_path path relative to base determining the link or object to remove
 //! \param lapl optional reference to a link access property list
 //!
 //! \sa remove(const Node &node)

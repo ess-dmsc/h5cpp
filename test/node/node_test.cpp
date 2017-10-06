@@ -68,6 +68,7 @@ BOOST_AUTO_TEST_CASE(test_remove_node)
   BOOST_CHECK(f.exists("group2"));
   BOOST_CHECK_NO_THROW(nd::remove(g));
   BOOST_CHECK(!f.exists("group2"));
+  BOOST_CHECK_THROW(nd::remove(g), std::runtime_error);
 }
 
 BOOST_AUTO_TEST_CASE(test_copy_node)

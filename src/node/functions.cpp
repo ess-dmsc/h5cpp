@@ -85,18 +85,25 @@ void remove(const Node &object,
   remove(object.link().parent(), Path(object.link().path().back()), lapl);
 }
 
-void remove(const Group &base,const Path &rel_path,
+void remove(const Group &base, const Path &rel_path,
             const property::LinkAccessList &lapl)
 {
   if (!base.links.exists(static_cast<std::string>(rel_path)))
   {
     std::stringstream ss;
-    ss << "Node " << rel_path << " in " << base.link() << " already exists!";
+    ss << "node::remove failed. "
+       << base.link() << " / " << rel_path << " does not exist.";
     throw std::runtime_error(ss.str());
   }
-  H5Ldelete(static_cast<hid_t>(base),
+  if (0 > H5Ldelete(static_cast<hid_t>(base),
             static_cast<std::string>(rel_path).c_str(),
-            static_cast<hid_t>(lapl));
+            static_cast<hid_t>(lapl)))
+  {
+    std::stringstream ss;
+    ss << "node::remove failed. Could not remove"
+       << base.link() << " / " << rel_path;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 } // namespace node
