@@ -25,6 +25,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
 #include "attribute_test_fixtures.hpp"
+#include <complex>
 
 using namespace hdf5;
 
