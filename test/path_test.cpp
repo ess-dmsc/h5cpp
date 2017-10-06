@@ -168,9 +168,9 @@ BOOST_AUTO_TEST_CASE(test_path_equality)
   hdf5::Path p1("hello/world");
   hdf5::Path p2("/hello/world");
   hdf5::Path p3("/hello");
-  BOOST_CHECK_EQUAL(p1, p1);
-  BOOST_CHECK_NE(p1, p2);
-  BOOST_CHECK_NE(p2, p3);
+  BOOST_CHECK(p1 == p1);
+  BOOST_CHECK(p1 != p2);
+  BOOST_CHECK(p2 != p3);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
