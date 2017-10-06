@@ -78,7 +78,7 @@ void move(const Node &source,const Group &destination_group,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
-void move(const Node &source,const Group &destination_base,const Path &rel_path,
+void move(const Node &source,const Group &destination,const Path &rel_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 

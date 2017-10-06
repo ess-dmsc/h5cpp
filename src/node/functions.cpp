@@ -81,6 +81,35 @@ void remove(const Group &base,const Path &rel_path,
             static_cast<hid_t>(lapl));
 }
 
+void move(const Node &source,const Group &destination_group,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  move(source, destination_group,
+       Path(source.link().path().back()),
+       lcpl, lapl);
+}
+
+void move(const Node &source,const Group &destination,const Path &rel_path,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  auto name = source.link().path().back();
+  if (destination.exists(name))
+  {
+    std::stringstream ss;
+    ss << "Node " << name << " in " << destination.link() << " already exists!";
+    throw std::runtime_error(ss.str());
+  }
+
+  H5Lmove(static_cast<hid_t>(source.link().parent()),
+          name.c_str(),
+          static_cast<hid_t>(destination),
+          static_cast<std::string>(rel_path).c_str(),
+          static_cast<hid_t>(lcpl),
+          static_cast<hid_t>(lapl));
+}
+
 } // namespace node
 } // namespace hdf5
 

@@ -94,6 +94,26 @@ BOOST_AUTO_TEST_CASE(test_copy_node)
   BOOST_CHECK_THROW(nd::copy(f, g2), std::runtime_error);
 }
 
+BOOST_AUTO_TEST_CASE(test_move_node)
+{
+  nd::Group f = file.root();
+  auto g1 = f.create_group("group_1");
+  auto gt = g1.create_group("target");
+  auto g2 = f.create_group("group_2");
+
+  BOOST_CHECK(g1.exists("target"));
+  BOOST_CHECK(!g2.exists("gt"));
+  BOOST_CHECK_NO_THROW(nd::move(gt, g2, Path("gt")));
+  BOOST_CHECK(!g1.exists("target"));
+  BOOST_CHECK(g2.exists("gt"));
+
+  nd::Group gm = g2["gt"];
+  BOOST_CHECK_NO_THROW(nd::move(gm, g1));
+  BOOST_CHECK(g1.exists("gt"));
+  BOOST_CHECK(!g2.exists("gt"));
+  BOOST_CHECK_THROW(nd::move(gm, g1), std::runtime_error);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
