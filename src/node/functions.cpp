@@ -30,35 +30,53 @@ namespace node {
 
 void copy(const Node &source, const Group& base, const Path &rel_path)
 {
-  if (base.exists(static_cast<std::string>(rel_path)))
+  //what if rel_path is actually absolute?
+  if (base.links.exists(static_cast<std::string>(rel_path)))
   {
     std::stringstream ss;
-    ss << "Node " << rel_path << " in " << base.link() << " already exists!";
+    ss << "node::copy failed. "
+       << base.link() << " / " << rel_path << " already exists!";
     throw std::runtime_error(ss.str());
   }
 
-  H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
-          source.link().path().back().c_str(),        //object name
-          static_cast<hid_t>(base),                   //destination parent
-          static_cast<std::string>(rel_path).c_str(), //destination name
-          0, 0);
+  if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
+                  source.link().path().back().c_str(),        //object name
+                  static_cast<hid_t>(base),                   //destination parent
+                  static_cast<std::string>(rel_path).c_str(), //destination name
+                  0, 0))
+  {
+    std::stringstream ss;
+    ss << "node::copy failed. Could not copy "
+       << source.link() << " to "
+       << base.link() << " / " << rel_path;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 void copy(const Node &source, const Group& destination)
 {
-  auto name = source.link().path().back();
-  if (destination.exists(name))
+  //what if rel_path is actually absolute?
+  auto name = source.link().path().back(); //this feels awkward
+  if (destination.links.exists(name))
   {
     std::stringstream ss;
-    ss << "Node " << name << " in " << destination.link() << " already exists!";
+    ss << "node::copy failed. "
+       << destination.link() << " / " << name << " already exists!";
     throw std::runtime_error(ss.str());
   }
 
-  H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
-          name.c_str(),                               //object name
-          static_cast<hid_t>(destination),            //destination parent
-          name.c_str(),                               //...same name
-          0, 0);
+  if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
+                  name.c_str(),                               //object name
+                  static_cast<hid_t>(destination),            //destination parent
+                  name.c_str(),                               //...same name
+                  0, 0))
+  {
+    std::stringstream ss;
+    ss << "node::copy failed. Could not copy "
+       << source.link() << " to "
+       << destination.link() << " / " << name;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 void remove(const Node &object,
@@ -67,18 +85,25 @@ void remove(const Node &object,
   remove(object.link().parent(), Path(object.link().path().back()), lapl);
 }
 
-void remove(const Group &base,const Path &rel_path,
+void remove(const Group &base, const Path &rel_path,
             const property::LinkAccessList &lapl)
 {
   if (!base.links.exists(static_cast<std::string>(rel_path)))
   {
     std::stringstream ss;
-    ss << "Node " << rel_path << " in " << base.link() << " already exists!";
+    ss << "node::remove failed. "
+       << base.link() << " / " << rel_path << " does not exist.";
     throw std::runtime_error(ss.str());
   }
-  H5Ldelete(static_cast<hid_t>(base),
-            static_cast<std::string>(rel_path).c_str(),
-            static_cast<hid_t>(lapl));
+  if (0 > H5Ldelete(static_cast<hid_t>(base),
+                    static_cast<std::string>(rel_path).c_str(),
+                    static_cast<hid_t>(lapl)))
+  {
+    std::stringstream ss;
+    ss << "node::remove failed. Could not remove"
+       << base.link() << " / " << rel_path;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 void move(const Node &source,const Group &destination_group,
@@ -95,19 +120,27 @@ void move(const Node &source,const Group &destination,const Path &rel_path,
           const property::LinkAccessList &lapl)
 {
   auto name = source.link().path().back();
-  if (destination.exists(name))
+  if (destination.links.exists(name))
   {
     std::stringstream ss;
-    ss << "Node " << name << " in " << destination.link() << " already exists!";
+    ss << "node::move failed. "
+       << destination.link() << " / " << name << " already exists!";
     throw std::runtime_error(ss.str());
   }
 
-  H5Lmove(static_cast<hid_t>(source.link().parent()),
-          name.c_str(),
-          static_cast<hid_t>(destination),
-          static_cast<std::string>(rel_path).c_str(),
-          static_cast<hid_t>(lcpl),
-          static_cast<hid_t>(lapl));
+  if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
+                  name.c_str(),
+                  static_cast<hid_t>(destination),
+                  static_cast<std::string>(rel_path).c_str(),
+                  static_cast<hid_t>(lcpl),
+                  static_cast<hid_t>(lapl)))
+  {
+    std::stringstream ss;
+    ss << "node::move failed. Could not move "
+       << source.link() << " to "
+       << destination.link() << " / " << rel_path;
+    throw std::runtime_error(ss.str());
+  }
 }
 
 void link(const boost::filesystem::path &target_file,

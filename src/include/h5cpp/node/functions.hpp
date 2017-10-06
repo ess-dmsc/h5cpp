@@ -71,6 +71,7 @@ void copy(const Node &source, const Group &base, const Path &rel_path);
 //!
 //! \param source reference to the object to move
 //! \param destination_group the new group where the object should be located
+//! \throws std::runtime_error in case of a failure
 //!
 //! \sa copy for the naming convention
 //!
@@ -112,8 +113,8 @@ void remove(const Node &object,
 //! rel_path must be a relative path otherwise an exception is thrown.
 //!
 //! \throws std::runtime_error in case of a failure
-//! \brief base group relative to which the link or object resides
-//! \brief rel_path path relative to base determining the link or object to remove
+//! \param base group relative to which the link or object resides
+//! \param rel_path path relative to base determining the link or object to remove
 //! \param lapl optional reference to a link access property list
 //!
 //! \sa remove(const Node &node)
