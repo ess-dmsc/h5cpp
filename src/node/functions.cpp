@@ -150,10 +150,12 @@ void link(const boost::filesystem::path &target_file,
           const property::LinkCreationList &lcpl,
           const property::LinkAccessList &lapl)
 {
-  // if link_path absolute, then link_base = root_group?
+  auto base = link_base;
+  if (link_path.is_absolute_path())
+    base = link_base.link().file().root();
   if (0 > H5Lcreate_external(target_file.string().c_str(),
                              static_cast<std::string>(target_path).c_str(),
-                             static_cast<hid_t>(link_base),
+                             static_cast<hid_t>(base),
                              static_cast<std::string>(link_path).c_str(),
                              static_cast<hid_t>(lcpl),
                              static_cast<hid_t>(lapl)))
@@ -164,6 +166,38 @@ void link(const boost::filesystem::path &target_file,
        << " -> "
        << target_file << ": " << target_path;
     throw std::runtime_error(ss.str());
+  }
+}
+
+void link(const Group &target_base,const Path &target_path,
+          const Group &link_base,const Path &link_path,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  if (target_base.link().file().path() != link_base.link().file().path())
+  {
+    link(target_base.link().file().path(), target_path,
+         link_base, link_path, lcpl, lapl);
+  }
+  else
+  {
+    auto base = link_base;
+    if (link_path.is_absolute_path())
+      base = link_base.link().file().root();
+    if (0 > H5Lcreate_soft(
+          static_cast<std::string>(target_base.link().path() + target_path).c_str(),
+          static_cast<hid_t>(base),
+          static_cast<std::string>(link_path).c_str(),
+          static_cast<hid_t>(lcpl),
+          static_cast<hid_t>(lapl)))
+    {
+      std::stringstream ss;
+      ss << "Failed to create soft link "
+         << base.link() << ": " << link_path
+         << " -> "
+         << target_base.link() << ": " << target_path;
+      throw std::runtime_error(ss.str());
+    }
   }
 }
 
