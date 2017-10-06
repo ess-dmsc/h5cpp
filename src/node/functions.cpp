@@ -110,6 +110,30 @@ void move(const Node &source,const Group &destination,const Path &rel_path,
           static_cast<hid_t>(lapl));
 }
 
+void link(const boost::filesystem::path &target_file,
+          const Path &target_path,
+          const Group &link_base,
+          const Path &link_path,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  // if link_path absolute, then link_base = root_group?
+  if (0 > H5Lcreate_external(target_file.string().c_str(),
+                             static_cast<std::string>(target_path).c_str(),
+                             static_cast<hid_t>(link_base),
+                             static_cast<std::string>(link_path).c_str(),
+                             static_cast<hid_t>(lcpl),
+                             static_cast<hid_t>(lapl)))
+  {
+    std::stringstream ss;
+    ss << "Failed to create external link "
+       << link_base.link() << ": " << link_path
+       << " -> "
+       << target_file << ": " << target_path;
+    throw std::runtime_error(ss.str());
+  }
+}
+
 } // namespace node
 } // namespace hdf5
 
