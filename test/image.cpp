@@ -20,43 +20,56 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 14, 2017
 //
-#pragma once
 
-#include "object_handle.hpp"
-#include "attribute.hpp"
-#include "container_iterator.hpp"
+#include "image.hpp"
 
-namespace hdf5 {
+RGBPixel::RGBPixel():
+ red_(0),
+ green_(0),
+ blue_(0)
+{}
 
-class AttributeView
+RGBPixel::RGBPixel(std::uint8_t red,std::uint8_t green,std::uint8_t blue ):
+    red_(red),
+    green_(green),
+    blue_(blue)
+{}
+
+std::uint8_t RGBPixel::red() const
 {
-  public:
-    using value_type = Attribute;
-    using const_iterator= ContainerIterator<const AttributeView>;
+  return red_;
+}
+
+void RGBPixel::red(std::uint8_t value)
+{
+  red_ = value;
+}
 
 
-    AttributeView(ObjectHandle &handle);
+std::uint8_t RGBPixel::green() const
+{
+  return green_;
+}
 
-    value_type create(const std::string &name);
-
-    value_type operator[](size_t index) const;
-    value_type operator[](const std::string &name) const;
-
-    size_t size() const;
-    bool exists(const std::string &name) const;
-    void remove(const std::string &name) const;
-    void remove(size_t index) const;
+void RGBPixel::green(std::uint8_t value)
+{
+  green_ = value;
+}
 
 
-    const_iterator begin() const;
-    const_iterator end() const;
+std::uint8_t RGBPixel::blue() const
+{
+  return blue_;
+}
 
-  private:
-    ObjectHandle &handle_;
+void RGBPixel::blue(std::uint8_t value)
+{
+  blue_ = value;
+}
 
 
-};
 
-} // namespace hdf5
+
+

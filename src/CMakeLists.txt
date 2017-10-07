@@ -23,6 +23,7 @@ set(DATATYPE_SOURCES datatype/datatype.cpp
 	datatype/integer.cpp
 	datatype/float.cpp
 	datatype/types.cpp
+	datatype/compound.cpp
 	)
 
 set(DATASPACE_SOURCES dataspace/dataspace.cpp
