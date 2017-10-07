@@ -7,7 +7,7 @@ add_logging_test("hdf5::datatype::Integer"
                  datatype_integer_test
                  ${WORKING_DIRECTORY})
 
-add_executable(datatype_compound_test compound_test.cpp)
+add_executable(datatype_compound_test compound_test.cpp ../image.cpp)
 target_link_libraries(datatype_compound_test h5cpp_shared Boost::unit_test_framework)
 add_logging_test("hdf5::datatype::Compound"
                  datatype_compound_test
