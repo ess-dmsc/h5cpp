@@ -20,56 +20,33 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 14, 2017
+// Created on: Oct 08, 2017
 //
+#pragma once
 
-#include "image.hpp"
+#include <h5cpp/hdf5.hpp>
+#include "rgbpixel.hpp"
 
-RGBPixel::RGBPixel():
- red_(0),
- green_(0),
- blue_(0)
-{}
+namespace hdf5 {
+namespace datatype {
 
-RGBPixel::RGBPixel(std::uint8_t red,std::uint8_t green,std::uint8_t blue ):
-    red_(red),
-    green_(green),
-    blue_(blue)
-{}
-
-std::uint8_t RGBPixel::red() const
+template<>
+class TypeTrait<RGBPixel>
 {
-  return red_;
+  public:
+    using TypeClass = Compound;
+
+    static TypeClass create()
+    {
+
+      datatype::Compound type(sizeof(RGBPixel));
+      type.insert("red",0,datatype::create<std::uint8_t>());
+      type.insert("green",1,datatype::create<std::uint8_t>());
+      type.insert("blue",2,datatype::create<std::uint8_t>());
+
+      return type;
+    }
+};
+
 }
-
-void RGBPixel::red(std::uint8_t value)
-{
-  red_ = value;
 }
-
-
-std::uint8_t RGBPixel::green() const
-{
-  return green_;
-}
-
-void RGBPixel::green(std::uint8_t value)
-{
-  green_ = value;
-}
-
-
-std::uint8_t RGBPixel::blue() const
-{
-  return blue_;
-}
-
-void RGBPixel::blue(std::uint8_t value)
-{
-  blue_ = value;
-}
-
-
-
-
-

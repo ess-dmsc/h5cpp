@@ -27,83 +27,34 @@
 #include <vector>
 #include <cstdint>
 
-#include <h5cpp/datatype/type_trait.hpp>
-#include <h5cpp/datatype/compound.hpp>
-#include <h5cpp/datatype/factory.hpp>
-
-
-class RGBPixel
-{
-  private:
-   std::uint8_t red_;
-   std::uint8_t green_;
-   std::uint8_t blue_;
-  public:
-   RGBPixel();
-   RGBPixel(std::uint8_t red,std::uint8_t green,std::uint8_t blue);
-
-   RGBPixel(const RGBPixel &)=default;
-
-   std::uint8_t red() const;
-   void red(std::uint8_t value);
-
-   std::uint8_t blue() const;
-   void blue(std::uint8_t value);
-
-   std::uint8_t green() const;
-   void green(std::uint8_t value);
-
-};
-
-namespace hdf5 {
-namespace datatype {
-
-template<>
-class TypeTrait<RGBPixel>
-{
-  public:
-    using TypeClass = Compound;
-
-    static TypeClass create()
-    {
-
-      datatype::Compound type(sizeof(RGBPixel));
-      type.insert("red",0,datatype::create<std::uint8_t>());
-      type.insert("green",1,datatype::create<std::uint8_t>());
-      type.insert("blue",2,datatype::create<std::uint8_t>());
-
-      return type;
-    }
-};
-
-
-}
-}
-
-
 template<typename PixelT>
 class Image
 {
   private:
-    size_t nx_;
     size_t ny_;
+    size_t nx_;
     std::vector<PixelT> data_;
   public:
     Image():
-      nx_(0),
       ny_(0),
+      nx_(0),
       data_()
     {}
 
-    Image(size_t nx,size_t ny):
-      nx_(nx),
+    Image(size_t ny,size_t nx):
       ny_(ny),
+      nx_(nx),
       data_(nx*ny)
     {}
 
     const PixelT &operator()(size_t i,size_t j) const
     {
        return data_[i*nx_+j];
+    }
+
+    PixelT &operator()(size_t i,size_t j)
+    {
+      return data_[i*nx_+j];
     }
 
     size_t size() const

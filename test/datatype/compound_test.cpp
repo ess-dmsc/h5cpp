@@ -1,3 +1,4 @@
+
 //
 // (c) Copyright 2017 DESY,ESS
 //
@@ -36,7 +37,8 @@
 #include <cstdint>
 #include <complex>
 #include <vector>
-#include "../image.hpp"
+#include "../examples/rgbpixel.hpp"
+#include "../examples/rgbpixel_h5.hpp"
 
 using namespace hdf5;
 
