@@ -27,6 +27,7 @@
 #include "node.hpp"
 #include "../dataspace/dataspace.hpp"
 #include "../datatype/datatype.hpp"
+#include "../property/dataset_transfer_list.hpp"
 #include "../types.hpp"
 #include "../windows.hpp"
 
@@ -50,25 +51,49 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \brief write entire dataset
     //!
-//    template<typename T>
-//    void write(const T &data) const
-//    {
-//      auto memory_space = hdf5::dataspace::create(data);
-//      auto memory_type  = hdf5::datatype::create(data);
-//
-//      Dataspace file_space = dataspace();
-//
-//      if(H5Dwrite(........)<0)
-//      {
-//
-//      }
-//    }
+    template<typename T>
+    void write(const T &data,const property::DatasetTransferList &dtpl =
+                                   property::DatasetTransferList()) const
+    {
+      auto memory_space = hdf5::dataspace::create(data);
+      auto memory_type  = hdf5::datatype::create(data);
+
+      if(H5Dwrite(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(memory_type),
+                  static_cast<hid_t>(memory_space),
+                  H5S_ALL,
+                  static_cast<hid_t>(dtpl),
+                  dataspace::cptr(data))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+    }
 //
 //    //!
 //    //! \brief read entire dataset
 //    //!
-//    template<typename T>
-//    void read(T &data) const;
+    template<typename T>
+    void read(T &data,const property::DatasetTransferList &dtpl =
+                            property::DatasetTransferList()) const
+    {
+      auto memory_space = hdf5::dataspace::create(data);
+      auto memory_type  = hdf5::datatype::create(data);
+
+      if(H5Dread(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(memory_type),
+                  static_cast<hid_t>(memory_space),
+                  H5S_ALL,
+                  static_cast<hid_t>(dtpl),
+                  dataspace::ptr(data))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+
+    }
 //
 //    //!
 //    //! \brief
