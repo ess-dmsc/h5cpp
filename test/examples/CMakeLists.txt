@@ -8,3 +8,9 @@ target_link_libraries(selecting_datasets h5cpp_shared)
 add_executable(writing_vector writing_vector.cpp)
 target_link_libraries(writing_vector h5cpp_shared)
 
+add_executable(writing_complex writing_complex.cpp)
+target_link_libraries(writing_complex h5cpp_shared)
+
+add_executable(writing_image writing_image.cpp
+                             pixel.cpp)
+target_link_libraries(writing_image h5cpp_shared)

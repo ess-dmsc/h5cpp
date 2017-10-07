@@ -36,6 +36,14 @@
 #include "attribute/attribute_manager.hpp"
 #include "attribute/attribute.hpp"
 
+#include "datatype/compound.hpp"
+#include "datatype/datatype.hpp"
+#include "datatype/factory.hpp"
+#include "datatype/float.hpp"
+#include "datatype/integer.hpp"
+#include "datatype/type_trait.hpp"
+#include "datatype/types.hpp"
+
 #include "dataspace/dataspace.hpp"
 #include "dataspace/scalar.hpp"
 #include "dataspace/selection_manager.hpp"
