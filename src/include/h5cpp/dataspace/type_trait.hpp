@@ -22,6 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 7, 2017
 //
+#pragma once
 
 #include <vector>
 #include <array>
@@ -44,6 +45,7 @@ namespace dataspace {
 //!
 //! \tparam T type for which to construct a dataspace
 //!
+
 template<typename T>
 class TypeTrait
 {
