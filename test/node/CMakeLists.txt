@@ -32,3 +32,11 @@ target_link_libraries(node_group_test h5cpp_shared Boost::unit_test_framework)
 add_logging_test("hdf5::node::Group"
                  node_group_test
                  ${WORKING_DIRECTORY})
+
+                 
+add_executable(node_dataset_test dataset_test.cpp
+                               $<TARGET_OBJECTS:test_common>)
+target_link_libraries(node_dataset_test h5cpp_shared Boost::unit_test_framework)
+add_logging_test("hdf5::node::Dataset"
+                 node_dataset_test
+                 ${WORKING_DIRECTORY})
