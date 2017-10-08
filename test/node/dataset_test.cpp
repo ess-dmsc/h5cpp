@@ -70,43 +70,6 @@ BOOST_AUTO_TEST_CASE(test_scalar_dataset)
   BOOST_CHECK_THROW(dset.extent({10}),std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE(test_extensible_dataset_infinite)
-{
-  dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
-  auto type = datatype::create<float>();
-  property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
-  dcpl.chunk({1024});
-
-  node::Dataset dset = root_group.create_dataset("data",type,space,
-                                                 property::LinkCreationList(),dcpl);
-
-  for(size_t index=0;index<10;index++)
-  {
-    dset.extent({index});
-    dataspace::Simple new_space = dset.dataspace();
-    BOOST_CHECK_EQUAL(new_space.current_dimensions()[0],index);
-
-  }
-
-}
-
-BOOST_AUTO_TEST_CASE(test_extensible_dataset_finite)
-{
-  dataspace::Simple space({0},{2048});
-  auto type = datatype::create<float>();
-  property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
-  dcpl.chunk({1024});
-
-  node::Dataset dset = root_group.create_dataset("data",type,space,
-                                                  property::LinkCreationList(),dcpl);
-
-  BOOST_CHECK_NO_THROW(dset.extent({512}));
-  BOOST_CHECK_EQUAL(dataspace::Simple(dset.dataspace()).current_dimensions()[0],512);
-  BOOST_CHECK_THROW(dset.extent({40000}),std::runtime_error);
-}
-
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE_END()
