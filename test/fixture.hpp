@@ -20,19 +20,26 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 08, 2017
 //
 #pragma once
-#include "../fixture.hpp"
 
+#include <h5cpp/file/file.hpp>
+#include <h5cpp/node/group.hpp>
+#include <boost/filesystem.hpp>
 
-struct AttributeFixture : public Fixture
+//!
+//! \brief base class for all test fixtures
+//!
+//! This class can be used as a base for all test fixtures which require a
+//! file to be created.
+//!
+struct Fixture
 {
-    AttributeFixture();
+    hdf5::file::File file;
+    hdf5::node::Group root_group;
 
+    Fixture(const boost::filesystem::path &file_path);
+    virtual ~Fixture();
 };
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
-};
