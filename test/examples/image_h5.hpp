@@ -39,7 +39,6 @@ class TypeTrait<Image<PixelT>>
 
     static TypeClass create()
     {
-
       return TypeTrait<PixelT>::create();
     }
 };
@@ -50,7 +49,6 @@ class TypeTrait<Image<PixelT>>
 
 namespace hdf5 {
 namespace dataspace {
-
 
 template<typename PixelT>
 class TypeTrait<Image<PixelT>>

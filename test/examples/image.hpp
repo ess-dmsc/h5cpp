@@ -57,28 +57,9 @@ class Image
       return data_[i*nx_+j];
     }
 
-    size_t size() const
-    {
-      return nx()*ny();
-    }
-
-    size_t nx() const
-    {
-      return nx_;
-    }
-
-    size_t ny() const
-    {
-      return ny_;
-    }
-
-    PixelT *data()
-    {
-      return data_.data();
-    }
-
-    const PixelT *data() const
-    {
-      return data_.data();
-    }
+    size_t size() const        { return nx()*ny(); }
+    size_t nx() const          { return nx_; }
+    size_t ny() const          { return ny_; }
+    PixelT *data()             { return data_.data(); }
+    const PixelT *data() const { return data_.data(); }
 };

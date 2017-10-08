@@ -86,6 +86,8 @@ class DLL_EXPORT Dataset : public Node
 
     void extent(const Dimensions &dims) const;
 
+    void extent(size_t dim,ssize_t delta_elements) const;
+
     //!
     //! \brief write entire dataset
     //!
@@ -148,11 +150,8 @@ class DLL_EXPORT Dataset : public Node
 //    template<typename T>
 //    void write(const Selection &file_selection,const T &data) const;
 
-
-
-
-
 };
+
 
 //ds.push_back(data);
 //
