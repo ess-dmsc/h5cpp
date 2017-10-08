@@ -23,18 +23,7 @@
 // Created on: Oct 5, 2017
 //
 #pragma once
-
-#include <h5cpp/file/file.hpp>
-#include <h5cpp/node/group.hpp>
-#include <boost/filesystem.hpp>
-
-struct Fixture
-{
-    hdf5::file::File file;
-    hdf5::node::Group root_group;
-
-    Fixture(const boost::filesystem::path &file_path);
-};
+#include "../fixture.hpp"
 
 
 struct AttributeFixture : public Fixture

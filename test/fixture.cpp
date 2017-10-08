@@ -22,56 +22,31 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 08, 2017
 //
-#pragma once
+#include "fixture.hpp"
+#include <h5cpp/property/file_creation_list.hpp>
+#include <h5cpp/property/file_access_list.hpp>
+#include <h5cpp/file/functions.hpp>
 
-#include <h5cpp/hdf5.hpp>
-#include "image.hpp"
-#include "rgbpixel_h5.hpp"
+using namespace hdf5;
+namespace fs = boost::filesystem;
 
-namespace hdf5 {
-namespace datatype {
+Fixture::Fixture(const fs::path &file_path):
+    file(),
+    root_group()
 
-template<typename PixelT>
-class TypeTrait<Image<PixelT>>
 {
-  public:
-    using TypeClass = typename TypeTrait<PixelT>::TypeClass;
+  property::FileCreationList fcpl;
+  property::FileAccessList fapl;
 
-    static TypeClass create()
-    {
-      return TypeTrait<PixelT>::create();
-    }
-};
+  fcpl.link_creation_order(property::CreationOrder().enable_indexed());
+  fapl.library_version_bounds(property::LibVersion::LATEST,
+                              property::LibVersion::LATEST);
 
+  file = file::create(file_path,file::AccessFlags::TRUNCATE,fcpl,fapl);
+  root_group = file.root();
 }
-}
+
+Fixture::~Fixture()
+{}
 
 
-namespace hdf5 {
-namespace dataspace {
-
-template<typename PixelT>
-class TypeTrait<Image<PixelT>>
-{
-  public:
-    using DataspaceType = Simple;
-
-    static DataspaceType create(const Image<PixelT> &value)
-    {
-      return Simple(hdf5::Dimensions{value.ny(),value.nx()},
-                    hdf5::Dimensions{value.ny(),value.nx()});
-    }
-
-    static void *ptr(Image<PixelT> &value)
-    {
-      return reinterpret_cast<void*>(value.data());
-    }
-
-    static const void *cptr(const Image<PixelT> &value)
-    {
-      return reinterpret_cast<const void *>(value.data());
-    }
-};
-
-}
-}

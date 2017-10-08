@@ -5,7 +5,7 @@ set(HEADERS object_handle.hpp
 	        iterator_config.hpp
 	        iterator.hpp
 	        object_id.hpp
-	        hdf5.cpp
+	        hdf5.hpp
 	       )
 	      
 	      

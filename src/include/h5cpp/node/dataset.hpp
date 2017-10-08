@@ -39,14 +39,54 @@ class Selection;
 class DLL_EXPORT Dataset : public Node
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
+    //! Use default implementation here. We need this for some STL containers.
+    //! After default construction the dataset is in an invalid state.
+    //!
+    //! \sa is_valid()
+    //!
     Dataset() = default;
+
+    //!
+    //! \brief copy constructor
+    //!
+    //! Use default implementation here.
+    //!
     Dataset(const Dataset &) = default;
+
+    //!
+    //! \brief construct
+    //!
+    //! Construct a dataset from a node instance.
+    //!
     Dataset(const Node &node);
 
+    //!
+    //! \brief get dataspace of dataset
+    //!
+    //! Return a new instance of the dataspace describing the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return new dataspace instance
+    //!
     dataspace::Dataspace dataspace() const;
+
+    //!
+    //! \brief get datatype of dataset
+    //!
+    //! Return an instance of the datatype describing the elements stored
+    //! in the file.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return new instance of datatype
+    //!
     datatype::Datatype datatype() const;
 
     void extent(const Dimensions &dims) const;
+
+    void extent(size_t dim,ssize_t delta_elements) const;
 
     //!
     //! \brief write entire dataset
@@ -110,11 +150,8 @@ class DLL_EXPORT Dataset : public Node
 //    template<typename T>
 //    void write(const Selection &file_selection,const T &data) const;
 
-
-
-
-
 };
+
 
 //ds.push_back(data);
 //

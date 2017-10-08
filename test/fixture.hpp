@@ -24,54 +24,22 @@
 //
 #pragma once
 
-#include <h5cpp/hdf5.hpp>
-#include "image.hpp"
-#include "rgbpixel_h5.hpp"
+#include <h5cpp/file/file.hpp>
+#include <h5cpp/node/group.hpp>
+#include <boost/filesystem.hpp>
 
-namespace hdf5 {
-namespace datatype {
-
-template<typename PixelT>
-class TypeTrait<Image<PixelT>>
+//!
+//! \brief base class for all test fixtures
+//!
+//! This class can be used as a base for all test fixtures which require a
+//! file to be created.
+//!
+struct Fixture
 {
-  public:
-    using TypeClass = typename TypeTrait<PixelT>::TypeClass;
+    hdf5::file::File file;
+    hdf5::node::Group root_group;
 
-    static TypeClass create()
-    {
-      return TypeTrait<PixelT>::create();
-    }
+    Fixture(const boost::filesystem::path &file_path);
+    virtual ~Fixture();
 };
 
-}
-}
-
-
-namespace hdf5 {
-namespace dataspace {
-
-template<typename PixelT>
-class TypeTrait<Image<PixelT>>
-{
-  public:
-    using DataspaceType = Simple;
-
-    static DataspaceType create(const Image<PixelT> &value)
-    {
-      return Simple(hdf5::Dimensions{value.ny(),value.nx()},
-                    hdf5::Dimensions{value.ny(),value.nx()});
-    }
-
-    static void *ptr(Image<PixelT> &value)
-    {
-      return reinterpret_cast<void*>(value.data());
-    }
-
-    static const void *cptr(const Image<PixelT> &value)
-    {
-      return reinterpret_cast<const void *>(value.data());
-    }
-};
-
-}
-}
