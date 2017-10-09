@@ -90,6 +90,32 @@ BOOST_AUTO_TEST_CASE(test_truncation)
   BOOST_CHECK_NO_THROW(file::create("./test2.h5",file::AccessFlags::TRUNCATE));
 }
 
+BOOST_AUTO_TEST_SUITE(FileIdTest)
+
+//testing a situation where we have two individual files open
+//
+BOOST_AUTO_TEST_CASE(test_same_file_ro)
+{
+  file::create("test1.h5",file::AccessFlags::TRUNCATE);
+  file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
+  file::File f2 = file::open("test1.h5",file::AccessFlags::READONLY);
+
+  BOOST_CHECK(f1.id()==f2.id());
+
+}
+
+BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
+{
+  file::create("test1.h5",file::AccessFlags::TRUNCATE);
+  boost::filesystem::create_symlink("test1.h5","test1_link.h5");
+  file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
+  file::File f2 = file::open("test1_link.h5",file::AccessFlags::READONLY);
+
+  BOOST_CHECK(f1.id()==f2.id());
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 
 BOOST_AUTO_TEST_SUITE_END()
 
