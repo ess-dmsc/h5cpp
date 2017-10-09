@@ -114,5 +114,14 @@ bool File::is_valid() const
   return handle_.is_valid();
 }
 
+ObjectId File::id() const
+{
+  if(!is_valid())
+  {
+    throw std::runtime_error("Cannot obtain ObjectId from an invalid file instance!");
+  }
+  return ObjectId(static_cast<hid_t>(handle_));
+}
+
 } // namespace file
 } // namespace hdf5

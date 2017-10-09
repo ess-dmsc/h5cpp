@@ -26,6 +26,7 @@
 #define BOOST_TEST_MODULE testing file creation function
 #include <boost/test/unit_test.hpp>
 #include <h5cpp/file/functions.hpp>
+#include <h5cpp/node/group.hpp>
 #include <boost/filesystem.hpp>
 
 using namespace hdf5;
@@ -58,6 +59,18 @@ BOOST_GLOBAL_FIXTURE(GlobalFixture);
 BOOST_AUTO_TEST_SUITE(FileCreation_test)
 
 BOOST_AUTO_TEST_CASE(test_default)
+{
+  file::File f;
+  BOOST_CHECK_THROW(f.intent(),std::runtime_error);
+  BOOST_CHECK_THROW(f.size(),std::runtime_error);
+  BOOST_CHECK_THROW(f.flush(file::Scope::GLOBAL),std::runtime_error);
+  BOOST_CHECK_THROW(f.flush(file::Scope::LOCAL),std::runtime_error);
+  BOOST_CHECK_THROW(f.count_open_objects(file::SearchFlags::ALL),std::runtime_error);
+  BOOST_CHECK_THROW(f.root(),std::runtime_error);
+  BOOST_CHECK_NO_THROW(f.close());
+}
+
+BOOST_AUTO_TEST_CASE(test_no_truncate)
 {
   file::File f = file::create(fs::path("./test1.h5"));
   BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::READWRITE);
