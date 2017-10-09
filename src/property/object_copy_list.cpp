@@ -170,5 +170,32 @@ void CopyFlags::merge_committed_types(bool flag) noexcept
     value_ &= ~static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
 }
 
+ObjectCopyList::ObjectCopyList():
+    List(kObjectCopy)
+{}
+
+void ObjectCopyList::flags(const CopyFlags &flags) const
+{
+  if(H5Pset_copy_object(static_cast<hid_t>(*this),static_cast<unsigned>(flags))<0)
+  {
+    throw std::runtime_error("Failure setting flags for object copy property list!");
+  }
+}
+
+void ObjectCopyList::flags(const CopyFlag &flag) const
+{
+  flags(CopyFlags()|flag);
+}
+
+CopyFlags ObjectCopyList::flags() const
+{
+  unsigned flag_buffer;
+  if(H5Pget_copy_object(static_cast<hid_t>(*this),&flag_buffer)<0)
+  {
+    throw std::runtime_error("Failure retrieving flags for object copy property list!");
+  }
+  return CopyFlags(flag_buffer);
+}
+
 } // namespace property
 } // namespace hdf5

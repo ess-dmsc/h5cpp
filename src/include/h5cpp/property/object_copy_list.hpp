@@ -182,6 +182,11 @@ class DLL_EXPORT ObjectCopyList : public List
   public:
     ObjectCopyList();
 
+    void flags(const CopyFlags &flags) const;
+    void flags(const CopyFlag &flag) const;
+
+    CopyFlags flags() const;
+
 
 };
 
