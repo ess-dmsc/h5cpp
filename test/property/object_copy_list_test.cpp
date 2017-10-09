@@ -207,6 +207,23 @@ BOOST_AUTO_TEST_CASE(test_merge_committed_types)
   BOOST_CHECK(!flags.merge_committed_types());
 }
 
+BOOST_AUTO_TEST_CASE(test_unary_or_1)
+{
+  property::CopyFlags flags;
+  flags |= property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+  BOOST_CHECK(flags.expand_external_links());
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operations_1)
+{
+  property::CopyFlags flags = property::CopyFlag::EXPAND_EXTERNAL_LINKS |
+                              property::CopyFlag::EXPAND_SOFT_LINKS |
+                              property::CopyFlag::WITHOUT_ATTRIBUTES ;
+  BOOST_CHECK(flags.without_attributes());
+  BOOST_CHECK(flags.expand_soft_links());
+  BOOST_CHECK(flags.expand_external_links());
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 

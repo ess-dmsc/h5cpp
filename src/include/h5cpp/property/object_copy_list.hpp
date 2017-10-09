@@ -52,7 +52,7 @@ CopyFlags operator|(const CopyFlag &lhs,const CopyFlag &rhs);
 //! This class encapsulates copy flags and provides easy access to
 //! the flags without using logical operators.
 //!
-class CopyFlags
+class DLL_EXPORT CopyFlags
 {
   private:
     unsigned value_;
@@ -80,12 +80,6 @@ class CopyFlags
     CopyFlags(const CopyFlags &flags) = default;
 
 
-
-    //!
-    //! \brief binary logical or operator
-    //!
-    CopyFlags &operator|(const CopyFlag &flag) noexcept;
-
     //!
     //! \brief unary logical or operator
     //!
@@ -97,35 +91,90 @@ class CopyFlags
     CopyFlags &operator|=(const CopyFlags &flags) noexcept;
 
     //!
-    //! \brief binary logical or operator
+    //! \brief allow for explicit conversion to unsigned
     //!
-    CopyFlags &operator|(const CopyFlags &flags) noexcept;
+    explicit operator unsigned() const noexcept
+    {
+      return value_;
+    }
 
 
     //!
-    //! \brief if this flag is set
+    //! \brief get state of the shallow hierarchy flag
+    //!
     bool shallow_hierarchy() const noexcept;
+
+    //!
+    //! \brief set the state of the shallo hierarchy flag
+    //!
     void shallow_hierarchy(bool flag) noexcept;
 
+    //!
+    //! \brief get the state of the expand soft links flag
+    //!
     bool expand_soft_links() const noexcept;
+
+    //!
+    //! \brief set the state of the expand soft links flag
+    //!
     void expand_soft_links(bool flag) noexcept;
 
+    //!
+    //! \brief get the state of the expand external links flag
+    //!
     bool expand_external_links() const noexcept;
+
+    //!
+    //! \brief set the state of the expand external links flag
+    //!
     void expand_external_links(bool flag) noexcept;
 
+    //!
+    //! \brief get the state of the expand reference flag
+    //!
     bool expand_references() const noexcept;
+
+    //!
+    //! \brief set the state of the expand reference flag
+    //!
     void expand_references(bool flag) noexcept;
 
+    //!
+    //! \brief get the state of the without attribute flag
+    //!
     bool without_attributes() const noexcept;
+
+    //!
+    //! \brief set the state of the without attribute flag
+    //!
     void without_attributes(bool flag) noexcept;
 
+    //!
+    //! \brief get the state of the merge committed attribute flag
+    //!
     bool merge_committed_types() const noexcept;
+
+    //!
+    //! \biref set the state of the merge comitted attribute flag
+    //!
     void merge_committed_types(bool flag) noexcept;
 
 };
 
+//!
+//! \brief binary or operator for copy flags
+//!
+CopyFlags operator|(const CopyFlags &flags,const CopyFlags &rhs) noexcept;
 
+//!
+//! \brief binary or operator for copy flags
+//!
+CopyFlags operator|(const CopyFlags &flags,const CopyFlag &flag) noexcept;
 
+//!
+//! \brief binary or operator for copy flags
+//!
+CopyFlags operator|(const CopyFlag &flag,const CopyFlags &flags) noexcept;
 
 
 class DLL_EXPORT ObjectCopyList : public List

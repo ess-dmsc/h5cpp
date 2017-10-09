@@ -64,15 +64,31 @@ CopyFlags::CopyFlags(unsigned value) noexcept:
     value_(value)
 {}
 
-CopyFlags &CopyFlags::operator|(const CopyFlag &flag) noexcept
+CopyFlags operator|(const CopyFlags &flags,const CopyFlags &rhs) noexcept
+{
+  return CopyFlags(static_cast<unsigned>(flags)|static_cast<unsigned>(rhs));
+}
+
+CopyFlags operator|(const CopyFlags &flags,const CopyFlag &flag) noexcept
+{
+  return CopyFlags(static_cast<unsigned>(flags)|static_cast<unsigned>(flag));
+}
+
+CopyFlags operator|(const CopyFlag &flag,const CopyFlags &flags) noexcept
+{
+  return CopyFlags(static_cast<unsigned>(flag)|static_cast<unsigned>(flags));
+}
+
+
+CopyFlags &CopyFlags::operator|=(const CopyFlag &flag) noexcept
 {
   value_ |= static_cast<unsigned>(flag);
   return *this;
 }
 
-CopyFlags &CopyFlags::operator|(const CopyFlags &flags) noexcept
+CopyFlags &CopyFlags::operator|=(const CopyFlags &flags) noexcept
 {
-  value_ |= flags.value_;
+  value_  |= static_cast<unsigned>(flags);
   return *this;
 }
 
