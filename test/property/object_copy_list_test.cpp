@@ -45,12 +45,166 @@ BOOST_AUTO_TEST_CASE(test_string_representation)
   BOOST_CHECK(stream.is_equal("EXPAND_SOFT_LINKS"));
   stream<<property::CopyFlag::EXPAND_EXTERNAL_LINKS;
   BOOST_CHECK(stream.is_equal("EXPAND_EXTERNAL_LINKS"));
-  stream<<property::CopyFlag::EXPAND_REFERNCES;
+  stream<<property::CopyFlag::EXPAND_REFERENCES;
   BOOST_CHECK(stream.is_equal("EXPAND_REFERENCES"));
   stream<<property::CopyFlag::WITHOUT_ATTRIBUTES;
   BOOST_CHECK(stream.is_equal("WITHOUT_ATTRIBUTES"));
   stream<<property::CopyFlag::MERGE_COMMITTED_TYPES;
   BOOST_CHECK(stream.is_equal("MERGE_COMMITTED_TYPES"));
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operator_1)
+{
+  property::CopyFlags flags = property::CopyFlag::SHALLOW_HIERARCHY |
+                              property::CopyFlag::EXPAND_SOFT_LINKS;
+  BOOST_CHECK(flags.shallow_hierarchy());
+  BOOST_CHECK(flags.expand_soft_links());
+  BOOST_CHECK(!flags.expand_external_links());
+  BOOST_CHECK(!flags.expand_references());
+  BOOST_CHECK(!flags.without_attributes());
+  BOOST_CHECK(!flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operator_2)
+{
+  property::CopyFlags flags = property::CopyFlag::EXPAND_SOFT_LINKS |
+                              property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+
+
+  BOOST_CHECK(!flags.shallow_hierarchy());
+  BOOST_CHECK(flags.expand_soft_links());
+  BOOST_CHECK(flags.expand_external_links());
+  BOOST_CHECK(!flags.expand_references());
+  BOOST_CHECK(!flags.without_attributes());
+  BOOST_CHECK(!flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operator_3)
+{
+  property::CopyFlags flags = property::CopyFlag::EXPAND_EXTERNAL_LINKS |
+                              property::CopyFlag::EXPAND_REFERENCES;
+
+
+  BOOST_CHECK(!flags.shallow_hierarchy());
+  BOOST_CHECK(!flags.expand_soft_links());
+  BOOST_CHECK(flags.expand_external_links());
+  BOOST_CHECK(flags.expand_references());
+  BOOST_CHECK(!flags.without_attributes());
+  BOOST_CHECK(!flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operator_4)
+{
+  property::CopyFlags flags = property::CopyFlag::EXPAND_REFERENCES |
+                              property::CopyFlag::WITHOUT_ATTRIBUTES;
+
+
+  BOOST_CHECK(!flags.shallow_hierarchy());
+  BOOST_CHECK(!flags.expand_soft_links());
+  BOOST_CHECK(!flags.expand_external_links());
+  BOOST_CHECK(flags.expand_references());
+  BOOST_CHECK(flags.without_attributes());
+  BOOST_CHECK(!flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operator_5)
+{
+  property::CopyFlags flags = property::CopyFlag::WITHOUT_ATTRIBUTES |
+                              property::CopyFlag::MERGE_COMMITTED_TYPES;
+
+
+  BOOST_CHECK(!flags.shallow_hierarchy());
+  BOOST_CHECK(!flags.expand_soft_links());
+  BOOST_CHECK(!flags.expand_external_links());
+  BOOST_CHECK(!flags.expand_references());
+  BOOST_CHECK(flags.without_attributes());
+  BOOST_CHECK(flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_CASE(test_or_operator_6)
+{
+  property::CopyFlags flags = property::CopyFlag::MERGE_COMMITTED_TYPES |
+                              property::CopyFlag::SHALLOW_HIERARCHY;
+
+
+  BOOST_CHECK(flags.shallow_hierarchy());
+  BOOST_CHECK(!flags.expand_soft_links());
+  BOOST_CHECK(!flags.expand_external_links());
+  BOOST_CHECK(!flags.expand_references());
+  BOOST_CHECK(!flags.without_attributes());
+  BOOST_CHECK(flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+//=============================================================================
+// test suite for the CopyFlags class
+//=============================================================================
+BOOST_AUTO_TEST_SUITE(CopyFlagsTest)
+
+BOOST_AUTO_TEST_CASE(test_default_construction)
+{
+  property::CopyFlags flags;
+  BOOST_CHECK(!flags.shallow_hierarchy());
+  BOOST_CHECK(!flags.expand_soft_links());
+  BOOST_CHECK(!flags.expand_external_links());
+  BOOST_CHECK(!flags.expand_references());
+  BOOST_CHECK(!flags.without_attributes());
+  BOOST_CHECK(!flags.merge_committed_types());
+}
+
+BOOST_AUTO_TEST_CASE(test_shallow_hierarchy)
+{
+  property::CopyFlags flags;
+  flags.expand_soft_links(true);
+  BOOST_CHECK(flags.expand_soft_links());
+  flags.expand_soft_links(false);
+  BOOST_CHECK(!flags.expand_soft_links());
+}
+
+BOOST_AUTO_TEST_CASE(test_expand_soft_links)
+{
+  property::CopyFlags flags;
+  flags.expand_soft_links(true);
+  BOOST_CHECK(flags.expand_soft_links());
+  flags.expand_soft_links(false);
+  BOOST_CHECK(!flags.expand_soft_links());
+}
+
+BOOST_AUTO_TEST_CASE(test_expand_external_links)
+{
+  property::CopyFlags flags;
+  flags.expand_external_links(true);
+  BOOST_CHECK(flags.expand_external_links());
+  flags.expand_external_links(false);
+  BOOST_CHECK(!flags.expand_external_links());
+}
+
+BOOST_AUTO_TEST_CASE(test_expand_references)
+{
+  property::CopyFlags flags;
+  flags.expand_references(true);
+  BOOST_CHECK(flags.expand_references());
+  flags.expand_references(false);
+  BOOST_CHECK(!flags.expand_references());
+}
+
+BOOST_AUTO_TEST_CASE(test_without_attributes)
+{
+  property::CopyFlags flags;
+  flags.without_attributes(true);
+  BOOST_CHECK(flags.without_attributes());
+  flags.without_attributes(false);
+  BOOST_CHECK(!flags.without_attributes());
+}
+
+BOOST_AUTO_TEST_CASE(test_merge_committed_types)
+{
+  property::CopyFlags flags;
+  flags.merge_committed_types(true);
+  BOOST_CHECK(flags.merge_committed_types());
+  flags.merge_committed_types(false);
+  BOOST_CHECK(!flags.merge_committed_types());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

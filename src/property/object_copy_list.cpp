@@ -40,7 +40,7 @@ std::ostream &operator<<(std::ostream &stream,const CopyFlag &flag)
       return stream<<"EXPAND_SOFT_LINKS";
     case CopyFlag::EXPAND_EXTERNAL_LINKS:
       return stream<<"EXPAND_EXTERNAL_LINKS";
-    case CopyFlag::EXPAND_REFERNCES:
+    case CopyFlag::EXPAND_REFERENCES:
       return stream<<"EXPAND_REFERENCES";
     case CopyFlag::WITHOUT_ATTRIBUTES:
       return stream<<"WITHOUT_ATTRIBUTES";
@@ -49,6 +49,109 @@ std::ostream &operator<<(std::ostream &stream,const CopyFlag &flag)
     default:
       return stream<<"NONE"; //should never happen
   }
+}
+
+CopyFlags operator|(const CopyFlag &lhs,const CopyFlag &rhs)
+{
+  return CopyFlags(static_cast<unsigned>(lhs)|static_cast<unsigned>(rhs));
+}
+
+CopyFlags::CopyFlags() noexcept:
+    value_(0)
+{}
+
+CopyFlags::CopyFlags(unsigned value) noexcept:
+    value_(value)
+{}
+
+CopyFlags &CopyFlags::operator|(const CopyFlag &flag) noexcept
+{
+  value_ |= static_cast<unsigned>(flag);
+  return *this;
+}
+
+CopyFlags &CopyFlags::operator|(const CopyFlags &flags) noexcept
+{
+  value_ |= flags.value_;
+  return *this;
+}
+
+bool CopyFlags::shallow_hierarchy() const noexcept
+{
+  return value_ & static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
+}
+void CopyFlags::shallow_hierarchy(bool flag) noexcept
+{
+  if(flag)
+    value_ |= static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
+  else
+    value_ &= ~static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
+
+}
+
+bool CopyFlags::expand_soft_links() const noexcept
+{
+  return value_ & static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
+}
+
+void CopyFlags::expand_soft_links(bool flag) noexcept
+{
+  if(flag)
+    value_ |= static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
+  else
+    value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
+}
+
+bool CopyFlags::expand_external_links() const noexcept
+{
+  return value_ & static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
+}
+
+void CopyFlags::expand_external_links(bool flag) noexcept
+{
+  if(flag)
+    value_ |= static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
+  else
+    value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
+}
+
+bool CopyFlags::expand_references() const noexcept
+{
+  return value_ & static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
+}
+
+void CopyFlags::expand_references(bool flag) noexcept
+{
+  if(flag)
+    value_ |= static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
+  else
+    value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
+}
+
+bool CopyFlags::without_attributes() const noexcept
+{
+  return value_ & static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
+}
+
+void CopyFlags::without_attributes(bool flag) noexcept
+{
+  if(flag)
+    value_ |= static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
+  else
+    value_ &= ~static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
+}
+
+bool CopyFlags::merge_committed_types() const noexcept
+{
+  return value_ & static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
+}
+
+void CopyFlags::merge_committed_types(bool flag) noexcept
+{
+  if(flag)
+    value_ |= static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
+  else
+    value_ &= ~static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
 }
 
 } // namespace property

@@ -30,16 +30,21 @@
 namespace hdf5 {
 namespace property {
 
+class CopyFlags;
+
 enum class CopyFlag : unsigned {
   SHALLOW_HIERARCHY     = H5O_COPY_SHALLOW_HIERARCHY_FLAG,
   EXPAND_SOFT_LINKS     = H5O_COPY_EXPAND_SOFT_LINK_FLAG,
   EXPAND_EXTERNAL_LINKS = H5O_COPY_EXPAND_EXT_LINK_FLAG,
-  EXPAND_REFERNCES      = H5O_COPY_EXPAND_REFERENCE_FLAG,
+  EXPAND_REFERENCES     = H5O_COPY_EXPAND_REFERENCE_FLAG,
   WITHOUT_ATTRIBUTES    = H5O_COPY_WITHOUT_ATTR_FLAG,
   MERGE_COMMITTED_TYPES = H5O_COPY_MERGE_COMMITTED_DTYPE_FLAG
 };
 
 std::ostream &operator<<(std::ostream &stream,const CopyFlag &flag);
+
+CopyFlags operator|(const CopyFlag &lhs,const CopyFlag &rhs);
+
 
 //!
 //! \brief encapsulate copy flags
@@ -74,15 +79,27 @@ class CopyFlags
     //!
     CopyFlags(const CopyFlags &flags) = default;
 
-    //!
-    //! \brief logical or operator
-    //!
-    CopyFlags &operator|(const CopyFlag &flag);
+
 
     //!
-    //! \brief logical or operator
+    //! \brief binary logical or operator
     //!
-    CopyFlags &operator|(const CopyFlags &flags);
+    CopyFlags &operator|(const CopyFlag &flag) noexcept;
+
+    //!
+    //! \brief unary logical or operator
+    //!
+    CopyFlags &operator|=(const CopyFlag &flag) noexcept;
+
+    //!
+    //! \brief unary logical or operator
+    //!
+    CopyFlags &operator|=(const CopyFlags &flags) noexcept;
+
+    //!
+    //! \brief binary logical or operator
+    //!
+    CopyFlags &operator|(const CopyFlags &flags) noexcept;
 
 
     //!
