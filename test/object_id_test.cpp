@@ -28,24 +28,24 @@
 
  Summary of test results
 
- object_address is stable across all scenarios
+  hid does not uniquely identify an h5 node
 
- file_number:
-   not equal if same file closed and reopened
+  object_address is stable across all scenarios
 
- file_name:
-   not equal if file opened via symbolic link, and h5 allows opening
-     of the same file twice
+  file_number:
+     not equal if same file closed and reopened
+     identified the file that owns object, not owner of link (in case of ext link)
 
- Further note: in case of external links, file_name and file_number reflect the
- name of the actual file that owns the data, not the owner of the node that takes
- you there.
+  file_name:
+     not equal if file opened via symbolic link (h5 allows opening same file twice)
+     not equal if object opened via external link vs. original node
 
 
- Suggestions:
- path will be absolute in external links, so to compare correctly
- all paths should be made absolute
- symlinks should be dereferenced too, though file_number will reflect identity
+  Conclusions:
+    file_number adequately reflects identity, unless file has been closed and reopened.
+    file_name does not adequately reflect identity. Resolving symbolic link would solve
+    part of the problem, but would also need to somehow dereference external links to
+    identify the name of the object-owning file.
 
 */
 
@@ -252,7 +252,7 @@ BOOST_AUTO_TEST_CASE( file_copy2 )
   fs::remove(FILE2);
 }
 
-// If symbolic link (in OS) is made to existing file
+// Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal
 //   file_name is not equal
 BOOST_AUTO_TEST_CASE( symlink_id )
@@ -260,6 +260,7 @@ BOOST_AUTO_TEST_CASE( symlink_id )
   OneFile* file = new OneFile(FILE1);
   delete file;
 
+  // Symlink FILE2 -> FILE1
   fs::create_symlink(FILE1, FILE2);
 
   hid_t file1 = H5Fopen(FILE1, H5F_ACC_RDONLY, H5P_DEFAULT);
@@ -288,38 +289,94 @@ BOOST_AUTO_TEST_CASE( symlink_id )
 
 // If external link is made file2/group3 -> File1/group1
 // All three parameters are equal
-// hid is not euqal
 BOOST_AUTO_TEST_CASE( file_external_group )
 {
-  OneFile* file1 = new OneFile(FILE1);
-  OneFile* file2 = new OneFile(FILE2);
+  OneFile* file = new OneFile(FILE1);
+  delete file;
 
-  H5Lcreate_external(FILE1, "/group1",
-                     file2->file, "/group3",
-                     H5P_DEFAULT, H5P_DEFAULT);
+  OneFile* fileb = new OneFile(FILE2);
+  delete fileb;
 
-  hid_t group11 = H5Gopen(file1->file, "/group1", H5P_DEFAULT);
-  hid_t group23 = H5Gopen(file2->file, "/group3", H5P_DEFAULT);
+  // Extlink file2/group3 -> file1/group1
+  hid_t file2 = H5Fopen(FILE2, H5F_ACC_RDONLY, H5P_DEFAULT);
+  H5Lcreate_external(FILE1, "/group1", file2, "/group3", H5P_DEFAULT, H5P_DEFAULT);
+  hid_t group23 = H5Gopen(file2, "/group3", H5P_DEFAULT);
+
+  // Original node
+  hid_t file1 = H5Fopen(FILE1, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t group11 = H5Gopen(file1, "/group1", H5P_DEFAULT);
 
   ObjectId info11(group11);
   ObjectId info23(group23);
 
-//  info11.print("f1/g1");
-//  info23.print("f2/LL");
-
   BOOST_CHECK_NE(group11, group23);
-  BOOST_CHECK_EQUAL(info11.file_name(), info23.file_name());
+  BOOST_CHECK_NE(info11.file_name(), info23.file_name());
   BOOST_CHECK_EQUAL(info11.file_number(), info23.file_number());
   BOOST_CHECK_EQUAL(info11.object_address(), info23.object_address());
 
   H5Gclose(group11);
   H5Gclose(group23);
 
-  delete file1;
-  delete file2;
+  fs::remove(FILE1);
+  fs::remove(FILE2);
+}
+
+// Symbolic link (in OS) is made FILE3 -> FILE1
+// External link is made file2/group3 -> File3/group1
+//   only file_number and object_address are equal
+//   file_name is not equal
+BOOST_AUTO_TEST_CASE( file_external_symlink )
+{
+  OneFile* file = new OneFile(FILE1);
+  delete file;
+
+  OneFile* fileb = new OneFile(FILE2);
+  delete fileb;
+
+
+  // Symlink FILE3 -> FILE1
+  fs::create_symlink(FILE1, FILE3);
+
+  // Extlink file2/group3 -> file3/group1
+  hid_t file2 = H5Fopen(FILE2, H5F_ACC_RDONLY, H5P_DEFAULT);
+  H5Lcreate_external(FILE3, "/group1", file2, "/group3", H5P_DEFAULT, H5P_DEFAULT);
+  hid_t group23 = H5Gopen(file2, "/group3", H5P_DEFAULT);
+
+  // Original node
+  hid_t file1 = H5Fopen(FILE1, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t group11 = H5Gopen(file1, "/group1", H5P_DEFAULT);
+
+  // Node in symlinked file
+  hid_t file3 = H5Fopen(FILE3, H5F_ACC_RDONLY, H5P_DEFAULT);
+  hid_t group31 = H5Gopen(file3, "/group1", H5P_DEFAULT);
+
+  ObjectId info11(group11);
+  ObjectId info31(group31);
+  ObjectId info23(group23);
+
+  BOOST_CHECK_NE(group11, group31);
+  BOOST_CHECK_NE(group11, group23);
+  BOOST_CHECK_NE(group23, group31);
+
+  BOOST_CHECK_NE(info11.file_name(), info31.file_name());
+  BOOST_CHECK_NE(info31.file_name(), info23.file_name());
+  BOOST_CHECK_NE(info11.file_name(), info23.file_name());
+
+  BOOST_CHECK_EQUAL(info11.file_number(), info31.file_number());
+  BOOST_CHECK_EQUAL(info11.file_number(), info23.file_number());
+  BOOST_CHECK_EQUAL(info31.file_number(), info23.file_number());
+
+  BOOST_CHECK_EQUAL(info11.object_address(), info31.object_address());
+  BOOST_CHECK_EQUAL(info11.object_address(), info23.object_address());
+  BOOST_CHECK_EQUAL(info31.object_address(), info23.object_address());
+
+  H5Gclose(group11);
+  H5Gclose(group31);
+  H5Gclose(group23);
 
   fs::remove(FILE1);
   fs::remove(FILE2);
+  fs::remove(FILE3);
 }
 
 // If the same file is opened repeatedly:
