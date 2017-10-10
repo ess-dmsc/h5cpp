@@ -17,6 +17,7 @@ set(HEADERS attribute_creation_list.hpp
 	object_creation_list.hpp
 	string_creation_list.hpp
 	type_creation_list.hpp
+	object_copy_list.hpp
 )
 
 add_doxygen_source_deps(${HEADERS})
