@@ -8,6 +8,7 @@ def failure_function(exception_obj, failureMessage) {
 }
 
 node ("boost && root && fedora") {
+    cleanWs()
 
     dir("code") {
         try {
@@ -31,7 +32,7 @@ node ("boost && root && fedora") {
         } catch (e) {
             failure_function(e, 'CMake failed')
         }
-        
+
         try {
             stage("Build project") {
                 sh "make VERBOSE=1"
