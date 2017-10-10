@@ -107,6 +107,8 @@ BOOST_AUTO_TEST_CASE(test_move_node)
   BOOST_CHECK_NO_THROW(nd::move(gt, g2, Path("gt")));
   BOOST_CHECK(!g1.exists("target"));
   BOOST_CHECK(g2.exists("gt"));
+
+  gt = g1.create_group("target");
   BOOST_CHECK_THROW(nd::move(gt, g2, Path("gt")), std::runtime_error);
 
   nd::Group gm = g2["gt"];

@@ -80,11 +80,14 @@ void copy(const Node &source, const Group &base, const Path &rel_path,
 //!
 //! \sa copy for the naming convention
 //!
-void move(const Node &source,const Group &destination_group,
+void move(const Node &source,
+          const Group &destination_base,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
-void move(const Node &source,const Group &destination,const Path &rel_path,
+void move(const Node &source,
+          const Group &destination_base,
+          const Path &destination_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
