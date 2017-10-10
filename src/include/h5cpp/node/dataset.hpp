@@ -84,9 +84,74 @@ class DLL_EXPORT Dataset : public Node
     //!
     datatype::Datatype datatype() const;
 
+    //!
+    //! \brief set extent of the dataset
+    //!
+    //! Allows to change the extent (number of elements along each dimensions)
+    //! of a dataset. It is important to note that in such a case a previously
+    //! requested dataspace though remaining a valid object does no longer
+    //! describe the datasets layout correctly. The number of elements can be
+    //! increased or decreased within the limits of the dataspace originally
+    //! used to create the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param dims vector with new number of elements along each dimension
+    //!
     void extent(const Dimensions &dims) const;
 
     void extent(size_t dim,ssize_t delta_elements) const;
+
+
+    //!
+    //! \brief write data to the dataset
+    //!
+    //! This template function a very simple wrapper around the original HDF5
+    //! C-API function. The major difference is that a type trait is used to
+    //! obtain a pointer to the data passed as the first argument.
+    //! This template is provided for maximum flexibility as it allows virtually
+    //! to do everything which could be done with the C-API.
+    //!
+    //! \throws std::runtime_error  in case of a failure
+    //! \tparam T type from which to write data
+    //! \param data const reference to the data source
+    //! \param mem_type reference to the memory data type
+    //! \param mem_space reference to the memory data space
+    //! \param file_space reference to the dataspace in the file
+    //! \param dtpl data transfer property list
+    //!
+    template<typename T>
+    void write(const T &data,const datatype::Datatype &mem_type,
+               const dataspace::Dataspace &mem_space,
+               const dataspace::Dataspace &file_space =
+                   dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),
+               const property::DatasetTransferList &dtpl =
+                   property::DatasetTransferList()) const;
+
+    //!
+    //! \brief read data from the dataset
+    //!
+    //! This template function a very simple wrapper around the original HDF5
+    //! C-API function. The major difference is that a type trait is used to
+    //! obtain a pointer to the data passed as the first argument.
+    //! This template is provided for maximum flexibility as it allows virtually
+    //! to do everything which could be done with the C-API.
+    //!
+    //! \throws std::runtime_error  in case of a failure
+    //! \tparam T type from which to write data
+    //! \param data const reference to the data source
+    //! \param mem_type reference to the memory data type
+    //! \param mem_space reference to the memory data space
+    //! \param file_space reference to the dataspace in the file
+    //! \param dtpl data transfer property list
+    //!
+    template<typename T>
+    void read(T &data,const datatype::Datatype &mem_type,
+              const dataspace::Dataspace &mem_space,
+              const dataspace::Dataspace &file_space =
+                  dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),
+              const property::DatasetTransferList &dtpl =
+                  property::DatasetTransferList()) const;
+
 
     //!
     //! \brief write entire dataset
@@ -98,17 +163,7 @@ class DLL_EXPORT Dataset : public Node
       auto memory_space = hdf5::dataspace::create(data);
       auto memory_type  = hdf5::datatype::create(data);
 
-      if(H5Dwrite(static_cast<hid_t>(*this),
-                  static_cast<hid_t>(memory_type),
-                  static_cast<hid_t>(memory_space),
-                  H5S_ALL,
-                  static_cast<hid_t>(dtpl),
-                  dataspace::cptr(data))<0)
-      {
-        std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
-      }
+      write(data,memory_type,memory_space,dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),dtpl);
     }
 //
 //    //!
@@ -121,17 +176,7 @@ class DLL_EXPORT Dataset : public Node
       auto memory_space = hdf5::dataspace::create(data);
       auto memory_type  = hdf5::datatype::create(data);
 
-      if(H5Dread(static_cast<hid_t>(*this),
-                  static_cast<hid_t>(memory_type),
-                  static_cast<hid_t>(memory_space),
-                  H5S_ALL,
-                  static_cast<hid_t>(dtpl),
-                  dataspace::ptr(data))<0)
-      {
-        std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
-      }
+      read(data,memory_type,memory_space,dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),dtpl);
 
     }
 //
@@ -151,6 +196,46 @@ class DLL_EXPORT Dataset : public Node
 //    void write(const Selection &file_selection,const T &data) const;
 
 };
+
+template<typename T>
+void Dataset::write(const T &data,const datatype::Datatype &mem_type,
+                                  const dataspace::Dataspace &mem_space,
+                                  const dataspace::Dataspace &file_space,
+                                  const property::DatasetTransferList &dtpl) const
+{
+  if(H5Dwrite(static_cast<hid_t>(*this),
+              static_cast<hid_t>(mem_type),
+              static_cast<hid_t>(mem_space),
+              static_cast<hid_t>(file_space),
+              static_cast<hid_t>(dtpl),
+              dataspace::cptr(data))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+
+}
+
+template<typename T>
+void Dataset::read(T &data,const datatype::Datatype &mem_type,
+                           const dataspace::Dataspace &mem_space,
+                           const dataspace::Dataspace &file_space,
+                           const property::DatasetTransferList &dtpl) const
+{
+  if(H5Dread(static_cast<hid_t>(*this),
+              static_cast<hid_t>(mem_type),
+              static_cast<hid_t>(mem_space),
+              static_cast<hid_t>(file_space),
+              static_cast<hid_t>(dtpl),
+              dataspace::ptr(data))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+}
+
 
 
 //ds.push_back(data);
