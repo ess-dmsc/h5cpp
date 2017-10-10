@@ -157,8 +157,8 @@ void ObjectHandle::close()
         error_code = H5Pclose(handle_);
         break;
       case ObjectHandle::Type::PROPERTY_LIST_CLASS:
-	error_code = H5Pclose_class(handle_);
-	break;
+        error_code = H5Pclose_class(handle_);
+        break;
       case ObjectHandle::Type::ERROR_MESSAGE:
         error_code = H5Eclose_msg(handle_);
         break;

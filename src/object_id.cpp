@@ -53,8 +53,8 @@ std::ostream & operator<<(std::ostream &os, const ObjectId& p)
 bool ObjectId::operator== (const ObjectId& other) const
 {
   return (
-        (file_name_ == other.file_name_) &&
-//        (file_num_ == other.file_num_) &&
+//        (file_name_ == other.file_name_) &&
+        (file_num_ == other.file_num_) &&
         (obj_addr_ == other.obj_addr_)
         );
 }
@@ -67,8 +67,8 @@ bool ObjectId::operator!= (const ObjectId &other) const
 bool ObjectId::operator< (const ObjectId& other) const
 {
   return (
-        (file_name_ < other.file_name_) &&
-//        (file_num_ < other.file_num_) &&
+//        (file_name_ < other.file_name_) &&
+        (file_num_ < other.file_num_) &&
         (obj_addr_ < other.obj_addr_)
         );
 }

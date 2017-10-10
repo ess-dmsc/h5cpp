@@ -26,6 +26,7 @@
 #define BOOST_TEST_MODULE testing file creation function
 #include <boost/test/unit_test.hpp>
 #include <h5cpp/file/functions.hpp>
+#include <h5cpp/node/group.hpp>
 #include <boost/filesystem.hpp>
 
 using namespace hdf5;
@@ -59,6 +60,18 @@ BOOST_AUTO_TEST_SUITE(FileCreation_test)
 
 BOOST_AUTO_TEST_CASE(test_default)
 {
+  file::File f;
+  BOOST_CHECK_THROW(f.intent(),std::runtime_error);
+  BOOST_CHECK_THROW(f.size(),std::runtime_error);
+  BOOST_CHECK_THROW(f.flush(file::Scope::GLOBAL),std::runtime_error);
+  BOOST_CHECK_THROW(f.flush(file::Scope::LOCAL),std::runtime_error);
+  BOOST_CHECK_THROW(f.count_open_objects(file::SearchFlags::ALL),std::runtime_error);
+  BOOST_CHECK_THROW(f.root(),std::runtime_error);
+  BOOST_CHECK_NO_THROW(f.close());
+}
+
+BOOST_AUTO_TEST_CASE(test_no_truncate)
+{
   file::File f = file::create(fs::path("./test1.h5"));
   BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::READWRITE);
   f.close();
@@ -76,6 +89,33 @@ BOOST_AUTO_TEST_CASE(test_truncation)
   //should work
   BOOST_CHECK_NO_THROW(file::create("./test2.h5",file::AccessFlags::TRUNCATE));
 }
+
+BOOST_AUTO_TEST_SUITE(FileIdTest)
+
+//testing a situation where we have two individual files open
+//
+BOOST_AUTO_TEST_CASE(test_same_file_ro)
+{
+  file::create("test1.h5",file::AccessFlags::TRUNCATE);
+  file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
+  file::File f2 = file::open("test1.h5",file::AccessFlags::READONLY);
+
+  BOOST_CHECK(f1.id()==f2.id());
+}
+
+BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
+{
+  file::create("test1.h5",file::AccessFlags::TRUNCATE);
+
+  boost::filesystem::create_symlink("test1.h5", "test1_link.h5");
+  file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
+  file::File f2 = file::open("test1_link.h5",file::AccessFlags::READONLY);
+
+  BOOST_CHECK(f1.id()==f2.id());
+  boost::filesystem::remove("test1_link.h5");
+}
+
+BOOST_AUTO_TEST_SUITE_END()
 
 
 BOOST_AUTO_TEST_SUITE_END()
