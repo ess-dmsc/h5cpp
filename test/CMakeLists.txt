@@ -6,6 +6,11 @@ include(${PROJECT_SOURCE_DIR}/cmake/BoostTestLogConfig.cmake)
 add_library(test_common OBJECT fixture.cpp)
 target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
 
+add_executable(object_id_test object_id_test.cpp)
+target_link_libraries(object_id_test h5cpp_shared Boost::unit_test_framework)
+add_logging_test("hdf5::ObjectId"
+                 object_id_test
+                 ${WORKING_DIRECTORY})
 
 add_subdirectory(ObjectHandle)
 add_subdirectory(property)
