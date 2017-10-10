@@ -20,19 +20,18 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 07, 2017
 //
-#pragma once
-#include "../fixture.hpp"
 
+#include <h5cpp/hdf5.hpp>
+#include <iostream>
 
-struct AttributeFixture : public Fixture
+using namespace hdf5;
+
+int main()
 {
-    AttributeFixture();
+  file::File f = file::create("basic_files.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = f.root();
 
-};
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
-};
+}

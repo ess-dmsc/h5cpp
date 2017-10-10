@@ -53,6 +53,24 @@ BOOST_AUTO_TEST_CASE(test_equality_operator)
   BOOST_CHECK(g != g2);
 }
 
+BOOST_AUTO_TEST_CASE(test_remove_node)
+{
+  nd::Group f = file.root();
+
+  f.create_group("group");
+  BOOST_CHECK(f.exists("group"));
+  BOOST_CHECK_NO_THROW(nd::remove(f, Path("group")));
+  BOOST_CHECK(!f.exists("group"));
+
+  BOOST_CHECK_THROW(nd::remove(f, Path("group")), std::runtime_error);
+
+  auto g = f.create_group("group2");
+  BOOST_CHECK(f.exists("group2"));
+  BOOST_CHECK_NO_THROW(nd::remove(g));
+  BOOST_CHECK(!f.exists("group2"));
+  BOOST_CHECK_THROW(nd::remove(g), std::runtime_error);
+}
+
 BOOST_AUTO_TEST_CASE(test_copy_node)
 {
   nd::Group f = file.root();
@@ -75,6 +93,27 @@ BOOST_AUTO_TEST_CASE(test_copy_node)
 
   //copying root does not work
   BOOST_CHECK_THROW(nd::copy(f, g2), std::runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(test_move_node)
+{
+  nd::Group f = file.root();
+  auto g1 = f.create_group("group_1");
+  auto gt = g1.create_group("target");
+  auto g2 = f.create_group("group_2");
+
+  BOOST_CHECK(g1.exists("target"));
+  BOOST_CHECK(!g2.exists("gt"));
+  BOOST_CHECK_NO_THROW(nd::move(gt, g2, Path("gt")));
+  BOOST_CHECK(!g1.exists("target"));
+  BOOST_CHECK(g2.exists("gt"));
+  BOOST_CHECK_THROW(nd::move(gt, g2, Path("gt")), std::runtime_error);
+
+  nd::Group gm = g2["gt"];
+  BOOST_CHECK_NO_THROW(nd::move(gm, g1));
+  BOOST_CHECK(g1.exists("gt"));
+  BOOST_CHECK(!g2.exists("gt"));
+  BOOST_CHECK_THROW(nd::move(gm, g1), std::runtime_error);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

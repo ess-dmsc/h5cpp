@@ -20,19 +20,58 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 08, 2017
 //
 #pragma once
-#include "../fixture.hpp"
 
+#include <h5cpp/hdf5.hpp>
+#include "image.hpp"
+#include "rgbpixel_h5.hpp"
 
-struct AttributeFixture : public Fixture
+namespace hdf5 {
+namespace datatype {
+
+template<typename PixelT>
+class TypeTrait<Image<PixelT>>
 {
-    AttributeFixture();
+  public:
+    using TypeClass = typename TypeTrait<PixelT>::TypeClass;
 
+    static TypeClass create()
+    {
+      return TypeTrait<PixelT>::create();
+    }
 };
 
-struct AttributeIterationFixture : public Fixture
+}
+}
+
+
+namespace hdf5 {
+namespace dataspace {
+
+template<typename PixelT>
+class TypeTrait<Image<PixelT>>
 {
-    AttributeIterationFixture();
+  public:
+    using DataspaceType = Simple;
+
+    static DataspaceType create(const Image<PixelT> &value)
+    {
+      return Simple(hdf5::Dimensions{value.ny(),value.nx()},
+                    hdf5::Dimensions{value.ny(),value.nx()});
+    }
+
+    static void *ptr(Image<PixelT> &value)
+    {
+      return reinterpret_cast<void*>(value.data());
+    }
+
+    static const void *cptr(const Image<PixelT> &value)
+    {
+      return reinterpret_cast<const void *>(value.data());
+    }
 };
+
+}
+}

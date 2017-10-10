@@ -57,7 +57,7 @@ class DLL_EXPORT Simple : public Dataspace
     //! \throws std::runtime_error in case of a failure
     //! \param space reference to a dataspace instance
     //!
-    explicit Simple(const Dataspace &space);
+    Simple(const Dataspace &space);
 
     //!
     //! \brief copy constructor

@@ -4,6 +4,7 @@ set(HEADERS datatype.hpp
 	        integer.hpp
 	        type_trait.hpp
 	        types.hpp
+	        compound.hpp
 	        )
 	       
 add_doxygen_source_deps(${HEADERS})

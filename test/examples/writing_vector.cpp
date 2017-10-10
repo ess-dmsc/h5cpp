@@ -20,43 +20,27 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Oct 07, 2017
 //
-#pragma once
+#include <h5cpp/hdf5.hpp>
+#include <iostream>
+#include <vector>
 
-#include "object_handle.hpp"
-#include "attribute.hpp"
-#include "container_iterator.hpp"
+using namespace hdf5;
 
-namespace hdf5 {
+using data_type = std::vector<int>;
 
-class AttributeView
+int main()
 {
-  public:
-    using value_type = Attribute;
-    using const_iterator= ContainerIterator<const AttributeView>;
+  file::File f = file::create("writing_vector.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = f.root();
+
+  data_type data{1,2,3,4};
+  node::Dataset dataset = root_group.create_dataset("data",datatype::create<data_type>(),
+                                                    dataspace::create(data));
+  dataset.write(data);
+
+  return 0;
+}
 
 
-    AttributeView(ObjectHandle &handle);
-
-    value_type create(const std::string &name);
-
-    value_type operator[](size_t index) const;
-    value_type operator[](const std::string &name) const;
-
-    size_t size() const;
-    bool exists(const std::string &name) const;
-    void remove(const std::string &name) const;
-    void remove(size_t index) const;
-
-
-    const_iterator begin() const;
-    const_iterator end() const;
-
-  private:
-    ObjectHandle &handle_;
-
-
-};
-
-} // namespace hdf5

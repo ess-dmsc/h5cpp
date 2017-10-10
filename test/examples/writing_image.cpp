@@ -20,19 +20,36 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 07, 2017
 //
-#pragma once
-#include "../fixture.hpp"
+#include <h5cpp/hdf5.hpp>
+#include <iostream>
+#include <complex>
+#include "rgbpixel.hpp"
+#include "image.hpp"
+#include "image_h5.hpp"
 
+using namespace hdf5;
 
-struct AttributeFixture : public Fixture
+using RGBImage = Image<RGBPixel>;
+
+int main()
 {
-    AttributeFixture();
+  file::File f = file::create("writing_image.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = f.root();
 
-};
+  RGBImage image(2,3);
+  image(0,0) = RGBPixel(0,0,0);
+  image(0,1) = RGBPixel(0,0,255);
+  image(0,2) = RGBPixel(0,255,0);
+  image(1,0) = RGBPixel(255,0,0);
+  image(1,1) = RGBPixel(255,255,0);
+  image(1,2) = RGBPixel(255,255,255);
+  node::Dataset dataset = root_group.create_dataset("mona_lisa",datatype::create<RGBImage>(),
+                                                    dataspace::create(image));
+  dataset.write(image);
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
-};
+  return 0;
+}
+
+

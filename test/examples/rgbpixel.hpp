@@ -20,19 +20,30 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Sep 14, 2017
 //
 #pragma once
-#include "../fixture.hpp"
 
+#include <cstdint>
 
-struct AttributeFixture : public Fixture
+class RGBPixel
 {
-    AttributeFixture();
+  private:
+   std::uint8_t red_;
+   std::uint8_t green_;
+   std::uint8_t blue_;
+  public:
+   RGBPixel();
+   RGBPixel(std::uint8_t red,std::uint8_t green,std::uint8_t blue);
+   RGBPixel(const RGBPixel &)=default;
 
-};
+   std::uint8_t red() const;
+   void red(std::uint8_t value);
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
+   std::uint8_t blue() const;
+   void blue(std::uint8_t value);
+
+   std::uint8_t green() const;
+   void green(std::uint8_t value);
+
 };

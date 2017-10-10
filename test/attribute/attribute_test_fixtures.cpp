@@ -31,22 +31,6 @@
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-Fixture::Fixture(const fs::path &file_path):
-    file(),
-    root_group()
-
-{
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-
-  fcpl.link_creation_order(property::CreationOrder().enable_indexed());
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-
-  file = file::create(file_path,file::AccessFlags::TRUNCATE,fcpl,fapl);
-  root_group = file.root();
-}
-
 
 AttributeFixture::AttributeFixture():
     Fixture("AttributeTest.h5")
