@@ -86,3 +86,4 @@
 #include "property/object_creation_list.hpp"
 #include "property/string_creation_list.hpp"
 #include "property/type_creation_list.hpp"
+#include "property/object_copy_list.hpp"
