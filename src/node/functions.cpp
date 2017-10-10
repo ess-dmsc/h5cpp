@@ -28,7 +28,9 @@
 namespace hdf5 {
 namespace node {
 
-void copy(const Node &source, const Group& base, const Path &rel_path)
+void copy(const Node &source, const Group& base, const Path &rel_path,
+          const property::ObjectCopyList &ocpl,
+          const property::LinkCreationList &lcpl)
 {
   //what if rel_path is actually absolute?
   if (base.links.exists(static_cast<std::string>(rel_path)))
@@ -43,7 +45,8 @@ void copy(const Node &source, const Group& base, const Path &rel_path)
                   source.link().path().back().c_str(),        //object name
                   static_cast<hid_t>(base),                   //destination parent
                   static_cast<std::string>(rel_path).c_str(), //destination name
-                  0, 0))
+                  static_cast<hid_t>(ocpl),                   //object copy property list
+                  static_cast<hid_t>(lcpl)))                  //link creation property list
   {
     std::stringstream ss;
     ss << "node::copy failed. Could not copy "
@@ -53,7 +56,9 @@ void copy(const Node &source, const Group& base, const Path &rel_path)
   }
 }
 
-void copy(const Node &source, const Group& destination)
+void copy(const Node &source, const Group& destination,
+          const property::ObjectCopyList &ocpl,
+          const property::LinkCreationList &lcpl)
 {
   //what if rel_path is actually absolute?
   auto name = source.link().path().back(); //this feels awkward
@@ -69,7 +74,8 @@ void copy(const Node &source, const Group& destination)
                   name.c_str(),                               //object name
                   static_cast<hid_t>(destination),            //destination parent
                   name.c_str(),                               //...same name
-                  0, 0))
+                  static_cast<hid_t>(ocpl),                   //object copy property list
+                  static_cast<hid_t>(lcpl)))                  //link creation property list
   {
     std::stringstream ss;
     ss << "node::copy failed. Could not copy "

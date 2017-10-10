@@ -20,19 +20,33 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 08, 2017
 //
 #pragma once
-#include "../fixture.hpp"
 
+#include <h5cpp/hdf5.hpp>
+#include "rgbpixel.hpp"
 
-struct AttributeFixture : public Fixture
+namespace hdf5 {
+namespace datatype {
+
+template<>
+class TypeTrait<RGBPixel>
 {
-    AttributeFixture();
+  public:
+    using TypeClass = Compound;
 
+    static TypeClass create()
+    {
+
+      datatype::Compound type(sizeof(RGBPixel));
+      type.insert("red",0,datatype::create<std::uint8_t>());
+      type.insert("green",1,datatype::create<std::uint8_t>());
+      type.insert("blue",2,datatype::create<std::uint8_t>());
+
+      return type;
+    }
 };
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
-};
+}
+}

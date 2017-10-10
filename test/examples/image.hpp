@@ -20,19 +20,46 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Sep 14, 2017
 //
 #pragma once
-#include "../fixture.hpp"
+#include <iostream>
+#include <vector>
+#include <cstdint>
 
-
-struct AttributeFixture : public Fixture
+template<typename PixelT>
+class Image
 {
-    AttributeFixture();
+  private:
+    size_t ny_;
+    size_t nx_;
+    std::vector<PixelT> data_;
+  public:
+    Image():
+      ny_(0),
+      nx_(0),
+      data_()
+    {}
 
-};
+    Image(size_t ny,size_t nx):
+      ny_(ny),
+      nx_(nx),
+      data_(nx*ny)
+    {}
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
+    const PixelT &operator()(size_t i,size_t j) const
+    {
+       return data_[i*nx_+j];
+    }
+
+    PixelT &operator()(size_t i,size_t j)
+    {
+      return data_[i*nx_+j];
+    }
+
+    size_t size() const        { return nx()*ny(); }
+    size_t nx() const          { return nx_; }
+    size_t ny() const          { return ny_; }
+    PixelT *data()             { return data_.data(); }
+    const PixelT *data() const { return data_.data(); }
 };

@@ -20,19 +20,33 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 08, 2017
 //
-#pragma once
-#include "../fixture.hpp"
+#include "fixture.hpp"
+#include <h5cpp/property/file_creation_list.hpp>
+#include <h5cpp/property/file_access_list.hpp>
+#include <h5cpp/file/functions.hpp>
 
+using namespace hdf5;
+namespace fs = boost::filesystem;
 
-struct AttributeFixture : public Fixture
+Fixture::Fixture(const fs::path &file_path):
+    file(),
+    root_group()
+
 {
-    AttributeFixture();
+  property::FileCreationList fcpl;
+  property::FileAccessList fapl;
 
-};
+  fcpl.link_creation_order(property::CreationOrder().enable_indexed());
+  fapl.library_version_bounds(property::LibVersion::LATEST,
+                              property::LibVersion::LATEST);
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
-};
+  file = file::create(file_path,file::AccessFlags::TRUNCATE,fcpl,fapl);
+  root_group = file.root();
+}
+
+Fixture::~Fixture()
+{}
+
+

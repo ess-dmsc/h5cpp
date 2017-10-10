@@ -20,19 +20,56 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 08, 2017
 //
-#pragma once
-#include "../fixture.hpp"
 
+#include "rgbpixel.hpp"
 
-struct AttributeFixture : public Fixture
+RGBPixel::RGBPixel():
+ red_(0),
+ green_(0),
+ blue_(0)
+{}
+
+RGBPixel::RGBPixel(std::uint8_t red,std::uint8_t green,std::uint8_t blue ):
+    red_(red),
+    green_(green),
+    blue_(blue)
+{}
+
+std::uint8_t RGBPixel::red() const
 {
-    AttributeFixture();
+  return red_;
+}
 
-};
-
-struct AttributeIterationFixture : public Fixture
+void RGBPixel::red(std::uint8_t value)
 {
-    AttributeIterationFixture();
-};
+  red_ = value;
+}
+
+
+std::uint8_t RGBPixel::green() const
+{
+  return green_;
+}
+
+void RGBPixel::green(std::uint8_t value)
+{
+  green_ = value;
+}
+
+
+std::uint8_t RGBPixel::blue() const
+{
+  return blue_;
+}
+
+void RGBPixel::blue(std::uint8_t value)
+{
+  blue_ = value;
+}
+
+
+
+
+

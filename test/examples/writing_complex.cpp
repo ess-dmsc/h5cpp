@@ -20,19 +20,28 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 07, 2017
 //
-#pragma once
-#include "../fixture.hpp"
+#include <h5cpp/hdf5.hpp>
+#include <iostream>
+#include <complex>
+#include "complex.hpp"
 
+using namespace hdf5;
 
-struct AttributeFixture : public Fixture
+using data_type = std::complex<double>;
+
+int main()
 {
-    AttributeFixture();
+  file::File f = file::create("writing_complex.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = f.root();
 
-};
+  data_type data(1.2,-3.4231);
+  node::Dataset dataset = root_group.create_dataset("data",datatype::create<data_type>(),
+                                                    dataspace::Scalar());
+  dataset.write(data);
 
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
-};
+  return 0;
+}
+
+

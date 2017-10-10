@@ -20,19 +20,41 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 07, 2017
 //
 #pragma once
-#include "../fixture.hpp"
+#include <complex>
+#include <h5cpp/hdf5.hpp>
 
+namespace hdf5 {
+namespace datatype {
 
-struct AttributeFixture : public Fixture
+template<typename BT>
+struct complex_t
 {
-    AttributeFixture();
-
+    BT real;
+    BT imag;
 };
 
-struct AttributeIterationFixture : public Fixture
+template<typename T>
+class TypeTrait<std::complex<T>>
 {
-    AttributeIterationFixture();
+  private:
+    using complex_type = complex_t<T>;
+  public:
+    using TypeClass = Compound;
+
+    static TypeClass create()
+    {
+
+      datatype::Compound type(sizeof(complex_type));
+      type.insert("real",HOFFSET(complex_type,real),datatype::create<T>());
+      type.insert("imag",HOFFSET(complex_type,imag),datatype::create<T>());
+
+      return type;
+    }
 };
+
+}
+}
+

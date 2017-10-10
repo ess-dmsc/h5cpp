@@ -30,6 +30,7 @@
 #include "../path.hpp"
 #include "../property/link_creation_list.hpp"
 #include "../property/link_access_list.hpp"
+#include "../property/object_copy_list.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -55,9 +56,13 @@ namespace node {
 //! \param destination the destination group where the new copy will be stored
 //! \throws std::runtime_error in case of a failure
 //!
-void copy(const Node &source, const Group &destination);
+void copy(const Node &source, const Group &destination,
+          const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
+          const property::LinkCreationList &lcpl = property::LinkCreationList());
 
-void copy(const Node &source, const Group &base, const Path &rel_path);
+void copy(const Node &source, const Group &base, const Path &rel_path,
+          const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
+          const property::LinkCreationList &lcpl = property::LinkCreationList());
 
 //!
 //! \brief move an object
