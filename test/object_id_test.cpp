@@ -34,7 +34,7 @@
 
   file_number:
      not equal if same file closed and reopened
-     identified the file that owns object, not owner of link (in case of ext link)
+     identifies the file that owns object, not owner of link (in case of ext link)
 
   file_name:
      not equal if file opened via symbolic link (h5 allows opening same file twice)
