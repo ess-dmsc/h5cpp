@@ -125,3 +125,10 @@ Boost::unit_test_framework Boost::system)
 add_logging_test("hdf5::property::DatasetTransferList"
                  property_dataset_transfer_list_test
                  ${WORKING_DIRECTORY}) 
+
+add_executable(property_object_copy_list_test object_copy_list_test.cpp)
+target_link_libraries(property_object_copy_list_test h5cpp_shared 
+Boost::unit_test_framework Boost::system)
+add_logging_test("hdf5::property::ObjectCopyList"
+                 property_object_copy_list_test
+                 ${WORKING_DIRECTORY}) 
