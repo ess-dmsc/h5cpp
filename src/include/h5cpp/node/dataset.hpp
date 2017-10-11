@@ -156,74 +156,62 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \brief write entire dataset
     //!
+    //! Write the entire dataset from an instance of T.
+    //!
+    //! \throws std::runtime_error in caes of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param dtpl reference to a dataset transfer property list
+    //!
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
-                                   property::DatasetTransferList()) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::datatype::create(data);
-      dataspace::Dataspace file_space = dataspace::Dataspace(
-          ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+                                   property::DatasetTransferList()) const;
 
-      write(data,memory_type,memory_space,file_space,dtpl);
-    }
-//
-//    //!
-//    //! \brief read entire dataset
-//    //!
+    //!
+    //! \brief read entire dataset
+    //!
+    //! Read the entire data from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failre
+    //! \tparam T destination type
+    //! \param data reference to the destination
+    //! \param dtpl reference to a dataset transfer property list
+    //!
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
-                            property::DatasetTransferList()) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::datatype::create(data);
-      dataspace::Dataspace file_space = dataspace::Dataspace(
-          ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+                            property::DatasetTransferList()) const;
 
-      read(data,memory_type,memory_space,file_space,dtpl);
-
-    }
-
+    //!
+    //! \brief write data to a selection
+    //!
+    //! Write data from an instance of T to a selection of the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T type of the source
+    //! \param data reference to the source
+    //! \param selection reference to the selection
+    //! \param dtpl reference to a dataset transfer property list
+    //!
     template<typename T>
     void write(const T &data,const dataspace::Selection &selection,
-               const property::DatasetTransferList &dtpl = property::DatasetTransferList()) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::datatype::create(data);
+               const property::DatasetTransferList &dtpl =
+                   property::DatasetTransferList()) const;
 
-      dataspace::Dataspace file_space = dataspace();
-      file_space.selection(dataspace::SelectionOperation::SET,selection);
-      write(data,memory_type,memory_space,file_space,dtpl);
-    }
-
+    //!
+    //! \brief reading data from a selection
+    //!
+    //! Reading data to an instance of T from a selection of a dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T type of the destination object
+    //! \param data reference to the destination object
+    //! \param selection reference to the selection
+    //! \param dtpl reference to a dataset transfer property list
+    //!
     template<typename T>
     void read(T &data,const dataspace::Selection &selection,
-              const property::DatasetTransferList &dtpl = property::DatasetTransferList()) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::dataspace::create(data);
-
-      dataspace::Dataspace file_space = dataspace();
-      file_space.selection(dataspace::SelectionOperation::SET,selection);
-
-      read(data,memory_type,memory_space,file_space,dtpl);
-
-    }
-//
-//    //!
-//    //! \brief
-//    //!
-//    template<typename T>
-//    void write(const Dataspace &filespace,const T &data) const
-//    {
-//
-//    }
-//
-//    template<typename T>
-//    void write(const Dataspace &filespace,const Dataspace &memspace, const T &data);
-//
-//    template<typename T>
-//    void write(const Selection &file_selection,const T &data) const;
+              const property::DatasetTransferList &dtpl =
+                  property::DatasetTransferList()) const;
 
 };
 
@@ -266,15 +254,54 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
   }
 }
 
+template<typename T>
+void Dataset::read(T &data,const dataspace::Selection &selection,
+                   const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
 
+  dataspace::Dataspace file_space = dataspace();
+  file_space.selection(dataspace::SelectionOperation::SET,selection);
 
-//ds.push_back(data);
-//
-//std::vector<double> data(4);
-//ds.write(Points{{2},{3},{10},{56}},data);
-//
-//ds.write(Hyperslab{{3},{6}},data)
+  read(data,memory_type,memory_space,file_space,dtpl);
 
+}
+
+template<typename T>
+void Dataset::write(const T &data,const dataspace::Selection &selection,
+                    const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+
+  dataspace::Dataspace file_space = dataspace();
+  file_space.selection(dataspace::SelectionOperation::SET,selection);
+  write(data,memory_type,memory_space,file_space,dtpl);
+}
+
+template<typename T>
+void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  dataspace::Dataspace file_space = dataspace::Dataspace(
+      ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+
+  read(data,memory_type,memory_space,file_space,dtpl);
+
+}
+
+template<typename T>
+void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  dataspace::Dataspace file_space = dataspace::Dataspace(
+      ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+
+  write(data,memory_type,memory_space,file_space,dtpl);
+}
 
 
 } // namespace node
