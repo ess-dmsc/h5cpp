@@ -126,6 +126,14 @@ BOOST_AUTO_TEST_CASE(test_sanitization)
   BOOST_CHECK_EQUAL(static_cast<string>(p),"../..");
 }
 
+BOOST_AUTO_TEST_CASE(relative_to)
+{
+  Path p1("a/b/c/d/e");
+  Path p2("a/b/c/x/y");
+  auto p = p1.relative_to(p2);
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"../../d/e");
+}
+
 BOOST_AUTO_TEST_CASE(test_conversion_from_list)
 {
   list<string> l{"entry","instrument","detector"};

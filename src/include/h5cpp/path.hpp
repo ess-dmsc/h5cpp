@@ -147,6 +147,8 @@ class DLL_EXPORT Path
 
     void append(const Path& p);
 
+    Path relative_to(const Path& base) const;
+
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
 
   private:

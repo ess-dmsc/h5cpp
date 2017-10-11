@@ -215,6 +215,35 @@ bool Path::is_root() const
     return false;
 }
 
+Path Path::relative_to(const Path &base) const
+{
+  if (base.is_absolute() && !is_absolute())
+    return *this;
+  if (!base.is_absolute() && is_absolute())
+    return *this;
+  auto mylist = link_names_.begin();
+  auto baselist = base.link_names_.begin();
+  while ((mylist != link_names_.end()) &&
+         (baselist != base.link_names_.end()) &&
+         (*baselist == *mylist))
+  {
+    ++mylist;
+    ++baselist;
+  }
+  Path ret;
+  while (baselist != base.link_names_.end())
+  {
+    ret.link_names_.push_back(PARENT_DIR_STR);
+    ++baselist;
+  }
+  while (mylist != link_names_.end())
+  {
+    ret.link_names_.push_back(*mylist);
+    ++mylist;
+  }
+  return ret;
+}
+
 void Path::append(const Path& p)
 {
   std::copy(p.link_names_.begin(),
