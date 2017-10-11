@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
 {
   hdf5::Path p;
   BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(!p.is_absolute_path());
+  BOOST_CHECK(!p.is_absolute());
 
 }
 
@@ -41,15 +41,15 @@ BOOST_AUTO_TEST_CASE(test_construction_from_string)
 {
   hdf5::Path p("/hello/world/data");
   BOOST_CHECK_EQUAL(p.size(),3);
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
 
   p = hdf5::Path("hello/world");
   BOOST_CHECK_EQUAL(p.size(),2);
-  BOOST_CHECK(!p.is_absolute_path());
+  BOOST_CHECK(!p.is_absolute());
 
   p = hdf5::Path("hello/world/instrument/data/");
   BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(!p.is_absolute_path());
+  BOOST_CHECK(!p.is_absolute());
 }
 
 BOOST_AUTO_TEST_CASE(test_conversion_to_string)
@@ -79,13 +79,13 @@ BOOST_AUTO_TEST_CASE(test_append_link_name)
   p = p+"data";
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
   BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
 
   p = hdf5::Path("instrument/detector");
   p = p + "metadata/date";
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"instrument/detector/metadata/date");
   BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(!p.is_absolute_path());
+  BOOST_CHECK(!p.is_absolute());
 }
 
 BOOST_AUTO_TEST_CASE(test_prepend_link_name)
@@ -93,17 +93,17 @@ BOOST_AUTO_TEST_CASE(test_prepend_link_name)
   hdf5::Path p("instrument/detector");
   p = "/entry" + p;
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector");
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
 
   p = hdf5::Path("detector/data");
   p = "/entry/instrument/" + p;
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
 
   p = hdf5::Path("entry/instrument");
   p = "/" + p;
   BOOST_CHECK_EQUAL(p.size(),2);
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
 }
 
 BOOST_AUTO_TEST_CASE(test_adding_two_paths)
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE(test_adding_two_paths)
   hdf5::Path p1("/entry/instrument"), p2("detector/data");
   hdf5::Path p = p1+p2;
   BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
 }
 
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(test_root_path)
 {
   hdf5::Path p("/");
   BOOST_CHECK(p.is_root());
-  BOOST_CHECK(p.is_absolute_path());
+  BOOST_CHECK(p.is_absolute());
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/");
 }
 
@@ -146,21 +146,24 @@ BOOST_AUTO_TEST_CASE(test_back)
 BOOST_AUTO_TEST_CASE(test_object_name)
 {
   hdf5::Path p("hello/world");
-  BOOST_CHECK_EQUAL(hdf5::Path::object_name(p),"world");
+  BOOST_CHECK_EQUAL(p.name(),"world");
 
   p = hdf5::Path("/");
   BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(hdf5::Path::object_name(p),"/");
+  BOOST_CHECK_EQUAL(p.name(),"");
 }
 
 BOOST_AUTO_TEST_CASE(test_parent_path)
 {
   hdf5::Path p("hello/world");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"hello");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p.parent()),"hello");
+
+  p = hdf5::Path("/hello/world");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p.parent()),"/hello");
 
   p = hdf5::Path("/");
   BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"/");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p.parent()),"/");
 }
 
 BOOST_AUTO_TEST_CASE(test_path_equality)

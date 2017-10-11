@@ -94,7 +94,7 @@ void Path::from_string(const std::string &str)
 std::string Path::to_string() const
 {
   std::string result;
-  if(is_absolute_path())
+  if(is_absolute())
     result = "/";
 
   for(auto iter = link_names_.begin();iter!=link_names_.end();iter++)
@@ -188,19 +188,19 @@ Path::value_type Path::pop_back()
   return result;
 }
 
-bool Path::is_absolute_path() const noexcept
+bool Path::is_absolute() const noexcept
 {
   return absolute_;
 }
 
-void Path::is_absolute_path(bool v) noexcept
+void Path::set_absolute(bool v) noexcept
 {
   absolute_ = v;
 }
 
 bool Path::is_root() const
 {
-  if(is_absolute_path() && link_names_.empty())
+  if(is_absolute() && link_names_.empty())
     return true;
   else
     return false;
@@ -214,7 +214,7 @@ Path operator+(const std::string &link_name,const Path &path)
     return result;
 
   if(is_absolute_path_string(link_name))
-      result.is_absolute_path(true);
+      result.set_absolute(true);
 
   if(link_name.size()==1) return result;
 
@@ -263,22 +263,22 @@ Path::value_type Path::back() const
   return link_names_.back();
 }
 
-std::string Path::object_name(const Path &path)
+std::string Path::name() const
 {
-  if(path.is_root())
-    return "/";
-
-  return path.back();
+  if (link_names_.size())
+    return link_names_.back();
+  return "";
 }
 
-Path Path::parent_path(const Path &path)
+Path Path::parent() const
 {
-  if(path.is_root())
-    return path;
+  if(is_root())
+    return *this;
 
-  Path p(path);
+  Path p(*this);
 
-  p.pop_back();
+  if (p.link_names_.size())
+    p.link_names_.pop_back();
   return p;
 }
 
