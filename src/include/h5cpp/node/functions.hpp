@@ -54,6 +54,8 @@ namespace node {
 //!
 //! \param source the source object to copy
 //! \param destination the destination group where the new copy will be stored
+//! \param ocpl optional reference to a object copy property list
+//! \param lcpl optional reference to a link creation property list
 //! \throws std::runtime_error in case of a failure
 //!
 void copy(const Node &source, const Group &destination,
@@ -76,6 +78,8 @@ void copy(const Node &source, const Group &base, const Path &rel_path,
 //!
 //! \param source reference to the object to move
 //! \param destination_group the new group where the object should be located
+//! \param lcpl optional reference to a link creation property list
+//! \param lapl optional reference to a link access property list
 //! \throws std::runtime_error in case of a failure
 //!
 //! \sa copy for the naming convention
