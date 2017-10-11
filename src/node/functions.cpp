@@ -153,6 +153,81 @@ void move(const Node &source,
   }
 }
 
+void link(const boost::filesystem::path &target_file,
+          const Path &target_path,
+          const Group &link_base,
+          const Path &link_path,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  auto base = link_base;
+  if (link_path.is_absolute_path())
+    base = link_base.link().file().root();
+  auto lpath = static_cast<std::string>(link_path);
+  if (link_base.links.exists(lpath))
+  {
+    std::stringstream ss;
+    ss << "node::link (external) failed. "
+       << base.link() << " / " << link_path << " already exists!";
+    throw std::runtime_error(ss.str());
+  }
+  if (0 > H5Lcreate_external(target_file.string().c_str(),
+                             static_cast<std::string>(target_path).c_str(),
+                             static_cast<hid_t>(base),
+                             lpath.c_str(),
+                             static_cast<hid_t>(lcpl),
+                             static_cast<hid_t>(lapl)))
+  {
+    std::stringstream ss;
+    ss << "node::link (external) failed. "
+       << link_base.link() << " / " << link_path
+       << " -> "
+       << target_file << " / " << target_path;
+    throw std::runtime_error(ss.str());
+  }
+}
+
+void link(const Node &target,
+          const Group &link_base,const Path &link_path,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  if (target.id().file_number() != link_base.id().file_number())
+  {
+    link(target.id().file_name(),
+         target.link().path(),
+         link_base, link_path, lcpl, lapl);
+  }
+  else
+  {
+    auto base = link_base;
+    if (link_path.is_absolute_path())
+      base = link_base.link().file().root();
+    auto lpath = static_cast<std::string>(link_path);
+    if (link_base.links.exists(lpath))
+    {
+      std::stringstream ss;
+      ss << "node::link (soft) failed. "
+         << base.link() << " / " << link_path << " already exists!";
+      throw std::runtime_error(ss.str());
+    }
+    if (0 > H5Lcreate_soft(
+          static_cast<std::string>(target.link().path()).c_str(),
+          static_cast<hid_t>(base),
+          lpath.c_str(),
+          static_cast<hid_t>(lcpl),
+          static_cast<hid_t>(lapl)))
+    {
+      std::stringstream ss;
+      ss << "node::link (soft) failed. "
+         << base.link() << " / " << link_path
+         << " -> "
+         << target.link();
+      throw std::runtime_error(ss.str());
+    }
+  }
+}
+
 } // namespace node
 } // namespace hdf5
 

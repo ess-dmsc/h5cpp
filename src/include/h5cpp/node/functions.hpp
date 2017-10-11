@@ -145,14 +145,13 @@ void remove(const Group &base,const Path &rel_path,
 //! to retrieve the root group of the specific file.
 //!
 //!
-//! \param target_base the base group for the target
-//! \param target_path the path to the target (either relative or absolute)
+//! \param target the target node (could also be path here?)
 //! \param link_base the base group for the link location
 //! \param link_path path to the new link (either relative or absolute)
 //! \param lcpl optional reference to a link creation property list
 //! \param lapl optional reference to a link access property list
 //!
-void link(const Group &target_base,const Path &target_path,
+void link(const Node &target,
           const Group &link_base,const Path &link_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
