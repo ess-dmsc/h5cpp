@@ -179,6 +179,20 @@ class DLL_EXPORT Dataset : public Node
       read(data,memory_type,memory_space,dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),dtpl);
 
     }
+
+    template<typename T>
+    void read(T &data,const dataspace::Selection &selection,
+              const property::DatasetTransferList &dtpl = property::DatasetTransferList()) const
+    {
+      auto memory_space = hdf5::dataspace::create(data);
+      auto memory_type  = hdf5::dataspace::create(data);
+
+      dataspace::Dataspace file_space = dataspace();
+      file_space.selection(dataspace::SelectionOperation::SET,selection);
+
+      read(data,memory_type,memory_space,file_space,dtpl);
+
+    }
 //
 //    //!
 //    //! \brief
