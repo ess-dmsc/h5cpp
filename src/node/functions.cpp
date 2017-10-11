@@ -161,7 +161,7 @@ void link(const boost::filesystem::path &target_file,
           const property::LinkAccessList &lapl)
 {
   auto base = link_base;
-  if (link_path.is_absolute_path())
+  if (link_path.is_absolute())
     base = link_base.link().file().root();
   auto lpath = static_cast<std::string>(link_path);
   if (link_base.links.exists(lpath))
@@ -201,7 +201,7 @@ void link(const Node &target,
   else
   {
     auto base = link_base;
-    if (link_path.is_absolute_path())
+    if (link_path.is_absolute())
       base = link_base.link().file().root();
     auto lpath = static_cast<std::string>(link_path);
     if (link_base.links.exists(lpath))
