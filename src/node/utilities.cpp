@@ -30,12 +30,6 @@ namespace node {
 
 bool is_valid_child_name(const std::string &name)
 {
-  if(name.find(".")!=std::string::npos)
-     return false;
-
-   if(name.find("..")!=std::string::npos)
-     return false;
-
    if(name.find("/")!=std::string::npos)
      return false;
 

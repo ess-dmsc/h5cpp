@@ -113,6 +113,51 @@ BOOST_AUTO_TEST_CASE(test_group_accessor)
   BOOST_CHECK_EQUAL(g1.id(), g["group_1"].id());
 }
 
+BOOST_AUTO_TEST_CASE(test_funky_names)
+{
+  auto f = file::create("funky_names.h5",file::AccessFlags::TRUNCATE);
+  node::Group g = f.root();
+
+  BOOST_CHECK_NO_THROW(g.create_group("s p a c e y"));
+  BOOST_CHECK(g.exists("s p a c e y"));
+
+  BOOST_CHECK_NO_THROW(g.create_group(" sp"));
+  BOOST_CHECK(g.exists(" sp"));
+
+  BOOST_CHECK_NO_THROW(g.create_group("sp "));
+  BOOST_CHECK(g.exists("sp "));
+
+  BOOST_CHECK_NO_THROW(g.create_group("sp"));
+  BOOST_CHECK(g.exists("sp"));
+
+  BOOST_CHECK_NO_THROW(g.create_group(" "));
+  BOOST_CHECK(g.exists(" "));
+
+  BOOST_CHECK_NO_THROW(g.create_group("  "));
+  BOOST_CHECK(g.exists("  "));
+
+  BOOST_CHECK_NO_THROW(g.create_group("d.o.t.s"));
+  BOOST_CHECK(g.exists("d.o.t.s"));
+
+  BOOST_CHECK_NO_THROW(g.create_group(".d.o.t"));
+  BOOST_CHECK(g.exists(".d.o.t"));
+
+  BOOST_CHECK_NO_THROW(g.create_group("d..t"));
+  BOOST_CHECK(g.exists("d..t"));
+
+  BOOST_CHECK_NO_THROW(g.create_group("..dt"));
+  BOOST_CHECK(g.exists("..dt"));
+
+  BOOST_CHECK_NO_THROW(g.create_group(".."));
+  BOOST_CHECK(g.exists(".."));
+
+//  BOOST_CHECK_NO_THROW(g.create_group("g/g2"));
+//  BOOST_CHECK_NO_THROW(g.create_group("./g/g3"));
+
+  BOOST_CHECK_THROW(g.create_group("."), std::exception);
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
 
 
