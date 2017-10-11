@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 
@@ -45,8 +47,22 @@ void sanitize(std::list<std::string>& list)
 {
   for (auto i = list.begin(); i != list.end();)
   {
-    if (*i == ".")
+    if ((*i == "."))
       i = list.erase(i);
+    else
+      ++i;
+  }
+
+  for (auto i = list.begin(); i != list.end();)
+  {
+    auto j = i; ++j;
+    if (j == list.end())
+      break;
+    if ((*i != PARENT_DIR_STR) && (*j == PARENT_DIR_STR))
+    {
+      i = list.erase(i);
+      i = list.erase(i);
+    }
     else
       ++i;
   }

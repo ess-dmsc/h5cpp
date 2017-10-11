@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #define BOOST_TEST_DYN_LINK
@@ -92,8 +94,8 @@ BOOST_AUTO_TEST_CASE(test_sanitization)
 {
   Path p;
 
-  p = Path("./hello/world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world");
+  p = Path("./hello");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello");
 
   p = Path("hello/world/.");
   BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world");
@@ -101,11 +103,14 @@ BOOST_AUTO_TEST_CASE(test_sanitization)
   p = Path("hello/./world");
   BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world");
 
-  p = Path("s p a c e y/  ");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"s p a c e y/  ");
+  p = Path(".././../world");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"../../world");
 
-  p = Path("d.o.t.s/...");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"d.o.t.s/...");
+  p = Path("hello/..");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),".");
+
+  p = Path("hello/../world");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"world");
 }
 
 
@@ -116,6 +121,15 @@ BOOST_AUTO_TEST_CASE(test_conversion_from_list)
   copy(l.begin(),l.end(),back_inserter(p));
   BOOST_CHECK_EQUAL(p.size(),3);
   BOOST_CHECK_EQUAL(static_cast<string>(p),"entry/instrument/detector");
+}
+
+BOOST_AUTO_TEST_CASE(test_adding_two_paths)
+{
+  Path p1("/entry/instrument"), p2("detector/data");
+  Path p = p1+p2;
+  BOOST_CHECK_EQUAL(p.size(),4);
+  BOOST_CHECK(p.is_absolute());
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
 }
 
 BOOST_AUTO_TEST_CASE(test_append_link_name)
@@ -149,15 +163,6 @@ BOOST_AUTO_TEST_CASE(test_prepend_link_name)
   p = "/" + p;
   BOOST_CHECK_EQUAL(p.size(),2);
   BOOST_CHECK(p.is_absolute());
-}
-
-BOOST_AUTO_TEST_CASE(test_adding_two_paths)
-{
-  Path p1("/entry/instrument"), p2("detector/data");
-  Path p = p1+p2;
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute());
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
 }
 
 BOOST_AUTO_TEST_CASE(test_root_path)
