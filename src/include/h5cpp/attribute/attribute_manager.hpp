@@ -29,6 +29,10 @@
 #include "../types.hpp"
 #include "../windows.hpp"
 #include "../iterator_config.hpp"
+#include "../datatype/factory.hpp"
+#include "../dataspace/scalar.hpp"
+#include "../dataspace/simple.hpp"
+#include "../property/attribute_creation_list.hpp"
 
 //
 // forward declarations
@@ -44,14 +48,15 @@ class Node;
 namespace hdf5 {
 namespace attribute {
 
+//forward declaration
+class AttributeIterator;
+
 class DLL_EXPORT AttributeManager
 {
   public:
     AttributeManager() = delete;
     AttributeManager(node::Node &node);
-    AttributeManager(const AttributeManager &manager);
-
-    AttributeManager &operator=(const AttributeManager &manager);
+    AttributeManager(const AttributeManager &manager) = default;
 
     //!
     //! \brief get attribute by index
@@ -80,7 +85,7 @@ class DLL_EXPORT AttributeManager
     //!
     //! \pre `index` must be < size()
     //!
-    void remove(size_t index) const
+    void remove(size_t index) const;
 
     //!
     //! \brief check existence
@@ -91,6 +96,15 @@ class DLL_EXPORT AttributeManager
     bool exists(const std::string &name) const;
 
     //!
+    //! \brief rename an attribute
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param old _name the old name of the attribute
+    //! \param the new name of the attribute
+    //!
+    void rename(const std::string &old_name,const std::string &new_name) const;
+
+    //!
     //! \brief create an attribute
     //!
     //! This is the most generic method to create attributes.
@@ -98,7 +112,9 @@ class DLL_EXPORT AttributeManager
     //!
     Attribute create(const std::string &name,
                      const datatype::Datatype &datatype,
-                     const dataspace::Dataspace &dataspace);
+                     const dataspace::Dataspace &dataspace,
+                     const property::AttributeCreationList &acpl =
+                           property::AttributeCreationList()) const;
 
     //!
     //! \brief create scalar attribute
@@ -112,7 +128,9 @@ class DLL_EXPORT AttributeManager
     //! \return instance of the newly created attribute
     //!
     template<typename T>
-    Attribute create(const std::string &name) const;
+    Attribute create(const std::string &name,
+                     const property::AttributeCreationList &acpl =
+                           property::AttributeCreationList()) const;
 
     //!
     //! \brief create a multidimensional attribute
@@ -127,10 +145,16 @@ class DLL_EXPORT AttributeManager
     //! \return instance of the newly created attribute
     //!
     template<typename T>
-    Attribute create(const std::string &name,const Dimensions &shape) const;
+    Attribute create(const std::string &name,const Dimensions &shape,
+                     const property::AttributeCreationList &acpl =
+                           property::AttributeCreationList()) const;
 
-    IteratorConfig &iterator_config();
-    const IteratorConfig &iterator_config() const;
+    IteratorConfig &iterator_config() noexcept;
+    const IteratorConfig &iterator_config() const noexcept;
+    const node::Node &node() const;
+
+    AttributeIterator begin() const;
+    AttributeIterator end() const;
 
   private:
     node::Node &node_;
@@ -138,6 +162,28 @@ class DLL_EXPORT AttributeManager
 
 
 };
+
+template<typename T>
+Attribute AttributeManager::create(const std::string &name,
+                                   const property::AttributeCreationList &acpl) const
+{
+  auto type = datatype::create<T>();
+  dataspace::Scalar space;
+
+  return this->create(name,type,space,acpl);
+}
+
+template<typename T>
+Attribute AttributeManager::create(const std::string &name,
+                                   const Dimensions &shape,
+                                   const property::AttributeCreationList &acpl) const
+{
+  auto type = datatype::create<T>();
+  dataspace::Simple space(shape);
+
+  return create(name,type,space,acpl);
+
+}
 
 } // namespace attribute
 } // namespace hdf5

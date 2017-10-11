@@ -54,7 +54,7 @@ std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
 
 IteratorConfig::IteratorConfig():
     order_(IterationOrder::NATIVE),
-    index_(IterationIndex::CREATION_ORDER),
+    index_(IterationIndex::NAME),
     lapl_(property::LinkAccessList())
 {}
 

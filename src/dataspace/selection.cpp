@@ -29,8 +29,6 @@
 namespace hdf5 {
 namespace dataspace {
 
-Selection::Selection()
-{}
 
 Selection::~Selection()
 {}

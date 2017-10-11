@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,43 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Created on: Sep 25, 2017
 //
-#pragma once
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE testing the Link class implementation
+#include <boost/test/unit_test.hpp>
+#include <h5cpp/node/link.hpp>
 
-#include "object_handle.hpp"
-#include "attribute.hpp"
-#include "container_iterator.hpp"
+using namespace hdf5;
 
-namespace hdf5 {
+BOOST_AUTO_TEST_SUITE(link_test)
 
-class AttributeView
+BOOST_AUTO_TEST_CASE(test_default_construction)
 {
-  public:
-    using value_type = Attribute;
-    using const_iterator= ContainerIterator<const AttributeView>;
+  node::Link link;
+  BOOST_CHECK_EQUAL(link.type(),node::LinkType::ERROR);
+}
 
-
-    AttributeView(ObjectHandle &handle);
-
-    value_type create(const std::string &name);
-
-    value_type operator[](size_t index) const;
-    value_type operator[](const std::string &name) const;
-
-    size_t size() const;
-    bool exists(const std::string &name) const;
-    void remove(const std::string &name) const;
-    void remove(size_t index) const;
-
-
-    const_iterator begin() const;
-    const_iterator end() const;
-
-  private:
-    ObjectHandle &handle_;
-
-
-};
-
-} // namespace hdf5
+BOOST_AUTO_TEST_SUITE_END()

@@ -30,6 +30,7 @@
 #include "../path.hpp"
 #include "../property/link_creation_list.hpp"
 #include "../property/link_access_list.hpp"
+#include "../property/object_copy_list.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -53,11 +54,17 @@ namespace node {
 //!
 //! \param source the source object to copy
 //! \param destination the destination group where the new copy will be stored
+//! \param ocpl optional reference to a object copy property list
+//! \param lcpl optional reference to a link creation property list
 //! \throws std::runtime_error in case of a failure
 //!
-void copy(const Node &source,const Group &destination)
+void copy(const Node &source, const Group &destination,
+          const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
+          const property::LinkCreationList &lcpl = property::LinkCreationList());
 
-void copy(const Node &source,const Group &base,const Path &rel_path);
+void copy(const Node &source, const Group &base, const Path &rel_path,
+          const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
+          const property::LinkCreationList &lcpl = property::LinkCreationList());
 
 //!
 //! \brief move an object
@@ -71,14 +78,20 @@ void copy(const Node &source,const Group &base,const Path &rel_path);
 //!
 //! \param source reference to the object to move
 //! \param destination_group the new group where the object should be located
+//! \param lcpl optional reference to a link creation property list
+//! \param lapl optional reference to a link access property list
+//! \throws std::runtime_error in case of a failure
 //!
 //! \sa copy for the naming convention
 //!
-void move(const Node &source,const Group &destination_group,
+void move(const Node &source,
+          const Group &destination_base,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
-void move(const Node &source,const Group &destination_base,const Path &rel_path,
+void move(const Node &source,
+          const Group &destination_base,
+          const Path &destination_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
@@ -100,8 +113,10 @@ void move(const Node &source,const Group &destination_base,const Path &rel_path,
 //! \param object the object which to remove
 //!
 //! \pre `object` must be a valid HDF5 object instance
+//! \param lapl optional reference to a link access property list
 //!
-void remove(const Node &object);
+void remove(const Node &object,
+            const property::LinkAccessList &lapl = property::LinkAccessList());
 
 //!
 //! \brief remove an object relative to a base group
@@ -110,12 +125,14 @@ void remove(const Node &object);
 //! rel_path must be a relative path otherwise an exception is thrown.
 //!
 //! \throws std::runtime_error in case of a failure
-//! \brief base group relative to which the link or object resides
-//! \brief rel_path path relative to base determining the link or object to remove
+//! \param base group relative to which the link or object resides
+//! \param rel_path path relative to base determining the link or object to remove
+//! \param lapl optional reference to a link access property list
 //!
 //! \sa remove(const Node &node)
 //!
-void remove(const Group &base,const Path &rel_path);
+void remove(const Group &base,const Path &rel_path,
+            const property::LinkAccessList &lapl = property::LinkAccessList());
 
 
 //!
@@ -132,14 +149,13 @@ void remove(const Group &base,const Path &rel_path);
 //! to retrieve the root group of the specific file.
 //!
 //!
-//! \param target_base the base group for the target
-//! \param target_path the path to the target (either relative or absolute)
+//! \param target the target node (could also be path here?)
 //! \param link_base the base group for the link location
 //! \param link_path path to the new link (either relative or absolute)
 //! \param lcpl optional reference to a link creation property list
 //! \param lapl optional reference to a link access property list
 //!
-void link(const Group &target_base,const Path &target_path,
+void link(const Node &target,
           const Group &link_base,const Path &link_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());

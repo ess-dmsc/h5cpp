@@ -32,6 +32,15 @@ Simple::Simple():
     Dataspace(Type::SIMPLE)
 {}
 
+Simple::Simple(const Dataspace &space):
+    Dataspace(space)
+{
+  if(space.type()!=Type::SIMPLE)
+  {
+    throw std::runtime_error("Failed to construct a simple dataspace from this!");
+  }
+}
+
 Simple::Simple(const Dimensions &current,const Dimensions &maximum):
     Dataspace(Type::SIMPLE)
 {

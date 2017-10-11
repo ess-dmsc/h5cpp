@@ -62,16 +62,31 @@ Group &Group::operator=(const Group &group)
   return *this;
 }
 
+bool Group::exists(const std::string &name,
+                   const property::LinkAccessList &lapl) const
+{
+  return (links.exists(name, lapl) && nodes.exists(name, lapl));
+}
 
 Group Group::create_group(const std::string &name,
                           const property::LinkCreationList &lcpl,
                           const property::GroupCreationList &gcpl,
                           const property::GroupAccessList &gapl)
 {
+  //check if the name is a valid group name
   if(!is_valid_child_name(name))
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid child name!";
+    throw std::runtime_error(ss.str());
+  }
+
+  //check if there is already a link with this name
+  if(this->links.exists(name))
+  {
+    std::stringstream ss;
+    ss<<"A link with name ["<<name<<"] already exists below ["
+      <<link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
 
@@ -84,14 +99,14 @@ Group Group::create_group(const std::string &name,
                                   static_cast<hid_t>(gapl)
                                   ));
 
-    return Group(Node(std::move(handle),path()+name));
+    return Group(Node(std::move(handle),links[name]));
 
   }
   catch(const std::runtime_error &error)
   {
     std::stringstream ss;
     ss<<"Could not create group of name ["<<name<<"] below ";
-    ss<<"group ["<<static_cast<std::string>(path())<<"]";
+    ss<<"group ["<<link().path()<<"]";
     throw std::runtime_error(ss.str());
   }
 }
@@ -119,15 +134,21 @@ Dataset Group::create_dataset(const std::string &name,
                                   static_cast<hid_t>(lcpl),
                                   static_cast<hid_t>(dcpl),
                                   static_cast<hid_t>(dapl)));
-    return Dataset(Node(std::move(handle),path()+name));
+    Link new_link(link().file(),link().path(),name);
+    return Dataset(Node(std::move(handle),new_link));
 
   }
   catch(const std::runtime_error &error)
   {
     std::stringstream ss;
-    ss<<"Failure creating dataset ["<<name<<"] below ["<<path()<<"]!";
+    ss<<"Failure creating dataset ["<<name<<"] below ["<<link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
+}
+
+Node Group::operator[](const std::string &name) const
+{
+  return nodes[name];
 }
 
 } // namespace node

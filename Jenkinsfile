@@ -33,7 +33,7 @@ node ("boost && fedora") {
         } catch (e) {
             failure_function(e, 'CMake failed')
         }
-        
+
         try {
             stage("Build project") {
                 sh "make"

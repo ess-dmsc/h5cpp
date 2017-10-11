@@ -52,6 +52,16 @@ Dataspace::Dataspace(Type type):
     handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type))))
 {}
 
+Dataspace &Dataspace::operator=(const Dataspace &space)
+{
+  if(this == &space)
+    return *this;
+
+  handle_ = space.handle_;
+
+  return *this;
+}
+
 void Dataspace::close()
 {
   handle_.close();
@@ -77,6 +87,11 @@ Type Dataspace::type() const
 
   return static_cast<Type>(buffer);
 
+}
+
+bool Dataspace::is_valid() const
+{
+  return handle_.is_valid();
 }
 
 } // namespace dataspace

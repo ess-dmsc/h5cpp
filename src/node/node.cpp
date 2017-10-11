@@ -24,22 +24,42 @@
 //
 #include <stdexcept>
 #include <h5cpp/node/node.hpp>
+#include <h5cpp/node/link.hpp>
 
 namespace hdf5 {
 namespace node {
 
-Node::Node(ObjectHandle &&handle,const Path &path):
-    handle_(std::move(handle)),
-    path_(path)
+Node::Node():
+    attributes(*this),
+    handle_(),
+    link_()
 {}
+
+Node::Node(ObjectHandle &&handle,const Link &link):
+    attributes(*this),
+    handle_(std::move(handle)),
+    link_(link)
+{}
+
+Node::Node(const Node &node):
+    attributes(*this),
+    handle_(node.handle_),
+    link_(node.link_)
+{}
+
+Node &Node::operator=(const Node &node)
+{
+  if(this == &node)
+    return *this;
+
+  handle_ = node.handle_;
+  link_   = node.link_;
+
+  return *this;
+}
 
 Node::~Node()
 {}
-
-Path Node::path() const
-{
-  return path_;
-}
 
 Type Node::type() const
 {
@@ -70,6 +90,11 @@ bool operator==(const Node &lhs, const Node &rhs)
 bool operator!=(const Node &lhs, const Node &rhs)
 {
   return lhs.id() != rhs.id();
+}
+
+const Link &Node::link() const
+{
+  return link_;
 }
 
 } // namespace node

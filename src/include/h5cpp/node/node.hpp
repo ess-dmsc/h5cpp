@@ -20,6 +20,7 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -27,13 +28,13 @@
 #include "../object_handle.hpp"
 #include "../path.hpp"
 #include "types.hpp"
+#include "link.hpp"
 #include "../windows.hpp"
 #include "../object_id.hpp"
+#include "../attribute/attribute_manager.hpp"
 
 namespace hdf5 {
 namespace node {
-
-class Group;
 
 class DLL_EXPORT Node
 {
@@ -44,12 +45,12 @@ class DLL_EXPORT Node
     //! \param handle rvalue reference to a handle instance
     //! \param path the path to the node
     //!
-    Node(ObjectHandle &&handle,const Path &path);
+    Node(ObjectHandle &&handle,const Link &link);
 
     //!
     //! \brief default constructor
     //!
-    //! We use the default implementation here. In order to store
+    //! In order to store
     //! objects in a container like a std::vector they must be default
     //! constructible. A default constructed object cannot be used
     //! for anything. Use the is_valid() function to check whether or
@@ -57,14 +58,19 @@ class DLL_EXPORT Node
     //!
     //! \sa is_valid()
     //!
-    Node() = default;
+    Node();
 
     //!
     //! \brief copy constructor
     //!
     //! We use the default implementation
     //!
-    Node(const Node &) = default;
+    Node(const Node &);
+
+    //!
+    //! \brief copy assignment
+    //!
+    Node &operator=(const Node &node);
 
     //!
     //! \brief destructor
@@ -74,16 +80,6 @@ class DLL_EXPORT Node
     //!
     virtual ~Node();
 
-    //!
-    //! \brief return the path to the node
-    //!
-    //! The path returned by this function is the one used to
-    //! access the object. Thus ambiguities with links to the same
-    //! object can be avoided.
-    //!
-    //! \return path instance
-    //!
-    Path path() const;
 
     //!
     //! \brief return the node type
@@ -114,10 +110,21 @@ class DLL_EXPORT Node
     //!
     bool is_valid() const;
 
+    //!
+    //! \brief return link to object
+    //!
+    //! This returns the link which was used to access the node.
+    //!
+    const Link &link() const;
+
+    //!
+    //! \brief access to the attribute manager
+    //!
+    attribute::AttributeManager attributes;
 
   private:
-    ObjectHandle handle_;
-    Path path_;
+    ObjectHandle handle_; //!< access handle to the object
+    Link link_;           //!< stores the link to the object
 };
 
 DLL_EXPORT bool operator==(const Node &lhs, const Node &rhs);

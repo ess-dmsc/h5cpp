@@ -12,6 +12,7 @@ set(PROPERTY_SOURCES  property/class.cpp
                       property/group_creation.cpp
                       property/group_access.cpp
                       property/object_creation.cpp
+                      property/object_copy_list.cpp
                       property/string_creation_list.cpp
                       property/type_creation_list.cpp
                       property/datatype_access_list.cpp
@@ -23,6 +24,7 @@ set(DATATYPE_SOURCES datatype/datatype.cpp
 	datatype/integer.cpp
 	datatype/float.cpp
 	datatype/types.cpp
+	datatype/compound.cpp
 	)
 
 set(DATASPACE_SOURCES dataspace/dataspace.cpp
@@ -46,8 +48,14 @@ set(NODE_SOURCES node/types.cpp
 	             node/group.cpp
 	             node/utilities.cpp
 	             node/dataset.cpp
-	             node/node_iterator.cpp
+               node/functions.cpp
+               node/node_iterator.cpp
 	             node/link_iterator.cpp
+)
+
+set(ATTRIBUTE_SOURCES attribute/attribute.cpp
+	                  attribute/attribute_manager.cpp
+	                  attribute/attribute_iterator.cpp
 )
 
 set(SOURCES object_handle.cpp
@@ -59,7 +67,7 @@ set(SOURCES object_handle.cpp
 
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 
 			${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
-		    ${FILE_SOURCES} ${NODE_SOURCES})
+		    ${FILE_SOURCES} ${NODE_SOURCES} ${ATTRIBUTE_SOURCES})
 target_link_libraries(h5cpp_shared PUBLIC ${HDF5_LIBRARIES} Boost::filesystem)
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 target_include_directories(h5cpp_shared

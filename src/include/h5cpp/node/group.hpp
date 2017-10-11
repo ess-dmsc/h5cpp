@@ -47,8 +47,24 @@ class DLL_EXPORT Group : public Node
     LinkView      links;
     NodeView      nodes;
 
+    //!
+    //! \brief default constructor
+    //!
+    //! Does nothing else than calling the default constructor of Node and
+    //! leaves in valid HDF5 object.
+    //!
     Group();
+
+    //!
+    //! \brief copy constructor
+    //!
     Group(const Group &group);
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct an instance of Group from a generic Node class.
+    //!
     Group(const Node &node);
 
     Group &operator=(const Group &group);
@@ -86,6 +102,17 @@ class DLL_EXPORT Group : public Node
     }
 
     //!
+    //! \brief checks existence of a node
+    //!
+    //! The name must be a valid link and valid child name. This function checks
+    //! whether a link of a particular name exists and can be resolved into an
+    //! object.
+    //!
+    bool exists(const std::string &name,
+                const property::LinkAccessList &lapl = property::LinkAccessList()) const;
+
+
+    //!
     //! \brief create a new group
     //!
     Group create_group(const std::string &name,
@@ -105,10 +132,14 @@ class DLL_EXPORT Group : public Node
                            const property::DatasetAccessList &dapl = property::DatasetAccessList()
                            );
 
+    Node operator[](const std::string &name) const;
+
   private:
     IteratorConfig iter_config_;
 
 };
+
+
 
 } // namespace node
 } // namespace hdf5

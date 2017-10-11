@@ -38,4 +38,27 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
   BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SCALAR);
 }
 
+BOOST_AUTO_TEST_CASE(test_copy_construction)
+{
+  dataspace::Scalar space1;
+  dataspace::Scalar space2(space1);
+}
+
+BOOST_AUTO_TEST_CASE(test_copy_construction_from_dataspace)
+{
+  dataspace::Scalar space;
+  dataspace::Dataspace &dspace = space;
+  dataspace::Scalar space2(dspace);
+}
+
+BOOST_AUTO_TEST_CASE(test_copy_assignment_from_dataspace)
+{
+  dataspace::Scalar space;
+  dataspace::Dataspace &dspace = space;
+  dataspace::Scalar space2;
+
+  space2 = dspace;
+  BOOST_CHECK_EQUAL(space2.type(),dataspace::Type::SCALAR);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
