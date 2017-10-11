@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(test_object_name)
 
   p = hdf5::Path("/");
   BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(p.name(),"");
+  BOOST_CHECK_EQUAL(p.name(),".");
 }
 
 BOOST_AUTO_TEST_CASE(test_parent_path)
