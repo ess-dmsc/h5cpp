@@ -144,8 +144,6 @@ BOOST_AUTO_TEST_CASE(test_pixel_type)
   BOOST_CHECK_EQUAL(write_pixel.red(),read_pixel.red());
   BOOST_CHECK_EQUAL(write_pixel.green(),read_pixel.green());
   BOOST_CHECK_EQUAL(write_pixel.blue(),read_pixel.blue());
-
-
 }
 
 BOOST_AUTO_TEST_SUITE_END()
