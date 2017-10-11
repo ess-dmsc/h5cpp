@@ -43,31 +43,6 @@ bool is_absolute_path_string(const std::string &str)
     return false;
 }
 
-void sanitize(std::list<std::string>& list)
-{
-  for (auto i = list.begin(); i != list.end();)
-  {
-    if ((*i == "."))
-      i = list.erase(i);
-    else
-      ++i;
-  }
-
-  for (auto i = list.begin(); i != list.end();)
-  {
-    auto j = i; ++j;
-    if (j == list.end())
-      break;
-    if ((*i != PARENT_DIR_STR) && (*j == PARENT_DIR_STR))
-    {
-      i = list.erase(i);
-      i = list.erase(i);
-    }
-    else
-      ++i;
-  }
-}
-
 std::list<std::string> str_to_list(const std::string &str)
 {
   std::list<std::string> result;
@@ -86,8 +61,6 @@ std::list<std::string> str_to_list(const std::string &str)
   std::string buffer(string_start,string_end);
   boost::split(result,buffer,
                boost::is_any_of("/"),boost::token_compress_on);
-
-  sanitize(result);
   return result;
 }
 
@@ -98,6 +71,7 @@ void Path::from_string(const std::string &str)
 {
   absolute_ = is_absolute_path_string(str);
   link_names_ = str_to_list(str);
+  sanitize();
 }
 
 std::string Path::to_string() const
@@ -189,6 +163,40 @@ Path::value_type Path::pop_back()
   return result;
 }
 
+void Path::sanitize()
+{
+  for (auto i = link_names_.begin();
+       i != link_names_.end();)
+  {
+    if (i->empty() || (*i == "."))
+      i = link_names_.erase(i);
+    else
+      ++i;
+  }
+  fold();
+}
+
+void Path::fold()
+{
+  std::list<std::string> temp;
+  for (auto t : link_names_)
+  {
+    if (t == PARENT_DIR_STR)
+    {
+      if (temp.empty())
+        absolute_ = false;
+      if (!temp.empty() &&
+          (temp.back() != PARENT_DIR_STR))
+        temp.pop_back();
+      else
+        temp.push_back(t);
+    }
+    else
+      temp.push_back(t);
+  }
+  link_names_ = temp;
+}
+
 bool Path::is_absolute() const noexcept
 {
   return absolute_;
@@ -207,6 +215,14 @@ bool Path::is_root() const
     return false;
 }
 
+void Path::append(const Path& p)
+{
+  std::copy(p.link_names_.begin(),
+            p.link_names_.end(),
+            std::back_inserter(link_names_));
+  sanitize();
+}
+
 Path operator+(const std::string &link_name,const Path &path)
 {
   return Path(link_name) + path;
@@ -220,7 +236,7 @@ Path operator+(const Path &path,const std::string &link_name)
 Path operator+(const Path &lhs,const Path &rhs)
 {
   Path result(lhs);
-  std::copy(rhs.begin(),rhs.end(),std::back_inserter(result));
+  result.append(rhs);
   return result;
 }
 

@@ -142,6 +142,11 @@ class DLL_EXPORT Path
     //!
     Path parent() const;
 
+    void sanitize();
+    void fold();
+
+    void append(const Path& p);
+
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
 
   private:

@@ -68,6 +68,10 @@ BOOST_AUTO_TEST_CASE(test_construction_from_string)
   p = Path("/.");
   BOOST_CHECK_EQUAL(p.size(),0);
   BOOST_CHECK(p.is_absolute());
+
+  p = Path(".///");
+  BOOST_CHECK_EQUAL(p.size(),0);
+  BOOST_CHECK(!p.is_absolute());
 }
 
 BOOST_AUTO_TEST_CASE(test_conversion_to_string)
@@ -111,8 +115,16 @@ BOOST_AUTO_TEST_CASE(test_sanitization)
 
   p = Path("hello/../world");
   BOOST_CHECK_EQUAL(static_cast<string>(p),"world");
-}
 
+  p = Path("hello/world/!/../..");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello");
+
+  p = Path("hello/world/../../../..");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"../..");
+
+  p = Path("/hello/world/../../../..");
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"../..");
+}
 
 BOOST_AUTO_TEST_CASE(test_conversion_from_list)
 {
@@ -122,6 +134,28 @@ BOOST_AUTO_TEST_CASE(test_conversion_from_list)
   BOOST_CHECK_EQUAL(p.size(),3);
   BOOST_CHECK_EQUAL(static_cast<string>(p),"entry/instrument/detector");
 }
+
+BOOST_AUTO_TEST_CASE(test_append)
+{
+  Path p;
+
+  p = Path("/entry/instrument");
+  p.append(Path("detector/data"));
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
+
+  p = Path("/entry/instrument");
+  p.append(Path("../data"));
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/data");
+
+  p = Path("entry/instrument");
+  p.append(Path("../../.."));
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"..");
+
+  p = Path("/entry/instrument");
+  p.append(Path("../../.."));
+  BOOST_CHECK_EQUAL(static_cast<string>(p),"..");
+}
+
 
 BOOST_AUTO_TEST_CASE(test_adding_two_paths)
 {
