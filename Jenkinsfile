@@ -36,8 +36,7 @@ node ("boost && root && fedora") {
         try {
             stage("Build project") {
                 sh "make VERBOSE=1"
-                sh "make api_doc"
-                sh "make test"
+                sh "make runtest"
             }
         } catch (e) {
             failure_function(e, 'Build failed')
