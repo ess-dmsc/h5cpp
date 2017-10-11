@@ -19,8 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 11, 2017
 //
 #pragma once
 
@@ -31,11 +31,42 @@
 namespace hdf5 {
 namespace datatype {
 
-
 class DLL_EXPORT String : public Datatype
 {
   public:
+
+    //!
+    //! \brief construct from handle
+    //!
     String(ObjectHandle &&handle);
+
+    //!
+    //! \brief construct variable-length string
+    //!
+    static String variable();
+
+    //!
+    //! \brief construct fiex-length string
+    //!
+    static String fixed(size_t);
+
+    bool is_variable_length() const;
+
+    CharacterEncoding encoding() const;
+    void set_encoding(CharacterEncoding cset);
+
+    StringPad padding() const;
+    void set_padding(StringPad strpad);
+
+    size_t size() const override;
+    void set_size(size_t size) const override;
+
+    //set order? other types?
+
+    //set precision? other types?
+
+    //set offset?
+    //can only be 0 for string
 
 };
 

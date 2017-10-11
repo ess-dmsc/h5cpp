@@ -39,10 +39,15 @@ BOOST_AUTO_TEST_SUITE(String_test)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_construction,T,test_types)
 {
-//  auto t = type::create<T>();
-//  BOOST_CHECK((std::is_same<decltype(t),type::String>::value));
-//  BOOST_CHECK(t.get_class()==type::Class::STRING);
-//  BOOST_CHECK_EQUAL(t.size(),sizeof(T));
+  auto t = type::String::fixed(3);
+  BOOST_CHECK(t.get_class()==type::Class::STRING);
+  BOOST_CHECK_EQUAL(t.size(),3);
+  BOOST_CHECK(!t.is_variable_length());
 
+  auto t2 = type::String::variable();
+  BOOST_CHECK(t2.get_class()==type::Class::STRING);
+  BOOST_CHECK_EQUAL(t2.size(),H5T_VARIABLE);
+  BOOST_CHECK(t2.is_variable_length());
 }
+
 BOOST_AUTO_TEST_SUITE_END()
