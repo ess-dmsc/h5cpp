@@ -14,3 +14,6 @@ target_link_libraries(writing_complex h5cpp_shared)
 add_executable(writing_image writing_image.cpp
                              rgbpixel.cpp)
 target_link_libraries(writing_image h5cpp_shared)
+
+add_executable(append_scalar_data append_scalar_data.cpp)
+target_link_libraries(append_scalar_data h5cpp_shared)
