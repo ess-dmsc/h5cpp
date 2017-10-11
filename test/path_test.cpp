@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
   hdf5::Path p;
   BOOST_CHECK_EQUAL(p.size(),0);
   BOOST_CHECK(!p.is_absolute());
-
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),".");
 }
 
 BOOST_AUTO_TEST_CASE(test_construction_from_string)
@@ -50,6 +50,18 @@ BOOST_AUTO_TEST_CASE(test_construction_from_string)
   p = hdf5::Path("hello/world/instrument/data/");
   BOOST_CHECK_EQUAL(p.size(),4);
   BOOST_CHECK(!p.is_absolute());
+
+  p = hdf5::Path(".");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),".");
+
+  p = hdf5::Path("./hello/world");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
+
+  p = hdf5::Path("s p a c e y/  ");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"s p a c e y/  ");
+
+  p = hdf5::Path("d.o.t.s/...");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"d.o.t.s/...");
 }
 
 BOOST_AUTO_TEST_CASE(test_conversion_to_string)

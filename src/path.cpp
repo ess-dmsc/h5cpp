@@ -41,6 +41,17 @@ bool is_absolute_path_string(const std::string &str)
     return false;
 }
 
+void sanitize(std::list<std::string>& list)
+{
+  for (auto i = list.begin(); i != list.end();)
+  {
+    if (*i == ".")
+      i = list.erase(i);
+    else
+      ++i;
+  }
+}
+
 std::list<std::string> str_to_list(const std::string &str)
 {
   std::list<std::string> result;
@@ -60,6 +71,7 @@ std::list<std::string> str_to_list(const std::string &str)
   boost::split(result,buffer,
                boost::is_any_of("/"),boost::token_compress_on);
 
+  sanitize(result);
   return result;
 }
 
@@ -74,6 +86,8 @@ void Path::from_string(const std::string &str)
 
 std::string Path::to_string() const
 {
+  if (!is_absolute() && link_names_.empty())
+    return ".";
   return (is_absolute() ? "/" : "")
       + boost::algorithm::join(link_names_, "/");
 }
