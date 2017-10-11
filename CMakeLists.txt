@@ -6,6 +6,8 @@ project(h5cpp
 
 include(CTest)
 
+option(COV "Enable code coverage test for unit tests (if possible)." OFF)
+
 if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "Build type was not set. Using Relese mode.")
     set(CMAKE_BUILD_TYPE "Release")
