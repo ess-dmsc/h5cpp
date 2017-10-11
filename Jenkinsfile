@@ -61,7 +61,7 @@ node ("boost && fedora") {
                 ])
           }
         } catch (e) {
-            //junit '*Tests.xml'
+            junit '*_tests.xml'
             failure_function(e, 'Tests failed')
         }
     }

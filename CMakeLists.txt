@@ -4,7 +4,7 @@ project(h5cpp
     VERSION 0.0.1
     )
 
-include(CTest) #necessary?
+#include(CTest) #necessary?
 option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
 if (NOT CMAKE_BUILD_TYPE)
