@@ -54,6 +54,8 @@ namespace node {
 //!
 //! \param source the source object to copy
 //! \param destination the destination group where the new copy will be stored
+//! \param ocpl optional reference to a object copy property list
+//! \param lcpl optional reference to a link creation property list
 //! \throws std::runtime_error in case of a failure
 //!
 void copy(const Node &source, const Group &destination,
@@ -76,15 +78,20 @@ void copy(const Node &source, const Group &base, const Path &rel_path,
 //!
 //! \param source reference to the object to move
 //! \param destination_group the new group where the object should be located
+//! \param lcpl optional reference to a link creation property list
+//! \param lapl optional reference to a link access property list
 //! \throws std::runtime_error in case of a failure
 //!
 //! \sa copy for the naming convention
 //!
-void move(const Node &source,const Group &destination_group,
+void move(const Node &source,
+          const Group &destination_base,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
-void move(const Node &source,const Group &destination,const Path &rel_path,
+void move(const Node &source,
+          const Group &destination_base,
+          const Path &destination_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
 
@@ -142,14 +149,13 @@ void remove(const Group &base,const Path &rel_path,
 //! to retrieve the root group of the specific file.
 //!
 //!
-//! \param target_base the base group for the target
-//! \param target_path the path to the target (either relative or absolute)
+//! \param target the target node (could also be path here?)
 //! \param link_base the base group for the link location
 //! \param link_path path to the new link (either relative or absolute)
 //! \param lcpl optional reference to a link creation property list
 //! \param lapl optional reference to a link access property list
 //!
-void link(const Group &target_base,const Path &target_path,
+void link(const Node &target,
           const Group &link_base,const Path &link_path,
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::LinkAccessList &lapl = property::LinkAccessList());
