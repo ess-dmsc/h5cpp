@@ -1,8 +1,8 @@
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
-include(${PROJECT_SOURCE_DIR}/cmake/BoostTestLogConfig.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/GoogleTestLogConfig.cmake)
+#include(${PROJECT_SOURCE_DIR}/cmake/GoogleTestLogConfig.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 
 #add_library(test_common OBJECT fixture.cpp)
 #target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
@@ -55,19 +55,8 @@ create_test_executable(PathTest h5cpp_shared)
 #
 #  These commands must be at the end of this file
 #
-set(gcovr_excl_opts "-e .*_test.cpp -e .*gtest.*.h -e .*_generated.h" )
-separate_arguments(gcovr_excl_opts)
-add_custom_target(runtest COMMAND ${CMAKE_CTEST_COMMAND} -V -R regular_* DEPENDS ${unit_test_targets})
-add_custom_target(valgrind COMMAND ${CMAKE_CTEST_COMMAND} -R memcheck_*  DEPENDS ${unit_test_targets})
-if (DO_COV)
-    find_program(GCOV_PATH gcov)
-    find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/tests)
-    if (NOT GCOV_PATH OR NOT GCOVR_PATH)
-        message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
-    else()
-        message(STATUS "Generating coverage target.")
-        add_custom_target(coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "-x" ${gcovr_excl_opts} "-o" "${CMAKE_BINARY_DIR}/coverage/cov.xml" DEPENDS runtest)
-        add_custom_target(coverage_xml COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "-x" ${gcovr_excl_opts} "-o" "${CMAKE_BINARY_DIR}/coverage/cov.xml")
-        add_custom_target(coverage_html COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "--html" "--html-details" ${gcovr_excl_opts} "-o" "${CMAKE_BINARY_DIR}/coverage/index.html")
-    endif()
-endif()
+add_custom_target(runtest COMMAND ${CMAKE_CTEST_COMMAND} -V -R regular_*
+                  DEPENDS ${unit_test_targets})
+add_custom_target(valgrind COMMAND ${CMAKE_CTEST_COMMAND} -R memcheck_*
+                  DEPENDS ${unit_test_targets})
+

@@ -7,14 +7,13 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-node ("boost && root && fedora") {
+node ("boost && fedora") {
     cleanWs()
 
     dir("code") {
         try {
             stage("Checkout projects") {
                 checkout scm
-                sh "git submodule update --init"
             }
         } catch (e) {
             failure_function(e, 'Checkout failed')
@@ -24,10 +23,12 @@ node ("boost && root && fedora") {
     dir("build") {
         try {
             stage("Run CMake") {
+                sh 'gcov --version'
+                sh 'gcovr --version'
                 sh 'rm -rf ./*'
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake -DCMAKE_BUILD_TYPE=Debug ../code"
+                    cmake -DCOV=on -DCMAKE_BUILD_TYPE=Debug ../code"
             }
         } catch (e) {
             failure_function(e, 'CMake failed')
@@ -36,10 +37,34 @@ node ("boost && root && fedora") {
         try {
             stage("Build project") {
                 sh "make VERBOSE=1"
-                sh "make runtest"
             }
         } catch (e) {
             failure_function(e, 'Build failed')
         }
+
+        try {
+            stage("Run test") {
+                sh "make runtest"
+                //junit '*_tests.xml'
+                sh "make coverage"
+                step([
+                    $class: 'CoberturaPublisher',
+                    autoUpdateHealth: false,
+                    autoUpdateStability: false,
+                    coberturaReportFile: 'coverage.xml',
+                    failUnhealthy: false,
+                    failUnstable: false,
+                    maxNumberOfBuilds: 0,
+                    onlyStable: false,
+                    sourceEncoding: 'ASCII',
+                    zoomCoverageChart: false
+                ])
+          }
+        } catch (e) {
+            //junit '*Tests.xml'
+            failure_function(e, 'Tests failed')
+        }
     }
+
+
 }
