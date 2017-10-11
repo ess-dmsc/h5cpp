@@ -34,12 +34,13 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
   hdf5::Path p;
   BOOST_CHECK_EQUAL(p.size(),0);
   BOOST_CHECK(!p.is_absolute());
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),".");
 }
 
 BOOST_AUTO_TEST_CASE(test_construction_from_string)
 {
-  hdf5::Path p("/hello/world/data");
+  hdf5::Path p;
+
+  p = hdf5::Path("/hello/world/data");
   BOOST_CHECK_EQUAL(p.size(),3);
   BOOST_CHECK(p.is_absolute());
 
@@ -52,9 +53,49 @@ BOOST_AUTO_TEST_CASE(test_construction_from_string)
   BOOST_CHECK(!p.is_absolute());
 
   p = hdf5::Path(".");
+  BOOST_CHECK_EQUAL(p.size(),0);
+  BOOST_CHECK(!p.is_absolute());
+
+  p = hdf5::Path("./");
+  BOOST_CHECK_EQUAL(p.size(),0);
+  BOOST_CHECK(!p.is_absolute());
+
+  p = hdf5::Path("/.");
+  BOOST_CHECK_EQUAL(p.size(),0);
+  BOOST_CHECK(p.is_absolute());
+}
+
+BOOST_AUTO_TEST_CASE(test_conversion_to_string)
+{
+  hdf5::Path p;
+
+  p = hdf5::Path("/hello/world/data");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/hello/world/data");
+
+  p = hdf5::Path("hello/world");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
+
+  p = hdf5::Path("hello/world/instrument/data/");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world/instrument/data");
+
+  p = hdf5::Path(".");
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),".");
 
+  p = hdf5::Path("");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),".");
+}
+
+BOOST_AUTO_TEST_CASE(test_sanitization)
+{
+  hdf5::Path p;
+
   p = hdf5::Path("./hello/world");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
+
+  p = hdf5::Path("hello/world/.");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
+
+  p = hdf5::Path("hello/./world");
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
 
   p = hdf5::Path("s p a c e y/  ");
@@ -64,17 +105,6 @@ BOOST_AUTO_TEST_CASE(test_construction_from_string)
   BOOST_CHECK_EQUAL(static_cast<std::string>(p),"d.o.t.s/...");
 }
 
-BOOST_AUTO_TEST_CASE(test_conversion_to_string)
-{
-  hdf5::Path p("/hello/world/data");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/hello/world/data");
-
-  p = hdf5::Path("hello/world");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
-
-  p = hdf5::Path("hello/world/instrument/data/");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world/instrument/data");
-}
 
 BOOST_AUTO_TEST_CASE(test_conversion_from_list)
 {
