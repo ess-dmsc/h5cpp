@@ -14,8 +14,10 @@ include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 #                 ${WORKING_DIRECTORY})
 
 set(PathTest_SRC
-  gpath_test.cpp)
-#set(PathTest_INC)
+  gpath_test.cpp
+  ../src/path.cpp)
+set(PathTest_INC
+    ../src/include/h5cpp/path.hpp)
 create_test_executable(PathTest h5cpp_shared)
 
 #add_executable(gpath_test gpath_test.cpp)

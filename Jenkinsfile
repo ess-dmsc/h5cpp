@@ -47,6 +47,7 @@ node ("boost && fedora") {
                 sh "make runtest"
                 //junit '*_tests.xml'
                 sh "make coverage"
+                sh "make coverage_xml"
                 sh "make coverage_html"
                 step([
                     $class: 'CoberturaPublisher',
