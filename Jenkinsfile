@@ -47,11 +47,12 @@ node ("boost && fedora") {
                 sh "make runtest"
                 //junit '*_tests.xml'
                 sh "make coverage"
+                sh "make coverage_html"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: false,
                     autoUpdateStability: false,
-                    coberturaReportFile: 'coverage.xml',
+                    coberturaReportFile: 'tests/coverage.xml',
                     failUnhealthy: false,
                     failUnstable: false,
                     maxNumberOfBuilds: 0,
@@ -61,7 +62,7 @@ node ("boost && fedora") {
                 ])
           }
         } catch (e) {
-            junit '*_tests.xml'
+            //junit '*_tests.xml'
             failure_function(e, 'Tests failed')
         }
     }
