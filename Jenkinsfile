@@ -45,14 +45,14 @@ node ("boost && fedora") {
         try {
             stage("Run test") {
                 sh "make runtest"
-                //junit '*_tests.xml'
+                junit 'tests/*_tests.xml'
                 sh "make coverage"
                 sh "make coverage_xml"
                 sh "make coverage_html"
                 step([
                     $class: 'CoberturaPublisher',
-                    autoUpdateHealth: false,
-                    autoUpdateStability: false,
+                    autoUpdateHealth: true,
+                    autoUpdateStability: true,
                     coberturaReportFile: 'tests/coverage.xml',
                     failUnhealthy: false,
                     failUnstable: false,
