@@ -7,31 +7,40 @@ include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 #add_library(test_common OBJECT fixture.cpp)
 #target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
 
+## Add line:
+##   #include <gtest/gtest.h>
+## Change these:
+##   BOOST_CHECK( --> EXPECT_TRUE(
+##   BOOST_CHECK_EQUAL( --> EXPECT_EQ(
+##   BOOST_AUTO_TEST_CASE( --> TEST(TestName,
+##
+## At the end:
+# int main(int argc, char **argv)
+#{
+#  ::testing::InitGoogleTest(&argc, argv);
+#  return RUN_ALL_TESTS();
+#}
+
 #add_executable(object_id_test object_id_test.cpp)
 #target_link_libraries(object_id_test h5cpp_shared Boost::unit_test_framework)
 #add_logging_test("hdf5::ObjectId"
 #                 object_id_test
 #                 ${WORKING_DIRECTORY})
 
-set(PathTest_SRC
-  gpath_test.cpp
+set(Path_SRC path_test.cpp
   ../src/path.cpp)
-set(PathTest_INC
-    ../src/include/h5cpp/path.hpp)
-create_test_executable(PathTest h5cpp_shared)
+set(Path_INC
+  ../src/include/h5cpp/path.hpp)
+create_test_executable(Path h5cpp_shared)
 
-#add_executable(gpath_test gpath_test.cpp)
-#target_link_libraries(gpath_test h5cpp_shared ${GTEST_BOTH_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-#add_glogging_test("hdf5::GPath"
-#                  gpath_test
-#                  ${WORKING_DIRECTORY})
+set(IterationOrder_SRC iteration_order_test.cpp
+  ../src/iterator.cpp
+  ../src/iterator_config.cpp)
+set(IterationOrder_INC
+  ../src/include/h5cpp/iterator.hpp
+  ../src/include/h5cpp/iterator_config.hpp)
+create_test_executable(IterationOrder h5cpp_shared)
 
-#add_executable(hdf5_path_test path_test.cpp)
-#target_link_libraries(hdf5_path_test h5cpp_shared Boost::unit_test_framework)
-#add_logging_test("hdf5::Path"
-#                 hdf5_path_test
-#                 ${WORKING_DIRECTORY})
-                
 #add_executable(iteration_order_test iteration_order_test.cpp)
 #target_link_libraries(iteration_order_test h5cpp_shared Boost::unit_test_framework)
 #add_logging_test("hdf5::IterationOrder"
