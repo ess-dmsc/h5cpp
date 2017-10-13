@@ -14,3 +14,9 @@ target_link_libraries(writing_complex h5cpp_shared)
 add_executable(writing_image writing_image.cpp
                              rgbpixel.cpp)
 target_link_libraries(writing_image h5cpp_shared)
+
+add_executable(write_single_vector write_single_vector.cpp)
+target_link_libraries(write_single_vector h5cpp_shared)
+
+#add_executable(write_vector_list write_vector_list.cpp)
+#target_link_libraries(write_vector_list h5cpp_shared)
