@@ -45,7 +45,7 @@ node ("boost && fedora") {
         try {
             stage("Run test") {
                 sh "make runtest"
-                junit 'tests/*_tests.xml'
+                junit 'tests/results/*_tests.xml'
                 sh "make coverage"
                 sh "make memcheck"
                 step([
@@ -62,7 +62,7 @@ node ("boost && fedora") {
                 ])
           }
         } catch (e) {
-            junit 'tests/*_tests.xml'
+            junit 'tests/results/*_tests.xml'
             failure_function(e, 'Tests failed')
         }
     }
