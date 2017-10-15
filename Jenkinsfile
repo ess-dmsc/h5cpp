@@ -47,13 +47,12 @@ node ("boost && fedora") {
                 sh "make runtest"
                 junit 'tests/*_tests.xml'
                 sh "make coverage"
-                sh "make coverage_xml"
-                sh "make coverage_html"
+                sh "make memcheck"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
                     autoUpdateStability: true,
-                    coberturaReportFile: 'tests/coverage.xml',
+                    coberturaReportFile: 'tests/coverage/coverage.xml',
                     failUnhealthy: false,
                     failUnstable: false,
                     maxNumberOfBuilds: 0,
