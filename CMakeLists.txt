@@ -4,13 +4,11 @@ project(h5cpp
     VERSION 0.0.1
     )
 
-#include(CTest) #necessary?
-option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
-if (NOT CMAKE_BUILD_TYPE)
-    message(STATUS "Build type was not set. Using Relese mode.")
-    set(CMAKE_BUILD_TYPE "Release")
-endif()
+set(EXTRA_MODULES_DIR ${PROJECT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
+
+#option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
 #=============================================================================
 # setting up conan for use from within cmake
@@ -18,7 +16,7 @@ endif()
 set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
 
 if(WITH_CONAN)
-	include(cmake/ConanSetup.cmake)
+  include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
 	
 	conan_cmake_run(CONANFILE conanfile.txt
 		            BASIC_SETUP
@@ -35,33 +33,22 @@ endif()
 #=============================================================================
 # some general configuration
 #=============================================================================
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-include(cmake/InstallConfig.cmake)
-include(cmake/OutputDirConfig.cmake)
-include(cmake/EnsureBuildType.cmake)
-include(cmake/WindowsUtils.cmake)
-include(cmake/PackageConfig.cmake)
+include(${EXTRA_MODULES_DIR}/InstallConfig.cmake)
+include(${EXTRA_MODULES_DIR}/OutputDirConfig.cmake)
+include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
+include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)
+include(${EXTRA_MODULES_DIR}/PackageConfig.cmake)
 include(Sphinx)
 include(utilities)
 include(DoxygenUtilities)
 
 #=============================================================================
-# Internal compiler options
-#=============================================================================
-# C++ standard
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-if(NOT CMAKE_CXX_STANDARD OR CMAKE_CXX_STANDARD LESS 11)
-  set(CMAKE_CXX_STANDARD 11)
-endif()
-
-#=============================================================================
 # compiler and library configuration
 #=============================================================================
-include(cmake/CompilerConfig.cmake)
-include(cmake/HDF5LibraryConfig.cmake)
-include(cmake/BoostLibraryConfig.cmake)
+include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
+include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
+include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 
 
 add_custom_target(html)

@@ -1,7 +1,6 @@
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
-#include(${PROJECT_SOURCE_DIR}/cmake/GoogleTestLogConfig.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 
 #add_library(test_common OBJECT fixture.cpp)
