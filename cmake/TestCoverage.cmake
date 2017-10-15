@@ -7,10 +7,13 @@ enable_testing()
 
 option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
-set(TEST_BINARIES_PATH ${PROJECT_BINARY_DIR}/tests/bin)
-set(TEST_RESULTS_PATH ${PROJECT_BINARY_DIR}/tests/results)
-set(MEMCHECK_RESULTS_PATH ${PROJECT_BINARY_DIR}/tests/memcheck)
-set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/tests/coverage)
+if(NOT (EXISTS ${TESTS_OUTPUT_PATH}))
+  set(TESTS_OUTPUT_PATH ${PROJECT_BINARY_DIR}/tests)
+endif()
+
+set(TEST_BINARIES_PATH ${TESTS_OUTPUT_PATH}/bin)
+set(TEST_RESULTS_PATH ${TESTS_OUTPUT_PATH}/results)
+set(MEMCHECK_RESULTS_PATH ${TESTS_OUTPUT_PATH}/memcheck)
 
 set(unit_test_targets "" CACHE INTERNAL "All targets")
 
@@ -49,6 +52,7 @@ if (DO_COV)
     message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
   else()
     message(STATUS "Generating coverage target.")
+    set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/tests/coverage)
     file(MAKE_DIRECTORY ${COVERAGE_RESULTS_PATH})
     add_custom_target(coverage_xml COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "-x" ${gcovr_excl_opts} "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" DEPENDS runtest)
     add_custom_target(coverage_html COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "--html" "--html-details" ${gcovr_excl_opts} "-o" "${COVERAGE_RESULTS_PATH}/index.html" DEPENDS runtest)
@@ -61,8 +65,7 @@ function(create_test_executable test_name link_libraries)
 
   add_executable(${exec_name} EXCLUDE_FROM_ALL ${${test_name}_SRC} ${${test_name}_INC} )
   target_include_directories(${exec_name} PRIVATE ${GTEST_INCLUDE_DIRS})
-  set_target_properties(${exec_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
-    "${TEST_BINARIES_PATH}")
+  set_target_properties(${exec_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TEST_BINARIES_PATH}")
   if(DO_COV)
     set_target_properties(${exec_name} PROPERTIES LINK_FLAGS ${coverage_flags})
     set_target_properties(${exec_name} PROPERTIES COMPILE_FLAGS "-g -O0 ${coverage_flags}")
