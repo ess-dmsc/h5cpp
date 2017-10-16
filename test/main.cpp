@@ -22,8 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 24, 2017
 //
-#include "path_test.hpp"
-#include "iteration_order_test.hpp"
+#include <gtest/gtest.h>
 
 int main(int argc, char **argv)
 {
