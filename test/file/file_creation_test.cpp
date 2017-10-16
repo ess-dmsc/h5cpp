@@ -103,6 +103,9 @@ BOOST_AUTO_TEST_CASE(test_same_file_ro)
   BOOST_CHECK(f1.id()==f2.id());
 }
 
+#ifndef _MSC_VER
+//makes no sense to test this on Windows as there are no symbolic links 
+//on a Windows file system
 BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
 {
   file::create("test1.h5",file::AccessFlags::TRUNCATE);
@@ -114,6 +117,7 @@ BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
   BOOST_CHECK(f1.id()==f2.id());
   boost::filesystem::remove("test1_link.h5");
 }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()
 
