@@ -32,6 +32,23 @@ add_dependencies(unit_tests h5cpp_unit_test)
 target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_unit_test)
 target_link_libraries(unit_tests h5cpp_unit_test ${GTEST_LIBRARIES})
 
+add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
+
+set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/test/)
+
+find_program(GCOV_PATH gcov)
+find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
+if (NOT GCOV_PATH OR NOT GCOVR_PATH)
+      message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
+else()
+    add_custom_target(generate_coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" DEPENDS run_tests)
+endif()
+#add_custom_target(runtest COMMAND ${CMAKE_INSTALL_BINDIR}/unit_tests DEPENDS unit_tests)
+
+#set(coverage_flags "-coverage -fprofile-generate -ftest-coverage")
+#set_target_properties(unit_tests PROPERTIES LINK_FLAGS ${coverage_flags})
+#set_target_properties(unit_tests PROPERTIES COMPILE_FLAGS "-g -O0 ${coverage_flags}")
+
 #create_test_executable(Common h5cpp_shared)
 
 #add_library(test_common OBJECT fixture.cpp)

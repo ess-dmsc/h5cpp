@@ -89,7 +89,7 @@ add_library(h5cpp_unit_test SHARED EXCLUDE_FROM_ALL ${SOURCES} ${PROPERTY_SOURCE
     ${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
     ${FILE_SOURCES} ${NODE_SOURCES} ${ATTRIBUTE_SOURCES})
 
-target_link_libraries(h5cpp_unit_test PUBLIC ${HDF5_LIBRARIES} Boost::filesystem)
+target_link_libraries(h5cpp_unit_test PUBLIC ${HDF5_LIBRARIES} Boost::filesystem gcov)
 
 target_compile_definitions(h5cpp_unit_test PRIVATE DLL_BUILD)
 
@@ -107,7 +107,7 @@ set_target_properties(h5cpp_unit_test
     SO_VERSION 0
     CXX_STANDARD_REQUIRED ON)
 
-set(coverage_flags "-coverage -fprofile-generate")
+set(coverage_flags "-coverage -fprofile-generate -ftest-coverage")
 set_target_properties(h5cpp_unit_test PROPERTIES LINK_FLAGS ${coverage_flags})
 set_target_properties(h5cpp_unit_test PROPERTIES COMPILE_FLAGS "-g -O0 ${coverage_flags}")
 
