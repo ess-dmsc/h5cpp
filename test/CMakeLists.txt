@@ -2,6 +2,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/include)
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
+find_package(GTest)
 
 ## Add line:
 ##   #include <gtest/gtest.h>
@@ -17,17 +18,21 @@ include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 #  return RUN_ALL_TESTS();
 #}
 
-set(Common_SRC main.cpp
-  ../src/path.cpp
-  ../src/iterator.cpp
-  ../src/iterator_config.cpp)
+set(Common_SRC 
+    main.cpp
+    iteration_order_test.cpp
+    path_test.cpp
+)
 set(Common_INC
-  path_test.hpp
-  iteration_order_test.hpp
-  ../src/include/h5cpp/path.hpp
-  ../src/include/h5cpp/iterator.hpp
-  ../src/include/h5cpp/iterator_config.hpp)
-create_test_executable(Common h5cpp_shared)
+    
+)
+
+add_executable(unit_tests ${Common_SRC} ${Common_INC})
+add_dependencies(unit_tests h5cpp_unit_test)
+target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_unit_test)
+target_link_libraries(unit_tests h5cpp_unit_test ${GTEST_LIBRARIES})
+
+#create_test_executable(Common h5cpp_shared)
 
 #add_library(test_common OBJECT fixture.cpp)
 #target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
@@ -57,5 +62,5 @@ create_test_executable(Common h5cpp_shared)
 #
 #  These commands must be at the end of this file
 #
-finalize_tests()
+#finalize_tests()
 
