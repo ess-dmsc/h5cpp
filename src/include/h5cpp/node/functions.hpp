@@ -31,6 +31,7 @@
 #include "../property/link_creation_list.hpp"
 #include "../property/link_access_list.hpp"
 #include "../property/object_copy_list.hpp"
+#include "../windows.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -58,13 +59,13 @@ namespace node {
 //! \param lcpl optional reference to a link creation property list
 //! \throws std::runtime_error in case of a failure
 //!
-void copy(const Node &source, const Group &destination,
-          const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
-          const property::LinkCreationList &lcpl = property::LinkCreationList());
+DLL_EXPORT void copy(const Node &source, const Group &destination,
+                     const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
+                     const property::LinkCreationList &lcpl = property::LinkCreationList());
 
-void copy(const Node &source, const Group &base, const Path &rel_path,
-          const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
-          const property::LinkCreationList &lcpl = property::LinkCreationList());
+DLL_EXPORT void copy(const Node &source, const Group &base, const Path &rel_path,
+                     const property::ObjectCopyList &ocpl = property::ObjectCopyList(),
+                     const property::LinkCreationList &lcpl = property::LinkCreationList());
 
 //!
 //! \brief move an object
@@ -84,16 +85,16 @@ void copy(const Node &source, const Group &base, const Path &rel_path,
 //!
 //! \sa copy for the naming convention
 //!
-void move(const Node &source,
-          const Group &destination_base,
-          const property::LinkCreationList &lcpl = property::LinkCreationList(),
-          const property::LinkAccessList &lapl = property::LinkAccessList());
+DLL_EXPORT void move(const Node &source,
+                     const Group &destination_base,
+                     const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                     const property::LinkAccessList &lapl = property::LinkAccessList());
 
-void move(const Node &source,
-          const Group &destination_base,
-          const Path &destination_path,
-          const property::LinkCreationList &lcpl = property::LinkCreationList(),
-          const property::LinkAccessList &lapl = property::LinkAccessList());
+DLL_EXPORT void move(const Node &source,
+                     const Group &destination_base,
+                     const Path &destination_path,
+                     const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                     const property::LinkAccessList &lapl = property::LinkAccessList());
 
 
 //!
@@ -115,8 +116,8 @@ void move(const Node &source,
 //! \pre `object` must be a valid HDF5 object instance
 //! \param lapl optional reference to a link access property list
 //!
-void remove(const Node &object,
-            const property::LinkAccessList &lapl = property::LinkAccessList());
+DLL_EXPORT void remove(const Node &object,
+                       const property::LinkAccessList &lapl = property::LinkAccessList());
 
 //!
 //! \brief remove an object relative to a base group
@@ -131,8 +132,8 @@ void remove(const Node &object,
 //!
 //! \sa remove(const Node &node)
 //!
-void remove(const Group &base,const Path &rel_path,
-            const property::LinkAccessList &lapl = property::LinkAccessList());
+DLL_EXPORT void remove(const Group &base,const Path &rel_path,
+                       const property::LinkAccessList &lapl = property::LinkAccessList());
 
 
 //!
@@ -155,10 +156,10 @@ void remove(const Group &base,const Path &rel_path,
 //! \param lcpl optional reference to a link creation property list
 //! \param lapl optional reference to a link access property list
 //!
-void link(const Node &target,
-          const Group &link_base,const Path &link_path,
-          const property::LinkCreationList &lcpl = property::LinkCreationList(),
-          const property::LinkAccessList &lapl = property::LinkAccessList());
+DLL_EXPORT void link(const Node &target,
+                     const Group &link_base,const Path &link_path,
+                     const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                     const property::LinkAccessList &lapl = property::LinkAccessList());
 
 //!
 //! \brief Create an external link
@@ -184,12 +185,12 @@ void link(const Node &target,
 //! \pre `target_path` must be an absolute path
 //! \pre `link_base` must be a valid HDF5 object
 //!
-void link(const boost::filesystem::path &target_file,
-          const Path &target_path,
-          const Group &link_base,
-          const Path &link_path,
-          const property::LinkCreationList &lcpl = property::LinkCreationList(),
-          const property::LinkAccessList &lapl = property::LinkAccessList());
+DLL_EXPORT void link(const boost::filesystem::path &target_file,
+                     const Path &target_path,
+                     const Group &link_base,
+                     const Path &link_path,
+                     const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                     const property::LinkAccessList &lapl = property::LinkAccessList());
 
 
 } // namespace node
