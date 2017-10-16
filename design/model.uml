@@ -326,7 +326,12 @@ the parent or base object.
 
 Such an approach needs to be discussed to. </body>
       </ownedComment>
-      <packagedElement xmi:type="uml:Class" xmi:id="_VYW3UJObEeeoI7oI9Ds2zg" name="Node"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_VYW3UJObEeeoI7oI9Ds2zg" name="Node">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_GVXlEa3NEeeC8tqFVijy6A" name="link" type="_jXRCUPhEEearHstUE6s_yg" aggregation="composite" association="_GVWW8K3NEeeC8tqFVijy6A">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GVXlEq3NEeeC8tqFVijy6A" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_GVYMIK3NEeeC8tqFVijy6A" value="1"/>
+        </ownedAttribute>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_YThA4JObEeeoI7oI9Ds2zg" name="Dataset">
         <generalization xmi:type="uml:Generalization" xmi:id="_f6TzIJObEeeoI7oI9Ds2zg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_tw0XgJO9EeeoI7oI9Ds2zg" name="read"/>
@@ -525,6 +530,12 @@ Such an approach needs to be discussed to. </body>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_4RfqsAPjEees69QdhumwSQ" name="target">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_7rd3MAPjEees69QdhumwSQ" name="target_path" type="_wv4CEJObEeeoI7oI9Ds2zg" direction="return"/>
         </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_GVWW8K3NEeeC8tqFVijy6A" memberEnd="_GVXlEa3NEeeC8tqFVijy6A _GVYMIa3NEeeC8tqFVijy6A">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GVW-AK3NEeeC8tqFVijy6A" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_GVXlEK3NEeeC8tqFVijy6A" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_GVYMIa3NEeeC8tqFVijy6A" name="node" type="_VYW3UJObEeeoI7oI9Ds2zg" association="_GVWW8K3NEeeC8tqFVijy6A"/>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XNNwJWQEee7vqXOLcolPQ" source="PapyrusVersion">

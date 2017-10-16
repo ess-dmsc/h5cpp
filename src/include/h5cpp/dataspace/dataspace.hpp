@@ -33,31 +33,113 @@
 namespace hdf5 {
 namespace dataspace {
 
+//!
+//! \brief dataspace base class
+//!
 class DLL_EXPORT Dataspace
 {
   public:
+    //!
+    //! \brief constructor
+    //!
+    //! Constructs a dataspace object from an rvalue reference to an
+    //! HDF5 handle. The class will take full ownership of the handle.
+    //!
+    //! \param handle rvalue reference to the handle
+    //!
     Dataspace(ObjectHandle &&handle);
+
+    //!
+    //! \brief copy constructor
+    //!
     Dataspace(const Dataspace & space);
+
+    //!
+    //! \brief copy assignment
+    //!
+    Dataspace &operator=(const Dataspace &space);
+
+    //!
+    //! \brief default constructor
+    //!
+    //! The default constructor will leave the dataspace as an
+    //! invalid HDF5 object. Default construction is however necessary
+    //! for using a Dataspace with certain C++ STL containers.
+    //!
+    //! \sa is_valid()
+    //!
     Dataspace();
+
+    //!
+    //! \brief destructor
+    //!
+    //! Has to be virtual due to inheritance
+    //!
     virtual ~Dataspace();
 
+    //!
+    //! \brief close dataspace
+    //!
+    //! Close the dataspace instance.
     void close();
 
     //!
     //! \brief number of elements in the dataspace
     //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     virtual hssize_t size() const;
 
+    //!
+    //! \brief allows explicit conversion to hid_t
+    //!
+    //! This function is mainly used by \c static_cast for explicit
+    //! conversion to \c hid_t.
+    //!
+    //! \code
+    //! Dataspace space();
+    //! hid_t id = static_cast<hid_t>(space);
+    //! \endcode
+    //!
     explicit operator hid_t() const
     {
       return static_cast<hid_t>(handle_);
     }
 
     //!
-    //! \brief get the type of the dataset
+    //! \brief get the type of the dataspace
+    //!
+    //! \throws std::runtime_error in case of a failure
     //!
     Type type() const;
 
+    //!
+    //! \brief check validity of the dataspace
+    //!
+    //! Returns true if the dataspace is a valid HDF5 object. This member
+    //! function should return true in most cases. However, in cases
+    //! that the dataspace was
+    //!
+    //! \li default constructed
+    //! \li or the close() method was called before
+    //!
+    //! this function will return false.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \return true if valid, false if invalid
+    //! \sa Dataspace()
+    //!
+    bool is_valid() const;
+
+    //!
+    //! \brief access to selection manager
+    //!
+    //! This public member provides access to the selection manager
+    //! of the dataspace. See the SelectionManager documentation for
+    //! interface details.
+    //!
+    //! \sa SelectionManager
     SelectionManager selection;
 
   protected:

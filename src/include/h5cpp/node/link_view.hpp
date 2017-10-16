@@ -43,6 +43,13 @@ class DLL_EXPORT LinkView : public GroupView
     LinkView(const LinkView &) = default;
     LinkView() = delete;
 
+    //!
+    //! \brief checks existence of a link
+    //!
+    //! The name must be a valid link. This function checks
+    //! whether a link of a particular name exists.
+    //!
+    //!
     bool exists(const std::string &name,
                 const property::LinkAccessList &lapl=property::LinkAccessList()) const;
 

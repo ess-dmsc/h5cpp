@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(test_root_group)
   BOOST_CHECK_EQUAL(root.type(),node::Type::GROUP);
   BOOST_CHECK_EQUAL(root.links.size(),0);
   BOOST_CHECK_EQUAL(root.nodes.size(),0);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root.path()),"/");
+  BOOST_CHECK_EQUAL(static_cast<std::string>(root.link().path()),"/");
 }
 
 BOOST_AUTO_TEST_CASE(test_default_construction)
@@ -55,11 +55,62 @@ BOOST_AUTO_TEST_CASE(test_default_construction)
 BOOST_AUTO_TEST_CASE(test_group_creation)
 {
   node::Group g = file.root();
+  BOOST_CHECK_EQUAL(g.nodes.size(),0);
+  BOOST_CHECK_EQUAL(g.links.size(),0);
   BOOST_CHECK_NO_THROW(g.create_group("group_1"));
+  BOOST_CHECK_EQUAL(g.nodes.size(),1);
+  BOOST_CHECK_EQUAL(g.links.size(),1);
   BOOST_CHECK_NO_THROW(g.create_group("group_2"));
   BOOST_CHECK_EQUAL(g.nodes.size(),2);
   BOOST_CHECK_EQUAL(g.links.size(),2);
+}
 
+BOOST_AUTO_TEST_CASE(test_group_linkview)
+{
+  node::Group g = file.root();
+  BOOST_CHECK(!g.links.exists("group_1"));
+
+  node::Group g1 = g.create_group("group_1");
+
+  BOOST_CHECK(g.links.exists("group_1"));
+
+  node::Link l;
+  BOOST_CHECK_NO_THROW(l = g.links["group_1"]);
+  BOOST_CHECK_EQUAL(l, g1.link());
+}
+
+BOOST_AUTO_TEST_CASE(test_group_nodeview)
+{
+  node::Group g = file.root();
+
+  BOOST_CHECK_THROW(g.nodes.exists("group_1"), std::runtime_error);
+
+  node::Group g1 = g.create_group("group_1");
+
+  BOOST_CHECK(g.nodes.exists("group_1"));
+
+  node::Group n;
+  BOOST_CHECK_NO_THROW(n = g.nodes["group_1"]);
+  BOOST_CHECK_EQUAL(n.id(), g1.id());
+}
+
+BOOST_AUTO_TEST_CASE(test_group_existence)
+{
+  node::Group g = file.root();
+
+  BOOST_CHECK(!g.exists("group_1"));
+
+  node::Group g1 = g.create_group("group_1");
+
+  BOOST_CHECK(g.exists("group_1"));
+}
+
+BOOST_AUTO_TEST_CASE(test_group_accessor)
+{
+  node::Group g = file.root();
+  node::Group g1 = g.create_group("group_1");
+
+  BOOST_CHECK_EQUAL(g1.id(), g["group_1"].id());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

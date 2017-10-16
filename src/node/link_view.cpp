@@ -58,7 +58,7 @@ Link LinkView::operator[](size_t index) const
   {
     std::stringstream ss;
     ss<<"Could not determine the size of link "<<index<<" on group ["
-      <<group().path()<<"]!";
+      <<group().link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
 
@@ -80,11 +80,11 @@ Link LinkView::operator[](size_t index) const
   {
     std::stringstream ss;
     ss<<"Could not load name for link "<<index<<" on group ["
-        <<group().path()<<"]!";
+        <<group().link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
 
-  return Link(group(),name);
+  return Link(group().link().file(),group().link().path(),name);
 
 }
 
@@ -96,7 +96,7 @@ Link LinkView::operator[](const std::string &name) const
     ss<<"["<<name<<"] is not a valid link name!";
     throw std::runtime_error(ss.str());
   }
-  return Link(group(),name);
+  return Link(group().link().file(),group().link().path(),name);
 }
 
 bool LinkView::exists(const std::string &name,const property::LinkAccessList &lapl) const
@@ -124,7 +124,7 @@ bool LinkView::exists(const std::string &name,const property::LinkAccessList &la
   {
     std::stringstream ss;
     ss<<"Failure checking for link ["<<name<<"] on group ["
-      <<group().path()<<"]!";
+      <<group().link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
 }

@@ -163,4 +163,14 @@ BOOST_AUTO_TEST_CASE(test_parent_path)
   BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"/");
 }
 
+BOOST_AUTO_TEST_CASE(test_path_equality)
+{
+  hdf5::Path p1("hello/world");
+  hdf5::Path p2("/hello/world");
+  hdf5::Path p3("/hello");
+  BOOST_CHECK(p1 == p1);
+  BOOST_CHECK(p1 != p2);
+  BOOST_CHECK(p2 != p3);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

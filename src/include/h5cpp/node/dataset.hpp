@@ -27,6 +27,7 @@
 #include "node.hpp"
 #include "../dataspace/dataspace.hpp"
 #include "../datatype/datatype.hpp"
+#include "../property/dataset_transfer_list.hpp"
 #include "../types.hpp"
 #include "../windows.hpp"
 
@@ -38,37 +39,101 @@ class Selection;
 class DLL_EXPORT Dataset : public Node
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
+    //! Use default implementation here. We need this for some STL containers.
+    //! After default construction the dataset is in an invalid state.
+    //!
+    //! \sa is_valid()
+    //!
     Dataset() = default;
+
+    //!
+    //! \brief copy constructor
+    //!
+    //! Use default implementation here.
+    //!
     Dataset(const Dataset &) = default;
+
+    //!
+    //! \brief construct
+    //!
+    //! Construct a dataset from a node instance.
+    //!
     Dataset(const Node &node);
 
+    //!
+    //! \brief get dataspace of dataset
+    //!
+    //! Return a new instance of the dataspace describing the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return new dataspace instance
+    //!
     dataspace::Dataspace dataspace() const;
+
+    //!
+    //! \brief get datatype of dataset
+    //!
+    //! Return an instance of the datatype describing the elements stored
+    //! in the file.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return new instance of datatype
+    //!
     datatype::Datatype datatype() const;
 
     void extent(const Dimensions &dims) const;
 
+    void extent(size_t dim,ssize_t delta_elements) const;
+
     //!
     //! \brief write entire dataset
     //!
-//    template<typename T>
-//    void write(const T &data) const
-//    {
-//      auto memory_space = hdf5::dataspace::create(data);
-//      auto memory_type  = hdf5::datatype::create(data);
-//
-//      Dataspace file_space = dataspace();
-//
-//      if(H5Dwrite(........)<0)
-//      {
-//
-//      }
-//    }
+    template<typename T>
+    void write(const T &data,const property::DatasetTransferList &dtpl =
+                                   property::DatasetTransferList()) const
+    {
+      auto memory_space = hdf5::dataspace::create(data);
+      auto memory_type  = hdf5::datatype::create(data);
+
+      if(H5Dwrite(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(memory_type),
+                  static_cast<hid_t>(memory_space),
+                  H5S_ALL,
+                  static_cast<hid_t>(dtpl),
+                  dataspace::cptr(data))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+    }
 //
 //    //!
 //    //! \brief read entire dataset
 //    //!
-//    template<typename T>
-//    void read(T &data) const;
+    template<typename T>
+    void read(T &data,const property::DatasetTransferList &dtpl =
+                            property::DatasetTransferList()) const
+    {
+      auto memory_space = hdf5::dataspace::create(data);
+      auto memory_type  = hdf5::datatype::create(data);
+
+      if(H5Dread(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(memory_type),
+                  static_cast<hid_t>(memory_space),
+                  H5S_ALL,
+                  static_cast<hid_t>(dtpl),
+                  dataspace::ptr(data))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+
+    }
 //
 //    //!
 //    //! \brief
@@ -85,11 +150,8 @@ class DLL_EXPORT Dataset : public Node
 //    template<typename T>
 //    void write(const Selection &file_selection,const T &data) const;
 
-
-
-
-
 };
+
 
 //ds.push_back(data);
 //

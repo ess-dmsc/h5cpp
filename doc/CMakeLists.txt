@@ -6,13 +6,14 @@
 configure_file(Doxyfile.in Doxyfile @ONLY)
 configure_file(groups.dox groups.dox COPYONLY)
 configure_file(mainpage.dox mainpage.dox COPYONLY)
-set_source_files_properties(Doxyfile groups.dox mainpage.dox
+configure_file(namespaces.dox namespaces.dox COPYONLY)
+set_source_files_properties(Doxyfile groups.dox mainpage.dox namespaces.dox
 	PROPERTIES GENERATED TRUE)
 
 add_custom_command(OUTPUT doxygen.stamp
                    COMMAND doxygen
                    COMMAND echo "timestamp" > doxygen.stamp
-                   DEPENDS Doxyfile groups.dox mainpage.dox 
+                   DEPENDS Doxyfile groups.dox mainpage.dox namespaces.dox
                            ${CMAKE_DOXYGEN_BUILD_DEPENDENCIES}
                    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doc)
 

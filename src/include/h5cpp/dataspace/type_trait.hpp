@@ -22,6 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 7, 2017
 //
+#pragma once
 
 #include <vector>
 #include <array>
@@ -44,6 +45,7 @@ namespace dataspace {
 //!
 //! \tparam T type for which to construct a dataspace
 //!
+
 template<typename T>
 class TypeTrait
 {
@@ -52,6 +54,16 @@ class TypeTrait
     static DataspaceType create(const T &)
     {
       return Scalar();
+    }
+
+    static void *ptr(T &value)
+    {
+      return reinterpret_cast<void*>(&value);
+    }
+
+    static const void*cptr(const T &value)
+    {
+      return reinterpret_cast<const void*>(&value);
     }
 };
 
@@ -65,6 +77,16 @@ class TypeTrait<std::vector<T>>
     {
       return Simple(hdf5::Dimensions{value.size()},hdf5::Dimensions{value.size()});
     }
+
+    static void *ptr(std::vector<T> &data)
+    {
+      return reinterpret_cast<void*>(data.data());
+    }
+
+    static const void *cptr(const std::vector<T> &data)
+    {
+      return reinterpret_cast<const void*>(data.data());
+    }
 };
 
 template<typename T,size_t N>
@@ -76,6 +98,16 @@ class TypeTrait<std::array<T,N>>
     static DataspaceType create(const std::array<T,N> &value)
     {
       return Simple(hdf5::Dimensions{N},hdf5::Dimensions{N});
+    }
+
+    static void *ptr(std::array<T,N> &value)
+    {
+      return reinterpret_cast<void*>(value.data());
+    }
+
+    static const void *cptr(const std::array<T,N> &value)
+    {
+      return reinterpret_cast<const void *>(value.data());
     }
 };
 
@@ -95,6 +127,18 @@ template<typename T>
 typename TypeTrait<T>::DataspaceType create(const T &value)
 {
   return TypeTrait<T>::create(value);
+}
+
+template<typename T>
+void *ptr(T &value)
+{
+  return TypeTrait<T>::ptr(value);
+}
+
+template<typename T>
+const void *cptr(const T &value)
+{
+  return TypeTrait<T>::cptr(value);
 }
 
 
