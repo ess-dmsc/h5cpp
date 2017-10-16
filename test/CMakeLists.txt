@@ -41,7 +41,7 @@ find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
 if (NOT GCOV_PATH OR NOT GCOVR_PATH)
       message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
 else()
-    add_custom_target(generate_coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/" "-x" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" DEPENDS run_tests)
+    add_custom_target(generate_coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src" "-x" "${PROJECT_BINARY_DIR}" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" DEPENDS run_tests)
 endif()
 #add_custom_target(runtest COMMAND ${CMAKE_INSTALL_BINDIR}/unit_tests DEPENDS unit_tests)
 
