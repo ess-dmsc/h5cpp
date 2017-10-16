@@ -47,7 +47,7 @@ node ("boost && fedora") {
                 sh "make run_tests"
                 junit 'test/unit_tests_run.xml'
                 sh "make generate_coverage"
-                sh "make memcheck"
+/*                sh "make memcheck"*/
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
