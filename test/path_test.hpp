@@ -168,9 +168,3 @@ TEST(PathTest,test_path_equality)
   EXPECT_TRUE(p1 != p2);
   EXPECT_TRUE(p2 != p3);
 }
-
-int main(int argc, char **argv)
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}

@@ -3,9 +3,6 @@ set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 
-#add_library(test_common OBJECT fixture.cpp)
-#target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
-
 ## Add line:
 ##   #include <gtest/gtest.h>
 ## Change these:
@@ -20,32 +17,27 @@ include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 #  return RUN_ALL_TESTS();
 #}
 
+set(Common_SRC main.cpp
+  ../src/path.cpp
+  ../src/iterator.cpp
+  ../src/iterator_config.cpp)
+set(Common_INC
+  path_test.hpp
+  iteration_order_test.hpp
+  ../src/include/h5cpp/path.hpp
+  ../src/include/h5cpp/iterator.hpp
+  ../src/include/h5cpp/iterator_config.hpp)
+create_test_executable(Common h5cpp_shared)
+
+#add_library(test_common OBJECT fixture.cpp)
+#target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
+
 #add_executable(object_id_test object_id_test.cpp)
 #target_link_libraries(object_id_test h5cpp_shared Boost::unit_test_framework)
 #add_logging_test("hdf5::ObjectId"
 #                 object_id_test
 #                 ${WORKING_DIRECTORY})
 
-set(Path_SRC path_test.cpp
-  ../src/path.cpp)
-set(Path_INC
-  ../src/include/h5cpp/path.hpp)
-create_test_executable(Path h5cpp_shared)
-
-set(IterationOrder_SRC iteration_order_test.cpp
-  ../src/iterator.cpp
-  ../src/iterator_config.cpp)
-set(IterationOrder_INC
-  ../src/include/h5cpp/iterator.hpp
-  ../src/include/h5cpp/iterator_config.hpp)
-create_test_executable(IterationOrder h5cpp_shared)
-
-#add_executable(iteration_order_test iteration_order_test.cpp)
-#target_link_libraries(iteration_order_test h5cpp_shared Boost::unit_test_framework)
-#add_logging_test("hdf5::IterationOrder"
-#                 iteration_order_test
-#                 ${WORKING_DIRECTORY})
-                
 #add_executable(iteration_index_test iteration_index_test.cpp)
 #target_link_libraries(iteration_index_test h5cpp_shared Boost::unit_test_framework)
 #add_logging_test("hdf5::IterationIndex"

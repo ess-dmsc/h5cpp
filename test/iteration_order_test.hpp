@@ -53,9 +53,3 @@ TEST(IterationOrderTest, test_value)
   EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
                     H5_ITER_NATIVE);
 }
-
-int main(int argc, char **argv)
-{
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
