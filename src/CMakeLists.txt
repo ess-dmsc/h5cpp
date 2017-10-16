@@ -85,6 +85,7 @@ set_target_properties(h5cpp_shared
 	                  CXX_STANDARD_REQUIRED ON
 	                                         )
 
+include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
 install(TARGETS h5cpp_shared 
 	    EXPORT h5cpp_shared_targets
