@@ -24,28 +24,46 @@
 //
 #include <stdexcept>
 #include <h5cpp/dataspace/selection.hpp>
+#include <algorithm>
+#include <sstream>
 
 
 namespace hdf5 {
 namespace dataspace {
+
+#define THROW_IF_DEFAULT_CONSTRUCTED(msg)\
+  if(rank()==0) \
+  {\
+    throw std::runtime_error(msg);\
+  }
 
 
 Selection::~Selection()
 {}
 
 Hyperslab::Hyperslab():
-        Selection()
+        Selection(),
+        start_(),
+        stride_(),
+        count_(),
+        block_()
 {}
 
 Hyperslab::~Hyperslab()
 {}
 
 Hyperslab::Hyperslab(size_t rank):
-        start_(rank),
-        stride_(rank),
-        count_(rank),
-        block_(rank)
-{}
+            Selection(),
+            start_(rank),
+            stride_(rank),
+            count_(rank),
+            block_(rank)
+{
+  std::fill(start_.begin(),start_.end(),0);
+  std::fill(stride_.begin(),stride_.end(),1);
+  std::fill(block_.begin(),block_.end(),0);
+  std::fill(count_.begin(),count_.end(),0);
+}
 
 Hyperslab::Hyperslab(const Dimensions &start,
                      const Dimensions &stride,
@@ -58,43 +76,128 @@ Hyperslab::Hyperslab(const Dimensions &start,
                          block_(block)
 {}
 
-Dimensions &Hyperslab::start()
+size_t Hyperslab::rank() const noexcept
 {
-  return start_;
+  return start_.size();
+}
+
+void Hyperslab::check_dimension_index(size_t index,const std::string &what) const
+{
+  if(index>=rank())
+  {
+    std::stringstream ss;
+    ss<<"Cannot set "<<what<<" value at dimension "<<index<<" for a Hyperslab"
+        <<" of rank "<<rank()<<"!";
+    throw std::runtime_error(ss.str());
+  }
+}
+
+void Hyperslab::check_container_size(const Dimensions &container,
+                                     const std::string &what) const
+{
+  if(container.size()!=rank())
+  {
+    std::stringstream ss;
+    ss<<"Cannot assign "<<container.size()<<" "<<what<<" values to a Hyperslab"
+      <<" of rank "<<rank()<<"!";
+    throw std::runtime_error(ss.str());
+  }
+}
+
+void Hyperslab::start(size_t index,size_t value)
+{
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start value for a default "
+                               "constructed Hyperslab!")
+  check_dimension_index(index,"start");
+
+  start_[index] = value;
+}
+
+void Hyperslab::start(const Dimensions &values)
+{
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start values for a default "
+                               "constructed Hyperslab!")
+
+  check_container_size(values,"start");
+  start_  = values;
 }
 
 const Dimensions &Hyperslab::start() const
 {
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot get start values for a default "
+                               "constructed Hyperslab!")
   return start_;
 }
 
-Dimensions &Hyperslab::stride()
+void Hyperslab::stride(size_t index,size_t value)
 {
-  return stride_;
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set stride value for a default "
+                               "constructed Hyperslab!")
+  check_dimension_index(index,"stride");
+
+  stride_[index] = value;
+}
+
+void Hyperslab::stride(const Dimensions &values)
+{
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set stride values for a default "
+                               "constructed Hyperslab!")
+  check_container_size(values,"stride");
+  stride_ = values;
 }
 
 const Dimensions &Hyperslab::stride() const
 {
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot get stride values for a default "
+                               "constructed Hyperslab!")
   return stride_;
 }
 
-Dimensions &Hyperslab::count()
+void Hyperslab::count(size_t index,size_t value)
 {
-  return count_;
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set count value for a default "
+                               "constructed Hyperslab!")
+  check_dimension_index(index,"count");
+
+  count_[index] = value;
+}
+
+void Hyperslab::count(const Dimensions &values)
+{
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set count values for a default "
+                               "constructed Hyperslab!")
+  check_container_size(values,"count");
+  count_ = values;
 }
 
 const Dimensions &Hyperslab::count() const
 {
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot get count values for a default "
+                               "constructed Hyperslab!")
   return count_;
 }
 
-Dimensions &Hyperslab::block()
+void Hyperslab::block(size_t index,size_t value)
 {
-  return block_;
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set block value for a default "
+                               "constructed Hyperslab!")
+  check_dimension_index(index,"block");
+  block_[index] = value;
+}
+
+void Hyperslab::block(const Dimensions &values)
+{
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot set block values for a default "
+                               "constructed Hyperslab!")
+  check_container_size(values,"block");
+  block_ = values;
+
 }
 
 const Dimensions &Hyperslab::block() const
 {
+  THROW_IF_DEFAULT_CONSTRUCTED("Cannot get block values for a default "
+                               "constructed Hyperslab!")
   return block_;
 }
 

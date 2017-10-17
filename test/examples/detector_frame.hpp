@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,8 +20,33 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 7, 2017
+// Created on: Oct 11, 2017
 //
+#pragma once
+#include <iostream>
+#include "frame_buffer.hpp"
 
+template<typename PixelType>
+class DetectorFrame
+{
+  public:
+    using BufferType = FrameBuffer<PixelType>;
+    DetectorFrame();
+    DetectorFrame(const DetectorFrame &) = default;
+    DetectorFrame(DetectorFrame &&) = default;
+    DetectorFrame(size_t nfast_direction,size_t nslow_direction);
 
-#include <h5cpp/node/dataset.hpp>
+    size_t size() const noexcept;
+
+    PixelType *data() noexcept;
+    const PixelType *data() const noexcept;
+
+    PixelType &operator(size_t slow_index,size_t fast_index) noexcept;
+    const PixelType &operator(size_t slow_index,size_t fast_index) const noexcept;
+
+  private:
+    size_t nfast_; // number of elements along the fast direction
+    size_t nslow_; // number of elements along the slow direction
+    BufferType frame_buffer_; // data buffer
+
+};
