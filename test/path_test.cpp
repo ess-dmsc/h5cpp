@@ -29,7 +29,7 @@ TEST(Path,test_default_construction)
 {
   hdf5::Path p;
   EXPECT_EQ(p.size(),0);
-  EXPECT_TRUE(!p.is_absolute_path());
+  EXPECT_FALSE(p.is_absolute_path());
 
 }
 
@@ -41,11 +41,11 @@ TEST(Path,test_construction_from_string)
 
   p = hdf5::Path("hello/world");
   EXPECT_EQ(p.size(),2);
-  EXPECT_TRUE(!p.is_absolute_path());
+  EXPECT_FALSE(p.is_absolute_path());
 
   p = hdf5::Path("hello/world/instrument/data/");
   EXPECT_EQ(p.size(),4);
-  EXPECT_TRUE(!p.is_absolute_path());
+  EXPECT_FALSE(p.is_absolute_path());
 }
 
 TEST(Path,test_conversion_to_string)
@@ -81,7 +81,7 @@ TEST(Path,test_append_link_name)
   p = p + "metadata/date";
   EXPECT_EQ(static_cast<std::string>(p),"instrument/detector/metadata/date");
   EXPECT_EQ(p.size(),4);
-  EXPECT_TRUE(!p.is_absolute_path());
+  EXPECT_FALSE(p.is_absolute_path());
 }
 
 TEST(Path,test_prepend_link_name)

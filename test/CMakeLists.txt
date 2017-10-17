@@ -10,24 +10,32 @@ find_package(GTest)
 ##   BOOST_CHECK_EQUAL( --> EXPECT_EQ(
 ##   BOOST_CHECK( --> EXPECT_TRUE(
 ##   BOOST_AUTO_TEST_CASE( --> TEST(TestName,
-##
-## At the end:
-# int main(int argc, char **argv)
-#{
-#  ::testing::InitGoogleTest(&argc, argv);
-#  return RUN_ALL_TESTS();
-#}
 
 set(Common_SRC 
-    main.cpp
-    iteration_index_test.cpp
-    iteration_order_test.cpp
-    object_id_test.cpp
-    path_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/object_id_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
 )
-set(Common_INC
-    
+
+set(Common_INC    
 )
+
+#create_test_executable(Common h5cpp_shared)
+
+#add_library(test_common OBJECT fixture.cpp)
+#target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
+
+add_subdirectory(ObjectHandle)
+#add_subdirectory(property)
+#add_subdirectory(datatype)
+#add_subdirectory(dataspace)
+#add_subdirectory(logs)
+#add_subdirectory(file)
+#add_subdirectory(node)
+#add_subdirectory(attribute)
+#add_subdirectory(examples)
 
 add_executable(unit_tests ${Common_SRC} ${Common_INC})
 add_dependencies(unit_tests h5cpp_unit_test)
@@ -45,24 +53,3 @@ if (NOT GCOV_PATH OR NOT GCOVR_PATH)
 else()
     add_custom_target(generate_coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src" "-x" "${PROJECT_BINARY_DIR}" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" DEPENDS run_tests)
 endif()
-
-#create_test_executable(Common h5cpp_shared)
-
-#add_library(test_common OBJECT fixture.cpp)
-#target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
-
-#add_subdirectory(ObjectHandle)
-#add_subdirectory(property)
-#add_subdirectory(datatype)
-#add_subdirectory(dataspace)
-#add_subdirectory(logs)
-#add_subdirectory(file)
-#add_subdirectory(node)
-#add_subdirectory(attribute)
-#add_subdirectory(examples)
-
-#
-#  These commands must be at the end of this file
-#
-#finalize_tests()
-
