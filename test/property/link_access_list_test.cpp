@@ -22,38 +22,35 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 21, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing link access property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/link_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 namespace fs = boost::filesystem;
 
-BOOST_AUTO_TEST_SUITE(LinkAccessList_test)
+TEST(LinkAccessList, test_default_construction)
+{
+  pl::LinkAccessList lapl;
+  EXPECT_TRUE(lapl.get_class() == pl::kLinkAccess);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    pl::LinkAccessList lapl;
-    BOOST_CHECK(lapl.get_class() == pl::kLinkAccess);
-  }
+TEST(LinkAccessList, test_maximum_link_traversal)
+{
+  pl::LinkAccessList lapl;
+  EXPECT_NO_THROW(lapl.maximum_link_traversals(1000));
+  EXPECT_EQ(lapl.maximum_link_traversals(),1000);
 
-  BOOST_AUTO_TEST_CASE(test_maximum_link_traversal)
-  {
-    pl::LinkAccessList lapl;
-    BOOST_CHECK_NO_THROW(lapl.maximum_link_traversals(1000));
-    BOOST_CHECK_EQUAL(lapl.maximum_link_traversals(),1000);
+  EXPECT_NO_THROW(lapl.maximum_link_traversals(2000));
+  EXPECT_EQ(lapl.maximum_link_traversals(),2000);
+}
 
-    BOOST_CHECK_NO_THROW(lapl.maximum_link_traversals(2000));
-    BOOST_CHECK_EQUAL(lapl.maximum_link_traversals(),2000);
-  }
+TEST(LinkAccessList, test_external_link_prefix)
+{
+  pl::LinkAccessList lapl;
+  EXPECT_NO_THROW(lapl.external_link_prefix("/home/wintersb"));
+  EXPECT_EQ(lapl.external_link_prefix().string(),"/home/wintersb");
+}
 
-  BOOST_AUTO_TEST_CASE(test_external_link_prefix)
-  {
-    pl::LinkAccessList lapl;
-    BOOST_CHECK_NO_THROW(lapl.external_link_prefix("/home/wintersb"));
-    BOOST_CHECK_EQUAL(lapl.external_link_prefix().string(),"/home/wintersb");
-  }
 
-BOOST_AUTO_TEST_SUITE_END()
