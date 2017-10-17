@@ -22,53 +22,59 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing AccessFlags implementation
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/file/types.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(AccessFlags_test)
-
-BOOST_AUTO_TEST_CASE(test_output_stream)
+TEST(AccessFlags, test_output_stream)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
+  stream = std::stringstream();
   stream<<file::AccessFlags::EXCLUSIVE;
-  BOOST_CHECK(stream.is_equal("EXCLUSIVE"));
+  EXPECT_EQ(stream.str(), "EXCLUSIVE");
+
+  stream = std::stringstream();
   stream<<file::AccessFlags::READONLY;
-  BOOST_CHECK(stream.is_equal("READONLY"));
+  EXPECT_EQ(stream.str(), "READONLY");
+
+  stream = std::stringstream();
   stream<<file::AccessFlags::READWRITE;
-  BOOST_CHECK(stream.is_equal("READWRITE"));
+  EXPECT_EQ(stream.str(), "READWRITE");
+
+  stream = std::stringstream();
   stream<<file::AccessFlags::TRUNCATE;
-  BOOST_CHECK(stream.is_equal("TRUNCATE"));
+  EXPECT_EQ(stream.str(), "TRUNCATE");
 #if H5_VERSION_GE(1,10,0)
+  stream = std::stringstream();
   stream<<file::AccessFlags::SWMR_WRITE;
-  BOOST_CHECK(stream.is_equal("SWMR WRITE"));
+  EXPECT_EQ(stream.str(), "SWMR WRITE");
+
+  stream = std::stringstream();
   stream<<file::AccessFlags::SWMR_READ;
-  BOOST_CHECK(stream.is_equal("SWMR READ"));
+  EXPECT_EQ(stream.str(), "SWMR READ");
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(test_values)
+TEST(AccessFlags, test_values)
 {
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::EXCLUSIVE),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::EXCLUSIVE),
                     H5F_ACC_EXCL);
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::READONLY),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::READONLY),
                     H5F_ACC_RDONLY);
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::READWRITE),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::READWRITE),
                     H5F_ACC_RDWR);
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE),
                     H5F_ACC_TRUNC);
 #if H5_VERSION_GE(1,10,0)
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE),
                     H5F_ACC_SWMR_WRITE);
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ),
                     H5F_ACC_SWMR_READ);
 
 #endif
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

@@ -22,70 +22,63 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 10, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing open creation function
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <boost/filesystem.hpp>
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-struct GlobalFixture
+class FileOpen : public testing::Test
 {
-    GlobalFixture();
-    ~GlobalFixture();
+  protected:
+    FileOpen() {}
+    virtual void SetUp()
+    {
+      fs::remove("file_open.h5");
+
+      property::FileCreationList fcpl;
+      property::FileAccessList fapl;
+    #if H5_VERSION_GE(1,10,0)
+      //need this for SWMR
+      fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
+    #endif
+      file::create("file_open.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
+    }
+
+    virtual void TearDown() {}
+    virtual ~FileOpen() {}
 };
 
-GlobalFixture::GlobalFixture()
-{
-  fs::remove("file_open.h5");
 
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-#if H5_VERSION_GE(1,10,0)
-  //need this for SWMR
-  fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
-#endif
-  file::create("file_open.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
-}
-
-GlobalFixture::~GlobalFixture()
-{
-
-}
-
-BOOST_GLOBAL_FIXTURE(GlobalFixture);
-
-BOOST_AUTO_TEST_SUITE(FileOpen_test)
-
-BOOST_AUTO_TEST_CASE(test_open_default)
+TEST_F(FileOpen, test_open_default)
 {
   file::File f = file::open("file_open.h5");
-  BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::READONLY);
+  EXPECT_EQ(f.intent(),file::AccessFlags::READONLY);
 }
 
-BOOST_AUTO_TEST_CASE(test_open_readwrite)
+TEST_F(FileOpen, test_open_readwrite)
 {
   file::File f = file::open("file_open.h5",file::AccessFlags::READWRITE);
-  BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::READWRITE);
+  EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
 }
 
 #if H5_VERSION_GE(1,10,0)
 
-BOOST_AUTO_TEST_CASE(test_open_swmr_read)
+TEST_F(FileOpen, test_open_swmr_read)
 {
   file::File f = file::open("file_open.h5",file::AccessFlags::SWMR_READ);
-  BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::SWMR_READ);
+  EXPECT_EQ(f.intent(),file::AccessFlags::SWMR_READ);
 }
 
-BOOST_AUTO_TEST_CASE(test_open_swmr_write)
+TEST_F(FileOpen, test_open_swmr_write)
 {
   file::File f = file::open("file_open.h5",
                              file::AccessFlags::READWRITE | file::AccessFlags::SWMR_WRITE);
 
 
-  BOOST_CHECK_EQUAL(static_cast<file::AccessFlagsBase>(f.intent()),
+  EXPECT_EQ(static_cast<file::AccessFlagsBase>(f.intent()),
                     file::AccessFlags::SWMR_WRITE|file::AccessFlags::READWRITE  );
 
 }
@@ -93,7 +86,7 @@ BOOST_AUTO_TEST_CASE(test_open_swmr_write)
 #endif
 
 
-BOOST_AUTO_TEST_SUITE_END()
+
 
 
 
