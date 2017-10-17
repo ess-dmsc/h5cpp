@@ -23,6 +23,7 @@
 // Created on: Oct 09, 2017
 //
 
+#include <stdexcept>
 #include <h5cpp/property/object_copy_list.hpp>
 
 

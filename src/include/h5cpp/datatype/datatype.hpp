@@ -56,9 +56,9 @@ class DLL_EXPORT Datatype
     Datatype super() const;
     Datatype native_type(Direction dir=Direction::ASCEND) const;
     bool has_class(Class type_class) const;
-    size_t size() const;
-    void size(size_t size) const;
 
+    virtual size_t size() const;
+    virtual void set_size(size_t size) const;
 
     explicit operator hid_t() const
     {

@@ -27,6 +27,7 @@
 #include "datatype.hpp"
 #include "integer.hpp"
 #include "float.hpp"
+#include "string.hpp"
 
 #include <vector>
 #include <array>
@@ -206,6 +207,16 @@ template<> class TypeTrait<long double>
     }
 };
 
+template<> class TypeTrait<std::string>
+{
+  public:
+    using TypeClass = String;
+    static TypeClass create()
+    {
+      return datatype::String::variable();
+    }
+};
+
 template<typename T> class TypeTrait<std::vector<T>>
 {
   public:
@@ -225,8 +236,6 @@ template<typename T,size_t N> class TypeTrait<std::array<T,N>>
       return TypeTrait<T>::create();
     }
 };
-
-
 
 
 } // namespace datatype

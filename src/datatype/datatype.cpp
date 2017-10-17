@@ -112,7 +112,7 @@ size_t Datatype::size() const
   return s;
 }
 
-void Datatype::size(size_t size) const
+void Datatype::set_size(size_t size) const
 {
   if(H5Tset_size(static_cast<hid_t>(*this),size)<0)
   {

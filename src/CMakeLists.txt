@@ -25,7 +25,8 @@ set(DATATYPE_SOURCES datatype/datatype.cpp
 	datatype/float.cpp
 	datatype/types.cpp
 	datatype/compound.cpp
-	)
+  datatype/string.cpp
+  )
 
 set(DATASPACE_SOURCES dataspace/dataspace.cpp
                       dataspace/scalar.cpp
