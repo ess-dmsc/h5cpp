@@ -5,7 +5,8 @@ set(HEADERS datatype.hpp
 	        type_trait.hpp
 	        types.hpp
 	        compound.hpp
-	        )
+          string.hpp
+          )
 	       
 add_doxygen_source_deps(${HEADERS})
 install(FILES ${HEADERS}
