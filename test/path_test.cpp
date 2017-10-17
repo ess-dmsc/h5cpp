@@ -25,7 +25,7 @@
 #include <gtest/gtest.h>
 #include <h5cpp/path.hpp>
 
-TEST(PathTest,test_default_construction)
+TEST(Path,test_default_construction)
 {
   hdf5::Path p;
   EXPECT_EQ(p.size(),0);
@@ -33,7 +33,7 @@ TEST(PathTest,test_default_construction)
 
 }
 
-TEST(PathTest,test_construction_from_string)
+TEST(Path,test_construction_from_string)
 {
   hdf5::Path p("/hello/world/data");
   EXPECT_EQ(p.size(),3);
@@ -48,7 +48,7 @@ TEST(PathTest,test_construction_from_string)
   EXPECT_TRUE(!p.is_absolute_path());
 }
 
-TEST(PathTest,test_conversion_to_string)
+TEST(Path,test_conversion_to_string)
 {
   hdf5::Path p("/hello/world/data");
   EXPECT_EQ(static_cast<std::string>(p),"/hello/world/data");
@@ -60,7 +60,7 @@ TEST(PathTest,test_conversion_to_string)
   EXPECT_EQ(static_cast<std::string>(p),"hello/world/instrument/data");
 }
 
-TEST(PathTest,test_conversion_from_list)
+TEST(Path,test_conversion_from_list)
 {
   std::list<std::string> l{"entry","instrument","detector"};
   hdf5::Path p;
@@ -69,7 +69,7 @@ TEST(PathTest,test_conversion_from_list)
   EXPECT_EQ(static_cast<std::string>(p),"entry/instrument/detector");
 }
 
-TEST(PathTest,test_append_link_name)
+TEST(Path,test_append_link_name)
 {
   hdf5::Path p("/entry/instrument/detector");
   p = p+"data";
@@ -84,7 +84,7 @@ TEST(PathTest,test_append_link_name)
   EXPECT_TRUE(!p.is_absolute_path());
 }
 
-TEST(PathTest,test_prepend_link_name)
+TEST(Path,test_prepend_link_name)
 {
   hdf5::Path p("instrument/detector");
   p = "/entry" + p;
@@ -102,7 +102,7 @@ TEST(PathTest,test_prepend_link_name)
   EXPECT_TRUE(p.is_absolute_path());
 }
 
-TEST(PathTest,test_adding_two_paths)
+TEST(Path,test_adding_two_paths)
 {
   hdf5::Path p1("/entry/instrument"), p2("detector/data");
   hdf5::Path p = p1+p2;
@@ -111,7 +111,7 @@ TEST(PathTest,test_adding_two_paths)
   EXPECT_EQ(static_cast<std::string>(p),"/entry/instrument/detector/data");
 }
 
-TEST(PathTest,test_root_path)
+TEST(Path,test_root_path)
 {
   hdf5::Path p("/");
   EXPECT_TRUE(p.is_root());
@@ -119,7 +119,7 @@ TEST(PathTest,test_root_path)
   EXPECT_EQ(static_cast<std::string>(p),"/");
 }
 
-TEST(PathTest,test_front)
+TEST(Path,test_front)
 {
   hdf5::Path p("/hello/world");
   EXPECT_EQ(p.front(),"hello");
@@ -129,7 +129,7 @@ TEST(PathTest,test_front)
   EXPECT_EQ(p.front(),"/");
 }
 
-TEST(PathTest,test_back)
+TEST(Path,test_back)
 {
   hdf5::Path p("hello/world");
   EXPECT_EQ(p.back(),"world");
@@ -139,7 +139,7 @@ TEST(PathTest,test_back)
   EXPECT_EQ(p.back(),"/");
 }
 
-TEST(PathTest,test_object_name)
+TEST(Path,test_object_name)
 {
   hdf5::Path p("hello/world");
   EXPECT_EQ(hdf5::Path::object_name(p),"world");
@@ -149,7 +149,7 @@ TEST(PathTest,test_object_name)
   EXPECT_EQ(hdf5::Path::object_name(p),"/");
 }
 
-TEST(PathTest,test_parent_path)
+TEST(Path,test_parent_path)
 {
   hdf5::Path p("hello/world");
   EXPECT_EQ(static_cast<std::string>(hdf5::Path::parent_path(p)),"hello");
@@ -159,7 +159,7 @@ TEST(PathTest,test_parent_path)
   EXPECT_EQ(static_cast<std::string>(hdf5::Path::parent_path(p)),"/");
 }
 
-TEST(PathTest,test_path_equality)
+TEST(Path,test_path_equality)
 {
   hdf5::Path p1("hello/world");
   hdf5::Path p2("/hello/world");

@@ -7,8 +7,8 @@ find_package(GTest)
 ## Add line:
 ##   #include <gtest/gtest.h>
 ## Change these:
-##   BOOST_CHECK( --> EXPECT_TRUE(
 ##   BOOST_CHECK_EQUAL( --> EXPECT_EQ(
+##   BOOST_CHECK( --> EXPECT_TRUE(
 ##   BOOST_AUTO_TEST_CASE( --> TEST(TestName,
 ##
 ## At the end:
@@ -20,6 +20,7 @@ find_package(GTest)
 
 set(Common_SRC 
     main.cpp
+    iteration_index_test.cpp
     iteration_order_test.cpp
     path_test.cpp
 )

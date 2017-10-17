@@ -27,7 +27,7 @@
 
 using namespace hdf5;
 
-TEST(IterationOrderTest, test_string_representation)
+TEST(IterationOrder, test_string_representation)
 {
   std::stringstream stream;
 
@@ -44,7 +44,7 @@ TEST(IterationOrderTest, test_string_representation)
   EXPECT_EQ(stream.str(), "NATIVE");
 }
 
-TEST(IterationOrderTest, test_value)
+TEST(IterationOrder, test_value)
 {
   EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
                     H5_ITER_DEC);
