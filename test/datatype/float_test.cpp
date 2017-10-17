@@ -22,25 +22,37 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 23, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing floating point type implementation
-#include <boost/test/unit_test.hpp>
-#include <boost/mpl/list.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 
 namespace type = hdf5::datatype;
 
-using test_types = boost::mpl::list<float,double,long double>;
-
-BOOST_AUTO_TEST_SUITE(Float_test)
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_construction,T,test_types)
+template <class T>
+class Float : public testing::Test
 {
-  auto t = type::create<T>();
-  BOOST_CHECK((std::is_same<decltype(t),type::Float>::value));
-  BOOST_CHECK(t.get_class()==type::Class::FLOAT);
-  BOOST_CHECK_EQUAL(t.size(),sizeof(T));
+ protected:
+  Float() {}
+  virtual ~Float() {}
+  T value_;
+};
+
+using testing::Types;
+
+// The list of types we want to test.
+typedef
+Types<float,double,long double>
+test_types;
+
+TYPED_TEST_CASE(Float, test_types);
+
+TYPED_TEST(Float, General)
+{
+  auto t = type::create<decltype(this->value_)>();
+  EXPECT_TRUE((std::is_same<decltype(t),type::Float>::value));
+  EXPECT_TRUE(t.get_class()==type::Class::FLOAT);
+  EXPECT_EQ(t.size(),sizeof(this->value_));
 
 }
-BOOST_AUTO_TEST_SUITE_END()
+

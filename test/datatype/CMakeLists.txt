@@ -1,32 +1,13 @@
-set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test/datatype)
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(Common_SRC
+  ${Common_SRC}
+  ${dir}/integer_test.cpp
+  ${dir}/compound_test.cpp
+  ${dir}/../examples/rgbpixel.cpp
+  ${dir}/float_test.cpp
+  ${dir}/string_test.cpp
+  ${dir}/type_trait_test.cpp
+  PARENT_SCOPE)
 
 
-add_executable(datatype_integer_test integer_test.cpp)
-target_link_libraries(datatype_integer_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::datatype::Integer"
-                 datatype_integer_test
-                 ${WORKING_DIRECTORY})
-
-add_executable(datatype_compound_test compound_test.cpp ../examples/rgbpixel.cpp)
-target_link_libraries(datatype_compound_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::datatype::Compound"
-                 datatype_compound_test
-                 ${WORKING_DIRECTORY})
-                
-add_executable(datatype_float_test float_test.cpp)
-target_link_libraries(datatype_float_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::datatype::Float"
-                 datatype_float_test
-                 ${WORKING_DIRECTORY})
-
-add_executable(datatype_string_test string_test.cpp)
-target_link_libraries(datatype_string_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::datatype::String"
-                 datatype_string_test
-                 ${WORKING_DIRECTORY})
-
-add_executable(datatype_type_trait_test type_trait_test.cpp)
-target_link_libraries(datatype_type_trait_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::datatype::TypeTrait"
-                 datatype_type_trait_test
-                 ${WORKING_DIRECTORY})
