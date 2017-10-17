@@ -15,16 +15,11 @@ add_executable(writing_image writing_image.cpp
                              rgbpixel.cpp)
 target_link_libraries(writing_image h5cpp_shared)
 
-<<<<<<< HEAD
-add_executable(write_single_vector write_single_vector.cpp)
-target_link_libraries(write_single_vector h5cpp_shared)
+#add_executable(write_single_vector write_single_vector.cpp)
+#target_link_libraries(write_single_vector h5cpp_shared)
 
-#add_executable(write_vector_list write_vector_list.cpp)
-#target_link_libraries(write_vector_list h5cpp_shared)
-=======
 add_executable(append_scalar_data append_scalar_data.cpp)
 target_link_libraries(append_scalar_data h5cpp_shared)
 
 add_executable(append_vector_data append_vector_data.cpp)
 target_link_libraries(append_vector_data h5cpp_shared)
->>>>>>> branch 'master' of git@github.com:ess-dmsc/h5cpp.git
