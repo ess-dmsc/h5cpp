@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE(test_shape_mismatch)
   //this should work too - however, only the first element of the vector
   //is written and read.
   attribute::Attribute a = root_group.attributes.create<float>("data");
-  std::vector<float> write_data{1.2,3.4};
+  std::vector<float> write_data{1.2f,3.4f};
   std::vector<float> read_data(3);
   BOOST_CHECK_NO_THROW(a.write(write_data));
   BOOST_CHECK_NO_THROW(a.read(read_data));

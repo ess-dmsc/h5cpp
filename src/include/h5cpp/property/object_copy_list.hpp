@@ -41,9 +41,9 @@ enum class CopyFlag : unsigned {
   MERGE_COMMITTED_TYPES = H5O_COPY_MERGE_COMMITTED_DTYPE_FLAG
 };
 
-std::ostream &operator<<(std::ostream &stream,const CopyFlag &flag);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const CopyFlag &flag);
 
-CopyFlags operator|(const CopyFlag &lhs,const CopyFlag &rhs);
+DLL_EXPORT CopyFlags operator|(const CopyFlag &lhs,const CopyFlag &rhs);
 
 
 //!
@@ -164,17 +164,17 @@ class DLL_EXPORT CopyFlags
 //!
 //! \brief binary or operator for copy flags
 //!
-CopyFlags operator|(const CopyFlags &flags,const CopyFlags &rhs) noexcept;
+DLL_EXPORT CopyFlags operator|(const CopyFlags &flags,const CopyFlags &rhs) noexcept;
 
 //!
 //! \brief binary or operator for copy flags
 //!
-CopyFlags operator|(const CopyFlags &flags,const CopyFlag &flag) noexcept;
+DLL_EXPORT CopyFlags operator|(const CopyFlags &flags,const CopyFlag &flag) noexcept;
 
 //!
 //! \brief binary or operator for copy flags
 //!
-CopyFlags operator|(const CopyFlag &flag,const CopyFlags &flags) noexcept;
+DLL_EXPORT CopyFlags operator|(const CopyFlag &flag,const CopyFlags &flags) noexcept;
 
 
 class DLL_EXPORT ObjectCopyList : public List

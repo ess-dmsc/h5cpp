@@ -52,6 +52,7 @@
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE testing object_ObjectId
+#define BOOST_NO_CXX11_SCOPED_ENUMS
 
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
