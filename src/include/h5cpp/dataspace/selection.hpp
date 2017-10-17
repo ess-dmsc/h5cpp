@@ -73,31 +73,141 @@ class DLL_EXPORT Selection
                        SelectionOperation ops) const = 0;
 };
 
+//!
+//! \brief hyperslab selection class
+//!
+//! Hyperslabs represent complex multidimensional selections within an
+//! HDF5 dataset. The number of dimensions for every hyperslab  is determined
+//! during construction and cannot be altered once it has been fixed.
+//!
 class DLL_EXPORT Hyperslab : public Selection
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
+    //! The default constructor is present to allow Hyperslabs in STL
+    //! containers. It must be noted that any attempt to an internal value
+    //! will result in a std::runtime_error exception.
+    //! The rank of a default constructed Hyperslab would be 0. As a
+    //! Hyperslab of rank 0 would not make any sense one could use this
+    //! to identify a default constructed Hyperslab.
+    //!
+    //! \post all internall buffers remain unallocated
+    //!
     Hyperslab();
+
+    //!
+    //! \brief destructor
+    //!
     ~Hyperslab();
+
+    //!
+    //! \brief copy constructor
+    //!
+    //! Use compiler generated default implementation here
+    //!
     Hyperslab(const Hyperslab &) = default;
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a Hyperslab selection of a given rank.
+    //!
+    //! \param rank the number of dimensions
+    //!
+    //! \post all start values are set to 0
+    //! \post all stride values are set to 1
+    //! \post all count values are set to 0
+    //! \post all block values are set to 0
+    //!
     Hyperslab(size_t rank);
+
+    //!
+    //! \brief constructor
+    //!
     Hyperslab(const Dimensions &start,
               const Dimensions &stride,
               const Dimensions &count,
               const Dimensions &block);
 
-    Dimensions &start();
+    //!
+    //! \brief get rank
+    //! \return number of dimensions in the selection
+    //!
+    size_t rank() const noexcept;
+
+    //!
+    //! \brief set start value for a dimension
+    //!
+    //! Set the start value of the hyperslab for a particular dimension determined
+    //! by \c index to \c value. This method throws an exception if the dimension
+    //! \c index exceeds the rank of the hyperslab.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param index dimension index
+    //! \param value new start value
+    //!
+    void start(size_t index,size_t value);
+
+    //!
+    //! \brief set all start values
+    //!
+    //! Set the start values for all dimensions of the hyperslab. If the size of
+    //! \c values exceeds the rank of the hyperslab an exception will be thrown.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param values new start values for the hyperslab
+    //!
+    void start(const Dimensions &values);
+
+    //!
+    //! \brief get start values
+    //! \throws std::runtime_error if the Hyperslab is default constructed
+    //! \return const reference to the start values of the hyperslab
+    //!
     const Dimensions &start() const;
-    Dimensions &stride();
+
+
+    //!
+    //! \brief set stride value for an individual dimension
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param index dimension index for which to set the stride
+    //! \param value new stride value
+    //!
+    void stride(size_t index,size_t value);
+
+    //!
+    //! \brief set all stride values for the Hyperslab
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param values new stride values for the Hyperslab
+    //!
+    void stride(const Dimensions &values);
+
+    //!
+    //! \brief get stride values for the Hyperslab
+    //! \throws std::runtime_error in case of a failure
+    //! \return const reference to the stride values
+    //!
     const Dimensions &stride() const;
-    Dimensions &count();
+
+    void count(size_t index,size_t value);
+    void count(const Dimensions &values);
     const Dimensions &count() const;
-    Dimensions &block();
+
+    void block(size_t index,size_t value);
+    void block(const Dimensions &values);
     const Dimensions &block() const;
 
     virtual void apply(const Dataspace &space,
                        SelectionOperation ops) const;
 
   private:
+    void check_dimension_index(size_t index,const std::string &what) const;
+    void check_container_size(const Dimensions &container,const std::string &what) const;
+
     Dimensions start_;
     Dimensions stride_;
     Dimensions count_;

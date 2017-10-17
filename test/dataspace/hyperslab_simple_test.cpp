@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(test_case_2)
 
   dataspace::Hyperslab frame({0,0,0},{1,1,1},{1,1,1},{1,1024,1024});
   BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
-  frame.start()[0]=9;
+  frame.start(0,9);
   BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
   BOOST_CHECK_EQUAL(space.selection.size(),2*1024*1024);
 

@@ -84,82 +84,224 @@ class DLL_EXPORT Dataset : public Node
     //!
     datatype::Datatype datatype() const;
 
+    //!
+    //! \brief set extent of the dataset
+    //!
+    //! Allows to change the extent (number of elements along each dimensions)
+    //! of a dataset. It is important to note that in such a case a previously
+    //! requested dataspace though remaining a valid object does no longer
+    //! describe the datasets layout correctly. The number of elements can be
+    //! increased or decreased within the limits of the dataspace originally
+    //! used to create the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param dims vector with new number of elements along each dimension
+    //!
     void extent(const Dimensions &dims) const;
 
     void extent(size_t dim,ssize_t delta_elements) const;
 
+
+    //!
+    //! \brief write data to the dataset
+    //!
+    //! This template function a very simple wrapper around the original HDF5
+    //! C-API function. The major difference is that a type trait is used to
+    //! obtain a pointer to the data passed as the first argument.
+    //! This template is provided for maximum flexibility as it allows virtually
+    //! to do everything which could be done with the C-API.
+    //!
+    //! \throws std::runtime_error  in case of a failure
+    //! \tparam T type from which to write data
+    //! \param data const reference to the data source
+    //! \param mem_type reference to the memory data type
+    //! \param mem_space reference to the memory data space
+    //! \param file_space reference to the dataspace in the file
+    //! \param dtpl data transfer property list
+    //!
+    template<typename T>
+    void write(const T &data,const datatype::Datatype &mem_type,
+               const dataspace::Dataspace &mem_space,
+               const dataspace::Dataspace &file_space =
+                   dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),
+               const property::DatasetTransferList &dtpl =
+                   property::DatasetTransferList()) const;
+
+    //!
+    //! \brief read data from the dataset
+    //!
+    //! This template function a very simple wrapper around the original HDF5
+    //! C-API function. The major difference is that a type trait is used to
+    //! obtain a pointer to the data passed as the first argument.
+    //! This template is provided for maximum flexibility as it allows virtually
+    //! to do everything which could be done with the C-API.
+    //!
+    //! \throws std::runtime_error  in case of a failure
+    //! \tparam T type from which to write data
+    //! \param data const reference to the data source
+    //! \param mem_type reference to the memory data type
+    //! \param mem_space reference to the memory data space
+    //! \param file_space reference to the dataspace in the file
+    //! \param dtpl data transfer property list
+    //!
+    template<typename T>
+    void read(T &data,const datatype::Datatype &mem_type,
+              const dataspace::Dataspace &mem_space,
+              const dataspace::Dataspace &file_space =
+                  dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),
+              const property::DatasetTransferList &dtpl =
+                  property::DatasetTransferList()) const;
+
+
     //!
     //! \brief write entire dataset
     //!
+    //! Write the entire dataset from an instance of T.
+    //!
+    //! \throws std::runtime_error in caes of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param dtpl reference to a dataset transfer property list
+    //!
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
-                                   property::DatasetTransferList()) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::datatype::create(data);
+                                   property::DatasetTransferList()) const;
 
-      if(H5Dwrite(static_cast<hid_t>(*this),
-                  static_cast<hid_t>(memory_type),
-                  static_cast<hid_t>(memory_space),
-                  H5S_ALL,
-                  static_cast<hid_t>(dtpl),
-                  dataspace::cptr(data))<0)
-      {
-        std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
-      }
-    }
-//
-//    //!
-//    //! \brief read entire dataset
-//    //!
+    //!
+    //! \brief read entire dataset
+    //!
+    //! Read the entire data from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failre
+    //! \tparam T destination type
+    //! \param data reference to the destination
+    //! \param dtpl reference to a dataset transfer property list
+    //!
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
-                            property::DatasetTransferList()) const
-    {
-      auto memory_space = hdf5::dataspace::create(data);
-      auto memory_type  = hdf5::datatype::create(data);
+                            property::DatasetTransferList()) const;
 
-      if(H5Dread(static_cast<hid_t>(*this),
-                  static_cast<hid_t>(memory_type),
-                  static_cast<hid_t>(memory_space),
-                  H5S_ALL,
-                  static_cast<hid_t>(dtpl),
-                  dataspace::ptr(data))<0)
-      {
-        std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
-      }
+    //!
+    //! \brief write data to a selection
+    //!
+    //! Write data from an instance of T to a selection of the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T type of the source
+    //! \param data reference to the source
+    //! \param selection reference to the selection
+    //! \param dtpl reference to a dataset transfer property list
+    //!
+    template<typename T>
+    void write(const T &data,const dataspace::Selection &selection,
+               const property::DatasetTransferList &dtpl =
+                   property::DatasetTransferList()) const;
 
-    }
-//
-//    //!
-//    //! \brief
-//    //!
-//    template<typename T>
-//    void write(const Dataspace &filespace,const T &data) const
-//    {
-//
-//    }
-//
-//    template<typename T>
-//    void write(const Dataspace &filespace,const Dataspace &memspace, const T &data);
-//
-//    template<typename T>
-//    void write(const Selection &file_selection,const T &data) const;
+    //!
+    //! \brief reading data from a selection
+    //!
+    //! Reading data to an instance of T from a selection of a dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T type of the destination object
+    //! \param data reference to the destination object
+    //! \param selection reference to the selection
+    //! \param dtpl reference to a dataset transfer property list
+    //!
+    template<typename T>
+    void read(T &data,const dataspace::Selection &selection,
+              const property::DatasetTransferList &dtpl =
+                  property::DatasetTransferList()) const;
 
 };
 
+template<typename T>
+void Dataset::write(const T &data,const datatype::Datatype &mem_type,
+                                  const dataspace::Dataspace &mem_space,
+                                  const dataspace::Dataspace &file_space,
+                                  const property::DatasetTransferList &dtpl) const
+{
+  if(H5Dwrite(static_cast<hid_t>(*this),
+              static_cast<hid_t>(mem_type),
+              static_cast<hid_t>(mem_space),
+              static_cast<hid_t>(file_space),
+              static_cast<hid_t>(dtpl),
+              dataspace::cptr(data))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
 
-//ds.push_back(data);
-//
-//std::vector<double> data(4);
-//ds.write(Points{{2},{3},{10},{56}},data);
-//
-//ds.write(Hyperslab{{3},{6}},data)
+}
 
+template<typename T>
+void Dataset::read(T &data,const datatype::Datatype &mem_type,
+                           const dataspace::Dataspace &mem_space,
+                           const dataspace::Dataspace &file_space,
+                           const property::DatasetTransferList &dtpl) const
+{
+  if(H5Dread(static_cast<hid_t>(*this),
+              static_cast<hid_t>(mem_type),
+              static_cast<hid_t>(mem_space),
+              static_cast<hid_t>(file_space),
+              static_cast<hid_t>(dtpl),
+              dataspace::ptr(data))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+}
+
+template<typename T>
+void Dataset::read(T &data,const dataspace::Selection &selection,
+                   const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+
+  dataspace::Dataspace file_space = dataspace();
+  file_space.selection(dataspace::SelectionOperation::SET,selection);
+
+  read(data,memory_type,memory_space,file_space,dtpl);
+
+}
+
+template<typename T>
+void Dataset::write(const T &data,const dataspace::Selection &selection,
+                    const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+
+  dataspace::Dataspace file_space = dataspace();
+  file_space.selection(dataspace::SelectionOperation::SET,selection);
+  write(data,memory_type,memory_space,file_space,dtpl);
+}
+
+template<typename T>
+void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  dataspace::Dataspace file_space = dataspace::Dataspace(
+      ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+
+  read(data,memory_type,memory_space,file_space,dtpl);
+
+}
+
+template<typename T>
+void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  dataspace::Dataspace file_space = dataspace::Dataspace(
+      ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+
+  write(data,memory_type,memory_space,file_space,dtpl);
+}
 
 
 } // namespace node

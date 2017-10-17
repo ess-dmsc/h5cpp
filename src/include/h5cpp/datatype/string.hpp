@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,41 +20,56 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 11, 2017
 //
 #pragma once
 
-extern "C" {
-#include <hdf5.h>
-}
+#include <type_traits>
+#include "datatype.hpp"
+#include "../windows.hpp"
 
-#include <string>
-#include <sstream>
-#include "windows.hpp"
+namespace hdf5 {
+namespace datatype {
 
-namespace hdf5
-{
-
-class DLL_EXPORT ObjectId
+class DLL_EXPORT String : public Datatype
 {
   public:
-    ObjectId();
-    ObjectId(hid_t object);
 
-    bool operator== (const ObjectId& other) const;
-    bool operator!= (const ObjectId& other) const;
-    bool operator< (const ObjectId& other) const;
+    //!
+    //! \brief construct from handle
+    //!
+    String(ObjectHandle &&handle);
 
-    DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+    //!
+    //! \brief construct variable-length string
+    //!
+    static String variable();
 
-    std::string   file_name() const;
-    unsigned long file_number() const;
-    haddr_t       object_address() const;
+    //!
+    //! \brief construct fiex-length string
+    //!
+    static String fixed(size_t);
 
-  private:
-    std::string   file_name_;
-    unsigned long file_num_ {0};
-    haddr_t       obj_addr_ {0};
+    bool is_variable_length() const;
+
+    CharacterEncoding encoding() const;
+    void set_encoding(CharacterEncoding cset);
+
+    StringPad padding() const;
+    void set_padding(StringPad strpad);
+
+    size_t size() const override;
+    void set_size(size_t size) const override;
+
+    //set order? other types?
+
+    //set precision? other types?
+
+    //set offset?
+    //can only be 0 for string
+
 };
 
 
-}
+} // namespace datatype
+} // namespace hdf5
