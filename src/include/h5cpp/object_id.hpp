@@ -29,11 +29,12 @@ extern "C" {
 
 #include <string>
 #include <sstream>
+#include "windows.hpp"
 
 namespace hdf5
 {
 
-class ObjectId
+class DLL_EXPORT ObjectId
 {
   public:
     ObjectId();
@@ -43,7 +44,7 @@ class ObjectId
     bool operator!= (const ObjectId& other) const;
     bool operator< (const ObjectId& other) const;
 
-    friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+    DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
 
     std::string   file_name() const;
     unsigned long file_number() const;
