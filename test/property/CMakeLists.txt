@@ -1,4 +1,5 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(Common_SRC
   ${Common_SRC}
   ${dir}/class_test.cpp
@@ -20,6 +21,4 @@ set(Common_SRC
   ${dir}/dataset_creation_list_test.cpp
   ${dir}/dataset_transfer_list_test.cpp
   ${dir}/object_copy_list_test.cpp
-  )
-
-set(Common_SRC ${Common_SRC} PARENT_SCOPE)
+  PARENT_SCOPE)

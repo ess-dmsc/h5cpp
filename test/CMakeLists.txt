@@ -4,17 +4,6 @@ set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 find_package(GTest)
 
-##include <boost/test/unit_test.hpp> --> #include <gtest/gtest.h>
-#BOOST_CHECK_EQUAL --> EXPECT_EQ
-#BOOST_CHECK_NO_THROW --> EXPECT_NO_THROW
-#BOOST_CHECK_THROW --> EXPECT_THROW
-#BOOST_CHECK_CLOSE --> EXPECT_NEAR
-#BOOST_CHECK(! --> EXPECT_FALSE(
-#BOOST_CHECK( --> EXPECT_TRUE(
-#BOOST_AUTO_TEST_CASE( --> TEST(TestName,
-#BOOST_AUTO_TEST_SUITE_END() -->
-##define BOOST_TEST_DYN_LINK -->
-
 set(Common_SRC 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp

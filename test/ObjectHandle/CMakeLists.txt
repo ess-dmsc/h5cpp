@@ -1,4 +1,5 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(Common_SRC
   ${Common_SRC}
   ${dir}/ObjectHandleDefault.cpp
@@ -12,13 +13,10 @@ set(Common_SRC
   ${dir}/property_objects_handle_test.cpp
   ${dir}/error_objects_handle_test.cpp
   ${dir}/test_environment.cpp
-  )
+  PARENT_SCOPE)
 
 set(Common_INC
   ${Common_INC}
   ${dir}/object_handle_test.hpp
-  )
-
-set(Common_SRC ${Common_SRC} PARENT_SCOPE)
-set(Common_INC ${Common_INC} PARENT_SCOPE)
+  PARENT_SCOPE)
 
