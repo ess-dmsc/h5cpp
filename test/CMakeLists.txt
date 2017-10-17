@@ -20,7 +20,7 @@ set(Common_INC
 add_subdirectory(ObjectHandle)
 add_subdirectory(property)
 add_subdirectory(datatype)
-#add_subdirectory(dataspace)
+add_subdirectory(dataspace)
 #add_subdirectory(logs)
 #add_subdirectory(file)
 #add_subdirectory(node)
