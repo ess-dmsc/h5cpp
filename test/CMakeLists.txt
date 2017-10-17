@@ -4,12 +4,16 @@ set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 find_package(GTest)
 
-## Add line:
-##   #include <gtest/gtest.h>
-## Change these:
-##   BOOST_CHECK_EQUAL( --> EXPECT_EQ(
+##   #include <boost/test/unit_test.hpp> --> #include <gtest/gtest.h>
+##   BOOST_CHECK_EQUAL --> EXPECT_EQ
+##   BOOST_CHECK_NO_THROW --> EXPECT_NO_THROW
+##   BOOST_CHECK_THROW --> EXPECT_THROW
+##   BOOST_CHECK_CLOSE --> ASSERT_NEAR
+##   BOOST_CHECK(! --> EXPECT_FALSE(
 ##   BOOST_CHECK( --> EXPECT_TRUE(
 ##   BOOST_AUTO_TEST_CASE( --> TEST(TestName,
+##   BOOST_AUTO_TEST_SUITE_END() -->
+##   #define BOOST_TEST_DYN_LINK -->
 
 set(Common_SRC 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
@@ -22,13 +26,10 @@ set(Common_SRC
 set(Common_INC    
 )
 
-#create_test_executable(Common h5cpp_shared)
-
 #add_library(test_common OBJECT fixture.cpp)
-#target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
 
 add_subdirectory(ObjectHandle)
-#add_subdirectory(property)
+add_subdirectory(property)
 #add_subdirectory(datatype)
 #add_subdirectory(dataspace)
 #add_subdirectory(logs)
