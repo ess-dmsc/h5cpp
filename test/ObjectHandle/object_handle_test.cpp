@@ -23,10 +23,7 @@
 // Created on: Aug 14, 2017
 //
 
-#include "../../src/include/h5cpp/object_handle.hpp"
-
-#include <boost/test/unit_test.hpp>
-#include <boost/bind.hpp>
+#include <gtest/gtest.h>
 #include "object_handle_test.hpp"
 
 ObjectHandleTest::ObjectHandleTest(hdf5::ObjectHandle::Type type):
@@ -40,17 +37,16 @@ ObjectHandleTest::~ObjectHandleTest()
 
 void ObjectHandleTest::test_copy_construction()
 {
-  BOOST_TEST_MESSAGE("Testing copy construction for "+string_from_type(get_type()));
   hdf5::ObjectHandle handle(this->create_object());
-  BOOST_CHECK(handle.is_valid());
-  BOOST_CHECK_EQUAL(handle.get_type(),get_type());
-  BOOST_CHECK_EQUAL(handle.get_reference_count(),1);
+  EXPECT_TRUE(handle.is_valid());
+  EXPECT_EQ(handle.get_type(),get_type());
+  EXPECT_EQ(handle.get_reference_count(),1);
 
   hdf5::ObjectHandle handle2(handle);
-  BOOST_CHECK(handle.is_valid());
-  BOOST_CHECK(handle2.is_valid());
-  BOOST_CHECK_EQUAL(handle.get_reference_count(),2);
-  BOOST_CHECK_EQUAL(handle2.get_reference_count(),2);
+  EXPECT_TRUE(handle.is_valid());
+  EXPECT_TRUE(handle2.is_valid());
+  EXPECT_EQ(handle.get_reference_count(),2);
+  EXPECT_EQ(handle2.get_reference_count(),2);
 
 }
 
@@ -58,8 +54,8 @@ void ObjectHandleTest::test_move_construction()
 {
   hdf5::ObjectHandle handle(create_object());
   hdf5::ObjectHandle handle2(std::move(handle));
-  BOOST_CHECK(handle2.is_valid());
-  BOOST_CHECK_EQUAL(handle2.get_reference_count(),1);
+  EXPECT_TRUE(handle2.is_valid());
+  EXPECT_EQ(handle2.get_reference_count(),1);
 }
 
 
@@ -69,10 +65,10 @@ void ObjectHandleTest::test_copy_assignment()
   hdf5::ObjectHandle handle2;
 
   handle2 = handle;
-  BOOST_CHECK(handle.is_valid());
-  BOOST_CHECK(handle2.is_valid());
-  BOOST_CHECK_EQUAL(handle.get_reference_count(),2);
-  BOOST_CHECK_EQUAL(handle2.get_reference_count(),2);
+  EXPECT_TRUE(handle.is_valid());
+  EXPECT_TRUE(handle2.is_valid());
+  EXPECT_EQ(handle.get_reference_count(),2);
+  EXPECT_EQ(handle2.get_reference_count(),2);
 }
 
 void ObjectHandleTest::test_move_assignment()
@@ -81,9 +77,9 @@ void ObjectHandleTest::test_move_assignment()
   hdf5::ObjectHandle handle2;
 
   handle2 = std::move(handle);
-  BOOST_CHECK(!handle.is_valid());
-  BOOST_CHECK(handle2.is_valid());
-  BOOST_CHECK_EQUAL(handle2.get_reference_count(),1);
+  EXPECT_TRUE(!handle.is_valid());
+  EXPECT_TRUE(handle2.is_valid());
+  EXPECT_EQ(handle2.get_reference_count(),1);
 }
 
 

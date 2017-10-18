@@ -21,48 +21,43 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 16, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing property list class implementation
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/property/class.hpp>
 #include <h5cpp/object_handle.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(PropertyListClassTest)
+TEST(PropertyList, test_construction)
+{
+  pl::Class c(hdf5::ObjectHandle(H5P_ATTRIBUTE_ACCESS));
+}
 
-  BOOST_AUTO_TEST_CASE(test_construction)
-  {
-    pl::Class c(hdf5::ObjectHandle(H5P_ATTRIBUTE_ACCESS));
-  }
+TEST(PropertyList, test_predefined_classes)
+{
+  EXPECT_EQ(pl::kAttributeCreate.name(),"attribute create");
+  EXPECT_EQ(pl::kDatasetAccess.name(),"dataset access");
+  EXPECT_EQ(pl::kDatasetCreate.name(),"dataset create");
+  EXPECT_EQ(pl::kDatasetXfer.name(),"data transfer");
+  EXPECT_EQ(pl::kDatatypeAccess.name(),"datatype access");
+  EXPECT_EQ(pl::kDatatypeCreate.name(),"datatype create");
+  EXPECT_EQ(pl::kFileAccess.name(),"file access");
+  EXPECT_EQ(pl::kFileCreate.name(),"file create");
+  EXPECT_EQ(pl::kFileMount.name(),"file mount");
+  EXPECT_EQ(pl::kGroupAccess.name(),"group access");
+  EXPECT_EQ(pl::kGroupCreate.name(),"group create");
+  EXPECT_EQ(pl::kLinkAccess.name(),"link access");
+  EXPECT_EQ(pl::kLinkCreate.name(),"link create");
+  EXPECT_EQ(pl::kObjectCopy.name(),"object copy");
+  EXPECT_EQ(pl::kObjectCreate.name(),"object create");
+  EXPECT_EQ(pl::kStringCreate.name(),"string create");
+}
 
-  BOOST_AUTO_TEST_CASE(test_predefined_classes)
-  {
-    BOOST_CHECK_EQUAL(pl::kAttributeCreate.name(),"attribute create");
-    BOOST_CHECK_EQUAL(pl::kDatasetAccess.name(),"dataset access");
-    BOOST_CHECK_EQUAL(pl::kDatasetCreate.name(),"dataset create");
-    BOOST_CHECK_EQUAL(pl::kDatasetXfer.name(),"data transfer");
-    BOOST_CHECK_EQUAL(pl::kDatatypeAccess.name(),"datatype access");
-    BOOST_CHECK_EQUAL(pl::kDatatypeCreate.name(),"datatype create");
-    BOOST_CHECK_EQUAL(pl::kFileAccess.name(),"file access");
-    BOOST_CHECK_EQUAL(pl::kFileCreate.name(),"file create");
-    BOOST_CHECK_EQUAL(pl::kFileMount.name(),"file mount");
-    BOOST_CHECK_EQUAL(pl::kGroupAccess.name(),"group access");
-    BOOST_CHECK_EQUAL(pl::kGroupCreate.name(),"group create");
-    BOOST_CHECK_EQUAL(pl::kLinkAccess.name(),"link access");
-    BOOST_CHECK_EQUAL(pl::kLinkCreate.name(),"link create");
-    BOOST_CHECK_EQUAL(pl::kObjectCopy.name(),"object copy");
-    BOOST_CHECK_EQUAL(pl::kObjectCreate.name(),"object create");
-    BOOST_CHECK_EQUAL(pl::kStringCreate.name(),"string create");
-  }
+TEST(PropertyList, test_equality_operator)
+{
+  EXPECT_TRUE(pl::kAttributeCreate == pl::kAttributeCreate);
+  EXPECT_TRUE(pl::kAttributeCreate != pl::kFileAccess);
+}
 
-  BOOST_AUTO_TEST_CASE(test_equality_operator)
-  {
-    BOOST_CHECK(pl::kAttributeCreate == pl::kAttributeCreate);
-    BOOST_CHECK(pl::kAttributeCreate != pl::kFileAccess);
-
-  }
-BOOST_AUTO_TEST_SUITE_END()
 
 
 

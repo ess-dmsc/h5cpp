@@ -23,55 +23,52 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 17, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing object creation property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/object_creation_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(ObjectCreationListTest)
+TEST(ObjectCreationList, default_construction)
+{
+  pl::ObjectCreationList ocpl;
+  EXPECT_TRUE(ocpl.get_class()==pl::kObjectCreate);
+}
 
-  BOOST_AUTO_TEST_CASE(default_construction)
-  {
-    pl::ObjectCreationList ocpl;
-    BOOST_CHECK(ocpl.get_class()==pl::kObjectCreate);
-  }
+TEST(ObjectCreationList, test_time_tracking)
+{
+  pl::ObjectCreationList ocpl;
+  EXPECT_NO_THROW(ocpl.enable_time_tracking());
+  EXPECT_TRUE(ocpl.time_tracking());
 
-  BOOST_AUTO_TEST_CASE(test_time_tracking)
-  {
-    pl::ObjectCreationList ocpl;
-    BOOST_CHECK_NO_THROW(ocpl.enable_time_tracking());
-    BOOST_CHECK(ocpl.time_tracking());
+  EXPECT_NO_THROW(ocpl.disable_time_tracking());
+  EXPECT_FALSE(ocpl.time_tracking());
+}
 
-    BOOST_CHECK_NO_THROW(ocpl.disable_time_tracking());
-    BOOST_CHECK(!ocpl.time_tracking());
-  }
+TEST(ObjectCreationList, test_attribute_creation_order)
+{
+  pl::ObjectCreationList ocpl;
 
-  BOOST_AUTO_TEST_CASE(test_attribute_creation_order)
-  {
-    pl::ObjectCreationList ocpl;
+  EXPECT_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()));
+  EXPECT_TRUE(ocpl.attribute_creation_order().tracked());
+  EXPECT_FALSE(ocpl.attribute_creation_order().indexed());
 
-    BOOST_CHECK_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()));
-    BOOST_CHECK(ocpl.attribute_creation_order().tracked());
-    BOOST_CHECK(!ocpl.attribute_creation_order().indexed());
+  EXPECT_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_indexed()));
+  EXPECT_TRUE(ocpl.attribute_creation_order().tracked());
+  EXPECT_TRUE(ocpl.attribute_creation_order().indexed());
+}
 
-    BOOST_CHECK_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_indexed()));
-    BOOST_CHECK(ocpl.attribute_creation_order().tracked());
-    BOOST_CHECK(ocpl.attribute_creation_order().indexed());
-  }
+TEST(ObjectCreationList, test_attribute_storage_threshold)
+{
+  pl::ObjectCreationList ocpl;
+  EXPECT_NO_THROW(ocpl.attribute_storage_thresholds(100,50));
+  EXPECT_EQ(ocpl.attribute_storage_maximum_compact(),100);
+  EXPECT_EQ(ocpl.attribute_storage_minimum_dense(),50);
 
-  BOOST_AUTO_TEST_CASE(test_attribute_storage_threshold)
-  {
-    pl::ObjectCreationList ocpl;
-    BOOST_CHECK_NO_THROW(ocpl.attribute_storage_thresholds(100,50));
-    BOOST_CHECK_EQUAL(ocpl.attribute_storage_maximum_compact(),100);
-    BOOST_CHECK_EQUAL(ocpl.attribute_storage_minimum_dense(),50);
-
-    BOOST_CHECK_THROW(ocpl.attribute_storage_thresholds(50,100),
-                      std::runtime_error);
-  }
+  EXPECT_THROW(ocpl.attribute_storage_thresholds(50,100),
+               std::runtime_error);
+}
 
 
-BOOST_AUTO_TEST_SUITE_END()
+

@@ -26,13 +26,8 @@
 #include "../fixture.hpp"
 
 
-struct AttributeFixture : public Fixture
+struct AttributeIterationFixture : public BasicFixture
 {
-    AttributeFixture();
-
-};
-
-struct AttributeIterationFixture : public Fixture
-{
-    AttributeIterationFixture();
+  protected:
+    virtual void SetUp();
 };

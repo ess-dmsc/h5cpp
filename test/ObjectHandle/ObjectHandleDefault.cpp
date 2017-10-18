@@ -23,119 +23,128 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 14, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp>
-#include <boost/bind.hpp>
-#include <boost/version.hpp>
-#include "../../src/include/h5cpp/object_handle.hpp"
+#include <gtest/gtest.h>
+#include <h5cpp/object_handle.hpp>
 #include <vector>
 #include <string>
 
 #include "object_handle_test.hpp"
-using namespace boost::unit_test;
 
+namespace {
+#if GTEST_HAS_PARAM_TEST
 
-void test_default_construction()
-  {
-    hdf5::ObjectHandle handle;
+using ::testing::TestWithParam;
+using ::testing::Values;
 
-    BOOST_CHECK(!handle.is_valid());
-    BOOST_CHECK_EQUAL(handle.get_type(),hdf5::ObjectHandle::Type::BADOBJECT);
-    BOOST_CHECK_THROW(handle.get_reference_count(),std::runtime_error);
-    BOOST_CHECK_NO_THROW(handle.close());
-  }
-
-test_suite *create_test_suite(hdf5::ObjectHandle::Type type)
+class ObjHandleFixture : public TestWithParam<hdf5::ObjectHandle::Type>
 {
-  std::stringstream suite_name;
-  suite_name<<"ObjectHandelTest_"<<type;
-  test_suite *suite = BOOST_TEST_SUITE(suite_name.str());
-  ObjectHandleTest *test = nullptr;
-  switch(type)
-  {
-    case hdf5::ObjectHandle::Type::FILE:
-      test = new FileObjectHandleTest("test.h5");
-      break;
-    case hdf5::ObjectHandle::Type::DATATYPE:
-      test = new DatatypeObjectHandleTest();
-      break;
-    case hdf5::ObjectHandle::Type::DATASPACE:
-      test = new DataspaceObjectHandleTest();
-      break;
-    case hdf5::ObjectHandle::Type::GROUP:
-      test = new GroupObjectHandleTest("object_handle_group_test.h5");
-      break;
-    case hdf5::ObjectHandle::Type::DATASET:
-      test = new DatasetObjectHandleTest("object_handle_dataset_test.h5");
-      break;
-    case hdf5::ObjectHandle::Type::ATTRIBUTE:
-      test = new AttributeObjectHandleTest("object_handle_attribute_test.h5");
-      break;
-    case hdf5::ObjectHandle::Type::PROPERTY_LIST:
-      test = new PropertyListObjectHandleTest();
-      break;
-    case hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS:
-      test = new PropertyListClassObjectHandleTest();
-      break;
-    case hdf5::ObjectHandle::Type::ERROR_CLASS:
-      test = new ErrorClassObjectHandleTest();
-      break;
-    case hdf5::ObjectHandle::Type::ERROR_MESSAGE:
-      test = new ErrorMessageObjectHandleTest();
-      break;
-    case hdf5::ObjectHandle::Type::ERROR_STACK:
-      test = new ErrorStackObjectHandleTest();
-      break;
-    default:
-      return nullptr;
-  }
-#if BOOST_VERSION < 105900
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_assignment,test),
-			    "Copy assignment test"));
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_assignment,test),
-			    "Move assignment test"));
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_construction,test),
-			    "Copy construction test"));
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_construction,test),
-			    "Move construction test"));
+  public:
+    virtual ~ObjHandleFixture()
+    {
+      delete test_;
+    }
+
+    virtual void SetUp()
+    {
+      name_ = string_from_type(GetParam());
+      switch(GetParam())
+      {
+      case hdf5::ObjectHandle::Type::FILE:
+        test_ = new FileObjectHandleTest("test.h5");
+        break;
+      case hdf5::ObjectHandle::Type::DATATYPE:
+        test_ = new DatatypeObjectHandleTest();
+        break;
+      case hdf5::ObjectHandle::Type::DATASPACE:
+        test_ = new DataspaceObjectHandleTest();
+        break;
+      case hdf5::ObjectHandle::Type::GROUP:
+        test_ = new GroupObjectHandleTest("object_handle_group_test.h5");
+        break;
+      case hdf5::ObjectHandle::Type::DATASET:
+        test_ = new DatasetObjectHandleTest("object_handle_dataset_test.h5");
+        break;
+      case hdf5::ObjectHandle::Type::ATTRIBUTE:
+        test_ = new AttributeObjectHandleTest("object_handle_attribute_test.h5");
+        break;
+      case hdf5::ObjectHandle::Type::PROPERTY_LIST:
+        test_ = new PropertyListObjectHandleTest();
+        break;
+      case hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS:
+        test_ = new PropertyListClassObjectHandleTest();
+        break;
+      case hdf5::ObjectHandle::Type::ERROR_CLASS:
+        test_ = new ErrorClassObjectHandleTest();
+        break;
+      case hdf5::ObjectHandle::Type::ERROR_MESSAGE:
+        test_ = new ErrorMessageObjectHandleTest();
+        break;
+      case hdf5::ObjectHandle::Type::ERROR_STACK:
+        test_ = new ErrorStackObjectHandleTest();
+        break;
+      default:
+        break;
+      }
+    }
+
+    virtual void TearDown()
+    {
+      name_.clear();
+      delete test_;
+      test_ = NULL;
+    }
+
+  protected:
+    ObjectHandleTest *test_;
+    std::string name_;
+};
+
+TEST(ObjHandleTest, DefaultConstruction)
+{
+  hdf5::ObjectHandle handle;
+
+  EXPECT_FALSE(handle.is_valid());
+  EXPECT_EQ(handle.get_type(),hdf5::ObjectHandle::Type::BADOBJECT);
+  EXPECT_THROW(handle.get_reference_count(),std::runtime_error);
+  EXPECT_NO_THROW(handle.close());
+}
+
+TEST_P(ObjHandleFixture, Types)
+{
+  //This line does not help with output :(
+  ::testing::Test::RecordProperty("Type", name_);
+
+  test_->test_copy_assignment();
+  test_->test_move_assignment();
+  test_->test_copy_construction();
+  test_->test_move_construction();
+}
+
+INSTANTIATE_TEST_CASE_P(ObjHandleTest, ObjHandleFixture,
+                        ::testing::Values(hdf5::ObjectHandle::Type::FILE,
+                                          hdf5::ObjectHandle::Type::DATATYPE,
+                                          hdf5::ObjectHandle::Type::DATASPACE,
+                                          hdf5::ObjectHandle::Type::GROUP,
+                                          hdf5::ObjectHandle::Type::DATASET,
+                                          hdf5::ObjectHandle::Type::ATTRIBUTE,
+                                          hdf5::ObjectHandle::Type::PROPERTY_LIST,
+                                          hdf5::ObjectHandle::Type::ERROR_MESSAGE,
+                                          hdf5::ObjectHandle::Type::ERROR_CLASS,
+                                          hdf5::ObjectHandle::Type::ERROR_STACK));
+
+//  //hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS));
+
 #else
-  suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_assignment,test),
-           "Copy assignment test",__FILE__,__LINE__));
-   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_assignment,test),
-           "Move assignment test",__FILE__,__LINE__));
-   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_copy_construction,test),
-           "Copy construction test",__FILE__,__LINE__));
-   suite->add(make_test_case(boost::bind(&ObjectHandleTest::test_move_construction,test),
-           "Move construction test",__FILE__,__LINE__));
-#endif
 
-  return suite;
+// Google Test may not support value-parameterized tests with some
+// compilers. If we use conditional compilation to compile out all
+// code referring to the gtest_main library, MSVC linker will not link
+// that library at all and consequently complain about missing entry
+// point defined in that library (fatal error LNK1561: entry point
+// must be defined). This dummy test keeps gtest_main linked in.
+TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform) {}
 
-}
-
-bool init_function()
-{
-
-  framework::master_test_suite().add(BOOST_TEST_CASE(&test_default_construction));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::FILE));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::DATATYPE));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::DATASPACE));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::GROUP));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::DATASET));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ATTRIBUTE));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::PROPERTY_LIST));
-  //framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ERROR_MESSAGE));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ERROR_CLASS));
-  framework::master_test_suite().add(create_test_suite(hdf5::ObjectHandle::Type::ERROR_STACK));
-
-  return true;
-}
-
-int main(int argc,char **argv)
-{
-  return boost::unit_test::unit_test_main(&init_function,argc,argv);
-
-}
+#endif  // GTEST_HAS_PARAM_TEST
+} // namespace
 
 

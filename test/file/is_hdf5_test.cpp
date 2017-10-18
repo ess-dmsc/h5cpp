@@ -22,9 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing the is_hdf5_file function
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <boost/filesystem.hpp>
 #include <fstream>
@@ -32,43 +30,40 @@
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-struct GlobalFixture
+class IsHDF5 : public testing::Test
 {
-    GlobalFixture();
-    ~GlobalFixture();
+  protected:
+    IsHDF5() {}
+    virtual void SetUp()
+    {
+      std::ofstream ofile("test.txt");
+      ofile<<"hello world"<<std::endl;
+      ofile.close();
+
+      file::create("test.h5", file::AccessFlags::TRUNCATE);
+    }
+
+    virtual void TearDown()
+    {
+      fs::remove("test.txt");
+      fs::remove("test.h5");
+    }
+    virtual ~IsHDF5() {}
 };
 
-GlobalFixture::GlobalFixture()
-{
-  std::ofstream ofile("test.txt");
-  ofile<<"hello world"<<std::endl;
-  ofile.close();
 
-  file::create("test.h5");
+TEST_F(IsHDF5, test_hdf5_file)
+{
+  EXPECT_TRUE(file::is_hdf5_file("test.h5"));
 }
 
-GlobalFixture::~GlobalFixture()
+TEST_F(IsHDF5, test_no_hdf5_file)
 {
-  fs::remove("test.txt");
-  fs::remove("test.h5");
-}
-
-BOOST_GLOBAL_FIXTURE(GlobalFixture);
-
-BOOST_AUTO_TEST_SUITE(is_hdf5_test)
-
-BOOST_AUTO_TEST_CASE(test_hdf5_file)
-{
-  BOOST_CHECK(file::is_hdf5_file("test.h5"));
-}
-
-BOOST_AUTO_TEST_CASE(test_no_hdf5_file)
-{
-  BOOST_CHECK(!file::is_hdf5_file("test.txt"));
+  EXPECT_FALSE(file::is_hdf5_file("test.txt"));
 }
 
 
-BOOST_AUTO_TEST_SUITE_END()
+
 
 
 
