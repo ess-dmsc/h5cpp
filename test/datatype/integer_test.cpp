@@ -22,29 +22,41 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 23, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing integral type implementation
-#include <boost/test/unit_test.hpp>
-#include <boost/mpl/list.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/integer.hpp>
 
 namespace type = hdf5::datatype;
 
-using test_types = boost::mpl::list<char,unsigned char,signed char,
-                                    short,unsigned short,
-                                    int, unsigned int,
-                                    long, unsigned long,
-                                    long long, unsigned long long>;
-
-BOOST_AUTO_TEST_SUITE(Integer_test)
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_construction,T,test_types)
+template <class T>
+class Integer : public testing::Test
 {
-  auto t = type::create<T>();
-  BOOST_CHECK((std::is_same<decltype(t),type::Integer>::value));
-  BOOST_CHECK(t.get_class()==type::Class::INTEGER);
-  BOOST_CHECK_EQUAL(t.size(),sizeof(T));
+ protected:
+  Integer() {}
+  virtual ~Integer() {}
+  T value_;
+};
 
+using testing::Types;
+
+// The list of types we want to test.
+typedef
+Types<
+char,unsigned char,signed char,
+short,unsigned short,
+int, unsigned int,
+long, unsigned long,
+long long, unsigned long long>
+test_types;
+
+TYPED_TEST_CASE(Integer, test_types);
+
+TYPED_TEST(Integer, General)
+{
+  auto t = type::create<decltype(this->value_)>();
+  EXPECT_TRUE((std::is_same<decltype(t),type::Integer>::value));
+  EXPECT_TRUE(t.get_class()==type::Class::INTEGER);
+  EXPECT_EQ(t.size(),sizeof(this->value_));
 }
-BOOST_AUTO_TEST_SUITE_END()
+

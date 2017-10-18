@@ -1,22 +1,22 @@
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(SOURCE ObjectHandleDefault.cpp
-           object_handle_test.cpp
-           file_object_handle_test.cpp
-           datatype_object_handle_test.cpp
-           dataspace_object_handle_test.cpp
-           group_object_handle_test.cpp
-           dataset_object_handle_test.cpp
-           attribute_object_handle_test.cpp
-           property_objects_handle_test.cpp
-           error_objects_handle_test.cpp
-           test_environment.cpp)
+set(Common_SRC
+  ${Common_SRC}
+  ${dir}/ObjectHandleDefault.cpp
+  ${dir}/object_handle_test.cpp
+  ${dir}/file_object_handle_test.cpp
+  ${dir}/datatype_object_handle_test.cpp
+  ${dir}/dataspace_object_handle_test.cpp
+  ${dir}/group_object_handle_test.cpp
+  ${dir}/dataset_object_handle_test.cpp
+  ${dir}/attribute_object_handle_test.cpp
+  ${dir}/property_objects_handle_test.cpp
+  ${dir}/error_objects_handle_test.cpp
+  ${dir}/test_environment.cpp
+  PARENT_SCOPE)
 
+set(Common_INC
+  ${Common_INC}
+  ${dir}/object_handle_test.hpp
+  PARENT_SCOPE)
 
-add_executable(ObjectHandleTest ${SOURCE})
-target_link_libraries(ObjectHandleTest 
-  ${HDF5_LIBRARIES} h5cpp_shared Boost::unit_test_framework)
-
-
-add_logging_test("ObjectHandle::Test"
-                 ObjectHandleTest
-                 ${PROJECT_BINARY_DIR}/test/ObjectHandle)

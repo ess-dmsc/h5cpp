@@ -22,20 +22,17 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 21, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing file access property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/file_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(FileAccessList_test)
+TEST(FileAccessList, test_default_construction)
+{
+  pl::FileAccessList fapl;
+  EXPECT_TRUE(fapl.get_class() == pl::kFileAccess);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    pl::FileAccessList fapl;
-    BOOST_CHECK(fapl.get_class() == pl::kFileAccess);
-  }
 
-BOOST_AUTO_TEST_SUITE_END()

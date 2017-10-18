@@ -1,16 +1,21 @@
 include_directories(${PROJECT_SOURCE_DIR}/src/include)
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
-include(${PROJECT_SOURCE_DIR}/cmake/BoostTestLogConfig.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
+find_package(GTest)
 
-add_library(test_common OBJECT fixture.cpp)
-target_include_directories(test_common PRIVATE ${HDF5_INCLUDE_DIRS})
+set(Common_SRC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/object_id_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
+)
 
-add_executable(object_id_test object_id_test.cpp)
-target_link_libraries(object_id_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::ObjectId"
-                 object_id_test
-                 ${WORKING_DIRECTORY})
+set(Common_INC    
+  ${CMAKE_CURRENT_SOURCE_DIR}/fixture.hpp
+)
 
 add_subdirectory(ObjectHandle)
 add_subdirectory(property)
@@ -22,20 +27,19 @@ add_subdirectory(node)
 add_subdirectory(attribute)
 add_subdirectory(examples)
 
-add_executable(hdf5_path_test path_test.cpp)
-target_link_libraries(hdf5_path_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::Path"
-                 hdf5_path_test
-                 ${WORKING_DIRECTORY})
-                
-add_executable(iteration_order_test iteration_order_test.cpp)
-target_link_libraries(iteration_order_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::IterationOrder"
-                 iteration_order_test
-                 ${WORKING_DIRECTORY})
-                
-add_executable(iteration_index_test iteration_index_test.cpp)
-target_link_libraries(iteration_index_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::IterationIndex"
-                 iteration_index_test
-                 ${WORKING_DIRECTORY})                
+add_executable(unit_tests ${Common_SRC} ${Common_INC})
+add_dependencies(unit_tests h5cpp_unit_test)
+target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_unit_test)
+target_link_libraries(unit_tests h5cpp_unit_test ${GTEST_LIBRARIES})
+
+add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
+
+set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/test/)
+
+find_program(GCOV_PATH gcov)
+find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
+if (NOT GCOV_PATH OR NOT GCOVR_PATH)
+      message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
+else()
+    add_custom_target(generate_coverage COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src" "-x" "${PROJECT_BINARY_DIR}" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" DEPENDS run_tests)
+endif()

@@ -23,76 +23,69 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 17, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing group creation property list implementation
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/property/group_creation_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(GroupCreation_test)
+TEST(GroupCreationList, test_construction)
+{
+  pl::GroupCreationList gcpl;
+  EXPECT_TRUE(gcpl.get_class()==pl::kGroupCreate);
+}
 
-  BOOST_AUTO_TEST_CASE(test_construction)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK(gcpl.get_class()==pl::kGroupCreate);
-  }
+TEST(GroupCreationList, test_local_heap_size_hint)
+{
+  pl::GroupCreationList gcpl;
+  EXPECT_NO_THROW(gcpl.local_heap_size_hint(1024));
+  EXPECT_EQ(gcpl.local_heap_size_hint(),1024);
 
-  BOOST_AUTO_TEST_CASE(test_local_heap_size_hint)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.local_heap_size_hint(1024));
-    BOOST_CHECK_EQUAL(gcpl.local_heap_size_hint(),1024);
+  EXPECT_NO_THROW(gcpl.local_heap_size_hint(512));
+  EXPECT_EQ(gcpl.local_heap_size_hint(),512);
+}
 
-    BOOST_CHECK_NO_THROW(gcpl.local_heap_size_hint(512));
-    BOOST_CHECK_EQUAL(gcpl.local_heap_size_hint(),512);
-  }
+TEST(GroupCreationList, test_estimated_number_of_links)
+{
+  pl::GroupCreationList gcpl;
+  EXPECT_NO_THROW(gcpl.estimated_number_of_links(10));
+  EXPECT_EQ(gcpl.estimated_number_of_links(),10);
+  EXPECT_NO_THROW(gcpl.estimated_number_of_links(33));
+  EXPECT_EQ(gcpl.estimated_number_of_links(),33);
 
-  BOOST_AUTO_TEST_CASE(test_estimated_number_of_links)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.estimated_number_of_links(10));
-    BOOST_CHECK_EQUAL(gcpl.estimated_number_of_links(),10);
-    BOOST_CHECK_NO_THROW(gcpl.estimated_number_of_links(33));
-    BOOST_CHECK_EQUAL(gcpl.estimated_number_of_links(),33);
+}
 
-  }
+TEST(GroupCreationList, test_estimated_link_name_length)
+{
+  pl::GroupCreationList gcpl;
+  EXPECT_NO_THROW(gcpl.estimated_link_name_length(100));
+  EXPECT_EQ(gcpl.estimated_link_name_length(),100);
 
-  BOOST_AUTO_TEST_CASE(test_estimated_link_name_length)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.estimated_link_name_length(100));
-    BOOST_CHECK_EQUAL(gcpl.estimated_link_name_length(),100);
+  EXPECT_NO_THROW(gcpl.estimated_link_name_length(64));
+  EXPECT_EQ(gcpl.estimated_link_name_length(),64);
+}
 
-    BOOST_CHECK_NO_THROW(gcpl.estimated_link_name_length(64));
-    BOOST_CHECK_EQUAL(gcpl.estimated_link_name_length(),64);
-  }
+TEST(GroupCreationList, test_link_creation_order)
+{
+  pl::GroupCreationList gcpl;
+  EXPECT_NO_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_indexed()));
+  pl::CreationOrder flags = gcpl.link_creation_order();
+  EXPECT_TRUE(flags.tracked());
+  EXPECT_TRUE(flags.indexed());
 
-  BOOST_AUTO_TEST_CASE(test_link_creation_order)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_indexed()));
-    pl::CreationOrder flags = gcpl.link_creation_order();
-    BOOST_CHECK(flags.tracked());
-    BOOST_CHECK(flags.indexed());
+  EXPECT_NO_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_tracked()));
+  flags = gcpl.link_creation_order();
+  EXPECT_TRUE(flags.tracked());
+  EXPECT_FALSE(flags.indexed());
 
-    BOOST_CHECK_NO_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_tracked()));
-    flags = gcpl.link_creation_order();
-    BOOST_CHECK(flags.tracked());
-    BOOST_CHECK(!flags.indexed());
+}
 
-  }
+TEST(GroupCreationList, test_link_storage_threshold)
+{
+  pl::GroupCreationList gcpl;
+  EXPECT_NO_THROW(gcpl.link_storage_thresholds(100,60));
+  EXPECT_EQ(gcpl.link_storage_maximum_compact(),100);
+  EXPECT_EQ(gcpl.link_storage_minimum_dense(),60);
 
-  BOOST_AUTO_TEST_CASE(test_link_storage_threshold)
-  {
-    pl::GroupCreationList gcpl;
-    BOOST_CHECK_NO_THROW(gcpl.link_storage_thresholds(100,60));
-    BOOST_CHECK_EQUAL(gcpl.link_storage_maximum_compact(),100);
-    BOOST_CHECK_EQUAL(gcpl.link_storage_minimum_dense(),60);
-
-    BOOST_CHECK_THROW(gcpl.link_storage_thresholds(60,100),std::runtime_error);
-
-  }
-
-BOOST_AUTO_TEST_SUITE_END()
+  EXPECT_THROW(gcpl.link_storage_thresholds(60,100),std::runtime_error);
+}

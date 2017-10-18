@@ -22,34 +22,31 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 7, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing dataspace type trait
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/dataspace/type_trait.hpp>
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(TypeTrait_test)
-
-BOOST_AUTO_TEST_CASE(test_vector)
+TEST(TypeTrait, test_vector)
 {
   std::vector<double> data(20);
   auto space = dataspace::create(data);
-  BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SIMPLE);
+  EXPECT_EQ(space.type(),dataspace::Type::SIMPLE);
   Dimensions current_dims = space.current_dimensions(),
              max_dims = space.maximum_dimensions();
-  BOOST_CHECK_EQUAL(current_dims.size(),1);
-  BOOST_CHECK_EQUAL(current_dims[0],20);
-  BOOST_CHECK_EQUAL(max_dims.size(),1);
-  BOOST_CHECK_EQUAL(max_dims[0],20);
+  EXPECT_EQ(current_dims.size(),1);
+  EXPECT_EQ(current_dims[0],20);
+  EXPECT_EQ(max_dims.size(),1);
+  EXPECT_EQ(max_dims[0],20);
 }
 
-BOOST_AUTO_TEST_CASE(test_scalar)
+TEST(TypeTrait, test_scalar)
 {
   int data=10;
   auto space = dataspace::create(data);
-  BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SCALAR);
-  BOOST_CHECK_EQUAL(space.size(),1);
+  EXPECT_EQ(space.type(),dataspace::Type::SCALAR);
+  EXPECT_EQ(space.size(),1);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

@@ -1,134 +1,24 @@
-set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test/property)
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-
-add_executable(property_class_test class_test.cpp)
-target_link_libraries(property_class_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::property::Class"
-                 property_class_test
-                 ${WORKING_DIRECTORY})
-                 
-add_executable(property_group_creation_list_test group_creation_list_test.cpp)
-target_link_libraries(property_group_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::GroupCreationList"
-                 property_group_creation_list_test
-                 ${WORKING_DIRECTORY})
-                 
-add_executable(property_creation_order_test creation_order_test.cpp)
-target_link_libraries(property_creation_order_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::CreationOrder"
-                 property_creation_order_test
-                 ${WORKING_DIRECTORY})             
-                 
-add_executable(property_object_creation_list_test object_creation_list_test.cpp)
-target_link_libraries(property_object_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::ObjectCreationList"
-                 property_object_creation_list_test
-                 ${WORKING_DIRECTORY})     
-                 
-add_executable(property_string_creation_list_test string_creation_list_test.cpp)
-target_link_libraries(property_string_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::StringCreationList"
-                 property_string_creation_list_test
-                 ${WORKING_DIRECTORY})     
-                 
-add_executable(property_type_creation_list_test type_creation_list_test.cpp)
-target_link_libraries(property_type_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::TypeCreationList"
-                 property_type_creation_list_test
-                 ${WORKING_DIRECTORY})         
-                 
-add_executable(property_link_creation_list_test link_creation_list_test.cpp)
-target_link_libraries(property_link_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::LinkCreationList"
-                 property_link_creation_list_test
-                 ${WORKING_DIRECTORY})    
-                 
-add_executable(property_attribute_creation_list_test attribute_creation_list_test.cpp)
-target_link_libraries(property_attribute_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::AttributeCreationList"
-                 property_attribute_creation_list_test
-                 ${WORKING_DIRECTORY}) 
-                 
-add_executable(property_file_access_list_test file_access_list_test.cpp)
-target_link_libraries(property_file_access_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::FileAccessList"
-                 property_file_access_list_test
-                 ${WORKING_DIRECTORY}) 
-                 
-add_executable(property_file_create_list_test file_creation_list_test.cpp)
-target_link_libraries(property_file_create_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::FileCreationList"
-                 property_file_create_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_link_access_list_test link_access_list_test.cpp)
-target_link_libraries(property_link_access_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::LinkAccessList"
-                 property_link_access_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_file_mount_list_test file_mount_list_test.cpp)
-target_link_libraries(property_file_mount_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::FileMountList"
-                 property_file_mount_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_group_access_list_test group_access_list_test.cpp)
-target_link_libraries(property_group_access_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::GroupAccessList"
-                 property_group_access_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_datatype_access_list_test datatype_access_list_test.cpp)
-target_link_libraries(property_datatype_access_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::DatatypeAccessList"
-                 property_datatype_access_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_chunk_cache_parameters_test chunk_cache_parameters_test.cpp)
-target_link_libraries(property_chunk_cache_parameters_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::ChunkCacheParameters"
-                 property_chunk_cache_parameters_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_dataset_access_list_test dataset_access_list_test.cpp)
-target_link_libraries(property_dataset_access_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::DatasetAccessList"
-                 property_dataset_access_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_dataset_creation_list_test dataset_creation_list_test.cpp)
-target_link_libraries(property_dataset_creation_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::DatasetCreationList"
-                 property_dataset_creation_list_test
-                 ${WORKING_DIRECTORY}) 
-                
-add_executable(property_dataset_transfer_list_test dataset_transfer_list_test.cpp)
-target_link_libraries(property_dataset_transfer_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::DatasetTransferList"
-                 property_dataset_transfer_list_test
-                 ${WORKING_DIRECTORY}) 
-
-add_executable(property_object_copy_list_test object_copy_list_test.cpp)
-target_link_libraries(property_object_copy_list_test h5cpp_shared 
-Boost::unit_test_framework Boost::system)
-add_logging_test("hdf5::property::ObjectCopyList"
-                 property_object_copy_list_test
-                 ${WORKING_DIRECTORY}) 
+set(Common_SRC
+  ${Common_SRC}
+  ${dir}/class_test.cpp
+  ${dir}/group_creation_list_test.cpp
+  ${dir}/creation_order_test.cpp
+  ${dir}/object_creation_list_test.cpp
+  ${dir}/string_creation_list_test.cpp
+  ${dir}/type_creation_list_test.cpp
+  ${dir}/link_creation_list_test.cpp
+  ${dir}/attribute_creation_list_test.cpp
+  ${dir}/file_access_list_test.cpp
+  ${dir}/file_creation_list_test.cpp
+  ${dir}/link_access_list_test.cpp
+  ${dir}/file_mount_list_test.cpp
+  ${dir}/group_access_list_test.cpp
+  ${dir}/datatype_access_list_test.cpp
+  ${dir}/chunk_cache_parameters_test.cpp
+  ${dir}/dataset_access_list_test.cpp
+  ${dir}/dataset_creation_list_test.cpp
+  ${dir}/dataset_transfer_list_test.cpp
+  ${dir}/object_copy_list_test.cpp
+  PARENT_SCOPE)

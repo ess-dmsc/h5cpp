@@ -22,68 +22,77 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing SearchFlags implementation
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/file/types.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(SearchFlags_test)
-
-BOOST_AUTO_TEST_CASE(test_output_stream)
+TEST(SearchFlags, test_output_stream)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::ALL;
-  BOOST_CHECK(stream.is_equal("ALL"));
+  EXPECT_EQ(stream.str(), "ALL");
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::ATTRIBUTE;
-  BOOST_CHECK(stream.is_equal("ATTRIBUTE"));
+  EXPECT_EQ(stream.str(), "ATTRIBUTE");
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::DATASET;
-  BOOST_CHECK(stream.is_equal("DATASET"));
+  EXPECT_EQ(stream.str(), "DATASET");
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::DATATYPE;
-  BOOST_CHECK(stream.is_equal("DATATYPE"));
+  EXPECT_EQ(stream.str(), "DATATYPE");
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::FILE;
-  BOOST_CHECK(stream.is_equal("FILE"));
+  EXPECT_EQ(stream.str(), "FILE");
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::GROUP;
-  BOOST_CHECK(stream.is_equal("GROUP"));
+  EXPECT_EQ(stream.str(), "GROUP");
+
+  stream = std::stringstream();
   stream<<file::SearchFlags::LOCAL;
-  BOOST_CHECK(stream.is_equal("LOCAL"));
+  EXPECT_EQ(stream.str(), "LOCAL");
 }
 
-BOOST_AUTO_TEST_CASE(test_or_all_flags)
+TEST(SearchFlags, test_or_all_flags)
 {
-  BOOST_CHECK_EQUAL(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET,
-                    H5F_OBJ_ATTR | H5F_OBJ_DATASET);
+  EXPECT_EQ(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET,
+            H5F_OBJ_ATTR | H5F_OBJ_DATASET);
 
-  BOOST_CHECK_EQUAL(file::SearchFlags::DATASET | file::SearchFlags::GROUP,
-                    H5F_OBJ_DATASET | H5F_OBJ_GROUP);
+  EXPECT_EQ(file::SearchFlags::DATASET | file::SearchFlags::GROUP,
+            H5F_OBJ_DATASET | H5F_OBJ_GROUP);
 }
 
-BOOST_AUTO_TEST_CASE(test_or_left_three)
+TEST(SearchFlags, test_or_left_three)
 {
-  BOOST_CHECK_EQUAL(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET |
-                    file::SearchFlags::DATATYPE,
-                    H5F_OBJ_ATTR | H5F_OBJ_DATASET | H5F_OBJ_DATATYPE);
+  EXPECT_EQ(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET |
+            file::SearchFlags::DATATYPE,
+            H5F_OBJ_ATTR | H5F_OBJ_DATASET | H5F_OBJ_DATATYPE);
 }
 
-BOOST_AUTO_TEST_CASE(test_values)
+TEST(SearchFlags, test_values)
 {
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::ALL),
-                    H5F_OBJ_ALL);
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::ATTRIBUTE),
-                      H5F_OBJ_ATTR);
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATASET),
-                      H5F_OBJ_DATASET);
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATATYPE),
-                      H5F_OBJ_DATATYPE);
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::FILE),
-                      H5F_OBJ_FILE);
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::GROUP),
-                        H5F_OBJ_GROUP);
-  BOOST_CHECK_EQUAL(static_cast<file::SearchFlagsBase>(file::SearchFlags::LOCAL),
-                        H5F_OBJ_LOCAL);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::ALL),
+            H5F_OBJ_ALL);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::ATTRIBUTE),
+            H5F_OBJ_ATTR);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATASET),
+            H5F_OBJ_DATASET);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATATYPE),
+            H5F_OBJ_DATATYPE);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::FILE),
+            H5F_OBJ_FILE);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::GROUP),
+            H5F_OBJ_GROUP);
+  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::LOCAL),
+            H5F_OBJ_LOCAL);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

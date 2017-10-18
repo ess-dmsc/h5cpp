@@ -24,248 +24,241 @@
 //    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing the path implementation
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/path.hpp>
 
 using namespace hdf5;
 using namespace std;
 
-BOOST_AUTO_TEST_SUITE(Path_test)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(Path, test_default_construction)
 {
   Path p;
-  BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.is_absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_construction_from_string)
+TEST(Path, test_construction_from_string)
 {
   Path p;
 
   p = Path("/hello/world/data");
-  BOOST_CHECK_EQUAL(p.size(),3);
-  BOOST_CHECK(p.is_absolute());
+  EXPECT_EQ(p.size(),3);
+  EXPECT_TRUE(p.is_absolute());
 
   p = Path("hello/world");
-  BOOST_CHECK_EQUAL(p.size(),2);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(p.size(),2);
+  EXPECT_FALSE(p.is_absolute());
 
   p = Path("hello/world/instrument/data/");
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(p.size(),4);
+  EXPECT_FALSE(p.is_absolute());
 
   p = Path(".");
-  BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.is_absolute());
 
   p = Path("./");
-  BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.is_absolute());
 
   p = Path("/.");
-  BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(p.is_absolute());
+  EXPECT_EQ(p.size(),0);
+  EXPECT_TRUE(p.is_absolute());
 
   p = Path(".///");
-  BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.is_absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_conversion_to_string)
+TEST(Path, test_conversion_to_string)
 {
   Path p;
 
   p = Path("/hello/world/data");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/hello/world/data");
+  EXPECT_EQ(static_cast<string>(p),"/hello/world/data");
 
   p = Path("hello/world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
 
   p = Path("hello/world/instrument/data/");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world/instrument/data");
+  EXPECT_EQ(static_cast<string>(p),"hello/world/instrument/data");
 
   p = Path(".");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),".");
+  EXPECT_EQ(static_cast<string>(p),".");
 
   p = Path("");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),".");
+  EXPECT_EQ(static_cast<string>(p),".");
 }
 
-BOOST_AUTO_TEST_CASE(test_sanitization)
+TEST(Path, test_sanitization)
 {
   Path p;
 
   p = Path("./hello");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello");
+  EXPECT_EQ(static_cast<string>(p),"hello");
 
   p = Path("hello/world/.");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
 
   p = Path("hello/./world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello/world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
 
   p = Path(".././../world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"../../world");
+  EXPECT_EQ(static_cast<string>(p),"../../world");
 
   p = Path("hello/..");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),".");
+  EXPECT_EQ(static_cast<string>(p),".");
 
   p = Path("hello/../world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"world");
+  EXPECT_EQ(static_cast<string>(p),"world");
 
   p = Path("hello/world/!/../..");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"hello");
+  EXPECT_EQ(static_cast<string>(p),"hello");
 
   p = Path("hello/world/../../../..");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"../..");
+  EXPECT_EQ(static_cast<string>(p),"../..");
 
   p = Path("/hello/world/../../../..");
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"../..");
+  EXPECT_EQ(static_cast<string>(p),"../..");
 }
 
-BOOST_AUTO_TEST_CASE(relative_to)
+TEST(Path, relative_to)
 {
   Path p1("a/b/c/d/e");
   Path p2("a/b/c/x/y");
   auto p = p1.relative_to(p2);
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"../../d/e");
+  EXPECT_EQ(static_cast<string>(p),"../../d/e");
 }
 
-BOOST_AUTO_TEST_CASE(test_conversion_from_list)
+TEST(Path, test_conversion_from_list)
 {
   list<string> l{"entry","instrument","detector"};
   Path p;
   copy(l.begin(),l.end(),back_inserter(p));
-  BOOST_CHECK_EQUAL(p.size(),3);
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"entry/instrument/detector");
+  EXPECT_EQ(p.size(),3);
+  EXPECT_EQ(static_cast<string>(p),"entry/instrument/detector");
 }
 
-BOOST_AUTO_TEST_CASE(test_append)
+TEST(Path, test_append)
 {
   Path p;
 
   p = Path("/entry/instrument");
   p.append(Path("detector/data"));
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
 
   p = Path("/entry/instrument");
   p.append(Path("../data"));
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/data");
+  EXPECT_EQ(static_cast<string>(p),"/entry/data");
 
   p = Path("entry/instrument");
   p.append(Path("../../.."));
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"..");
+  EXPECT_EQ(static_cast<string>(p),"..");
 
   p = Path("/entry/instrument");
   p.append(Path("../../.."));
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"..");
+  EXPECT_EQ(static_cast<string>(p),"..");
 }
 
-
-BOOST_AUTO_TEST_CASE(test_adding_two_paths)
-{
-  Path p1("/entry/instrument"), p2("detector/data");
-  Path p = p1+p2;
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute());
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
-}
-
-BOOST_AUTO_TEST_CASE(test_append_link_name)
+TEST(Path,test_append_link_name)
 {
   Path p("/entry/instrument/detector");
   p = p+"data";
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  EXPECT_EQ(p.size(),4);
+  EXPECT_TRUE(p.is_absolute());
 
   p = Path("instrument/detector");
   p = p + "metadata/date";
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"instrument/detector/metadata/date");
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(!p.is_absolute());
+  EXPECT_EQ(static_cast<string>(p),"instrument/detector/metadata/date");
+  EXPECT_EQ(p.size(),4);
+  EXPECT_FALSE(p.is_absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_prepend_link_name)
+TEST(Path,test_prepend_link_name)
 {
   Path p("instrument/detector");
   p = "/entry" + p;
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector");
-  BOOST_CHECK(p.is_absolute());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector");
+  EXPECT_TRUE(p.is_absolute());
 
   p = Path("detector/data");
   p = "/entry/instrument/" + p;
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/entry/instrument/detector/data");
-  BOOST_CHECK(p.is_absolute());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  EXPECT_TRUE(p.is_absolute());
 
   p = Path("entry/instrument");
   p = "/" + p;
-  BOOST_CHECK_EQUAL(p.size(),2);
-  BOOST_CHECK(p.is_absolute());
+  EXPECT_EQ(p.size(),2);
+  EXPECT_TRUE(p.is_absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_root_path)
+TEST(Path,test_adding_two_paths)
+{
+  Path p1("/entry/instrument"), p2("detector/data");
+  Path p = p1+p2;
+  EXPECT_EQ(p.size(),4);
+  EXPECT_TRUE(p.is_absolute());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+}
+
+TEST(Path,test_root_path)
 {
   Path p("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK(p.is_absolute());
-  BOOST_CHECK_EQUAL(static_cast<string>(p),"/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_TRUE(p.is_absolute());
+  EXPECT_EQ(static_cast<string>(p),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_front)
+TEST(Path,test_front)
 {
   Path p("/hello/world");
-  BOOST_CHECK_EQUAL(p.front(),"hello");
+  EXPECT_EQ(p.front(),"hello");
 
   p = Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(p.front(),"/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_EQ(p.front(),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_back)
+TEST(Path,test_back)
 {
   Path p("hello/world");
-  BOOST_CHECK_EQUAL(p.back(),"world");
+  EXPECT_EQ(p.back(),"world");
 
   p = Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(p.back(),"/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_EQ(p.back(),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_object_name)
+TEST(Path,test_name)
 {
   Path p("hello/world");
-  BOOST_CHECK_EQUAL(p.name(),"world");
+  EXPECT_EQ(p.name(),"world");
 
   p = Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(p.name(),".");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_EQ(p.name(),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_parent_path)
+TEST(Path,test_parent_path)
 {
   Path p("hello/world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p.parent()),"hello");
+  EXPECT_EQ(static_cast<string>(p.parent()),"hello");
 
   p = Path("/hello/world");
-  BOOST_CHECK_EQUAL(static_cast<string>(p.parent()),"/hello");
+  EXPECT_EQ(static_cast<string>(p.parent()),"/hello");
 
   p = Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(static_cast<string>(p.parent()),"/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_EQ(static_cast<string>(p.parent()),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_path_equality)
+TEST(Path,test_path_equality)
 {
   Path p1("hello/world");
   Path p2("/hello/world");
   Path p3("/hello");
-  BOOST_CHECK(p1 == p1);
-  BOOST_CHECK(p1 != p2);
-  BOOST_CHECK(p2 != p3);
+  EXPECT_TRUE(p1 == p1);
+  EXPECT_TRUE(p1 != p2);
+  EXPECT_TRUE(p2 != p3);
 }
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -22,115 +22,112 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 28, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing default type traits
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/datatype/type_trait.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 
 namespace ds = hdf5::datatype;
 
-BOOST_AUTO_TEST_SUITE(TypeTrait_test)
-
-BOOST_AUTO_TEST_CASE(test_char)
+TEST(TypeTrait, test_char)
 {
   auto type = ds::TypeTrait<char>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_CHAR));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_CHAR));
 }
 
-BOOST_AUTO_TEST_CASE(test_unsigned_char)
+TEST(TypeTrait, test_unsigned_char)
 {
   auto type = ds::TypeTrait<unsigned char>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_UCHAR));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_UCHAR));
 
 }
 
-BOOST_AUTO_TEST_CASE(test_signed_char)
+TEST(TypeTrait, test_signed_char)
 {
   auto type = ds::TypeTrait<signed char>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_SCHAR));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_SCHAR));
 }
 
-BOOST_AUTO_TEST_CASE(test_short)
+TEST(TypeTrait, test_short)
 {
   auto type = ds::TypeTrait<short>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_SHORT));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_SHORT));
 }
 
-BOOST_AUTO_TEST_CASE(test_unsigned_short)
+TEST(TypeTrait, test_unsigned_short)
 {
   auto type = ds::TypeTrait<unsigned short>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_USHORT));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_USHORT));
 }
 
-BOOST_AUTO_TEST_CASE(test_int)
+TEST(TypeTrait, test_int)
 {
   auto type = ds::TypeTrait<int>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_INT));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_INT));
 }
 
-BOOST_AUTO_TEST_CASE(test_unsigned_int)
+TEST(TypeTrait, test_unsigned_int)
 {
   auto type = ds::TypeTrait<unsigned int>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_UINT));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_UINT));
 }
 
-BOOST_AUTO_TEST_CASE(test_long)
+TEST(TypeTrait, test_long)
 {
   auto type = ds::TypeTrait<long>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LONG));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LONG));
 }
 
-BOOST_AUTO_TEST_CASE(test_unsigned_long)
+TEST(TypeTrait, test_unsigned_long)
 {
   auto type = ds::TypeTrait<unsigned long>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_ULONG));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_ULONG));
 }
 
-BOOST_AUTO_TEST_CASE(test_long_long)
+TEST(TypeTrait, test_long_long)
 {
   auto type = ds::TypeTrait<long long>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LLONG));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LLONG));
 }
 
 #ifndef _MSC_VER
-BOOST_AUTO_TEST_CASE(test_unsigned_long_long)
+TEST(TypeTrait, test_unsigned_long_long)
 {
   auto type = ds::TypeTrait<unsigned long>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::INTEGER);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_ULLONG));
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_ULLONG));
 }
 #endif
 
-BOOST_AUTO_TEST_CASE(test_float)
+TEST(TypeTrait, test_float)
 {
   auto type = ds::TypeTrait<float>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::FLOAT);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_FLOAT));
+  EXPECT_TRUE(type.get_class()==ds::Class::FLOAT);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_FLOAT));
 }
 
-BOOST_AUTO_TEST_CASE(test_double)
+TEST(TypeTrait, test_double)
 {
   auto type = ds::TypeTrait<double>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::FLOAT);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_DOUBLE));
+  EXPECT_TRUE(type.get_class()==ds::Class::FLOAT);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_DOUBLE));
 }
 
-BOOST_AUTO_TEST_CASE(test_long_double)
+TEST(TypeTrait, test_long_double)
 {
   auto type = ds::TypeTrait<long double>::create();
-  BOOST_CHECK(type.get_class()==ds::Class::FLOAT);
-  BOOST_CHECK(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LDOUBLE));
+  EXPECT_TRUE(type.get_class()==ds::Class::FLOAT);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LDOUBLE));
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

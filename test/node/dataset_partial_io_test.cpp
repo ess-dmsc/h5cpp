@@ -22,31 +22,27 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 11, 2017
 //
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
+#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-struct PartialIOFixture : public Fixture
+class PartialIO : public BasicFixture
 {
+  protected:
     property::LinkCreationList lcpl;
     property::DatasetCreationList dcpl;
 
-    PartialIOFixture():
-      Fixture("DatasetPartialIOTest.h5"),
-      lcpl(),
-      dcpl()
+    virtual void SetUp()
     {
+      BasicFixture::SetUp();
       dcpl.layout(property::DatasetLayout::CHUNKED);
     }
+
 };
 
-BOOST_AUTO_TEST_SUITE(DatasetTest)
-
-BOOST_FIXTURE_TEST_SUITE(PatialIOTest,PartialIOFixture)
-
-BOOST_AUTO_TEST_CASE(test_read_write_scalar_int)
+TEST_F(PartialIO, test_read_write_scalar_int)
 {
   dataspace::Simple space{{0},{dataspace::Simple::UNLIMITED}};
   auto type = datatype::create<int>();
@@ -54,7 +50,7 @@ BOOST_AUTO_TEST_CASE(test_read_write_scalar_int)
       read_value = 0;
   dcpl.chunk({1024});
 
-  node::Dataset dset = root_group.create_dataset("data",type,space,lcpl,dcpl);
+  node::Dataset dset = root_.create_dataset("data",type,space,lcpl,dcpl);
 
   dataspace::Hyperslab slab{{0},{1},{1},{1}};
 
@@ -64,16 +60,15 @@ BOOST_AUTO_TEST_CASE(test_read_write_scalar_int)
     slab.start(0,index);
     dset.write(write_value,slab);
     dset.read(read_value,slab);
-    BOOST_CHECK_EQUAL(write_value,read_value);
-
+    EXPECT_EQ(write_value,read_value);
   }
 }
 
 
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE_END()
+
+
 
 
 

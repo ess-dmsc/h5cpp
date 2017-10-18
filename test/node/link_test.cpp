@@ -22,19 +22,16 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 25, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing the Link class implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/node/link.hpp>
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(link_test)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(Link, test_default_construction)
 {
   node::Link link;
-  BOOST_CHECK_EQUAL(link.type(),node::LinkType::ERROR);
+  EXPECT_EQ(link.type(),node::LinkType::ERROR);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
