@@ -25,9 +25,7 @@
 #pragma once 
 
 #include <gtest/gtest.h>
-#include <h5cpp/node/group.hpp>
 #include "../fixture.hpp"
-
 
 class NodeIterationFixture : public BasicFixture
 {

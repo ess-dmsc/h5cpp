@@ -25,14 +25,17 @@
 
 #include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
-#include <boost/filesystem.hpp>
-#include "../fixture.hpp"
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-class FileOpen : public BasicFixture
+class FileOpen : public testing::Test
 {
+  protected:
+    virtual void SetUp()
+    {
+      file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+    }
 };
 
 
