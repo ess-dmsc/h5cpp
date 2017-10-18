@@ -53,6 +53,7 @@ target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_unit_t
 target_link_libraries(unit_tests h5cpp_unit_test ${GTEST_LIBRARIES})
 
 add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
+add_test(NAME "RunGoogleTests" COMMAND unit_tests)
 
 set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/test/)
 
