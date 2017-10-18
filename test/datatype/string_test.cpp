@@ -92,9 +92,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_variable_io,T,test_types)
   T write_string("hello world");
   a.write(write_string);
 
-  T read1("world hello");
-  a.read(read1);
-  BOOST_CHECK_EQUAL(write_string, read1);
+//  T read1("world hello");
+//  a.read(read1);
+//  BOOST_CHECK_EQUAL(write_string, read1);
 
 //  T read2(20, '\0');
 //  a.read(read2);
