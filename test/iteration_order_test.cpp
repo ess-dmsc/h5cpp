@@ -31,15 +31,14 @@ TEST(IterationOrder, test_string_representation)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
   stream<<IterationOrder::DECREASING;
   EXPECT_EQ(stream.str(), "DECREASING");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<IterationOrder::INCREASING;
   EXPECT_EQ(stream.str(), "INCREASING");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<IterationOrder::NATIVE;
   EXPECT_EQ(stream.str(), "NATIVE");
 }

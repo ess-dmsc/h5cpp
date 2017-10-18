@@ -34,7 +34,15 @@ class FileOpen : public testing::Test
   protected:
     virtual void SetUp()
     {
+#if H5_VERSION_GE(1,10,0)
+      property::FileCreationList fcpl;
+      property::FileAccessList fapl;
+      fapl.library_version_bounds(property::LibVersion::LATEST,
+                                  property::LibVersion::LATEST);
+      file::create("file_open.h5", file::AccessFlags::TRUNCATE,fcpl,fapl);
+#else
       file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+#endif
     }
 };
 
