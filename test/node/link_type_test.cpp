@@ -32,19 +32,19 @@ TEST(Link, test_string_representation)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::LinkType::ERROR;
   EXPECT_EQ(stream.str(),  "ERROR");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::LinkType::EXTERNAL;
   EXPECT_EQ(stream.str(), "EXTERNAL");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::LinkType::HARD;
   EXPECT_EQ(stream.str(), "HARD");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::LinkType::SOFT;
   EXPECT_EQ(stream.str(), "SOFT");
 }

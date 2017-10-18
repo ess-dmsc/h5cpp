@@ -33,27 +33,26 @@ TEST(ObjectCopyClasses, test_string_representation)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
   stream<<property::CopyFlag::SHALLOW_HIERARCHY;
   EXPECT_EQ(stream.str(), "SHALLOW_HIERARCHY");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<property::CopyFlag::EXPAND_SOFT_LINKS;
   EXPECT_EQ(stream.str(), "EXPAND_SOFT_LINKS");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<property::CopyFlag::EXPAND_EXTERNAL_LINKS;
   EXPECT_EQ(stream.str(), "EXPAND_EXTERNAL_LINKS");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<property::CopyFlag::EXPAND_REFERENCES;
   EXPECT_EQ(stream.str(), "EXPAND_REFERENCES");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<property::CopyFlag::WITHOUT_ATTRIBUTES;
   EXPECT_EQ(stream.str(), "WITHOUT_ATTRIBUTES");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<property::CopyFlag::MERGE_COMMITTED_TYPES;
   EXPECT_EQ(stream.str(), "MERGE_COMMITTED_TYPES");
 }

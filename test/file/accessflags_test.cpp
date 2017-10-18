@@ -32,27 +32,27 @@ TEST(AccessFlags, test_output_stream)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::AccessFlags::EXCLUSIVE;
   EXPECT_EQ(stream.str(), "EXCLUSIVE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::AccessFlags::READONLY;
   EXPECT_EQ(stream.str(), "READONLY");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::AccessFlags::READWRITE;
   EXPECT_EQ(stream.str(), "READWRITE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::AccessFlags::TRUNCATE;
   EXPECT_EQ(stream.str(), "TRUNCATE");
 #if H5_VERSION_GE(1,10,0)
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::AccessFlags::SWMR_WRITE;
   EXPECT_EQ(stream.str(), "SWMR WRITE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::AccessFlags::SWMR_READ;
   EXPECT_EQ(stream.str(), "SWMR READ");
 #endif

@@ -32,11 +32,10 @@ TEST(IterationIndex, test_string_representation)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
   stream<<IterationIndex::CREATION_ORDER;
   EXPECT_EQ(stream.str(), "CREATION_ORDER");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<IterationIndex::NAME;
   EXPECT_EQ(stream.str(), "NAME");
 }
