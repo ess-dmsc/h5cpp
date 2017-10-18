@@ -2,7 +2,24 @@ include_directories(${PROJECT_SOURCE_DIR}/src/include)
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
-find_package(GTest)
+
+if(CMAKE_SYSTEM_NAME MATCHES Linux)
+	message(STATUS "Check Linux distribution")
+	
+	find_program(LSB_RELEASE lsb_release)
+	execute_process(COMMAND ${LSB_RELEASE} -is 
+		OUTPUT_VARIABLE LINUX_DISTRIBUTION
+		OUTPUT_STRIP_TRAILING_WHITESPACE)
+	
+	if(LINUX_DISTRIBUTION MATCHES "Debian")
+		message(STATUS "Try to apply Debian fix for googletest")
+		include(${PROJECT_SOURCE_DIR}/cmake/DebianGTestFix.cmake)
+		
+	endif()
+endif()
+
+find_package(GTest REQUIRED)
+
 
 set(Common_SRC 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
