@@ -22,20 +22,17 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 28, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing dataset transfer property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/dataset_transfer_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace prop = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(DatasetTransferList_test)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(DatasetTransferList, test_default_construction)
 {
   prop::DatasetTransferList pl;
-  BOOST_CHECK(pl.get_class()==prop::kDatasetXfer);
+  EXPECT_TRUE(pl.get_class()==prop::kDatasetXfer);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

@@ -22,30 +22,26 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 18, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing string creation property list implementation
-#include <boost/test/unit_test.hpp>
 
+#include <gtest/gtest.h>
 #include <h5cpp/property/string_creation_list.hpp>
 
 namespace prop = hdf5::property;
 namespace type = hdf5::datatype;
 
-BOOST_AUTO_TEST_SUITE(StringCreationListTest)
+TEST(StringCreationList, test_default_construction)
+{
+  prop::StringCreationList scl;
+  EXPECT_TRUE(scl.get_class() == prop::kStringCreate);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    prop::StringCreationList scl;
-    BOOST_CHECK(scl.get_class() == prop::kStringCreate);
-  }
+TEST(StringCreationList, test_encoding)
+{
+  prop::StringCreationList scl;
+  EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::ASCII));
+  EXPECT_TRUE(scl.character_encoding()==type::CharacterEncoding::ASCII);
 
-  BOOST_AUTO_TEST_CASE(test_encoding)
-  {
-    prop::StringCreationList scl;
-    BOOST_CHECK_NO_THROW(scl.character_encoding(type::CharacterEncoding::ASCII));
-    BOOST_CHECK(scl.character_encoding()==type::CharacterEncoding::ASCII);
+  EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::UTF8));
+  EXPECT_TRUE(scl.character_encoding()==type::CharacterEncoding::UTF8);
+}
 
-    BOOST_CHECK_NO_THROW(scl.character_encoding(type::CharacterEncoding::UTF8));
-    BOOST_CHECK(scl.character_encoding()==type::CharacterEncoding::UTF8);
-  }
-BOOST_AUTO_TEST_SUITE_END()

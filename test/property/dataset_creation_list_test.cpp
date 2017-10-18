@@ -22,9 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 28, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing dataset creation property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <boost/test/floating_point_comparison.hpp>
 #include <h5cpp/property/dataset_creation_list.hpp>
 #include <h5cpp/datatype/factory.hpp>
@@ -32,80 +31,79 @@
 namespace prop = hdf5::property;
 namespace type = hdf5::datatype;
 
-BOOST_AUTO_TEST_SUITE(DatasetCreationList_test)
-
-BOOST_AUTO_TEST_CASE(test_construction)
+TEST(DatasetCreationList, test_construction)
 {
   prop::DatasetCreationList pl;
-  BOOST_CHECK(pl.get_class()==prop::kDatasetCreate);
-  BOOST_CHECK_EQUAL(pl.layout(),prop::DatasetLayout::CONTIGUOUS);
-  BOOST_CHECK_EQUAL(pl.fill_time(),prop::DatasetFillTime::IFSET);
-  BOOST_CHECK_EQUAL(pl.allocation_time(),prop::DatasetAllocTime::LATE);
-  BOOST_CHECK_EQUAL(pl.fill_value_status(),prop::DatasetFillValueStatus::DEFAULT);
+  EXPECT_TRUE(pl.get_class()==prop::kDatasetCreate);
+  EXPECT_EQ(pl.layout(),prop::DatasetLayout::CONTIGUOUS);
+  EXPECT_EQ(pl.fill_time(),prop::DatasetFillTime::IFSET);
+  EXPECT_EQ(pl.allocation_time(),prop::DatasetAllocTime::LATE);
+  EXPECT_EQ(pl.fill_value_status(),prop::DatasetFillValueStatus::DEFAULT);
 }
 
-BOOST_AUTO_TEST_CASE(test_layout)
+TEST(DatasetCreationList, test_layout)
 {
   prop::DatasetCreationList pl;
-  BOOST_CHECK_EQUAL(pl.layout(),prop::DatasetLayout::CONTIGUOUS);
-  BOOST_CHECK_NO_THROW(pl.layout(prop::DatasetLayout::CHUNKED));
-  BOOST_CHECK_EQUAL(pl.layout(),prop::DatasetLayout::CHUNKED);
-  BOOST_CHECK_NO_THROW(pl.layout(prop::DatasetLayout::COMPACT));
-  BOOST_CHECK_EQUAL(pl.layout(),prop::DatasetLayout::COMPACT);
+  EXPECT_EQ(pl.layout(),prop::DatasetLayout::CONTIGUOUS);
+  EXPECT_NO_THROW(pl.layout(prop::DatasetLayout::CHUNKED));
+  EXPECT_EQ(pl.layout(),prop::DatasetLayout::CHUNKED);
+  EXPECT_NO_THROW(pl.layout(prop::DatasetLayout::COMPACT));
+  EXPECT_EQ(pl.layout(),prop::DatasetLayout::COMPACT);
 }
 
-BOOST_AUTO_TEST_CASE(test_chunk)
+TEST(DatasetCreationList, test_chunk)
 {
   prop::DatasetCreationList pl;
-  BOOST_CHECK_NO_THROW(pl.chunk({10,100}));
+  EXPECT_NO_THROW(pl.chunk({10,100}));
 
   hdf5::Dimensions c = pl.chunk();
   hdf5::Dimensions e{10,100};
-  BOOST_CHECK_EQUAL_COLLECTIONS(c.begin(),c.end(),e.begin(),e.end());
+//  EXPECT_EQ_COLLECTIONS(c.begin(),c.end(),e.begin(),e.end());
+  EXPECT_EQ(c,e);
 }
 
-BOOST_AUTO_TEST_CASE(test_fill_time)
+TEST(DatasetCreationList, test_fill_time)
 {
   prop::DatasetCreationList pl;
-  BOOST_CHECK_EQUAL(pl.fill_time(),prop::DatasetFillTime::IFSET);
-  BOOST_CHECK_NO_THROW(pl.fill_time(prop::DatasetFillTime::ALLOC));
-  BOOST_CHECK_EQUAL(pl.fill_time(),prop::DatasetFillTime::ALLOC);
-  BOOST_CHECK_NO_THROW(pl.fill_time(prop::DatasetFillTime::NEVER));
-  BOOST_CHECK_EQUAL(pl.fill_time(),prop::DatasetFillTime::NEVER);
+  EXPECT_EQ(pl.fill_time(),prop::DatasetFillTime::IFSET);
+  EXPECT_NO_THROW(pl.fill_time(prop::DatasetFillTime::ALLOC));
+  EXPECT_EQ(pl.fill_time(),prop::DatasetFillTime::ALLOC);
+  EXPECT_NO_THROW(pl.fill_time(prop::DatasetFillTime::NEVER));
+  EXPECT_EQ(pl.fill_time(),prop::DatasetFillTime::NEVER);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_allocation_time)
+TEST(DatasetCreationList, test_allocation_time)
 {
   prop::DatasetCreationList pl;
-  BOOST_CHECK_EQUAL(pl.allocation_time(),prop::DatasetAllocTime::LATE);
-  BOOST_CHECK_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::DEFAULT));
-  BOOST_CHECK_EQUAL(pl.allocation_time(),prop::DatasetAllocTime::LATE);
-  BOOST_CHECK_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::EARLY));
-  BOOST_CHECK_EQUAL(pl.allocation_time(),prop::DatasetAllocTime::EARLY);
-  BOOST_CHECK_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::INCR));
-  BOOST_CHECK_EQUAL(pl.allocation_time(),prop::DatasetAllocTime::INCR);
+  EXPECT_EQ(pl.allocation_time(),prop::DatasetAllocTime::LATE);
+  EXPECT_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::DEFAULT));
+  EXPECT_EQ(pl.allocation_time(),prop::DatasetAllocTime::LATE);
+  EXPECT_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::EARLY));
+  EXPECT_EQ(pl.allocation_time(),prop::DatasetAllocTime::EARLY);
+  EXPECT_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::INCR));
+  EXPECT_EQ(pl.allocation_time(),prop::DatasetAllocTime::INCR);
 }
 
-BOOST_AUTO_TEST_CASE(test_fill_value_default)
+TEST(DatasetCreationList, test_fill_value_default)
 {
   prop::DatasetCreationList pl;
-  BOOST_CHECK_NO_THROW(pl.fill_value(1024));
-  BOOST_CHECK_EQUAL(pl.fill_value<int>(),1024);
-  BOOST_CHECK_EQUAL(pl.fill_value_status(),prop::DatasetFillValueStatus::USER_DEFINED);
+  EXPECT_NO_THROW(pl.fill_value(1024));
+  EXPECT_EQ(pl.fill_value<int>(),1024);
+  EXPECT_EQ(pl.fill_value_status(),prop::DatasetFillValueStatus::USER_DEFINED);
 }
 
-BOOST_AUTO_TEST_CASE(test_fill_value_custom_type)
+TEST(DatasetCreationList, test_fill_value_custom_type)
 {
   prop::DatasetCreationList pl;
   auto set_type = type::create<int>();
   auto get_type = type::create<float>();
 
-  BOOST_CHECK_NO_THROW(pl.fill_value(1024,set_type));
+  EXPECT_NO_THROW(pl.fill_value(1024,set_type));
   float buffer;
-  BOOST_CHECK_NO_THROW(buffer = pl.fill_value<float>(get_type));
-  BOOST_CHECK_CLOSE(buffer,float(1024),0.0001);
+  EXPECT_NO_THROW(buffer = pl.fill_value<float>(get_type));
+  EXPECT_NEAR(buffer,float(1024),0.0001);
 }
 
 
-BOOST_AUTO_TEST_SUITE_END()
+

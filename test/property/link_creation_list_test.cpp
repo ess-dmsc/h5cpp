@@ -22,9 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 21, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing link creation property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/link_creation_list.hpp>
 #include <h5cpp/property/class.hpp>
 #include <h5cpp/datatype/types.hpp>
@@ -32,31 +31,29 @@
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-BOOST_AUTO_TEST_SUITE(LinkCreationList_test)
+TEST(LinkCreationList, test_default_construction)
+{
+  pl::LinkCreationList lcpl;
+  EXPECT_TRUE(lcpl.get_class() == pl::kLinkCreate);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    pl::LinkCreationList lcpl;
-    BOOST_CHECK(lcpl.get_class() == pl::kLinkCreate);
-  }
+TEST(LinkCreationList, test_intermediate_gruop_creation)
+{
+  pl::LinkCreationList lcpl;
+  EXPECT_NO_THROW(lcpl.enable_intermediate_group_creation());
+  EXPECT_TRUE(lcpl.intermediate_group_creation());
+  EXPECT_NO_THROW(lcpl.disable_intermediate_group_creation());
+  EXPECT_TRUE(lcpl.intermediate_group_creation());
+}
 
-  BOOST_AUTO_TEST_CASE(test_intermediate_gruop_creation)
-  {
-    pl::LinkCreationList lcpl;
-    BOOST_CHECK_NO_THROW(lcpl.enable_intermediate_group_creation());
-    BOOST_CHECK(lcpl.intermediate_group_creation());
-    BOOST_CHECK_NO_THROW(lcpl.disable_intermediate_group_creation());
-    BOOST_CHECK(lcpl.intermediate_group_creation());
-  }
+TEST(LinkCreationList, test_character_encoding)
+{
+  pl::LinkCreationList lcpl;
+  EXPECT_NO_THROW(lcpl.character_encoding(tp::CharacterEncoding::ASCII));
+  EXPECT_TRUE(lcpl.character_encoding() == tp::CharacterEncoding::ASCII);
 
-  BOOST_AUTO_TEST_CASE(test_character_encoding)
-  {
-    pl::LinkCreationList lcpl;
-    BOOST_CHECK_NO_THROW(lcpl.character_encoding(tp::CharacterEncoding::ASCII));
-    BOOST_CHECK(lcpl.character_encoding() == tp::CharacterEncoding::ASCII);
+  EXPECT_NO_THROW(lcpl.character_encoding(tp::CharacterEncoding::UTF8));
+  EXPECT_TRUE(lcpl.character_encoding() == tp::CharacterEncoding::UTF8);
+}
 
-    BOOST_CHECK_NO_THROW(lcpl.character_encoding(tp::CharacterEncoding::UTF8));
-    BOOST_CHECK(lcpl.character_encoding() == tp::CharacterEncoding::UTF8);
-  }
 
-BOOST_AUTO_TEST_SUITE_END()

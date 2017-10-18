@@ -23,68 +23,70 @@
 // Created on: Sep 13, 2017
 //
 #include "group_test_fixtures.hpp"
+#include <h5cpp/node/node_iterator.hpp>
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(group_test)
-BOOST_FIXTURE_TEST_SUITE(group_node_iteration,NodeIterationFixture)
-
-BOOST_AUTO_TEST_CASE(group_index_name_order_access)
+class NodeIteration : public NodeIterationFixture
 {
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
-  //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+};
 
-  BOOST_CHECK_EQUAL(root_group.nodes[0].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[0].link().path()),"/g3");
-  BOOST_CHECK_EQUAL(root_group.nodes[1].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[1].link().path()),"/g2");
-  BOOST_CHECK_EQUAL(root_group.nodes[2].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[2].link().path()),"/g1");
-  BOOST_CHECK_EQUAL(root_group.nodes[3].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[3].link().path()),"/d2");
-  BOOST_CHECK_EQUAL(root_group.nodes[4].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[4].link().path()),"/d1");
+TEST_F(NodeIteration, group_index_name_order_access)
+{
+  EXPECT_EQ(root_.nodes.size(),5);
+  //setup creation order
+  root_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
+
+  EXPECT_EQ(root_.nodes[0].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[0].link().path()),"/g3");
+  EXPECT_EQ(root_.nodes[1].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[1].link().path()),"/g2");
+  EXPECT_EQ(root_.nodes[2].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[2].link().path()),"/g1");
+  EXPECT_EQ(root_.nodes[3].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[3].link().path()),"/d2");
+  EXPECT_EQ(root_.nodes[4].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[4].link().path()),"/d1");
 }
 
-BOOST_AUTO_TEST_CASE(group_index_creation_order_access)
+TEST_F(NodeIteration, group_index_creation_order_access)
 {
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5);
   //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
-  root_group.iterator_config().order(hdf5::IterationOrder::INCREASING);
+  root_.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
+  root_.iterator_config().order(hdf5::IterationOrder::INCREASING);
 
-  BOOST_CHECK_EQUAL(root_group.nodes[0].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[0].link().path()),"/g1");
-  BOOST_CHECK_EQUAL(root_group.nodes[1].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[1].link().path()),"/g2");
-  BOOST_CHECK_EQUAL(root_group.nodes[2].type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[2].link().path()),"/g3");
-  BOOST_CHECK_EQUAL(root_group.nodes[3].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[3].link().path()),"/d1");
-  BOOST_CHECK_EQUAL(root_group.nodes[4].type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.nodes[4].link().path()),"/d2");
+  EXPECT_EQ(root_.nodes[0].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[0].link().path()),"/g1");
+  EXPECT_EQ(root_.nodes[1].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[1].link().path()),"/g2");
+  EXPECT_EQ(root_.nodes[2].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[2].link().path()),"/g3");
+  EXPECT_EQ(root_.nodes[3].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[3].link().path()),"/d1");
+  EXPECT_EQ(root_.nodes[4].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[4].link().path()),"/d2");
 }
 
-BOOST_AUTO_TEST_CASE(group_name_access)
+TEST_F(NodeIteration, group_name_access)
 {
   node::Node n;
-  BOOST_CHECK_NO_THROW(n=root_group.nodes["g1"]);
-  BOOST_CHECK_EQUAL(n.type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(n.link().path()),"/g1");
-  BOOST_CHECK_NO_THROW(n=root_group.nodes["d1"]);
-  BOOST_CHECK_EQUAL(n.type(),node::Type::DATASET);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(n.link().path()),"/d1");
+  EXPECT_NO_THROW(n=root_.nodes["g1"]);
+  EXPECT_EQ(n.type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(n.link().path()),"/g1");
+  EXPECT_NO_THROW(n=root_.nodes["d1"]);
+  EXPECT_EQ(n.type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(n.link().path()),"/d1");
 
 }
 
-BOOST_AUTO_TEST_CASE(group_node_iteration)
+TEST_F(NodeIteration, group_node_iteration)
 {
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5);
   //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+  root_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
   std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
   std::vector<node::Type> types{node::Type::GROUP,
@@ -95,19 +97,19 @@ BOOST_AUTO_TEST_CASE(group_node_iteration)
   auto name_iter = names.begin();
   auto type_iter = types.begin();
 
-  for(auto iter = root_group.nodes.begin();iter!=root_group.nodes.end();++iter)
+  for(auto iter = root_.nodes.begin();iter!=root_.nodes.end();++iter)
   {
-    BOOST_CHECK_EQUAL(static_cast<std::string>(iter->link().path()),*name_iter++);
-    BOOST_CHECK_EQUAL((*iter).type(),*type_iter++);
+    EXPECT_EQ(static_cast<std::string>(iter->link().path()),*name_iter++);
+    EXPECT_EQ((*iter).type(),*type_iter++);
   }
 }
 
-BOOST_AUTO_TEST_CASE(group_node_foreach)
+TEST_F(NodeIteration, group_node_foreach)
 {
-  BOOST_CHECK_EQUAL(root_group.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5);
   //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+  root_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
   std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
   std::vector<node::Type> types{node::Type::GROUP,
@@ -118,13 +120,13 @@ BOOST_AUTO_TEST_CASE(group_node_foreach)
   auto name_iter = names.begin();
   auto type_iter = types.begin();
 
-  for(auto node: root_group.nodes)
+  for(auto node: root_.nodes)
   {
-    BOOST_CHECK_EQUAL(static_cast<std::string>(node.link().path()),*name_iter++);
-    BOOST_CHECK_EQUAL(node.type(),*type_iter++);
+    EXPECT_EQ(static_cast<std::string>(node.link().path()),*name_iter++);
+    EXPECT_EQ(node.type(),*type_iter++);
   }
 
 }
 
-BOOST_AUTO_TEST_SUITE_END()
-BOOST_AUTO_TEST_SUITE_END()
+
+

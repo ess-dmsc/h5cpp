@@ -1,44 +1,22 @@
-set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test/node)
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(node_test node_test.cpp group_test_fixtures.cpp)
-target_link_libraries(node_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::node::Node"
-                 node_test
-                 ${WORKING_DIRECTORY})
+set(Common_SRC
+  ${Common_SRC}
+  ${dir}/node_test.cpp
+  ${dir}/group_test_fixtures.cpp
+  ${dir}/type_test.cpp
+  ${dir}/link_type_test.cpp
+  ${dir}/link_test.cpp
+  ${dir}/group_test.cpp
+  ${dir}/group_node_iteration_test.cpp
+  ${dir}/group_link_iteration_test.cpp
+  ${dir}/dataset_test.cpp
+  ${dir}/dataset_extent_test.cpp
+  ${dir}/dataset_partial_io_test.cpp
+  PARENT_SCOPE)
 
-add_executable(node_type_test type_test.cpp)
-target_link_libraries(node_type_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::node::Type"
-                 node_type_test
-                 ${WORKING_DIRECTORY})
+set(Common_INC
+  ${Common_INC}
+  ${dir}/group_test_fixtures.hpp
+  PARENT_SCOPE)
 
-add_executable(node_link_type_test link_type_test.cpp)
-target_link_libraries(node_link_type_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::node::LinkType"
-                 node_link_type_test
-                 ${WORKING_DIRECTORY})
-                
-                
-add_executable(node_link_test link_test.cpp)
-target_link_libraries(node_link_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::node::Link"
-                 node_link_test
-                 ${WORKING_DIRECTORY})
-
-add_executable(node_group_test group_test.cpp group_test_fixtures.cpp
-                               group_node_iteration_test.cpp
-                               group_link_iteration_test.cpp)
-target_link_libraries(node_group_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::node::Group"
-                 node_group_test
-                 ${WORKING_DIRECTORY})
-
-                 
-add_executable(node_dataset_test dataset_test.cpp
-	                           dataset_extent_test.cpp
-	                           dataset_partial_io_test.cpp
-                               $<TARGET_OBJECTS:test_common>)
-target_link_libraries(node_dataset_test h5cpp_shared Boost::unit_test_framework)
-add_logging_test("hdf5::node::Dataset"
-                 node_dataset_test
-                 ${WORKING_DIRECTORY})

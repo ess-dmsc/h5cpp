@@ -22,20 +22,17 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 22, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing file mount property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/file_mount_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(FileMountList_test)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(FileMountList, test_default_construction)
 {
   pl::FileMountList fmpl;
-  BOOST_CHECK(fmpl.get_class() == pl::kFileMount);
+  EXPECT_TRUE(fmpl.get_class() == pl::kFileMount);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

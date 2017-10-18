@@ -22,9 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 10, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing file creation function
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 #include <boost/filesystem.hpp>
@@ -32,81 +31,76 @@
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-struct GlobalFixture
+class FileCreation : public testing::Test
 {
-    static const std::vector<std::string> files;
-    GlobalFixture();
-    ~GlobalFixture();
+  protected:
+    FileCreation() {}
+    virtual ~FileCreation() {}
+
+    virtual void SetUp()
+    {
+      for(auto filename : files_)
+        fs::remove(filename);
+    }
+
+    virtual void TearDown() {}
+
+    static const std::vector<std::string> files_;
 };
 
-GlobalFixture::GlobalFixture()
-{
-  for(auto filename: files)
-    fs::remove(filename);
-}
-
-GlobalFixture::~GlobalFixture()
-{}
-
-const std::vector<std::string> GlobalFixture::files = {
+const std::vector<std::string> FileCreation::files_ = {
     "./test1.h5",
     "./test2.h5"
 };
 
-BOOST_GLOBAL_FIXTURE(GlobalFixture);
 
-
-BOOST_AUTO_TEST_SUITE(FileCreation_test)
-
-BOOST_AUTO_TEST_CASE(test_default)
+TEST_F(FileCreation, test_default)
 {
   file::File f;
-  BOOST_CHECK_THROW(f.intent(),std::runtime_error);
-  BOOST_CHECK_THROW(f.size(),std::runtime_error);
-  BOOST_CHECK_THROW(f.flush(file::Scope::GLOBAL),std::runtime_error);
-  BOOST_CHECK_THROW(f.flush(file::Scope::LOCAL),std::runtime_error);
-  BOOST_CHECK_THROW(f.count_open_objects(file::SearchFlags::ALL),std::runtime_error);
-  BOOST_CHECK_THROW(f.root(),std::runtime_error);
-  BOOST_CHECK_NO_THROW(f.close());
+  EXPECT_THROW(f.intent(),std::runtime_error);
+  EXPECT_THROW(f.size(),std::runtime_error);
+  EXPECT_THROW(f.flush(file::Scope::GLOBAL),std::runtime_error);
+  EXPECT_THROW(f.flush(file::Scope::LOCAL),std::runtime_error);
+  EXPECT_THROW(f.count_open_objects(file::SearchFlags::ALL),std::runtime_error);
+  EXPECT_THROW(f.root(),std::runtime_error);
+  EXPECT_NO_THROW(f.close());
 }
 
-BOOST_AUTO_TEST_CASE(test_no_truncate)
+TEST_F(FileCreation, test_no_truncate)
 {
   file::File f = file::create(fs::path("./test1.h5"));
-  BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::READWRITE);
+  EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
   f.close();
 
   //cannot create another file
-  BOOST_CHECK_THROW(file::create("./test1.h5"),std::runtime_error);
+  EXPECT_THROW(file::create("./test1.h5"),std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE(test_truncation)
+TEST_F(FileCreation, test_truncation)
 {
   file::File f = file::create("./test2.h5");
-  BOOST_CHECK_EQUAL(f.intent(),file::AccessFlags::READWRITE);
+  EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
   f.close();
 
   //should work
-  BOOST_CHECK_NO_THROW(file::create("./test2.h5",file::AccessFlags::TRUNCATE));
+  EXPECT_NO_THROW(file::create("./test2.h5",file::AccessFlags::TRUNCATE));
 }
-
-BOOST_AUTO_TEST_SUITE(FileIdTest)
 
 //testing a situation where we have two individual files open
 //
-BOOST_AUTO_TEST_CASE(test_same_file_ro)
+TEST_F(FileCreation, test_same_file_ro)
 {
   file::create("test1.h5",file::AccessFlags::TRUNCATE);
   file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
   file::File f2 = file::open("test1.h5",file::AccessFlags::READONLY);
 
-  BOOST_CHECK(f1.id()==f2.id());
+  EXPECT_TRUE(f1.id()==f2.id());
 }
 
 #ifndef _MSC_VER
 //makes no sense to test this on Windows as there are no symbolic links 
 //on a Windows file system
-BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
+TEST_F(FileCreation, test_same_file_with_symbolic_link)
 {
   file::create("test1.h5",file::AccessFlags::TRUNCATE);
 
@@ -114,17 +108,15 @@ BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
   file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
   file::File f2 = file::open("test1_link.h5",file::AccessFlags::READONLY);
 
-  BOOST_CHECK(f1.id()==f2.id());
-  f1.close();
-  f2.close();
+  EXPECT_TRUE(f1.id()==f2.id());
   boost::filesystem::remove("test1_link.h5");
 }
 #endif
 
-BOOST_AUTO_TEST_SUITE_END()
 
 
-BOOST_AUTO_TEST_SUITE_END()
+
+
 
 
 

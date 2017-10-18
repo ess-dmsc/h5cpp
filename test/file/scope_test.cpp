@@ -22,32 +22,31 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing Scope flags implementation
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/file/types.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(Scope_test)
-
-BOOST_AUTO_TEST_CASE(test_string_representation)
+TEST(Scope, test_string_representation)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
+  stream = std::stringstream();
   stream<<file::Scope::GLOBAL;
-  BOOST_CHECK(stream.is_equal("GLOBAL"));
+  EXPECT_EQ(stream.str(), "GLOBAL");
+
+  stream = std::stringstream();
   stream<<file::Scope::LOCAL;
-  BOOST_CHECK(stream.is_equal("LOCAL"));
+  EXPECT_EQ(stream.str(), "LOCAL");
 }
 
-BOOST_AUTO_TEST_CASE(test_values)
+TEST(Scope, test_values)
 {
-  BOOST_CHECK_EQUAL(static_cast<file::ScopeBase>(file::Scope::LOCAL),
+  EXPECT_EQ(static_cast<file::ScopeBase>(file::Scope::LOCAL),
                     H5F_SCOPE_LOCAL);
-  BOOST_CHECK_EQUAL(static_cast<file::ScopeBase>(file::Scope::GLOBAL),
+  EXPECT_EQ(static_cast<file::ScopeBase>(file::Scope::GLOBAL),
                      H5F_SCOPE_GLOBAL);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

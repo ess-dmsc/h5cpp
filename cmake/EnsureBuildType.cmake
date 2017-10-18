@@ -1,3 +1,8 @@
+if (NOT CMAKE_BUILD_TYPE)
+    message(STATUS "Build type was not set. Using Relese mode.")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 #
 # On linux it is mandatory to provide a build type during configuration
 #
