@@ -14,11 +14,14 @@ if(CMAKE_SYSTEM_NAME MATCHES Linux)
 	if(LINUX_DISTRIBUTION MATCHES "Debian")
 		message(STATUS "Try to apply Debian fix for googletest")
 		include(${PROJECT_SOURCE_DIR}/cmake/DebianGTestFix.cmake)
-		
+	else()		
+		find_package(GTest REQUIRED)
 	endif()
+
+else()
+find_package(GTest REQUIRED)
 endif()
 
-find_package(GTest REQUIRED)
 
 
 set(Common_SRC 
