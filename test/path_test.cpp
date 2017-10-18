@@ -237,7 +237,7 @@ TEST(Path,test_name)
 
   p = Path("/");
   EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(p.name(),"/");
+  EXPECT_EQ(p.name(),".");
 }
 
 TEST(Path,test_parent_path)
