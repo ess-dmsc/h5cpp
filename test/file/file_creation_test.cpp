@@ -115,6 +115,8 @@ BOOST_AUTO_TEST_CASE(test_same_file_with_symbolic_link)
   file::File f2 = file::open("test1_link.h5",file::AccessFlags::READONLY);
 
   BOOST_CHECK(f1.id()==f2.id());
+  f1.close();
+  f2.close();
   boost::filesystem::remove("test1_link.h5");
 }
 #endif
