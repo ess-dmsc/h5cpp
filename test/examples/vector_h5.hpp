@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,35 +20,32 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 11, 2017
+// Created on: Oct 10, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/iterator_config.hpp>
+#pragma once
 
-using namespace hdf5;
+#include <h5cpp/hdf5.hpp>
+#include "vector.hpp"
 
-TEST(IterationOrder, test_string_representation)
+namespace hdf5 {
+namespace datatype {
+
+template<typename T>
+class TypeTrait<vector<T>>
 {
-  std::stringstream stream;
+  public:
+    using TypeClass = Compound;
 
-  stream<<IterationOrder::DECREASING;
-  EXPECT_EQ(stream.str(), "DECREASING");
+    static TypeClass create()
+    {
+      Compound type(sizeof(vector<T>));
+      type.insert("x",0,TypeTrait<T>::create());
+      type.insert("y",sizeof(T),TypeTrait<T>::create());
+      type.insert("z",sizeof(T)*2,TypeTrait<T>::create());
 
-  stream.str(std::string());
-  stream<<IterationOrder::INCREASING;
-  EXPECT_EQ(stream.str(), "INCREASING");
+      return type;
+    }
+};
 
-  stream.str(std::string());
-  stream<<IterationOrder::NATIVE;
-  EXPECT_EQ(stream.str(), "NATIVE");
 }
-
-TEST(IterationOrder, test_value)
-{
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
-                    H5_ITER_DEC);
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::INCREASING),
-                    H5_ITER_INC);
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
-                    H5_ITER_NATIVE);
 }

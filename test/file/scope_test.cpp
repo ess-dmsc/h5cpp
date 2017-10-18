@@ -32,11 +32,11 @@ TEST(Scope, test_string_representation)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::Scope::GLOBAL;
   EXPECT_EQ(stream.str(), "GLOBAL");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::Scope::LOCAL;
   EXPECT_EQ(stream.str(), "LOCAL");
 }

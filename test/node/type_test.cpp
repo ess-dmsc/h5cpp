@@ -32,19 +32,19 @@ TEST(NodeType, test_string_representation)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::Type::DATASET;
   EXPECT_EQ(stream.str(), "DATASET");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::Type::DATATYPE;
   EXPECT_EQ(stream.str(), "DATATYPE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::Type::GROUP;
   EXPECT_EQ(stream.str(), "GROUP");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<node::Type::UNKNOWN;
   EXPECT_EQ(stream.str(), "UNKNOWN");
 }

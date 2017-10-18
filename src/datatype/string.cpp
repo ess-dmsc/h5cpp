@@ -23,6 +23,7 @@
 // Created on: Oct 11, 2017
 //
 
+#include <stdexcept>
 #include <h5cpp/datatype/string.hpp>
 
 namespace hdf5 {

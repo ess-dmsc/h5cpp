@@ -32,31 +32,31 @@ TEST(SearchFlags, test_output_stream)
 {
   std::stringstream stream;
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::ALL;
   EXPECT_EQ(stream.str(), "ALL");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::ATTRIBUTE;
   EXPECT_EQ(stream.str(), "ATTRIBUTE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::DATASET;
   EXPECT_EQ(stream.str(), "DATASET");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::DATATYPE;
   EXPECT_EQ(stream.str(), "DATATYPE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::FILE;
   EXPECT_EQ(stream.str(), "FILE");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::GROUP;
   EXPECT_EQ(stream.str(), "GROUP");
 
-  stream = std::stringstream();
+  stream.str(std::string());
   stream<<file::SearchFlags::LOCAL;
   EXPECT_EQ(stream.str(), "LOCAL");
 }

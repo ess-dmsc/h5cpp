@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,35 +20,36 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 11, 2017
+// Created on: Oct 10, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/iterator_config.hpp>
+
+#include <h5cpp/hdf5.hpp>
+#include "vector.hpp"
+#include "vector_h5.hpp"
 
 using namespace hdf5;
 
-TEST(IterationOrder, test_string_representation)
+using vector_type = vector<double>;
+
+
+int main()
 {
-  std::stringstream stream;
+  vector_type p,v;
+  v = {30.2,-2.3,20.3};
+  p = {203.33,203.21,1233.0};
+  vector_type x = {1,2,3};
 
-  stream<<IterationOrder::DECREASING;
-  EXPECT_EQ(stream.str(), "DECREASING");
+  file::File f = file::create("write_single_vector.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = f.root();
+  auto type = datatype::create<vector_type>();
+  dataspace::Scalar space;
+  node::Dataset position = root_group.create_dataset("position",type,space);
+  node::Dataset velocity = root_group.create_dataset("velocity",type,space);
 
-  stream.str(std::string());
-  stream<<IterationOrder::INCREASING;
-  EXPECT_EQ(stream.str(), "INCREASING");
+  position.write(p);
+  velocity.write(v);
 
-  stream.str(std::string());
-  stream<<IterationOrder::NATIVE;
-  EXPECT_EQ(stream.str(), "NATIVE");
+
 }
 
-TEST(IterationOrder, test_value)
-{
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
-                    H5_ITER_DEC);
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::INCREASING),
-                    H5_ITER_INC);
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
-                    H5_ITER_NATIVE);
-}
+
