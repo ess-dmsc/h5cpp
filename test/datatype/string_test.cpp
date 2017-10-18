@@ -22,9 +22,8 @@
 // Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 11, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Testing string data types
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <boost/mpl/list.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/string.hpp>
@@ -37,68 +36,80 @@
 namespace type = hdf5::datatype;
 namespace attr = hdf5::attribute;
 
-struct Fixture
+template <class T>
+class String : public testing::Test
 {
-    hdf5::file::File file;
-    hdf5::node::Group root_group;
-
-    Fixture():
-      file(hdf5::file::create("CompoundTest.h5",hdf5::file::AccessFlags::TRUNCATE)),
-      root_group(file.root())
-    {}
+ protected:
+  String()
+  {
+    file_ = hdf5::file::create("CompoundTest.h5",hdf5::file::AccessFlags::TRUNCATE);
+    root_group_ = file_.root();
+  }
+  virtual ~String() {}
+  T value_;
+  hdf5::file::File file_;
+  hdf5::node::Group root_group_;
 };
 
-using test_types = boost::mpl::list<std::string>;
-//                                    std::wstring,
-//                                    std::u16string,
-//                                    std::u32string>;
+using testing::Types;
 
-BOOST_FIXTURE_TEST_SUITE(String_test,Fixture)
+// The list of types we want to test.
+typedef
+Types<std::string>
+//std::wstring,
+//std::u16string,
+//std::u32string>
+test_types;
 
-BOOST_AUTO_TEST_CASE(test_construction)
+TYPED_TEST_CASE(String, test_types);
+
+TEST(String, Constructors)
 {
   auto t = type::String::fixed(3);
-  BOOST_CHECK(t.get_class()==type::Class::STRING);
-  BOOST_CHECK_EQUAL(t.size(),3);
-  BOOST_CHECK(!t.is_variable_length());
+  EXPECT_TRUE(t.get_class()==type::Class::STRING);
+  EXPECT_EQ(t.size(),3);
+  EXPECT_FALSE(t.is_variable_length());
 
   auto t2 = type::String::variable();
-  BOOST_CHECK(t2.get_class()==type::Class::STRING);
-  BOOST_CHECK_EQUAL(t2.size(),H5T_VARIABLE);
-  BOOST_CHECK(t2.is_variable_length());
+  EXPECT_TRUE(t2.get_class()==type::Class::STRING);
+  EXPECT_EQ(t2.size(),H5T_VARIABLE);
+  EXPECT_TRUE(t2.is_variable_length());
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_fixed_io,T,test_types)
+TYPED_TEST(String, FixedIO)
 {
   auto t = type::String::fixed(5);
   hdf5::dataspace::Scalar ds;
 
-  attr::Attribute a = root_group.attributes.create("string", t, ds);
-  T write_string("abc");
-  a.write(write_string, t);
+  attr::Attribute a = this->root_group_.attributes.create("string", t, ds);
+  this->value_ = "abc  ";
+  a.write(this->value_.c_str(), t);
 
 //  T read1("cba");
 //  a.read(read1);
-//  BOOST_CHECK_EQUAL(write_string, read1);
+//  EXPECT_EQ(write_string, read1);
 
 //  T read2(6, '\0');
 //  a.read(read2);
-//  BOOST_CHECK_EQUAL(write_string, read2);
+//  EXPECT_EQ(write_string, read2);
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_variable_io,T,test_types)
+TYPED_TEST(String, VariableIO)
 {
-  attr::Attribute a = root_group.attributes.create<T>("string");
-  T write_string("hello world");
-  a.write(write_string);
+  auto t = type::create<decltype(this->value_)>();
+  hdf5::dataspace::Scalar ds;
 
-//  T read1("world hello");
-//  a.read(read1);
-//  BOOST_CHECK_EQUAL(write_string, read1);
+  attr::Attribute a = this->root_group_.attributes.create("string", t, ds);
+  this->value_ = "hello world";
+  a.write(this->value_);
+
+  auto read1 = this->value_;
+  a.read(read1);
+  EXPECT_EQ(this->value_, read1);
 
 //  T read2(20, '\0');
 //  a.read(read2);
-//  BOOST_CHECK_EQUAL(write_string, read2);
+//  EXPECT_EQ(write_string, read2);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

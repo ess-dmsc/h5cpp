@@ -22,50 +22,47 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing simple dataspace implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/dataspace/simple.hpp>
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(Simple_test)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(Simple, test_default_construction)
 {
   dataspace::Simple space;
-  BOOST_CHECK_EQUAL(space.size(),0);
-  BOOST_CHECK_EQUAL(space.rank(),0);
-  BOOST_CHECK_EQUAL(space.type(),dataspace::Type::SIMPLE);
-  BOOST_CHECK(space.current_dimensions().empty());
-  BOOST_CHECK(space.maximum_dimensions().empty());
+  EXPECT_EQ(space.size(),0);
+  EXPECT_EQ(space.rank(),0);
+  EXPECT_EQ(space.type(),dataspace::Type::SIMPLE);
+  EXPECT_TRUE(space.current_dimensions().empty());
+  EXPECT_TRUE(space.maximum_dimensions().empty());
 }
 
-BOOST_AUTO_TEST_CASE(test_construction_only_current)
+TEST(Simple, test_construction_only_current)
 {
   Dimensions s = {10,20,30};
   dataspace::Simple space(s);
-  BOOST_CHECK_EQUAL(space.size(),10*20*30);
-  BOOST_CHECK_EQUAL(space.rank(),3);
+  EXPECT_EQ(space.size(),10*20*30);
+  EXPECT_EQ(space.rank(),3);
 
   Dimensions c = space.current_dimensions();
   Dimensions m = space.maximum_dimensions();
-  BOOST_CHECK_EQUAL_COLLECTIONS(c.begin(),c.end(),s.begin(),s.end());
-  BOOST_CHECK_EQUAL_COLLECTIONS(c.begin(),c.end(),m.begin(),m.end());
+  EXPECT_EQ(c,s);
+  EXPECT_EQ(c,m);
 }
 
-BOOST_AUTO_TEST_CASE(test_construction_current_and_max)
+TEST(Simple, test_construction_current_and_max)
 {
   Dimensions s = {30,20,10}, m = {100,200,dataspace::Simple::UNLIMITED};
   dataspace::Simple space(s,m);
-  BOOST_CHECK_EQUAL(space.rank(),3);
-  BOOST_CHECK_EQUAL(space.size(),10*20*30);
+  EXPECT_EQ(space.rank(),3);
+  EXPECT_EQ(space.size(),10*20*30);
 
   Dimensions c = space.current_dimensions();
   Dimensions max = space.maximum_dimensions();
 
-  BOOST_CHECK_EQUAL_COLLECTIONS(s.begin(),s.end(),c.begin(),c.end());
-  BOOST_CHECK_EQUAL_COLLECTIONS(m.begin(),m.end(),max.begin(),max.end());
+  EXPECT_EQ(s,c);
+  EXPECT_EQ(m,max);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

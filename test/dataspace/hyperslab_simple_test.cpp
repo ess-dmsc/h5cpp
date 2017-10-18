@@ -22,41 +22,38 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing simple hyperslab operations
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/dataspace/selection.hpp>
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(HyperslabSimple_test)
-
-BOOST_AUTO_TEST_CASE(test_case_1)
+TEST(HyperslabSimple, test_case_1)
 {
   dataspace::Simple space({10,20});
-  BOOST_CHECK_EQUAL(space.rank(),2);
-  BOOST_CHECK_EQUAL(space.size(),200);
+  EXPECT_EQ(space.rank(),2);
+  EXPECT_EQ(space.size(),200);
   dataspace::Hyperslab slab({1,1},{1,1},{1,1},{5,5});
   space.selection(dataspace::SelectionOperation::SET,slab);
-  BOOST_CHECK_EQUAL(space.selection.size(),25);
-  BOOST_CHECK_EQUAL(space.selection.type(),dataspace::SelectionType::HYPERSLAB);
+  EXPECT_EQ(space.selection.size(),25);
+  EXPECT_EQ(space.selection.type(),dataspace::SelectionType::HYPERSLAB);
 
-  BOOST_CHECK_NO_THROW(space.selection.all());
-  BOOST_CHECK_EQUAL(space.selection.type(),dataspace::SelectionType::ALL);
+  EXPECT_NO_THROW(space.selection.all());
+  EXPECT_EQ(space.selection.type(),dataspace::SelectionType::ALL);
 }
 
-BOOST_AUTO_TEST_CASE(test_case_2)
+TEST(HyperslabSimple, test_case_2)
 {
   dataspace::Simple space({10,1024,1024});
-  BOOST_CHECK_EQUAL(space.selection.type(),dataspace::SelectionType::ALL);
+  EXPECT_EQ(space.selection.type(),dataspace::SelectionType::ALL);
 
   dataspace::Hyperslab frame({0,0,0},{1,1,1},{1,1,1},{1,1024,1024});
-  BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
+  EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
   frame.start(0,9);
-  BOOST_CHECK_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
-  BOOST_CHECK_EQUAL(space.selection.size(),2*1024*1024);
+  EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
+  EXPECT_EQ(space.selection.size(),2*1024*1024);
 
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

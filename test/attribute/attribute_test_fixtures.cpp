@@ -24,23 +24,15 @@
 //
 #include "attribute_test_fixtures.hpp"
 #include <cstdint>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/property/file_creation_list.hpp>
-#include <h5cpp/property/file_access_list.hpp>
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
 
-AttributeFixture::AttributeFixture():
-    Fixture("AttributeTest.h5")
-{}
-
-
-AttributeIterationFixture::AttributeIterationFixture():
-    Fixture("AttributeIterationTest.h5")
+void AttributeIterationFixture::SetUp()
 {
-  root_group.attributes.create<int>("index");
-  root_group.attributes.create<float>("elasticity",{6,6});
-  root_group.attributes.create<std::uint32_t>("counter");
+  BasicFixture::SetUp();
+  root_.attributes.create<int>("index");
+  root_.attributes.create<float>("elasticity",{6,6});
+  root_.attributes.create<std::uint32_t>("counter");
 }

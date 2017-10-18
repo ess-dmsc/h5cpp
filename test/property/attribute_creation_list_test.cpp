@@ -22,9 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 21, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Test attribute creation property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/attribute_creation_list.hpp>
 #include <h5cpp/property/class.hpp>
 #include <h5cpp/datatype/types.hpp>
@@ -32,22 +31,20 @@
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-BOOST_AUTO_TEST_SUITE(AttributeCreationList_test)
+TEST(AttributeCreationList, test_default_construction)
+{
+  pl::AttributeCreationList acpl;
+  EXPECT_TRUE(acpl.get_class() == pl::kAttributeCreate);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    pl::AttributeCreationList acpl;
-    BOOST_CHECK(acpl.get_class() == pl::kAttributeCreate);
-  }
+TEST(AttributeCreationList, test_character_encoding)
+{
+  pl::AttributeCreationList acpl;
+  EXPECT_NO_THROW(acpl.character_encoding(tp::CharacterEncoding::ASCII));
+  EXPECT_TRUE(acpl.character_encoding()==tp::CharacterEncoding::ASCII);
 
-  BOOST_AUTO_TEST_CASE(test_character_encoding)
-  {
-    pl::AttributeCreationList acpl;
-    BOOST_CHECK_NO_THROW(acpl.character_encoding(tp::CharacterEncoding::ASCII));
-    BOOST_CHECK(acpl.character_encoding()==tp::CharacterEncoding::ASCII);
+  EXPECT_NO_THROW(acpl.character_encoding(tp::CharacterEncoding::UTF8));
+  EXPECT_TRUE(acpl.character_encoding()==tp::CharacterEncoding::UTF8);
+}
 
-    BOOST_CHECK_NO_THROW(acpl.character_encoding(tp::CharacterEncoding::UTF8));
-    BOOST_CHECK(acpl.character_encoding()==tp::CharacterEncoding::UTF8);
-  }
 
-BOOST_AUTO_TEST_SUITE_END()

@@ -26,14 +26,12 @@
 #include <h5cpp/property/file_creation_list.hpp>
 #include <h5cpp/property/file_access_list.hpp>
 #include <h5cpp/file/functions.hpp>
+#include <boost/filesystem.hpp>
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-Fixture::Fixture(const fs::path &file_path):
-    file(),
-    root_group()
-
+void BasicFixture::SetUp()
 {
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
@@ -42,11 +40,13 @@ Fixture::Fixture(const fs::path &file_path):
   fapl.library_version_bounds(property::LibVersion::LATEST,
                               property::LibVersion::LATEST);
 
-  file = file::create(file_path,file::AccessFlags::TRUNCATE,fcpl,fapl);
-  root_group = file.root();
-}
+#if H5_VERSION_GE(1,10,0)
+  //need this for SWMR
+  fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
+#endif
 
-Fixture::~Fixture()
-{}
+  file_ = file::create("test_file.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
+  root_ = file_.root();
+}
 
 

@@ -22,9 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-#include <boost/test/unit_test.hpp>
-#include <boost/test/floating_point_comparison.hpp>
-#include "attribute_test_fixtures.hpp"
+#include "../fixture.hpp"
 #include <complex>
 
 using namespace hdf5;
@@ -40,20 +38,19 @@ template<typename T> class TypeTrait<std::complex<T>>
 }
 }
 
-BOOST_AUTO_TEST_SUITE(AttributeTest)
+class AttributeComplexIO : public BasicFixture
+{};
 
-BOOST_FIXTURE_TEST_SUITE(AttributeComplexIOTest,AttributeFixture)
-
-BOOST_AUTO_TEST_CASE(test_complex_scalar)
+TEST_F(AttributeComplexIO, test_complex_scalar)
 {
 
 }
 
-BOOST_AUTO_TEST_CASE(test_complex_vector)
+TEST_F(AttributeComplexIO, test_complex_vector)
 {
 
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE_END()
+
+

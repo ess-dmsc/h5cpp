@@ -22,9 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 12, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing dataset class
-#include <boost/test/unit_test.hpp>
+
 #include <boost/test/floating_point_comparison.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/property/dataset_creation_list.hpp>
@@ -38,41 +36,34 @@
 
 using namespace hdf5;
 
-struct DatasetFixture : public Fixture
+class Dataset : public BasicFixture
 {
-    DatasetFixture():
-      Fixture("DatasetTest.h5")
-    {}
 };
 
 
-BOOST_AUTO_TEST_SUITE(DatasetTest)
-
-BOOST_FIXTURE_TEST_SUITE(DatasetCreation,DatasetFixture)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST_F(Dataset, test_default_construction)
 {
   node::Dataset dset;
 
-  BOOST_CHECK_THROW(dset.dataspace(),std::runtime_error);
-  BOOST_CHECK_THROW(dset.datatype(),std::runtime_error);
-  BOOST_CHECK_THROW(dset.extent({10,100}),std::runtime_error);
+  EXPECT_THROW(dset.dataspace(),std::runtime_error);
+  EXPECT_THROW(dset.datatype(),std::runtime_error);
+  EXPECT_THROW(dset.extent({10,100}),std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE(test_scalar_dataset)
+TEST_F(Dataset, test_scalar_dataset)
 {
-  node::Dataset dset = root_group.create_dataset("data",datatype::create<int>(),
-                                                 dataspace::Scalar());
+  node::Dataset dset = root_.create_dataset("data",datatype::create<int>(),
+                                            dataspace::Scalar());
 
-  BOOST_CHECK_EQUAL(dset.dataspace().type(),dataspace::Type::SCALAR);
-  BOOST_CHECK_EQUAL(dset.datatype().get_class(),datatype::Class::INTEGER);
+  EXPECT_EQ(dset.dataspace().type(),dataspace::Type::SCALAR);
+  EXPECT_EQ(dset.datatype().get_class(),datatype::Class::INTEGER);
 
-  BOOST_CHECK_THROW(dset.extent({10}),std::runtime_error);
+  EXPECT_THROW(dset.extent({10}),std::runtime_error);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE_END()
+
+
 
 
 

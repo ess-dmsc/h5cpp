@@ -80,12 +80,39 @@ target_include_directories(h5cpp_shared
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 set_target_properties(h5cpp_shared 
-	                  PROPERTIES 
-	                  VERSION ${PROJECT_VERSION}
-	                  SO_VERSION 0
-	                  CXX_STANDARD_REQUIRED ON
-	                                         )
+    PROPERTIES 
+    VERSION ${PROJECT_VERSION}
+    SO_VERSION 0
+    CXX_STANDARD_REQUIRED ON
+)
 
+add_library(h5cpp_unit_test SHARED EXCLUDE_FROM_ALL ${SOURCES} ${PROPERTY_SOURCES} 
+    ${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
+    ${FILE_SOURCES} ${NODE_SOURCES} ${ATTRIBUTE_SOURCES})
+
+target_link_libraries(h5cpp_unit_test PUBLIC ${HDF5_LIBRARIES} Boost::filesystem gcov)
+
+target_compile_definitions(h5cpp_unit_test PRIVATE DLL_BUILD)
+
+target_include_directories(h5cpp_unit_test
+    PRIVATE  
+    ${PROJECT_SOURCE_DIR}/src/include
+    PUBLIC 
+    ${HDF5_INCLUDE_DIRS}
+    INTERFACE 
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+set_target_properties(h5cpp_unit_test 
+    PROPERTIES 
+    VERSION ${PROJECT_VERSION}
+    SO_VERSION 0
+    CXX_STANDARD_REQUIRED ON)
+
+set(coverage_flags "-coverage -fprofile-generate -ftest-coverage")
+set_target_properties(h5cpp_unit_test PROPERTIES LINK_FLAGS ${coverage_flags})
+set_target_properties(h5cpp_unit_test PROPERTIES COMPILE_FLAGS "-g -O0 ${coverage_flags}")
+
+include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
 install(TARGETS h5cpp_shared 
 	    EXPORT h5cpp_shared_targets
