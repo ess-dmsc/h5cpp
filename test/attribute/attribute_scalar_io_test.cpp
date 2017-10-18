@@ -22,22 +22,18 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-#include <gtest/gtest.h>
-#include <boost/test/floating_point_comparison.hpp>
 #include <cstdint>
 #include <vector>
-
-#include "attribute_test_fixtures.hpp"
+#include "../fixture.hpp"
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(AttributeTest)
+class AttributeScalarIO : public BasicFixture
+{};
 
-BOOST_FIXTURE_TEST_SUITE(ScalarIOTest,AttributeFixture)
-
-TEST(TestName,test_uint8)
+TEST_F(AttributeScalarIO, test_uint8)
 {
-  attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data");
+  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data");
   std::uint8_t write_value = 12;
   std::uint8_t read_value = 0;
   a.write(write_value);
@@ -45,9 +41,9 @@ TEST(TestName,test_uint8)
   EXPECT_EQ(write_value,read_value);
 }
 
-TEST(TestName,test_float32)
+TEST_F(AttributeScalarIO, test_float32)
 {
-  attribute::Attribute a = root_group.attributes.create<float>("data");
+  attribute::Attribute a = root_.attributes.create<float>("data");
   float write_value = 3.213e-2;
   float read_value = 0.0;
   a.write(write_value);
@@ -55,24 +51,23 @@ TEST(TestName,test_float32)
   EXPECT_NEAR(write_value,read_value,0.001);
 }
 
-TEST(TestName,test_vector_io)
+TEST_F(AttributeScalarIO, test_vector_io)
 {
   //this should work as the size of the vector is one
-  attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data");
+  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data");
   std::vector<std::uint8_t> write_data{42};
   std::vector<std::uint8_t> read_data(1);
   EXPECT_NO_THROW(a.write(write_data));
   EXPECT_NO_THROW(a.read(read_data));
-  EXPECT_EQ_COLLECTIONS(write_data.begin(),write_data.end(),
-                                read_data.begin(),read_data.end());
+  EXPECT_EQ(write_data, read_data);
 
 }
 
-TEST(TestName,test_shape_mismatch)
+TEST_F(AttributeScalarIO, test_shape_mismatch)
 {
   //this should work too - however, only the first element of the vector
   //is written and read.
-  attribute::Attribute a = root_group.attributes.create<float>("data");
+  attribute::Attribute a = root_.attributes.create<float>("data");
   std::vector<float> write_data{1.2f,3.4f};
   std::vector<float> read_data(3);
   EXPECT_NO_THROW(a.write(write_data));

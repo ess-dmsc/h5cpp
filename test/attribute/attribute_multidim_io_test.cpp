@@ -22,42 +22,36 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-#include <gtest/gtest.h>
-#include <boost/test/floating_point_comparison.hpp>
+#include "../fixture.hpp"
 #include <cstdint>
 #include <vector>
 #include <array>
 
-#include "attribute_test_fixtures.hpp"
-
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(AttributeTest)
+class AttributeMultidimIO : public BasicFixture
+{};
 
-BOOST_FIXTURE_TEST_SUITE(MultidimIOTest,AttributeFixture)
-
-TEST(TestName,test_uint8_vector)
+TEST_F(AttributeMultidimIO, test_uint8_vector)
 {
   std::vector<std::uint8_t> write_data{1,2,3};
   std::vector<std::uint8_t> read_data(write_data.size());
 
-  attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data",{3});
+  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data",{3});
   a.write(write_data);
   a.read(read_data);
-  EXPECT_EQ_COLLECTIONS(write_data.begin(),write_data.end(),
-                                read_data.begin(),read_data.end());
+  EXPECT_EQ(write_data, read_data);
 }
 
-TEST(TestName,test_uint8_array)
+TEST_F(AttributeMultidimIO, test_uint8_array)
 {
   std::array<std::uint8_t,3> write_data{1,2,3};
   std::array<std::uint8_t,3> read_data;
 
-  attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data",{3});
+  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data",{3});
   a.write(write_data);
   a.read(read_data);
-  EXPECT_EQ_COLLECTIONS(write_data.begin(),write_data.end(),
-                                read_data.begin(),read_data.end());
+  EXPECT_EQ(write_data, read_data);
 }
 
 

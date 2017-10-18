@@ -23,69 +23,67 @@
 // Created on: Oct 5, 2017
 //
 
-#include <gtest/gtest.h>
 #include "attribute_test_fixtures.hpp"
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(AttributeTest)
+class AttributeManagement : public AttributeIterationFixture
+{};
 
-BOOST_FIXTURE_TEST_SUITE(AttributeManagementTest,AttributeIterationFixture)
-
-TEST(TestName,test_remove_attribute_by_index)
+TEST_F(AttributeManagement, test_remove_attribute_by_index)
 {
-  root_group.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root_group.attributes.iterator_config().order(IterationOrder::INCREASING);
-  EXPECT_EQ(root_group.attributes.size(),3);
-  EXPECT_TRUE(root_group.attributes.exists("index"));
-  EXPECT_NO_THROW(root_group.attributes.remove(0));
-  EXPECT_EQ(root_group.attributes.size(),2);
-  EXPECT_FALSE(root_group.attributes.exists("index"));
+  root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
+  root_.attributes.iterator_config().order(IterationOrder::INCREASING);
+  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_TRUE(root_.attributes.exists("index"));
+  EXPECT_NO_THROW(root_.attributes.remove(0));
+  EXPECT_EQ(root_.attributes.size(),2);
+  EXPECT_FALSE(root_.attributes.exists("index"));
 }
 
-TEST(TestName,test_remove_attribute_by_name)
+TEST_F(AttributeManagement, test_remove_attribute_by_name)
 {
-  EXPECT_EQ(root_group.attributes.size(),3);
-  EXPECT_TRUE(root_group.attributes.exists("elasticity"));
-  EXPECT_NO_THROW(root_group.attributes.remove("elasticity"));
-  EXPECT_FALSE(root_group.attributes.exists("elasticity"));
-  EXPECT_EQ(root_group.attributes.size(),2);
+  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_TRUE(root_.attributes.exists("elasticity"));
+  EXPECT_NO_THROW(root_.attributes.remove("elasticity"));
+  EXPECT_FALSE(root_.attributes.exists("elasticity"));
+  EXPECT_EQ(root_.attributes.size(),2);
 }
 
-TEST(TestName,test_remove_remains)
+TEST_F(AttributeManagement, test_remove_remains)
 {
-  EXPECT_EQ(root_group.attributes.size(),3);
-  attribute::Attribute a = root_group.attributes["counter"];
+  EXPECT_EQ(root_.attributes.size(),3);
+  attribute::Attribute a = root_.attributes["counter"];
   EXPECT_TRUE(a.is_valid());
-  EXPECT_NO_THROW(root_group.attributes.remove("counter"));
-  EXPECT_FALSE(root_group.attributes.exists("counter"));
-  EXPECT_EQ(root_group.attributes.size(),2);
+  EXPECT_NO_THROW(root_.attributes.remove("counter"));
+  EXPECT_FALSE(root_.attributes.exists("counter"));
+  EXPECT_EQ(root_.attributes.size(),2);
 
   //however an already opened attribute remains alive
   EXPECT_TRUE(a.is_valid());
   EXPECT_EQ(a.name(),"counter");
 }
 
-TEST(TestName,test_remove_failure)
+TEST_F(AttributeManagement, test_remove_failure)
 {
-  EXPECT_THROW(root_group.attributes.remove("hello"),
+  EXPECT_THROW(root_.attributes.remove("hello"),
                     std::runtime_error);
-  EXPECT_THROW(root_group.attributes.remove(3),
+  EXPECT_THROW(root_.attributes.remove(3),
                     std::runtime_error);
 }
 
-TEST(TestName,test_rename_attribute)
+TEST_F(AttributeManagement, test_rename_attribute)
 {
-  attribute::Attribute a = root_group.attributes["counter"];
-  EXPECT_NO_THROW(root_group.attributes.rename("counter","counter_2"));
-  EXPECT_FALSE(root_group.attributes.exists("counter"));
-  EXPECT_TRUE(root_group.attributes.exists("counter_2"));
+  attribute::Attribute a = root_.attributes["counter"];
+  EXPECT_NO_THROW(root_.attributes.rename("counter","counter_2"));
+  EXPECT_FALSE(root_.attributes.exists("counter"));
+  EXPECT_TRUE(root_.attributes.exists("counter_2"));
   EXPECT_EQ(a.name(),"counter_2");
 }
 
-TEST(TestName,test_rename_failure)
+TEST_F(AttributeManagement, test_rename_failure)
 {
-  EXPECT_THROW(root_group.attributes.rename("counter_2","hello"),
+  EXPECT_THROW(root_.attributes.rename("counter_2","hello"),
                     std::runtime_error);
 }
 

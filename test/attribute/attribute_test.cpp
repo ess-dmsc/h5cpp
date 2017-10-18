@@ -23,23 +23,18 @@
 // Created on: Oct 4, 2017
 //
 
-#define BOOST_TEST_MODULE testing the Attribute class
-#include <gtest/gtest.h>
-#include <h5cpp/file/file.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/datatype/types.hpp>
 
-#include "attribute_test_fixtures.hpp"
+#include "../fixture.hpp"
 
 using namespace hdf5;
 
+class Attribute : public BasicFixture
+{};
 
-BOOST_AUTO_TEST_SUITE(AttributeTest)
-
-TEST(TestName,test_default_construction)
+TEST_F(Attribute, test_default_construction)
 {
   attribute::Attribute a;
   EXPECT_THROW(a.datatype(),std::runtime_error);
@@ -48,30 +43,28 @@ TEST(TestName,test_default_construction)
   EXPECT_FALSE(a.is_valid());
 }
 
-BOOST_FIXTURE_TEST_SUITE(AttributeTestConstruction,AttributeFixture)
-
-TEST(TestName,test_scalar)
+TEST_F(Attribute, test_scalar)
 {
   attribute::Attribute a;
-  EXPECT_NO_THROW(a = root_group.attributes.create<int>("test"));
+  EXPECT_NO_THROW(a = root_.attributes.create<int>("test"));
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SCALAR);
   dataspace::Scalar space(a.dataspace());
 
   EXPECT_EQ(a.datatype().get_class(),datatype::Class::INTEGER);
   EXPECT_EQ(a.name(),"test");
-  EXPECT_EQ(root_group.attributes.size(),1);
+  EXPECT_EQ(root_.attributes.size(),1);
 
-  EXPECT_NO_THROW(a = root_group.attributes.create<float>("test2"));
+  EXPECT_NO_THROW(a = root_.attributes.create<float>("test2"));
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SCALAR);
   EXPECT_EQ(a.datatype().get_class(),datatype::Class::FLOAT);
   EXPECT_EQ(a.name(),"test2");
-  EXPECT_EQ(root_group.attributes.size(),2);
+  EXPECT_EQ(root_.attributes.size(),2);
 }
 
-TEST(TestName,test_multidim_simple_construction)
+TEST_F(Attribute, test_multidim_simple_construction)
 {
   attribute::Attribute a;
-  EXPECT_NO_THROW(a = root_group.attributes.create<int>("test",{1}));
+  EXPECT_NO_THROW(a = root_.attributes.create<int>("test",{1}));
   EXPECT_EQ(a.dataspace().size(),1);
   EXPECT_EQ(a.name(),"test");
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SIMPLE);
@@ -79,7 +72,7 @@ TEST(TestName,test_multidim_simple_construction)
   EXPECT_EQ(space.rank(),1);
   EXPECT_EQ(space.current_dimensions()[0],1);
 
-  EXPECT_NO_THROW(a = root_group.attributes.create<int>("matrix",{3,4}));
+  EXPECT_NO_THROW(a = root_.attributes.create<int>("matrix",{3,4}));
   EXPECT_EQ(a.name(),"matrix");
   space = dataspace::Simple(a.dataspace());
   EXPECT_EQ(space.rank(),2);
@@ -88,16 +81,16 @@ TEST(TestName,test_multidim_simple_construction)
 
 }
 
-TEST(TestName,test_multidim_construction)
+TEST_F(Attribute, test_multidim_construction)
 {
   attribute::Attribute a;
   dataspace::Simple space{{3,4}};
   auto type = datatype::create<float>();
 
-  EXPECT_NO_THROW(a = root_group.attributes.create("test",type,space));
-  EXPECT_TRUE(root_group.attributes.exists("test"));
-  EXPECT_FALSE(root_group.attributes.exists("bla"));
-  EXPECT_EQ(root_group.attributes.size(),1);
+  EXPECT_NO_THROW(a = root_.attributes.create("test",type,space));
+  EXPECT_TRUE(root_.attributes.exists("test"));
+  EXPECT_FALSE(root_.attributes.exists("bla"));
+  EXPECT_EQ(root_.attributes.size(),1);
   EXPECT_EQ(a.name(),"test");
 }
 
