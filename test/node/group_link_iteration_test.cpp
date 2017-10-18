@@ -27,93 +27,95 @@
 
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(group_test)
-BOOST_FIXTURE_TEST_SUITE(group_link_iteration,LinkIterationFixture)
-
-BOOST_AUTO_TEST_CASE(group_index_name_order_access)
+class LinkIteration : public LinkIterationFixture
 {
-  BOOST_CHECK_EQUAL(root_group.links.size(),5);
-  //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+};
 
-  BOOST_CHECK_EQUAL(root_group.links[0].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[0].path()),"/g3");
-  BOOST_CHECK_EQUAL(root_group.links[1].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[1].path()),"/g2");
-  BOOST_CHECK_EQUAL(root_group.links[2].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[2].path()),"/g1");
-  BOOST_CHECK_EQUAL(root_group.links[3].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[3].path()),"/d2");
-  BOOST_CHECK_EQUAL(root_group.links[4].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[4].path()),"/d1");
+
+TEST_F(LinkIteration, group_index_name_order_access)
+{
+  EXPECT_EQ(root_group_.links.size(),5);
+  //setup creation order
+  root_group_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_group_.iterator_config().order(hdf5::IterationOrder::DECREASING);
+
+  EXPECT_EQ(root_group_.links[0].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[0].path()),"/g3");
+  EXPECT_EQ(root_group_.links[1].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[1].path()),"/g2");
+  EXPECT_EQ(root_group_.links[2].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[2].path()),"/g1");
+  EXPECT_EQ(root_group_.links[3].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[3].path()),"/d2");
+  EXPECT_EQ(root_group_.links[4].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[4].path()),"/d1");
 }
 
-BOOST_AUTO_TEST_CASE(group_index_creation_order_access)
+TEST_F(LinkIteration, group_index_creation_order_access)
 {
-  BOOST_CHECK_EQUAL(root_group.links.size(),5);
+  EXPECT_EQ(root_group_.links.size(),5);
   //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
-  root_group.iterator_config().order(hdf5::IterationOrder::INCREASING);
+  root_group_.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
+  root_group_.iterator_config().order(hdf5::IterationOrder::INCREASING);
 
-  BOOST_CHECK_EQUAL(root_group.links[0].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[0].path()),"/g1");
-  BOOST_CHECK_EQUAL(root_group.links[1].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[1].path()),"/g2");
-  BOOST_CHECK_EQUAL(root_group.links[2].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[2].path()),"/g3");
-  BOOST_CHECK_EQUAL(root_group.links[3].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[3].path()),"/d1");
-  BOOST_CHECK_EQUAL(root_group.links[4].type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root_group.links[4].path()),"/d2");
+  EXPECT_EQ(root_group_.links[0].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[0].path()),"/g1");
+  EXPECT_EQ(root_group_.links[1].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[1].path()),"/g2");
+  EXPECT_EQ(root_group_.links[2].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[2].path()),"/g3");
+  EXPECT_EQ(root_group_.links[3].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[3].path()),"/d1");
+  EXPECT_EQ(root_group_.links[4].type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(root_group_.links[4].path()),"/d2");
 }
 
-BOOST_AUTO_TEST_CASE(group_name_access)
+TEST_F(LinkIteration, group_name_access)
 {
   node::Link l;
-  BOOST_CHECK_NO_THROW(l=root_group.links["g1"]);
-  BOOST_CHECK_EQUAL(l.type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(l.path()),"/g1");
-  BOOST_CHECK_NO_THROW(l=root_group.links["d1"]);
-  BOOST_CHECK_EQUAL(l.type(),node::LinkType::HARD);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(l.path()),"/d1");
+  EXPECT_NO_THROW(l=root_group_.links["g1"]);
+  EXPECT_EQ(l.type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(l.path()),"/g1");
+  EXPECT_NO_THROW(l=root_group_.links["d1"]);
+  EXPECT_EQ(l.type(),node::LinkType::HARD);
+  EXPECT_EQ(static_cast<std::string>(l.path()),"/d1");
 
 }
 
-BOOST_AUTO_TEST_CASE(group_node_iteration)
+TEST_F(LinkIteration, group_node_iteration)
 {
-  BOOST_CHECK_EQUAL(root_group.links.size(),5);
+  EXPECT_EQ(root_group_.links.size(),5);
   //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+  root_group_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_group_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
   std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
   auto name_iter = names.begin();
 
-  for(auto iter = root_group.links.begin();iter!=root_group.links.end();++iter)
+  for(auto iter = root_group_.links.begin();iter!=root_group_.links.end();++iter)
   {
-    BOOST_CHECK_EQUAL(static_cast<std::string>(iter->path()),*name_iter++);
-    BOOST_CHECK_EQUAL((*iter).type(),node::LinkType::HARD);
+    EXPECT_EQ(static_cast<std::string>(iter->path()),*name_iter++);
+    EXPECT_EQ((*iter).type(),node::LinkType::HARD);
   }
 }
 
-BOOST_AUTO_TEST_CASE(group_node_foreach)
+TEST_F(LinkIteration, group_node_foreach)
 {
-  BOOST_CHECK_EQUAL(root_group.links.size(),5);
+  EXPECT_EQ(root_group_.links.size(),5);
   //setup creation order
-  root_group.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_group.iterator_config().order(hdf5::IterationOrder::DECREASING);
+  root_group_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_group_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
   std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
   auto name_iter = names.begin();
 
-  for(auto link: root_group.links)
+  for(auto link: root_group_.links)
   {
-    BOOST_CHECK_EQUAL(static_cast<std::string>(link.path()),*name_iter++);
-    BOOST_CHECK_EQUAL(link.type(),node::LinkType::HARD);
+    EXPECT_EQ(static_cast<std::string>(link.path()),*name_iter++);
+    EXPECT_EQ(link.type(),node::LinkType::HARD);
   }
 
 }
 
-BOOST_AUTO_TEST_SUITE_END()
-BOOST_AUTO_TEST_SUITE_END()
+
+

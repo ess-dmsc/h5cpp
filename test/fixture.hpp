@@ -34,10 +34,10 @@
 //! This class can be used as a base for all test fixtures which require a
 //! file to be created.
 //!
-struct Fixture
+class Fixture : public testing::Test
 {
-    hdf5::file::File file;
-    hdf5::node::Group root_group;
+    hdf5::file::File file_;
+    hdf5::node::Group root_group_;
 
     Fixture(const boost::filesystem::path &file_path);
     virtual ~Fixture();

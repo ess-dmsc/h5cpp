@@ -24,8 +24,7 @@
 //
 #pragma once 
 
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/types.hpp>
@@ -39,21 +38,26 @@
 #include <h5cpp/node/node_iterator.hpp>
 #include <h5cpp/node/link_iterator.hpp>
 
-struct BasicTestFixture
-{
-    hdf5::file::File file;
 
-    BasicTestFixture();
+class BasicTestFixture : public testing::Test
+{
+  protected:
+    BasicTestFixture() {}
+    virtual void SetUp();
+    virtual void TearDown() {}
+    virtual ~BasicTestFixture() {}
+
+    hdf5::file::File file_;
 };
 
-struct NodeIterationFixture : public BasicTestFixture
-{
-    hdf5::node::Group root_group;
 
-    NodeIterationFixture();
+class NodeIterationFixture : public BasicTestFixture
+{
+  protected:
+    virtual void SetUp();
+    hdf5::node::Group root_group_;
 };
 
-struct LinkIterationFixture : public NodeIterationFixture
+class LinkIterationFixture : public NodeIterationFixture
 {
-    LinkIterationFixture();
 };
