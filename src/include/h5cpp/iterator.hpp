@@ -47,8 +47,13 @@ class DLL_EXPORT Iterator
     virtual ~Iterator();
 
     //! increment iterator position
+    // prefix
     Iterator &operator++();
     Iterator &operator--();
+    // postfix
+    Iterator operator++(int);
+    Iterator operator--(int);
+
     Iterator &operator+=(ssize_t i);
     Iterator &operator-=(ssize_t i);
 

@@ -54,19 +54,34 @@ TEST(Iterator, comparators)
   EXPECT_GE(Iterator(2), Iterator(2));
 }
 
-TEST(Iterator, arithmetic_ops)
+TEST(Iterator, increment)
 {
-  Iterator i(5);
-  Iterator j;
+  Iterator i(1);
 
-  j = i + ssize_t(1);
-  ASSERT_EQ(6, j.index());
-  j = i + ssize_t(2);
-  ASSERT_EQ(7, j.index());
+  i += 2;
+  ASSERT_EQ(3, i.index());
 
-  j = ssize_t(1) + i;
-  ASSERT_EQ(6, j.index());
+  ASSERT_EQ(3, (i++).index());
+  ASSERT_EQ(4, i.index());
 
-  j = ssize_t(2) + i;
-  ASSERT_EQ(7, j.index());
+  ASSERT_EQ(5, (++i).index());
+
+  ASSERT_EQ(6, (i + ssize_t(1)).index());
+  ASSERT_EQ(6, (ssize_t(1) + i).index());
+}
+
+TEST(Iterator, decrement)
+{
+  Iterator i(7);
+
+  i -= 2;
+  ASSERT_EQ(5, i.index());
+
+  ASSERT_EQ(5, (i--).index());
+  ASSERT_EQ(4, i.index());
+
+  ASSERT_EQ(3, (--i).index());
+
+  ASSERT_EQ(2, i - Iterator(1));
+  ASSERT_EQ(2, (i - ssize_t(1)).index());
 }

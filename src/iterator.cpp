@@ -46,8 +46,22 @@ Iterator &Iterator::operator++()
 
 Iterator &Iterator::operator--()
 {
-  index_ --;
+  index_--;
   return *this;
+}
+
+Iterator Iterator::operator++(int)
+{
+  Iterator tmp(*this);
+  operator++();
+  return tmp;
+}
+
+Iterator Iterator::operator--(int)
+{
+  Iterator tmp(*this);
+  operator--();
+  return tmp;
 }
 
 Iterator &Iterator::operator+=(ssize_t i)
