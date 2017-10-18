@@ -83,7 +83,7 @@ bool Iterator::operator>=(const Iterator &b) const
   return index_ >= b.index_;
 }
 
-Iterator &operator+(const Iterator&a,ssize_t b)
+Iterator operator+(const Iterator&a,ssize_t b)
 {
   Iterator iter = a;
   iter += b;

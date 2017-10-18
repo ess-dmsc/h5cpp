@@ -65,7 +65,7 @@ class DLL_EXPORT Iterator
 
 
 
-DLL_EXPORT Iterator &operator+(const Iterator&a,ssize_t b);
+DLL_EXPORT Iterator operator+(const Iterator&a, ssize_t b);
 
 DLL_EXPORT Iterator operator+(ssize_t a,const Iterator &b);
 
