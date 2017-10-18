@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <boost/test/floating_point_comparison.hpp>
 #include <cstdint>
 #include <vector>
@@ -35,53 +35,53 @@ BOOST_AUTO_TEST_SUITE(AttributeTest)
 
 BOOST_FIXTURE_TEST_SUITE(ScalarIOTest,AttributeFixture)
 
-BOOST_AUTO_TEST_CASE(test_uint8)
+TEST(TestName,test_uint8)
 {
   attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data");
   std::uint8_t write_value = 12;
   std::uint8_t read_value = 0;
   a.write(write_value);
   a.read(read_value);
-  BOOST_CHECK_EQUAL(write_value,read_value);
+  EXPECT_EQ(write_value,read_value);
 }
 
-BOOST_AUTO_TEST_CASE(test_float32)
+TEST(TestName,test_float32)
 {
   attribute::Attribute a = root_group.attributes.create<float>("data");
   float write_value = 3.213e-2;
   float read_value = 0.0;
   a.write(write_value);
   a.read(read_value);
-  BOOST_CHECK_CLOSE(write_value,read_value,0.001);
+  EXPECT_NEAR(write_value,read_value,0.001);
 }
 
-BOOST_AUTO_TEST_CASE(test_vector_io)
+TEST(TestName,test_vector_io)
 {
   //this should work as the size of the vector is one
   attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data");
   std::vector<std::uint8_t> write_data{42};
   std::vector<std::uint8_t> read_data(1);
-  BOOST_CHECK_NO_THROW(a.write(write_data));
-  BOOST_CHECK_NO_THROW(a.read(read_data));
-  BOOST_CHECK_EQUAL_COLLECTIONS(write_data.begin(),write_data.end(),
+  EXPECT_NO_THROW(a.write(write_data));
+  EXPECT_NO_THROW(a.read(read_data));
+  EXPECT_EQ_COLLECTIONS(write_data.begin(),write_data.end(),
                                 read_data.begin(),read_data.end());
 
 }
 
-BOOST_AUTO_TEST_CASE(test_shape_mismatch)
+TEST(TestName,test_shape_mismatch)
 {
   //this should work too - however, only the first element of the vector
   //is written and read.
   attribute::Attribute a = root_group.attributes.create<float>("data");
   std::vector<float> write_data{1.2f,3.4f};
   std::vector<float> read_data(3);
-  BOOST_CHECK_NO_THROW(a.write(write_data));
-  BOOST_CHECK_NO_THROW(a.read(read_data));
-  BOOST_CHECK_CLOSE(write_data[0],read_data[0],0.0002);
+  EXPECT_NO_THROW(a.write(write_data));
+  EXPECT_NO_THROW(a.read(read_data));
+  EXPECT_NEAR(write_data[0],read_data[0],0.0002);
 }
 
 
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE_END()
+
+

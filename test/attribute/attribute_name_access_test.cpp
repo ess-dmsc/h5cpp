@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/datatype/types.hpp>
 #include "attribute_test_fixtures.hpp"
 #include <vector>
@@ -35,30 +35,30 @@ BOOST_AUTO_TEST_SUITE(AttributeTest)
 
 BOOST_FIXTURE_TEST_SUITE(AttributeAccessTest,AttributeIterationFixture)
 
-BOOST_AUTO_TEST_CASE(test_name_access)
+TEST(TestName,test_name_access)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
-  BOOST_CHECK_EQUAL(root_group.attributes["index"].datatype().get_class(),
+  EXPECT_EQ(root_group.attributes.size(),3);
+  EXPECT_EQ(root_group.attributes["index"].datatype().get_class(),
                     datatype::Class::INTEGER);
-  BOOST_CHECK_EQUAL(root_group.attributes["elasticity"].datatype().get_class(),
+  EXPECT_EQ(root_group.attributes["elasticity"].datatype().get_class(),
                     datatype::Class::FLOAT);
-  BOOST_CHECK_EQUAL(root_group.attributes["counter"].datatype().get_class(),
+  EXPECT_EQ(root_group.attributes["counter"].datatype().get_class(),
                     datatype::Class::INTEGER);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_index_access_creation_order_increasing)
+TEST(TestName,test_index_access_creation_order_increasing)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
+  EXPECT_EQ(root_group.attributes.size(),3);
   root_group.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_group.attributes.iterator_config().order(IterationOrder::INCREASING);
 
-  BOOST_CHECK_EQUAL(root_group.attributes[0].name(),"index");
-  BOOST_CHECK_EQUAL(root_group.attributes[1].name(),"elasticity");
-  BOOST_CHECK_EQUAL(root_group.attributes[2].name(),"counter");
+  EXPECT_EQ(root_group.attributes[0].name(),"index");
+  EXPECT_EQ(root_group.attributes[1].name(),"elasticity");
+  EXPECT_EQ(root_group.attributes[2].name(),"counter");
 }
 
-BOOST_AUTO_TEST_CASE(test_iterator_access_creation_order_increasing)
+TEST(TestName,test_iterator_access_creation_order_increasing)
 {
   root_group.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_group.attributes.iterator_config().order(IterationOrder::INCREASING);
@@ -70,23 +70,23 @@ BOOST_AUTO_TEST_CASE(test_iterator_access_creation_order_increasing)
                  root_group.attributes.end(),
                  std::back_inserter(names),
                  [](const attribute::Attribute &a) { return a.name();});
-  BOOST_CHECK_EQUAL_COLLECTIONS(names.begin(),names.end(),
+  EXPECT_EQ_COLLECTIONS(names.begin(),names.end(),
                                 ref_names.begin(),ref_names.end());
 
 }
 
-BOOST_AUTO_TEST_CASE(test_index_access_creation_order_decreasing)
+TEST(TestName,test_index_access_creation_order_decreasing)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
+  EXPECT_EQ(root_group.attributes.size(),3);
   root_group.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_group.attributes.iterator_config().order(IterationOrder::DECREASING);
 
-  BOOST_CHECK_EQUAL(root_group.attributes[2].name(),"index");
-  BOOST_CHECK_EQUAL(root_group.attributes[1].name(),"elasticity");
-  BOOST_CHECK_EQUAL(root_group.attributes[0].name(),"counter");
+  EXPECT_EQ(root_group.attributes[2].name(),"index");
+  EXPECT_EQ(root_group.attributes[1].name(),"elasticity");
+  EXPECT_EQ(root_group.attributes[0].name(),"counter");
 }
 
-BOOST_AUTO_TEST_CASE(test_iterator_access_creation_order_decreasing)
+TEST(TestName,test_iterator_access_creation_order_decreasing)
 {
   root_group.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_group.attributes.iterator_config().order(IterationOrder::DECREASING);
@@ -95,22 +95,22 @@ BOOST_AUTO_TEST_CASE(test_iterator_access_creation_order_decreasing)
   auto iter = ref_names.begin();
 
   for(auto attribute: root_group.attributes)
-    BOOST_CHECK_EQUAL(attribute.name(),*iter++);
+    EXPECT_EQ(attribute.name(),*iter++);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_index_access_name_order_increasing)
+TEST(TestName,test_index_access_name_order_increasing)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
+  EXPECT_EQ(root_group.attributes.size(),3);
   root_group.attributes.iterator_config().index(IterationIndex::NAME);
   root_group.attributes.iterator_config().order(IterationOrder::INCREASING);
 
-  BOOST_CHECK_EQUAL(root_group.attributes[2].name(),"index");
-  BOOST_CHECK_EQUAL(root_group.attributes[1].name(),"elasticity");
-  BOOST_CHECK_EQUAL(root_group.attributes[0].name(),"counter");
+  EXPECT_EQ(root_group.attributes[2].name(),"index");
+  EXPECT_EQ(root_group.attributes[1].name(),"elasticity");
+  EXPECT_EQ(root_group.attributes[0].name(),"counter");
 }
 
-BOOST_AUTO_TEST_CASE(test_iterator_access_name_order_increasing)
+TEST(TestName,test_iterator_access_name_order_increasing)
 {
   root_group.attributes.iterator_config().index(IterationIndex::NAME);
   root_group.attributes.iterator_config().order(IterationOrder::INCREASING);
@@ -119,22 +119,22 @@ BOOST_AUTO_TEST_CASE(test_iterator_access_name_order_increasing)
   auto ref_iter = ref_names.begin();
 
   for(auto iter = root_group.attributes.begin();iter!=root_group.attributes.end();++iter,++ref_iter)
-    BOOST_CHECK_EQUAL(iter->name(),*ref_iter);
+    EXPECT_EQ(iter->name(),*ref_iter);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_index_access_name_order_decreasing)
+TEST(TestName,test_index_access_name_order_decreasing)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
+  EXPECT_EQ(root_group.attributes.size(),3);
   root_group.attributes.iterator_config().index(IterationIndex::NAME);
   root_group.attributes.iterator_config().order(IterationOrder::DECREASING);
 
-  BOOST_CHECK_EQUAL(root_group.attributes[0].name(),"index");
-  BOOST_CHECK_EQUAL(root_group.attributes[1].name(),"elasticity");
-  BOOST_CHECK_EQUAL(root_group.attributes[2].name(),"counter");
+  EXPECT_EQ(root_group.attributes[0].name(),"index");
+  EXPECT_EQ(root_group.attributes[1].name(),"elasticity");
+  EXPECT_EQ(root_group.attributes[2].name(),"counter");
 }
 
-BOOST_AUTO_TEST_CASE(test_iterator_access_name_order_decreasing)
+TEST(TestName,test_iterator_access_name_order_decreasing)
 {
   root_group.attributes.iterator_config().index(IterationIndex::NAME);
   root_group.attributes.iterator_config().order(IterationOrder::DECREASING);
@@ -146,18 +146,18 @@ BOOST_AUTO_TEST_CASE(test_iterator_access_name_order_decreasing)
   auto iter_end = root_group.attributes.end();
   while(iter!=iter_end)
   {
-    BOOST_CHECK_EQUAL(iter++->name(),*ref_iter++);
+    EXPECT_EQ(iter++->name(),*ref_iter++);
   }
 }
 
-BOOST_AUTO_TEST_CASE(test_access_failure)
+TEST(TestName,test_access_failure)
 {
-  BOOST_CHECK_THROW(root_group.attributes[3],std::runtime_error);
-  BOOST_CHECK_THROW(root_group.attributes["hello"],std::runtime_error);
+  EXPECT_THROW(root_group.attributes[3],std::runtime_error);
+  EXPECT_THROW(root_group.attributes["hello"],std::runtime_error);
 }
 
 
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE_END()
+
+

@@ -22,9 +22,9 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 4, 2017
 //
-#define BOOST_TEST_DYN_LINK
+
 #define BOOST_TEST_MODULE testing the Attribute class
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
@@ -39,68 +39,68 @@ using namespace hdf5;
 
 BOOST_AUTO_TEST_SUITE(AttributeTest)
 
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(TestName,test_default_construction)
 {
   attribute::Attribute a;
-  BOOST_CHECK_THROW(a.datatype(),std::runtime_error);
-  BOOST_CHECK_THROW(a.dataspace(),std::runtime_error);
-  BOOST_CHECK_THROW(a.name(),std::runtime_error);
-  BOOST_CHECK(!a.is_valid());
+  EXPECT_THROW(a.datatype(),std::runtime_error);
+  EXPECT_THROW(a.dataspace(),std::runtime_error);
+  EXPECT_THROW(a.name(),std::runtime_error);
+  EXPECT_FALSE(a.is_valid());
 }
 
 BOOST_FIXTURE_TEST_SUITE(AttributeTestConstruction,AttributeFixture)
 
-BOOST_AUTO_TEST_CASE(test_scalar)
+TEST(TestName,test_scalar)
 {
   attribute::Attribute a;
-  BOOST_CHECK_NO_THROW(a = root_group.attributes.create<int>("test"));
-  BOOST_CHECK_EQUAL(a.dataspace().type(),dataspace::Type::SCALAR);
+  EXPECT_NO_THROW(a = root_group.attributes.create<int>("test"));
+  EXPECT_EQ(a.dataspace().type(),dataspace::Type::SCALAR);
   dataspace::Scalar space(a.dataspace());
 
-  BOOST_CHECK_EQUAL(a.datatype().get_class(),datatype::Class::INTEGER);
-  BOOST_CHECK_EQUAL(a.name(),"test");
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),1);
+  EXPECT_EQ(a.datatype().get_class(),datatype::Class::INTEGER);
+  EXPECT_EQ(a.name(),"test");
+  EXPECT_EQ(root_group.attributes.size(),1);
 
-  BOOST_CHECK_NO_THROW(a = root_group.attributes.create<float>("test2"));
-  BOOST_CHECK_EQUAL(a.dataspace().type(),dataspace::Type::SCALAR);
-  BOOST_CHECK_EQUAL(a.datatype().get_class(),datatype::Class::FLOAT);
-  BOOST_CHECK_EQUAL(a.name(),"test2");
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),2);
+  EXPECT_NO_THROW(a = root_group.attributes.create<float>("test2"));
+  EXPECT_EQ(a.dataspace().type(),dataspace::Type::SCALAR);
+  EXPECT_EQ(a.datatype().get_class(),datatype::Class::FLOAT);
+  EXPECT_EQ(a.name(),"test2");
+  EXPECT_EQ(root_group.attributes.size(),2);
 }
 
-BOOST_AUTO_TEST_CASE(test_multidim_simple_construction)
+TEST(TestName,test_multidim_simple_construction)
 {
   attribute::Attribute a;
-  BOOST_CHECK_NO_THROW(a = root_group.attributes.create<int>("test",{1}));
-  BOOST_CHECK_EQUAL(a.dataspace().size(),1);
-  BOOST_CHECK_EQUAL(a.name(),"test");
-  BOOST_CHECK_EQUAL(a.dataspace().type(),dataspace::Type::SIMPLE);
+  EXPECT_NO_THROW(a = root_group.attributes.create<int>("test",{1}));
+  EXPECT_EQ(a.dataspace().size(),1);
+  EXPECT_EQ(a.name(),"test");
+  EXPECT_EQ(a.dataspace().type(),dataspace::Type::SIMPLE);
   dataspace::Simple space(a.dataspace());
-  BOOST_CHECK_EQUAL(space.rank(),1);
-  BOOST_CHECK_EQUAL(space.current_dimensions()[0],1);
+  EXPECT_EQ(space.rank(),1);
+  EXPECT_EQ(space.current_dimensions()[0],1);
 
-  BOOST_CHECK_NO_THROW(a = root_group.attributes.create<int>("matrix",{3,4}));
-  BOOST_CHECK_EQUAL(a.name(),"matrix");
+  EXPECT_NO_THROW(a = root_group.attributes.create<int>("matrix",{3,4}));
+  EXPECT_EQ(a.name(),"matrix");
   space = dataspace::Simple(a.dataspace());
-  BOOST_CHECK_EQUAL(space.rank(),2);
-  BOOST_CHECK_EQUAL(space.current_dimensions()[0],3);
-  BOOST_CHECK_EQUAL(space.current_dimensions()[1],4);
+  EXPECT_EQ(space.rank(),2);
+  EXPECT_EQ(space.current_dimensions()[0],3);
+  EXPECT_EQ(space.current_dimensions()[1],4);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_multidim_construction)
+TEST(TestName,test_multidim_construction)
 {
   attribute::Attribute a;
   dataspace::Simple space{{3,4}};
   auto type = datatype::create<float>();
 
-  BOOST_CHECK_NO_THROW(a = root_group.attributes.create("test",type,space));
-  BOOST_CHECK(root_group.attributes.exists("test"));
-  BOOST_CHECK(!root_group.attributes.exists("bla"));
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),1);
-  BOOST_CHECK_EQUAL(a.name(),"test");
+  EXPECT_NO_THROW(a = root_group.attributes.create("test",type,space));
+  EXPECT_TRUE(root_group.attributes.exists("test"));
+  EXPECT_FALSE(root_group.attributes.exists("bla"));
+  EXPECT_EQ(root_group.attributes.size(),1);
+  EXPECT_EQ(a.name(),"test");
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE_END()
+
+

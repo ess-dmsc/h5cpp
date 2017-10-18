@@ -24,32 +24,21 @@
 //
 
 #include "group_test_fixtures.hpp"
-
-void BasicTestFixture::SetUp()
-{
-  using namespace hdf5;
-
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-  fcpl.link_creation_order(property::CreationOrder().enable_indexed());
-  fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
-
-  file_ = file::create("group_test.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
-}
+#include <h5cpp/property/link_creation_list.hpp>
+#include <h5cpp/property/group_creation_list.hpp>
 
 void NodeIterationFixture::SetUp()
 {
-  BasicTestFixture::SetUp();
-  root_group_ = file_.root();
+  BasicFixture::SetUp();
 
   using namespace hdf5;
   property::LinkCreationList lcpl;
   property::GroupCreationList gcpl;
   gcpl.link_creation_order(property::CreationOrder().enable_indexed());
-  root_group_.create_group("g1",lcpl,gcpl);
-  root_group_.create_group("g2",lcpl,gcpl);
-  root_group_.create_group("g3",lcpl,gcpl);
-  root_group_.create_dataset("d1",datatype::create<float>(),dataspace::Scalar());
-  root_group_.create_dataset("d2",datatype::create<int>(),dataspace::Scalar());
+  root_.create_group("g1",lcpl,gcpl);
+  root_.create_group("g2",lcpl,gcpl);
+  root_.create_group("g3",lcpl,gcpl);
+  root_.create_dataset("d1",datatype::create<float>(),dataspace::Scalar());
+  root_.create_dataset("d2",datatype::create<int>(),dataspace::Scalar());
 }
 

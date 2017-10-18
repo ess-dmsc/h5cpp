@@ -23,7 +23,7 @@
 // Created on: Oct 5, 2017
 //
 
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include "attribute_test_fixtures.hpp"
 
 using namespace hdf5;
@@ -32,65 +32,65 @@ BOOST_AUTO_TEST_SUITE(AttributeTest)
 
 BOOST_FIXTURE_TEST_SUITE(AttributeManagementTest,AttributeIterationFixture)
 
-BOOST_AUTO_TEST_CASE(test_remove_attribute_by_index)
+TEST(TestName,test_remove_attribute_by_index)
 {
   root_group.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_group.attributes.iterator_config().order(IterationOrder::INCREASING);
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
-  BOOST_CHECK(root_group.attributes.exists("index"));
-  BOOST_CHECK_NO_THROW(root_group.attributes.remove(0));
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),2);
-  BOOST_CHECK(!root_group.attributes.exists("index"));
+  EXPECT_EQ(root_group.attributes.size(),3);
+  EXPECT_TRUE(root_group.attributes.exists("index"));
+  EXPECT_NO_THROW(root_group.attributes.remove(0));
+  EXPECT_EQ(root_group.attributes.size(),2);
+  EXPECT_FALSE(root_group.attributes.exists("index"));
 }
 
-BOOST_AUTO_TEST_CASE(test_remove_attribute_by_name)
+TEST(TestName,test_remove_attribute_by_name)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
-  BOOST_CHECK(root_group.attributes.exists("elasticity"));
-  BOOST_CHECK_NO_THROW(root_group.attributes.remove("elasticity"));
-  BOOST_CHECK(!root_group.attributes.exists("elasticity"));
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),2);
+  EXPECT_EQ(root_group.attributes.size(),3);
+  EXPECT_TRUE(root_group.attributes.exists("elasticity"));
+  EXPECT_NO_THROW(root_group.attributes.remove("elasticity"));
+  EXPECT_FALSE(root_group.attributes.exists("elasticity"));
+  EXPECT_EQ(root_group.attributes.size(),2);
 }
 
-BOOST_AUTO_TEST_CASE(test_remove_remains)
+TEST(TestName,test_remove_remains)
 {
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),3);
+  EXPECT_EQ(root_group.attributes.size(),3);
   attribute::Attribute a = root_group.attributes["counter"];
-  BOOST_CHECK(a.is_valid());
-  BOOST_CHECK_NO_THROW(root_group.attributes.remove("counter"));
-  BOOST_CHECK(!root_group.attributes.exists("counter"));
-  BOOST_CHECK_EQUAL(root_group.attributes.size(),2);
+  EXPECT_TRUE(a.is_valid());
+  EXPECT_NO_THROW(root_group.attributes.remove("counter"));
+  EXPECT_FALSE(root_group.attributes.exists("counter"));
+  EXPECT_EQ(root_group.attributes.size(),2);
 
   //however an already opened attribute remains alive
-  BOOST_CHECK(a.is_valid());
-  BOOST_CHECK_EQUAL(a.name(),"counter");
+  EXPECT_TRUE(a.is_valid());
+  EXPECT_EQ(a.name(),"counter");
 }
 
-BOOST_AUTO_TEST_CASE(test_remove_failure)
+TEST(TestName,test_remove_failure)
 {
-  BOOST_CHECK_THROW(root_group.attributes.remove("hello"),
+  EXPECT_THROW(root_group.attributes.remove("hello"),
                     std::runtime_error);
-  BOOST_CHECK_THROW(root_group.attributes.remove(3),
+  EXPECT_THROW(root_group.attributes.remove(3),
                     std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE(test_rename_attribute)
+TEST(TestName,test_rename_attribute)
 {
   attribute::Attribute a = root_group.attributes["counter"];
-  BOOST_CHECK_NO_THROW(root_group.attributes.rename("counter","counter_2"));
-  BOOST_CHECK(!root_group.attributes.exists("counter"));
-  BOOST_CHECK(root_group.attributes.exists("counter_2"));
-  BOOST_CHECK_EQUAL(a.name(),"counter_2");
+  EXPECT_NO_THROW(root_group.attributes.rename("counter","counter_2"));
+  EXPECT_FALSE(root_group.attributes.exists("counter"));
+  EXPECT_TRUE(root_group.attributes.exists("counter_2"));
+  EXPECT_EQ(a.name(),"counter_2");
 }
 
-BOOST_AUTO_TEST_CASE(test_rename_failure)
+TEST(TestName,test_rename_failure)
 {
-  BOOST_CHECK_THROW(root_group.attributes.rename("counter_2","hello"),
+  EXPECT_THROW(root_group.attributes.rename("counter_2","hello"),
                     std::runtime_error);
 }
 
 
-BOOST_AUTO_TEST_SUITE_END()
 
 
-BOOST_AUTO_TEST_SUITE_END()
+
+

@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <boost/test/floating_point_comparison.hpp>
 #include <cstdint>
 #include <vector>
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_SUITE(AttributeTest)
 
 BOOST_FIXTURE_TEST_SUITE(MultidimIOTest,AttributeFixture)
 
-BOOST_AUTO_TEST_CASE(test_uint8_vector)
+TEST(TestName,test_uint8_vector)
 {
   std::vector<std::uint8_t> write_data{1,2,3};
   std::vector<std::uint8_t> read_data(write_data.size());
@@ -44,11 +44,11 @@ BOOST_AUTO_TEST_CASE(test_uint8_vector)
   attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data",{3});
   a.write(write_data);
   a.read(read_data);
-  BOOST_CHECK_EQUAL_COLLECTIONS(write_data.begin(),write_data.end(),
+  EXPECT_EQ_COLLECTIONS(write_data.begin(),write_data.end(),
                                 read_data.begin(),read_data.end());
 }
 
-BOOST_AUTO_TEST_CASE(test_uint8_array)
+TEST(TestName,test_uint8_array)
 {
   std::array<std::uint8_t,3> write_data{1,2,3};
   std::array<std::uint8_t,3> read_data;
@@ -56,11 +56,11 @@ BOOST_AUTO_TEST_CASE(test_uint8_array)
   attribute::Attribute a = root_group.attributes.create<std::uint8_t>("data",{3});
   a.write(write_data);
   a.read(read_data);
-  BOOST_CHECK_EQUAL_COLLECTIONS(write_data.begin(),write_data.end(),
+  EXPECT_EQ_COLLECTIONS(write_data.begin(),write_data.end(),
                                 read_data.begin(),read_data.end());
 }
 
-BOOST_AUTO_TEST_SUITE_END()
 
 
-BOOST_AUTO_TEST_SUITE_END()
+
+

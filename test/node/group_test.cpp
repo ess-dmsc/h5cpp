@@ -28,7 +28,7 @@
 
 using namespace hdf5;
 
-class Group : public BasicTestFixture
+class Group : public BasicFixture
 {
 };
 

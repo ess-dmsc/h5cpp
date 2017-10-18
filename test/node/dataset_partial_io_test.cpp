@@ -28,7 +28,7 @@
 
 using namespace hdf5;
 
-class PartialIO : public NodeIterationFixture
+class PartialIO : public BasicFixture
 {
   protected:
     property::LinkCreationList lcpl;
@@ -36,7 +36,7 @@ class PartialIO : public NodeIterationFixture
 
     virtual void SetUp()
     {
-      NodeIterationFixture::SetUp();
+      BasicFixture::SetUp();
       dcpl.layout(property::DatasetLayout::CHUNKED);
     }
 
@@ -50,7 +50,7 @@ TEST_F(PartialIO, test_read_write_scalar_int)
       read_value = 0;
   dcpl.chunk({1024});
 
-  node::Dataset dset = root_group_.create_dataset("data",type,space,lcpl,dcpl);
+  node::Dataset dset = root_.create_dataset("data",type,space,lcpl,dcpl);
 
   dataspace::Hyperslab slab{{0},{1},{1},{1}};
 

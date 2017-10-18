@@ -26,29 +26,13 @@
 #include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <boost/filesystem.hpp>
+#include "../fixture.hpp"
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-class FileOpen : public testing::Test
+class FileOpen : public BasicFixture
 {
-  protected:
-    FileOpen() {}
-    virtual void SetUp()
-    {
-      fs::remove("file_open.h5");
-
-      property::FileCreationList fcpl;
-      property::FileAccessList fapl;
-    #if H5_VERSION_GE(1,10,0)
-      //need this for SWMR
-      fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
-    #endif
-      file::create("file_open.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
-    }
-
-    virtual void TearDown() {}
-    virtual ~FileOpen() {}
 };
 
 

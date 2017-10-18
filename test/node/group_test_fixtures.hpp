@@ -25,39 +25,13 @@
 #pragma once 
 
 #include <gtest/gtest.h>
-#include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
-#include <h5cpp/node/types.hpp>
-#include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/dataspace/scalar.hpp>
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/group_creation_list.hpp>
-#include <h5cpp/property/file_creation_list.hpp>
-#include <h5cpp/property/file_access_list.hpp>
-#include <h5cpp/iterator_config.hpp>
-#include <h5cpp/node/node_iterator.hpp>
-#include <h5cpp/node/link_iterator.hpp>
+#include "../fixture.hpp"
 
 
-class BasicTestFixture : public testing::Test
-{
-  protected:
-    BasicTestFixture() {}
-    virtual void SetUp();
-    virtual void TearDown() {}
-    virtual ~BasicTestFixture() {}
-
-    hdf5::file::File file_;
-};
-
-
-class NodeIterationFixture : public BasicTestFixture
+class NodeIterationFixture : public BasicFixture
 {
   protected:
     virtual void SetUp();
-    hdf5::node::Group root_group_;
 };
 
-class LinkIterationFixture : public NodeIterationFixture
-{
-};

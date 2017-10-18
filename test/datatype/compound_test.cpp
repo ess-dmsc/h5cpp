@@ -37,6 +37,7 @@
 #include <vector>
 #include "../examples/rgbpixel.hpp"
 #include "../examples/rgbpixel_h5.hpp"
+#include "../fixture.hpp"
 
 using namespace hdf5;
 
@@ -89,17 +90,8 @@ class TypeTrait<std::complex<T>>
 }
 }
 
-class CompoundType : public testing::Test
+class CompoundType : public BasicFixture
 {
- protected:
-  CompoundType()
-  {
-    file_ = hdf5::file::create("CompoundTest.h5",hdf5::file::AccessFlags::TRUNCATE);
-    root_group_ = file_.root();
-  }
-  virtual ~CompoundType() {}
-  hdf5::file::File file_;
-  hdf5::node::Group root_group_;
 };
 
 
@@ -123,7 +115,7 @@ TEST_F(CompoundType, test_complex_number_io)
 {
   std::complex<double> write_value(1.,3.);
   std::complex<double> read_value(0.,0.);
-  attribute::Attribute a = this->root_group_.attributes.create<std::complex<double>>("hello");
+  attribute::Attribute a = root_.attributes.create<std::complex<double>>("hello");
   a.write(write_value);
   a.read(read_value);
   EXPECT_NEAR(write_value.real(),read_value.real(),0.0001);
@@ -136,7 +128,7 @@ TEST_F(CompoundType, test_pixel_type)
   RGBPixel write_pixel(1,2,3);
   RGBPixel read_pixel(0,0,0);
 
-  attribute::Attribute a = this->root_group_.attributes.create<RGBPixel>("pixel");
+  attribute::Attribute a = root_.attributes.create<RGBPixel>("pixel");
   a.write(write_pixel);
   a.read(read_pixel);
 

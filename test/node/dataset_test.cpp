@@ -32,11 +32,11 @@
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/node/dataset.hpp>
-#include "group_test_fixtures.hpp"
+#include "../fixture.hpp"
 
 using namespace hdf5;
 
-class Dataset : public NodeIterationFixture
+class Dataset : public BasicFixture
 {
 };
 
@@ -52,8 +52,8 @@ TEST_F(Dataset, test_default_construction)
 
 TEST_F(Dataset, test_scalar_dataset)
 {
-  node::Dataset dset = root_group_.create_dataset("data",datatype::create<int>(),
-                                                  dataspace::Scalar());
+  node::Dataset dset = root_.create_dataset("data",datatype::create<int>(),
+                                            dataspace::Scalar());
 
   EXPECT_EQ(dset.dataspace().type(),dataspace::Type::SCALAR);
   EXPECT_EQ(dset.datatype().get_class(),datatype::Class::INTEGER);

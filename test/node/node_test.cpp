@@ -31,7 +31,7 @@
 using namespace hdf5;
 namespace nd = hdf5::node;
 
-class Node : public BasicTestFixture
+class Node : public BasicFixture
 {
 };
 

@@ -28,7 +28,7 @@
 
 using namespace hdf5;
 
-class Extent : public NodeIterationFixture
+class Extent : public BasicFixture
 {
   protected:
     node::Dataset fin_data;
@@ -37,7 +37,7 @@ class Extent : public NodeIterationFixture
 
     virtual void SetUp()
     {
-      NodeIterationFixture::SetUp();
+      BasicFixture::SetUp();
       auto type = datatype::create<int>();
       property::DatasetCreationList dcpl;
       property::LinkCreationList lcpl;
@@ -47,10 +47,10 @@ class Extent : public NodeIterationFixture
       dcpl.chunk({1024});
 
       dataspace::Simple fin_space({0},{4096});
-      fin_data = root_group_.create_dataset("fin_data",type,fin_space,lcpl,dcpl,dapl);
+      fin_data = root_.create_dataset("fin_data",type,fin_space,lcpl,dcpl,dapl);
 
       dataspace::Simple inf_space({0},{dataspace::Simple::UNLIMITED});
-      inf_data = root_group_.create_dataset("inf_data",type,inf_space,lcpl,dcpl,dapl);
+      inf_data = root_.create_dataset("inf_data",type,inf_space,lcpl,dcpl,dapl);
     }
 
 };

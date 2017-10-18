@@ -10,11 +10,11 @@ set(Common_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/object_id_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
-#    ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
 )
 
 set(Common_INC    
-#  ${CMAKE_CURRENT_SOURCE_DIR}/fixture.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/fixture.hpp
 )
 
 add_subdirectory(ObjectHandle)
@@ -24,7 +24,7 @@ add_subdirectory(dataspace)
 add_subdirectory(logs)
 add_subdirectory(file)
 add_subdirectory(node)
-#add_subdirectory(attribute)
+add_subdirectory(attribute)
 #add_subdirectory(examples)
 
 add_executable(unit_tests ${Common_SRC} ${Common_INC})
