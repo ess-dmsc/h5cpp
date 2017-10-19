@@ -20,61 +20,51 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 16, 2017
+// Created on: Oct 18, 2017
 //
 #include <h5cpp/hdf5.hpp>
 #include <boost/filesystem.hpp>
 #include <thread>
 #include <chrono>
-#include <csignal>
-#include <atomic>
+#include <algorithm>
 
-#include "swmr_builder.hpp"
 #include "swmr_environment.hpp"
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
 
-static std::atomic<bool> terminated(false);
-
-void SIGINT_handler(int signo)
-{
-  std::cerr<<"Program was terminated by CTRL-C by the user"<<std::endl;
-  terminated = true;
-}
-
-void SIGTERM_handler(int signo)
-{
-  std::cerr<<"Program was terminated by SIGTERM"<<std::endl;
-  terminated = true;
-}
-
-
 int main()
 {
   SWMREnvironment env;
-  SWMRBuilder builder;
 
-  std::signal(SIGINT,SIGINT_handler);
-  std::signal(SIGTERM,SIGTERM_handler);
-
-  env.create_file("swmr_io.h5",builder);
-
-  file::File write_file = env.open_write_file("swmr_io.h5");
+  file::File read_file = env.open_read_file("swmr_io.h5");
+  node::Group root_group = read_file.root();
+  node::Dataset dset = root_group.nodes["data"];
 
   dataspace::Hyperslab selection{{0},{1},{1},{1}};
-  node::Dataset dset = write_file.root()["data"];
-  double buffer=0;
+  std::vector<double> buffer;
+  size_t first_index = 0;
 
-  for(size_t index=0;index<100 && !terminated;index++,buffer++)
+  for(;;)
   {
-    dset.extent(0,1);                     //extend dataset
-    selection.start(0,index);             //update selection
-    dset.write(buffer,selection);         //write data to selection
-    write_file.flush(file::Scope::GLOBAL); // flush file
-    std::cout<<"Writing "<<buffer<<std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
-  }
-  return 0;
+    dset.refresh();
 
+    Dimensions current = dataspace::Simple(dset.dataspace()).current_dimensions();
+    size_t block_size = current[0] - first_index;
+
+    selection.start(0,first_index);
+    selection.block(0,block_size);
+    buffer = std::vector<double>(block_size);
+    dset.read(buffer,selection);
+
+    std::for_each(buffer.begin(),buffer.end(),
+                  [](double value){std::cout<<value<<std::endl;});
+
+    //we have zero-based indexing, thus we need the -1
+    first_index = current[0];
+
+  }
+
+  return 0;
 }

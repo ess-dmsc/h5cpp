@@ -53,6 +53,6 @@ file::File SWMREnvironment::open_write_file(const fs::path &file_path) const
 
 file::File SWMREnvironment::open_read_file(const fs::path &file_path) const
 {
-  return file::open(file_path,file::AccessFlags::READWRITE |
+  return file::open(file_path,file::AccessFlags::READONLY |
                               file::AccessFlags::SWMR_READ,fapl());
 }
