@@ -71,7 +71,7 @@ TEST(Datatype, Comparators)
 TEST(Datatype, Classes)
 {
   Datatype a;
-//  EXPECT_TRUE(a.get_class()==Class::NONE);
+  EXPECT_TRUE(a.get_class()==Class::NONE);
   EXPECT_THROW(a.super(), std::runtime_error);
   EXPECT_THROW(a.has_class(Class::INTEGER), std::runtime_error);
   EXPECT_THROW(a.native_type(), std::runtime_error);
@@ -103,11 +103,13 @@ TEST(Datatype, Classes)
   auto b = a.super();
   EXPECT_EQ(b.get_class(), Class::INTEGER);
 
-
   a = Datatype(ObjectHandle(H5Tvlen_create(H5T_NATIVE_INT)));
   EXPECT_EQ(a.get_class(), Class::VARLENGTH);
 
-//  a = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
+  hsize_t arrsize = 2;
+  a = Datatype(ObjectHandle(H5Tarray_create(H5T_NATIVE_INT,1,&arrsize)));
+  EXPECT_EQ(a.get_class(), Class::ARRAY);
+
 //  a = Datatype(ObjectHandle((H5T_BITFIELD)));
 //  a = Datatype(ObjectHandle(H5Tcopy(H5T_BITFIELD)));
 //  EXPECT_TRUE(a.native_type().get_class()==Class::BITFIELD);

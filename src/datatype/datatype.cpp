@@ -62,6 +62,8 @@ Class Datatype::get_class() const
 {
   switch(H5Tget_class(static_cast<hid_t>(*this)))
   {
+    case H5T_NO_CLASS:
+      return Class::NONE;
     case H5T_INTEGER:
       return Class::INTEGER;
     case H5T_FLOAT:
@@ -82,6 +84,8 @@ Class Datatype::get_class() const
       return Class::VARLENGTH;
     case H5T_ARRAY:
       return Class::ARRAY;
+    case H5T_TIME:
+      return Class::TIME;
     default:
       throw std::runtime_error("unkown data type class");
   }
