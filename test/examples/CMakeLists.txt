@@ -26,9 +26,15 @@ target_link_libraries(append_scalar_data h5cpp_shared)
 add_executable(append_vector_data append_vector_data.cpp)
 target_link_libraries(append_vector_data h5cpp_shared)
 
-set(SWMR_SOURCES swmr_environment.cpp swmr_builder.cpp)
-add_executable(swmr_write swmr_write.cpp ${SWMR_SOURCES})
-target_link_libraries(swmr_write h5cpp_shared)
 
-add_executable(swmr_read swmr_reader.cpp ${SWMR_SOURCES})
-target_link_libraries(swmr_read h5cpp_shared)
+#
+# build this only for new versions of HDF5
+#
+if(HDF5_VERSION VERSION_GREATER 1.10.0)
+	set(SWMR_SOURCES swmr_environment.cpp swmr_builder.cpp)
+	add_executable(swmr_write swmr_write.cpp ${SWMR_SOURCES})
+	target_link_libraries(swmr_write h5cpp_shared)
+
+	add_executable(swmr_read swmr_reader.cpp ${SWMR_SOURCES})
+	target_link_libraries(swmr_read h5cpp_shared)
+endif()
