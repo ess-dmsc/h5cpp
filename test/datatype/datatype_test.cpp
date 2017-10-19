@@ -31,7 +31,7 @@
 using namespace hdf5;
 using namespace hdf5::datatype;
 
-TEST(Datatype, Constructors)
+TEST(Datatype, ConstructCopy)
 {
   Datatype a(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
   EXPECT_TRUE(a.get_class()==Class::INTEGER);
@@ -55,3 +55,37 @@ TEST(Datatype, Constructors)
   EXPECT_THROW(y=Datatype(x), std::runtime_error);
 }
 
+TEST(Datatype, GetClass)
+{
+  Datatype a;
+//  EXPECT_TRUE(a.get_class()==Class::NONE);
+
+  a = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
+  EXPECT_TRUE(a.get_class()==Class::INTEGER);
+
+  a = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+  EXPECT_TRUE(a.get_class()==Class::FLOAT);
+
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_STRING,1)));
+  EXPECT_TRUE(a.get_class()==Class::STRING);
+
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,1)));
+  EXPECT_TRUE(a.get_class()==Class::COMPOUND);
+
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_OPAQUE,1)));
+  EXPECT_TRUE(a.get_class()==Class::OPAQUE);
+
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_ENUM,1)));
+  EXPECT_TRUE(a.get_class()==Class::ENUM);
+
+//  a = Datatype(ObjectHandle(H5Tcreate(H5T_BITFIELD,1)));
+//  a = Datatype(ObjectHandle(H5Tcopy(H5T_BITFIELD)));
+//  EXPECT_TRUE(a.get_class()==Class::BITFIELD);
+
+//  a = Datatype(ObjectHandle(H5Tcopy(H5T_REFERENCE)));
+//  EXPECT_TRUE(a.get_class()==Class::REFERENCE);
+
+//  a = Datatype(ObjectHandle(H5Tcreate(static_cast<H5T_class_t>(Class::TIME),1)));
+//  EXPECT_TRUE(a.get_class()==Class::TIME);
+
+}
