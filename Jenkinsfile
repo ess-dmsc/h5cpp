@@ -65,6 +65,16 @@ node ("boost && fedora") {
             junit 'test/unit_tests_run.xml'
             failure_function(e, 'Tests failed')
         }
+
+        try {
+            stage("Build documentation") {
+                sh "make html"
+                // Archive the build output artifacts.
+                archiveArtifacts artifacts: 'doc/build/*'
+          }
+        } catch (e) {
+            failure_function(e, 'Docs generation failed')
+        }
     }
 
 
