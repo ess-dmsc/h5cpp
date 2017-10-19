@@ -39,10 +39,14 @@ TEST(Datatype, Constructors)
   auto b = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
   EXPECT_TRUE(b.get_class()==Class::INTEGER);
 
-  Datatype c = b;
+  Datatype c = b = a;
   EXPECT_TRUE(c.get_class()==Class::INTEGER);
+  EXPECT_NE(static_cast<hid_t>(a), static_cast<hid_t>(b));
+  EXPECT_NE(static_cast<hid_t>(b), static_cast<hid_t>(c));
+  EXPECT_NE(static_cast<hid_t>(a), static_cast<hid_t>(c));
 
   Datatype d(b);
   EXPECT_TRUE(d.get_class()==Class::INTEGER);
+  EXPECT_NE(static_cast<hid_t>(d), static_cast<hid_t>(b));
 }
 
