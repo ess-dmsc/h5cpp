@@ -28,10 +28,21 @@
 #include <gtest/gtest.h>
 #include <h5cpp/datatype/datatype.hpp>
 
+using namespace hdf5;
 using namespace hdf5::datatype;
 
-TEST(Datatype, General)
+TEST(Datatype, Constructors)
 {
+  Datatype a(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
+  EXPECT_TRUE(a.get_class()==Class::INTEGER);
 
+  auto b = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
+  EXPECT_TRUE(b.get_class()==Class::INTEGER);
+
+  Datatype c = b;
+  EXPECT_TRUE(c.get_class()==Class::INTEGER);
+
+  Datatype d(b);
+  EXPECT_TRUE(d.get_class()==Class::INTEGER);
 }
 
