@@ -48,5 +48,10 @@ TEST(Datatype, Constructors)
   Datatype d(b);
   EXPECT_TRUE(d.get_class()==Class::INTEGER);
   EXPECT_NE(static_cast<hid_t>(d), static_cast<hid_t>(b));
+
+  Datatype x;
+  Datatype y;
+  EXPECT_THROW(y=x, std::runtime_error);
+  EXPECT_THROW(y=Datatype(x), std::runtime_error);
 }
 
