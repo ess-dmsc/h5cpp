@@ -31,7 +31,7 @@ using namespace hdf5;
 TEST(Iterator, constructors)
 {
   Iterator a;
-  // undefined index!!!
+  EXPECT_EQ(a.index(), 0);
 
   Iterator b(3);
   EXPECT_EQ(b.index(), 3);
@@ -45,6 +45,8 @@ TEST(Iterator, constructors)
 
 TEST(Iterator, comparators)
 {
+  EXPECT_EQ(Iterator(2), Iterator(2));
+
   EXPECT_LT(Iterator(2), Iterator(3));
   EXPECT_LE(Iterator(2), Iterator(3));
   EXPECT_LE(Iterator(2), Iterator(2));

@@ -33,7 +33,7 @@ class DLL_EXPORT Iterator
 {
   private:
     //! actual position state of the iterator
-    ssize_t index_;
+    ssize_t index_ {0};
 
   public:
 
@@ -57,7 +57,7 @@ class DLL_EXPORT Iterator
     Iterator &operator+=(ssize_t i);
     Iterator &operator-=(ssize_t i);
 
-
+    bool operator==(const Iterator &b) const;
     bool operator<(const Iterator &b) const;
     bool operator<=(const Iterator &b) const;
     bool operator>(const Iterator &b) const;
@@ -67,8 +67,6 @@ class DLL_EXPORT Iterator
     ssize_t index() const { return index_; }
 
 };
-
-
 
 DLL_EXPORT Iterator operator+(const Iterator&a, ssize_t b);
 

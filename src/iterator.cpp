@@ -77,6 +77,11 @@ Iterator &Iterator::operator-=(ssize_t i)
   return *this;
 }
 
+bool Iterator::operator==(const Iterator &b) const
+{
+  return index_ == b.index_;
+}
+
 bool Iterator::operator<(const Iterator &b) const
 {
   return index_ < b.index_;
