@@ -55,7 +55,7 @@ TEST(Datatype, ConstructCopy)
   EXPECT_THROW(y=Datatype(x), std::runtime_error);
 }
 
-TEST(Datatype, GetClass)
+TEST(Datatype, Classes)
 {
   Datatype a;
 //  EXPECT_TRUE(a.get_class()==Class::NONE);
@@ -69,14 +69,20 @@ TEST(Datatype, GetClass)
   a = Datatype(ObjectHandle(H5Tcreate(H5T_STRING,1)));
   EXPECT_TRUE(a.get_class()==Class::STRING);
 
-  a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,1)));
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,8)));
   EXPECT_TRUE(a.get_class()==Class::COMPOUND);
+  EXPECT_THROW(a.super(), std::runtime_error);
+  H5Tinsert(static_cast<hid_t>(a),"hello",0,H5T_NATIVE_INT);
+  EXPECT_TRUE(a.has_class(Class::INTEGER));
+  EXPECT_FALSE(a.has_class(Class::FLOAT));
 
   a = Datatype(ObjectHandle(H5Tcreate(H5T_OPAQUE,1)));
   EXPECT_TRUE(a.get_class()==Class::OPAQUE);
 
   a = Datatype(ObjectHandle(H5Tcreate(H5T_ENUM,1)));
   EXPECT_TRUE(a.get_class()==Class::ENUM);
+  auto b = a.super();
+  EXPECT_TRUE(b.get_class()==Class::INTEGER);
 
 //  a = Datatype(ObjectHandle(H5Tcreate(H5T_BITFIELD,1)));
 //  a = Datatype(ObjectHandle(H5Tcopy(H5T_BITFIELD)));
