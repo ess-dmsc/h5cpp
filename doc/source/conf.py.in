@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'@PROJECT_NAME@'
-copyright = u'2017, Eugen Wintersberger'
+copyright = u'2017, Deutsches Elektronen-Synchrotron, European Spallation Source'
 author = u'Eugen Wintersberger'
 
 # The version info for the project you're documenting, acts as replacement for
