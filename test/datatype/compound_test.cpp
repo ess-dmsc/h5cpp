@@ -28,9 +28,6 @@
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/file/file.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
 #include <h5cpp/attribute/attribute.hpp>
 #include <cstdint>
 #include <complex>
@@ -39,7 +36,8 @@
 #include "../examples/rgbpixel_h5.hpp"
 #include "../fixture.hpp"
 
-using namespace hdf5;
+using namespace hdf5::attribute;
+using namespace hdf5::datatype;
 
 struct complex_struct
 {
@@ -78,12 +76,10 @@ class TypeTrait<std::complex<T>>
 
     static TypeClass create()
     {
-
-      datatype::Compound type(sizeof(complex_struct));
-      type.insert("real",HOFFSET(complex_type,real),datatype::create<T>());
-      type.insert("imag",HOFFSET(complex_type,imag),datatype::create<T>());
-
-      return type;
+      Compound t(sizeof(complex_struct));
+      t.insert("real",HOFFSET(complex_type,real),datatype::create<T>());
+      t.insert("imag",HOFFSET(complex_type,imag),datatype::create<T>());
+      return t;
     }
 };
 
@@ -97,7 +93,7 @@ class CompoundType : public BasicFixture
 
 TEST_F(CompoundType, test_default_construction)
 {
-  datatype::Compound type;
+  Compound t;
   //EXPECT_THROW(type.field_index("real"),std::runtime_error);
   //EXPECT_THROW(type.field_index(0),std::runtime_error);
 
@@ -105,17 +101,17 @@ TEST_F(CompoundType, test_default_construction)
 
 TEST_F(CompoundType, test_complex_number)
 {
-  datatype::Compound type(sizeof(complex_struct));
-  EXPECT_NO_THROW(type.insert("real",HOFFSET(complex_struct,real),datatype::create<double>()));
-  EXPECT_NO_THROW(type.insert("imag",HOFFSET(complex_struct,imag),datatype::create<double>()));
-
+  Compound t(sizeof(complex_struct));
+  EXPECT_NO_THROW(t.insert("real",HOFFSET(complex_struct,real),create<double>()));
+  EXPECT_NO_THROW(t.insert("imag",HOFFSET(complex_struct,imag),create<double>()));
+  EXPECT_TRUE(t.get_class()==Class::COMPOUND);
 }
 
 TEST_F(CompoundType, test_complex_number_io)
 {
   std::complex<double> write_value(1.,3.);
   std::complex<double> read_value(0.,0.);
-  attribute::Attribute a = root_.attributes.create<std::complex<double>>("hello");
+  auto a = root_.attributes.create<std::complex<double>>("hello");
   a.write(write_value);
   a.read(read_value);
   EXPECT_NEAR(write_value.real(),read_value.real(),0.0001);
@@ -128,7 +124,7 @@ TEST_F(CompoundType, test_pixel_type)
   RGBPixel write_pixel(1,2,3);
   RGBPixel read_pixel(0,0,0);
 
-  attribute::Attribute a = root_.attributes.create<RGBPixel>("pixel");
+  auto a = root_.attributes.create<RGBPixel>("pixel");
   a.write(write_pixel);
   a.read(read_pixel);
 

@@ -45,9 +45,10 @@ class DLL_EXPORT Datatype
   public:
     virtual ~Datatype();
     Datatype(ObjectHandle &&handle);
-    Datatype &operator=(const Datatype &type) = default;
+    Datatype &operator=(const Datatype &type);
+    Datatype(const Datatype &type);
+
     Datatype &operator=(Datatype &&type) = default;
-    Datatype(const Datatype &type) = default;
     Datatype(Datatype &&type) = default;
     Datatype() = default;
 

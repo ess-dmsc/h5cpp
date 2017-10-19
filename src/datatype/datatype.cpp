@@ -37,6 +37,27 @@ Datatype::Datatype(ObjectHandle &&handle):
 Datatype::~Datatype()
 {}
 
+Datatype::Datatype(const Datatype &type)
+{
+  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy Datatype");
+  }
+  handle_ = ObjectHandle(ret);
+}
+
+Datatype& Datatype::operator=(const Datatype &type)
+{
+  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy Datatype");
+  }
+  handle_ = ObjectHandle(ret);
+  return *this;
+}
+
 Class Datatype::get_class() const
 {
   switch(H5Tget_class(static_cast<hid_t>(*this)))
