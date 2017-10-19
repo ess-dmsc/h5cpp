@@ -141,6 +141,21 @@ void Datatype::set_size(size_t size) const
   }
 }
 
+bool operator==(const Datatype &lhs,const Datatype &rhs)
+{
+  htri_t ret = H5Tequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
+  if (0 > ret)
+  {
+    throw std::runtime_error("Failure to compare datatypes!");
+  }
+  return (ret > 0);
+}
+
+bool operator!=(const Datatype &lhs,const Datatype &rhs)
+{
+  return !operator ==(lhs, rhs);
+}
+
 
 
 } // namespace datatype

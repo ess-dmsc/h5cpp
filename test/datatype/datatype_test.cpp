@@ -55,6 +55,16 @@ TEST(Datatype, ConstructCopy)
   EXPECT_THROW(y=Datatype(x), std::runtime_error);
 }
 
+TEST(Datatype, Comparators)
+{
+  Datatype a(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
+  auto b = a;
+  EXPECT_NE(static_cast<hid_t>(a), static_cast<hid_t>(b));
+  EXPECT_EQ(a, b);
+  b = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+  EXPECT_NE(a, b);
+}
+
 TEST(Datatype, Classes)
 {
   Datatype a;
@@ -84,9 +94,9 @@ TEST(Datatype, Classes)
   auto b = a.super();
   EXPECT_TRUE(b.get_class()==Class::INTEGER);
 
-//  a = Datatype(ObjectHandle(H5Tcreate(H5T_BITFIELD,1)));
+//  a = Datatype(ObjectHandle((H5T_BITFIELD)));
 //  a = Datatype(ObjectHandle(H5Tcopy(H5T_BITFIELD)));
-//  EXPECT_TRUE(a.get_class()==Class::BITFIELD);
+//  EXPECT_TRUE(a.native_type().get_class()==Class::BITFIELD);
 
 //  a = Datatype(ObjectHandle(H5Tcopy(H5T_REFERENCE)));
 //  EXPECT_TRUE(a.get_class()==Class::REFERENCE);
@@ -94,4 +104,12 @@ TEST(Datatype, Classes)
 //  a = Datatype(ObjectHandle(H5Tcreate(static_cast<H5T_class_t>(Class::TIME),1)));
 //  EXPECT_TRUE(a.get_class()==Class::TIME);
 
+}
+
+TEST(Datatype, Size)
+{
+  auto a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,2)));
+  ASSERT_EQ(a.size(), 2);
+  a.set_size(4);
+  ASSERT_EQ(a.size(), 4);
 }
