@@ -52,7 +52,9 @@
 
 #include <gtest/gtest.h>
 
+#define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 #include <h5cpp/object_id.hpp>
 #include <iostream>
