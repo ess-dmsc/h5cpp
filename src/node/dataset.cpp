@@ -106,6 +106,19 @@ void Dataset::extent(size_t dim,ssize_t delta_elements) const
   extent(current_dims);
 }
 
+#if H5_VERSION_GE(1,10,0)
+void Dataset::refresh() const
+{
+  if(H5Drefresh(static_cast<hid_t>(*this))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to refresh dataset ["<<link().path()<<"]!";
+    std::runtime_error(ss.str());
+  }
+}
+
+#endif
+
 
 
 } // namespace node

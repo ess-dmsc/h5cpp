@@ -118,7 +118,7 @@ class DLL_EXPORT Group : public Node
     Group create_group(const std::string &name,
                        const property::LinkCreationList &lcpl = property::LinkCreationList(),
                        const property::GroupCreationList &gcpl = property::GroupCreationList(),
-                       const property::GroupAccessList &gapl = property::GroupAccessList());
+                       const property::GroupAccessList &gapl = property::GroupAccessList()) const;
 
     //!
     //! \brief create a new dataset
@@ -130,7 +130,7 @@ class DLL_EXPORT Group : public Node
                            const property::LinkCreationList &lcpl = property::LinkCreationList(),
                            const property::DatasetCreationList &dcpl = property::DatasetCreationList(),
                            const property::DatasetAccessList &dapl = property::DatasetAccessList()
-                           );
+                           ) const;
 
     Node operator[](const std::string &name) const;
 
