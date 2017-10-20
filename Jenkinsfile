@@ -80,16 +80,15 @@ node ("boost && fedora") {
         }
     }
 
-    when {
-        expression { params.BRANCH_NAME == 'issue_54' }
-    }
-    steps {
-
     dir("docs") {
         try {
             stage("Publish docs") {
                 checkout scm
 
+when {
+    expression { params.BRANCH_NAME == 'issue_54' }
+}
+steps {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
                 sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
@@ -112,9 +111,9 @@ node ("boost && fedora") {
                 }*/
 
             }
+            }
         } catch (e) {
             failure_function(e, 'Publishing docs failed')
         }
-    }
     }
 }
