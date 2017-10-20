@@ -88,8 +88,11 @@ node ("boost && fedora") {
                 sh "git config user.name 'cow-bot'"
 
                 sh "git remote update"
+                sh "git remote -v"
                 sh "git fetch"
-                sh "git checkout --track origin/gh-pages"
+                sh "git branch -a"
+                sh "git remote show origin"
+                sh "git checkout -b gh-pages origin/gh-pages"
                 sh "shopt -u dotglob && rm -rf ./*"
                 sh "cp -rf ../build/doc/build/* ./"
                 sh "git add -A"
