@@ -23,9 +23,6 @@ node ("boost && fedora") {
     dir("build") {
         try {
             stage("Run CMake") {
-                sh 'gcov --version'
-                sh 'gcovr --version'
-                sh 'rm -rf ./*'
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
                     cmake -DCOV=on -DCMAKE_BUILD_TYPE=Debug ../code"
@@ -91,13 +88,10 @@ node ("boost && fedora") {
 
                 sh "git fetch"
                 sh "git checkout gh-pages"
-                sh "ls -al"
                 sh "shopt -u dotglob && rm -rf ./*"
-                sh "ls -al"
                 sh "cp -rf ../build/doc/build/* ./"
                 sh "git add -A"
                 sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
-
 
                 withCredentials([usernamePassword(
                     credentialsId: 'cow-bot-username',
