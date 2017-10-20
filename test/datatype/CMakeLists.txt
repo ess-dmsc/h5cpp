@@ -2,6 +2,7 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(Common_SRC
   ${Common_SRC}
+  ${dir}/datatype_test.cpp
   ${dir}/integer_test.cpp
   ${dir}/compound_test.cpp
   ${dir}/../examples/rgbpixel.cpp

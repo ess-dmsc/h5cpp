@@ -106,7 +106,7 @@ TEST_F(CompoundType, test_default_construction)
 
 TEST_F(CompoundType, test_complex_number)
 {
-  datatype::Compound type(sizeof(complex_struct));
+  Compound type(sizeof(complex_struct));
   EXPECT_NO_THROW(type.insert("real",HOFFSET(complex_struct,real),datatype::create<double>()));
   EXPECT_NO_THROW(type.insert("imag",HOFFSET(complex_struct,imag),datatype::create<double>()));
   EXPECT_TRUE(type.has_class(datatype::Class::FLOAT));

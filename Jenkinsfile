@@ -52,7 +52,7 @@ node ("boost && fedora") {
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
                     autoUpdateStability: true,
-                    coberturaReportFile: 'test/coverage.xml',
+                    coberturaReportFile: 'coverage/coverage.xml',
                     failUnhealthy: false,
                     failUnstable: false,
                     maxNumberOfBuilds: 0,

@@ -167,16 +167,5 @@ class DLL_EXPORT Datatype
 DLL_EXPORT bool operator==(const Datatype &lhs,const Datatype &rhs);
 DLL_EXPORT bool operator!=(const Datatype &lhs,const Datatype &rhs);
 
-namespace prefdefined_types {
-
-DLL_EXPORT extern const Datatype native_int;
-DLL_EXPORT extern const Datatype native_double;
-DLL_EXPORT extern const Datatype native_long_double;
-DLL_EXPORT extern const Datatype native_short;
-
-
-} // namespace predefined_types
-
-
 } // namespace datatype
 } // namespace hdf5
