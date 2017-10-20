@@ -36,7 +36,7 @@ node ("boost && fedora") {
 
         try {
             stage("Build project") {
-                sh "make VERBOSE=1"
+                //sh "make VERBOSE=1"
             }
         } catch (e) {
             failure_function(e, 'Build failed')
@@ -44,9 +44,9 @@ node ("boost && fedora") {
 
         try {
             stage("Run tests") {
-                sh "make run_tests"
-                junit 'test/unit_tests_run.xml'
-                sh "make generate_coverage"
+                //sh "make run_tests"
+                //junit 'test/unit_tests_run.xml'
+                //sh "make generate_coverage"
 /*                sh "make memcheck"*/
                 step([
                     $class: 'CoberturaPublisher',
@@ -85,9 +85,9 @@ node ("boost && fedora") {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
 
-                sh "git checkout gh-pages"
+                sh "git checkout -b gh-pages"
                 sh "yes | cp -rf ../build/doc/build ./"
-                sh "git add -A"
+                sh "git add ."
                 sh "git commit -a -m 'This is a test.'"
 
                 //withCredentials([usernamePassword(
