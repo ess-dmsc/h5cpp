@@ -80,6 +80,11 @@ node ("boost && fedora") {
         }
     }
 
+    when {
+        expression { params.BRANCH_NAME == 'issue_54' }
+    }
+    steps {
+
     dir("docs") {
         try {
             stage("Publish docs") {
@@ -110,5 +115,6 @@ node ("boost && fedora") {
         } catch (e) {
             failure_function(e, 'Publishing docs failed')
         }
+    }
     }
 }
