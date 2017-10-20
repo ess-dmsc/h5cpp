@@ -71,7 +71,7 @@ bool Group::exists(const std::string &name,
 Group Group::create_group(const std::string &name,
                           const property::LinkCreationList &lcpl,
                           const property::GroupCreationList &gcpl,
-                          const property::GroupAccessList &gapl)
+                          const property::GroupAccessList &gapl) const
 {
   //check if the name is a valid group name
   if(!is_valid_child_name(name))
@@ -116,7 +116,7 @@ Dataset Group::create_dataset(const std::string &name,
                               const dataspace::Dataspace &space,
                               const property::LinkCreationList &lcpl,
                               const property::DatasetCreationList &dcpl,
-                              const property::DatasetAccessList &dapl)
+                              const property::DatasetAccessList &dapl) const
 {
   if(!is_valid_child_name(name))
   {

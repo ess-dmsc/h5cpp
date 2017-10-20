@@ -45,9 +45,10 @@ class DLL_EXPORT Datatype
   public:
     virtual ~Datatype();
     Datatype(ObjectHandle &&handle);
-    Datatype &operator=(const Datatype &type) = default;
+    Datatype &operator=(const Datatype &type);
+    Datatype(const Datatype &type);
+
     Datatype &operator=(Datatype &&type) = default;
-    Datatype(const Datatype &type) = default;
     Datatype(Datatype &&type) = default;
     Datatype() = default;
 
@@ -72,17 +73,6 @@ class DLL_EXPORT Datatype
 
 DLL_EXPORT bool operator==(const Datatype &lhs,const Datatype &rhs);
 DLL_EXPORT bool operator!=(const Datatype &lhs,const Datatype &rhs);
-
-namespace prefdefined_types {
-
-DLL_EXPORT extern const Datatype native_int;
-DLL_EXPORT extern const Datatype native_double;
-DLL_EXPORT extern const Datatype native_long_double;
-DLL_EXPORT extern const Datatype native_short;
-
-
-} // namespace predefined_types
-
 
 } // namespace datatype
 } // namespace hdf5
