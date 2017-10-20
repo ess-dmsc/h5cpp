@@ -86,16 +86,12 @@ node ("boost && fedora") {
 
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
-                sh "git config --get remote.origin.fetch"
                 sh 'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
-                sh "git config --get remote.origin.fetch"
 
-                sh "git remote update"
-                sh "git remote -v"
+                //sh "git remote update"
                 sh "git fetch"
-                sh "git branch -a"
-                sh "git remote show origin"
-                sh "git checkout -b gh-pages origin/gh-pages"
+                sh "git checkout gh-pages"
+                sh "ls -al"
                 /*sh "shopt -u dotglob && rm -rf ./*"
                 sh "cp -rf ../build/doc/build/* ./"
                 sh "git add -A"
