@@ -14,9 +14,7 @@ node ("boost && fedora") {
         try {
             stage("Checkout project") {
                 checkout scm
-                sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
-                sh "git fetch"
-                sh "git symbolic-ref --short HEAD"
+                sh 'printenv'
             }
         } catch (e) {
             failure_function(e, 'Checkout failed')
