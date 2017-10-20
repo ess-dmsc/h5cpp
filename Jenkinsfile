@@ -83,7 +83,7 @@ node ("boost && fedora") {
                 sh "git checkout gh-pages"
                 sh "yes | cp -rf ../build/docs/build/ ./"
                 sh "git add -A"
-                sh "git commit -m "Updating documentation"
+                sh "git commit -m 'Updating documentation'"
                 sh "git push"
             }
         } catch (e) {
