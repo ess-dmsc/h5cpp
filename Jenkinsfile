@@ -87,6 +87,8 @@ node ("boost && fedora") {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
                 sh "git config --get remote.origin.fetch"
+                sh 'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
+                sh "git config --get remote.origin.fetch"
 
                 sh "git remote update"
                 sh "git remote -v"
@@ -94,7 +96,7 @@ node ("boost && fedora") {
                 sh "git branch -a"
                 sh "git remote show origin"
                 sh "git checkout -b gh-pages origin/gh-pages"
-                sh "shopt -u dotglob && rm -rf ./*"
+                /*sh "shopt -u dotglob && rm -rf ./*"
                 sh "cp -rf ../build/doc/build/* ./"
                 sh "git add -A"
                 sh "git commit -a -m 'This is a test.'"
@@ -105,7 +107,7 @@ node ("boost && fedora") {
                     passwordVariable: 'PASSWORD'
                 )]) {
                     sh "../code/expectscript ${USERNAME} ${PASSWORD}"
-                }
+                }*/
 
             }
         } catch (e) {
