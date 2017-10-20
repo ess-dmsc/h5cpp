@@ -84,7 +84,7 @@ node ("boost && fedora") {
             stage("Publish docs") {
                 checkout scm
 
-              if (env.BRANCH_NAME == 'issue_54') {
+              if (env.BRANCH_NAME == 'issue_55') {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
                 sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
@@ -94,18 +94,18 @@ node ("boost && fedora") {
                 sh "ls -al"
                 sh "shopt -u dotglob && rm -rf ./*"
                 sh "ls -al"
-                //sh "cp -rf ../build/doc/build/* ./"
-                //sh "git add -A"
-                //sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
+                sh "cp -rf ../build/doc/build/* ./"
+                sh "git add -A"
+                sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
 
-/*
+
                 withCredentials([usernamePassword(
                     credentialsId: 'cow-bot-username',
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD'
                 )]) {
                     sh "../code/expectscript ${USERNAME} ${PASSWORD}"
-                }*/
+                }
 
             }
             }
