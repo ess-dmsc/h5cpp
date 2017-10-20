@@ -55,7 +55,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'@PROJECT_NAME@'
-copyright = u'2017, Deutsches Elektronen-Synchrotron, European Spallation Source'
+copyright = u'2017, Deutsches Elektronen-Synchrotron, European Spallation Source; <br /> generated on @BUILDINFO_DATE@ @BUILDINFO_TIME@ from @BUILDINFO_GIT_BRANCH@ (@BUILDINFO_GIT_HASH@)'
 author = u'Eugen Wintersberger'
 
 # The version info for the project you're documenting, acts as replacement for
