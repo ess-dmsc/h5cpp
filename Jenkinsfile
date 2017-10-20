@@ -80,14 +80,21 @@ node ("boost && fedora") {
     dir("code") {
         try {
             stage("Publish docs") {
+                // Preparing Git
+                //sh "git branch -u origin/develop develop"
+                //sh "git config user.email \"jenkins@thomaskasene.com\""
+                //sh "git config user.name \"Jenkins\""
+
+                sh "git status"
+                sh "git branch"
+                sh "git config --list"
+                //sh "git symbolic-ref --short HEAD"
+
                 //sh "git checkout gh-pages"
                 //sh "yes | cp -rf ../build/docs/build/ ./"
                 //sh "git add -A"
                 //sh "git commit -m 'Updating documentation'"
                 //sh "git push"
-                sh "git status"
-                sh "git symbolic-ref --short HEAD"
-                sh "git branch"
             }
         } catch (e) {
             failure_function(e, 'Docs update failed')
