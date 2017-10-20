@@ -32,23 +32,31 @@
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
+#include "../fixture.hpp"
 
 namespace type = hdf5::datatype;
 namespace attr = hdf5::attribute;
 
+//template <class T>
+//class String : public testing::Test
+//{
+// protected:
+//  String()
+//  {
+//    file_ = hdf5::file::create("CompoundTest.h5",hdf5::file::AccessFlags::TRUNCATE);
+//    root_group_ = file_.root();
+//  }
+//  virtual ~String() {}
+//  T value_;
+//  hdf5::file::File file_;
+//  hdf5::node::Group root_group_;
+//};
+
 template <class T>
-class String : public testing::Test
+class String : public BasicFixture
 {
- protected:
-  String()
-  {
-    file_ = hdf5::file::create("CompoundTest.h5",hdf5::file::AccessFlags::TRUNCATE);
-    root_group_ = file_.root();
-  }
-  virtual ~String() {}
-  T value_;
-  hdf5::file::File file_;
-  hdf5::node::Group root_group_;
+  protected:
+    T value_;
 };
 
 using testing::Types;
@@ -81,7 +89,7 @@ TYPED_TEST(String, FixedIO)
   auto t = type::String::fixed(5);
   hdf5::dataspace::Scalar ds;
 
-  attr::Attribute a = this->root_group_.attributes.create("string", t, ds);
+  attr::Attribute a = this->root_.attributes.create("string", t, ds);
   this->value_ = "abc  ";
   a.write(this->value_.c_str(), t);
 
@@ -99,7 +107,7 @@ TYPED_TEST(String, VariableIO)
   auto t = type::create<decltype(this->value_)>();
   hdf5::dataspace::Scalar ds;
 
-  attr::Attribute a = this->root_group_.attributes.create("string", t, ds);
+  attr::Attribute a = this->root_.attributes.create("string", t, ds);
   this->value_ = "hello world";
   a.write(this->value_);
 
