@@ -1,0 +1,12 @@
+#!/usr/bin/expect
+
+set username [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn git push origin newbranch
+expect "Username for 'https://github.com':"
+send "$username\n"
+expect "Password for 'https://cow-bot@github.com':"
+send "$password\n"
+sleep 2
+interact

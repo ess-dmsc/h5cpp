@@ -76,4 +76,31 @@ node ("boost && fedora") {
             failure_function(e, 'Docs generation failed')
         }
     }
+
+    dir("code") {
+        try {
+            stage("Punlish docs") {
+                checkout scm
+
+                sh "git config user.email 'dm-jenkins-integration@esss.se'"
+                sh "git config user.name 'cow-bot'"
+
+                sh "git checkout gh-pages"
+                sh "yes | cp -rf ../build/doc/build ./"
+                sh "git add -A"
+                sh "git commit -a -m 'This is a test.'"
+
+                //withCredentials([usernamePassword(
+                 //   credentialsId: 'cow-bot-username',
+                  //  usernameVariable: 'USERNAME',
+                   // passwordVariable: 'PASSWORD'
+                //)]) {
+                //    sh "./expectscript ${USERNAME} ${PASSWORD}"
+                //}
+
+            }
+        } catch (e) {
+            failure_function(e, 'Publishing docs failed')
+        }
+    }
 }
