@@ -79,7 +79,7 @@ node ("boost && fedora") {
         }
     }
 
-    dir("code") {
+    dir("docs") {
         try {
             stage("Publish docs") {
                 checkout scm
@@ -98,7 +98,7 @@ node ("boost && fedora") {
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD'
                 )]) {
-                    sh "./expectscript ${USERNAME} ${PASSWORD}"
+                    sh "./code/expectscript ${USERNAME} ${PASSWORD}"
                 }
 
             }
