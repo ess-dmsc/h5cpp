@@ -44,10 +44,11 @@ node ("boost && fedora") {
 
         try {
             stage("Run tests") {
-                //sh "make run_tests"
-                //junit 'test/unit_tests_run.xml'
-                //sh "make generate_coverage"
-/*                sh "make memcheck"*/
+            /*
+                sh "make run_tests"
+                junit 'test/unit_tests_run.xml'
+                sh "make generate_coverage"
+                //sh "make memcheck"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
@@ -60,6 +61,7 @@ node ("boost && fedora") {
                     sourceEncoding: 'ASCII',
                     zoomCoverageChart: false
                 ])
+                */
           }
         } catch (e) {
             junit 'test/unit_tests_run.xml'
@@ -79,7 +81,7 @@ node ("boost && fedora") {
 
     dir("code") {
         try {
-            stage("Punlish docs") {
+            stage("Publish docs") {
                 checkout scm
 
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
