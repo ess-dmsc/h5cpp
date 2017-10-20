@@ -33,7 +33,7 @@ node ("boost && fedora") {
 
         try {
             stage("Build project") {
-                //sh "make VERBOSE=1"
+                sh "make VERBOSE=1"
             }
         } catch (e) {
             failure_function(e, 'Build failed')
@@ -41,7 +41,6 @@ node ("boost && fedora") {
 
         try {
             stage("Run tests") {
-            /*
                 sh "make run_tests"
                 junit 'test/unit_tests_run.xml'
                 sh "make generate_coverage"
@@ -58,7 +57,6 @@ node ("boost && fedora") {
                     sourceEncoding: 'ASCII',
                     zoomCoverageChart: false
                 ])
-                */
           }
         } catch (e) {
             junit 'test/unit_tests_run.xml'
