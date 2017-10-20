@@ -69,14 +69,14 @@ node ("boost && fedora") {
             stage("Build docs") {
                 sh "make html"
                 // Archive the build output artifacts.
-                archiveArtifacts artifacts: 'doc/build/'
+                // archiveArtifacts artifacts: 'doc/build/'
           }
         } catch (e) {
             failure_function(e, 'Docs generation failed')
         }
     }
 
-    dir("docs") {
+    dir("code") {
         try {
             stage("Publish docs") {
                 checkout scm
