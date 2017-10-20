@@ -98,7 +98,7 @@ node ("boost && fedora") {
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD'
                 )]) {
-                    sh "./code/expectscript ${USERNAME} ${PASSWORD}"
+                    sh "../code/expectscript ${USERNAME} ${PASSWORD}"
                 }
 
             }
