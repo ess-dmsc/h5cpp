@@ -85,10 +85,7 @@ node ("boost && fedora") {
             stage("Publish docs") {
                 checkout scm
 
-when {
-    expression { params.BRANCH_NAME == 'issue_54' }
-}
-steps {
+              if (params.BRANCH_NAME != 'issue_54') {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
                 sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
