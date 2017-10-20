@@ -28,6 +28,7 @@ set(Common_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/iterator_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/object_id_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
