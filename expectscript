@@ -8,5 +8,5 @@ expect "Username for 'https://github.com':"
 send "$username\n"
 expect "Password for 'https://cow-bot@github.com':"
 send "$password\n"
-sleep 2
+sleep 10
 interact
