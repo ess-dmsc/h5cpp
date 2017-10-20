@@ -89,7 +89,7 @@ node ("boost && fedora") {
                 sh "git fetch"
                 sh "git checkout gh-pages"
                 sh "shopt -u dotglob && rm -rf ./*"
-                sh "mv -rf ../build/doc/build/* ./"
+                sh "mv -f ../build/doc/build/* ./"
                 sh "git add -A"
                 sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
 
