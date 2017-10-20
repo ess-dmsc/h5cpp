@@ -82,13 +82,13 @@ node ("boost && fedora") {
     dir("docs") {
         try {
             stage("Publish docs") {
+                checkout scm
+
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
 
-                sh "git clone git@github.com:ess-dmsc/h5cpp.git"
-                sh "cd h5cpp"
-
-                sh "git checkout gh-pages && git pull"
+                sh "git pull"
+                sh "git checkout gh-pages"
                 sh "shopt -u dotglob && rm -rf ./*"
                 sh "cp -rf ../build/doc/build/* ./"
                 sh "git add -A"
