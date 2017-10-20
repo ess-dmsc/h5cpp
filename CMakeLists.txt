@@ -80,4 +80,5 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
 	    DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
 	    COMPONENT development)
 
-add_custom_target(jenkins SOURCES ${PROJECT_SOURCE_DIR}/Jenkinsfile)
+add_custom_target(Jenkins SOURCES
+  ${PROJECT_SOURCE_DIR}/Jenkinsfile ${PROJECT_SOURCE_DIR}/push_to_repo.sh)
