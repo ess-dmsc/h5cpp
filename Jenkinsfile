@@ -76,7 +76,7 @@ node ("boost && fedora") {
         }
     }
 
-    dir("code") {
+    dir("docs") {
         try {
             stage("Publish docs") {
                 checkout scm
@@ -89,7 +89,7 @@ node ("boost && fedora") {
                 sh "git fetch"
                 sh "git checkout gh-pages"
                 sh "shopt -u dotglob && rm -rf ./*"
-                sh "cp -rf ../build/doc/build/* ./"
+                sh "mv -rf ../build/doc/build/* ./"
                 sh "git add -A"
                 sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
 
@@ -98,7 +98,7 @@ node ("boost && fedora") {
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD'
                 )]) {
-                    sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD} 30"
+                    sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD} 10"
                 }
 
             }
