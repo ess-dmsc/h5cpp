@@ -85,7 +85,7 @@ node ("boost && fedora") {
             stage("Publish docs") {
                 checkout scm
 
-              if (params.BRANCH_NAME != 'issue_54') {
+              if (params.BRANCH_NAME == 'issue_54') {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
                 sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
@@ -93,10 +93,11 @@ node ("boost && fedora") {
                 sh "git fetch"
                 sh "git checkout gh-pages"
                 sh "ls -al"
-                //sh "shopt -u dotglob && rm -rf ./*"
-                sh "cp -rf ../build/doc/build/* ./"
-                sh "git add -A"
-                sh "git commit -a -m 'This is a test.'"
+                sh "shopt -u dotglob && rm -rf ./*"
+                sh "ls -al"
+                //sh "cp -rf ../build/doc/build/* ./"
+                //sh "git add -A"
+                //sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
 
 /*
                 withCredentials([usernamePassword(
