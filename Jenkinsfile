@@ -86,6 +86,7 @@ node ("boost && fedora") {
 
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
+                sh "git config --get remote.origin.fetch"
 
                 sh "git remote update"
                 sh "git remote -v"
