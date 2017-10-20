@@ -98,6 +98,7 @@ class CompoundType : public BasicFixture
 TEST_F(CompoundType, test_default_construction)
 {
   datatype::Compound type;
+  EXPECT_FALSE(type.is_valid());
   //EXPECT_THROW(type.field_index("real"),std::runtime_error);
   //EXPECT_THROW(type.field_index(0),std::runtime_error);
 
@@ -108,6 +109,8 @@ TEST_F(CompoundType, test_complex_number)
   datatype::Compound type(sizeof(complex_struct));
   EXPECT_NO_THROW(type.insert("real",HOFFSET(complex_struct,real),datatype::create<double>()));
   EXPECT_NO_THROW(type.insert("imag",HOFFSET(complex_struct,imag),datatype::create<double>()));
+  EXPECT_TRUE(type.has_class(datatype::Class::FLOAT));
+  EXPECT_FALSE(type.has_class(datatype::Class::INTEGER));
 
 }
 
@@ -128,6 +131,7 @@ TEST_F(CompoundType, test_pixel_type)
   RGBPixel write_pixel(1,2,3);
   RGBPixel read_pixel(0,0,0);
 
+  auto type = datatype::create<RGBPixel>();
   attribute::Attribute a = root_.attributes.create<RGBPixel>("pixel");
   a.write(write_pixel);
   a.read(read_pixel);
@@ -135,6 +139,8 @@ TEST_F(CompoundType, test_pixel_type)
   EXPECT_EQ(write_pixel.red(),read_pixel.red());
   EXPECT_EQ(write_pixel.green(),read_pixel.green());
   EXPECT_EQ(write_pixel.blue(),read_pixel.blue());
+  EXPECT_TRUE(type.has_class(datatype::Class::INTEGER));
+  EXPECT_FALSE(type.has_class(datatype::Class::FLOAT));
 }
 
 
