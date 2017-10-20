@@ -12,7 +12,7 @@ node ("boost && fedora") {
 
     dir("code") {
         try {
-            stage("Checkout projects") {
+            stage("Checkout project") {
                 checkout scm
             }
         } catch (e) {
@@ -43,7 +43,7 @@ node ("boost && fedora") {
         }
 
         try {
-            stage("Run test") {
+            stage("Run tests") {
                 sh "make run_tests"
                 junit 'test/unit_tests_run.xml'
                 sh "make generate_coverage"
@@ -67,7 +67,7 @@ node ("boost && fedora") {
         }
 
         try {
-            stage("Build documentation") {
+            stage("Build docs") {
                 sh "make html"
                 // Archive the build output artifacts.
                 archiveArtifacts artifacts: 'doc/build/'
@@ -77,5 +77,17 @@ node ("boost && fedora") {
         }
     }
 
-
+    dir("code") {
+        try {
+            stage("Publish docs") {
+                sh "git checkout gh-pages"
+                sh "yes | cp -rf ../build/docs/build/ ./"
+                sh "git add -A"
+                sh "git commit -m "Updating documentation"
+                sh "git push"
+            }
+        } catch (e) {
+            failure_function(e, 'Docs update failed')
+        }
+    }
 }
