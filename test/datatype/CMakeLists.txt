@@ -8,4 +8,5 @@ set(Common_SRC
   ${dir}/float_test.cpp
   ${dir}/string_test.cpp
   ${dir}/type_trait_test.cpp
+  ${dir}/datatype_test.cpp
   PARENT_SCOPE)

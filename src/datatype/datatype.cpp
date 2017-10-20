@@ -120,6 +120,11 @@ void Datatype::set_size(size_t size) const
   }
 }
 
+bool Datatype::is_valid() const
+{
+  return handle_.is_valid();
+}
+
 
 
 } // namespace datatype
