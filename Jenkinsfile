@@ -66,8 +66,9 @@ node ("boost && fedora") {
         try {
             stage("Build docs") {
                 sh "make html"
-                // Archive the build output artifacts.
-                // archiveArtifacts artifacts: 'doc/build/'
+                if (env.BRANCH_NAME != 'master') {
+                  archiveArtifacts artifacts: 'doc/build/'
+                }
           }
         } catch (e) {
             failure_function(e, 'Docs generation failed')
@@ -79,7 +80,7 @@ node ("boost && fedora") {
             stage("Publish docs") {
                 checkout scm
 
-              if (env.BRANCH_NAME == 'issue_55') {
+              if (env.BRANCH_NAME == 'master') {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
                 sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
