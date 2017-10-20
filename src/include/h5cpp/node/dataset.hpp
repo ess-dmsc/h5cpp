@@ -101,6 +101,10 @@ class DLL_EXPORT Dataset : public Node
 
     void extent(size_t dim,ssize_t delta_elements) const;
 
+#if H5_VERSION_GE(1,10,0)
+    void refresh() const;
+#endif
+
 
     //!
     //! \brief write data to the dataset

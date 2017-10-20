@@ -46,8 +46,22 @@ Iterator &Iterator::operator++()
 
 Iterator &Iterator::operator--()
 {
-  index_ --;
+  index_--;
   return *this;
+}
+
+Iterator Iterator::operator++(int)
+{
+  Iterator tmp(*this);
+  operator++();
+  return tmp;
+}
+
+Iterator Iterator::operator--(int)
+{
+  Iterator tmp(*this);
+  operator--();
+  return tmp;
 }
 
 Iterator &Iterator::operator+=(ssize_t i)
@@ -61,6 +75,11 @@ Iterator &Iterator::operator-=(ssize_t i)
 {
   index_ -= i;
   return *this;
+}
+
+bool Iterator::operator==(const Iterator &b) const
+{
+  return index_ == b.index_;
 }
 
 bool Iterator::operator<(const Iterator &b) const
@@ -83,7 +102,7 @@ bool Iterator::operator>=(const Iterator &b) const
   return index_ >= b.index_;
 }
 
-Iterator &operator+(const Iterator&a,ssize_t b)
+Iterator operator+(const Iterator&a,ssize_t b)
 {
   Iterator iter = a;
   iter += b;
