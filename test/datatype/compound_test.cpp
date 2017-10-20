@@ -40,6 +40,7 @@
 #include "../fixture.hpp"
 
 using namespace hdf5;
+using namespace hdf5::datatype;
 
 struct complex_struct
 {

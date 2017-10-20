@@ -64,7 +64,7 @@ class DLL_EXPORT Datatype
     //!
     //! Use default compiler implementation here.
     //!
-    Datatype &operator=(const Datatype &type) = default;
+    Datatype &operator=(const Datatype &type);
 
     //!
     //! \brief move assignment
@@ -78,7 +78,7 @@ class DLL_EXPORT Datatype
     //!
     //! Use default compiler implementation.
     //!
-    Datatype(const Datatype &type) = default;
+    Datatype(const Datatype &type);
 
     //!
     //! \brief move constructor
@@ -91,7 +91,9 @@ class DLL_EXPORT Datatype
     //! \brief default constructor
     //!
     //! Use default compiler implementation here. This will leave
-    //! datatype as an invalid HDF5 object.
+    //! datatype as an invalid HDF5 object. For a default constructed
+    //! datatype the class is NONE.
+    //!
     //! \sa is_valid()
     //!
     Datatype() = default;

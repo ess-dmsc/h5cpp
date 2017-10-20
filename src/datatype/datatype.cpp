@@ -37,33 +37,30 @@ Datatype::Datatype(ObjectHandle &&handle):
 Datatype::~Datatype()
 {}
 
+Datatype::Datatype(const Datatype &type)
+{
+  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy Datatype");
+  }
+  handle_ = ObjectHandle(ret);
+}
+
+Datatype& Datatype::operator=(const Datatype &type)
+{
+  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy Datatype");
+  }
+  handle_ = ObjectHandle(ret);
+  return *this;
+}
+
 Class Datatype::get_class() const
 {
-  switch(H5Tget_class(static_cast<hid_t>(*this)))
-  {
-    case H5T_INTEGER:
-      return Class::INTEGER;
-    case H5T_FLOAT:
-      return Class::FLOAT;
-    case H5T_STRING:
-      return Class::STRING;
-    case H5T_BITFIELD:
-      return Class::BITFIELD;
-    case H5T_OPAQUE:
-      return Class::OPAQUE;
-    case H5T_COMPOUND:
-      return Class::COMPOUND;
-    case H5T_REFERENCE:
-      return Class::REFERENCE;
-    case H5T_ENUM:
-      return Class::ENUM;
-    case H5T_VLEN:
-      return Class::VARLENGTH;
-    case H5T_ARRAY:
-      return Class::ARRAY;
-    default:
-      throw std::runtime_error("unkown data type class");
-  }
+  return static_cast<Class>(H5Tget_class(static_cast<hid_t>(*this)));
 }
 
 Datatype Datatype::super() const

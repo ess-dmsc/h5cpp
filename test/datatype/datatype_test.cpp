@@ -35,12 +35,13 @@ TEST(Datatype,DefaultConstruction)
 {
   datatype::Datatype type;
   EXPECT_FALSE(type.is_valid());
-  EXPECT_THROW(type.get_class(),std::runtime_error);
-  EXPECT_THROW(type.super(),std::runtime_error);
-  EXPECT_THROW(type.native_type(),std::runtime_error);
-  EXPECT_THROW(type.has_class(datatype::Class::INTEGER),std::runtime_error);
-  EXPECT_THROW(type.size(),std::runtime_error);
-  EXPECT_THROW(type.set_size(1),std::runtime_error);
+  EXPECT_EQ(type.get_class(),Class::NONE);
+
+  //EXPECT_THROW(type.super(),std::runtime_error);
+  //EXPECT_THROW(type.native_type(),std::runtime_error);
+  //EXPECT_THROW(type.has_class(datatype::Class::INTEGER),std::runtime_error);
+  //EXPECT_THROW(type.size(),std::runtime_error);
+  //EXPECT_THROW(type.set_size(1),std::runtime_error);
 }
 
 TEST(Datatype, ConstructCopy)
