@@ -87,7 +87,7 @@ node ("boost && fedora") {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
 
-                sh "git pull"
+                sh "git fetch"
                 sh "git checkout gh-pages"
                 sh "shopt -u dotglob && rm -rf ./*"
                 sh "cp -rf ../build/doc/build/* ./"
