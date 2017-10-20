@@ -88,17 +88,18 @@ node ("boost && fedora") {
                 sh "git config user.name 'cow-bot'"
 
                 sh "git checkout -b gh-pages"
-                sh "yes | cp -rf ../build/doc/build ./"
-                sh "git add ."
+                sh "shopt -u dotglob && rm -rf ./*"
+                sh "cp -rf ../build/doc/build/* ./"
+                sh "git add -A"
                 sh "git commit -a -m 'This is a test.'"
 
-                //withCredentials([usernamePassword(
-                 //   credentialsId: 'cow-bot-username',
-                  //  usernameVariable: 'USERNAME',
-                   // passwordVariable: 'PASSWORD'
-                //)]) {
-                //    sh "./expectscript ${USERNAME} ${PASSWORD}"
-                //}
+                withCredentials([usernamePassword(
+                    credentialsId: 'cow-bot-username',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD'
+                )]) {
+                    sh "./expectscript ${USERNAME} ${PASSWORD}"
+                }
 
             }
         } catch (e) {
