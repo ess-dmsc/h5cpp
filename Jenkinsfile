@@ -16,6 +16,7 @@ node ("boost && fedora") {
                 checkout scm
                 sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
                 sh "git fetch"
+                sh "git symbolic-ref --short HEAD"
             }
         } catch (e) {
             failure_function(e, 'Checkout failed')
@@ -88,17 +89,17 @@ node ("boost && fedora") {
 
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
                 sh "git config user.name 'cow-bot'"
-                sh 'git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"'
+                sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
 
-                //sh "git remote update"
-                //sh "git fetch"
+                sh "git fetch"
                 sh "git checkout gh-pages"
                 sh "ls -al"
-                /*sh "shopt -u dotglob && rm -rf ./*"
+                //sh "shopt -u dotglob && rm -rf ./*"
                 sh "cp -rf ../build/doc/build/* ./"
                 sh "git add -A"
                 sh "git commit -a -m 'This is a test.'"
 
+/*
                 withCredentials([usernamePassword(
                     credentialsId: 'cow-bot-username',
                     usernameVariable: 'USERNAME',
