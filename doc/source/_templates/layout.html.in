@@ -1,0 +1,6 @@
+{% extends '!layout.html' %}
+
+{% block footer %}
+<li>generated on @BUILDINFO_DATE@ @BUILDINFO_TIME@ from @BUILDINFO_GIT_BRANCH@ (@BUILDINFO_GIT_HASH@)</li>
+{{ super() }}
+{% endblock %}
