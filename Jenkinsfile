@@ -90,7 +90,7 @@ node ("boost && fedora") {
                 sh "shopt -u dotglob && rm -rf ./*"
                 sh "mv -f ../build/doc/build/* ./"
                 sh "git add -A"
-                sh "git commit -a -m 'Auto-publishing docs from Jenkins'"
+                sh "git commit -a -m 'Auto-publishing docs from Jenkins build #${BUILD_NUMBER}'"
 
                 withCredentials([usernamePassword(
                     credentialsId: 'cow-bot-username',
