@@ -173,28 +173,6 @@ void Path::sanitize()
     else
       ++i;
   }
-  fold();
-}
-
-void Path::fold()
-{
-  std::list<std::string> temp;
-  for (auto t : link_names_)
-  {
-    if (t == PARENT_DIR_STR)
-    {
-      if (temp.empty())
-        absolute_ = false;
-      if (!temp.empty() &&
-          (temp.back() != PARENT_DIR_STR))
-        temp.pop_back();
-      else
-        temp.push_back(t);
-    }
-    else
-      temp.push_back(t);
-  }
-  link_names_ = temp;
 }
 
 bool Path::is_absolute() const noexcept
@@ -215,6 +193,28 @@ bool Path::is_root() const
     return false;
 }
 
+Path Path::common_with(const Path &other) const
+{
+  if (other.is_absolute() && !is_absolute())
+    return Path();
+  if (!other.is_absolute() && is_absolute())
+    return Path();
+  Path ret;
+  ret.set_absolute(absolute_);
+  auto mylist = link_names_.begin();
+  auto otherlist = other.link_names_.begin();
+  while ((mylist != link_names_.end()) &&
+         (otherlist != other.link_names_.end()) &&
+         (*otherlist == *mylist))
+  {
+    ret.push_back(*otherlist);
+    ++mylist;
+    ++otherlist;
+  }
+  return ret;
+}
+
+
 Path Path::relative_to(const Path &base) const
 {
   if (base.is_absolute() && !is_absolute())
@@ -230,12 +230,9 @@ Path Path::relative_to(const Path &base) const
     ++mylist;
     ++baselist;
   }
+  if (baselist != base.link_names_.end())
+    return *this;
   Path ret;
-  while (baselist != base.link_names_.end())
-  {
-    ret.link_names_.push_back(PARENT_DIR_STR);
-    ++baselist;
-  }
   while (mylist != link_names_.end())
   {
     ret.link_names_.push_back(*mylist);

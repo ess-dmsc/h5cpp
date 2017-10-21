@@ -26,8 +26,6 @@
 //
 #pragma once
 
-#define PARENT_DIR_STR ".."
-
 #include <list>
 #include <string>
 #include "windows.hpp"
@@ -143,9 +141,10 @@ class DLL_EXPORT Path
     Path parent() const;
 
     void sanitize();
-    void fold();
 
     void append(const Path& p);
+
+    Path common_with(const Path& other) const;
 
     Path relative_to(const Path& base) const;
 

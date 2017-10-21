@@ -102,32 +102,17 @@ TEST(Path, test_sanitization)
 
   p = Path("hello/./world");
   EXPECT_EQ(static_cast<string>(p),"hello/world");
-
-  p = Path(".././../world");
-  EXPECT_EQ(static_cast<string>(p),"../../world");
-
-  p = Path("hello/..");
-  EXPECT_EQ(static_cast<string>(p),".");
-
-  p = Path("hello/../world");
-  EXPECT_EQ(static_cast<string>(p),"world");
-
-  p = Path("hello/world/!/../..");
-  EXPECT_EQ(static_cast<string>(p),"hello");
-
-  p = Path("hello/world/../../../..");
-  EXPECT_EQ(static_cast<string>(p),"../..");
-
-  p = Path("/hello/world/../../../..");
-  EXPECT_EQ(static_cast<string>(p),"../..");
 }
 
 TEST(Path, relative_to)
 {
   Path p1("a/b/c/d/e");
-  Path p2("a/b/c/x/y");
-  auto p = p1.relative_to(p2);
-  EXPECT_EQ(static_cast<string>(p),"../../d/e");
+
+  Path common = p1.common_with(Path("a/b/c/x/y"));
+  EXPECT_EQ(static_cast<string>(common),"a/b/c");
+
+  auto p = p1.relative_to(Path("a/b/c"));
+  EXPECT_EQ(static_cast<string>(p),"d/e");
 }
 
 TEST(Path, test_conversion_from_list)
@@ -146,18 +131,6 @@ TEST(Path, test_append)
   p = Path("/entry/instrument");
   p.append(Path("detector/data"));
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
-
-  p = Path("/entry/instrument");
-  p.append(Path("../data"));
-  EXPECT_EQ(static_cast<string>(p),"/entry/data");
-
-  p = Path("entry/instrument");
-  p.append(Path("../../.."));
-  EXPECT_EQ(static_cast<string>(p),"..");
-
-  p = Path("/entry/instrument");
-  p.append(Path("../../.."));
-  EXPECT_EQ(static_cast<string>(p),"..");
 }
 
 TEST(Path,test_append_link_name)
