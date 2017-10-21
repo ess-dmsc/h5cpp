@@ -4,7 +4,6 @@ project(h5cpp
     VERSION 0.0.1
     )
 
-
 set(EXTRA_MODULES_DIR ${PROJECT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 
@@ -39,6 +38,7 @@ include(${EXTRA_MODULES_DIR}/OutputDirConfig.cmake)
 include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)
 include(${EXTRA_MODULES_DIR}/PackageConfig.cmake)
+include(${EXTRA_MODULES_DIR}/BuildInfo.cmake)
 include(Sphinx)
 include(utilities)
 include(DoxygenUtilities)
@@ -79,6 +79,6 @@ configure_file(${PACKAGE_CONFIG_FILE_NAME} ${PACKAGE_CONFIG_FILE_NAME} COPYONLY)
 install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
 	    DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
 	    COMPONENT development)
-	   
 
-
+add_custom_target(Jenkins SOURCES
+  ${PROJECT_SOURCE_DIR}/Jenkinsfile ${PROJECT_SOURCE_DIR}/push_to_repo.sh)
