@@ -6,8 +6,7 @@ set wait_time [lindex $argv 2]
 
 spawn git push
 expect "Username for 'https://github.com':"
-send "$username\n"
-expect "Password for 'https://cow-bot@github.com':"
-send "$password\n"
-sleep $wait_time
-interact
+send "$username\r"
+expect "Password for 'https://$username@github.com':"
+send "$password\r"
+expect eof
