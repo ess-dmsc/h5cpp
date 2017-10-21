@@ -97,7 +97,7 @@ node ("boost && fedora") {
                     usernameVariable: 'USERNAME',
                     passwordVariable: 'PASSWORD'
                 )]) {
-                    sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD} 10"
+                    sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
                 }
 
             }
