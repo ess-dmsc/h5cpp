@@ -102,17 +102,60 @@ TEST(Path, test_sanitization)
 
   p = Path("hello/./world");
   EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello///world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+}
+
+TEST(Path, common_base)
+{
+  Path common;
+
+  common = common_base(Path("a/b/c"), Path("a/b/z"));
+  EXPECT_EQ(static_cast<string>(common),"a/b");
+
+  common = common_base(Path("a/b/c"), Path("a/b/c"));
+  EXPECT_EQ(static_cast<string>(common),"a/b/c");
+
+  common = common_base(Path("a/b/c"), Path("."));
+  EXPECT_EQ(static_cast<string>(common),".");
+
+
+  common = common_base(Path("/a/b/c"), Path("/a/b/z"));
+  EXPECT_EQ(static_cast<string>(common),"/a/b");
+
+  common = common_base(Path("/a/b/c"), Path("/a/b/c"));
+  EXPECT_EQ(static_cast<string>(common),"/a/b/c");
+
+  common = common_base(Path("/a/b/c"), Path("/x/y"));
+  EXPECT_EQ(static_cast<string>(common),"/");
+
+  EXPECT_THROW(common_base(Path("/a/b/c"), Path("d/e")), std::runtime_error);
 }
 
 TEST(Path, relative_to)
 {
-  Path p1("a/b/c/d/e");
+  Path p;
 
-  Path common = p1.common_with(Path("a/b/c/x/y"));
-  EXPECT_EQ(static_cast<string>(common),"a/b/c");
+  p = Path("a/b/c").relative_to(Path("a/b"));
+  EXPECT_EQ(static_cast<string>(p),"c");
 
-  auto p = p1.relative_to(Path("a/b/c"));
-  EXPECT_EQ(static_cast<string>(p),"d/e");
+  p = Path("/a/b/c").relative_to(Path("/a/b"));
+  EXPECT_EQ(static_cast<string>(p),"c");
+
+  p = Path("/a/b").relative_to(Path("/"));
+  EXPECT_EQ(static_cast<string>(p),"a/b");
+
+  p = Path("/").relative_to(Path("/"));
+  EXPECT_EQ(static_cast<string>(p),".");
+
+  EXPECT_THROW(Path("c/d").relative_to(Path("/a/b")), std::runtime_error);
+
+  EXPECT_THROW(Path("a/b").relative_to(Path("a/b/c")), std::runtime_error);
+
+  EXPECT_THROW(Path("/a/b/c").relative_to(Path("a/b")), std::runtime_error);
+
+  EXPECT_THROW(Path("/a/b/c").relative_to(Path("/x/y/z")), std::runtime_error);
 }
 
 TEST(Path, test_conversion_from_list)

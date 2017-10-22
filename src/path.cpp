@@ -193,51 +193,41 @@ bool Path::is_root() const
     return false;
 }
 
-Path Path::common_with(const Path &other) const
+Path common_base(const Path &lhs, const Path &rhs)
 {
-  if (other.is_absolute() && !is_absolute())
-    return Path();
-  if (!other.is_absolute() && is_absolute())
-    return Path();
-  Path ret;
-  ret.set_absolute(absolute_);
-  auto mylist = link_names_.begin();
-  auto otherlist = other.link_names_.begin();
-  while ((mylist != link_names_.end()) &&
-         (otherlist != other.link_names_.end()) &&
-         (*otherlist == *mylist))
+  if (lhs.is_absolute() ^ rhs.is_absolute())
   {
-    ret.push_back(*otherlist);
-    ++mylist;
-    ++otherlist;
+    throw std::runtime_error("paths must both be absolute or relative to have common base!");
   }
+
+  Path ret;
+  auto l_it = lhs.begin();
+  auto r_it = rhs.begin();
+  while ((l_it != lhs.end()) &&
+         (r_it != rhs.end()) &&
+         (*l_it == *r_it))
+  {
+    ret.push_back(*l_it);
+    ++l_it;
+    ++r_it;
+  }
+
+  ret.set_absolute(lhs.is_absolute());
   return ret;
 }
 
 
 Path Path::relative_to(const Path &base) const
 {
-  if (base.is_absolute() && !is_absolute())
-    return *this;
-  if (!base.is_absolute() && is_absolute())
-    return *this;
-  auto mylist = link_names_.begin();
-  auto baselist = base.link_names_.begin();
-  while ((mylist != link_names_.end()) &&
-         (baselist != base.link_names_.end()) &&
-         (*baselist == *mylist))
+  if (common_base(*this, base) != base)
   {
-    ++mylist;
-    ++baselist;
+    throw std::runtime_error("invalid base for relative path!");
   }
-  if (baselist != base.link_names_.end())
-    return *this;
+  auto it = link_names_.begin();
+  std::advance(it, base.size());
   Path ret;
-  while (mylist != link_names_.end())
-  {
-    ret.link_names_.push_back(*mylist);
-    ++mylist;
-  }
+  for (; it != link_names_.end(); ++it)
+    ret.link_names_.push_back(*it);
   return ret;
 }
 

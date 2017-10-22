@@ -144,8 +144,6 @@ class DLL_EXPORT Path
 
     void append(const Path& p);
 
-    Path common_with(const Path& other) const;
-
     Path relative_to(const Path& base) const;
 
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
@@ -158,6 +156,8 @@ class DLL_EXPORT Path
     std::string to_string() const;
 
 };
+
+DLL_EXPORT Path common_base(const Path& lhs, const Path& rhs);
 
 DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 
