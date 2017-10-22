@@ -119,8 +119,6 @@ class DLL_EXPORT Path
     //!
     Path parent() const;
 
-    void sanitize();
-
     void append(const Path& p);
 
     Path relative_to(const Path& base) const;
@@ -136,6 +134,8 @@ class DLL_EXPORT Path
 
     void from_string(const std::string &str);
     std::string to_string() const;
+
+    void sanitize();
 };
 
 
