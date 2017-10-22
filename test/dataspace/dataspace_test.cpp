@@ -47,7 +47,11 @@ TEST(Dataspace, from_hid)
 
 TEST(Dataspace, copy_construction)
 {
-  Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
+  Dataspace s;
+  const Dataspace& ss = s;
+  EXPECT_THROW(Dataspace(ss).is_valid(), std::runtime_error);
+
+  s = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
   Dataspace s2(s);
   EXPECT_EQ(s.type(), s2.type());
   EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
@@ -55,10 +59,17 @@ TEST(Dataspace, copy_construction)
 
 TEST(Dataspace, copy_assignment)
 {
-  Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
-  Dataspace s2 = s;
+  Dataspace s, s2;
+  EXPECT_THROW((s2 = s), std::runtime_error);
+
+  s = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
+  s2 = s;
   EXPECT_EQ(s.type(), s2.type());
   EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
+
+  Dataspace s3 = s2 = s;
+  EXPECT_EQ(s.type(), s3.type());
+  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s3));
 }
 
 

@@ -50,7 +50,7 @@ Dataspace::Dataspace(const Dataspace &space)
   hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy Dataspace");
+    throw std::runtime_error("could not copy-construct Dataspace");
   }
   handle_ = ObjectHandle(ret);
 }
