@@ -199,7 +199,6 @@ void Path::append(const Path& p)
   std::copy(p.link_names_.begin(),
             p.link_names_.end(),
             std::back_inserter(link_names_));
-  sanitize();
 }
 
 Path& Path::operator+=(const Path &other)
