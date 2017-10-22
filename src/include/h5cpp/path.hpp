@@ -90,29 +90,8 @@ class DLL_EXPORT Path
     //!
     const_iterator end() const;
 
-    //!
-    //! \brief iterator to the first element
-    //!
-    iterator begin();
-
-    //!
-    //! \brief iterator to the last+1 element
-    //!
-    iterator end();
-
-    reverse_iterator rbegin();
-    reverse_iterator rend();
     const_reverse_iterator rbegin() const;
     const_reverse_iterator rend() const;
-
-    void push_front(const value_type &link_name);
-    value_type pop_front();
-
-    void push_back(const value_type &link_name);
-    value_type pop_back();
-
-    value_type back() const;
-    value_type front() const;
 
     bool is_absolute() const noexcept;
     void set_absolute(bool value) noexcept;
@@ -146,7 +125,10 @@ class DLL_EXPORT Path
 
     Path relative_to(const Path& base) const;
 
+    Path& operator+=(const Path &other);
+
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+    DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
 
   private:
     bool absolute_;
@@ -154,10 +136,8 @@ class DLL_EXPORT Path
 
     void from_string(const std::string &str);
     std::string to_string() const;
-
 };
 
-DLL_EXPORT Path common_base(const Path& lhs, const Path& rhs);
 
 DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 

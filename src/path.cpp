@@ -35,6 +35,13 @@ namespace hdf5 {
 // ABI of the library
 namespace {
 
+bool is_valid_name(const std::string& name)
+{
+  return (!name.empty() &&
+          (name != "/") &&
+          (name != "."));
+}
+
 bool is_absolute_path_string(const std::string &str)
 {
   if(str[0] == '/')
@@ -109,26 +116,6 @@ Path::const_iterator Path::end() const
   return link_names_.end();
 }
 
-Path::iterator Path::begin()
-{
-  return link_names_.begin();
-}
-
-Path::iterator Path::end()
-{
-  return link_names_.end();
-}
-
-Path::reverse_iterator Path::rbegin()
-{
-  return link_names_.rbegin();
-}
-
-Path::reverse_iterator Path::rend()
-{
-  return link_names_.rend();
-}
-
 Path::const_reverse_iterator Path::rbegin() const
 {
   return link_names_.rbegin();
@@ -139,36 +126,12 @@ Path::const_reverse_iterator Path::rend() const
   return link_names_.rend();
 }
 
-void Path::push_front(const value_type &link_name)
-{
-  link_names_.push_front(link_name);
-}
-
-Path::value_type Path::pop_front()
-{
-  value_type result = link_names_.front();
-  link_names_.pop_front();
-  return result;
-}
-
-void Path::push_back(const Path::value_type &link_name)
-{
-  link_names_.push_back(link_name);
-}
-
-Path::value_type Path::pop_back()
-{
-  value_type result = link_names_.back();
-  link_names_.pop_back();
-  return result;
-}
-
 void Path::sanitize()
 {
   for (auto i = link_names_.begin();
        i != link_names_.end();)
   {
-    if (i->empty() || (*i == "."))
+    if (!is_valid_name(*i))
       i = link_names_.erase(i);
     else
       ++i;
@@ -201,13 +164,13 @@ Path common_base(const Path &lhs, const Path &rhs)
   }
 
   Path ret;
-  auto l_it = lhs.begin();
-  auto r_it = rhs.begin();
-  while ((l_it != lhs.end()) &&
-         (r_it != rhs.end()) &&
+  auto l_it = lhs.link_names_.begin();
+  auto r_it = rhs.link_names_.begin();
+  while ((l_it != lhs.link_names_.end()) &&
+         (r_it != rhs.link_names_.end()) &&
          (*l_it == *r_it))
   {
-    ret.push_back(*l_it);
+    ret.link_names_.push_back(*l_it);
     ++l_it;
     ++r_it;
   }
@@ -239,6 +202,12 @@ void Path::append(const Path& p)
   sanitize();
 }
 
+Path& Path::operator+=(const Path &other)
+{
+  append(other);
+  return *this;
+}
+
 Path operator+(const std::string &link_name,const Path &path)
 {
   return Path(link_name) + path;
@@ -259,22 +228,6 @@ Path operator+(const Path &lhs,const Path &rhs)
 std::ostream &operator<<(std::ostream &stream,const Path &path)
 {
   return stream<<static_cast<std::string>(path);
-}
-
-Path::value_type Path::front() const
-{
-  if(is_root())
-    return "/";
-
-  return link_names_.front();
-}
-
-Path::value_type Path::back() const
-{
-  if(is_root())
-    return "/";
-
-  return link_names_.back();
 }
 
 std::string Path::name() const

@@ -158,15 +158,6 @@ TEST(Path, relative_to)
   EXPECT_THROW(Path("/a/b/c").relative_to(Path("/x/y/z")), std::runtime_error);
 }
 
-TEST(Path, test_conversion_from_list)
-{
-  list<string> l{"entry","instrument","detector"};
-  Path p;
-  copy(l.begin(),l.end(),back_inserter(p));
-  EXPECT_EQ(p.size(),3);
-  EXPECT_EQ(static_cast<string>(p),"entry/instrument/detector");
-}
-
 TEST(Path, test_append)
 {
   Path p;
@@ -226,25 +217,25 @@ TEST(Path,test_root_path)
   EXPECT_EQ(static_cast<string>(p),"/");
 }
 
-TEST(Path,test_front)
-{
-  Path p("/hello/world");
-  EXPECT_EQ(p.front(),"hello");
+//TEST(Path,test_front)
+//{
+//  Path p("/hello/world");
+//  EXPECT_EQ(p.front(),"hello");
 
-  p = Path("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(p.front(),"/");
-}
+//  p = Path("/");
+//  EXPECT_TRUE(p.is_root());
+//  EXPECT_EQ(p.front(),"/");
+//}
 
-TEST(Path,test_back)
-{
-  Path p("hello/world");
-  EXPECT_EQ(p.back(),"world");
+//TEST(Path,test_back)
+//{
+//  Path p("hello/world");
+//  EXPECT_EQ(p.back(),"world");
 
-  p = Path("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(p.back(),"/");
-}
+//  p = Path("/");
+//  EXPECT_TRUE(p.is_root());
+//  EXPECT_EQ(p.back(),"/");
+//}
 
 TEST(Path,test_name)
 {

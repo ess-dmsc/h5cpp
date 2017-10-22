@@ -42,7 +42,7 @@ void copy(const Node &source, const Group& base, const Path &rel_path,
   }
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
-                  source.link().path().back().c_str(),        //object name
+                  source.link().path().name().c_str(),        //object name
                   static_cast<hid_t>(base),                   //destination parent
                   static_cast<std::string>(rel_path).c_str(), //destination name
                   static_cast<hid_t>(ocpl),                   //object copy property list
@@ -61,7 +61,7 @@ void copy(const Node &source, const Group& destination,
           const property::LinkCreationList &lcpl)
 {
   //what if rel_path is actually absolute?
-  auto name = source.link().path().back(); //this feels awkward
+  auto name = source.link().path().name(); //this feels awkward
   if (destination.links.exists(name))
   {
     std::stringstream ss;
@@ -88,7 +88,7 @@ void copy(const Node &source, const Group& destination,
 void remove(const Node &object,
             const property::LinkAccessList &lapl)
 {
-  remove(object.link().parent(), Path(object.link().path().back()), lapl);
+  remove(object.link().parent(), Path(object.link().path().name()), lapl);
 }
 
 void remove(const Group &base, const Path &rel_path,
@@ -119,7 +119,7 @@ void move(const Node &source,
 {
   move(source,
        destination_base,
-       Path(source.link().path().back()),
+       Path(source.link().path().name()),
        lcpl, lapl);
 }
 
@@ -139,7 +139,7 @@ void move(const Node &source,
   }
 
   if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
-                  source.link().path().back().c_str(),
+                  source.link().path().name().c_str(),
                   static_cast<hid_t>(destination_base),
                   name.c_str(),
                   static_cast<hid_t>(lcpl),
