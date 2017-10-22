@@ -40,6 +40,13 @@ class DLL_EXPORT Dataspace
 {
   public:
     //!
+    //! \brief destructor
+    //!
+    //! Has to be virtual due to inheritance
+    //!
+    virtual ~Dataspace();
+
+    //!
     //! \brief constructor
     //!
     //! Constructs a dataspace object from an rvalue reference to an
@@ -70,12 +77,8 @@ class DLL_EXPORT Dataspace
     //!
     Dataspace();
 
-    //!
-    //! \brief destructor
-    //!
-    //! Has to be virtual due to inheritance
-    //!
-    virtual ~Dataspace();
+    Dataspace &operator=(Dataspace &&type) = default;
+    Dataspace(Dataspace &&type) = default;
 
     //!
     //! \brief number of elements in the dataspace

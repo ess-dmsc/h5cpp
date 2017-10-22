@@ -29,40 +29,47 @@
 namespace hdf5 {
 namespace dataspace {
 
-Dataspace::Dataspace():
-    selection(*this),
-    handle_()
+Dataspace::Dataspace()
+  : selection(*this)
+  , handle_()
 {}
 
-Dataspace::Dataspace(const Dataspace &space):
-    selection(*this),
-    handle_(space.handle_)
+Dataspace::Dataspace(ObjectHandle &&handle)
+  : selection(*this)
+  , handle_(std::move(handle))
 {}
 
-Dataspace::Dataspace(ObjectHandle &&handle):
-    selection(*this),
-    handle_(std::move(handle))
-{}
+Dataspace::Dataspace(const Dataspace &space)
+  : selection(*this)
+{
+  hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy Dataspace");
+  }
+  handle_ = ObjectHandle(ret);
+}
+
+Dataspace &Dataspace::operator=(const Dataspace &space)
+{
+  hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy Dataspace");
+  }
+  handle_ = ObjectHandle(ret);
+  return *this;
+}
 
 Dataspace::~Dataspace()
 {
   handle_.close();
 }
 
-Dataspace::Dataspace(Type type):
-    selection(*this),
-    handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type))))
+Dataspace::Dataspace(Type type)
+  : selection(*this)
+  , handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type))))
 {}
-
-Dataspace &Dataspace::operator=(const Dataspace &space)
-{
-  if(this == &space)
-    return *this;
-
-  handle_ = space.handle_;
-
-  return *this;
-}
 
 hssize_t Dataspace::size() const
 {
