@@ -31,33 +31,34 @@ using namespace hdf5::dataspace;
 
 TEST(Dataspace, default_construction)
 {
-  Dataspace space;
-  EXPECT_THROW(space.size(), std::runtime_error);
-  EXPECT_THROW(space.type(), std::runtime_error);
-  EXPECT_FALSE(space.is_valid());
+  Dataspace s;
+  EXPECT_THROW(s.size(), std::runtime_error);
+  EXPECT_THROW(s.type(), std::runtime_error);
+  EXPECT_FALSE(s.is_valid());
+}
+
+TEST(Dataspace, from_hid)
+{
+  Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
+  EXPECT_EQ(s.size(), 1);
+  EXPECT_EQ(s.type(), Type::SCALAR);
+  EXPECT_TRUE(s.is_valid());
 }
 
 TEST(Dataspace, copy_construction)
 {
-//  Dataspace space1;
-//  Dataspace space2(space1);
+  Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
+  Dataspace s2(s);
+  EXPECT_EQ(s.type(), s2.type());
+  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
 }
 
-TEST(Dataspace, copy_construction_from_dataspace)
+TEST(Dataspace, copy_assignment)
 {
-//  Dataspace space;
-//  Dataspace &dspace = space;
-//  Dataspace space2(dspace);
-}
-
-TEST(Dataspace, copy_assignment_from_dataspace)
-{
-//  Dataspace space;
-//  Dataspace &dspace = space;
-//  Dataspace space2;
-
-//  space2 = dspace;
-//  EXPECT_EQ(space2.type(),Type::SCALAR);
+  Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
+  Dataspace s2 = s;
+  EXPECT_EQ(s.type(), s2.type());
+  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
 }
 
 

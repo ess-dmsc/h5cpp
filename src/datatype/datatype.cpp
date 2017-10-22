@@ -30,14 +30,14 @@
 namespace hdf5 {
 namespace datatype {
 
-Datatype::Datatype(ObjectHandle &&handle):
-    handle_(std::move(handle))
-{}
-
 Datatype::~Datatype()
 {
   handle_.close();
 }
+
+Datatype::Datatype(ObjectHandle &&handle):
+    handle_(std::move(handle))
+{}
 
 Datatype::Datatype(const Datatype &type)
 {

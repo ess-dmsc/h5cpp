@@ -47,6 +47,17 @@ class DLL_EXPORT Dataspace
     virtual ~Dataspace();
 
     //!
+    //! \brief default constructor
+    //!
+    //! The default constructor will leave the dataspace as an
+    //! invalid HDF5 object. Default construction is however necessary
+    //! for using a Dataspace with certain C++ STL containers.
+    //!
+    //! \sa is_valid()
+    //!
+    Dataspace();
+
+    //!
     //! \brief constructor
     //!
     //! Constructs a dataspace object from an rvalue reference to an
@@ -65,17 +76,6 @@ class DLL_EXPORT Dataspace
     //! \brief copy assignment
     //!
     Dataspace &operator=(const Dataspace &space);
-
-    //!
-    //! \brief default constructor
-    //!
-    //! The default constructor will leave the dataspace as an
-    //! invalid HDF5 object. Default construction is however necessary
-    //! for using a Dataspace with certain C++ STL containers.
-    //!
-    //! \sa is_valid()
-    //!
-    Dataspace();
 
     Dataspace &operator=(Dataspace &&type) = default;
     Dataspace(Dataspace &&type) = default;

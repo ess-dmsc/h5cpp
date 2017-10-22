@@ -79,7 +79,6 @@ class DLL_EXPORT Datatype
     //!
     Datatype &operator=(const Datatype &type);
 
-
     Datatype &operator=(Datatype &&type) = default;
     Datatype(Datatype &&type) = default;
 

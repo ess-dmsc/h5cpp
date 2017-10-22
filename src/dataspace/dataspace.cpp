@@ -29,6 +29,11 @@
 namespace hdf5 {
 namespace dataspace {
 
+Dataspace::~Dataspace()
+{
+  handle_.close();
+}
+
 Dataspace::Dataspace()
   : selection(*this)
   , handle_()
@@ -59,11 +64,6 @@ Dataspace &Dataspace::operator=(const Dataspace &space)
   }
   handle_ = ObjectHandle(ret);
   return *this;
-}
-
-Dataspace::~Dataspace()
-{
-  handle_.close();
 }
 
 Dataspace::Dataspace(Type type)
