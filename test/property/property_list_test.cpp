@@ -19,32 +19,20 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 22, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 23, 2017
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/dataset_access_list.hpp>
 #include <h5cpp/property/class.hpp>
+#include <h5cpp/property/list.hpp>
 
-namespace pl = hdf5::property;
+using namespace hdf5;
+using namespace hdf5::property;
 
-TEST(DatasetAccessList, test_default_construction)
+TEST(List, default_construction_impossible)
 {
-  pl::DatasetAccessList dapl;
-  EXPECT_TRUE(dapl.get_class()==pl::kDatasetAccess);
+  Class c;
+  EXPECT_THROW(List(c).get_class(), std::runtime_error);
 }
-
-TEST(DatasetAccessList, test_chunk_cache_parameters)
-{
-  pl::DatasetAccessList dapl;
-  pl::ChunkCacheParameters params(200,300*1024*1024,0.5);
-  EXPECT_NO_THROW(dapl.chunk_cache_parameters(params));
-  pl::ChunkCacheParameters p2 = dapl.chunk_cache_parameters();
-  EXPECT_EQ(p2.chunk_slots(),200);
-  EXPECT_EQ(p2.chunk_cache_size(),300*1024*1024);
-  EXPECT_NEAR(p2.preemption_policy(),0.5,0.0001);
-}
-
-
 
