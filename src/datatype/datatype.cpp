@@ -35,7 +35,9 @@ Datatype::Datatype(ObjectHandle &&handle):
 {}
 
 Datatype::~Datatype()
-{}
+{
+  handle_.close();
+}
 
 Datatype::Datatype(const Datatype &type)
 {

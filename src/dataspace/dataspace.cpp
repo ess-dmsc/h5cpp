@@ -45,7 +45,9 @@ Dataspace::Dataspace(ObjectHandle &&handle):
 {}
 
 Dataspace::~Dataspace()
-{}
+{
+  handle_.close();
+}
 
 Dataspace::Dataspace(Type type):
     selection(*this),
@@ -60,11 +62,6 @@ Dataspace &Dataspace::operator=(const Dataspace &space)
   handle_ = space.handle_;
 
   return *this;
-}
-
-void Dataspace::close()
-{
-  handle_.close();
 }
 
 hssize_t Dataspace::size() const

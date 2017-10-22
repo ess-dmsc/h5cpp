@@ -78,12 +78,6 @@ class DLL_EXPORT Dataspace
     virtual ~Dataspace();
 
     //!
-    //! \brief close dataspace
-    //!
-    //! Close the dataspace instance.
-    void close();
-
-    //!
     //! \brief number of elements in the dataspace
     //!
     //! \throws std::runtime_error in case of a failure
