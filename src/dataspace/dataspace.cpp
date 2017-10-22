@@ -76,14 +76,13 @@ hssize_t Dataspace::size() const
 
 Type Dataspace::type() const
 {
-  H5S_class_t buffer = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
-  if(buffer == H5S_NO_CLASS)
+  H5S_class_t ret = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
+  if(ret == H5S_NO_CLASS)
   {
     throw std::runtime_error("Failure to retrieve the dataspace type!");
   }
 
-  return static_cast<Type>(buffer);
-
+  return static_cast<Type>(ret);
 }
 
 bool Dataspace::is_valid() const

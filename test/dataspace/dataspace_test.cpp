@@ -34,7 +34,6 @@ TEST(Dataspace, default_construction)
   Dataspace space;
   EXPECT_THROW(space.size(), std::runtime_error);
   EXPECT_THROW(space.type(), std::runtime_error);
-//  EXPECT_EQ(space.type(), Type::NODATA);
   EXPECT_FALSE(space.is_valid());
 }
 
