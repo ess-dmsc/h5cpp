@@ -34,7 +34,7 @@ TEST(Path, test_default_construction)
 {
   Path p;
   EXPECT_EQ(p.size(),0);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 }
 
 TEST(Path, test_construction_from_string)
@@ -43,31 +43,31 @@ TEST(Path, test_construction_from_string)
 
   p = Path("/hello/world/data");
   EXPECT_EQ(p.size(),3);
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
 
   p = Path("hello/world");
   EXPECT_EQ(p.size(),2);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 
   p = Path("hello/world/instrument/data/");
   EXPECT_EQ(p.size(),4);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 
   p = Path(".");
   EXPECT_EQ(p.size(),0);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 
   p = Path("./");
   EXPECT_EQ(p.size(),0);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 
   p = Path("/.");
   EXPECT_EQ(p.size(),0);
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
 
   p = Path(".///");
   EXPECT_EQ(p.size(),0);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 }
 
 TEST(Path, test_conversion_to_string)
@@ -173,13 +173,13 @@ TEST(Path,test_append_link_name)
   p = p+"data";
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
   EXPECT_EQ(p.size(),4);
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
 
   p = Path("instrument/detector");
   p = p + "metadata/date";
   EXPECT_EQ(static_cast<string>(p),"instrument/detector/metadata/date");
   EXPECT_EQ(p.size(),4);
-  EXPECT_FALSE(p.is_absolute());
+  EXPECT_FALSE(p.absolute());
 }
 
 TEST(Path,test_prepend_link_name)
@@ -187,17 +187,17 @@ TEST(Path,test_prepend_link_name)
   Path p("instrument/detector");
   p = "/entry" + p;
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector");
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
 
   p = Path("detector/data");
   p = "/entry/instrument/" + p;
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
 
   p = Path("entry/instrument");
   p = "/" + p;
   EXPECT_EQ(p.size(),2);
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
 }
 
 TEST(Path,test_adding_two_paths)
@@ -205,7 +205,7 @@ TEST(Path,test_adding_two_paths)
   Path p1("/entry/instrument"), p2("detector/data");
   Path p = p1+p2;
   EXPECT_EQ(p.size(),4);
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
 }
 
@@ -213,7 +213,7 @@ TEST(Path,test_root_path)
 {
   Path p("/");
   EXPECT_TRUE(p.is_root());
-  EXPECT_TRUE(p.is_absolute());
+  EXPECT_TRUE(p.absolute());
   EXPECT_EQ(static_cast<string>(p),"/");
 }
 

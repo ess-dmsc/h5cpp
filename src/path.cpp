@@ -42,7 +42,7 @@ bool is_valid_name(const std::string& name)
           (name != "."));
 }
 
-bool is_absolute_path_string(const std::string &str)
+bool absolute_path_string(const std::string &str)
 {
   if(str[0] == '/')
     return true;
@@ -57,7 +57,7 @@ std::list<std::string> str_to_list(const std::string &str)
   auto string_end = str.end();
 
   //ignore a leading / in the input string
-  if(is_absolute_path_string(str)) string_start++;
+  if(absolute_path_string(str)) string_start++;
 
   if(string_start == string_end)
     return result;
@@ -76,16 +76,16 @@ std::list<std::string> str_to_list(const std::string &str)
 //=============================================================================
 void Path::from_string(const std::string &str)
 {
-  absolute_ = is_absolute_path_string(str);
+  absolute_ = absolute_path_string(str);
   link_names_ = str_to_list(str);
   sanitize();
 }
 
 std::string Path::to_string() const
 {
-  if (!is_absolute() && link_names_.empty())
+  if (!absolute() && link_names_.empty())
     return ".";
-  return (is_absolute() ? "/" : "")
+  return (absolute() ? "/" : "")
       + boost::algorithm::join(link_names_, "/");
 }
 
@@ -138,19 +138,19 @@ void Path::sanitize()
   }
 }
 
-bool Path::is_absolute() const noexcept
+bool Path::absolute() const noexcept
 {
   return absolute_;
 }
 
-void Path::set_absolute(bool v) noexcept
+void Path::absolute(bool v) noexcept
 {
   absolute_ = v;
 }
 
 bool Path::is_root() const
 {
-  if(is_absolute() && link_names_.empty())
+  if(absolute() && link_names_.empty())
     return true;
   else
     return false;
@@ -158,7 +158,7 @@ bool Path::is_root() const
 
 Path common_base(const Path &lhs, const Path &rhs)
 {
-  if (lhs.is_absolute() ^ rhs.is_absolute())
+  if (lhs.absolute() ^ rhs.absolute())
   {
     throw std::runtime_error("paths must both be absolute or relative to have common base!");
   }
@@ -175,7 +175,7 @@ Path common_base(const Path &lhs, const Path &rhs)
     ++r_it;
   }
 
-  ret.set_absolute(lhs.is_absolute());
+  ret.absolute_ = lhs.absolute_;
   return ret;
 }
 

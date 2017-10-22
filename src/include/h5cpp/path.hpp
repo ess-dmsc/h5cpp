@@ -93,8 +93,8 @@ class DLL_EXPORT Path
     const_reverse_iterator rbegin() const;
     const_reverse_iterator rend() const;
 
-    bool is_absolute() const noexcept;
-    void set_absolute(bool value) noexcept;
+    bool absolute() const noexcept;
+    void absolute(bool value) noexcept;
 
     //!
     //! \brief true if the path refers to the root group
