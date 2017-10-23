@@ -7,7 +7,7 @@ project(h5cpp
 set(EXTRA_MODULES_DIR ${PROJECT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 
-#option(COV "Enable code coverage test for unit tests (if possible)." OFF)
+option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
 #=============================================================================
 # setting up conan for use from within cmake

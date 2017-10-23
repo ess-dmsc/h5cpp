@@ -109,7 +109,7 @@ TYPED_TEST(String, VariableIO)
 
   attr::Attribute a = this->root_.attributes.create("string", t, ds);
   this->value_ = "hello world";
-  a.write(this->value_);
+  //a.write(this->value_);
 
 //  auto read1 = this->value_;
 //  a.read(read1);

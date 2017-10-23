@@ -86,31 +86,20 @@ set_target_properties(h5cpp_shared
     CXX_STANDARD_REQUIRED ON
 )
 
-add_library(h5cpp_unit_test SHARED EXCLUDE_FROM_ALL ${SOURCES} ${PROPERTY_SOURCES} 
-    ${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
-    ${FILE_SOURCES} ${NODE_SOURCES} ${ATTRIBUTE_SOURCES})
-
-target_link_libraries(h5cpp_unit_test PUBLIC ${HDF5_LIBRARIES} Boost::filesystem gcov)
-
-target_compile_definitions(h5cpp_unit_test PRIVATE DLL_BUILD)
-
-target_include_directories(h5cpp_unit_test
-    PRIVATE  
-    ${PROJECT_SOURCE_DIR}/src/include
-    PUBLIC 
-    ${HDF5_INCLUDE_DIRS}
-    INTERFACE 
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-
-set_target_properties(h5cpp_unit_test 
-    PROPERTIES 
-    VERSION ${PROJECT_VERSION}
-    SO_VERSION 0
-    CXX_STANDARD_REQUIRED ON)
-
-set(coverage_flags "-coverage -fprofile-generate -ftest-coverage")
-set_target_properties(h5cpp_unit_test PROPERTIES LINK_FLAGS ${coverage_flags})
-set_target_properties(h5cpp_unit_test PROPERTIES COMPILE_FLAGS "-g -O0 ${coverage_flags}")
+if (${COV})
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
+        set(cov_compile_flags "-g -O0 -fprofile-instr-generate -fcoverage-mapping")
+        set(cov_link_flags "-g -O0 -fprofile-instr-generate -fcoverage-mapping")
+    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+        set(cov_compile_flags "-coverage -fprofile-generate -ftest-coverage")
+        set(cov_link_flags "-g -O0 -coverage -fprofile-generate -ftest-coverage")
+        target_link_libraries(h5cpp_shared PUBLIC gcov)
+    else()
+        message(STATUS "Unable to generate code coverage for this compiler (${CMAKE_CXX_COMPILER_ID}).")
+    endif()
+    set_target_properties(h5cpp_shared PROPERTIES LINK_FLAGS ${cov_link_flags})
+    set_target_properties(h5cpp_shared PROPERTIES COMPILE_FLAGS ${cov_compile_flags})
+endif()
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
