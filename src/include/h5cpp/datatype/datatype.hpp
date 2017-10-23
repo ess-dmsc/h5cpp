@@ -43,14 +43,44 @@ namespace datatype {
 class DLL_EXPORT Datatype
 {
   public:
+    //!
+    //! \brief destructor
+    //!
+    //! Has to be virtual due to inheritance
+    //!
     virtual ~Datatype();
+
+    //!
+    //! \brief default constructor
+    //!
+    //! The default constructor will leave the datatype as an
+    //! invalid HDF5 object. Default construction is however necessary
+    //! for using a Datatype with certain C++ STL containers.
+    //!
+    Datatype() = default;
+
+    //!
+    //! \brief constructor
+    //!
+    //! Constructs a datatype object from an rvalue reference to an
+    //! HDF5 handle. The class will take full ownership of the handle.
+    //!
+    //! \param handle rvalue reference to the handle
+    //!
     Datatype(ObjectHandle &&handle);
-    Datatype &operator=(const Datatype &type);
+
+    //!
+    //! \brief copy constructor
+    //!
     Datatype(const Datatype &type);
+
+    //!
+    //! \brief copy assignment
+    //!
+    Datatype &operator=(const Datatype &type);
 
     Datatype &operator=(Datatype &&type) = default;
     Datatype(Datatype &&type) = default;
-    Datatype() = default;
 
     Class get_class() const;
 

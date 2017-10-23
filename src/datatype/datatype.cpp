@@ -30,11 +30,13 @@
 namespace hdf5 {
 namespace datatype {
 
+Datatype::~Datatype()
+{
+  handle_.close();
+}
+
 Datatype::Datatype(ObjectHandle &&handle):
     handle_(std::move(handle))
-{}
-
-Datatype::~Datatype()
 {}
 
 Datatype::Datatype(const Datatype &type)
@@ -42,7 +44,7 @@ Datatype::Datatype(const Datatype &type)
   hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy Datatype");
+    throw std::runtime_error("could not copy-construct Datatype");
   }
   handle_ = ObjectHandle(ret);
 }
