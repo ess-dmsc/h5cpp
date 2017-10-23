@@ -45,5 +45,5 @@ TEST(VLengthArray,Construction)
   EXPECT_EQ(type.super().get_class(),datatype::Class::FLOAT);
   EXPECT_NE(type.super().get_class(),datatype::Class::INTEGER);
   EXPECT_EQ(type.super(),base_type);
-  EXPECT_EQ(type.size(),datatype::kVariable);
+  EXPECT_EQ(type.size(),sizeof(hvl_t));
 }

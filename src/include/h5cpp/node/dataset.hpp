@@ -289,8 +289,8 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-  dataspace::Dataspace file_space = dataspace::Dataspace(
-      ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+  auto file_space = dataspace();
+  file_space.selection.all();
 
   read(data,memory_type,memory_space,file_space,dtpl);
 
@@ -301,8 +301,8 @@ void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) con
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-  dataspace::Dataspace file_space = dataspace::Dataspace(
-      ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD));
+  auto file_space  = dataspace();
+  file_space.selection.all();
 
   write(data,memory_type,memory_space,file_space,dtpl);
 }

@@ -43,6 +43,8 @@
 #include "datatype/integer.hpp"
 #include "datatype/type_trait.hpp"
 #include "datatype/types.hpp"
+#include "datatype/string.hpp"
+#include "datatype/array.hpp"
 
 #include "dataspace/dataspace.hpp"
 #include "dataspace/scalar.hpp"

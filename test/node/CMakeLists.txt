@@ -13,6 +13,7 @@ set(Common_SRC
   ${dir}/dataset_test.cpp
   ${dir}/dataset_extent_test.cpp
   ${dir}/dataset_partial_io_test.cpp
+  ${dir}/dataset_array_type_io.cpp
   PARENT_SCOPE)
 
 set(Common_INC
