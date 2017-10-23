@@ -20,54 +20,40 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Oct 23, 2017
 //
+#include <gtest/gtest.h>
+#include <h5cpp/datatype/array.hpp>
+#include <h5cpp/datatype/factory.hpp>
 
-#include <stdexcept>
-#include <h5cpp/property/list.hpp>
-#include <h5cpp/property/class.hpp>
+using namespace hdf5;
 
-namespace hdf5 {
-namespace property {
-
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
+TEST(Array,DefaultConstruction)
 {
+  datatype::Array type;
+  EXPECT_FALSE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::NONE);
 }
 
-List::List(const List &plist)
+TEST(Array,TensorConstruction)
 {
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy-construct property list");
-  }
-  handle_ = ObjectHandle(ret);
+  auto base_type = datatype::create<int>();
+  datatype::Array type(base_type,{3,4});
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
+  EXPECT_EQ(type.size(),12*sizeof(int));
+  EXPECT_EQ(type.rank(),2);
+
+  Dimensions dims = type.dimensions();
+  EXPECT_EQ(dims[0],3);
+  EXPECT_EQ(dims[1],4);
 }
 
-List& List::operator=(const List &plist)
+TEST(Array,VectorConstruction)
 {
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy property list");
-  }
-  handle_ = ObjectHandle(ret);
-  return *this;
+  auto base_type = datatype::create<double>();
+  datatype::Array type(base_type,{4});
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
+  EXPECT_EQ(type.size(),4*sizeof(double));
 }
-
-
-List::~List()
-{
-}
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
-
-
-} // namespace property_list
-} // namespace hdf5
-
-

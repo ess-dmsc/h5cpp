@@ -36,12 +36,14 @@ namespace datatype {
 //!
 //! This datatype allows storing multidimensional data as a single element
 //! in an dataspace layout. Typical applications would be to use this for
-//! tensors and vectors.
+//! tensors and vectors. This is a fixed size data type. All instances (elements)
+//! of this type stored in an attribute or dataset are of equal size.
+//!
 class Array : public Datatype
 {
   public:
     Array();
-    Array(const Dimensions &dims);
+    Array(const Datatype &base_type,const Dimensions &dims);
 
     //!
     //! \brief get dimensions
@@ -52,13 +54,45 @@ class Array : public Datatype
     //! \throws std::runtime_error in case of a failure
     //!
     Dimensions dimensions() const;
+
+    //!
+    //! \brief get rank
+    //!
+    //! Returns the number of dimensions for an array data type
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     size_t rank() const;
 
 
 };
 
+//!
+//! \brief variable length array type
+//!
+//! Array datatype allowing each element stored in a dataspace
+//! having a different size. This type is restricted to a single
+//! dimensions. This limitation makes sense as it does not make
+//! to much sense to think about multidimensional objects of
+//! different size stored in an attribute or dataset.
+//!
 class VLengthArray : public Datatype
 {
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    //! This constructor is required for compatibility purposes
+    //! with STL containers.
+    //!
+    VLengthArray();
+
+    //!
+    //! \brief constructor
+    //!
+    //! \param base_type the base type for the variable length type
+    //!
+    VLengthArray(const Datatype &base_type);
 };
 
 } // namespace datatype

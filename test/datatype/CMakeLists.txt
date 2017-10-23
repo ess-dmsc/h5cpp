@@ -10,4 +10,5 @@ set(Common_SRC
   ${dir}/string_test.cpp
   ${dir}/type_trait_test.cpp
   ${dir}/datatype_test.cpp
+  ${dir}/array_test.cpp
   PARENT_SCOPE)
