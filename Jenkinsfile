@@ -12,7 +12,7 @@ node ("boost && fedora") {
 
     dir("code") {
         try {
-            stage("Checkout projects") {
+            stage("Checkout project") {
                 checkout scm
             }
         } catch (e) {
@@ -23,9 +23,6 @@ node ("boost && fedora") {
     dir("build") {
         try {
             stage("Run CMake") {
-                sh 'gcov --version'
-                sh 'gcovr --version'
-                sh 'rm -rf ./*'
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
                     cmake -DCOV=on -DCMAKE_BUILD_TYPE=Debug ../code"
@@ -43,11 +40,11 @@ node ("boost && fedora") {
         }
 
         try {
-            stage("Run test") {
+            stage("Run tests") {
                 sh "make run_tests"
                 junit 'test/unit_tests_run.xml'
                 sh "make generate_coverage"
-/*                sh "make memcheck"*/
+                //sh "make memcheck"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
@@ -65,7 +62,48 @@ node ("boost && fedora") {
             junit 'test/unit_tests_run.xml'
             failure_function(e, 'Tests failed')
         }
+
+        try {
+            stage("Build docs") {
+                sh "make html"
+                if (env.BRANCH_NAME != 'master') {
+                  archiveArtifacts artifacts: 'doc/build/'
+                }
+          }
+        } catch (e) {
+            failure_function(e, 'Docs generation failed')
+        }
     }
 
+    dir("docs") {
+        try {
+            stage("Publish docs") {
+                checkout scm
 
+              if (env.BRANCH_NAME == 'master') {
+                sh "git config user.email 'dm-jenkins-integration@esss.se'"
+                sh "git config user.name 'cow-bot'"
+                sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+
+                sh "git fetch"
+                sh "git checkout gh-pages"
+                sh "shopt -u dotglob && rm -rf ./*"
+                sh "mv -f ../build/doc/build/* ./"
+                sh "git add -A"
+                sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
+
+                withCredentials([usernamePassword(
+                    credentialsId: 'cow-bot-username',
+                    usernameVariable: 'USERNAME',
+                    passwordVariable: 'PASSWORD'
+                )]) {
+                    sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+                }
+
+            }
+            }
+        } catch (e) {
+            failure_function(e, 'Publishing docs failed')
+        }
+    }
 }

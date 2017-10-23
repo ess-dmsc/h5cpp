@@ -3,6 +3,7 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(Common_SRC
   ${Common_SRC}
   ${dir}/class_test.cpp
+  ${dir}/property_list_test.cpp
   ${dir}/group_creation_list_test.cpp
   ${dir}/creation_order_test.cpp
   ${dir}/object_creation_list_test.cpp
