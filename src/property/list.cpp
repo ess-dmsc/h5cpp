@@ -40,7 +40,7 @@ List::List(const List &plist)
   hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy property list");
+    throw std::runtime_error("could not copy-construct property list");
   }
   handle_ = ObjectHandle(ret);
 }
