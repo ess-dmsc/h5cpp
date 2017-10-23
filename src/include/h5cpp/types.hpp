@@ -33,4 +33,18 @@ namespace hdf5 {
 
 using Dimensions = std::vector<hsize_t>;
 
+using VarLengthDataBuffer = std::vector<hvl_t>;
+
+template<typename T>
+struct VarLengthBufferTrait
+{
+    static void to_buffer(const T &,VarLengthDataBuffer &)
+    {}
+
+    static void from_buffer(const VarLengthDataBuffer &,const T &)
+    {}
+};
+
+
+
 } // namespace hdf5
