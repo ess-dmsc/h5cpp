@@ -69,8 +69,8 @@ set(SOURCES object_handle.cpp
 add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 
 			${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
 		    ${FILE_SOURCES} ${NODE_SOURCES} ${ATTRIBUTE_SOURCES})
-target_link_libraries(h5cpp_shared PUBLIC ${HDF5_LIBRARIES} Boost::filesystem)
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
+set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem)
 target_include_directories(h5cpp_shared
 	PRIVATE  
 	${PROJECT_SOURCE_DIR}/src/include
@@ -93,13 +93,15 @@ if (${COV})
     elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         set(cov_compile_flags "-coverage -fprofile-generate -ftest-coverage")
         set(cov_link_flags "-g -O0 -coverage -fprofile-generate -ftest-coverage")
-        target_link_libraries(h5cpp_shared PUBLIC gcov)
+        set(H5CPP_LINKS ${H5CPP_LINKS} gcov)
     else()
-        message(STATUS "Unable to generate code coverage for this compiler (${CMAKE_CXX_COMPILER_ID}).")
+        message(FATAL_ERROR "Unable to generate code coverage for this compiler (${CMAKE_CXX_COMPILER_ID}).")
     endif()
     set_target_properties(h5cpp_shared PROPERTIES LINK_FLAGS ${cov_link_flags})
     set_target_properties(h5cpp_shared PROPERTIES COMPILE_FLAGS ${cov_compile_flags})
 endif()
+
+target_link_libraries(h5cpp_shared PUBLIC ${H5CPP_LINKS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
