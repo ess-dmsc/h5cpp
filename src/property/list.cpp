@@ -35,18 +35,30 @@ List::List(const Class &plist_class):
 {
 }
 
-List::List(const List &plist):
-          handle_(H5Pcopy(static_cast<hid_t>(plist.handle_)))
+List::List(const List &plist)
 {
+  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy property list");
+  }
+  handle_ = ObjectHandle(ret);
 }
+
+List& List::operator=(const List &plist)
+{
+  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy property list");
+  }
+  handle_ = ObjectHandle(ret);
+  return *this;
+}
+
 
 List::~List()
 {
-}
-
-void List::close()
-{
-  handle_.close();
 }
 
 Class List::get_class() const
