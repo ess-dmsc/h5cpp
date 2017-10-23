@@ -48,7 +48,8 @@ TEST(List, from_class)
 
 TEST(List, copy_construction)
 {
-//  List s;
+//  pl::Class c;
+//  List s(c);
 //  const List& ss = s;
 //  EXPECT_THROW(List(ss).get_class(), std::runtime_error);
 
