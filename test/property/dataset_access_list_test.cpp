@@ -24,7 +24,6 @@
 //
 
 #include <gtest/gtest.h>
-#include <boost/test/floating_point_comparison.hpp>
 #include <h5cpp/property/dataset_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 

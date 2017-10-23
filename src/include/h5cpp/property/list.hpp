@@ -62,16 +62,19 @@ class DLL_EXPORT List
     List(const List &plist);
 
     //!
+    //! \brief copy assignment
+    //!
+    List &operator=(const List &type);
+
+    //!
     //! \brief destructor
     //!
     virtual ~List();
 
-    //!
-    //! \brief close the property list
-    //!
-    void close();
+    List &operator=(List &&type) = default;
+    List(List &&type) = default;
 
-    //
+    //!
     //! \brief return property list class
     //!
     //! Return an instance of the property list class the list belongs to.
