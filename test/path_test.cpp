@@ -19,151 +19,252 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #include <gtest/gtest.h>
 #include <h5cpp/path.hpp>
 
-TEST(Path,test_default_construction)
+using namespace hdf5;
+using namespace std;
+
+TEST(Path, test_default_construction)
 {
-  hdf5::Path p;
+  Path p;
   EXPECT_EQ(p.size(),0);
-  EXPECT_FALSE(p.is_absolute_path());
-
+  EXPECT_FALSE(p.absolute());
 }
 
-TEST(Path,test_construction_from_string)
+TEST(Path, test_construction_from_string)
 {
-  hdf5::Path p("/hello/world/data");
-  EXPECT_EQ(p.size(),3);
-  EXPECT_TRUE(p.is_absolute_path());
+  Path p;
 
-  p = hdf5::Path("hello/world");
+  p = Path("/hello/world/data");
+  EXPECT_EQ(p.size(),3);
+  EXPECT_TRUE(p.absolute());
+
+  p = Path("hello/world");
   EXPECT_EQ(p.size(),2);
-  EXPECT_FALSE(p.is_absolute_path());
+  EXPECT_FALSE(p.absolute());
 
-  p = hdf5::Path("hello/world/instrument/data/");
+  p = Path("hello/world/instrument/data/");
   EXPECT_EQ(p.size(),4);
-  EXPECT_FALSE(p.is_absolute_path());
+  EXPECT_FALSE(p.absolute());
+
+  p = Path(".");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
+
+  p = Path("./");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
+
+  p = Path("/.");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_TRUE(p.absolute());
+
+  p = Path(".///");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
 }
 
-TEST(Path,test_conversion_to_string)
+TEST(Path, test_conversion_to_string)
 {
-  hdf5::Path p("/hello/world/data");
-  EXPECT_EQ(static_cast<std::string>(p),"/hello/world/data");
+  Path p;
 
-  p = hdf5::Path("hello/world");
-  EXPECT_EQ(static_cast<std::string>(p),"hello/world");
+  p = Path("/hello/world/data");
+  EXPECT_EQ(static_cast<string>(p),"/hello/world/data");
 
-  p = hdf5::Path("hello/world/instrument/data/");
-  EXPECT_EQ(static_cast<std::string>(p),"hello/world/instrument/data");
+  p = Path("hello/world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello/world/instrument/data/");
+  EXPECT_EQ(static_cast<string>(p),"hello/world/instrument/data");
+
+  p = Path(".");
+  EXPECT_EQ(static_cast<string>(p),".");
+
+  p = Path("");
+  EXPECT_EQ(static_cast<string>(p),".");
 }
 
-TEST(Path,test_conversion_from_list)
+TEST(Path, test_sanitization)
 {
-  std::list<std::string> l{"entry","instrument","detector"};
-  hdf5::Path p;
-  std::copy(l.begin(),l.end(),std::back_inserter(p));
-  EXPECT_EQ(p.size(),3);
-  EXPECT_EQ(static_cast<std::string>(p),"entry/instrument/detector");
+  Path p;
+
+  p = Path("./hello");
+  EXPECT_EQ(static_cast<string>(p),"hello");
+
+  p = Path("hello/world/.");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello/./world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello///world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+}
+
+TEST(Path, common_base)
+{
+  Path common;
+
+  common = common_base(Path("a/b/c"), Path("a/b/z"));
+  EXPECT_EQ(static_cast<string>(common),"a/b");
+
+  common = common_base(Path("a/b/c"), Path("a/b/c"));
+  EXPECT_EQ(static_cast<string>(common),"a/b/c");
+
+  common = common_base(Path("a/b/c"), Path("."));
+  EXPECT_EQ(static_cast<string>(common),".");
+
+
+  common = common_base(Path("/a/b/c"), Path("/a/b/z"));
+  EXPECT_EQ(static_cast<string>(common),"/a/b");
+
+  common = common_base(Path("/a/b/c"), Path("/a/b/c"));
+  EXPECT_EQ(static_cast<string>(common),"/a/b/c");
+
+  common = common_base(Path("/a/b/c"), Path("/x/y"));
+  EXPECT_EQ(static_cast<string>(common),"/");
+
+  EXPECT_THROW(common_base(Path("/a/b/c"), Path("d/e")), std::runtime_error);
+}
+
+TEST(Path, relative_to)
+{
+  Path p;
+
+  p = Path("a/b/c").relative_to(Path("a/b"));
+  EXPECT_EQ(static_cast<string>(p),"c");
+
+  p = Path("/a/b/c").relative_to(Path("/a/b"));
+  EXPECT_EQ(static_cast<string>(p),"c");
+
+  p = Path("/a/b").relative_to(Path("/"));
+  EXPECT_EQ(static_cast<string>(p),"a/b");
+
+  p = Path("/").relative_to(Path("/"));
+  EXPECT_EQ(static_cast<string>(p),".");
+
+  EXPECT_THROW(Path("c/d").relative_to(Path("/a/b")), std::runtime_error);
+
+  EXPECT_THROW(Path("a/b").relative_to(Path("a/b/c")), std::runtime_error);
+
+  EXPECT_THROW(Path("/a/b/c").relative_to(Path("a/b")), std::runtime_error);
+
+  EXPECT_THROW(Path("/a/b/c").relative_to(Path("/x/y/z")), std::runtime_error);
+}
+
+TEST(Path, test_append)
+{
+  Path p;
+
+  p = Path("/entry/instrument");
+  p.append(Path("detector/data"));
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
 }
 
 TEST(Path,test_append_link_name)
 {
-  hdf5::Path p("/entry/instrument/detector");
+  Path p("/entry/instrument/detector");
   p = p+"data";
-  EXPECT_EQ(static_cast<std::string>(p),"/entry/instrument/detector/data");
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
   EXPECT_EQ(p.size(),4);
-  EXPECT_TRUE(p.is_absolute_path());
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("instrument/detector");
+  p = Path("instrument/detector");
   p = p + "metadata/date";
-  EXPECT_EQ(static_cast<std::string>(p),"instrument/detector/metadata/date");
+  EXPECT_EQ(static_cast<string>(p),"instrument/detector/metadata/date");
   EXPECT_EQ(p.size(),4);
-  EXPECT_FALSE(p.is_absolute_path());
+  EXPECT_FALSE(p.absolute());
 }
 
 TEST(Path,test_prepend_link_name)
 {
-  hdf5::Path p("instrument/detector");
+  Path p("instrument/detector");
   p = "/entry" + p;
-  EXPECT_EQ(static_cast<std::string>(p),"/entry/instrument/detector");
-  EXPECT_TRUE(p.is_absolute_path());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector");
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("detector/data");
+  p = Path("detector/data");
   p = "/entry/instrument/" + p;
-  EXPECT_EQ(static_cast<std::string>(p),"/entry/instrument/detector/data");
-  EXPECT_TRUE(p.is_absolute_path());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("entry/instrument");
+  p = Path("entry/instrument");
   p = "/" + p;
   EXPECT_EQ(p.size(),2);
-  EXPECT_TRUE(p.is_absolute_path());
+  EXPECT_TRUE(p.absolute());
 }
 
 TEST(Path,test_adding_two_paths)
 {
-  hdf5::Path p1("/entry/instrument"), p2("detector/data");
-  hdf5::Path p = p1+p2;
+  Path p1("/entry/instrument"), p2("detector/data");
+  Path p = p1+p2;
   EXPECT_EQ(p.size(),4);
-  EXPECT_TRUE(p.is_absolute_path());
-  EXPECT_EQ(static_cast<std::string>(p),"/entry/instrument/detector/data");
+  EXPECT_TRUE(p.absolute());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
 }
 
 TEST(Path,test_root_path)
 {
-  hdf5::Path p("/");
+  Path p("/");
   EXPECT_TRUE(p.is_root());
-  EXPECT_TRUE(p.is_absolute_path());
-  EXPECT_EQ(static_cast<std::string>(p),"/");
+  EXPECT_TRUE(p.absolute());
+  EXPECT_EQ(static_cast<string>(p),"/");
 }
 
-TEST(Path,test_front)
+//TEST(Path,test_front)
+//{
+//  Path p("/hello/world");
+//  EXPECT_EQ(p.front(),"hello");
+
+//  p = Path("/");
+//  EXPECT_TRUE(p.is_root());
+//  EXPECT_EQ(p.front(),"/");
+//}
+
+//TEST(Path,test_back)
+//{
+//  Path p("hello/world");
+//  EXPECT_EQ(p.back(),"world");
+
+//  p = Path("/");
+//  EXPECT_TRUE(p.is_root());
+//  EXPECT_EQ(p.back(),"/");
+//}
+
+TEST(Path,test_name)
 {
-  hdf5::Path p("/hello/world");
-  EXPECT_EQ(p.front(),"hello");
+  Path p("hello/world");
+  EXPECT_EQ(p.name(),"world");
 
-  p = hdf5::Path("/");
+  p = Path("/");
   EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(p.front(),"/");
-}
-
-TEST(Path,test_back)
-{
-  hdf5::Path p("hello/world");
-  EXPECT_EQ(p.back(),"world");
-
-  p = hdf5::Path("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(p.back(),"/");
-}
-
-TEST(Path,test_object_name)
-{
-  hdf5::Path p("hello/world");
-  EXPECT_EQ(hdf5::Path::object_name(p),"world");
-
-  p = hdf5::Path("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(hdf5::Path::object_name(p),"/");
+  EXPECT_EQ(p.name(),".");
 }
 
 TEST(Path,test_parent_path)
 {
-  hdf5::Path p("hello/world");
-  EXPECT_EQ(static_cast<std::string>(hdf5::Path::parent_path(p)),"hello");
+  Path p("hello/world");
+  EXPECT_EQ(static_cast<string>(p.parent()),"hello");
 
-  p = hdf5::Path("/");
+  p = Path("/hello/world");
+  EXPECT_EQ(static_cast<string>(p.parent()),"/hello");
+
+  p = Path("/");
   EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(static_cast<std::string>(hdf5::Path::parent_path(p)),"/");
+  EXPECT_EQ(static_cast<string>(p.parent()),"/");
 }
 
 TEST(Path,test_path_equality)
 {
-  hdf5::Path p1("hello/world");
-  hdf5::Path p2("/hello/world");
-  hdf5::Path p3("/hello");
+  Path p1("hello/world");
+  Path p2("/hello/world");
+  Path p3("/hello");
   EXPECT_TRUE(p1 == p1);
   EXPECT_TRUE(p1 != p2);
   EXPECT_TRUE(p2 != p3);

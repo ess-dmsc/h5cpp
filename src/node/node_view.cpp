@@ -65,7 +65,7 @@ Node NodeView::operator[](size_t index) const
 
 
   Link new_link(group().link().file(),group().link().path(),
-                Path::object_name(group().links[index].path()));
+                group().links[index].path().name());
 
   return Node(ObjectHandle(id),new_link);
 }

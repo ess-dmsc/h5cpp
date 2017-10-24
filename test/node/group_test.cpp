@@ -19,11 +19,14 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 12, 2017
 //
 
 #include <vector>
+#include <h5cpp/file/functions.hpp>
 #include "group_test_fixtures.hpp"
 
 using namespace hdf5;
@@ -110,7 +113,49 @@ TEST_F(Group, test_group_accessor)
   EXPECT_EQ(g1.id(), g["group_1"].id());
 }
 
+TEST_F(Group, test_funky_names)
+{
+  auto f = file::create("funky_names.h5",file::AccessFlags::TRUNCATE);
+  node::Group g = f.root();
 
+  EXPECT_NO_THROW(g.create_group("s p a c e y"));
+  EXPECT_TRUE(g.exists("s p a c e y"));
+
+  EXPECT_NO_THROW(g.create_group(" sp"));
+  EXPECT_TRUE(g.exists(" sp"));
+
+  EXPECT_NO_THROW(g.create_group("sp "));
+  EXPECT_TRUE(g.exists("sp "));
+
+  EXPECT_NO_THROW(g.create_group("sp"));
+  EXPECT_TRUE(g.exists("sp"));
+
+  EXPECT_NO_THROW(g.create_group(" "));
+  EXPECT_TRUE(g.exists(" "));
+
+  EXPECT_NO_THROW(g.create_group("  "));
+  EXPECT_TRUE(g.exists("  "));
+
+  EXPECT_NO_THROW(g.create_group("d.o.t.s"));
+  EXPECT_TRUE(g.exists("d.o.t.s"));
+
+  EXPECT_NO_THROW(g.create_group(".d.o.t"));
+  EXPECT_TRUE(g.exists(".d.o.t"));
+
+  EXPECT_NO_THROW(g.create_group("d..t"));
+  EXPECT_TRUE(g.exists("d..t"));
+
+  EXPECT_NO_THROW(g.create_group("..dt"));
+  EXPECT_TRUE(g.exists("..dt"));
+
+  EXPECT_NO_THROW(g.create_group(".."));
+  EXPECT_TRUE(g.exists(".."));
+
+//  EXPECT_NO_THROW(g.create_group("g/g2"));
+//  EXPECT_NO_THROW(g.create_group("./g/g3"));
+
+  EXPECT_THROW(g.create_group("."), std::exception);
+}
 
 
 
