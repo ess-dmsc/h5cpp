@@ -31,6 +31,7 @@
 
 #include <vector>
 #include <array>
+#include <string>
 
 namespace hdf5 {
 namespace datatype {
@@ -235,6 +236,22 @@ template<typename T,size_t N> class TypeTrait<std::array<T,N>>
     {
       return TypeTrait<T>::create();
     }
+};
+
+template<typename CharT>
+class TypeTrait<std::basic_string<CharT>>
+{
+  private:
+
+  public:
+
+    using TypeClass = String;
+
+    static TypeClass create()
+    {
+
+    }
+
 };
 
 

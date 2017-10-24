@@ -217,6 +217,74 @@ class DLL_EXPORT Dataset : public Node
               const property::DatasetTransferList &dtpl =
                   property::DatasetTransferList()) const;
 
+  private:
+
+    template<typename T>
+    void write_variable_length_data(const T &data,
+                                    const datatype::Datatype &mem_type,
+                                    const dataspace::Dataspace &mem_space,
+                                    const datatype::Datatype &file_type,
+                                    const dataspace::Dataspace &file_space,
+                                    const property::DatasetTransferList &dtpl) const
+    {
+      VarLengthDataBuffer buffer;
+      VarLengthBufferTrait<T>::to_buffer(data,buffer);
+      if(H5Dwrite(static_cast<hid_t>(*this),
+                     static_cast<hid_t>(mem_type),
+                     static_cast<hid_t>(mem_space),
+                     static_cast<hid_t>(file_space),
+                     static_cast<hid_t>(dtpl),
+                     buffer.data())<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+    }
+
+    template<typename T>
+    void write_contiguous_data(const T &data,
+                               const datatype::Datatype &mem_type,
+                               const dataspace::Dataspace &mem_space,
+                               const datatype::Datatype &file_type,
+                               const dataspace::Dataspace &file_space,
+                               const property::DatasetTransferList &dtpl) const
+    {
+      if(H5Dwrite(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(mem_type),
+                  static_cast<hid_t>(mem_space),
+                  static_cast<hid_t>(file_space),
+                  static_cast<hid_t>(dtpl),
+                  dataspace::cptr(data))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+    }
+
+    template<typename T>
+    void write_variable_length_string_data(const T &data,
+                                           const datatype::Datatype &mem_type,
+                                           const dataspace::Dataspace &mem_space,
+                                           const datatype::Datatype &file_type,
+                                           const dataspace::Dataspace &file_space,
+                                           const property::DatasetTransferList &dtpl) const
+    {
+
+    }
+
+    template<typename T>
+    void write_fixed_length_string_data(const T &data,
+                                        const datatype::Datatype &mem_type,
+                                        const dataspace::Dataspace &mem_space,
+                                        const datatype::Datatype &file_type,
+                                        const dataspace::Dataspace &file_space,
+                                        const property::DatasetTransferList &dtpl) const
+    {
+
+    }
+
 };
 
 template<typename T>
@@ -229,34 +297,23 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
 
   if(file_type.get_class() == datatype::Class::VARLENGTH)
   {
-    VarLengthDataBuffer buffer;
-    VarLengthBufferTrait<T>::to_buffer(data,buffer);
-    if(H5Dwrite(static_cast<hid_t>(*this),
-                   static_cast<hid_t>(mem_type),
-                   static_cast<hid_t>(mem_space),
-                   static_cast<hid_t>(file_space),
-                   static_cast<hid_t>(dtpl),
-                   buffer.data())<0)
-       {
-         std::stringstream ss;
-         ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
-         throw std::runtime_error(ss.str());
-       }
-
+    write_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+  }
+  else if(file_type.get_class() == datatype::Class::STRING)
+  {
+    const datatype::String &string_type = dynamic_cast<const datatype::String&>(file_type);
+    if(string_type.is_variable_length())
+    {
+      write_variable_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    }
+    else
+    {
+      write_fixed_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    }
   }
   else
   {
-    if(H5Dwrite(static_cast<hid_t>(*this),
-                static_cast<hid_t>(mem_type),
-                static_cast<hid_t>(mem_space),
-                static_cast<hid_t>(file_space),
-                static_cast<hid_t>(dtpl),
-                dataspace::cptr(data))<0)
-    {
-      std::stringstream ss;
-      ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
-      throw std::runtime_error(ss.str());
-    }
+    write_contiguous_data(data,mem_type,mem_space,file_type,file_space,dtpl);
   }
 
 }
