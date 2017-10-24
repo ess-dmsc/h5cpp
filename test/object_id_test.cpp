@@ -429,7 +429,10 @@ TEST(ObjectId,  comparison )
   EXPECT_NE(f1, g2);
   EXPECT_NE(f2, g1);
   EXPECT_NE(f2, g2);
-  EXPECT_LT(f1, f2);
+  EXPECT_TRUE(f1 < f2);
+  EXPECT_FALSE(f1 < f1);
+  EXPECT_FALSE(f2 < f1);
+  EXPECT_FALSE(g2 < g1);
   EXPECT_LT(g1, g2);
   EXPECT_LT(f1, g1);
   EXPECT_LT(f2, g1);
