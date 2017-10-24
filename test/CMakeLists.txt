@@ -72,7 +72,7 @@ else()
     message(STATUS "Code coverage not enabled.")
 endif()
 
-add_custom_target(run_tests COMMAND unit_tests "--gtest_filter=-ObjectId.*" "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
+add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
 add_test(NAME "RunGoogleTests" COMMAND unit_tests)
 if (${COV})
     set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/coverage/)
