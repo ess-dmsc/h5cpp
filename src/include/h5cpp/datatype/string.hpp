@@ -41,6 +41,11 @@ class DLL_EXPORT String : public Datatype
     String(ObjectHandle &&handle);
 
     //!
+    //! \brief cosntruct from generic datatype
+    //!
+    String(const Datatype &type);
+
+    //!
     //! \brief construct variable-length string
     //!
     static String variable();

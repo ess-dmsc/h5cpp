@@ -32,6 +32,7 @@
 #include <vector>
 #include <array>
 #include <string>
+#include <type_traits>
 
 namespace hdf5 {
 namespace datatype {
@@ -63,7 +64,7 @@ template<typename T> class TypeTrait
 };
 
 template<typename T>
-typename TypeTrait<T>::TypeClass create(const T &value)
+typename TypeTrait<T>::TypeClass create(const T &)
 {
   return TypeTrait<T>::create();
 }
@@ -249,6 +250,11 @@ class TypeTrait<std::basic_string<CharT>>
 
     static TypeClass create()
     {
+      static_assert(std::is_same<CharT,char>::value,"Only support 8Bit characters");
+
+      String type = String::variable();
+      type.set_encoding(CharacterEncoding::UTF8);
+      return type;
 
     }
 
