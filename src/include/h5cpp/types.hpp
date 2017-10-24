@@ -30,6 +30,7 @@ extern "C" {
 #include <vector>
 #include <sstream>
 #include "datatype/string.hpp"
+#include "dataspace/dataspace.hpp"
 
 namespace hdf5 {
 
@@ -104,6 +105,9 @@ struct FixedLengthStringTrait
     static BufferType to_buffer(const DataType &,const datatype::String &)
     {}
 
+    static BufferType allocate_buffer(const dataspace::Dataspace &,const datatype::String &)
+    {}
+
     static DataType from_buffer(const BufferType &,const datatype::String &)
     {}
 };
@@ -119,6 +123,11 @@ struct FixedLengthStringTrait<std::string>
       BufferType buffer;
       std::copy(data.begin(),data.end(),std::back_inserter(buffer));
       return buffer;
+    }
+
+    static BufferType allocate_buffer(const dataspace::Dataspace &,const datatype::String &file_type)
+    {
+      return BufferType(file_type.size());
     }
 
     static DataType from_buffer(const BufferType &buffer,const datatype::String &)
@@ -151,6 +160,12 @@ struct FixedLengthStringTrait<std::vector<std::string>>
      }
 
      return buffer;
+   }
+
+   static BufferType allocate_buffer(const dataspace::Dataspace &file_space,
+                                     const datatype::String &file_type)
+   {
+     return BufferType(file_type.size()*file_space.size());
    }
 
    static DataType from_buffer(const BufferType &buffer,const datatype::String &file_type)

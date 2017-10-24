@@ -387,6 +387,23 @@ class DLL_EXPORT Dataset : public Node
                                        const dataspace::Dataspace &file_space,
                                        const property::DatasetTransferList &dtpl) const
     {
+      using Trait = FixedLengthStringTrait<T>;
+      auto buffer = Trait::to_buffer(data,file_type);
+
+      if(H5Dwrite(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(mem_type),
+                  static_cast<hid_t>(mem_space),
+                  static_cast<hid_t>(file_space),
+                  static_cast<hid_t>(dtpl),
+                  reinterpret_cast<void*>(buffer.data()))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write fixed length string data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+
+      //get data out of the buffer
+      data = Trait::from_buffer(buffer);
 
     }
 };
