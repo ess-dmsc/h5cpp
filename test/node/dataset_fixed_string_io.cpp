@@ -55,6 +55,10 @@ TEST_F(DatasetFixedStringIO,scalar_auto_config)
 
   std::string write_value = "hello";
   EXPECT_NO_THROW(dset.write(write_value,string_type,scalar_space,scalar_space,dtpl));
+  std::string read_value;
+  dset.read(read_value,string_type,scalar_space,scalar_space,dtpl);
+
+  EXPECT_EQ(write_value,read_value);
 
 }
 
