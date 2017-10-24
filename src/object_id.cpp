@@ -35,8 +35,8 @@ std::string ObjectId::get_file_name(hid_t object)
   return std::string(namec.data());
 }
 
-ObjectId::ObjectId()
-{}
+//ObjectId::ObjectId()
+//{}
 
 ObjectId::ObjectId(hid_t object)
 {
