@@ -99,6 +99,18 @@ struct OneFile
   hid_t file, group1, group2, dset1;
 };
 
+// Print
+TEST(ObjectId,  printing )
+{
+  OneFile* file = new OneFile(FILE1);
+  ObjectId f1(file->file);
+  delete file;
+
+  std::stringstream ss;
+  ss << f1;
+  EXPECT_TRUE(!ss.str().empty());
+}
+
 // For h5 hard links (to group):
 //   file_name, file_number and address are all equal
 TEST(ObjectId,  hard_group )
@@ -395,5 +407,24 @@ TEST(ObjectId,  repeated_open )
   EXPECT_EQ(i1.file_name(), i2.file_name());
   EXPECT_NE(i1.file_number(), i2.file_number());
   EXPECT_EQ(i1.object_address(), i2.object_address());
-  std::cout << i1 << "   ??   " << i2 << std::endl;
+//  std::cout << i1 << "   ??   " << i2 << std::endl;
 }
+
+// Sorting ObjectIds
+TEST(ObjectId,  comparison )
+{
+  OneFile* file = new OneFile(FILE1);
+  OneFile* file2 = new OneFile(FILE2);
+  ObjectId f1(file->file);
+  ObjectId f2(file2->file);
+  ObjectId g1(file->group1);
+  ObjectId g2(file->group2);
+
+  delete file;
+  delete file2;
+
+  EXPECT_LT(f1, f2);
+  EXPECT_LT(g1, g2);
+}
+
+

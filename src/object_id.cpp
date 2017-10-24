@@ -35,9 +35,6 @@ std::string ObjectId::get_file_name(hid_t object)
   return std::string(namec.data());
 }
 
-//ObjectId::ObjectId()
-//{}
-
 ObjectId::ObjectId(hid_t object)
 {
   H5O_info_t info;
@@ -79,8 +76,8 @@ bool ObjectId::operator< (const ObjectId& other) const
       #ifdef H5CPP_OBJECTID_USE_FILENAME
         (file_name_ < other.file_name_) &&
       #endif
-        (file_num_ < other.file_num_) &&
-        (obj_addr_ < other.obj_addr_)
+        (file_num_ < other.file_num_) ||
+        ((file_num_ == other.file_num_) && (obj_addr_ < other.obj_addr_))
         );
 }
 

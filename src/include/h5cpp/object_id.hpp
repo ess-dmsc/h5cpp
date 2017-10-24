@@ -38,7 +38,6 @@ namespace hdf5
 class DLL_EXPORT ObjectId
 {
   public:
-//    ObjectId();
     ObjectId(hid_t object);
 
     bool operator== (const ObjectId& other) const;
