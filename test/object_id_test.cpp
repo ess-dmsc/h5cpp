@@ -423,6 +423,8 @@ TEST(ObjectId,  comparison )
   delete file;
   delete file2;
 
+  EXPECT_EQ(f1, f1);
+  EXPECT_EQ(g1, g1);
   EXPECT_NE(f1, f2);
   EXPECT_NE(g1, g2);
   EXPECT_NE(f1, g1);
