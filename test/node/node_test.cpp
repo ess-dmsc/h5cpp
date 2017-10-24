@@ -123,18 +123,18 @@ TEST_F(Node, test_external_link)
   file2.close();
 
   nd::Group f = file_.root();
-  auto g = f.create_group("group");
+  f.create_group("group");
 
-  EXPECT_THROW(nd::link("./file_.h5", Path("/group"),
+  EXPECT_THROW(nd::link("./file2.h5", Path("group"),
                              f, Path("group")),
                     std::runtime_error);
-  EXPECT_NO_THROW(nd::link("./file_.h5", Path("/group"),
+  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"),
                              f, Path("group2")));
 
   EXPECT_TRUE(f.links.exists("group2"));
-//  EXPECT_TRUE(f.exists("group2"));
-//  nd::Group gg2 = f["group2"];
-//  EXPECT_TRUE(gg2.exists("target"));
+  EXPECT_TRUE(f.exists("group2"));
+  nd::Group gg2 = f["group2"];
+  EXPECT_TRUE(gg2.exists("contents"));
 }
 
 TEST_F(Node, test_soft_link)
