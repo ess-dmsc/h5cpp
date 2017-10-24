@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -88,32 +90,11 @@ class DLL_EXPORT Path
     //!
     const_iterator end() const;
 
-    //!
-    //! \brief iterator to the first element
-    //!
-    iterator begin();
-
-    //!
-    //! \brief iterator to the last+1 element
-    //!
-    iterator end();
-
-    reverse_iterator rbegin();
-    reverse_iterator rend();
     const_reverse_iterator rbegin() const;
     const_reverse_iterator rend() const;
 
-    void push_front(const value_type &link_name);
-    value_type pop_front();
-
-    void push_back(const value_type &link_name);
-    value_type pop_back();
-
-    bool is_absolute_path() const noexcept;
-    void is_absolute_path(bool value) noexcept;
-
-    value_type back() const;
-    value_type front() const;
+    bool absolute() const noexcept;
+    void absolute(bool value) noexcept;
 
     //!
     //! \brief true if the path refers to the root group
@@ -127,18 +108,25 @@ class DLL_EXPORT Path
     //! \brief get object name from a path
     //!
     //! The object name is the last element of a path. In the case
-    //! of the root group it is the same.
+    //! of the root group it is empty.
     //!
-    static std::string object_name(const Path &path);
+    std::string name() const;
 
     //!
     //! \brief get parent path
     //!
     //! This is basically the path with the last component stripped of.
     //!
-    static Path parent_path(const Path &path);
+    Path parent() const;
+
+    void append(const Path& p);
+
+    Path relative_to(const Path& base) const;
+
+    Path& operator+=(const Path &other);
 
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+    DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
 
   private:
     bool absolute_;
@@ -147,7 +135,9 @@ class DLL_EXPORT Path
     void from_string(const std::string &str);
     std::string to_string() const;
 
+    void sanitize();
 };
+
 
 DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 
