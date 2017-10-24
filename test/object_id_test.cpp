@@ -417,8 +417,8 @@ TEST(ObjectId,  comparison )
   OneFile* file2 = new OneFile(FILE2);
   ObjectId f1(file->file);
   ObjectId f2(file2->file);
-  ObjectId g1(file->group1);
-  ObjectId g2(file->group2);
+  ObjectId g1(file2->group1);
+  ObjectId g2(file2->group2);
 
   delete file;
   delete file2;

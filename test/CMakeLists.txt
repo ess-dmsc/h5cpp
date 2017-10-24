@@ -27,27 +27,27 @@ find_package(Threads)
 
 set(Common_SRC 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/iterator_test.cpp
+#    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp
+#    ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
+#    ${CMAKE_CURRENT_SOURCE_DIR}/iterator_test.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/object_id_test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
+#    ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
+#    ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
 )
 
 set(Common_INC    
   ${CMAKE_CURRENT_SOURCE_DIR}/fixture.hpp
 )
 
-add_subdirectory(ObjectHandle)
-add_subdirectory(property)
-add_subdirectory(datatype)
-add_subdirectory(dataspace)
-add_subdirectory(logs)
-add_subdirectory(file)
-add_subdirectory(node)
-add_subdirectory(attribute)
-add_subdirectory(examples)
+#add_subdirectory(ObjectHandle)
+#add_subdirectory(property)
+#add_subdirectory(datatype)
+#add_subdirectory(dataspace)
+#add_subdirectory(logs)
+#add_subdirectory(file)
+#add_subdirectory(node)
+#add_subdirectory(attribute)
+#add_subdirectory(examples)
 
 add_executable(unit_tests EXCLUDE_FROM_ALL ${Common_SRC} ${Common_INC})
 add_dependencies(unit_tests h5cpp_shared)

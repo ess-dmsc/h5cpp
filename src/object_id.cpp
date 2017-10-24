@@ -72,13 +72,20 @@ bool ObjectId::operator!= (const ObjectId &other) const
 
 bool ObjectId::operator< (const ObjectId& other) const
 {
-  return (
-      #ifdef H5CPP_OBJECTID_USE_FILENAME
-        (file_name_ < other.file_name_) &&
-      #endif
-        (file_num_ < other.file_num_) ||
-        ((file_num_ == other.file_num_) && (obj_addr_ < other.obj_addr_))
-        );
+  if (file_num_ < other.file_num_)
+    return true;
+#ifdef H5CPP_OBJECTID_USE_FILENAME
+  if ((file_num_ == other.file_num_) && (file_name_ < other.file_name_))
+    return true;
+  if ((file_num_ == other.file_num_) &&
+      (file_name_ == other.file_name_) &&
+      (obj_addr_ < other.obj_addr_))
+    return true;
+#else
+  if ((file_num_ == other.file_num_) && (obj_addr_ < other.obj_addr_))
+    return true;
+#endif
+  return false;
 }
 
 unsigned long ObjectId::file_number() const
