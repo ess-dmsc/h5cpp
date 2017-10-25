@@ -67,7 +67,7 @@ TEST_F(AttributeFixedStringIO,vector_io)
 {
   std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD",
                                  "EEEEE","FFFFF"};
-  std::vector<std::string> read;
+  std::vector<std::string> read(write.size());
 
   attribute::Attribute a = root_group.attributes.create("strattr",string_type,simple_space);
   a.write(write,string_type);

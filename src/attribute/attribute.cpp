@@ -96,5 +96,19 @@ void Attribute::write(const char *data,const datatype::Datatype &mem_type) const
   write(std::string(data),mem_type);
 }
 
+void Attribute::check_size(const dataspace::Dataspace &mem_space,
+                           const dataspace::Dataspace &file_space,
+                           const std::string &operation) const
+{
+  if(file_space.size()!=mem_space.size())
+  {
+    std::stringstream ss;
+    ss<<"Size mismatch in attribute "<<operation<<": "<<mem_space.size()
+      <<" elements in memory, "<<file_space.size()
+      <<" on disk!";
+    throw std::runtime_error(ss.str());
+  }
+}
+
 } // namespace attribute
 } // namespace hdf5

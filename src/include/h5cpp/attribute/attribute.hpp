@@ -84,10 +84,35 @@ class DLL_EXPORT Attribute
     //!
     bool is_valid() const;
 
+    //!
+    //! \brief write data to attribute
+    //!
+    //! Write data to disk. This is the simplest form of writting
+    //! datat to disk. Its only argument is a reference to the object
+    //! holding the data which should be written.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \tparam T data type to write to disk
+    //! \param data reference to the datas instance
+    //!
     template<typename T>
     void write(const T& data) const;
-    void write(const char *data) const;
+    void write(const char *data) const; //need this for string literals
 
+    //!
+    //! \brief write data to disk
+    //!
+    //! Write data to disk however we can pass a custom memory type
+    //! to this method. This is particularly useful in the case of
+    //! string types where the HDF5 datatype cannot be determined
+    //! uniquely from a C++ type.
+    //!
+    //! \throws std::runtime_error in case of an error
+    //! \tparam T type of input data
+    //! \param data refernce to input data
+    //! \param mem_type HDF5 memory type of the input data
+    //!
     template<typename T>
     void write(const T& data,const datatype::Datatype &mem_type) const;
     void write(const char *data,const datatype::Datatype &mem_type) const;
@@ -205,12 +230,18 @@ class DLL_EXPORT Attribute
       }
     }
 
+    void check_size(const dataspace::Dataspace &mem_space,
+                    const dataspace::Dataspace &file_space,
+                    const std::string &operation) const;
+
 };
 
 template<typename T>
 void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 {
   datatype::Datatype file_type = datatype();
+
+  check_size(dataspace::create(data),dataspace(),"write");
 
   if(file_type.get_class()==datatype::Class::STRING)
   {
@@ -250,6 +281,8 @@ template<typename T>
 void Attribute::read(T &data,const datatype::Datatype &mem_type) const
 {
   datatype::Datatype file_type = datatype();
+
+  check_size(dataspace::create(data),dataspace(),"read");
 
   if(file_type.get_class()==datatype::Class::STRING)
   {
