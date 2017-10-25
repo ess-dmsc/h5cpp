@@ -1,75 +1,96 @@
 add_subdirectory(include)
 
-set(PROPERTY_SOURCES  property/class.cpp
-					  property/creation_order.cpp
-            		  property/list.cpp
-            		  property/file_creation.cpp	  
-            		  property/file_access.cpp
-            		  property/file_mount_list.cpp
-            		  property/dataset_access_list.cpp
-            		  property/dataset_creation_list.cpp
-            		  property/dataset_transfer_list.cpp
-                      property/group_creation.cpp
-                      property/group_access.cpp
-                      property/object_creation.cpp
-                      property/object_copy_list.cpp
-                      property/string_creation_list.cpp
-                      property/type_creation_list.cpp
-                      property/datatype_access_list.cpp
-                      property/link_creation_list.cpp
-                      property/link_access_list.cpp
-                      property/attribute_creation_list.cpp)
-                     
-set(DATATYPE_SOURCES datatype/datatype.cpp
-	datatype/integer.cpp
-	datatype/float.cpp
-	datatype/types.cpp
-	datatype/compound.cpp
+set(PROPERTY_SOURCES
+  property/class.cpp
+  property/creation_order.cpp
+  property/list.cpp
+  property/file_creation.cpp
+  property/file_access.cpp
+  property/file_mount_list.cpp
+  property/dataset_access_list.cpp
+  property/dataset_creation_list.cpp
+  property/dataset_transfer_list.cpp
+  property/group_creation.cpp
+  property/group_access.cpp
+  property/object_creation.cpp
+  property/object_copy_list.cpp
+  property/string_creation_list.cpp
+  property/type_creation_list.cpp
+  property/datatype_access_list.cpp
+  property/link_creation_list.cpp
+  property/link_access_list.cpp
+  property/attribute_creation_list.cpp
+  )
+
+set(DATATYPE_SOURCES
+  datatype/datatype.cpp
+  datatype/integer.cpp
+  datatype/float.cpp
+  datatype/types.cpp
+  datatype/compound.cpp
   datatype/string.cpp
   datatype/array.cpp
   )
 
-set(DATASPACE_SOURCES dataspace/dataspace.cpp
-                      dataspace/scalar.cpp
-                      dataspace/simple.cpp
-                      dataspace/selection.cpp
-                      dataspace/selection_manager.cpp
-                      dataspace/type.cpp)
-                     
-set(FILE_SOURCES file/types.cpp
-	             file/file.cpp
-	             file/functions.cpp
-)
+set(DATASPACE_SOURCES
+  dataspace/dataspace.cpp
+  dataspace/scalar.cpp
+  dataspace/simple.cpp
+  dataspace/selection.cpp
+  dataspace/selection_manager.cpp
+  dataspace/type.cpp
+  )
 
-set(NODE_SOURCES node/types.cpp
-	             node/group_view.cpp
-	             node/node_view.cpp
-	             node/link_view.cpp
-	             node/node.cpp
-	             node/link.cpp
-	             node/group.cpp
-	             node/utilities.cpp
-	             node/dataset.cpp
-               node/functions.cpp
-               node/node_iterator.cpp
-	             node/link_iterator.cpp
-)
+set(FILE_SOURCES
+  file/types.cpp
+  file/file.cpp
+  file/functions.cpp
+  )
 
-set(ATTRIBUTE_SOURCES attribute/attribute.cpp
-	                  attribute/attribute_manager.cpp
-	                  attribute/attribute_iterator.cpp
-)
+set(ERROR_SOURCES
+  error/error.cpp
+  )
 
-set(SOURCES object_handle.cpp
-            object_id.cpp
-            path.cpp
-            iterator_config.cpp
-            iterator.cpp
-            )
+set(NODE_SOURCES
+  node/types.cpp
+  node/group_view.cpp
+  node/node_view.cpp
+  node/link_view.cpp
+  node/node.cpp
+  node/link.cpp
+  node/group.cpp
+  node/utilities.cpp
+  node/dataset.cpp
+  node/functions.cpp
+  node/node_iterator.cpp
+  node/link_iterator.cpp
+  )
 
-add_library(h5cpp_shared SHARED ${SOURCES} ${PROPERTY_SOURCES} 
-			${DATATYPE_SOURCES} ${DATASPACE_SOURCES}
-		    ${FILE_SOURCES} ${NODE_SOURCES} ${ATTRIBUTE_SOURCES})
+set(ATTRIBUTE_SOURCES
+  attribute/attribute.cpp
+  attribute/attribute_manager.cpp
+  attribute/attribute_iterator.cpp
+  )
+
+set(SOURCES
+  object_handle.cpp
+  object_id.cpp
+  path.cpp
+  iterator_config.cpp
+  iterator.cpp
+  )
+
+add_library(h5cpp_shared SHARED
+  ${SOURCES}
+  ${PROPERTY_SOURCES}
+  ${DATATYPE_SOURCES}
+  ${DATASPACE_SOURCES}
+  ${ERROR_SOURCES}
+  ${FILE_SOURCES}
+  ${NODE_SOURCES}
+  ${ATTRIBUTE_SOURCES}
+  )
+
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem)
 target_include_directories(h5cpp_shared

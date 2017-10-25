@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,16 +19,20 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
+#pragma once
 
-int main(int argc, char **argv)
-{
-  hdf5::error::auto_print(false);
+#include "../windows.hpp"
+#include "../object_handle.hpp"
 
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+namespace hdf5 {
+namespace error {
+
+void auto_print(bool enable);
+void clear_stack();
+
+
+} // namespace file
+} // namespace hdf5
