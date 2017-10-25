@@ -120,6 +120,11 @@ void Dataset::refresh() const
 #endif
 
 
+void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
+{
+  write(std::string(data),dtpl);
+}
+
 
 } // namespace node
 } // namespace hdf5

@@ -20,12 +20,12 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 24, 2017
+// Created on: Oct 25, 2017
 //
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
 
-struct DatasetFixedStringIO : public testing::Test
+struct DatasetVariableStringIO : public testing::Test
 {
   hdf5::file::File file;
   hdf5::node::Group root_group;
@@ -33,43 +33,52 @@ struct DatasetFixedStringIO : public testing::Test
   hdf5::dataspace::Scalar scalar_space;
   hdf5::dataspace::Simple simple_space;
   hdf5::property::DatasetTransferList dtpl;
+  hdf5::node::Dataset scalar_dataset;
+  hdf5::node::Dataset vector_dataset;
 
-  DatasetFixedStringIO():
-    file(hdf5::file::create("DatasetFixedStringIO.h5",hdf5::file::AccessFlags::TRUNCATE)),
+  DatasetVariableStringIO():
+    file(hdf5::file::create("DatasetVariableStringIO.h5",hdf5::file::AccessFlags::TRUNCATE)),
     root_group(file.root()),
-    string_type(hdf5::datatype::String::fixed(5)),
+    string_type(hdf5::datatype::create<std::string>()),
     scalar_space(),
-    simple_space({2,3}),
-    dtpl(hdf5::property::DatasetTransferList())
+    simple_space({7}),
+    dtpl(hdf5::property::DatasetTransferList()),
+    scalar_dataset(root_group.create_dataset("scalar",string_type,scalar_space)),
+    vector_dataset(root_group.create_dataset("vector",string_type,simple_space))
   {
-    string_type.set_encoding(hdf5::datatype::CharacterEncoding::UTF8);
-    string_type.set_padding(hdf5::datatype::StringPad::NULLTERM);
   }
 };
 
 using namespace hdf5;
 
-TEST_F(DatasetFixedStringIO,scalar_auto_config)
+TEST_F(DatasetVariableStringIO,scalar_io)
 {
-  node::Dataset dset = root_group.create_dataset("data",string_type,scalar_space);
-
   std::string write_value = "hello";
-  EXPECT_NO_THROW(dset.write(write_value,string_type,scalar_space,scalar_space,dtpl));
+  EXPECT_NO_THROW(scalar_dataset.write(write_value));
   std::string read_value;
-  EXPECT_NO_THROW(dset.read(read_value,string_type,scalar_space,scalar_space,dtpl));
+  EXPECT_NO_THROW(scalar_dataset.read(read_value));
 
   EXPECT_EQ(write_value,read_value);
-
 }
 
-TEST_F(DatasetFixedStringIO,vector_no_auto_config)
+TEST_F(DatasetVariableStringIO,scalar_const_char_ptr_io)
 {
-  node::Dataset dset = root_group.create_dataset("data",string_type,simple_space);
+  EXPECT_NO_THROW(scalar_dataset.write("this is a test"));
+  std::string read_value;
+  EXPECT_NO_THROW(scalar_dataset.read(read_value));
 
-  std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD","EEEEE","FFFFF"};
-  EXPECT_NO_THROW(dset.write(write,string_type,simple_space,simple_space,dtpl));
-  std::vector<std::string> read;
-  EXPECT_NO_THROW(dset.read(read,string_type,simple_space,simple_space,dtpl));
+  EXPECT_EQ("this is a test",read_value);
+}
+
+TEST_F(DatasetVariableStringIO,vector_io)
+{
+  using str_vector = std::vector<std::string>;
+  str_vector write{"hello","world","this","is","an","arbitrary","text"};
+  str_vector read(write.size());
+
+  EXPECT_NO_THROW(vector_dataset.write(write));
+  EXPECT_NO_THROW(vector_dataset.read(read));
+
   EXPECT_EQ(write,read);
 }
 

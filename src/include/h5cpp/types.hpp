@@ -29,6 +29,8 @@ extern "C" {
 }
 #include <vector>
 #include <sstream>
+#include <cstring>
+#include <algorithm>
 #include "datatype/string.hpp"
 #include "dataspace/dataspace.hpp"
 
@@ -72,15 +74,17 @@ using VarLengthStringBuffer = std::vector<CharT*>;
 //! Trait implementing conversion functions between T and a particular
 //! variable length string buffer type.
 //!
-template<typename T,typename CharT>
+template<typename T>
 struct VarLengthStringTrait
 {
+    using BufferType = VarLengthStringBuffer<char>;
+    using DataType = T;
     //!
     //! \brief copy data from T to the string buffer
     //!
     //! The function will do the allocation of space in the string buffer.
     //!
-    static void to_buffer(const T &,VarLengthStringBuffer<CharT> &)
+    static BufferType to_buffer(const T &)
     {}
 
     //!
@@ -89,9 +93,54 @@ struct VarLengthStringTrait
     //! Copies the data from a string buffer to an instance of T.
     //! Space in T will be allocated by this function.
     //!
-    static void from_buffer(const VarLengthStringBuffer<CharT> &,T &)
+    static void from_buffer(const BufferType &, DataType &data)
     {}
 };
+
+template<>
+struct VarLengthStringTrait<std::string>
+{
+  using BufferType = VarLengthStringBuffer<char>;
+  using DataType = std::string;
+
+  static BufferType to_buffer(const DataType &data)
+  {
+    return BufferType{const_cast<char*>(data.c_str())};
+  }
+
+  static void from_buffer(const BufferType &buffer,DataType &data)
+  {
+    data = DataType(buffer[0],std::strlen(buffer[0]));
+  }
+};
+
+template<>
+struct VarLengthStringTrait<std::vector<std::string>>
+{
+  using BufferType = VarLengthStringBuffer<char>;
+  using DataType = std::vector<std::string>;
+
+  static BufferType to_buffer(const DataType &data)
+  {
+    BufferType buffer;
+    std::transform(data.begin(),data.end(),std::back_inserter(buffer),
+                   [](const std::string &str)
+                   {
+                    return const_cast<char*>(str.c_str());
+                   });
+    return buffer;
+  }
+
+  static void from_buffer(const BufferType &buffer,DataType &data)
+  {
+    std::transform(buffer.begin(),buffer.end(),data.begin(),
+                   [](const char *ptr)
+                   {
+                     return std::string(ptr,std::strlen(ptr));
+                   });
+  }
+};
+
 
 template<typename CharT>
 using FixedLengthStringBuffer = std::vector<CharT>;
@@ -127,9 +176,6 @@ struct FixedLengthStringTrait<std::string>
       return DataType(buffer.begin(),buffer.end()-1);
     }
 };
-
-template<typename CharT>
-using StringBuffer = std::vector<CharT*>;
 
 template<>
 struct FixedLengthStringTrait<std::vector<std::string>>

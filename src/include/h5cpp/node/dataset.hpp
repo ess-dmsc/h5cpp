@@ -171,6 +171,9 @@ class DLL_EXPORT Dataset : public Node
     void write(const T &data,const property::DatasetTransferList &dtpl =
                                    property::DatasetTransferList()) const;
 
+    void write(const char *data,const property::DatasetTransferList &dtpl =
+                                      property::DatasetTransferList()) const;
+
     //!
     //! \brief read entire dataset
     //!
@@ -274,7 +277,20 @@ class DLL_EXPORT Dataset : public Node
                                            const dataspace::Dataspace &file_space,
                                            const property::DatasetTransferList &dtpl) const
     {
+      using Trait = VarLengthStringTrait<T>;
+      auto buffer = Trait::to_buffer(data);
 
+      if(H5Dwrite(static_cast<hid_t>(*this),
+                  static_cast<hid_t>(mem_type),
+                  static_cast<hid_t>(mem_space),
+                  static_cast<hid_t>(file_space),
+                  static_cast<hid_t>(dtpl),
+                  reinterpret_cast<void*>(buffer.data()))<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to write variable length string data to dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
     }
 
     template<typename T>
@@ -376,6 +392,41 @@ class DLL_EXPORT Dataset : public Node
                                           const dataspace::Dataspace &file_space,
                                           const property::DatasetTransferList &dtpl) const
     {
+      using Trait = VarLengthStringTrait<T>;
+
+      typename Trait::BufferType buffer;
+      if(file_space.selection.type() == dataspace::SelectionType::ALL)
+        buffer = typename Trait::BufferType(file_space.size());
+      else
+        buffer = typename Trait::BufferType(file_space.selection.size());
+
+
+      if(H5Dread(static_cast<hid_t>(*this),
+                 static_cast<hid_t>(mem_type),
+                 static_cast<hid_t>(mem_space),
+                 static_cast<hid_t>(file_space),
+                 static_cast<hid_t>(dtpl),
+                 buffer.data())<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to read variable length string data from dataset ["
+          <<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+
+      Trait::from_buffer(buffer,data);
+
+      if(H5Dvlen_reclaim(static_cast<hid_t>(file_type),
+                         static_cast<hid_t>(file_space),
+                         static_cast<hid_t>(dtpl),
+                         buffer.data())<0)
+      {
+        std::stringstream ss;
+        ss<<"Error reclaiming memory from variable length string data in "
+          <<"dataset ["<<link().path()<<"]!";
+        throw std::runtime_error(ss.str());
+      }
+
 
     }
 
@@ -403,7 +454,7 @@ class DLL_EXPORT Dataset : public Node
                  buffer.data())<0)
       {
         std::stringstream ss;
-        ss<<"Failure to write fixed length string data to dataset ["<<link().path()<<"]!";
+        ss<<"Failure to read fixed length string data to dataset ["<<link().path()<<"]!";
         throw std::runtime_error(ss.str());
       }
 
@@ -443,6 +494,18 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
   }
 
 }
+
+template<typename T>
+void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  auto file_space  = dataspace();
+  file_space.selection.all();
+
+  write(data,memory_type,memory_space,file_space,dtpl);
+}
+
 
 template<typename T>
 void Dataset::read(T &data,const datatype::Datatype &mem_type,
@@ -512,16 +575,6 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 
 }
 
-template<typename T>
-void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
-{
-  auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
-  auto file_space  = dataspace();
-  file_space.selection.all();
-
-  write(data,memory_type,memory_space,file_space,dtpl);
-}
 
 
 } // namespace node
