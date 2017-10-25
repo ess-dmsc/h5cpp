@@ -32,6 +32,7 @@
 #include "../object_handle.hpp"
 #include "../windows.hpp"
 #include "../types.hpp"
+#include <initializer_list>
 
 namespace hdf5 {
 namespace attribute {
@@ -98,7 +99,47 @@ class DLL_EXPORT Attribute
     //!
     template<typename T>
     void write(const T& data) const;
-    void write(const char *data) const; //need this for string literals
+
+    //!
+    //! \brief write string literal to disk
+    //!
+    //! This is used whenever a string literal must be
+    //! written to disk.
+    //!
+    //! \code
+    //! attribute::Attribute a = dataset.attributes.create<std::string>("note");
+    //! a.write("a short text");
+    //! \endcode
+    //!
+    //! You should be aware that this currently only works if the
+    //! string type used for the attribute is a variable length string.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    void write(const char *data) const;
+
+    //!
+    //! \brief write from initializer list
+    //!
+    //! This method is used if the data to write is provided via
+    //! an initializer list.
+    //!
+    //! \code
+    //! Attribute a = dataset.attributes.create<int>("index_list",{4});
+    //! a.write({56,23,4,12});
+    //! \endcode
+    //!
+    //! Internaly this method stores the content of the list to an instance
+    //! of std::vector<T> which is then written to the attribute.
+    //!
+    //! \tparam T type of the list elements
+    //! \param list reference to the initializer list
+    //!
+    template<typename T>
+    void write(const std::initializer_list<T> &list) const
+    {
+      write(std::vector<T>{list});
+    }
 
     //!
     //! \brief write data to disk
@@ -107,6 +148,17 @@ class DLL_EXPORT Attribute
     //! to this method. This is particularly useful in the case of
     //! string types where the HDF5 datatype cannot be determined
     //! uniquely from a C++ type.
+    //!
+    //! \code
+    //! String fixed_type = String::fixed(20);
+    //! Attribute a = dataset.attributes.create("note",fixed_type,Scalar());
+    //!
+    //! //we have to pass the type here explicitely otherwise the library
+    //! //would take std::string as a variable length string and HDF5
+    //! //considers variable and fixed length strings as incompatible.
+    //! std::string data = "hello";
+    //! a.write(data,fixed_type);
+    //! \endcode
     //!
     //! \throws std::runtime_error in case of an error
     //! \tparam T type of input data
