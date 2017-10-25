@@ -31,7 +31,6 @@ namespace dataspace {
 
 Dataspace::~Dataspace()
 {
-  handle_.close();
 }
 
 Dataspace::Dataspace()

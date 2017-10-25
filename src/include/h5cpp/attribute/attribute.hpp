@@ -30,6 +30,7 @@
 #include "../dataspace/type_trait.hpp"
 #include "../object_handle.hpp"
 #include "../windows.hpp"
+#include "../types.hpp"
 
 namespace hdf5 {
 namespace attribute {
@@ -96,45 +97,142 @@ class DLL_EXPORT Attribute
 
   private:
     ObjectHandle handle_;
+
+    template<typename T>
+    void write_fixed_length_string(const T &data,
+                                   const datatype::Datatype &mem_type) const
+    {
+      using Trait = FixedLengthStringTrait<T>;
+      auto buffer = Trait::to_buffer(data,datatype::String(datatype()));
+
+      if(H5Awrite(static_cast<hid_t>(handle_),
+                  static_cast<hid_t>(mem_type),
+                  buffer.data())<0)
+      {
+        throw std::runtime_error("Failure to write data to attribute!");
+      }
+
+    }
+
+    template<typename T>
+    void write_variable_length_string(const T &data,
+                                      const datatype::Datatype &mem_type) const
+    {
+
+    }
+
+    template<typename T>
+    void write_contiguous_data(const T &data,
+                               const datatype::Datatype &mem_type) const
+    {
+      const void *ptr = dataspace::cptr(data);
+      if(H5Awrite(static_cast<hid_t>(handle_),static_cast<hid_t>(mem_type),ptr)<0)
+      {
+        throw std::runtime_error("Failure to write data to attribute!");
+      }
+    }
+
+    template<typename T>
+    void read_fixed_length_string(T &data,
+                                  const datatype::Datatype &mem_type) const
+    {
+      using Trait = FixedLengthStringTrait<T>;
+
+      typename Trait::BufferType buffer(dataspace().size()*datatype().size());
+
+      if(H5Aread(static_cast<hid_t>(handle_),
+                 static_cast<hid_t>(mem_type),
+                 buffer.data())<0)
+      {
+        throw std::runtime_error("Failure to read data from attribute!");
+      }
+
+      data = Trait::from_buffer(buffer,datatype::String(datatype()));
+
+    }
+
+    template<typename T>
+    void read_variable_length_string(T &data,
+                                     const datatype::Datatype &mem_type) const
+    {
+
+    }
+
+    template<typename T>
+    void read_contiguous_data(T &data,
+                              const datatype::Datatype &mem_type) const
+    {
+      void *ptr = dataspace::ptr(data);
+
+      if(H5Aread(static_cast<hid_t>(handle_),static_cast<hid_t>(mem_type),ptr)<0)
+      {
+        throw std::runtime_error("Failure to read data from attribute!");
+      }
+    }
+
 };
 
 template<typename T>
 void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 {
+  datatype::Datatype file_type = datatype();
 
+  if(file_type.get_class()==datatype::Class::STRING)
+  {
+    datatype::String string_type(file_type);
+
+    if(string_type.is_variable_length())
+    {
+      write_variable_length_string(data,mem_type);
+    }
+    else
+    {
+      write_fixed_length_string(data,mem_type);
+    }
+  }
+  else
+  {
+    write_contiguous_data(data,mem_type);
+  }
 }
 
 template<typename T>
 void Attribute::write(const T &data) const
 {
-  auto type = datatype::create<T>();
-  auto space = dataspace::create(data);
-  const void *ptr = dataspace::cptr(data);
+  auto mem_type = datatype::create<T>();
 
-  if(H5Awrite(static_cast<hid_t>(handle_),static_cast<hid_t>(type),ptr)<0)
-  {
-    throw std::runtime_error("Failure to write data to attribute!");
-  }
-
+  write(data,mem_type);
 }
 
 template<typename T>
 void Attribute::read(T &data) const
 {
-  auto type = datatype::create<T>();
-  auto space = dataspace::create(data);
-  void *ptr = dataspace::ptr(data);
-
-  if(H5Aread(static_cast<hid_t>(handle_),static_cast<hid_t>(type),ptr)<0)
-  {
-    throw std::runtime_error("Failure to read data from attribute!");
-  }
+  auto mem_type = datatype::create<T>();
+  read(data,mem_type);
 }
 
 template<typename T>
 void Attribute::read(T &data,const datatype::Datatype &mem_type) const
 {
+  datatype::Datatype file_type = datatype();
 
+  if(file_type.get_class()==datatype::Class::STRING)
+  {
+    datatype::String string_type(file_type);
+
+    if(string_type.is_variable_length())
+    {
+      read_variable_length_string(data,mem_type);
+    }
+    else
+    {
+      read_fixed_length_string(data,mem_type);
+    }
+  }
+  else
+  {
+    read_contiguous_data(data,mem_type);
+  }
 }
 
 

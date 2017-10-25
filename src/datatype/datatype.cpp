@@ -32,7 +32,6 @@ namespace datatype {
 
 Datatype::~Datatype()
 {
-  handle_.close();
 }
 
 Datatype::Datatype(ObjectHandle &&handle):

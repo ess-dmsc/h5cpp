@@ -37,7 +37,7 @@ struct DatasetFixedStringIO : public testing::Test
   DatasetFixedStringIO():
     file(hdf5::file::create("DatasetFixedStringIO.h5",hdf5::file::AccessFlags::TRUNCATE)),
     root_group(file.root()),
-    string_type(hdf5::datatype::String::fixed(20)),
+    string_type(hdf5::datatype::String::fixed(5)),
     scalar_space(),
     simple_space({2,3}),
     dtpl(hdf5::property::DatasetTransferList())
@@ -56,7 +56,7 @@ TEST_F(DatasetFixedStringIO,scalar_auto_config)
   std::string write_value = "hello";
   EXPECT_NO_THROW(dset.write(write_value,string_type,scalar_space,scalar_space,dtpl));
   std::string read_value;
-  dset.read(read_value,string_type,scalar_space,scalar_space,dtpl);
+  EXPECT_NO_THROW(dset.read(read_value,string_type,scalar_space,scalar_space,dtpl));
 
   EXPECT_EQ(write_value,read_value);
 
@@ -66,8 +66,11 @@ TEST_F(DatasetFixedStringIO,vector_no_auto_config)
 {
   node::Dataset dset = root_group.create_dataset("data",string_type,simple_space);
 
-  std::vector<std::string> write_values{"hello","world","this","is","some","stupid"};
-  EXPECT_NO_THROW(dset.write(write_values,string_type,simple_space,simple_space,dtpl));
+  std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD","EEEEE","FFFFF"};
+  EXPECT_NO_THROW(dset.write(write,string_type,simple_space,simple_space,dtpl));
+  std::vector<std::string> read;
+  EXPECT_NO_THROW(dset.read(read,string_type,simple_space,simple_space,dtpl));
+  EXPECT_EQ(write,read);
 }
 
 
