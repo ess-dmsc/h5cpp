@@ -6,3 +6,6 @@
 /test1.h5
 /.project
 /.cproject
+.cproject
+.settings
+.project
