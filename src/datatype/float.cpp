@@ -24,6 +24,8 @@
 //
 
 #include <h5cpp/datatype/float.hpp>
+#include <sstream>
+#include <stdexcept>
 
 namespace hdf5 {
 namespace datatype {
@@ -31,6 +33,18 @@ namespace datatype {
   Float::Float(ObjectHandle &&handle):
 		    Datatype(std::move(handle))
   {}
+
+  Float::Float(const Datatype &datatype):
+      Datatype(datatype)
+  {
+    if((datatype.get_class() != Class::FLOAT) ||
+       (datatype.get_class() != Class::NONE))
+    {
+      std::stringstream ss;
+      ss<<"Datatype is not a FLOAT or NONE type!";
+      throw std::runtime_error(ss.str());
+    }
+  }
 
 } // namespace datatype
 } // namespace hdf5
