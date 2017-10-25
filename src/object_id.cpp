@@ -27,33 +27,39 @@
 namespace hdf5
 {
 
-ObjectId::ObjectId()
-{}
-
-ObjectId::ObjectId(hid_t object)
+std::string ObjectId::get_file_name(hid_t object)
 {
   ssize_t size = H5Fget_name(object, NULL, 0);
   std::vector<char> namec(size + 2, '\0');
   size = H5Fget_name(object, namec.data(), size);
-  file_name_ = std::string(namec.data());
+  return std::string(namec.data());
+}
 
+ObjectId::ObjectId(hid_t object)
+{
   H5O_info_t info;
   H5Oget_info(object, &info);
   file_num_ = info.fileno;
   obj_addr_ = info.addr;
+
+  file_name_ = boost::filesystem::path(get_file_name(object));
 }
 
 std::ostream & operator<<(std::ostream &os, const ObjectId& p)
 {
-  os << p.file_num_ << ":" << p.obj_addr_
-     << " \"" << p.file_name_ << "\"";
+  os << p.file_num_ << ":" << p.obj_addr_;
+#ifdef H5CPP_OBJECTID_USE_FILENAME
+  os << " \"" << p.file_name_ << "\"";
+#endif
   return os;
 }
 
 bool ObjectId::operator== (const ObjectId& other) const
 {
   return (
-//        (file_name_ == other.file_name_) &&
+      #ifdef H5CPP_OBJECTID_USE_FILENAME
+        (file_name_ == other.file_name_) &&
+      #endif
         (file_num_ == other.file_num_) &&
         (obj_addr_ == other.obj_addr_)
         );
@@ -66,16 +72,20 @@ bool ObjectId::operator!= (const ObjectId &other) const
 
 bool ObjectId::operator< (const ObjectId& other) const
 {
-  return (
-//        (file_name_ < other.file_name_) &&
-        (file_num_ < other.file_num_) &&
-        (obj_addr_ < other.obj_addr_)
-        );
-}
-
-std::string ObjectId::file_name() const
-{
-  return file_name_;
+  if (file_num_ < other.file_num_)
+    return true;
+#ifdef H5CPP_OBJECTID_USE_FILENAME
+  if ((file_num_ == other.file_num_) && (file_name_ < other.file_name_))
+    return true;
+  if ((file_num_ == other.file_num_) &&
+      (file_name_ == other.file_name_) &&
+      (obj_addr_ < other.obj_addr_))
+    return true;
+#else
+  if ((file_num_ == other.file_num_) && (obj_addr_ < other.obj_addr_))
+    return true;
+#endif
+  return false;
 }
 
 unsigned long ObjectId::file_number() const
@@ -86,6 +96,11 @@ unsigned long ObjectId::file_number() const
 haddr_t ObjectId::object_address() const
 {
   return obj_addr_;
+}
+
+boost::filesystem::path ObjectId::file_name() const
+{
+  return file_name_;
 }
 
 

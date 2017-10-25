@@ -357,8 +357,6 @@ std::istream &operator>>(std::istream &stream,ObjectHandle::Type &type)
     type = ObjectHandle::Type::BADOBJECT;
 
   return stream;
-
-
 }
 
 } // namespace hdf5

@@ -99,6 +99,18 @@ struct OneFile
   hid_t file, group1, group2, dset1;
 };
 
+// Print
+TEST(ObjectId,  printing )
+{
+  OneFile* file = new OneFile(FILE1);
+  ObjectId f1(file->file);
+  delete file;
+
+  std::stringstream ss;
+  ss << f1;
+  EXPECT_TRUE(!ss.str().empty());
+}
+
 // For h5 hard links (to group):
 //   file_name, file_number and address are all equal
 TEST(ObjectId,  hard_group )
@@ -395,5 +407,37 @@ TEST(ObjectId,  repeated_open )
   EXPECT_EQ(i1.file_name(), i2.file_name());
   EXPECT_NE(i1.file_number(), i2.file_number());
   EXPECT_EQ(i1.object_address(), i2.object_address());
-  std::cout << i1 << "   ??   " << i2 << std::endl;
+//  std::cout << i1 << "   ??   " << i2 << std::endl;
 }
+
+// Sorting ObjectIds
+TEST(ObjectId,  comparison )
+{
+  OneFile* file = new OneFile(FILE1);
+  OneFile* file2 = new OneFile(FILE2);
+  ObjectId f1(file->file);
+  ObjectId f2(file2->file);
+  ObjectId g1(file2->group1);
+  ObjectId g2(file2->group2);
+
+  delete file;
+  delete file2;
+
+  EXPECT_EQ(f1, f1);
+  EXPECT_EQ(g1, g1);
+  EXPECT_NE(f1, f2);
+  EXPECT_NE(g1, g2);
+  EXPECT_NE(f1, g1);
+  EXPECT_NE(f1, g2);
+  EXPECT_NE(f2, g1);
+  EXPECT_NE(f2, g2);
+  EXPECT_TRUE(f1 < f2);
+  EXPECT_FALSE(f1 < f1);
+  EXPECT_FALSE(f2 < f1);
+  EXPECT_FALSE(g2 < g1);
+  EXPECT_LT(g1, g2);
+  EXPECT_LT(f1, g1);
+  EXPECT_LT(f2, g1);
+}
+
+
