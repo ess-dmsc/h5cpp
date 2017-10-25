@@ -79,19 +79,29 @@ struct VarLengthStringTrait
 {
     using BufferType = VarLengthStringBuffer<char>;
     using DataType = T;
+
     //!
-    //! \brief copy data from T to the string buffer
+    //! \brief create buffer with write data
     //!
-    //! The function will do the allocation of space in the string buffer.
+    //! This function creates a buffer instance which can be used for
+    //! writing data to disk. The buffer must be allocated within this
+    //! function to ensure that all the input data fits into it.
+    //!
+    //! \param data the input data
+    //! \return an instance of the variable length string buffer
     //!
     static BufferType to_buffer(const T &)
     {}
 
     //!
-    //! \brief copy data from string buffer to T
+    //! \brief copy data to output
     //!
-    //! Copies the data from a string buffer to an instance of T.
-    //! Space in T will be allocated by this function.
+    //! Copies data from the buffer to the user data structure.
+    //! It assumes that data is allocated and all data fits into
+    //! it. We usually do not have to care about this as during the
+    //! reading procedure a dataspace for the data sturcture is
+    //! created and H5Dread checks whether or not the data fits
+    //! into the structure.
     //!
     static void from_buffer(const BufferType &, DataType &data)
     {}
@@ -102,6 +112,7 @@ struct VarLengthStringTrait<std::string>
 {
   using BufferType = VarLengthStringBuffer<char>;
   using DataType = std::string;
+
 
   static BufferType to_buffer(const DataType &data)
   {

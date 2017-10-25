@@ -28,6 +28,7 @@
 #include "../dataspace/dataspace.hpp"
 #include "../datatype/factory.hpp"
 #include "../dataspace/type_trait.hpp"
+#include "../property/dataset_transfer_list.hpp"
 #include "../object_handle.hpp"
 #include "../windows.hpp"
 #include "../types.hpp"
@@ -85,9 +86,11 @@ class DLL_EXPORT Attribute
 
     template<typename T>
     void write(const T& data) const;
+    void write(const char *data) const;
 
     template<typename T>
     void write(const T& data,const datatype::Datatype &mem_type) const;
+    void write(const char *data,const datatype::Datatype &mem_type) const;
 
     template<typename T>
     void read(T &data) const;
@@ -118,6 +121,15 @@ class DLL_EXPORT Attribute
     void write_variable_length_string(const T &data,
                                       const datatype::Datatype &mem_type) const
     {
+      using Trait = VarLengthStringTrait<T>;
+      auto buffer = Trait::to_buffer(data);
+
+      if(H5Awrite(static_cast<hid_t>(handle_),
+                  static_cast<hid_t>(mem_type),
+                  buffer.data())<0)
+      {
+        throw std::runtime_error("Failure to write data to attribute!");
+      }
 
     }
 
@@ -155,6 +167,29 @@ class DLL_EXPORT Attribute
     void read_variable_length_string(T &data,
                                      const datatype::Datatype &mem_type) const
     {
+      using Trait = VarLengthStringTrait<T>;
+
+      typename Trait::BufferType buffer(dataspace().size());
+
+      if(H5Aread(static_cast<hid_t>(handle_),
+                 static_cast<hid_t>(mem_type),
+                 buffer.data())<0)
+      {
+        throw std::runtime_error("Failure to read data from attribute!");
+      }
+
+      Trait::from_buffer(buffer,data);
+
+      if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
+                         static_cast<hid_t>(dataspace()),
+                         static_cast<hid_t>(property::DatasetTransferList()),
+                         buffer.data())<0)
+      {
+        std::stringstream ss;
+        ss<<"Failure to reclaim buffer for variable length string"
+          <<" string read on attribute!";
+        throw std::runtime_error(ss.str());
+      }
 
     }
 

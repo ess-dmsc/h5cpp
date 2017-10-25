@@ -86,5 +86,15 @@ bool Attribute::is_valid() const
   return handle_.is_valid();
 }
 
+void Attribute::write(const char *data) const
+{
+  write(std::string(data));
+}
+
+void Attribute::write(const char *data,const datatype::Datatype &mem_type) const
+{
+  write(std::string(data),mem_type);
+}
+
 } // namespace attribute
 } // namespace hdf5
