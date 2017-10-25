@@ -4,3 +4,5 @@
 *.swp
 /file_open.h5
 /test1.h5
+/.project
+/.cproject
