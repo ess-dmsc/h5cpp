@@ -37,41 +37,43 @@ using namespace hdf5;
 
 #define bufsize 7000
 
-TEST(Error, auto_on)
+class Error : public testing::Test
 {
-  fflush(stderr);
+  protected:
+    virtual void SetUp()
+    {
+      fflush(stderr);
+      std::memset(buf, 0, bufsize);
+      setbuf(stderr, buf);
+    }
 
-  hdf5::ObjectHandle handle;
-  std::stringstream ss;
-  char buf2[bufsize]; std::memset(buf2, 0, sizeof(char) * bufsize);
+    std::string extract_string()
+    {
+      ss.str(std::string());
+      ss << buf;
+      return ss.str();
+    }
 
+    virtual void TearDown()
+    {
+      setbuf(stderr, NULL);
+    }
+
+    hdf5::ObjectHandle invalid_handle;
+    std::stringstream ss;
+    char buf[bufsize];
+};
+
+TEST_F(Error, auto_on)
+{
   error::auto_print(true);
-  setbuf(stderr, buf2);
-  EXPECT_THROW(handle.get_reference_count(),std::runtime_error);
-
-  ss.str(std::string());
-  ss << buf2;
-  EXPECT_FALSE(ss.str().empty());
-
-  setbuf(stderr, NULL);
+  EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
+  EXPECT_FALSE(extract_string().empty());
 }
 
-TEST(Error, auto_off)
+TEST_F(Error, auto_off)
 {
-  fflush(stderr);
-
-  hdf5::ObjectHandle handle;
-  std::stringstream ss;
-  char buf1[bufsize]; std::memset(buf1, 0, sizeof(char) * bufsize);
-
   error::auto_print(false);
-  error::clear_stack();
-  setbuf(stderr, buf1);
-  EXPECT_THROW(handle.get_reference_count(),std::runtime_error);
-
-  ss.str(std::string());
-  ss << buf1;
-    EXPECT_TRUE(ss.str().empty()) << "post buffer contents:\n" << ss.str();
-
-  setbuf(stderr, NULL);
+  EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
+  EXPECT_TRUE(extract_string().empty()) << "post buffer contents:\n" << ss.str();
 }
