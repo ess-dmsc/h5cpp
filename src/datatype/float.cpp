@@ -37,7 +37,7 @@ namespace datatype {
   Float::Float(const Datatype &datatype):
       Datatype(datatype)
   {
-    if((datatype.get_class() != Class::FLOAT) ||
+    if((datatype.get_class() != Class::FLOAT) &&
        (datatype.get_class() != Class::NONE))
     {
       std::stringstream ss;
