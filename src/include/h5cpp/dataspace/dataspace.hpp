@@ -40,6 +40,24 @@ class DLL_EXPORT Dataspace
 {
   public:
     //!
+    //! \brief destructor
+    //!
+    //! Has to be virtual due to inheritance
+    //!
+    virtual ~Dataspace();
+
+    //!
+    //! \brief default constructor
+    //!
+    //! The default constructor will leave the dataspace as an
+    //! invalid HDF5 object. Default construction is however necessary
+    //! for using a Dataspace with certain C++ STL containers.
+    //!
+    //! \sa is_valid()
+    //!
+    Dataspace();
+
+    //!
     //! \brief constructor
     //!
     //! Constructs a dataspace object from an rvalue reference to an
@@ -59,29 +77,8 @@ class DLL_EXPORT Dataspace
     //!
     Dataspace &operator=(const Dataspace &space);
 
-    //!
-    //! \brief default constructor
-    //!
-    //! The default constructor will leave the dataspace as an
-    //! invalid HDF5 object. Default construction is however necessary
-    //! for using a Dataspace with certain C++ STL containers.
-    //!
-    //! \sa is_valid()
-    //!
-    Dataspace();
-
-    //!
-    //! \brief destructor
-    //!
-    //! Has to be virtual due to inheritance
-    //!
-    virtual ~Dataspace();
-
-    //!
-    //! \brief close dataspace
-    //!
-    //! Close the dataspace instance.
-    void close();
+    Dataspace &operator=(Dataspace &&type) = default;
+    Dataspace(Dataspace &&type) = default;
 
     //!
     //! \brief number of elements in the dataspace

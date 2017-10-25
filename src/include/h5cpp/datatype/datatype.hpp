@@ -43,22 +43,53 @@ namespace datatype {
 class DLL_EXPORT Datatype
 {
   public:
+    //!
+    //! \brief destructor
+    //!
+    //! Has to be virtual due to inheritance
+    //!
     virtual ~Datatype();
-    Datatype(ObjectHandle &&handle);
-    Datatype &operator=(const Datatype &type) = default;
-    Datatype &operator=(Datatype &&type) = default;
-    Datatype(const Datatype &type) = default;
-    Datatype(Datatype &&type) = default;
+
+    //!
+    //! \brief default constructor
+    //!
+    //! The default constructor will leave the datatype as an
+    //! invalid HDF5 object. Default construction is however necessary
+    //! for using a Datatype with certain C++ STL containers.
+    //!
     Datatype() = default;
+
+    //!
+    //! \brief constructor
+    //!
+    //! Constructs a datatype object from an rvalue reference to an
+    //! HDF5 handle. The class will take full ownership of the handle.
+    //!
+    //! \param handle rvalue reference to the handle
+    //!
+    Datatype(ObjectHandle &&handle);
+
+    //!
+    //! \brief copy constructor
+    //!
+    Datatype(const Datatype &type);
+
+    //!
+    //! \brief copy assignment
+    //!
+    Datatype &operator=(const Datatype &type);
+
+    Datatype &operator=(Datatype &&type) = default;
+    Datatype(Datatype &&type) = default;
 
     Class get_class() const;
 
     Datatype super() const;
     Datatype native_type(Direction dir=Direction::ASCEND) const;
     bool has_class(Class type_class) const;
-    size_t size() const;
-    void size(size_t size) const;
 
+    virtual size_t size() const;
+    virtual void set_size(size_t size) const;
 
     explicit operator hid_t() const
     {
@@ -72,17 +103,6 @@ class DLL_EXPORT Datatype
 
 DLL_EXPORT bool operator==(const Datatype &lhs,const Datatype &rhs);
 DLL_EXPORT bool operator!=(const Datatype &lhs,const Datatype &rhs);
-
-namespace prefdefined_types {
-
-DLL_EXPORT extern const Datatype native_int;
-DLL_EXPORT extern const Datatype native_double;
-DLL_EXPORT extern const Datatype native_long_double;
-DLL_EXPORT extern const Datatype native_short;
-
-
-} // namespace predefined_types
-
 
 } // namespace datatype
 } // namespace hdf5

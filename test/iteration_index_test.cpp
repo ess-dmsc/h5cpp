@@ -22,32 +22,28 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing IterationIndex enumeration
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/iterator_config.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(IterationIndex_test)
-
-BOOST_AUTO_TEST_CASE(test_string_representation)
+TEST(IterationIndex, test_string_representation)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
   stream<<IterationIndex::CREATION_ORDER;
-  BOOST_CHECK(stream.is_equal("CREATION_ORDER"));
+  EXPECT_EQ(stream.str(), "CREATION_ORDER");
+
+  stream.str(std::string());
   stream<<IterationIndex::NAME;
-  BOOST_CHECK(stream.is_equal("NAME"));
+  EXPECT_EQ(stream.str(), "NAME");
 }
 
-BOOST_AUTO_TEST_CASE(test_value)
+TEST(IterationIndex, test_value)
 {
-  BOOST_CHECK_EQUAL(static_cast<H5_index_t>(IterationIndex::NAME),
+  EXPECT_EQ(static_cast<H5_index_t>(IterationIndex::NAME),
                     H5_INDEX_NAME);
-  BOOST_CHECK_EQUAL(static_cast<H5_index_t>(IterationIndex::CREATION_ORDER),
+  EXPECT_EQ(static_cast<H5_index_t>(IterationIndex::CREATION_ORDER),
                     H5_INDEX_CRT_ORDER);
 }
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -50,11 +50,11 @@
 */
 
 
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing object_ObjectId
+#include <gtest/gtest.h>
 
-#include <boost/test/unit_test.hpp>
+#define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
+#undef BOOST_NO_CXX11_SCOPED_ENUMS
 
 #include <h5cpp/object_id.hpp>
 #include <iostream>
@@ -99,9 +99,21 @@ struct OneFile
   hid_t file, group1, group2, dset1;
 };
 
+// Print
+TEST(ObjectId,  printing )
+{
+  OneFile* file = new OneFile(FILE1);
+  ObjectId f1(file->file);
+  delete file;
+
+  std::stringstream ss;
+  ss << f1;
+  EXPECT_TRUE(!ss.str().empty());
+}
+
 // For h5 hard links (to group):
 //   file_name, file_number and address are all equal
-BOOST_AUTO_TEST_CASE( hard_group )
+TEST(ObjectId,  hard_group )
 {
   OneFile file(FILE1);
 
@@ -113,10 +125,10 @@ BOOST_AUTO_TEST_CASE( hard_group )
   ObjectId info1(file.group1);
   ObjectId info2(group3);
 
-  BOOST_CHECK_NE(file.group1, group3);
-  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
-  BOOST_CHECK_EQUAL(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(file.group1, group3);
+  EXPECT_EQ(info1.file_name(), info2.file_name());
+  EXPECT_EQ(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
   H5Gclose(group3);
   fs::remove(FILE1);
@@ -124,7 +136,7 @@ BOOST_AUTO_TEST_CASE( hard_group )
 
 // For h5 hard links (to dataset):
 //   file_name, file_number and address are all equal
-BOOST_AUTO_TEST_CASE( hard_dset )
+TEST(ObjectId,  hard_dset )
 {
   OneFile file(FILE1);
 
@@ -136,10 +148,10 @@ BOOST_AUTO_TEST_CASE( hard_dset )
   ObjectId info1(file.dset1);
   ObjectId info2(dset2);
 
-  BOOST_CHECK_NE(file.dset1, dset2);
-  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
-  BOOST_CHECK_EQUAL(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(file.dset1, dset2);
+  EXPECT_EQ(info1.file_name(), info2.file_name());
+  EXPECT_EQ(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
   H5Dclose(dset2);
   fs::remove(FILE1);
@@ -147,7 +159,7 @@ BOOST_AUTO_TEST_CASE( hard_dset )
 
 // For h5 soft links (to group):
 //   file_name, file_number and address are all equal
-BOOST_AUTO_TEST_CASE( soft_group )
+TEST(ObjectId,  soft_group )
 {
   OneFile file(FILE1);
 
@@ -158,10 +170,10 @@ BOOST_AUTO_TEST_CASE( soft_group )
   ObjectId info1(file.group1);
   ObjectId info2(group3);
 
-  BOOST_CHECK_NE(file.group1, group3);
-  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
-  BOOST_CHECK_EQUAL(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(file.group1, group3);
+  EXPECT_EQ(info1.file_name(), info2.file_name());
+  EXPECT_EQ(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
   H5Gclose(group3);
   fs::remove(FILE1);
@@ -169,7 +181,7 @@ BOOST_AUTO_TEST_CASE( soft_group )
 
 // For h5 soft links (to dataset):
 //   file_name, file_number and address are all equal
-BOOST_AUTO_TEST_CASE( soft_dset )
+TEST(ObjectId,  soft_dset )
 {
   OneFile file(FILE1);
 
@@ -180,10 +192,10 @@ BOOST_AUTO_TEST_CASE( soft_dset )
   ObjectId info1(file.dset1);
   ObjectId info2(dset2);
 
-  BOOST_CHECK_NE(file.dset1, dset2);
-  BOOST_CHECK_EQUAL(info1.file_name(), info2.file_name());
-  BOOST_CHECK_EQUAL(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(file.dset1, dset2);
+  EXPECT_EQ(info1.file_name(), info2.file_name());
+  EXPECT_EQ(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
   H5Dclose(dset2);
   fs::remove(FILE1);
@@ -191,7 +203,7 @@ BOOST_AUTO_TEST_CASE( soft_dset )
 
 // If file copy is made:
 //   only object addresses are equal
-BOOST_AUTO_TEST_CASE( file_copy )
+TEST(ObjectId,  file_copy )
 {
   OneFile* file = new OneFile(FILE1);
   delete file;
@@ -207,10 +219,10 @@ BOOST_AUTO_TEST_CASE( file_copy )
   ObjectId info1(group1);
   ObjectId info2(group2);
 
-  BOOST_CHECK_NE(group1, group2);
-  BOOST_CHECK_NE(info1.file_name(), info2.file_name());
-  BOOST_CHECK_NE(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(group1, group2);
+  EXPECT_NE(info1.file_name(), info2.file_name());
+  EXPECT_NE(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
   H5Gclose(group1);
   H5Gclose(group2);
@@ -222,7 +234,7 @@ BOOST_AUTO_TEST_CASE( file_copy )
 
 // If 2 files are created with identical structure:
 //   only object addresses are equal
-BOOST_AUTO_TEST_CASE( file_copy2 )
+TEST(ObjectId,  file_copy2 )
 {
   OneFile* file;
   file = new OneFile(FILE1);
@@ -239,10 +251,10 @@ BOOST_AUTO_TEST_CASE( file_copy2 )
   ObjectId info1(group1);
   ObjectId info2(group2);
 
-  BOOST_CHECK_NE(group1, group2);
-  BOOST_CHECK_NE(info1.file_name(), info2.file_name());
-  BOOST_CHECK_NE(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(group1, group2);
+  EXPECT_NE(info1.file_name(), info2.file_name());
+  EXPECT_NE(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
   H5Gclose(group1);
   H5Gclose(group2);
@@ -255,7 +267,7 @@ BOOST_AUTO_TEST_CASE( file_copy2 )
 // Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal
 //   file_name is not equal
-BOOST_AUTO_TEST_CASE( symlink_id )
+TEST(ObjectId,  symlink_id )
 {
   OneFile* file = new OneFile(FILE1);
   delete file;
@@ -271,12 +283,12 @@ BOOST_AUTO_TEST_CASE( symlink_id )
   ObjectId info1(group1);
   ObjectId info2(group2);
 
-  BOOST_CHECK_NE(group1, group2);
-  BOOST_CHECK_NE(info1.file_name(), info2.file_name());
-  BOOST_CHECK_EQUAL(info1.file_number(), info2.file_number());
-  BOOST_CHECK_EQUAL(info1.object_address(), info1.object_address());
+  EXPECT_NE(group1, group2);
+  EXPECT_NE(info1.file_name(), info2.file_name());
+  EXPECT_EQ(info1.file_number(), info2.file_number());
+  EXPECT_EQ(info1.object_address(), info1.object_address());
 
-  BOOST_CHECK_EQUAL(fs::canonical(FILE1),
+  EXPECT_EQ(fs::canonical(FILE1),
                     fs::canonical(FILE2));
 
   H5Gclose(group1);
@@ -289,7 +301,7 @@ BOOST_AUTO_TEST_CASE( symlink_id )
 
 // If external link is made file2/group3 -> File1/group1
 // All three parameters are equal
-BOOST_AUTO_TEST_CASE( file_external_group )
+TEST(ObjectId,  file_external_group )
 {
   OneFile* file = new OneFile(FILE1);
   delete file;
@@ -309,10 +321,10 @@ BOOST_AUTO_TEST_CASE( file_external_group )
   ObjectId info11(group11);
   ObjectId info23(group23);
 
-  BOOST_CHECK_NE(group11, group23);
-  BOOST_CHECK_NE(info11.file_name(), info23.file_name());
-  BOOST_CHECK_EQUAL(info11.file_number(), info23.file_number());
-  BOOST_CHECK_EQUAL(info11.object_address(), info23.object_address());
+  EXPECT_NE(group11, group23);
+  EXPECT_NE(info11.file_name(), info23.file_name());
+  EXPECT_EQ(info11.file_number(), info23.file_number());
+  EXPECT_EQ(info11.object_address(), info23.object_address());
 
   H5Gclose(group11);
   H5Gclose(group23);
@@ -325,7 +337,7 @@ BOOST_AUTO_TEST_CASE( file_external_group )
 // External link is made file2/group3 -> File3/group1
 //   only file_number and object_address are equal
 //   file_name is not equal
-BOOST_AUTO_TEST_CASE( file_external_symlink )
+TEST(ObjectId,  file_external_symlink )
 {
   OneFile* file = new OneFile(FILE1);
   delete file;
@@ -354,21 +366,21 @@ BOOST_AUTO_TEST_CASE( file_external_symlink )
   ObjectId info31(group31);
   ObjectId info23(group23);
 
-  BOOST_CHECK_NE(group11, group31);
-  BOOST_CHECK_NE(group11, group23);
-  BOOST_CHECK_NE(group23, group31);
+  EXPECT_NE(group11, group31);
+  EXPECT_NE(group11, group23);
+  EXPECT_NE(group23, group31);
 
-  BOOST_CHECK_NE(info11.file_name(), info31.file_name());
-  BOOST_CHECK_NE(info31.file_name(), info23.file_name());
-  BOOST_CHECK_NE(info11.file_name(), info23.file_name());
+  EXPECT_NE(info11.file_name(), info31.file_name());
+  EXPECT_NE(info31.file_name(), info23.file_name());
+  EXPECT_NE(info11.file_name(), info23.file_name());
 
-  BOOST_CHECK_EQUAL(info11.file_number(), info31.file_number());
-  BOOST_CHECK_EQUAL(info11.file_number(), info23.file_number());
-  BOOST_CHECK_EQUAL(info31.file_number(), info23.file_number());
+  EXPECT_EQ(info11.file_number(), info31.file_number());
+  EXPECT_EQ(info11.file_number(), info23.file_number());
+  EXPECT_EQ(info31.file_number(), info23.file_number());
 
-  BOOST_CHECK_EQUAL(info11.object_address(), info31.object_address());
-  BOOST_CHECK_EQUAL(info11.object_address(), info23.object_address());
-  BOOST_CHECK_EQUAL(info31.object_address(), info23.object_address());
+  EXPECT_EQ(info11.object_address(), info31.object_address());
+  EXPECT_EQ(info11.object_address(), info23.object_address());
+  EXPECT_EQ(info31.object_address(), info23.object_address());
 
   H5Gclose(group11);
   H5Gclose(group31);
@@ -382,7 +394,7 @@ BOOST_AUTO_TEST_CASE( file_external_symlink )
 // If the same file is opened repeatedly:
 //   file_name and object_address are equal
 //   file_number is not equal
-BOOST_AUTO_TEST_CASE( repeated_open )
+TEST(ObjectId,  repeated_open )
 {
   OneFile* file = new OneFile(FILE1);
   ObjectId i1(file->file);
@@ -392,8 +404,40 @@ BOOST_AUTO_TEST_CASE( repeated_open )
   ObjectId i2(file->file);
   delete file;
 
-  BOOST_CHECK_EQUAL(i1.file_name(), i2.file_name());
-  BOOST_CHECK_NE(i1.file_number(), i2.file_number());
-  BOOST_CHECK_EQUAL(i1.object_address(), i2.object_address());
-  std::cout << i1 << "   ??   " << i2 << std::endl;
+  EXPECT_EQ(i1.file_name(), i2.file_name());
+  EXPECT_NE(i1.file_number(), i2.file_number());
+  EXPECT_EQ(i1.object_address(), i2.object_address());
+//  std::cout << i1 << "   ??   " << i2 << std::endl;
 }
+
+// Sorting ObjectIds
+TEST(ObjectId,  comparison )
+{
+  OneFile* file = new OneFile(FILE1);
+  OneFile* file2 = new OneFile(FILE2);
+  ObjectId f1(file->file);
+  ObjectId f2(file2->file);
+  ObjectId g1(file2->group1);
+  ObjectId g2(file2->group2);
+
+  delete file;
+  delete file2;
+
+  EXPECT_EQ(f1, f1);
+  EXPECT_EQ(g1, g1);
+  EXPECT_NE(f1, f2);
+  EXPECT_NE(g1, g2);
+  EXPECT_NE(f1, g1);
+  EXPECT_NE(f1, g2);
+  EXPECT_NE(f2, g1);
+  EXPECT_NE(f2, g2);
+  EXPECT_TRUE(f1 < f2);
+  EXPECT_FALSE(f1 < f1);
+  EXPECT_FALSE(f2 < f1);
+  EXPECT_FALSE(g2 < g1);
+  EXPECT_LT(g1, g2);
+  EXPECT_LT(f1, g1);
+  EXPECT_LT(f2, g1);
+}
+
+

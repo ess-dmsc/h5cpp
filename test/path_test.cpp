@@ -19,158 +19,253 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing the path implementation
-#include <boost/test/unit_test.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/path.hpp>
 
-BOOST_AUTO_TEST_SUITE(Path_test)
+using namespace hdf5;
+using namespace std;
 
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(Path, test_default_construction)
 {
-  hdf5::Path p;
-  BOOST_CHECK_EQUAL(p.size(),0);
-  BOOST_CHECK(!p.is_absolute_path());
-
+  Path p;
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_construction_from_string)
+TEST(Path, test_construction_from_string)
 {
-  hdf5::Path p("/hello/world/data");
-  BOOST_CHECK_EQUAL(p.size(),3);
-  BOOST_CHECK(p.is_absolute_path());
+  Path p;
 
-  p = hdf5::Path("hello/world");
-  BOOST_CHECK_EQUAL(p.size(),2);
-  BOOST_CHECK(!p.is_absolute_path());
+  p = Path("/hello/world/data");
+  EXPECT_EQ(p.size(),3);
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("hello/world/instrument/data/");
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(!p.is_absolute_path());
+  p = Path("hello/world");
+  EXPECT_EQ(p.size(),2);
+  EXPECT_FALSE(p.absolute());
+
+  p = Path("hello/world/instrument/data/");
+  EXPECT_EQ(p.size(),4);
+  EXPECT_FALSE(p.absolute());
+
+  p = Path(".");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
+
+  p = Path("./");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
+
+  p = Path("/.");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_TRUE(p.absolute());
+
+  p = Path(".///");
+  EXPECT_EQ(p.size(),0);
+  EXPECT_FALSE(p.absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_conversion_to_string)
+TEST(Path, test_conversion_to_string)
 {
-  hdf5::Path p("/hello/world/data");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/hello/world/data");
+  Path p;
 
-  p = hdf5::Path("hello/world");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world");
+  p = Path("/hello/world/data");
+  EXPECT_EQ(static_cast<string>(p),"/hello/world/data");
 
-  p = hdf5::Path("hello/world/instrument/data/");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"hello/world/instrument/data");
+  p = Path("hello/world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello/world/instrument/data/");
+  EXPECT_EQ(static_cast<string>(p),"hello/world/instrument/data");
+
+  p = Path(".");
+  EXPECT_EQ(static_cast<string>(p),".");
+
+  p = Path("");
+  EXPECT_EQ(static_cast<string>(p),".");
 }
 
-BOOST_AUTO_TEST_CASE(test_conversion_from_list)
+TEST(Path, test_sanitization)
 {
-  std::list<std::string> l{"entry","instrument","detector"};
-  hdf5::Path p;
-  std::copy(l.begin(),l.end(),std::back_inserter(p));
-  BOOST_CHECK_EQUAL(p.size(),3);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"entry/instrument/detector");
+  Path p;
+
+  p = Path("./hello");
+  EXPECT_EQ(static_cast<string>(p),"hello");
+
+  p = Path("hello/world/.");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello/./world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
+
+  p = Path("hello///world");
+  EXPECT_EQ(static_cast<string>(p),"hello/world");
 }
 
-BOOST_AUTO_TEST_CASE(test_append_link_name)
+TEST(Path, common_base)
 {
-  hdf5::Path p("/entry/instrument/detector");
+  Path common;
+
+  common = common_base(Path("a/b/c"), Path("a/b/z"));
+  EXPECT_EQ(static_cast<string>(common),"a/b");
+
+  common = common_base(Path("a/b/c"), Path("a/b/c"));
+  EXPECT_EQ(static_cast<string>(common),"a/b/c");
+
+  common = common_base(Path("a/b/c"), Path("."));
+  EXPECT_EQ(static_cast<string>(common),".");
+
+
+  common = common_base(Path("/a/b/c"), Path("/a/b/z"));
+  EXPECT_EQ(static_cast<string>(common),"/a/b");
+
+  common = common_base(Path("/a/b/c"), Path("/a/b/c"));
+  EXPECT_EQ(static_cast<string>(common),"/a/b/c");
+
+  common = common_base(Path("/a/b/c"), Path("/x/y"));
+  EXPECT_EQ(static_cast<string>(common),"/");
+
+  EXPECT_THROW(common_base(Path("/a/b/c"), Path("d/e")), std::runtime_error);
+}
+
+TEST(Path, relative_to)
+{
+  Path p;
+
+  p = Path("a/b/c").relative_to(Path("a/b"));
+  EXPECT_EQ(static_cast<string>(p),"c");
+
+  p = Path("/a/b/c").relative_to(Path("/a/b"));
+  EXPECT_EQ(static_cast<string>(p),"c");
+
+  p = Path("/a/b").relative_to(Path("/"));
+  EXPECT_EQ(static_cast<string>(p),"a/b");
+
+  p = Path("/").relative_to(Path("/"));
+  EXPECT_EQ(static_cast<string>(p),".");
+
+  EXPECT_THROW(Path("c/d").relative_to(Path("/a/b")), std::runtime_error);
+
+  EXPECT_THROW(Path("a/b").relative_to(Path("a/b/c")), std::runtime_error);
+
+  EXPECT_THROW(Path("/a/b/c").relative_to(Path("a/b")), std::runtime_error);
+
+  EXPECT_THROW(Path("/a/b/c").relative_to(Path("/x/y/z")), std::runtime_error);
+}
+
+TEST(Path, test_append)
+{
+  Path p;
+
+  p = Path("/entry/instrument");
+  p.append(Path("detector/data"));
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+}
+
+TEST(Path,test_append_link_name)
+{
+  Path p("/entry/instrument/detector");
   p = p+"data";
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute_path());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  EXPECT_EQ(p.size(),4);
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("instrument/detector");
+  p = Path("instrument/detector");
   p = p + "metadata/date";
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"instrument/detector/metadata/date");
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(!p.is_absolute_path());
+  EXPECT_EQ(static_cast<string>(p),"instrument/detector/metadata/date");
+  EXPECT_EQ(p.size(),4);
+  EXPECT_FALSE(p.absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_prepend_link_name)
+TEST(Path,test_prepend_link_name)
 {
-  hdf5::Path p("instrument/detector");
+  Path p("instrument/detector");
   p = "/entry" + p;
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector");
-  BOOST_CHECK(p.is_absolute_path());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector");
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("detector/data");
+  p = Path("detector/data");
   p = "/entry/instrument/" + p;
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
-  BOOST_CHECK(p.is_absolute_path());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  EXPECT_TRUE(p.absolute());
 
-  p = hdf5::Path("entry/instrument");
+  p = Path("entry/instrument");
   p = "/" + p;
-  BOOST_CHECK_EQUAL(p.size(),2);
-  BOOST_CHECK(p.is_absolute_path());
+  EXPECT_EQ(p.size(),2);
+  EXPECT_TRUE(p.absolute());
 }
 
-BOOST_AUTO_TEST_CASE(test_adding_two_paths)
+TEST(Path,test_adding_two_paths)
 {
-  hdf5::Path p1("/entry/instrument"), p2("detector/data");
-  hdf5::Path p = p1+p2;
-  BOOST_CHECK_EQUAL(p.size(),4);
-  BOOST_CHECK(p.is_absolute_path());
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/entry/instrument/detector/data");
+  Path p1("/entry/instrument"), p2("detector/data");
+  Path p = p1+p2;
+  EXPECT_EQ(p.size(),4);
+  EXPECT_TRUE(p.absolute());
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
 }
 
-BOOST_AUTO_TEST_CASE(test_root_path)
+TEST(Path,test_root_path)
 {
-  hdf5::Path p("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK(p.is_absolute_path());
-  BOOST_CHECK_EQUAL(static_cast<std::string>(p),"/");
+  Path p("/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_TRUE(p.absolute());
+  EXPECT_EQ(static_cast<string>(p),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_front)
+//TEST(Path,test_front)
+//{
+//  Path p("/hello/world");
+//  EXPECT_EQ(p.front(),"hello");
+
+//  p = Path("/");
+//  EXPECT_TRUE(p.is_root());
+//  EXPECT_EQ(p.front(),"/");
+//}
+
+//TEST(Path,test_back)
+//{
+//  Path p("hello/world");
+//  EXPECT_EQ(p.back(),"world");
+
+//  p = Path("/");
+//  EXPECT_TRUE(p.is_root());
+//  EXPECT_EQ(p.back(),"/");
+//}
+
+TEST(Path,test_name)
 {
-  hdf5::Path p("/hello/world");
-  BOOST_CHECK_EQUAL(p.front(),"hello");
+  Path p("hello/world");
+  EXPECT_EQ(p.name(),"world");
 
-  p = hdf5::Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(p.front(),"/");
+  p = Path("/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_EQ(p.name(),".");
 }
 
-BOOST_AUTO_TEST_CASE(test_back)
+TEST(Path,test_parent_path)
 {
-  hdf5::Path p("hello/world");
-  BOOST_CHECK_EQUAL(p.back(),"world");
+  Path p("hello/world");
+  EXPECT_EQ(static_cast<string>(p.parent()),"hello");
 
-  p = hdf5::Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(p.back(),"/");
+  p = Path("/hello/world");
+  EXPECT_EQ(static_cast<string>(p.parent()),"/hello");
+
+  p = Path("/");
+  EXPECT_TRUE(p.is_root());
+  EXPECT_EQ(static_cast<string>(p.parent()),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_object_name)
+TEST(Path,test_path_equality)
 {
-  hdf5::Path p("hello/world");
-  BOOST_CHECK_EQUAL(hdf5::Path::object_name(p),"world");
-
-  p = hdf5::Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(hdf5::Path::object_name(p),"/");
+  Path p1("hello/world");
+  Path p2("/hello/world");
+  Path p3("/hello");
+  EXPECT_TRUE(p1 == p1);
+  EXPECT_TRUE(p1 != p2);
+  EXPECT_TRUE(p2 != p3);
 }
-
-BOOST_AUTO_TEST_CASE(test_parent_path)
-{
-  hdf5::Path p("hello/world");
-  BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"hello");
-
-  p = hdf5::Path("/");
-  BOOST_CHECK(p.is_root());
-  BOOST_CHECK_EQUAL(static_cast<std::string>(hdf5::Path::parent_path(p)),"/");
-}
-
-BOOST_AUTO_TEST_CASE(test_path_equality)
-{
-  hdf5::Path p1("hello/world");
-  hdf5::Path p2("/hello/world");
-  hdf5::Path p3("/hello");
-  BOOST_CHECK(p1 == p1);
-  BOOST_CHECK(p1 != p2);
-  BOOST_CHECK(p2 != p3);
-}
-
-BOOST_AUTO_TEST_SUITE_END()

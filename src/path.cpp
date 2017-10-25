@@ -19,13 +19,14 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 
 #include <h5cpp/path.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string.hpp>
 
 namespace hdf5 {
 
@@ -34,7 +35,14 @@ namespace hdf5 {
 // ABI of the library
 namespace {
 
-bool is_absolute_path_string(const std::string &str)
+bool is_valid_name(const std::string& name)
+{
+  return (!name.empty() &&
+          (name != "/") &&
+          (name != "."));
+}
+
+bool absolute_path_string(const std::string &str)
 {
   if(str[0] == '/')
     return true;
@@ -44,21 +52,22 @@ bool is_absolute_path_string(const std::string &str)
 
 std::list<std::string> str_to_list(const std::string &str)
 {
+  std::list<std::string> result;
   auto string_start = str.begin();
   auto string_end = str.end();
 
   //ignore a leading / in the input string
-  if(is_absolute_path_string(str)) string_start++;
+  if(absolute_path_string(str)) string_start++;
 
+  if(string_start == string_end)
+    return result;
 
   //ignore a trailing / from the input string
   if(str.back()=='/') string_end--;
 
   std::string buffer(string_start,string_end);
-  std::list<std::string> result;
   boost::split(result,buffer,
                boost::is_any_of("/"),boost::token_compress_on);
-
   return result;
 }
 
@@ -67,44 +76,17 @@ std::list<std::string> str_to_list(const std::string &str)
 //=============================================================================
 void Path::from_string(const std::string &str)
 {
-  auto string_start = str.begin();
-  auto string_end = str.end();
-  if(str[0]=='/')
-  {
-    string_start++;
-    absolute_ = true;
-  }
-  else
-  {
-    absolute_ = false;
-  }
-
-  //check if we are already at the end
-  if(string_start == string_end)
-    return;
-
-  //remove a trailing / from the input string
-  if(str.back()=='/') string_end--;
-
-  std::string buffer(string_start,string_end);
-  boost::split(link_names_,buffer,
-               boost::is_any_of("/"),boost::token_compress_on);
+  absolute_ = absolute_path_string(str);
+  link_names_ = str_to_list(str);
+  sanitize();
 }
 
 std::string Path::to_string() const
 {
-  std::string result;
-  if(is_absolute_path())
-    result = "/";
-
-  for(auto iter = link_names_.begin();iter!=link_names_.end();iter++)
-  {
-    result += *iter;
-    if(iter!=(--link_names_.end()))
-      result += "/";
-  }
-
-  return result;
+  if (!absolute() && link_names_.empty())
+    return ".";
+  return (absolute() ? "/" : "")
+      + boost::algorithm::join(link_names_, "/");
 }
 
 Path::Path():
@@ -134,26 +116,6 @@ Path::const_iterator Path::end() const
   return link_names_.end();
 }
 
-Path::iterator Path::begin()
-{
-  return link_names_.begin();
-}
-
-Path::iterator Path::end()
-{
-  return link_names_.end();
-}
-
-Path::reverse_iterator Path::rbegin()
-{
-  return link_names_.rbegin();
-}
-
-Path::reverse_iterator Path::rend()
-{
-  return link_names_.rend();
-}
-
 Path::const_reverse_iterator Path::rbegin() const
 {
   return link_names_.rbegin();
@@ -164,81 +126,101 @@ Path::const_reverse_iterator Path::rend() const
   return link_names_.rend();
 }
 
-void Path::push_front(const value_type &link_name)
+void Path::sanitize()
 {
-  link_names_.push_front(link_name);
+  for (auto i = link_names_.begin();
+       i != link_names_.end();)
+  {
+    if (!is_valid_name(*i))
+      i = link_names_.erase(i);
+    else
+      ++i;
+  }
 }
 
-Path::value_type Path::pop_front()
-{
-  value_type result = link_names_.front();
-  link_names_.pop_front();
-  return result;
-}
-
-void Path::push_back(const Path::value_type &link_name)
-{
-  link_names_.push_back(link_name);
-}
-
-Path::value_type Path::pop_back()
-{
-  value_type result = link_names_.back();
-  link_names_.pop_back();
-  return result;
-}
-
-bool Path::is_absolute_path() const noexcept
+bool Path::absolute() const noexcept
 {
   return absolute_;
 }
 
-void Path::is_absolute_path(bool v) noexcept
+void Path::absolute(bool v) noexcept
 {
   absolute_ = v;
 }
 
 bool Path::is_root() const
 {
-  if(is_absolute_path() && link_names_.empty())
+  if(absolute() && link_names_.empty())
     return true;
   else
     return false;
 }
 
+Path common_base(const Path &lhs, const Path &rhs)
+{
+  if (lhs.absolute() ^ rhs.absolute())
+  {
+    throw std::runtime_error("paths must both be absolute or relative to have common base!");
+  }
+
+  Path ret;
+  auto l_it = lhs.link_names_.begin();
+  auto r_it = rhs.link_names_.begin();
+  while ((l_it != lhs.link_names_.end()) &&
+         (r_it != rhs.link_names_.end()) &&
+         (*l_it == *r_it))
+  {
+    ret.link_names_.push_back(*l_it);
+    ++l_it;
+    ++r_it;
+  }
+
+  ret.absolute_ = lhs.absolute_;
+  return ret;
+}
+
+
+Path Path::relative_to(const Path &base) const
+{
+  if (common_base(*this, base) != base)
+  {
+    throw std::runtime_error("invalid base for relative path!");
+  }
+  auto it = link_names_.begin();
+  std::advance(it, base.size());
+  Path ret;
+  for (; it != link_names_.end(); ++it)
+    ret.link_names_.push_back(*it);
+  return ret;
+}
+
+void Path::append(const Path& p)
+{
+  std::copy(p.link_names_.begin(),
+            p.link_names_.end(),
+            std::back_inserter(link_names_));
+}
+
+Path& Path::operator+=(const Path &other)
+{
+  append(other);
+  return *this;
+}
+
 Path operator+(const std::string &link_name,const Path &path)
 {
-  Path result(path);
-
-  if(link_name.empty())
-    return result;
-
-  if(is_absolute_path_string(link_name))
-      result.is_absolute_path(true);
-
-  if(link_name.size()==1) return result;
-
-  std::list<std::string> str_list = str_to_list(link_name);
-  std::copy(str_list.rbegin(),str_list.rend(),std::front_inserter(result));
-
-  return result;
+  return Path(link_name) + path;
 }
 
 Path operator+(const Path &path,const std::string &link_name)
 {
-  Path result(path);
-
-  if(link_name.empty()) return result;
-
-  std::list<std::string> str_list = str_to_list(link_name);
-  std::copy(str_list.begin(),str_list.end(),std::back_inserter(result));
-  return result;
+  return path + Path(link_name);
 }
 
 Path operator+(const Path &lhs,const Path &rhs)
 {
   Path result(lhs);
-  std::copy(rhs.begin(),rhs.end(),std::back_inserter(result));
+  result.append(rhs);
   return result;
 }
 
@@ -247,38 +229,22 @@ std::ostream &operator<<(std::ostream &stream,const Path &path)
   return stream<<static_cast<std::string>(path);
 }
 
-Path::value_type Path::front() const
+std::string Path::name() const
+{
+  if (link_names_.size())
+    return link_names_.back();
+  return ".";
+}
+
+Path Path::parent() const
 {
   if(is_root())
-    return "/";
+    return *this;
 
-  return link_names_.front();
-}
+  Path p(*this);
 
-Path::value_type Path::back() const
-{
-  if(is_root())
-    return "/";
-
-  return link_names_.back();
-}
-
-std::string Path::object_name(const Path &path)
-{
-  if(path.is_root())
-    return "/";
-
-  return path.back();
-}
-
-Path Path::parent_path(const Path &path)
-{
-  if(path.is_root())
-    return path;
-
-  Path p(path);
-
-  p.pop_back();
+  if (p.link_names_.size())
+    p.link_names_.pop_back();
   return p;
 }
 

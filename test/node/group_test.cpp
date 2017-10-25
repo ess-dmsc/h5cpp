@@ -19,101 +19,143 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 12, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing group creation
+
 #include <vector>
+#include <h5cpp/file/functions.hpp>
 #include "group_test_fixtures.hpp"
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
+class Group : public BasicFixture
+{
+};
 
-BOOST_AUTO_TEST_SUITE(group_test)
-
-BOOST_FIXTURE_TEST_SUITE(group_basics,BasicTestFixture)
-
-BOOST_AUTO_TEST_CASE(test_root_group)
+TEST_F(Group, test_root_group)
 {
   node::Group root;
-  BOOST_CHECK_NO_THROW(root = file.root());
-  BOOST_CHECK(root.is_valid());
-  BOOST_CHECK_EQUAL(root.type(),node::Type::GROUP);
-  BOOST_CHECK_EQUAL(root.links.size(),0);
-  BOOST_CHECK_EQUAL(root.nodes.size(),0);
-  BOOST_CHECK_EQUAL(static_cast<std::string>(root.link().path()),"/");
+  EXPECT_NO_THROW(root = file_.root());
+  EXPECT_TRUE(root.is_valid());
+  EXPECT_EQ(root.type(),node::Type::GROUP);
+  EXPECT_EQ(root.links.size(),0);
+  EXPECT_EQ(root.nodes.size(),0);
+  EXPECT_EQ(static_cast<std::string>(root.link().path()),"/");
 }
 
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST_F(Group, test_default_construction)
 {
   node::Group group;
-  BOOST_CHECK(!group.is_valid());
+  EXPECT_FALSE(group.is_valid());
 }
 
-BOOST_AUTO_TEST_CASE(test_group_creation)
+TEST_F(Group, test_group_creation)
 {
-  node::Group g = file.root();
-  BOOST_CHECK_EQUAL(g.nodes.size(),0);
-  BOOST_CHECK_EQUAL(g.links.size(),0);
-  BOOST_CHECK_NO_THROW(g.create_group("group_1"));
-  BOOST_CHECK_EQUAL(g.nodes.size(),1);
-  BOOST_CHECK_EQUAL(g.links.size(),1);
-  BOOST_CHECK_NO_THROW(g.create_group("group_2"));
-  BOOST_CHECK_EQUAL(g.nodes.size(),2);
-  BOOST_CHECK_EQUAL(g.links.size(),2);
+  node::Group g = file_.root();
+  EXPECT_EQ(g.nodes.size(),0);
+  EXPECT_EQ(g.links.size(),0);
+  EXPECT_NO_THROW(g.create_group("group_1"));
+  EXPECT_EQ(g.nodes.size(),1);
+  EXPECT_EQ(g.links.size(),1);
+  EXPECT_NO_THROW(g.create_group("group_2"));
+  EXPECT_EQ(g.nodes.size(),2);
+  EXPECT_EQ(g.links.size(),2);
 }
 
-BOOST_AUTO_TEST_CASE(test_group_linkview)
+TEST_F(Group, test_group_linkview)
 {
-  node::Group g = file.root();
-  BOOST_CHECK(!g.links.exists("group_1"));
+  node::Group g = file_.root();
+  EXPECT_FALSE(g.links.exists("group_1"));
 
   node::Group g1 = g.create_group("group_1");
 
-  BOOST_CHECK(g.links.exists("group_1"));
+  EXPECT_TRUE(g.links.exists("group_1"));
 
   node::Link l;
-  BOOST_CHECK_NO_THROW(l = g.links["group_1"]);
-  BOOST_CHECK_EQUAL(l, g1.link());
+  EXPECT_NO_THROW(l = g.links["group_1"]);
+  EXPECT_EQ(l, g1.link());
 }
 
-BOOST_AUTO_TEST_CASE(test_group_nodeview)
+TEST_F(Group, test_group_nodeview)
 {
-  node::Group g = file.root();
+  node::Group g = file_.root();
 
-  BOOST_CHECK_THROW(g.nodes.exists("group_1"), std::runtime_error);
+  EXPECT_THROW(g.nodes.exists("group_1"), std::runtime_error);
 
   node::Group g1 = g.create_group("group_1");
 
-  BOOST_CHECK(g.nodes.exists("group_1"));
+  EXPECT_TRUE(g.nodes.exists("group_1"));
 
   node::Group n;
-  BOOST_CHECK_NO_THROW(n = g.nodes["group_1"]);
-  BOOST_CHECK_EQUAL(n.id(), g1.id());
+  EXPECT_NO_THROW(n = g.nodes["group_1"]);
+  EXPECT_EQ(n.id(), g1.id());
 }
 
-BOOST_AUTO_TEST_CASE(test_group_existence)
+TEST_F(Group, test_group_existence)
 {
-  node::Group g = file.root();
+  node::Group g = file_.root();
 
-  BOOST_CHECK(!g.exists("group_1"));
+  EXPECT_FALSE(g.exists("group_1"));
 
   node::Group g1 = g.create_group("group_1");
 
-  BOOST_CHECK(g.exists("group_1"));
+  EXPECT_TRUE(g.exists("group_1"));
 }
 
-BOOST_AUTO_TEST_CASE(test_group_accessor)
+TEST_F(Group, test_group_accessor)
 {
-  node::Group g = file.root();
+  node::Group g = file_.root();
   node::Group g1 = g.create_group("group_1");
 
-  BOOST_CHECK_EQUAL(g1.id(), g["group_1"].id());
+  EXPECT_EQ(g1.id(), g["group_1"].id());
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+TEST_F(Group, test_funky_names)
+{
+  auto f = file::create("funky_names.h5",file::AccessFlags::TRUNCATE);
+  node::Group g = f.root();
+
+  EXPECT_NO_THROW(g.create_group("s p a c e y"));
+  EXPECT_TRUE(g.exists("s p a c e y"));
+
+  EXPECT_NO_THROW(g.create_group(" sp"));
+  EXPECT_TRUE(g.exists(" sp"));
+
+  EXPECT_NO_THROW(g.create_group("sp "));
+  EXPECT_TRUE(g.exists("sp "));
+
+  EXPECT_NO_THROW(g.create_group("sp"));
+  EXPECT_TRUE(g.exists("sp"));
+
+  EXPECT_NO_THROW(g.create_group(" "));
+  EXPECT_TRUE(g.exists(" "));
+
+  EXPECT_NO_THROW(g.create_group("  "));
+  EXPECT_TRUE(g.exists("  "));
+
+  EXPECT_NO_THROW(g.create_group("d.o.t.s"));
+  EXPECT_TRUE(g.exists("d.o.t.s"));
+
+  EXPECT_NO_THROW(g.create_group(".d.o.t"));
+  EXPECT_TRUE(g.exists(".d.o.t"));
+
+  EXPECT_NO_THROW(g.create_group("d..t"));
+  EXPECT_TRUE(g.exists("d..t"));
+
+  EXPECT_NO_THROW(g.create_group("..dt"));
+  EXPECT_TRUE(g.exists("..dt"));
+
+  EXPECT_NO_THROW(g.create_group(".."));
+  EXPECT_TRUE(g.exists(".."));
+
+//  EXPECT_NO_THROW(g.create_group("g/g2"));
+//  EXPECT_NO_THROW(g.create_group("./g/g3"));
+
+  EXPECT_THROW(g.create_group("."), std::exception);
+}
 
 
-BOOST_AUTO_TEST_SUITE_END()
+

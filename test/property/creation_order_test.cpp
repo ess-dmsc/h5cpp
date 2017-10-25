@@ -23,46 +23,41 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 17, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing LinkCreationOrder implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/creation_order.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(LinkCreationOrderTest)
+TEST(LinkCreationOrder, test_default_construction)
+{
+  pl::CreationOrder order;
+  EXPECT_EQ(order,0x0000);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    pl::CreationOrder order;
-    BOOST_CHECK_EQUAL(order,0x0000);
-  }
+TEST(LinkCreationOrder, test_conversion_construction)
+{
+  pl::CreationOrder o1(H5P_CRT_ORDER_TRACKED);
+  EXPECT_TRUE(o1.tracked());
+  EXPECT_FALSE(o1.indexed());
 
-  BOOST_AUTO_TEST_CASE(test_conversion_construction)
-  {
-    pl::CreationOrder o1(H5P_CRT_ORDER_TRACKED);
-    BOOST_CHECK(o1.tracked());
-    BOOST_CHECK(!o1.indexed());
+  o1 = pl::CreationOrder(H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
+  EXPECT_TRUE(o1.tracked());
+  EXPECT_TRUE(o1.indexed());
+}
 
-    o1 = pl::CreationOrder(H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
-    BOOST_CHECK(o1.tracked());
-    BOOST_CHECK(o1.indexed());
-  }
+TEST(LinkCreationOrder, test_set_tracked)
+{
+  pl::CreationOrder o;
+  o.enable_tracked();
+  EXPECT_TRUE(o.tracked());
+  EXPECT_FALSE(o.indexed());
+}
 
-  BOOST_AUTO_TEST_CASE(test_set_tracked)
-  {
-    pl::CreationOrder o;
-    o.enable_tracked();
-    BOOST_CHECK(o.tracked());
-    BOOST_CHECK(!o.indexed());
-  }
-
-  BOOST_AUTO_TEST_CASE(test_set_indexed)
-  {
-    pl::CreationOrder o;
-    o.enable_indexed();
-    BOOST_CHECK(o.tracked());
-    BOOST_CHECK(o.indexed());
-  }
-
-BOOST_AUTO_TEST_SUITE_END()
+TEST(LinkCreationOrder, test_set_indexed)
+{
+  pl::CreationOrder o;
+  o.enable_indexed();
+  EXPECT_TRUE(o.tracked());
+  EXPECT_TRUE(o.indexed());
+}

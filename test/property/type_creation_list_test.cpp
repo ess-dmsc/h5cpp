@@ -22,19 +22,16 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 21, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Datatype creation property list implementation test
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/type_creation_list.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(TypeCreationList_test)
+TEST(TypeCreationList, test_default_construction)
+{
+  pl::TypeCreationList tcpl;
+  EXPECT_TRUE(tcpl.get_class()==pl::kDatatypeCreate);
+}
 
-  BOOST_AUTO_TEST_CASE(test_default_construction)
-  {
-    pl::TypeCreationList tcpl;
-    BOOST_CHECK(tcpl.get_class()==pl::kDatatypeCreate);
-  }
 
-BOOST_AUTO_TEST_SUITE_END()

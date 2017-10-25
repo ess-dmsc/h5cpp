@@ -22,40 +22,43 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing node::Type enumeration
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/node/types.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(Type_test)
-
-BOOST_AUTO_TEST_CASE(test_string_representation)
+TEST(NodeType, test_string_representation)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
+  stream.str(std::string());
   stream<<node::Type::DATASET;
-  BOOST_CHECK(stream.is_equal("DATASET"));
+  EXPECT_EQ(stream.str(), "DATASET");
+
+  stream.str(std::string());
   stream<<node::Type::DATATYPE;
-  BOOST_CHECK(stream.is_equal("DATATYPE"));
+  EXPECT_EQ(stream.str(), "DATATYPE");
+
+  stream.str(std::string());
   stream<<node::Type::GROUP;
-  BOOST_CHECK(stream.is_equal("GROUP"));
+  EXPECT_EQ(stream.str(), "GROUP");
+
+  stream.str(std::string());
   stream<<node::Type::UNKNOWN;
-  BOOST_CHECK(stream.is_equal("UNKNOWN"));
+  EXPECT_EQ(stream.str(), "UNKNOWN");
 }
 
-BOOST_AUTO_TEST_CASE(test_values)
+TEST(NodeType, test_values)
 {
-  BOOST_CHECK_EQUAL(static_cast<H5O_type_t>(node::Type::DATASET),
+  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::DATASET),
                     H5O_TYPE_DATASET);
-  BOOST_CHECK_EQUAL(static_cast<H5O_type_t>(node::Type::UNKNOWN),
+  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::UNKNOWN),
                     H5O_TYPE_UNKNOWN);
-  BOOST_CHECK_EQUAL(static_cast<H5O_type_t>(node::Type::DATATYPE),
+  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::DATATYPE),
                     H5O_TYPE_NAMED_DATATYPE);
-  BOOST_CHECK_EQUAL(static_cast<H5O_type_t>(node::Type::GROUP),
+  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::GROUP),
                     H5O_TYPE_GROUP);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

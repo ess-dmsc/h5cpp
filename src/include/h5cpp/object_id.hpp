@@ -29,30 +29,34 @@ extern "C" {
 
 #include <string>
 #include <sstream>
+#include <boost/filesystem.hpp>
+#include "windows.hpp"
 
 namespace hdf5
 {
 
-class ObjectId
+class DLL_EXPORT ObjectId
 {
   public:
-    ObjectId();
     ObjectId(hid_t object);
 
     bool operator== (const ObjectId& other) const;
     bool operator!= (const ObjectId& other) const;
     bool operator< (const ObjectId& other) const;
 
-    friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+    DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
 
-    std::string   file_name() const;
     unsigned long file_number() const;
     haddr_t       object_address() const;
 
+    boost::filesystem::path   file_name() const;
+
   private:
-    std::string   file_name_;
     unsigned long file_num_ {0};
     haddr_t       obj_addr_ {0};
+    boost::filesystem::path   file_name_;
+
+    static std::string get_file_name(hid_t object);
 };
 
 

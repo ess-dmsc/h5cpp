@@ -23,24 +23,21 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 6, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing compound data type
-#include <boost/test/unit_test.hpp>
-#include <boost/test/floating_point_comparison.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/file/file.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
 #include <h5cpp/attribute/attribute.hpp>
 #include <cstdint>
 #include <complex>
 #include <vector>
 #include "../examples/rgbpixel.hpp"
 #include "../examples/rgbpixel_h5.hpp"
+#include "../fixture.hpp"
 
-using namespace hdf5;
+using namespace hdf5::attribute;
+using namespace hdf5::datatype;
 
 struct complex_struct
 {
@@ -57,17 +54,6 @@ class Pixel
    std::uint8_t blue_;
   public:
 
-};
-
-struct Fixture
-{
-    hdf5::file::File file;
-    hdf5::node::Group root_group;
-
-    Fixture():
-      file(hdf5::file::create("CompoundTest.h5",file::AccessFlags::TRUNCATE)),
-      root_group(file.root())
-    {}
 };
 
 namespace hdf5 {
@@ -90,65 +76,64 @@ class TypeTrait<std::complex<T>>
 
     static TypeClass create()
     {
-
-      datatype::Compound type(sizeof(complex_struct));
-      type.insert("real",HOFFSET(complex_type,real),datatype::create<T>());
-      type.insert("imag",HOFFSET(complex_type,imag),datatype::create<T>());
-
-      return type;
+      Compound t(sizeof(complex_struct));
+      t.insert("real",HOFFSET(complex_type,real),datatype::create<T>());
+      t.insert("imag",HOFFSET(complex_type,imag),datatype::create<T>());
+      return t;
     }
 };
 
 }
 }
 
-BOOST_FIXTURE_TEST_SUITE(CompoundTest,Fixture)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+class CompoundType : public BasicFixture
 {
-  datatype::Compound type;
-  //BOOST_CHECK_THROW(type.field_index("real"),std::runtime_error);
-  //BOOST_CHECK_THROW(type.field_index(0),std::runtime_error);
+};
+
+
+TEST_F(CompoundType, test_default_construction)
+{
+  Compound t;
+  //EXPECT_THROW(type.field_index("real"),std::runtime_error);
+  //EXPECT_THROW(type.field_index(0),std::runtime_error);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_complex_number)
+TEST_F(CompoundType, test_complex_number)
 {
-  datatype::Compound type(sizeof(complex_struct));
-  BOOST_CHECK_NO_THROW(type.insert("real",HOFFSET(complex_struct,real),datatype::create<double>()));
-  BOOST_CHECK_NO_THROW(type.insert("imag",HOFFSET(complex_struct,imag),datatype::create<double>()));
-
+  Compound t(sizeof(complex_struct));
+  EXPECT_NO_THROW(t.insert("real",HOFFSET(complex_struct,real),create<double>()));
+  EXPECT_NO_THROW(t.insert("imag",HOFFSET(complex_struct,imag),create<double>()));
+  EXPECT_TRUE(t.get_class()==Class::COMPOUND);
 }
 
-BOOST_AUTO_TEST_CASE(test_complex_number_io)
+TEST_F(CompoundType, test_complex_number_io)
 {
   std::complex<double> write_value(1.,3.);
   std::complex<double> read_value(0.,0.);
-  attribute::Attribute a = root_group.attributes.create<std::complex<double>>("hello");
+  auto a = root_.attributes.create<std::complex<double>>("hello");
   a.write(write_value);
   a.read(read_value);
-  BOOST_CHECK_CLOSE(write_value.real(),read_value.real(),0.0001);
-  BOOST_CHECK_CLOSE(write_value.imag(),read_value.imag(),0.0001);
+  EXPECT_NEAR(write_value.real(),read_value.real(),0.0001);
+  EXPECT_NEAR(write_value.imag(),read_value.imag(),0.0001);
 
 }
 
-BOOST_AUTO_TEST_CASE(test_pixel_type)
+TEST_F(CompoundType, test_pixel_type)
 {
   RGBPixel write_pixel(1,2,3);
   RGBPixel read_pixel(0,0,0);
 
-  attribute::Attribute a = root_group.attributes.create<RGBPixel>("pixel");
+  auto a = root_.attributes.create<RGBPixel>("pixel");
   a.write(write_pixel);
   a.read(read_pixel);
 
-  BOOST_CHECK_EQUAL(write_pixel.red(),read_pixel.red());
-  BOOST_CHECK_EQUAL(write_pixel.green(),read_pixel.green());
-  BOOST_CHECK_EQUAL(write_pixel.blue(),read_pixel.blue());
-
-
+  EXPECT_EQ(write_pixel.red(),read_pixel.red());
+  EXPECT_EQ(write_pixel.green(),read_pixel.green());
+  EXPECT_EQ(write_pixel.blue(),read_pixel.blue());
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
 
 
 

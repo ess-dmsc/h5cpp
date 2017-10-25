@@ -22,37 +22,33 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing IterationOrder enumeration
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+#include <gtest/gtest.h>
 #include <h5cpp/iterator_config.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(IterationOrder_test)
-
-BOOST_AUTO_TEST_CASE(test_string_representation)
+TEST(IterationOrder, test_string_representation)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
   stream<<IterationOrder::DECREASING;
-  BOOST_CHECK(stream.is_equal("DECREASING"));
+  EXPECT_EQ(stream.str(), "DECREASING");
+
+  stream.str(std::string());
   stream<<IterationOrder::INCREASING;
-  BOOST_CHECK(stream.is_equal("INCREASING"));
+  EXPECT_EQ(stream.str(), "INCREASING");
+
+  stream.str(std::string());
   stream<<IterationOrder::NATIVE;
-  BOOST_CHECK(stream.is_equal("NATIVE"));
+  EXPECT_EQ(stream.str(), "NATIVE");
 }
 
-BOOST_AUTO_TEST_CASE(test_value)
+TEST(IterationOrder, test_value)
 {
-  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
+  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
                     H5_ITER_DEC);
-  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(IterationOrder::INCREASING),
+  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::INCREASING),
                     H5_ITER_INC);
-  BOOST_CHECK_EQUAL(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
+  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
                     H5_ITER_NATIVE);
 }
-
-
-BOOST_AUTO_TEST_SUITE_END()

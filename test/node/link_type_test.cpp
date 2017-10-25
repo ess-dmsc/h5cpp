@@ -22,41 +22,44 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing LinkType enumeration
-#include <boost/test/unit_test.hpp>
-#include <boost/test/output_test_stream.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/node/types.hpp>
 
-using boost::test_tools::output_test_stream;
 using namespace hdf5;
 
-BOOST_AUTO_TEST_SUITE(LinkType_test)
-
-BOOST_AUTO_TEST_CASE(test_string_representation)
+TEST(Link, test_string_representation)
 {
-  output_test_stream stream;
+  std::stringstream stream;
+
+  stream.str(std::string());
   stream<<node::LinkType::ERROR;
-  BOOST_CHECK(stream.is_equal("ERROR"));
+  EXPECT_EQ(stream.str(),  "ERROR");
+
+  stream.str(std::string());
   stream<<node::LinkType::EXTERNAL;
-  BOOST_CHECK(stream.is_equal("EXTERNAL"));
+  EXPECT_EQ(stream.str(), "EXTERNAL");
+
+  stream.str(std::string());
   stream<<node::LinkType::HARD;
-  BOOST_CHECK(stream.is_equal("HARD"));
+  EXPECT_EQ(stream.str(), "HARD");
+
+  stream.str(std::string());
   stream<<node::LinkType::SOFT;
-  BOOST_CHECK(stream.is_equal("SOFT"));
+  EXPECT_EQ(stream.str(), "SOFT");
 }
 
-BOOST_AUTO_TEST_CASE(test_value)
+TEST(Link, test_value)
 {
-  BOOST_CHECK_EQUAL(static_cast<H5L_type_t>(node::LinkType::ERROR),
+  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::ERROR),
                     H5L_TYPE_ERROR);
-  BOOST_CHECK_EQUAL(static_cast<H5L_type_t>(node::LinkType::HARD),
+  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::HARD),
                       H5L_TYPE_HARD);
-  BOOST_CHECK_EQUAL(static_cast<H5L_type_t>(node::LinkType::SOFT),
+  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::SOFT),
                       H5L_TYPE_SOFT);
-  BOOST_CHECK_EQUAL(static_cast<H5L_type_t>(node::LinkType::EXTERNAL),
+  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::EXTERNAL),
                       H5L_TYPE_EXTERNAL);
 
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

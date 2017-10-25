@@ -24,9 +24,9 @@
 //
 #pragma once
 
+#include <gtest/gtest.h>
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/node/group.hpp>
-#include <boost/filesystem.hpp>
 
 //!
 //! \brief base class for all test fixtures
@@ -34,12 +34,14 @@
 //! This class can be used as a base for all test fixtures which require a
 //! file to be created.
 //!
-struct Fixture
-{
-    hdf5::file::File file;
-    hdf5::node::Group root_group;
 
-    Fixture(const boost::filesystem::path &file_path);
-    virtual ~Fixture();
+class BasicFixture : public testing::Test
+{
+  protected:
+    virtual void SetUp();
+    virtual ~BasicFixture() {}
+
+    hdf5::file::File file_;
+    hdf5::node::Group root_;
 };
 

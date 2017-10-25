@@ -22,20 +22,17 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 22, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing group access property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/group_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(GroupAccessList_test)
-
-BOOST_AUTO_TEST_CASE(test_default)
+TEST(GroupAccessList, test_default)
 {
   pl::GroupAccessList gapl;
-  BOOST_CHECK(gapl.get_class()==pl::kGroupAccess);
+  EXPECT_TRUE(gapl.get_class()==pl::kGroupAccess);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+

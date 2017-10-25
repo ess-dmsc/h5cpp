@@ -22,20 +22,17 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 22, 2017
 //
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE testing datatype access property list implementation
-#include <boost/test/unit_test.hpp>
+
+#include <gtest/gtest.h>
 #include <h5cpp/property/datatype_access_list.hpp>
 #include <h5cpp/property/class.hpp>
 
 namespace pl = hdf5::property;
 
-BOOST_AUTO_TEST_SUITE(DatatypeAccessList_test)
-
-BOOST_AUTO_TEST_CASE(test_default_construction)
+TEST(DatatypeAccessList, test_default_construction)
 {
   pl::DatatypeAccessList dapl;
-  BOOST_CHECK(dapl.get_class() == pl::kDatatypeAccess);
+  EXPECT_TRUE(dapl.get_class() == pl::kDatatypeAccess);
 }
 
-BOOST_AUTO_TEST_SUITE_END()
+
