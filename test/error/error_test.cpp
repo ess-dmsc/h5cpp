@@ -25,13 +25,9 @@
 
 #include <gtest/gtest.h>
 #include <h5cpp/error/error.hpp>
-#include <thread>
-#include <chrono>
-#include <cstring>
 
-extern "C"{
+#include <cstring>
 #include <cstdio>
-}
 
 using namespace hdf5;
 
