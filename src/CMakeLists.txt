@@ -26,6 +26,7 @@ set(DATATYPE_SOURCES datatype/datatype.cpp
 	datatype/types.cpp
 	datatype/compound.cpp
   datatype/string.cpp
+  datatype/array.cpp
   )
 
 set(DATASPACE_SOURCES dataspace/dataspace.cpp

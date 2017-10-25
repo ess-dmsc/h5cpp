@@ -34,6 +34,8 @@ extern "C" {
 namespace hdf5 {
 namespace datatype {
 
+const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
+
 //!
 //! \enum data type class
 //!

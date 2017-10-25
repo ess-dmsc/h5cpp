@@ -84,40 +84,8 @@ TEST(String, Constructors)
   EXPECT_TRUE(t2.is_variable_length());
 }
 
-TYPED_TEST(String, FixedIO)
-{
-  auto t = type::String::fixed(5);
-  hdf5::dataspace::Scalar ds;
 
-  attr::Attribute a = this->root_.attributes.create("string", t, ds);
-  this->value_ = "abc  ";
-  a.write(this->value_.c_str(), t);
 
-//  T read1("cba");
-//  a.read(read1);
-//  EXPECT_EQ(write_string, read1);
 
-//  T read2(6, '\0');
-//  a.read(read2);
-//  EXPECT_EQ(write_string, read2);
-}
-
-TYPED_TEST(String, VariableIO)
-{
-  auto t = type::create<decltype(this->value_)>();
-  hdf5::dataspace::Scalar ds;
-
-  attr::Attribute a = this->root_.attributes.create("string", t, ds);
-  this->value_ = "hello world";
-  //a.write(this->value_);
-
-//  auto read1 = this->value_;
-//  a.read(read1);
-//  EXPECT_EQ(this->value_, read1);
-
-//  T read2(20, '\0');
-//  a.read(read2);
-//  EXPECT_EQ(write_string, read2);
-}
 
 

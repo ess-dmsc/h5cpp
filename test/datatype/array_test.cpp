@@ -20,50 +20,40 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Created on: Oct 23, 2017
 //
-#include "../fixture.hpp"
-#include <cstdint>
-#include <vector>
-#include <array>
+#include <gtest/gtest.h>
+#include <h5cpp/datatype/array.hpp>
+#include <h5cpp/datatype/factory.hpp>
 
 using namespace hdf5;
 
-class AttributeMultidimIO : public BasicFixture
-{};
-
-TEST_F(AttributeMultidimIO, test_uint8_vector)
+TEST(Array,DefaultConstruction)
 {
-  std::vector<std::uint8_t> write_data{1,2,3};
-  std::vector<std::uint8_t> read_data(write_data.size());
-
-  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data",{3});
-  a.write(write_data);
-  a.read(read_data);
-  EXPECT_EQ(write_data, read_data);
+  datatype::Array type;
+  EXPECT_FALSE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::NONE);
 }
 
-TEST_F(AttributeMultidimIO, test_uint8_array)
+TEST(Array,TensorConstruction)
 {
-  std::array<std::uint8_t,3> write_data{1,2,3};
-  std::array<std::uint8_t,3> read_data;
+  auto base_type = datatype::create<int>();
+  datatype::Array type(base_type,{3,4});
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
+  EXPECT_EQ(type.size(),12*sizeof(int));
+  EXPECT_EQ(type.rank(),2);
 
-  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data",{3});
-  a.write(write_data);
-  a.read(read_data);
-  EXPECT_EQ(write_data, read_data);
+  Dimensions dims = type.dimensions();
+  EXPECT_EQ(dims[0],3);
+  EXPECT_EQ(dims[1],4);
 }
 
-TEST_F(AttributeMultidimIO,test_init_list)
+TEST(Array,VectorConstruction)
 {
-  attribute::Attribute a = root_.attributes.create<int>("data",{4});
-  a.write({1,2,3,4});
-  std::vector<int> read(4);
-  a.read(read);
-  EXPECT_EQ((std::vector<int>{1,2,3,4}),read);
+  auto base_type = datatype::create<double>();
+  datatype::Array type(base_type,{4});
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
+  EXPECT_EQ(type.size(),4*sizeof(double));
 }
-
-
-
-
-

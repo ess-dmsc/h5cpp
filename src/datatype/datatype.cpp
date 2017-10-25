@@ -32,7 +32,6 @@ namespace datatype {
 
 Datatype::~Datatype()
 {
-  handle_.close();
 }
 
 Datatype::Datatype(ObjectHandle &&handle):
@@ -117,6 +116,11 @@ void Datatype::set_size(size_t size) const
   {
     throw std::runtime_error("Failure to set the datatype size!");
   }
+}
+
+bool Datatype::is_valid() const
+{
+  return handle_.is_valid();
 }
 
 bool operator==(const Datatype &lhs,const Datatype &rhs)

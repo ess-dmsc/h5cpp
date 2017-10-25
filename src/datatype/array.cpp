@@ -20,54 +20,54 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Oct 23, 2017
 //
 
 #include <stdexcept>
-#include <h5cpp/property/list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/datatype/array.hpp>
 
 namespace hdf5 {
-namespace property {
+namespace datatype {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
-{
-}
+Array::Array():Datatype()
+{}
 
-List::List(const List &plist)
+Array::Array(const Datatype &base_type,const Dimensions &dims):
+    Datatype(ObjectHandle(H5Tarray_create(static_cast<hid_t>(base_type),
+                                          dims.size(),dims.data())))
+{}
+
+Dimensions Array::dimensions() const
 {
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
+  Dimensions dims(rank());
+
+  if(H5Tget_array_dims(static_cast<hid_t>(*this),dims.data())<0)
   {
-    throw std::runtime_error("could not copy-construct property list");
+    throw std::runtime_error("Cannot obtain dimensions for Array datatype!");
   }
-  handle_ = ObjectHandle(ret);
+
+  return dims;
+
 }
 
-List& List::operator=(const List &plist)
+size_t Array::rank() const
 {
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
+  int ndims = H5Tget_array_ndims(static_cast<hid_t>(*this));
+  if(ndims<0)
   {
-    throw std::runtime_error("could not copy property list");
+    throw std::runtime_error("Cannot obtain rank for array datatype!");
   }
-  handle_ = ObjectHandle(ret);
-  return *this;
+
+  return ndims;
 }
 
+VLengthArray::VLengthArray():Datatype()
+{}
 
-List::~List()
-{
-}
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
+VLengthArray::VLengthArray(const Datatype &base_type):
+    Datatype(ObjectHandle(H5Tvlen_create(static_cast<hid_t>(base_type))))
+{}
 
 
-} // namespace property_list
+} // namespace datatype
 } // namespace hdf5
-
-
