@@ -24,6 +24,7 @@
 //
 
 #include <h5cpp/datatype/integer.hpp>
+#include <stdexcept>
 
 namespace hdf5 {
 namespace datatype {
@@ -31,6 +32,15 @@ namespace datatype {
 Integer::Integer(ObjectHandle &&handle):
     Datatype(std::move(handle))
 {}
+
+Integer::Integer(const Datatype &datatype):
+    Datatype(datatype)
+{
+  if(get_class()!=Class::INTEGER)
+  {
+    throw std::runtime_error("Datatype is not an INTEGER type!");
+  }
+}
 
 } // namespace datatype
 } // namespace hdf5
