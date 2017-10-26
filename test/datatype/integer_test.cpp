@@ -63,6 +63,6 @@ TYPED_TEST(Integer, General)
   type::Integer new_type(generic);
   EXPECT_EQ(new_type.get_class(),type::Class::INTEGER);
 
-  EXPECT_THROW(type::Integer(type::Datatype()),std::runtime_error);
+  EXPECT_THROW(type::Integer(Datatype()),std::runtime_error);
 }
 
