@@ -54,13 +54,13 @@ TYPED_TEST(Float, General)
   EXPECT_TRUE(t.get_class()==type::Class::FLOAT);
   EXPECT_EQ(t.size(),sizeof(this->value_));
 
+  //construct from Datatype reference to an existing type
   type::Datatype &generic_type = t;
   type::Float new_type(generic_type);
   EXPECT_EQ(new_type.get_class(),type::Class::FLOAT);
 
-  type::Datatype default_constructed;
-  type::Float invalid(default_constructed);
-  EXPECT_THROW(type::Float(default_constructed),std::runtime_error);
+  //cannot construct from an invalid type
+  EXPECT_THROW(type::Float(type::Datatype()),std::runtime_error);
 
 
 }

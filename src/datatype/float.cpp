@@ -37,11 +37,10 @@ namespace datatype {
   Float::Float(const Datatype &datatype):
       Datatype(datatype)
   {
-    if((datatype.get_class() != Class::FLOAT) &&
-       (datatype.get_class() != Class::NONE))
+    if((datatype.get_class() != Class::FLOAT))
     {
       std::stringstream ss;
-      ss<<"Datatype is not a FLOAT or NONE type!";
+      ss<<"Datatype is not a FLOAT type!";
       throw std::runtime_error(ss.str());
     }
   }
