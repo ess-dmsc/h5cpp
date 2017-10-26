@@ -11,7 +11,7 @@ if(CMAKE_SYSTEM_NAME MATCHES Linux)
 		OUTPUT_VARIABLE LINUX_DISTRIBUTION
 		OUTPUT_STRIP_TRAILING_WHITESPACE)
 	
-	if(LINUX_DISTRIBUTION MATCHES "Debian")
+    if(LINUX_DISTRIBUTION MATCHES "Debian" OR LINUX_DISTRIBUTION MATCHES "Ubuntu")
 		message(STATUS "Try to apply Debian fix for googletest")
 		include(${PROJECT_SOURCE_DIR}/cmake/DebianGTestFix.cmake)
 	else()		

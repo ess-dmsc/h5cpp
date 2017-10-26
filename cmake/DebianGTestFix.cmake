@@ -6,7 +6,7 @@ execute_process(COMMAND ${LSB_RELEASE} -cs
                 
 if(LSB_CODENAME MATCHES stretch)
 	set(GTEST_SOURCE_DIR /usr/src/googletest/googletest)
-elseif(LSB_CODENAME MATCHES jessie)
+elseif(LSB_CODENAME MATCHES jessie OR LSB_CODENAME MATCHES xenial)
 	set(GTEST_SOURCE_DIR /usr/src/gtest)
 else()
 	message(FATAL_ERROR "Could not identify Debian distribution!")
