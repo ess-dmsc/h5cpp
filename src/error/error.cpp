@@ -24,6 +24,7 @@
 //
 
 #include <h5cpp/error/error.hpp>
+#include <stdexcept>
 
 extern "C"{
 #include <cstdio>
