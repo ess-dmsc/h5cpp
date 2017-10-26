@@ -1,6 +1,7 @@
 [requires]
 Boost/1.62.0@lasote/stable
 hdf5/1.10.1@eugenwintersberger/testing
+gtest/1.8.0@conan/stable
 
 [generators]
 cmake
@@ -8,6 +9,7 @@ cmake
 [options]
 Boost:shared=True
 hdf5:shared=True
+gtest:shared=True
 
 [imports]
 bin, *.dll -> ./bin

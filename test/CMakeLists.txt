@@ -3,7 +3,7 @@ set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 #include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 
-if(CMAKE_SYSTEM_NAME MATCHES Linux)
+if(CMAKE_SYSTEM_NAME MATCHES Linux AND NOT WITH_CONAN)
 	message(STATUS "Check Linux distribution")
 	
 	find_program(LSB_RELEASE lsb_release)
