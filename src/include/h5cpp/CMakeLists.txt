@@ -16,6 +16,7 @@ add_subdirectory(datatype)
 add_subdirectory(node)
 add_subdirectory(file)
 add_subdirectory(attribute)
+add_subdirectory(error)
 
 install(FILES ${HEADERS} 
 	    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp)     

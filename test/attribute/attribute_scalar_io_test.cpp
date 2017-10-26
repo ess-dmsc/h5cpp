@@ -70,9 +70,8 @@ TEST_F(AttributeScalarIO, test_shape_mismatch)
   attribute::Attribute a = root_.attributes.create<float>("data");
   std::vector<float> write_data{1.2f,3.4f};
   std::vector<float> read_data(3);
-  EXPECT_NO_THROW(a.write(write_data));
-  EXPECT_NO_THROW(a.read(read_data));
-  EXPECT_NEAR(write_data[0],read_data[0],0.0002);
+  EXPECT_THROW(a.write(write_data),std::runtime_error);
+  EXPECT_THROW(a.read(read_data),std::runtime_error);
 }
 
 

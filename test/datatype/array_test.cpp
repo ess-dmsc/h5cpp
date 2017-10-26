@@ -20,27 +20,40 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Created on: Oct 23, 2017
 //
+#include <gtest/gtest.h>
+#include <h5cpp/datatype/array.hpp>
+#include <h5cpp/datatype/factory.hpp>
 
-#include <h5cpp/datatype/integer.hpp>
-#include <stdexcept>
+using namespace hdf5;
 
-namespace hdf5 {
-namespace datatype {
-
-Integer::Integer(ObjectHandle &&handle):
-    Datatype(std::move(handle))
-{}
-
-Integer::Integer(const Datatype &datatype):
-    Datatype(datatype)
+TEST(Array,DefaultConstruction)
 {
-  if(get_class()!=Class::INTEGER)
-  {
-    throw std::runtime_error("Datatype is not an INTEGER type!");
-  }
+  datatype::Array type;
+  EXPECT_FALSE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::NONE);
 }
 
-} // namespace datatype
-} // namespace hdf5
+TEST(Array,TensorConstruction)
+{
+  auto base_type = datatype::create<int>();
+  datatype::Array type(base_type,{3,4});
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
+  EXPECT_EQ(type.size(),12*sizeof(int));
+  EXPECT_EQ(type.rank(),2);
+
+  Dimensions dims = type.dimensions();
+  EXPECT_EQ(dims[0],3);
+  EXPECT_EQ(dims[1],4);
+}
+
+TEST(Array,VectorConstruction)
+{
+  auto base_type = datatype::create<double>();
+  datatype::Array type(base_type,{4});
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
+  EXPECT_EQ(type.size(),4*sizeof(double));
+}

@@ -6,6 +6,7 @@ set(HEADERS datatype.hpp
 	        types.hpp
 	        compound.hpp
           string.hpp
+          array.hpp
           )
 	       
 add_doxygen_source_deps(${HEADERS})

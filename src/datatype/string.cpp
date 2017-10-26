@@ -33,6 +33,10 @@ String::String(ObjectHandle &&handle):
     Datatype(std::move(handle))
 {}
 
+String::String(const Datatype &type):
+    Datatype(type)
+{}
+
 String String::variable()
 {
   String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
@@ -45,8 +49,9 @@ String String::variable()
 
 String String::fixed(size_t size)
 {
-  return ObjectHandle(H5Tcreate(static_cast<H5T_class_t>(Class::STRING),
-                                size+1)); // padding
+  String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
+  H5Tset_size(static_cast<hid_t>(ret),size+1);
+  return ret;
 }
 
 bool String::is_variable_length() const

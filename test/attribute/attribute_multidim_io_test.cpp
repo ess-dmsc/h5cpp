@@ -54,6 +54,15 @@ TEST_F(AttributeMultidimIO, test_uint8_array)
   EXPECT_EQ(write_data, read_data);
 }
 
+TEST_F(AttributeMultidimIO,test_init_list)
+{
+  attribute::Attribute a = root_.attributes.create<int>("data",{4});
+  a.write({1,2,3,4});
+  std::vector<int> read(4);
+  a.read(read);
+  EXPECT_EQ((std::vector<int>{1,2,3,4}),read);
+}
+
 
 
 

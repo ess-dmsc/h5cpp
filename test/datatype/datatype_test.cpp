@@ -19,17 +19,30 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Authors:
-//    Eugen Wintersberger <eugen.wintersberger@desy.de>
-//    Martin Shetty <martin.shetty@esss.se>
-// Created on: Oct 19, 2017
+// Author: 
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
+// Created on: Oct 20, 2017
 //
-
 #include <gtest/gtest.h>
 #include <h5cpp/datatype/datatype.hpp>
 
 using namespace hdf5;
 using namespace hdf5::datatype;
+
+
+TEST(Datatype,DefaultConstruction)
+{
+  datatype::Datatype type;
+  EXPECT_FALSE(type.is_valid());
+  EXPECT_EQ(type.get_class(),Class::NONE);
+
+  //EXPECT_THROW(type.super(),std::runtime_error);
+  //EXPECT_THROW(type.native_type(),std::runtime_error);
+  //EXPECT_THROW(type.has_class(datatype::Class::INTEGER),std::runtime_error);
+  //EXPECT_THROW(type.size(),std::runtime_error);
+  //EXPECT_THROW(type.set_size(1),std::runtime_error);
+}
 
 TEST(Datatype, ConstructCopy)
 {

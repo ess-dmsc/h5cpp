@@ -23,7 +23,7 @@
 // Created on: Aug 15, 2017
 //
 
-
+#include <stdexcept>
 #include <h5cpp/property/list.hpp>
 #include <h5cpp/property/class.hpp>
 

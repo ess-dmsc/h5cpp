@@ -34,11 +34,23 @@ namespace datatype {
 class DLL_EXPORT String : public Datatype
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
+    //! We need this for STL containers but can rely on the
+    //! default compiler implementation for now.
+    //!
+    String() = default;
 
     //!
     //! \brief construct from handle
     //!
     String(ObjectHandle &&handle);
+
+    //!
+    //! \brief cosntruct from generic datatype
+    //!
+    String(const Datatype &type);
 
     //!
     //! \brief construct variable-length string

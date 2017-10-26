@@ -20,27 +20,54 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Created on: Oct 23, 2017
 //
 
-#include <h5cpp/datatype/integer.hpp>
 #include <stdexcept>
+#include <h5cpp/datatype/array.hpp>
 
 namespace hdf5 {
 namespace datatype {
 
-Integer::Integer(ObjectHandle &&handle):
-    Datatype(std::move(handle))
+Array::Array():Datatype()
 {}
 
-Integer::Integer(const Datatype &datatype):
-    Datatype(datatype)
+Array::Array(const Datatype &base_type,const Dimensions &dims):
+    Datatype(ObjectHandle(H5Tarray_create(static_cast<hid_t>(base_type),
+                                          dims.size(),dims.data())))
+{}
+
+Dimensions Array::dimensions() const
 {
-  if(get_class()!=Class::INTEGER)
+  Dimensions dims(rank());
+
+  if(H5Tget_array_dims(static_cast<hid_t>(*this),dims.data())<0)
   {
-    throw std::runtime_error("Datatype is not an INTEGER type!");
+    throw std::runtime_error("Cannot obtain dimensions for Array datatype!");
   }
+
+  return dims;
+
 }
+
+size_t Array::rank() const
+{
+  int ndims = H5Tget_array_ndims(static_cast<hid_t>(*this));
+  if(ndims<0)
+  {
+    throw std::runtime_error("Cannot obtain rank for array datatype!");
+  }
+
+  return ndims;
+}
+
+VLengthArray::VLengthArray():Datatype()
+{}
+
+VLengthArray::VLengthArray(const Datatype &base_type):
+    Datatype(ObjectHandle(H5Tvlen_create(static_cast<hid_t>(base_type))))
+{}
+
 
 } // namespace datatype
 } // namespace hdf5

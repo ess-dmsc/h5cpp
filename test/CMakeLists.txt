@@ -11,7 +11,7 @@ if(CMAKE_SYSTEM_NAME MATCHES Linux)
 		OUTPUT_VARIABLE LINUX_DISTRIBUTION
 		OUTPUT_STRIP_TRAILING_WHITESPACE)
 	
-	if(LINUX_DISTRIBUTION MATCHES "Debian")
+    if(LINUX_DISTRIBUTION MATCHES "Debian" OR LINUX_DISTRIBUTION MATCHES "Ubuntu")
 		message(STATUS "Try to apply Debian fix for googletest")
 		include(${PROJECT_SOURCE_DIR}/cmake/DebianGTestFix.cmake)
 	else()		
@@ -48,6 +48,7 @@ add_subdirectory(file)
 add_subdirectory(node)
 add_subdirectory(attribute)
 add_subdirectory(examples)
+add_subdirectory(error)
 
 add_executable(unit_tests EXCLUDE_FROM_ALL ${Common_SRC} ${Common_INC})
 add_dependencies(unit_tests h5cpp_shared)

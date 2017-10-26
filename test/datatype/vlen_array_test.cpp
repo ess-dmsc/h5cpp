@@ -20,27 +20,30 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Created on: Oct 23, 2017
 //
+#include <gtest/gtest.h>
+#include <h5cpp/datatype/array.hpp>
+#include <h5cpp/datatype/factory.hpp>
 
-#include <h5cpp/datatype/integer.hpp>
-#include <stdexcept>
+using namespace hdf5;
 
-namespace hdf5 {
-namespace datatype {
-
-Integer::Integer(ObjectHandle &&handle):
-    Datatype(std::move(handle))
-{}
-
-Integer::Integer(const Datatype &datatype):
-    Datatype(datatype)
+TEST(VLengthArray,DefaultConstruction)
 {
-  if(get_class()!=Class::INTEGER)
-  {
-    throw std::runtime_error("Datatype is not an INTEGER type!");
-  }
+  datatype::VLengthArray type;
+  EXPECT_FALSE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::NONE);
+
 }
 
-} // namespace datatype
-} // namespace hdf5
+TEST(VLengthArray,Construction)
+{
+  auto base_type = datatype::create<double>();
+  datatype::VLengthArray type(base_type);
+  EXPECT_TRUE(type.is_valid());
+  EXPECT_EQ(type.get_class(),datatype::Class::VARLENGTH);
+  EXPECT_EQ(type.super().get_class(),datatype::Class::FLOAT);
+  EXPECT_NE(type.super().get_class(),datatype::Class::INTEGER);
+  EXPECT_EQ(type.super(),base_type);
+  EXPECT_EQ(type.size(),sizeof(hvl_t));
+}
