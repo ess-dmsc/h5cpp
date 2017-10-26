@@ -537,6 +537,20 @@ Such an approach needs to be discussed to. </body>
         </eAnnotations>
         <ownedEnd xmi:type="uml:Property" xmi:id="_GVYMIa3NEeeC8tqFVijy6A" name="node" type="_VYW3UJObEeeoI7oI9Ds2zg" association="_GVWW8K3NEeeC8tqFVijy6A"/>
       </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_QeCfkLpBEeeNd9VwTnWPtA" memberEnd="_QeJ0ULpBEeeNd9VwTnWPtA _QeKbYLpBEeeNd9VwTnWPtA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_QeJNQLpBEeeNd9VwTnWPtA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QeJNQbpBEeeNd9VwTnWPtA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_QeKbYLpBEeeNd9VwTnWPtA" name="link" type="_jXRCUPhEEearHstUE6s_yg" association="_QeCfkLpBEeeNd9VwTnWPtA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_QeJ0ULpBEeeNd9VwTnWPtA" name="file" type="_xfxTQJRyEeeoI7oI9Ds2zg" aggregation="composite" association="_QeCfkLpBEeeNd9VwTnWPtA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_RBys4LpBEeeNd9VwTnWPtA" memberEnd="_RBz7ArpBEeeNd9VwTnWPtA _RB0iELpBEeeNd9VwTnWPtA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_RBz7ALpBEeeNd9VwTnWPtA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_RBz7AbpBEeeNd9VwTnWPtA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_RB0iELpBEeeNd9VwTnWPtA" name="link" type="_jXRCUPhEEearHstUE6s_yg" association="_RBys4LpBEeeNd9VwTnWPtA"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_RBz7ArpBEeeNd9VwTnWPtA" name="path" type="_wv4CEJObEeeoI7oI9Ds2zg" aggregation="composite" association="_RBys4LpBEeeNd9VwTnWPtA"/>
+      </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XNNwJWQEee7vqXOLcolPQ" source="PapyrusVersion">
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_3XNNwZWQEee7vqXOLcolPQ" key="Version" value="0.0.11"/>
@@ -941,7 +955,7 @@ Such an approach needs to be discussed to. </body>
       <packagedElement xmi:type="uml:Class" xmi:id="_YckFwJR4EeeoI7oI9Ds2zg" name="package functions" visibility="package">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_cmTiUJR4EeeoI7oI9Ds2zg" name="create">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_jSGE4JR4EeeoI7oI9Ds2zg" name="path" effect="read">
-            <type xmi:type="uml:Class" href="../boost.uml#_G7S5UJR2EeeoI7oI9Ds2zg"/>
+            <type xmi:type="uml:Class" href="boost.uml#_G7S5UJR2EeeoI7oI9Ds2zg"/>
           </ownedParameter>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_mlOpkJR4EeeoI7oI9Ds2zg" name="flags" type="_zHFPUJRyEeeoI7oI9Ds2zg"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_piBK0JR4EeeoI7oI9Ds2zg" name="fcpl" type="_3r0WMJL7EeeoI7oI9Ds2zg"/>
@@ -950,7 +964,7 @@ Such an approach needs to be discussed to. </body>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_9lzpQJR4EeeoI7oI9Ds2zg" name="open">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_A-UdMJR5EeeoI7oI9Ds2zg" name="path">
-            <type xmi:type="uml:Class" href="../boost.uml#_G7S5UJR2EeeoI7oI9Ds2zg"/>
+            <type xmi:type="uml:Class" href="boost.uml#_G7S5UJR2EeeoI7oI9Ds2zg"/>
           </ownedParameter>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_DQ15cJR5EeeoI7oI9Ds2zg" name="flags" type="_zHFPUJRyEeeoI7oI9Ds2zg"/>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_FMoQsJR5EeeoI7oI9Ds2zg" name="fapl" type="_a2G5sJL8EeeoI7oI9Ds2zg"/>
@@ -958,7 +972,7 @@ Such an approach needs to be discussed to. </body>
         </ownedOperation>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_LTaowJR5EeeoI7oI9Ds2zg" name="is_hdf5_file">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_OFK-sJR5EeeoI7oI9Ds2zg" name="path">
-            <type xmi:type="uml:Class" href="../boost.uml#_G7S5UJR2EeeoI7oI9Ds2zg"/>
+            <type xmi:type="uml:Class" href="boost.uml#_G7S5UJR2EeeoI7oI9Ds2zg"/>
           </ownedParameter>
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_PmfAcJR5EeeoI7oI9Ds2zg" direction="return">
             <type xmi:type="uml:PrimitiveType" href="stdcpp.uml#_jqOWcPKlEeapp5nR02EHRw"/>
