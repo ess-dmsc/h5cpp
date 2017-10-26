@@ -1,4 +1,5 @@
 set(SOURCES index.rst
+	        installing.rst
             using.rst)
 
 add_sphinx_source(${SOURCES})
