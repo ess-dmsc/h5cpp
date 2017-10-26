@@ -41,6 +41,7 @@ std::ostream &operator<<(std::ostream &stream,const DatasetFillValueStatus &stat
     case DatasetFillValueStatus::USER_DEFINED:
       return stream<<"USER_DEFINED";
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream,const DatasetFillTime &time)
@@ -54,6 +55,7 @@ std::ostream &operator<<(std::ostream &stream,const DatasetFillTime &time)
     case DatasetFillTime::NEVER:
       return stream<<"NEVER";
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream,const DatasetAllocTime &time)
@@ -69,6 +71,7 @@ std::ostream &operator<<(std::ostream &stream,const DatasetAllocTime &time)
     case DatasetAllocTime::LATE:
       return stream<<"LATE";
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream,const DatasetLayout &layout)
@@ -86,6 +89,7 @@ std::ostream &operator<<(std::ostream &stream,const DatasetLayout &layout)
       return stream<<"VIRTUAL";
 #endif
   }
+  return stream;
 }
 
 

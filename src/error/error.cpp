@@ -19,16 +19,40 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
+
 #include <h5cpp/error/error.hpp>
 
-int main(int argc, char **argv)
-{
-  hdf5::error::auto_print(false);
-
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+extern "C"{
+#include <cstdio>
 }
+
+namespace hdf5 {
+namespace error {
+
+void clear_stack()
+{
+  herr_t ret = H5Eclear2(H5Eget_current_stack());
+  if (0 > ret)
+  {
+    throw std::runtime_error("Could not toggle automatic error stack printing");
+  }
+}
+
+void auto_print(bool enable)
+{
+  herr_t ret = H5Eset_auto(H5E_DEFAULT,
+                           enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
+                           enable ? stderr : NULL);
+
+  if (0 > ret)
+  {
+    throw std::runtime_error("Could not toggle automatic error stack printing");
+  }
+}
+
+
+} // namespace file
+} // namespace hdf5
