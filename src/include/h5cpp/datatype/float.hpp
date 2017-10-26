@@ -33,7 +33,32 @@ namespace datatype {
 class DLL_EXPORT Float : public Datatype
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
+    //! Need this for compliance with STL containers but we can use the
+    //! default implementation of the compiler.
+    //!
+    Float() = default;
+
+    //!
+    //! \brief constructor
+    //!
+    //! \param handle rvalue reference to an HDF5 object handle
+    //!
     Float(ObjectHandle &&handle);
+
+    //!
+    //! \brief constructor
+    //!
+    //! Conversion constructor which allows creation of a Float type
+    //! from a generic Datatype instance. If datatype does not reference
+    //! a float datatype an exception is thrown.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param datatype reference to a generic datatype instance
+    //!
+    explicit Float(const Datatype &datatype);
 };
 
 } // namespace datatype
