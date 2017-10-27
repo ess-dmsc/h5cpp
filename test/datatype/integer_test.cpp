@@ -58,5 +58,11 @@ TYPED_TEST(Integer, General)
   EXPECT_TRUE((std::is_same<decltype(t),type::Integer>::value));
   EXPECT_TRUE(t.get_class()==type::Class::INTEGER);
   EXPECT_EQ(t.size(),sizeof(this->value_));
+
+  type::Datatype &generic = t;
+  type::Integer new_type(generic);
+  EXPECT_EQ(new_type.get_class(),type::Class::INTEGER);
+
+  EXPECT_THROW(type::Integer(type::Datatype()),std::runtime_error);
 }
 

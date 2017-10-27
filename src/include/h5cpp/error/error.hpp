@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,28 +19,20 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 23, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 25, 2017
 //
+#pragma once
 
-#include <h5cpp/datatype/integer.hpp>
-#include <stdexcept>
+#include "../windows.hpp"
+#include "../object_handle.hpp"
 
 namespace hdf5 {
-namespace datatype {
+namespace error {
 
-Integer::Integer(ObjectHandle &&handle):
-    Datatype(std::move(handle))
-{}
+void auto_print(bool enable);
+void clear_stack();
 
-Integer::Integer(const Datatype &datatype):
-    Datatype(datatype)
-{
-  if(get_class()!=Class::INTEGER)
-  {
-    throw std::runtime_error("Datatype is not an INTEGER type!");
-  }
-}
 
-} // namespace datatype
+} // namespace file
 } // namespace hdf5
