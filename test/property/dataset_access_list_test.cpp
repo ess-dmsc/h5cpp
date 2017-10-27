@@ -41,8 +41,8 @@ TEST(DatasetAccessList, test_chunk_cache_parameters)
   pl::ChunkCacheParameters params(200,300*1024*1024,0.5);
   EXPECT_NO_THROW(dapl.chunk_cache_parameters(params));
   pl::ChunkCacheParameters p2 = dapl.chunk_cache_parameters();
-  EXPECT_EQ(p2.chunk_slots(),200);
-  EXPECT_EQ(p2.chunk_cache_size(),300*1024*1024);
+  EXPECT_EQ(p2.chunk_slots(),200ul);
+  EXPECT_EQ(p2.chunk_cache_size(),300ul*1024ul*1024ul);
   EXPECT_NEAR(p2.preemption_policy(),0.5,0.0001);
 }
 

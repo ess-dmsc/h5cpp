@@ -39,19 +39,19 @@ TEST(GroupCreationList, test_local_heap_size_hint)
 {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.local_heap_size_hint(1024));
-  EXPECT_EQ(gcpl.local_heap_size_hint(),1024);
+  EXPECT_EQ(gcpl.local_heap_size_hint(),1024ul);
 
-  EXPECT_NO_THROW(gcpl.local_heap_size_hint(512));
-  EXPECT_EQ(gcpl.local_heap_size_hint(),512);
+  EXPECT_NO_THROW(gcpl.local_heap_size_hint(512ul));
+  EXPECT_EQ(gcpl.local_heap_size_hint(),512ul);
 }
 
 TEST(GroupCreationList, test_estimated_number_of_links)
 {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.estimated_number_of_links(10));
-  EXPECT_EQ(gcpl.estimated_number_of_links(),10);
+  EXPECT_EQ(gcpl.estimated_number_of_links(),10ul);
   EXPECT_NO_THROW(gcpl.estimated_number_of_links(33));
-  EXPECT_EQ(gcpl.estimated_number_of_links(),33);
+  EXPECT_EQ(gcpl.estimated_number_of_links(),33ul);
 
 }
 
@@ -59,10 +59,10 @@ TEST(GroupCreationList, test_estimated_link_name_length)
 {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.estimated_link_name_length(100));
-  EXPECT_EQ(gcpl.estimated_link_name_length(),100);
+  EXPECT_EQ(gcpl.estimated_link_name_length(),100ul);
 
   EXPECT_NO_THROW(gcpl.estimated_link_name_length(64));
-  EXPECT_EQ(gcpl.estimated_link_name_length(),64);
+  EXPECT_EQ(gcpl.estimated_link_name_length(),64ul);
 }
 
 TEST(GroupCreationList, test_link_creation_order)
@@ -84,8 +84,8 @@ TEST(GroupCreationList, test_link_storage_threshold)
 {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.link_storage_thresholds(100,60));
-  EXPECT_EQ(gcpl.link_storage_maximum_compact(),100);
-  EXPECT_EQ(gcpl.link_storage_minimum_dense(),60);
+  EXPECT_EQ(gcpl.link_storage_maximum_compact(),100ul);
+  EXPECT_EQ(gcpl.link_storage_minimum_dense(),60ul);
 
   EXPECT_THROW(gcpl.link_storage_thresholds(60,100),std::runtime_error);
 }

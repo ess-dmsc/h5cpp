@@ -52,32 +52,32 @@ TEST_F(Attribute, test_scalar)
 
   EXPECT_EQ(a.datatype().get_class(),datatype::Class::INTEGER);
   EXPECT_EQ(a.name(),"test");
-  EXPECT_EQ(root_.attributes.size(),1);
+  EXPECT_EQ(root_.attributes.size(),1ul);
 
   EXPECT_NO_THROW(a = root_.attributes.create<float>("test2"));
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SCALAR);
   EXPECT_EQ(a.datatype().get_class(),datatype::Class::FLOAT);
   EXPECT_EQ(a.name(),"test2");
-  EXPECT_EQ(root_.attributes.size(),2);
+  EXPECT_EQ(root_.attributes.size(),2ul);
 }
 
 TEST_F(Attribute, test_multidim_simple_construction)
 {
   attribute::Attribute a;
   EXPECT_NO_THROW(a = root_.attributes.create<int>("test",{1}));
-  EXPECT_EQ(a.dataspace().size(),1);
+  EXPECT_EQ(a.dataspace().size(),1L);
   EXPECT_EQ(a.name(),"test");
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SIMPLE);
   dataspace::Simple space(a.dataspace());
   EXPECT_EQ(space.rank(),1);
-  EXPECT_EQ(space.current_dimensions()[0],1);
+  EXPECT_EQ(space.current_dimensions()[0],1ul);
 
   EXPECT_NO_THROW(a = root_.attributes.create<int>("matrix",{3,4}));
   EXPECT_EQ(a.name(),"matrix");
   space = dataspace::Simple(a.dataspace());
   EXPECT_EQ(space.rank(),2);
-  EXPECT_EQ(space.current_dimensions()[0],3);
-  EXPECT_EQ(space.current_dimensions()[1],4);
+  EXPECT_EQ(space.current_dimensions()[0],3ul);
+  EXPECT_EQ(space.current_dimensions()[1],4ul);
 
 }
 
@@ -90,7 +90,7 @@ TEST_F(Attribute, test_multidim_construction)
   EXPECT_NO_THROW(a = root_.attributes.create("test",type,space));
   EXPECT_TRUE(root_.attributes.exists("test"));
   EXPECT_FALSE(root_.attributes.exists("bla"));
-  EXPECT_EQ(root_.attributes.size(),1);
+  EXPECT_EQ(root_.attributes.size(),1ul);
   EXPECT_EQ(a.name(),"test");
 }
 

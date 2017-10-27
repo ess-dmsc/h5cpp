@@ -46,10 +46,17 @@ class DLL_EXPORT LinkIterator : public Iterator
     LinkIterator(const LinkIterator&) = default;
     LinkIterator(const LinkView &view,ssize_t index);
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#endif
     explicit operator bool() const
     {
       return !(index()<0 || index()>=view_.get().size());
     }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
     value_type operator*() const;
 

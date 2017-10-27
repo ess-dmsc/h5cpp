@@ -106,7 +106,7 @@ struct VarLengthStringTrait
     //! created and H5Dread checks whether or not the data fits
     //! into the structure.
     //!
-    static void from_buffer(const BufferType &, DataType &data)
+    static void from_buffer(const BufferType &, DataType &)
     { }
 };
 
@@ -189,7 +189,7 @@ struct FixedLengthStringTrait<std::string>
       return buffer;
     }
 
-    static DataType from_buffer(const BufferType &buffer,const datatype::String &file_type)
+    static DataType from_buffer(const BufferType &buffer,const datatype::String &)
     {
       return DataType(buffer.begin(),buffer.end()-1);
     }

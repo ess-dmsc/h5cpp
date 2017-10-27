@@ -46,10 +46,17 @@ class DLL_EXPORT NodeIterator : public Iterator
     NodeIterator(const NodeIterator&) = default;
     NodeIterator(const NodeView &view,ssize_t index);
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#endif
     explicit operator bool() const
     {
       return !(index()<0 || index()>=view_.get().size());
     }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
     Node operator*() const;
 

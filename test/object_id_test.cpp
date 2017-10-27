@@ -70,7 +70,7 @@ using namespace hdf5;
 class ObjectIdTest : public testing::Test
 {
   public:
-      ObjectIdTest() {}
+    ObjectIdTest() {}
     ~ObjectIdTest()
     {
       fs::remove(FILE1);

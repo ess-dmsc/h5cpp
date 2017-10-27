@@ -36,7 +36,7 @@ TEST(HyperslabSimple, test_case_1)
   EXPECT_EQ(space.size(),200);
   dataspace::Hyperslab slab({1,1},{1,1},{1,1},{5,5});
   space.selection(dataspace::SelectionOperation::SET,slab);
-  EXPECT_EQ(space.selection.size(),25);
+  EXPECT_EQ(space.selection.size(),25ul);
   EXPECT_EQ(space.selection.type(),dataspace::SelectionType::HYPERSLAB);
 
   EXPECT_NO_THROW(space.selection.all());
@@ -52,7 +52,7 @@ TEST(HyperslabSimple, test_case_2)
   EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
   frame.start(0,9);
   EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
-  EXPECT_EQ(space.selection.size(),2*1024*1024);
+  EXPECT_EQ(space.selection.size(),2ul*1024ul*1024ul);
 
 }
 
