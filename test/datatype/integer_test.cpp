@@ -63,6 +63,8 @@ TYPED_TEST(Integer, General)
   type::Integer new_type(generic);
   EXPECT_EQ(new_type.get_class(),type::Class::INTEGER);
 
+#ifndef _MSC_VER
   EXPECT_THROW(type::Integer(type::Datatype()),std::runtime_error);
+#endif
 }
 
