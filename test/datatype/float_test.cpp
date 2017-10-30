@@ -60,7 +60,8 @@ TYPED_TEST(Float, General)
   EXPECT_EQ(new_type.get_class(),type::Class::FLOAT);
 
   //cannot construct from an invalid type
-  EXPECT_THROW(type::Float(Datatype()),std::runtime_error);
+  auto invalidDT = type_ns::Datatype();
+  EXPECT_THROW(type::Float(invalidDT),std::runtime_error);
 
 
 }
