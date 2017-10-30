@@ -79,7 +79,7 @@ bool Node::is_valid() const
 
 ObjectId Node::id() const
 {
-  return ObjectId(static_cast<hid_t>(*this));
+  return ObjectId(handle_);
 }
 
 bool operator==(const Node &lhs, const Node &rhs)

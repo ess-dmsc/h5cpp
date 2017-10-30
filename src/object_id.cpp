@@ -27,22 +27,36 @@
 namespace hdf5
 {
 
-std::string ObjectId::get_file_name(hid_t object)
+std::string ObjectId::get_file_name(const ObjectHandle &handle)
 {
-  ssize_t size = H5Fget_name(object, NULL, 0);
-  std::vector<char> namec(size + 2, '\0');
-  size = H5Fget_name(object, namec.data(), size);
-  return std::string(namec.data());
+  ssize_t size = H5Fget_name(static_cast<hid_t>(handle), NULL, 0);
+
+  //we have to add the space for the space for the \0 which will terminate the
+  //string
+  std::vector<char> buffer(size+1,'\0');
+
+  //read the characters to the buffer
+  size = H5Fget_name(static_cast<hid_t>(handle), buffer.data(), size+1);
+
+  //construct a new string via an interator - there is nothing which can go wrong
+  std::string name(buffer.begin(),--buffer.end());
+  return name;
 }
 
-ObjectId::ObjectId(hid_t object)
+ObjectId::ObjectId():
+    file_num_{0},
+    obj_addr_{0},
+    file_name_{}
+{}
+
+ObjectId::ObjectId(const ObjectHandle &handle)
 {
   H5O_info_t info;
-  H5Oget_info(object, &info);
+  H5Oget_info(static_cast<hid_t>(handle), &info);
   file_num_ = info.fileno;
   obj_addr_ = info.addr;
 
-  file_name_ = boost::filesystem::path(get_file_name(object));
+  file_name_ = boost::filesystem::path(get_file_name(handle));
 }
 
 std::ostream & operator<<(std::ostream &os, const ObjectId& p)
@@ -88,17 +102,17 @@ bool ObjectId::operator< (const ObjectId& other) const
   return false;
 }
 
-unsigned long ObjectId::file_number() const
+unsigned long ObjectId::file_number() const noexcept
 {
   return file_num_;
 }
 
-haddr_t ObjectId::object_address() const
+haddr_t ObjectId::object_address() const noexcept
 {
   return obj_addr_;
 }
 
-boost::filesystem::path ObjectId::file_name() const
+boost::filesystem::path ObjectId::file_name() const noexcept
 {
   return file_name_;
 }
