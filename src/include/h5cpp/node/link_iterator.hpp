@@ -46,6 +46,10 @@ class DLL_EXPORT LinkIterator : public Iterator
     LinkIterator(const LinkIterator&) = default;
     LinkIterator(const LinkView &view,ssize_t index);
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4018)
+#endif
 #ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
@@ -56,6 +60,9 @@ class DLL_EXPORT LinkIterator : public Iterator
     }
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
+#endif
+#ifdef _MSC_VER
+#pragma warning(pop)
 #endif
 
     value_type operator*() const;
@@ -75,7 +82,14 @@ class DLL_EXPORT LinkIterator : public Iterator
     bool operator!=(const LinkIterator &a) const;
 
   private:
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     std::reference_wrapper<const LinkView> view_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
     Link current_link_;
 
 };
