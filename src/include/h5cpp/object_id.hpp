@@ -63,9 +63,9 @@ class DLL_EXPORT ObjectId
     //! \brief constructor
     //!
     //! Construct an ID from a handler instance. If the handler is default
-    //! constructed and thus invalid an exception will be thrown.
+    //! constructed and thus invalid a default constructed Id instance will 
+	//! be returned. 
     //!
-    //! \throws std::runtime_error in case of a failure
     //! \param handle reference to an object handler
     //!
     ObjectId(const ObjectHandle &handle);

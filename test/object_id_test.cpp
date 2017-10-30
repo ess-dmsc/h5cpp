@@ -182,6 +182,15 @@ TEST_F(ObjectIdTest,default_construction)
   EXPECT_TRUE(id.file_name().empty());
 }
 
+TEST_F(ObjectIdTest, construction_from_invalid_handler)
+{
+  ObjectHandle handle;
+  ObjectId id(handle);
+  EXPECT_EQ(id.file_number(), 0ul);
+  EXPECT_EQ(id.object_address(), 0ul);
+  EXPECT_TRUE(id.file_name().empty());
+}
+
 TEST_F(ObjectIdTest,construction)
 {
   FileGuard file1(kFilePath_1);
