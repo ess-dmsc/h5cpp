@@ -24,6 +24,10 @@ endif()
 
 find_package(Threads)
 
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    add_definitions(/wd4251 /wd4275)
+endif()
+
 
 set(Common_SRC 
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
