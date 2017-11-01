@@ -27,7 +27,7 @@
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 
-namespace type = hdf5::datatype;
+using namespace hdf5;
 
 template <class T>
 class Float : public testing::Test
@@ -49,20 +49,18 @@ TYPED_TEST_CASE(Float, test_types);
 
 TYPED_TEST(Float, General)
 {
-  auto t = type::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t),type::Float>::value));
-  EXPECT_TRUE(t.get_class()==type::Class::FLOAT);
+  auto t = datatype::create<decltype(this->value_)>();
+  EXPECT_TRUE((std::is_same<decltype(t),datatype::Float>::value));
+  EXPECT_TRUE(t.get_class()==datatype::Class::FLOAT);
   EXPECT_EQ(t.size(),sizeof(this->value_));
 
   //construct from Datatype reference to an existing type
-  type::Datatype &generic_type = t;
-  type::Float new_type(generic_type);
-  EXPECT_EQ(new_type.get_class(),type::Class::FLOAT);
+  datatype::Datatype &generic_type = t;
+  datatype::Float new_type(generic_type);
+  EXPECT_EQ(new_type.get_class(),datatype::Class::FLOAT);
 
   //cannot construct from an invalid type
-  auto invalidDT = type::Datatype();
-  EXPECT_THROW(type::Float(invalidDT),std::runtime_error);
-
-
+  datatype::Datatype default_constructed;
+  EXPECT_THROW((datatype::Float(default_constructed)),std::runtime_error);
 }
 

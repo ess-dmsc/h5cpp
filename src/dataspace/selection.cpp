@@ -221,14 +221,28 @@ Points::Points():
 Points::~Points()
 {}
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
 Points::Points(size_t rank):
     Selection()
 {}
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
 void Points::apply(const Dataspace &space,
                    SelectionOperation ops) const
 {
 }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 } // namespace dataspace
 } // namespace hdf5

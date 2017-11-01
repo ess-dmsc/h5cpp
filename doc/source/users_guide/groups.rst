@@ -2,59 +2,31 @@
 Working with groups
 ===================
 
-.. code-block:: cpp
-
-    h5::group_t g = root_group.create("new_group",....);
-
-Need to find a good way how to handle group creation property lists. 
-
-Groups should provide a STL compliant iterator interface. 
+Groups are the basic containers within an HDF5 file. The entry point to the 
+HDF5 group hierarchy is the root group of a file. It can be accessed from the 
+:cpp:func:`root` method of a :cpp:class:`hdf5::file::File` instance. 
 
 .. code-block:: cpp
 
-    class group_iterator_t
-    {
-        .....
-    };
+    using namespace hdf5;
     
-    class recursive_group_iterator_t
-    {
-        .....
-    };
+    file::File f = ....;
+    node::Group root_group = f.root();
 
-    class group_t
-    {
-        public:
-            
-            //
-            // access a direct child by its index
-            //        
-            object_t operator()[size_t index] const;
-            //
-            // returns the number of direct children below the group
-            //
-            size_t size() const;
-            
-            //
-            // provides access to a child by its name
-            //
-            // As the name can be an arbitrary path with this method 
-            // an arbitrary child can be accessed from this group.
-            //           
-            object_t operator()[const std::string &name] const;
-            
-            //
-            // provides access to an arbitrary object
-            //
-            object_t operator()[const h5::path_t &path] const;
-            
-            group_iterator_t begin() const;
-            group_iterator_t end() const;
-            
-            recursive_group_iterator_t rbegin() const;
-            recursive_group_iterator_t rend() const;       
-    };
+Groups act like STL container in a very general sense. With an HDF5 group you 
+can iterate either over the links directly attached to it or over the 
+objects referenced by those links. You can access links via the publik 
+:cpp:member:`hdf5::node::Group::links` member or the objects via the 
+:cpp:member:`hdf5::node::Group::nodes` member. They are instances of 
+:cpp:class:`hdf5::node::LinkView` and :cpp:class:`hdf5::node::LinkView` 
+respectively. 
 
+
+Iterating over nodes
+====================
+
+Iterating over links
+====================
 
 Accessing a groups children
 ===========================

@@ -95,7 +95,7 @@ class TypeTrait<std::array<T,N>>
   public:
     using DataspaceType = Simple;
 
-    static DataspaceType create(const std::array<T,N> &value)
+    static DataspaceType create(const std::array<T,N> &)
     {
       return Simple(hdf5::Dimensions{N},hdf5::Dimensions{N});
     }

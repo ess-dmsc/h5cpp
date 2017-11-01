@@ -120,7 +120,7 @@ ObjectId File::id() const
   {
     throw std::runtime_error("Cannot obtain ObjectId from an invalid file instance!");
   }
-  return ObjectId(static_cast<hid_t>(handle_));
+  return ObjectId(handle_);
 }
 
 } // namespace file

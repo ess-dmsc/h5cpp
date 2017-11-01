@@ -41,8 +41,8 @@ TEST_F(Group, test_root_group)
   EXPECT_NO_THROW(root = file_.root());
   EXPECT_TRUE(root.is_valid());
   EXPECT_EQ(root.type(),node::Type::GROUP);
-  EXPECT_EQ(root.links.size(),0);
-  EXPECT_EQ(root.nodes.size(),0);
+  EXPECT_EQ(root.links.size(),0ul);
+  EXPECT_EQ(root.nodes.size(),0ul);
   EXPECT_EQ(static_cast<std::string>(root.link().path()),"/");
 }
 
@@ -55,14 +55,14 @@ TEST_F(Group, test_default_construction)
 TEST_F(Group, test_group_creation)
 {
   node::Group g = file_.root();
-  EXPECT_EQ(g.nodes.size(),0);
-  EXPECT_EQ(g.links.size(),0);
+  EXPECT_EQ(g.nodes.size(),0ul);
+  EXPECT_EQ(g.links.size(),0ul);
   EXPECT_NO_THROW(g.create_group("group_1"));
-  EXPECT_EQ(g.nodes.size(),1);
-  EXPECT_EQ(g.links.size(),1);
+  EXPECT_EQ(g.nodes.size(),1ul);
+  EXPECT_EQ(g.links.size(),1ul);
   EXPECT_NO_THROW(g.create_group("group_2"));
-  EXPECT_EQ(g.nodes.size(),2);
-  EXPECT_EQ(g.links.size(),2);
+  EXPECT_EQ(g.nodes.size(),2ul);
+  EXPECT_EQ(g.links.size(),2ul);
 }
 
 TEST_F(Group, test_group_linkview)

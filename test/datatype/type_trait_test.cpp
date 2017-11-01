@@ -100,14 +100,12 @@ TEST(TypeTrait, test_long_long)
   EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LLONG));
 }
 
-#ifndef _MSC_VER
 TEST(TypeTrait, test_unsigned_long_long)
 {
-  auto type = ds::TypeTrait<unsigned long>::create();
+  auto type = ds::TypeTrait<unsigned long long>::create();
   EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
   EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_ULLONG));
 }
-#endif
 
 TEST(TypeTrait, test_float)
 {
