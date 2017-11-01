@@ -30,17 +30,25 @@ namespace hdf5
 std::string ObjectId::get_file_name(const ObjectHandle &handle)
 {
   ssize_t size = H5Fget_name(static_cast<hid_t>(handle), NULL, 0);
+  if(size<0)
+  {
+    throw std::runtime_error("Failure retrieving the size of the filename  string!");
+  }
 
   //we have to add the space for the space for the \0 which will terminate the
   //string
   std::vector<char> buffer(size+1,'\0');
 
   //read the characters to the buffer
-  size = H5Fget_name(static_cast<hid_t>(handle), buffer.data(), size+1);
+  if(H5Fget_name(static_cast<hid_t>(handle), buffer.data(), size+1)<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to retrieve the name of the HDF5 file.";
+    throw std::runtime_error(ss.str());
+  }
 
-  //construct a new string via an interator - there is nothing which can go wrong
-  std::string name(buffer.begin(),--buffer.end());
-  return name;
+  std::string fname(buffer.data());
+  return fname;
 }
 
 ObjectId::ObjectId():
