@@ -64,6 +64,7 @@ TYPED_TEST(Integer, General)
   EXPECT_EQ(new_type.get_class(),datatype::Class::INTEGER);
 
   datatype::Datatype default_constructed;
-  //EXPECT_THROW(datatype::Integer(default_constructed),std::runtime_error);
+  EXPECT_FALSE(default_constructed.is_valid());
+  EXPECT_THROW((datatype::Integer(default_constructed)),std::runtime_error);
 }
 

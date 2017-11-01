@@ -36,7 +36,7 @@ Integer::Integer(ObjectHandle &&handle):
 Integer::Integer(const Datatype &datatype):
     Datatype(datatype)
 {
-  if(!is_valid())
+  if(!datatype.is_valid())
       throw std::runtime_error("Cannot construct from a default constructed type");
 
   if(get_class()!=Class::INTEGER)
