@@ -24,6 +24,9 @@ endif()
 
 find_package(Threads)
 
+#
+# We definitely need a better solution for this!
+# 
 if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
     add_definitions(/wd4251 /wd4275)
 endif()
