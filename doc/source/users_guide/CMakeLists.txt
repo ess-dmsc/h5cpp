@@ -1,4 +1,5 @@
 set(SOURCES index.rst
+	        installing.rst
             using.rst
             files.rst
             groups.rst
