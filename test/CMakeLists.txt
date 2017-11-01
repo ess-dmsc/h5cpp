@@ -3,7 +3,7 @@ set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 #include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 
-if(CMAKE_SYSTEM_NAME MATCHES Linux)
+if(CMAKE_SYSTEM_NAME MATCHES Linux AND NOT WITH_CONAN)
 	message(STATUS "Check Linux distribution")
 	
 	find_program(LSB_RELEASE lsb_release)
@@ -23,6 +23,13 @@ find_package(GTest REQUIRED)
 endif()
 
 find_package(Threads)
+
+#
+# We definitely need a better solution for this!
+# 
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+    add_definitions(/wd4251 /wd4275)
+endif()
 
 
 set(Common_SRC 

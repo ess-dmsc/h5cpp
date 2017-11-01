@@ -208,10 +208,17 @@ class DLL_EXPORT Hyperslab : public Selection
     void check_dimension_index(size_t index,const std::string &what) const;
     void check_container_size(const Dimensions &container,const std::string &what) const;
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4251)
+#endif
     Dimensions start_;
     Dimensions stride_;
     Dimensions count_;
     Dimensions block_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 };
 
