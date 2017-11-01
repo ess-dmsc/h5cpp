@@ -190,6 +190,4 @@ using the :cpp:func:`File::root()` method of a file instance
     and :cpp:class:`hdf5::node::Group` is worth the additional effort.
     
 
-sdfsdfdsf werwer wesdf
-
 
