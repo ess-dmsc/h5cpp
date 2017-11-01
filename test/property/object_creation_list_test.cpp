@@ -63,8 +63,8 @@ TEST(ObjectCreationList, test_attribute_storage_threshold)
 {
   pl::ObjectCreationList ocpl;
   EXPECT_NO_THROW(ocpl.attribute_storage_thresholds(100,50));
-  EXPECT_EQ(ocpl.attribute_storage_maximum_compact(),100);
-  EXPECT_EQ(ocpl.attribute_storage_minimum_dense(),50);
+  EXPECT_EQ(ocpl.attribute_storage_maximum_compact(),100ul);
+  EXPECT_EQ(ocpl.attribute_storage_minimum_dense(),50ul);
 
   EXPECT_THROW(ocpl.attribute_storage_thresholds(50,100),
                std::runtime_error);

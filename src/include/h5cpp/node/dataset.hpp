@@ -229,7 +229,7 @@ class DLL_EXPORT Dataset : public Node
     void write_variable_length_data(const T &data,
                                     const datatype::Datatype &mem_type,
                                     const dataspace::Dataspace &mem_space,
-                                    const datatype::Datatype &file_type,
+                                    const datatype::Datatype &,
                                     const dataspace::Dataspace &file_space,
                                     const property::DatasetTransferList &dtpl) const
     {
@@ -252,7 +252,7 @@ class DLL_EXPORT Dataset : public Node
     void write_contiguous_data(const T &data,
                                const datatype::Datatype &mem_type,
                                const dataspace::Dataspace &mem_space,
-                               const datatype::Datatype &file_type,
+                               const datatype::Datatype &,
                                const dataspace::Dataspace &file_space,
                                const property::DatasetTransferList &dtpl) const
     {
@@ -273,7 +273,7 @@ class DLL_EXPORT Dataset : public Node
     void write_variable_length_string_data(const T &data,
                                            const datatype::Datatype &mem_type,
                                            const dataspace::Dataspace &mem_space,
-                                           const datatype::Datatype &file_type,
+                                           const datatype::Datatype &,
                                            const dataspace::Dataspace &file_space,
                                            const property::DatasetTransferList &dtpl) const
     {
@@ -367,7 +367,7 @@ class DLL_EXPORT Dataset : public Node
     void read_contiguous_data(T &data,
                               const datatype::Datatype &mem_type,
                               const dataspace::Dataspace &mem_space,
-                              const datatype::Datatype &file_type,
+                              const datatype::Datatype &,
                               const dataspace::Dataspace &file_space,
                               const property::DatasetTransferList &dtpl) const
     {

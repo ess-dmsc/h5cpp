@@ -35,10 +35,10 @@ TEST(TypeTrait, test_vector)
   EXPECT_EQ(space.type(),dataspace::Type::SIMPLE);
   Dimensions current_dims = space.current_dimensions(),
              max_dims = space.maximum_dimensions();
-  EXPECT_EQ(current_dims.size(),1);
-  EXPECT_EQ(current_dims[0],20);
-  EXPECT_EQ(max_dims.size(),1);
-  EXPECT_EQ(max_dims[0],20);
+  EXPECT_EQ(current_dims.size(),1ul);
+  EXPECT_EQ(current_dims[0],20ul);
+  EXPECT_EQ(max_dims.size(),1ul);
+  EXPECT_EQ(max_dims[0],20ul);
 }
 
 TEST(TypeTrait, test_scalar)
@@ -46,7 +46,7 @@ TEST(TypeTrait, test_scalar)
   int data=10;
   auto space = dataspace::create(data);
   EXPECT_EQ(space.type(),dataspace::Type::SCALAR);
-  EXPECT_EQ(space.size(),1);
+  EXPECT_EQ(space.size(),1l);
 }
 
 
