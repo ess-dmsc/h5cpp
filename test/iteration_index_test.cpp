@@ -23,7 +23,14 @@
 // Created on: Sep 11, 2017
 //
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
 #include <gtest/gtest.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 #include <h5cpp/iterator_config.hpp>
 
 using namespace hdf5;
