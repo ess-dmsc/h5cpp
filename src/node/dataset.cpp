@@ -92,6 +92,10 @@ void Dataset::extent(size_t dim,ssize_t delta_elements) const
     throw std::runtime_error(ss.str());
   }
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#endif
   if((delta_elements<0) && (current_dims[dim]<abs(delta_elements)))
   {
     std::stringstream ss;
@@ -101,6 +105,9 @@ void Dataset::extent(size_t dim,ssize_t delta_elements) const
       <<" would be negative";
     throw std::runtime_error(ss.str());
   }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
   current_dims[dim] += delta_elements;
   extent(current_dims);

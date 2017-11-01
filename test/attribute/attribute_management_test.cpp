@@ -34,30 +34,30 @@ TEST_F(AttributeManagement, test_remove_attribute_by_index)
 {
   root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_.attributes.iterator_config().order(IterationOrder::INCREASING);
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   EXPECT_TRUE(root_.attributes.exists("index"));
   EXPECT_NO_THROW(root_.attributes.remove(0));
-  EXPECT_EQ(root_.attributes.size(),2);
+  EXPECT_EQ(root_.attributes.size(),2ul);
   EXPECT_FALSE(root_.attributes.exists("index"));
 }
 
 TEST_F(AttributeManagement, test_remove_attribute_by_name)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   EXPECT_TRUE(root_.attributes.exists("elasticity"));
   EXPECT_NO_THROW(root_.attributes.remove("elasticity"));
   EXPECT_FALSE(root_.attributes.exists("elasticity"));
-  EXPECT_EQ(root_.attributes.size(),2);
+  EXPECT_EQ(root_.attributes.size(),2ul);
 }
 
 TEST_F(AttributeManagement, test_remove_remains)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   attribute::Attribute a = root_.attributes["counter"];
   EXPECT_TRUE(a.is_valid());
   EXPECT_NO_THROW(root_.attributes.remove("counter"));
   EXPECT_FALSE(root_.attributes.exists("counter"));
-  EXPECT_EQ(root_.attributes.size(),2);
+  EXPECT_EQ(root_.attributes.size(),2ul);
 
   //however an already opened attribute remains alive
   EXPECT_TRUE(a.is_valid());

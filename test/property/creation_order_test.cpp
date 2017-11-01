@@ -32,7 +32,7 @@ namespace pl = hdf5::property;
 TEST(LinkCreationOrder, test_default_construction)
 {
   pl::CreationOrder order;
-  EXPECT_EQ(order,0x0000);
+  EXPECT_EQ(order,0x0000ul);
 }
 
 TEST(LinkCreationOrder, test_conversion_construction)

@@ -31,6 +31,7 @@ extern "C" {
 #include <sstream>
 #include <cstring>
 #include <algorithm>
+#include <iterator>
 #include "datatype/string.hpp"
 #include "dataspace/dataspace.hpp"
 
@@ -91,7 +92,9 @@ struct VarLengthStringTrait
     //! \return an instance of the variable length string buffer
     //!
     static BufferType to_buffer(const T &)
-    {}
+    {
+      return BufferType();
+    }
 
     //!
     //! \brief copy data to output
@@ -103,8 +106,8 @@ struct VarLengthStringTrait
     //! created and H5Dread checks whether or not the data fits
     //! into the structure.
     //!
-    static void from_buffer(const BufferType &, DataType &data)
-    {}
+    static void from_buffer(const BufferType &, DataType &)
+    { }
 };
 
 template<>
@@ -163,10 +166,14 @@ struct FixedLengthStringTrait
     using BufferType = FixedLengthStringBuffer<char>;
 
     static BufferType to_buffer(const DataType &,const datatype::String &)
-    {}
+    {
+      return BufferType();    
+    }
 
     static DataType from_buffer(const BufferType &,const datatype::String &)
-    {}
+    {
+      return DataType();    
+    }
 };
 
 template<>
@@ -182,7 +189,7 @@ struct FixedLengthStringTrait<std::string>
       return buffer;
     }
 
-    static DataType from_buffer(const BufferType &buffer,const datatype::String &file_type)
+    static DataType from_buffer(const BufferType &buffer,const datatype::String &)
     {
       return DataType(buffer.begin(),buffer.end()-1);
     }
@@ -197,13 +204,13 @@ struct FixedLengthStringTrait<std::vector<std::string>>
 
    static BufferType to_buffer(const DataType &data,const datatype::String &file_type)
    {
-     BufferType buffer(data.size()*file_type.size());
-     std::fill(buffer.begin(),buffer.end(),'\0');
+     BufferType buffer(data.size()*file_type.size()+data.size()+1,'\0');
+     
      auto iter = buffer.begin();
      for(const auto &str: data)
      {
-       std::copy(str.begin(),str.end(),iter);
-       std::advance(iter,file_type.size()+1);
+       iter = std::copy(str.begin(),str.end(),iter);
+	   iter++;
      }
 
      return buffer;

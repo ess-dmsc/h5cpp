@@ -161,7 +161,14 @@ class DLL_EXPORT Link
   private:
     file::File parent_file_;   //!< the file via which the link was accessed
     Path parent_path_;   //!< the object path to the parent of the link
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     std::string  name_;  //!< the name of the link
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
     H5L_info_t get_link_info(const property::LinkAccessList &lapl) const;
     std::string get_link_value(const property::LinkAccessList &lapl) const;

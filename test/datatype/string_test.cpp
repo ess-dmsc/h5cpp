@@ -75,7 +75,7 @@ TEST(String, Constructors)
 {
   auto t = type::String::fixed(3);
   EXPECT_TRUE(t.get_class()==type::Class::STRING);
-  EXPECT_EQ(t.size(),3);
+  EXPECT_EQ(t.size(),3ul);
   EXPECT_FALSE(t.is_variable_length());
 
   auto t2 = type::String::variable();

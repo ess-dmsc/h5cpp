@@ -59,20 +59,20 @@ class Extent : public BasicFixture
 TEST_F(Extent, test_infinite_extent_absolut)
 {
   sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],0);
+  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
   EXPECT_NO_THROW(inf_data.extent({1000}));
   EXPECT_NO_THROW(sspace = inf_data.dataspace());
   sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],1000);
+  EXPECT_EQ(sspace.current_dimensions()[0],1000ul);
 }
 
 TEST_F(Extent, test_infinite_extent_relative)
 {
   sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],0);
+  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
   EXPECT_NO_THROW(inf_data.extent(0,123));
   sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],123);
+  EXPECT_EQ(sspace.current_dimensions()[0],123ul);
 
   EXPECT_THROW(inf_data.extent(0,-1000),std::runtime_error);
   EXPECT_THROW(inf_data.extent(1,100),std::runtime_error);
@@ -82,7 +82,7 @@ TEST_F(Extent, test_finite_extent_absolute)
 {
   EXPECT_NO_THROW(fin_data.extent({100}));
   sspace = fin_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],100);
+  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
 
   EXPECT_THROW(fin_data.extent({100000}),std::runtime_error);
 }
@@ -91,7 +91,7 @@ TEST_F(Extent, test_finite_extent_relative)
 {
   EXPECT_NO_THROW(fin_data.extent(0,100));
   sspace = fin_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],100);
+  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
 
   EXPECT_THROW(fin_data.extent(0,-1000000),std::runtime_error);
   EXPECT_THROW(fin_data.extent(1,100),std::runtime_error);
