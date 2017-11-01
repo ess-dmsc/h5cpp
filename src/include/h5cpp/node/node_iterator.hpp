@@ -46,10 +46,24 @@ class DLL_EXPORT NodeIterator : public Iterator
     NodeIterator(const NodeIterator&) = default;
     NodeIterator(const NodeView &view,ssize_t index);
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4018)
+#endif
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#endif
     explicit operator bool() const
     {
       return !(index()<0 || index()>=view_.get().size());
     }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
     Node operator*() const;
 
@@ -68,7 +82,14 @@ class DLL_EXPORT NodeIterator : public Iterator
     bool operator!=(const NodeIterator &a) const;
 
   private:
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     std::reference_wrapper<const NodeView> view_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
     Node current_node_;
 
 };

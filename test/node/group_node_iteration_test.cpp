@@ -33,7 +33,7 @@ class NodeIteration : public NodeIterationFixture
 
 TEST_F(NodeIteration, group_index_name_order_access)
 {
-  EXPECT_EQ(root_.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::NAME);
   root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
@@ -52,7 +52,7 @@ TEST_F(NodeIteration, group_index_name_order_access)
 
 TEST_F(NodeIteration, group_index_creation_order_access)
 {
-  EXPECT_EQ(root_.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
   root_.iterator_config().order(hdf5::IterationOrder::INCREASING);
@@ -83,7 +83,7 @@ TEST_F(NodeIteration, group_name_access)
 
 TEST_F(NodeIteration, group_node_iteration)
 {
-  EXPECT_EQ(root_.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::NAME);
   root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
@@ -106,7 +106,7 @@ TEST_F(NodeIteration, group_node_iteration)
 
 TEST_F(NodeIteration, group_node_foreach)
 {
-  EXPECT_EQ(root_.nodes.size(),5);
+  EXPECT_EQ(root_.nodes.size(),5ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::NAME);
   root_.iterator_config().order(hdf5::IterationOrder::DECREASING);

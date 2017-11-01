@@ -42,11 +42,11 @@ TEST(Array,TensorConstruction)
   EXPECT_TRUE(type.is_valid());
   EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
   EXPECT_EQ(type.size(),12*sizeof(int));
-  EXPECT_EQ(type.rank(),2);
+  EXPECT_EQ(type.rank(),2ul);
 
   Dimensions dims = type.dimensions();
-  EXPECT_EQ(dims[0],3);
-  EXPECT_EQ(dims[1],4);
+  EXPECT_EQ(dims[0],3ul);
+  EXPECT_EQ(dims[1],4ul);
 }
 
 TEST(Array,VectorConstruction)

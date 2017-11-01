@@ -40,10 +40,10 @@ TEST(LinkAccessList, test_maximum_link_traversal)
 {
   pl::LinkAccessList lapl;
   EXPECT_NO_THROW(lapl.maximum_link_traversals(1000));
-  EXPECT_EQ(lapl.maximum_link_traversals(),1000);
+  EXPECT_EQ(lapl.maximum_link_traversals(),1000ul);
 
   EXPECT_NO_THROW(lapl.maximum_link_traversals(2000));
-  EXPECT_EQ(lapl.maximum_link_traversals(),2000);
+  EXPECT_EQ(lapl.maximum_link_traversals(),2000ul);
 }
 
 TEST(LinkAccessList, test_external_link_prefix)

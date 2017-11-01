@@ -30,8 +30,8 @@
 namespace hdf5 {
 namespace error {
 
-void auto_print(bool enable);
-void clear_stack();
+void DLL_EXPORT auto_print(bool enable);
+void DLL_EXPORT clear_stack();
 
 
 } // namespace file

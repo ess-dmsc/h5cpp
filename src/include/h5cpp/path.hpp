@@ -130,7 +130,14 @@ class DLL_EXPORT Path
 
   private:
     bool absolute_;
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4251)
+#endif
     std::list<std::string> link_names_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
     void from_string(const std::string &str);
     std::string to_string() const;
