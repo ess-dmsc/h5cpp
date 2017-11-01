@@ -8,11 +8,18 @@ if(LSB_CODENAME MATCHES stretch)
 	set(GTEST_SOURCE_DIR /usr/src/googletest/googletest)
 elseif(LSB_CODENAME MATCHES jessie OR LSB_CODENAME MATCHES xenial)
 	set(GTEST_SOURCE_DIR /usr/src/gtest)
-else()
-	message(FATAL_ERROR "Could not identify Debian distribution!")
 endif()
 
-set(GTEST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
-add_subdirectory(${GTEST_SOURCE_DIR} ${GTEST_BINARY_DIR})
-set(GTEST_INCLUDE_DIRS ${GTEST_SOURCE_DIR}/include)
-set(GTEST_LIBRARIES gtest gtest_main)
+if(EXISTS ${GTEST_SOURCE_DIR} AND IS_DIRECTORY ${GTEST_SOURCE_DIR})
+	#if the source directory exists and is indeed a directory we build the 
+	#gtest code 
+	set(GTEST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
+	add_subdirectory(${GTEST_SOURCE_DIR} ${GTEST_BINARY_DIR})
+	set(GTEST_INCLUDE_DIRS ${GTEST_SOURCE_DIR}/include)
+	set(GTEST_LIBRARIES gtest gtest_main)
+else()
+	#if the gtest source directory does not exist we fallback on 
+	#find_package.
+	find_package(GTest REQUIRED)
+endif()
+
