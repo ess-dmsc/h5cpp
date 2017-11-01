@@ -471,50 +471,55 @@ TEST_F(ObjectIdTest,  file_external_symlink )
 // If the same file is opened repeatedly:
 //   file_name and object_address are equal
 //   file_number is not equal
-//TEST_F(ObjectIdTest,  repeated_open )
-//{
-//  OneFile* file = new OneFile(FILE1);
-//  ObjectId i1(file->file);
-//  delete file;
-//
-//  file = new OneFile(FILE1);
-//  ObjectId i2(file->file);
-//  delete file;
-//
-//  EXPECT_EQ(i1.file_name(), i2.file_name());
-//  EXPECT_NE(i1.file_number(), i2.file_number());
-//  EXPECT_EQ(i1.object_address(), i2.object_address());
-////  std::cout << i1 << "   ??   " << i2 << std::endl;
-//}
+TEST_F(ObjectIdTest,  repeated_open )
+{
+  ObjectId id1;
+  {
+    FileGuard file(kFilePath_1);
+    id1 = ObjectId(file.file_handle);
+  }
+
+  ObjectId id2;
+  {
+    FileGuard file(kFilePath_1);
+    id2 = ObjectId(file.file_handle);
+  }
+
+  EXPECT_EQ(id1.file_name(), id2.file_name());
+  EXPECT_NE(id1.file_number(), id2.file_number());
+  EXPECT_EQ(id1.object_address(), id2.object_address());
+}
 
 // Sorting ObjectIds
-//TEST_F(ObjectIdTest,  comparison )
-//{
-//  OneFile* file = new OneFile(FILE1);
-//  OneFile* file2 = new OneFile(FILE2);
-//  ObjectId f1(file->file);
-//  ObjectId f2(file2->file);
-//  ObjectId g1(file2->group1);
-//  ObjectId g2(file2->group2);
-//
-//  delete file;
-//  delete file2;
-//
-//  EXPECT_EQ(f1, f1);
-//  EXPECT_EQ(g1, g1);
-//  EXPECT_NE(f1, f2);
-//  EXPECT_NE(g1, g2);
-//  EXPECT_NE(f1, g1);
-//  EXPECT_NE(f1, g2);
-//  EXPECT_NE(f2, g1);
-//  EXPECT_NE(f2, g2);
-//  EXPECT_TRUE(f1 < f2);
-//  EXPECT_FALSE(f1 < f1);
-//  EXPECT_FALSE(f2 < f1);
-//  EXPECT_FALSE(g2 < g1);
-//  EXPECT_LT(g1, g2);
-//  EXPECT_LT(f1, g1);
-//  EXPECT_LT(f2, g1);
-//}
+TEST_F(ObjectIdTest,  comparison )
+{
+  ObjectId file1_id,file2_id,group1_id,group2_id;
+
+  {
+    FileGuard file1(kFilePath_1);
+    FileGuard file2(kFilePath_2);
+
+    file1_id = ObjectId(file1.file_handle);
+    file2_id = ObjectId(file2.file_handle);
+    group1_id = ObjectId(file2.group1_handle);
+    group2_id = ObjectId(file2.group2_handle);
+  }
+
+  EXPECT_EQ(file1_id,file1_id);
+  EXPECT_EQ(group1_id, group1_id);
+  EXPECT_NE(file1_id,file2_id);
+  EXPECT_NE(group1_id,group2_id);
+  EXPECT_NE(file1_id,group1_id);
+  EXPECT_NE(file1_id,group2_id);
+  EXPECT_NE(file2_id,group1_id);
+  EXPECT_NE(file2_id,group2_id);
+  EXPECT_TRUE(file1_id < file2_id);
+  EXPECT_FALSE(file1_id < file1_id);
+  EXPECT_FALSE(file2_id < file1_id);
+  EXPECT_FALSE(group2_id < group1_id);
+  EXPECT_LT(group1_id, group2_id);
+  EXPECT_LT(file1_id, group1_id);
+  EXPECT_LT(file2_id, group1_id);
+}
 
 
