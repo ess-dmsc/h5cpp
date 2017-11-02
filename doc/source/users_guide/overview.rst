@@ -134,3 +134,75 @@ remains constant once a node has been created within a particular file.
 
 *h5cpp* a C++ wrapper for *HDF5*
 ================================
+
+Including a single header file is enough to use *h5cpp* in your code 
+
+.. code-block:: cpp
+
+    #include <h5cpp/hdf5.hpp>
+    
+This will pull in everything you need. The entire library is organized in 
+several namespaces with a top level namespace :cpp:any:`hdf5`
+
+.. figure:: ../images/hdf5_package_overview.svg
+   :align: center
+   :width: 85%
+   
+The most important classes in the top-level namspace might be  
+:cpp:class:`hdf5::Dimensions` and :cpp:class:`hdf5::Path`. 
+The former one is merely a type alias 
+
+.. code-block:: cpp
+
+    using Dimensions = std::vector<hsize_t>;
+    
+in order to get rid of the rather nasty 
+
+.. code-block:: cpp
+
+    hsize_t *dims; 
+    
+which is heavily used throughout the C-API and thus a rather potential source 
+for memory leaks. Using :cpp:class:`std::vector` for this thus solves a lot 
+of problems and makes life just easy. 
+
+:cpp:class:`Path` as the name already suggests represents an HDF5 path to 
+reference a node within a file. We will discuss this class in more detail later.
+
++----------------------------+------------------------------------------------+ 
+| namespace                  | description                                    |
++============================+================================================+
+| :cpp:any:`hdf5::property`  | namespace with property list implementations.  |
++----------------------------+------------------------------------------------+
+| :cpp:any:`hdf5::attribute` | contains all classes related to attributes and |
+|                            | attribute management.                          |
++----------------------------+------------------------------------------------+
+| :cpp:any:`hdf5::datatype`  | datatypes and related utility functions. The   |
+|                            | classes in this namespace should not be        |
+|                            | confused with *commited datatypes* which are   |
+|                            | indeed nodes.                                  |
++----------------------------+------------------------------------------------+
+| :cpp:any:`hdf5::node`      | the most imporant namespace providing all      |
+|                            | functionality to deal with nodes.              |
++----------------------------+------------------------------------------------+
+| :cpp:any:`hdf5::dataspace` | dataspaces and related utilities               |
++----------------------------+------------------------------------------------+
+| :cpp:any:`hdf5::error`     | error management and exceptions                |
++----------------------------+------------------------------------------------+
+| :cpp:any:`hdf5::file`      | everything releated to files                   |
++----------------------------+------------------------------------------------+
+
+Nodes
+-----
+
+All classes representing nodes are located in the :cpp:any:`hdf5::node`
+namespace. The most prominent ones are 
+
+.. figure:: ../images/hdf5_node_types.svg
+   :align: center
+   :width: 75%
+   
+As you can see all node classes have a common parent class 
+:cpp:class:`hdf5::node::Node`. 
+
+
