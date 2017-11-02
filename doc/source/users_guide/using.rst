@@ -2,55 +2,14 @@
 Using the library
 =================
 
+Using *h5cpp* with :program:`cmake`
+===================================
 
-Installation
-============
-
-To install the following tools are required 
-
-* cmake
-* a reasonable new GCC or VisualStudio installation (support for C++11)
-* sphinx to build the documentation
-* doxygen for the API documentation
-
-in addition you need the following libraries 
-
-* boost (only the filesystem library is needed)
-* HDF5 (only the C library with its header files)
-
-A short installation how to install the library from sources. As there are not releases right now
-we have to work with the git repository. To ceck out the sources use 
-
-.. code-block:: bash
-
-   $ git clone https://github.com/ess-dmsc/h5cpp.git
-   
-create a build directory and run cmake 
-
-.. code-block:: bash 
-
-   $ mkdir h5cpp-build
-   $ cd h5cpp-build
-   $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=<wherever> ../h5cpp
-   
-a subsequent :command:`make` and :command:`make install` should install the software.
-In case you have Boost and HDF5 in non standard locations you may also have to define 
-:envvar:`HDF5_ROOT` and :envvar:`Boost_ROOT` variables when running cmake.
-
-After the installation the library creates the following directory structure
-
-.. code-block:: text
-
-   PREFIX/include 
-   PREFIX/lib
-   PREFIX/lib/cmake/h5cpp-0.0.1
-   
-In particular the last directory is of importance as it contains the cmake package files 
-for the C++ wrapper. 
-
-
-Linking with `h5cpp`
-====================
+*h5cpp* not only uses *CMake* as a build system but also provides 
+a *CMake* package which makes using the library with *CMake* quite simple. 
+The *CMake* package is installed below :file:`PREFIX/lib/cmake/h5cpp-0.0.1`
+where :envvar:`PREFIX` expands to the installation prefix used in the 
+inital cmake call of the installation procedure.   
 
 Consider a simple project with the following directory structure 
 
@@ -65,7 +24,7 @@ To build a simple C++ program like this :file:`main.cpp`
 .. code-block:: cpp
 
    #include <iostream>
-   #include <h5cpp/datatype/type_trait.hpp>
+   #include <h5cpp/hdf5.hpp>
    
    int main()
    {
@@ -89,8 +48,8 @@ the following :file:`CMakeLists.txt` fiel is sufficient
    add_executable(h5cpp_test main.cpp)
    target_link_libraries(h5cpp_test h5cpp_shared)
    
-is totally sufficient. Despite the C++ standard all dependencies are provided by 
-the package file and the imported target. 
+Despite the C++ language standard all dependencies are provided by 
+the package file via the imported target. 
 You can build the code with 
 
 .. code-block:: bash
