@@ -3,7 +3,7 @@ Working with groups
 ===================
 
 Groups are the basic containers within an HDF5 file. The entry point to the 
-HDF5 group hierarchy is the root group of a file. It can be accessed from the 
+HDF5 node hierarchy is the root group of a file. It can be accessed from the 
 :cpp:func:`root` method of a :cpp:class:`hdf5::file::File` instance. 
 
 .. code-block:: cpp

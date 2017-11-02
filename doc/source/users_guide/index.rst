@@ -27,5 +27,6 @@ Welcome the users guide of the *h5cpp* HDF5 C++ wrapper.
    using
    overview
    files
+   dataspace
    groups
    

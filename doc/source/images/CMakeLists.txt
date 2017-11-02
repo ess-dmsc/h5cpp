@@ -8,6 +8,8 @@ set(IMAGES attribute_manager_uml.png
            hdf5_links.svg
            hdf5_package_overview.svg
            hdf5_node_types.svg
+           hdf5_dataspaces.svg
+           hdf5_selections.svg
            )
 
 add_sphinx_source(${IMAGES})
