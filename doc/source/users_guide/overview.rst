@@ -1,27 +1,28 @@
+.. _design-overview:
+
 ===============
 Design overview
 ===============
 
-In this chapter we will have a brief view on the design of *h5cpp*. We will 
-not dive into the details here but hopfully provide enough insight into the 
-concepts behind *h5cpp*. 
+.. sectionauthor:: Eugen Wintersberger <eugen.wintersberger@desy.de>
 
-.. attention::
-
-    If you are new to *h5cpp* please read this chapter carefully as it is the 
-    basement for everthing else in this manual. If you do not understand the 
-    terminology introduced by this chapter it is most probably difficult 
-    to understand the rest of the manual. 
+This chapter provides a brief overview over the design of *h5cpp* and the 
+underlying assumptins and concepts. It is not a full design documentation 
+but will introduce all terms required to read the users guide as well as
+to read the API documentation. 
     
        
 A high level view on HDF5
 =========================
 
+Nodes and Links
+---------------
+
 An HDF5 tree can be considered a tree of objects connected by links. 
 
 .. figure:: ../images/hdf5_basic_tree.svg
    :align: center
-   :width: 75%
+   :width: 60%
    
 From a very high level point of view we can assume that there are two kind 
 of objects 
@@ -39,7 +40,7 @@ additional metadata about an objects
 
 .. figure:: ../images/hdf5_attributes.svg
    :align: center
-   :width: 75%
+   :width: 50%
 
 Attributes can be accessed via their name. Lets have a closer look on the 
 links. 
@@ -55,7 +56,81 @@ There are actually three kinds of links connecting objects within a file
   provide alternative means of access to an object
 * *external links* providing a means to reference objects from a different 
   file.
+  
+This concept introduces some kind of ambiguity as can be seen from the 
+figure above. There are basically three tracks which lead to the same 
+*Dataset* instance. This is a known problem in the HDF5 library and *h5cpp* 
+has taken a rather pragmatic approach how to solve it as will be shown later. 
+
+Furthermore it is important to note that *Nodes* in an HDF5 file do not have 
+names. This is an unfortunate widespread misconception about HDF5. *Nodes* 
+can be accessed via a list of links which have names but the *Nodes* 
+themeselfes have no idea about a name. Which would not even make sense if 
+we take the ambiguity shown above into account. Which of the three link chains
+leading to the *Dataset* instance would be the correct name of the *Dataset*?
+  
+
 
    
-Nodes and links
-===============
+Paths
+-----
+
+An important concept throughout *h5cpp* is a *Path*. A *Path* is used to 
+reference a particular *Node* within an HDF5 file. Essentially it is the 
+list of *Link* names used to access an object. 
+As we have already seen the path to a *Node* is by no means unique. It is 
+possible to access the same *Node* via different paths. 
+
+The string representation of a path looks quite like a Unix filesystem path. 
+It is the list of names separated by `/`. In the above example two possible 
+paths to the *Dataset* would be 
+
+.. code-block:: text
+
+    /sensors/temp
+    /plot/y 
+    
+Node IDs
+--------
+
+In the figure above we have seen that there are many paths that could lead to 
+the same object. Now, if we do a recursive traversal over all nodes in a file 
+we would face the problem that we get a copy of the same node several times. 
+One for each path which leads to this object. 
+We thus introduced the concept of a unique ID which is associated with every 
+node. This ID identifies an object uniquely even over file boundaries and 
+remains constant once a node has been created within a particular file.
+
+.. attention::
+
+    If you are familiar with HDF5s C-API do not confuse the unique ID 
+    introduced by *h5cpp* with the :cpp:type:`hid_t` used in the C-API 
+    to reference an instance of an object. The latter one is rather a handler 
+    than an unqiue ID. IDs in *h5cpp* identify nodes uniquely even over 
+    file boundaries at least within the context of a program. 
+    While the value of :cpp:type:`hid_t` can change after closing and 
+    re-opening the same object *h5cpp*s unique ID remains always the same. 
+    
+.. important::
+
+    What you should take from this section are 
+    
+    * an HDF5 file constists of *Nodes* which are  
+        - *Groups*
+        - *Datasets*
+        - *commited Datatypes*
+        
+    * which are connected via *Links* from which there are three kinds
+        - *hard links*
+        - *soft links*
+        - and *external links*
+        
+    * nodes can be augumented with *Attributes* which can be used to 
+      store additional metadata about a *Node*.
+    * *Nodes* do not have names, *Links* have.
+    * *Paths* are lists of link names referencing a node within a file
+    * every *Node* is associated with a unique ID which remains unique 
+      even over file boundaries
+
+*h5cpp* a C++ wrapper for *HDF5*
+================================
