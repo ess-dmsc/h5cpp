@@ -88,13 +88,60 @@ Such a dataspace has two basic properties
 * and the *dimensions* which is the number of elements along each dimension. 
 
 In *h5cpp* a simple dataspace can be constructed using the 
-:cpp:class:`hdf5::dataspace::Simple` class. Once created the only thing 
-that can be changed with a dataspace is the number of elements along each 
-dimension. There are basically three configurations 
+:cpp:class:`hdf5::dataspace::Simple` class. There are basically three 
+configurations we could use 
 
 * a dataspace of fixed size 
 * an extensible dataspace with bounded maximum dimensions
-* an extensible dataspace with unbounded maximum dimensions 
+* an extensible dataspace with unbounded maximum dimensions
+
+To create a simple dataspace with fixed dimensions use 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({2,3}); 
+    
+    Dimensions current = space.current_dimensions(); // {2,3}
+    Dimensions maximum = space.maximum_dimensions(); // {2,3} too
+    
+which will result in a dataspace of rank 2 with 6 elements. To build  an 
+extensible dataspace with fixed bounds we could use 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({2,3},{10,100}); 
+    
+    space.current_dimensions(); // {2,3}
+    space.maximum_dimensions(); // {10,100}
+    
+Finally, for an extensible dataspace with an unlimited number of elements 
+along a dimension we could use 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({1},{dataspace::Simple::UNLIMITED}); 
+    
+The initial size of the dataspace  would be 1. However, we could extend it 
+as much as we want (basically can). We will see later how to use this feature
+along with datasets. 
+
+A simple dataspace can be completely modified during the lifetime of an 
+instance. For instance 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({3}); // rank=1,size=3
+    space.dimensions({2,3},{5,10}); // rank=2,size=6 
+    
+    
 
 
 .. _dataspace-conversion: 

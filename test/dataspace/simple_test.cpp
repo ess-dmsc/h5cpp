@@ -65,4 +65,12 @@ TEST(Simple, test_construction_current_and_max)
   EXPECT_EQ(m,max);
 }
 
+TEST(Simple,test_change_rank)
+{
+  dataspace::Simple space(Dimensions{100});
+  EXPECT_EQ(space.rank(),1);
+  space.dimensions(Dimensions{2,3},Dimensions{2,3});
+  EXPECT_EQ(space.rank(),2);
+}
+
 
