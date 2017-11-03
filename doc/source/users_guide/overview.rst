@@ -221,6 +221,10 @@ is used. As a matter of fact it is the job of the dataspace to map the
 multidimensional index of a particular element onto a linear address in the 
 storage area. 
 
+.. todo::
+
+    add a figure here!
+
 When data is written to disk, the content of the :cpp:class:`MemoryStorage` 
 is transfered to the :cpp:class:`DiskStorage`. It is important to note that 
 the dataspace of the latter one must not be equal to that of the memory storage. 
@@ -228,6 +232,10 @@ They must only have equal size (number of data elements). In addition, the
 data elements in memory must be convertable to those associated with the 
 file storage. The same is true for the other direction when reading data 
 from the disk. 
+
+.. todo::
+
+    add a figure here!
 
 Selections and partial IO
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -249,7 +257,7 @@ With a point selection we could for instance read the elements
 size 3 (which would be 72Bytes in total) or in a more sophisticated setup
 we could map them on points (0),(5) and (11) in a 1D array in memory. 
 
-
+.. todo:: add a figure here
 
 
    
