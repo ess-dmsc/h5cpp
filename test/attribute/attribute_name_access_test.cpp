@@ -36,7 +36,7 @@ class AttributeName : public AttributeIterationFixture
 
 TEST_F(AttributeName, test_name_access)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   EXPECT_EQ(root_.attributes["index"].datatype().get_class(),
                     datatype::Class::INTEGER);
   EXPECT_EQ(root_.attributes["elasticity"].datatype().get_class(),
@@ -48,7 +48,7 @@ TEST_F(AttributeName, test_name_access)
 
 TEST_F(AttributeName, test_index_access_creation_order_increasing)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_.attributes.iterator_config().order(IterationOrder::INCREASING);
 
@@ -75,7 +75,7 @@ TEST_F(AttributeName, test_iterator_access_creation_order_increasing)
 
 TEST_F(AttributeName, test_index_access_creation_order_decreasing)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
   root_.attributes.iterator_config().order(IterationOrder::DECREASING);
 
@@ -99,7 +99,7 @@ TEST_F(AttributeName, test_iterator_access_creation_order_decreasing)
 
 TEST_F(AttributeName, test_index_access_name_order_increasing)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   root_.attributes.iterator_config().index(IterationIndex::NAME);
   root_.attributes.iterator_config().order(IterationOrder::INCREASING);
 
@@ -123,7 +123,7 @@ TEST_F(AttributeName, test_iterator_access_name_order_increasing)
 
 TEST_F(AttributeName, test_index_access_name_order_decreasing)
 {
-  EXPECT_EQ(root_.attributes.size(),3);
+  EXPECT_EQ(root_.attributes.size(),3ul);
   root_.attributes.iterator_config().index(IterationIndex::NAME);
   root_.attributes.iterator_config().order(IterationOrder::DECREASING);
 

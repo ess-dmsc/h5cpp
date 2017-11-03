@@ -34,16 +34,16 @@ TEST(ChunkCacheParameters, default_construction)
 {
   pl::ChunkCacheParameters params;
 
-  EXPECT_EQ(params.chunk_slots(),0);
-  EXPECT_EQ(params.chunk_cache_size(),0);
+  EXPECT_EQ(params.chunk_slots(),0ul);
+  EXPECT_EQ(params.chunk_cache_size(),0ul);
   EXPECT_NEAR(params.preemption_policy(),0.0,0.0001);
 }
 
 TEST(ChunkCacheParameters, test_construction)
 {
   pl::ChunkCacheParameters params(100,200,0.2);
-  EXPECT_EQ(params.chunk_slots(),100);
-  EXPECT_EQ(params.chunk_cache_size(),200);
+  EXPECT_EQ(params.chunk_slots(),100ul);
+  EXPECT_EQ(params.chunk_cache_size(),200ul);
   EXPECT_NEAR(params.preemption_policy(),0.2,0.0001);
 }
 
@@ -51,8 +51,8 @@ TEST(ChunkCacheParameters, test_copy_construction)
 {
   pl::ChunkCacheParameters params1(100,200,0.2);
   pl::ChunkCacheParameters params2(params1);
-  EXPECT_EQ(params2.chunk_slots(),100);
-  EXPECT_EQ(params2.chunk_cache_size(),200);
+  EXPECT_EQ(params2.chunk_slots(),100ul);
+  EXPECT_EQ(params2.chunk_cache_size(),200ul);
   EXPECT_NEAR(params2.preemption_policy(),0.2,0.0001);
 }
 
@@ -60,14 +60,14 @@ TEST(ChunkCacheParameters, test_chunk_slots)
 {
   pl::ChunkCacheParameters p;
   p.chunk_slots(20);
-  EXPECT_EQ(p.chunk_slots(),20);
+  EXPECT_EQ(p.chunk_slots(),20ul);
 }
 
 TEST(ChunkCacheParameters, test_chunk_cache_size)
 {
   pl::ChunkCacheParameters p;
   p.chunk_cache_size(200);
-  EXPECT_EQ(p.chunk_cache_size(),200);
+  EXPECT_EQ(p.chunk_cache_size(),200ul);
 }
 
 TEST(ChunkCacheParameters, test_preemption_policy)

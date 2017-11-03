@@ -33,7 +33,7 @@ using namespace std;
 TEST(Path, test_default_construction)
 {
   Path p;
-  EXPECT_EQ(p.size(),0);
+  EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
 }
 
@@ -42,31 +42,31 @@ TEST(Path, test_construction_from_string)
   Path p;
 
   p = Path("/hello/world/data");
-  EXPECT_EQ(p.size(),3);
+  EXPECT_EQ(p.size(),3ul);
   EXPECT_TRUE(p.absolute());
 
   p = Path("hello/world");
-  EXPECT_EQ(p.size(),2);
+  EXPECT_EQ(p.size(),2ul);
   EXPECT_FALSE(p.absolute());
 
   p = Path("hello/world/instrument/data/");
-  EXPECT_EQ(p.size(),4);
+  EXPECT_EQ(p.size(),4ul);
   EXPECT_FALSE(p.absolute());
 
   p = Path(".");
-  EXPECT_EQ(p.size(),0);
+  EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
 
   p = Path("./");
-  EXPECT_EQ(p.size(),0);
+  EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
 
   p = Path("/.");
-  EXPECT_EQ(p.size(),0);
+  EXPECT_EQ(p.size(),0ul);
   EXPECT_TRUE(p.absolute());
 
   p = Path(".///");
-  EXPECT_EQ(p.size(),0);
+  EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
 }
 
@@ -172,13 +172,13 @@ TEST(Path,test_append_link_name)
   Path p("/entry/instrument/detector");
   p = p+"data";
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
-  EXPECT_EQ(p.size(),4);
+  EXPECT_EQ(p.size(),4ul);
   EXPECT_TRUE(p.absolute());
 
   p = Path("instrument/detector");
   p = p + "metadata/date";
   EXPECT_EQ(static_cast<string>(p),"instrument/detector/metadata/date");
-  EXPECT_EQ(p.size(),4);
+  EXPECT_EQ(p.size(),4ul);
   EXPECT_FALSE(p.absolute());
 }
 
@@ -196,7 +196,7 @@ TEST(Path,test_prepend_link_name)
 
   p = Path("entry/instrument");
   p = "/" + p;
-  EXPECT_EQ(p.size(),2);
+  EXPECT_EQ(p.size(),2ul);
   EXPECT_TRUE(p.absolute());
 }
 
@@ -204,7 +204,7 @@ TEST(Path,test_adding_two_paths)
 {
   Path p1("/entry/instrument"), p2("detector/data");
   Path p = p1+p2;
-  EXPECT_EQ(p.size(),4);
+  EXPECT_EQ(p.size(),4ul);
   EXPECT_TRUE(p.absolute());
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
 }

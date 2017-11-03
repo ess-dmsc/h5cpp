@@ -27,7 +27,7 @@
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/integer.hpp>
 
-namespace type_ns = hdf5::datatype;
+using namespace hdf5;
 
 template <class T>
 class Integer : public testing::Test
@@ -54,15 +54,17 @@ TYPED_TEST_CASE(Integer, test_types);
 
 TYPED_TEST(Integer, General)
 {
-  auto t = type_ns::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t),type_ns::Integer>::value));
-  EXPECT_TRUE(t.get_class()==type_ns::Class::INTEGER);
+  auto t = datatype::create<decltype(this->value_)>();
+  EXPECT_TRUE((std::is_same<decltype(t),datatype::Integer>::value));
+  EXPECT_TRUE(t.get_class()==datatype::Class::INTEGER);
   EXPECT_EQ(t.size(),sizeof(this->value_));
 
-  type_ns::Datatype &generic = t;
-  type_ns::Integer new_type(generic);
-  EXPECT_EQ(new_type.get_class(),type_ns::Class::INTEGER);
-  auto invalidDT = type_ns::Datatype();
-  EXPECT_THROW(type_ns::Integer(invalidDT),std::runtime_error);
+  datatype::Datatype &generic = t;
+  datatype::Integer new_type(generic);
+  EXPECT_EQ(new_type.get_class(),datatype::Class::INTEGER);
+
+  datatype::Datatype default_constructed;
+  EXPECT_FALSE(default_constructed.is_valid());
+  EXPECT_THROW((datatype::Integer(default_constructed)),std::runtime_error);
 }
 

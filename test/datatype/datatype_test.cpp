@@ -138,7 +138,7 @@ TEST(Datatype, Classes)
 TEST(Datatype, Size)
 {
   auto a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,2)));
-  ASSERT_EQ(a.size(), 2);
+  ASSERT_EQ(a.size(), 2ul);
   a.set_size(4);
-  ASSERT_EQ(a.size(), 4);
+  ASSERT_EQ(a.size(), 4ul);
 }

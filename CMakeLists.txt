@@ -81,4 +81,6 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
 	    COMPONENT development)
 
 add_custom_target(Jenkins SOURCES
-  ${PROJECT_SOURCE_DIR}/Jenkinsfile ${PROJECT_SOURCE_DIR}/push_to_repo.sh)
+  ${PROJECT_SOURCE_DIR}/conanfile.txt
+  ${PROJECT_SOURCE_DIR}/Jenkinsfile
+  ${PROJECT_SOURCE_DIR}/push_to_repo.sh)
