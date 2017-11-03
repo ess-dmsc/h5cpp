@@ -1,4 +1,4 @@
-.. _design-overview:
+.. _ug-design-overview:
 
 ===============
 Design overview
