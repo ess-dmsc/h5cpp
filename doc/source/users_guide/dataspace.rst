@@ -193,7 +193,43 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf
 Selections
 ==========
 
+Selections in HDF5 allow the user to read or write only specific data to or 
+from a file. This is particularly useful if the total size of a dataset 
+is too large to fit into memory or only the specific data is required 
+to performa particular action. 
+
+
 .. figure:: ../images/hdf5_selections.svg
    :align: center
    :width: 60%
+   
+HDF5 provides two types of selections 
+
+* *hyperslabs* (:cpp:class:`hdf5::dataspace::Hyperslab`) which are 
+  multidimensional selections that maybe can be compared to the complex array 
+  slicing and indexing features that numpy arrays allow in Python 
+* *point selections* (:cpp:class:`hdf5::dataspace::Points`) which allow picking 
+  individual elements from a dataset. 
+  
+All selections derive from :cpp:class:`hdf5::dataspace::Selection`. This 
+class basically provides a single method to apply a selection on a dataspace. 
+
+  
+.. attention::
+
+    Currently only hyperslabs are implemented in *h5cpp*.
+    
+    
+Applying a selection
+--------------------
+
+To apply a selection you need to
+
+.. figure:: ../images/hdf5_selection_manager.svg
+   :align: center
+   :width: 75%
+
+Hyperslabs
+----------
+
 

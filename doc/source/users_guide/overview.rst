@@ -131,6 +131,142 @@ remains constant once a node has been created within a particular file.
     * *Paths* are lists of link names referencing a node within a file
     * every *Node* is associated with a unique ID which remains unique 
       even over file boundaries
+      
+Data IO
+-------
+
+Until now we have only considered structural aspects of an HDF5 file. The 
+second and most probably most important topic is data IO. 
+To understand how data IO works in HDF5 we first have to introduce a bit 
+terminology. 
+
+From a rather high level point of view the smallest unit of information which 
+can be accessed by HDF5 is a *data element*. Such a *data element* can be 
+everything ranging from a  single integer number up to complex types 
+consisting of nested C-structs or C++ classes. A *data element* is stored in 
+memory and/or on disk as a set of bits. In order to interpret these bits 
+correctly and reassemble the stored *data element* we need some information 
+about it. This information is provided in HDF5 by a *datatype*. 
+
+*Data elements* have some logical organization. For instance we can 
+store these elements in a 2 dimensional array. 
+
+.. figure:: ../images/dataspace_high_level.svg
+   :align: center
+   :width: 75%
+   
+   *data elements* of 3 numbers (could be a 3D vector) are stored in a 
+   2 dimensional array with 5 elements along the first and 3 elements 
+   along the second dimensions. 
+
+The logical layout of *data elements* is described by a *dataspace*. 
+Currently there are only two *dataspaces* available in HDF5
+
+* a *scalar* space which can store only a single element
+* and a *simple* space which is a regular n-dimensional array 
+  (as the one above).
+
+*Dataspaces* and *datatypes* are the fundamental building blocks of all 
+objects that can store data within an HDF5 file
+
+* *attributes*
+* and *datasets*
+
+For the construction of either of them you have to provide a *datatype* and 
+a *dataspace*. As a matter of fact, *attributes* and *datasets* are quite 
+similar, though a *dataset* is a *node* type and can be accessed via a 
+*path*. In addition, *datasets* are far more flexible than *attributes* as 
+we will see soon. 
+
+We need to introduce the term *storage* as a rather abstract region of space 
+where we can store data and which is contiguous and linear addressable. 
+Technically such a *storage* can be implemented either 
+
+* in memory (as a contiguous region of memory)
+* or on disk
+
+where in the latter case it is not important for us how exactly the data 
+is stored on disk (as a single block of data within a file or scattered 
+over several blocks within a file).
+
+.. figure:: ../images/storage_models.svg
+   :align: center
+   :width: 60%
+
+We never have to care about the :cpp:class:`DiskStorage` this is done by the 
+HDF5 library. However, in some cases we need to care about the 
+:cpp:class:`MemoryStorage`. As far as it concerns this chapter we can consider
+both to satisfiy the above constraints. 
+
+We will have a look now how data transfer roughly works by using the above 
+example. For the dataset under consideration we have 
+
+* a datatype comprising 3 double valus (3x8Bytes) and thus a total size of 
+  24 Bytes
+* and a dataspace of shape (3,5) where the last index varies fastest. 
+
+The :cpp:class:`MemoryStorage` of such a dataset would look like this 
+
+.. figure:: ../images/memory_storage_example.svg
+   :align: center
+   :width: 65%
+   
+Every data element occupies 24Byte. The numbers on the very left denote the 
+memory offset in byte for the very left byte in the block. In the above figure
+the elements are represented in a 3x5 matrix to preserve space but in memory 
+they would be aligend simply one after the other.
+It is the dataspace which associates the linear region of memory with a 
+particular shape. By default C-style ordering, last index variest fastest, 
+is used. As a matter of fact it is the job of the dataspace to map the 
+multidimensional index of a particular element onto a linear address in the 
+storage area. 
+
+When data is written to disk, the content of the :cpp:class:`MemoryStorage` 
+is transfered to the :cpp:class:`DiskStorage`. It is important to note that 
+the dataspace of the latter one must not be equal to that of the memory storage. 
+They must only have equal size (number of data elements). In addition, the 
+data elements in memory must be convertable to those associated with the 
+file storage. The same is true for the other direction when reading data 
+from the disk. 
+
+Selections and partial IO
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+One of the nice features of HDF5 is that we do not have to read or write the 
+entire data from or to the disk. This is paticularly usefull if the total 
+amount of data available in a dataset would not fit in the memory of the 
+computer which wants to access the data. 
+We can distinguish between 
+
+* *point selections* where individual data elements can be picked in an 
+  arbitrary pattern 
+* and *hyperslab selections* which are regular multidimensional *slices*. 
+  *Hyperslabs* roughly compare to what you can do with array indices and 
+  slices on numpy arrays in Python. 
+  
+With a point selection we could for instance read the elements 
+(0,2), (1,3) and (2,0) and store them in a either a new memory storage of 
+size 3 (which would be 72Bytes in total) or in a more sophisticated setup
+we could map them on points (0),(5) and (11) in a 1D array in memory. 
+
+
+
+
+   
+
+
+.. important:: 
+
+   The following concepts are important and thus should be kept in mind 
+   for further reading
+   
+   * a *Datatype* describes a single data element (no matter how complex it 
+     might be)
+   * a *Dataspace* describes how data elemets are layed out in memory
+   * all data is store in *Dataspaces* and *Attributes* (the interfaces are 
+     quite simliar but attributes have some limitations)
+   * *Selections* make it possible to read only a particular part of a 
+     *Dataset*
 
 *h5cpp* a C++ wrapper for *HDF5*
 ================================

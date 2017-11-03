@@ -1,4 +1,3 @@
-add_subdirectory(advanced)
 set(SOURCES index.rst
 	        installing.rst
             using.rst
