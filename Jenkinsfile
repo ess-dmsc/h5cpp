@@ -7,7 +7,7 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-node ("boost && fedora") {
+node ("centos7") {
     cleanWs()
 
     dir("code") {
