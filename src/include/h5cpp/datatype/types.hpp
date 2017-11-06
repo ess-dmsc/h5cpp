@@ -26,9 +26,7 @@
 
 #include <iostream>
 #include <type_traits>
-extern "C" {
-#include <hdf5.h>
-}
+#include "../hdf5_capi.hpp"
 #include "../windows.hpp"
 
 namespace hdf5 {

@@ -25,9 +25,7 @@
 #pragma once
 
 #include <iostream>
-extern "C" {
-#include <hdf5.h>
-}
+#include "../hdf5_capi.hpp"
 #include "../windows.hpp"
 
 

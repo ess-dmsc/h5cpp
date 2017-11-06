@@ -25,9 +25,7 @@
 #pragma once
 
 #include <type_traits>
-extern "C"{
-#include<hdf5.h>
-}
+#include "../hdf5_capi.hpp"
 #include "../object_handle.hpp"
 #include "types.hpp"
 #include "../windows.hpp"

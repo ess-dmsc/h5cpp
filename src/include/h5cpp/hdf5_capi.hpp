@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -22,28 +22,12 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Nov 6, 2017
 //
-#include <h5cpp/hdf5_capi.hpp>
-#include <stdexcept>
-#include <h5cpp/file/posix_driver.hpp>
+#pragma once
 
-namespace hdf5 {
-namespace file {
+#ifdef WITH_MPI
+#include <mpi.h>
+#endif
 
-PosixDriver::PosixDriver()
-{}
-
-void PosixDriver::operator()(const property::FileAccessList &fapl) const
-{
-  if(H5Pset_fapl_sec2(static_cast<hid_t>(fapl))<0)
-  {
-    throw std::runtime_error("Failure setting up POSIX driver!");
-  }
+extern "C"{
+#include <hdf5.h>
 }
-
-DriverID PosixDriver::id() const noexcept
-{
-  return DriverID::POSIX;
-}
-
-} // namespace file
-} // namespace hdf5

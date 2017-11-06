@@ -25,10 +25,7 @@
 
 #pragma once
 
-extern "C" {
-#include <hdf5.h>
-}
-
+#include "../hdf5_capi.hpp"
 #include "../windows.hpp"
 
 namespace hdf5 {

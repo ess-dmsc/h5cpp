@@ -24,9 +24,7 @@
 //
 #pragma once
 
-extern "C"{
-#include <hdf5.h>
-}
+#include "../hdf5_capi.hpp"
 #include "../object_handle.hpp"
 #include "../windows.hpp"
 

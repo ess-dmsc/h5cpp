@@ -24,11 +24,9 @@
 //
 #pragma once
 
+#include "hdf5_capi.hpp"
 #include <type_traits>
 #include <iostream>
-extern "C" {
-#include <hdf5.h>
-}
 #include "windows.hpp"
 #include "property/link_access_list.hpp"
 

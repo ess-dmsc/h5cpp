@@ -23,10 +23,7 @@
 // Created on: Nov 6, 2017
 //
 
-extern "C"
-{
-#include <hdf5.h>
-}
+#include <h5cpp/hdf5_capi.hpp>
 #include <stdexcept>
 #include <h5cpp/file/direct_driver.hpp>
 
