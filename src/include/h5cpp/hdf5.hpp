@@ -89,3 +89,9 @@
 #include "property/string_creation_list.hpp"
 #include "property/type_creation_list.hpp"
 #include "property/object_copy_list.hpp"
+
+#include "filter/filter.hpp"
+#include "filter/types.hpp"
+#include "filter/deflate.hpp"
+#include "filter/fletcher32.hpp"
+#include "filter/shuffle.hpp"
