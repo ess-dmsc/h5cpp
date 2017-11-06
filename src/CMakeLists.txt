@@ -97,9 +97,14 @@ target_include_directories(h5cpp_shared
 	PRIVATE  
 	${PROJECT_SOURCE_DIR}/src/include
 	PUBLIC 
-	${HDF5_INCLUDE_DIRS}
+	${HDF5_INCLUDE_DIRS} ${MPI_C_INCLUDE_PATH}
 	INTERFACE 
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+#
+# THIS IS BAD
+# NEED TO GET RID OF THIS 
+target_compile_definitions(h5cpp_shared PUBLIC -DOMPI_SKIP_MPICXX)
 
 set_target_properties(h5cpp_shared 
     PROPERTIES 

@@ -94,5 +94,6 @@ using ScopeBase = std::underlying_type<Scope>::type;
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Scope &scope);
 
 
+
 } // namespace file
 } // namespace hdf5

@@ -864,6 +864,25 @@ this for the container adapter.</body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Usage" xmi:id="_xPMywJSVEeeoI7oI9Ds2zg" client="_dmyBsJSVEeeoI7oI9Ds2zg" supplier="_indGQJSVEeeoI7oI9Ds2zg"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_5IWF0MLjEeeoBrECR30aeA" name="Driver"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_77s-QMLjEeeoBrECR30aeA" name="PosixDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_FHpwcMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_90edwMLjEeeoBrECR30aeA" name="DirectDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_Fha7UMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_-1t4UMLjEeeoBrECR30aeA" name="MemoryDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_F9yHMMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="__9gm0MLjEeeoBrECR30aeA" name="MPIDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_GXQ-MMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_HXfFEMLkEeeoBrECR30aeA" name="DriverID">
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_J6AsMMLkEeeoBrECR30aeA" name="POSIX"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K9b4EMLkEeeoBrECR30aeA" name="DIRECT"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_L3GrAMLkEeeoBrECR30aeA" name="MEMORY"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Mv1CwMLkEeeoBrECR30aeA" name="MPI"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_in-CgJO3EeeoI7oI9Ds2zg" name="IterationOrder">
       <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oSac0JO3EeeoI7oI9Ds2zg" name="INCREASING"/>
