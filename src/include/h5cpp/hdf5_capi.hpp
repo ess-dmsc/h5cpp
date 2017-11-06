@@ -24,6 +24,9 @@
 //
 #pragma once
 
+//
+// This hack is necessary to get MPI, HDF5 and C++ build together
+//
 #ifdef WITH_MPI
 #include <mpi.h>
 #endif
