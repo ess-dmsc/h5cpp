@@ -57,6 +57,11 @@
 #include "file/file.hpp"
 #include "file/functions.hpp"
 #include "file/types.hpp"
+#include "file/driver.hpp"
+#include "file/direct_driver.hpp"
+#include "file/memory_driver.hpp"
+#include "file/mpi_driver.hpp"
+#include "file/posix_driver.hpp"
 
 #include "node/dataset.hpp"
 #include "node/group_view.hpp"

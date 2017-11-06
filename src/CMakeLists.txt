@@ -45,6 +45,10 @@ set(FILE_SOURCES
   file/types.cpp
   file/file.cpp
   file/functions.cpp
+  file/direct_driver.cpp
+  file/memory_driver.cpp
+  file/posix_driver.cpp
+  file/mpi_driver.cpp
   )
 
 set(ERROR_SOURCES
