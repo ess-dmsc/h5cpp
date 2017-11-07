@@ -24,7 +24,16 @@
 //
 #pragma once
 #include <memory>
-#include "../property/file_access_list.hpp"
+
+
+//
+// Forward declaration of property lists
+//
+namespace hdf5 {
+namespace property {
+class FileAccessList;
+}
+}
 
 
 namespace hdf5 {
@@ -64,7 +73,7 @@ class Driver
     //!
     //! Sets a driver to a particular file access property list.
     //!
-    virtual void operator()(const property::FileAccessList &fapl) const = 0;
+    virtual void operator()(const hdf5::property::FileAccessList &fapl) const = 0;
 
     //!
     //! \brief get driver ID

@@ -6,6 +6,7 @@ set(HEADERS object_handle.hpp
 	        iterator.hpp
 	        object_id.hpp
 	        hdf5.hpp
+	        hdf5_capi.hpp
 	       )
 	      
 	      

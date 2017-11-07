@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include "driver.hpp"
+#include <h5cpp/file/driver.hpp>
 
 namespace hdf5 {
 namespace file {

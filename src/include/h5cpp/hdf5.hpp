@@ -24,6 +24,8 @@
 //
 #pragma once
 
+#include "hdf5_capi.hpp"
+
 #include "iterator_config.hpp"
 #include "iterator.hpp"
 #include "object_handle.hpp"

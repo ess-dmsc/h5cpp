@@ -25,6 +25,7 @@
 #include <h5cpp/hdf5_capi.hpp>
 #include <stdexcept>
 #include <h5cpp/file/posix_driver.hpp>
+#include <h5cpp/property/file_access_list.hpp>
 
 namespace hdf5 {
 namespace file {
