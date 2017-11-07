@@ -25,8 +25,8 @@
 #pragma once
 
 
-#include "group_creation_list.hpp"
-#include "../windows.hpp"
+#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {
