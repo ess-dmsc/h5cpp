@@ -17,11 +17,11 @@ if (NOT GTest_FOUND)
       message(STATUS "Attempting to apply Debian fix for googletest")
       include(${PROJECT_SOURCE_DIR}/cmake/DebianGTestFix.cmake)
     else()
-      message(FATAL_ERROR "GTest not found and no fix available")
+      message(SEND_ERROR "GTest not found and no fix available")
     endif()
 
   else()
-    message(FATAL_ERROR "GTest not found and no fix available")
+    message(SEND_ERROR "GTest not found and no fix available")
   endif()
 endif()
 
