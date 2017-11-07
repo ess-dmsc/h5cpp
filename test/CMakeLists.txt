@@ -18,10 +18,12 @@ if (NOT GTest_FOUND)
       include(${PROJECT_SOURCE_DIR}/cmake/DebianGTestFix.cmake)
     else()
       message(SEND_ERROR "GTest not found and no fix available")
+      return()
     endif()
 
   else()
     message(SEND_ERROR "GTest not found and no fix available")
+    return()
   endif()
 endif()
 
