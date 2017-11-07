@@ -25,7 +25,7 @@ node ("centos7") {
             stage("Run CMake") {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake -DCOV=on -DCMAKE_BUILD_TYPE=Debug ../code"
+                    cmake3 -DCMAKE_BUILD_TYPE=Debug ../code"
             }
         } catch (e) {
             failure_function(e, 'CMake failed')
