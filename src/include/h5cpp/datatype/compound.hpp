@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include "datatype.hpp"
+#include <h5cpp/datatype/datatype.hpp>
 
 namespace hdf5 {
 namespace datatype {

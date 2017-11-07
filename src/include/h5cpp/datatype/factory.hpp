@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include "type_trait.hpp"
+#include <h5cpp/datatype/type_trait.hpp>
 
 
 namespace hdf5 {

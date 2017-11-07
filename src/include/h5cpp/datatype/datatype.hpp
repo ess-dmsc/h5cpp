@@ -25,10 +25,10 @@
 #pragma once
 
 #include <type_traits>
-#include "../hdf5_capi.hpp"
-#include "../object_handle.hpp"
-#include "types.hpp"
-#include "../windows.hpp"
+#include <h5cpp/hdf5_capi.hpp>
+#include <h5cpp/object_handle.hpp>
+#include <h5cpp/datatype/types.hpp>
+#include <h5cpp/windows.hpp>
 
 
 namespace hdf5 {
