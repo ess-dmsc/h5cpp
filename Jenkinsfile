@@ -1,16 +1,88 @@
-/*
- * h5cpp Jenkinsfile
- */
+project = "h5cc"
+
+def centos = docker.image('essdmscdm/centos-build-node:0.7.0')
+def fedora = docker.image('essdmscdm/fedora-build-node:0.3.0')
+
+def base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+
 def failure_function(exception_obj, failureMessage) {
     def toEmails = [[$class: 'DevelopersRecipientProvider']]
-    emailext body: '${DEFAULT_CONTENT}\n\"' + failureMessage + '\"\n\nCheck console output at $BUILD_URL to view the results.', recipientProviders: toEmails, subject: '${DEFAULT_SUBJECT}'
+    emailext body: '${DEFAULT_CONTENT}\n\"' + failureMessage +'\"\n\nCheck console output at $BUILD_URL to view the results.',
+        recipientProviders: toEmails,
+        subject: '${DEFAULT_SUBJECT}'
+    slackSend color: 'danger',
+        message: "@afonso.mukai ${project}-${env.BRANCH_NAME}: " + failureMessage
+
     throw exception_obj
 }
 
+
+node('docker') {
+    // Delete workspace when build is done
+    cleanWs()
+
+    dir("${project}") {
+        stage('Checkout project') {
+            try {
+                scm_vars = checkout scm
+            } catch (e) {
+                failure_function(e, 'Checkout failed')
+            }
+        }
+    }
+
+
+    try {
+        def container_name = "${base_container_name}-centos"
+        container = centos.run("\
+            --name ${container_name} \
+            --tty \
+            --env http_proxy=${env.http_proxy} \
+            --env https_proxy=${env.https_proxy} \
+        ")
+
+        // Copy sources to container.
+        sh "docker cp ${project} ${container_name}:/home/jenkins/${project}"
+
+        stage('Get Dependencies') {
+            def conan_remote = "ess-dmsc-local"
+            sh """docker exec ${container_name} sh -c \"
+                mkdir build
+                cd build
+                conan --version
+                conan remote add \
+                    --insert 0 \
+                    ${conan_remote} ${local_conan_server}
+                conan install ../${project} --build=missing
+            \""""
+        }
+
+        stage('Build') {
+            sh """docker exec ${container_name} sh -c \"
+                cd build
+                cmake --version
+                cmake3 ../${project} -DBUILD_EVERYTHING=ON
+                make --version
+                make VERBOSE=1
+            \""""
+        }
+
+
+    } catch(e) {
+        failure_function(e, 'Failed')
+    } finally {
+        container.stop()
+    }
+
+
+
+}
+
+/*
 node ("centos7") {
     cleanWs()
 
-    dir("code") {
+    dir("${project}/code") {
         try {
             stage("Checkout project") {
                 checkout scm
@@ -20,7 +92,7 @@ node ("centos7") {
         }
     }
 
-    dir("build") {
+    dir("${project}/build") {
         try {
             stage("Run CMake") {
                 sh "HDF5_ROOT=$HDF5_ROOT \
@@ -75,7 +147,7 @@ node ("centos7") {
         }
     }
 
-    dir("docs") {
+    dir("${project}/docs") {
         try {
             stage("Publish docs") {
                 checkout scm
@@ -107,3 +179,4 @@ node ("centos7") {
         }
     }
 }
+*/
