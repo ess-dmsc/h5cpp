@@ -44,7 +44,7 @@ node('docker') {
         // Copy sources to container.
         sh "docker cp ${project} ${container_name}:/home/jenkins/${project}"
 
-        stage('Get Dependencies') {
+        stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
             sh """docker exec ${container_name} sh -c \"
                 mkdir build
@@ -57,16 +57,35 @@ node('docker') {
             \""""
         }
 
-        stage('Build') {
+        stage('Run CMake') {
             sh """docker exec ${container_name} sh -c \"
                 cd build
-                cmake --version
-                cmake3 ../${project} -DBUILD_EVERYTHING=ON
-                make --version
-                make VERBOSE=1
+                cmake3 --version
+                cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
             \""""
         }
 
+        stage('Build library') {
+            sh """docker exec ${container_name} sh -c \"
+                cd build
+                make --version
+                make h5cpp_shared VERBOSE=1
+            \""""
+        }
+
+        stage('Build tests') {
+            sh """docker exec ${container_name} sh -c \"
+                cd build
+                make unit_tests VERBOSE=1
+            \""""
+        }
+
+        stage('Run tests') {
+            sh """docker exec ${container_name} sh -c \"
+                cd build
+                make run_tests
+            \""""
+        }
 
     } catch(e) {
         failure_function(e, 'Failed')
