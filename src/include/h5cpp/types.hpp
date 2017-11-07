@@ -24,14 +24,14 @@
 //
 #pragma once
 
-#include "hdf5_capi.hpp"
+#include <h5cpp/hdf5_capi.hpp>
 #include <vector>
 #include <sstream>
 #include <cstring>
 #include <algorithm>
 #include <iterator>
-#include "datatype/string.hpp"
-#include "dataspace/dataspace.hpp"
+#include <h5cpp/datatype/string.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
 
 namespace hdf5 {
 

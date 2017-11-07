@@ -25,10 +25,10 @@
 
 #pragma once
 
-#include "hdf5_capi.hpp"
+#include <h5cpp/hdf5_capi.hpp>
 #include <iostream>
 
-#include "windows.hpp"
+#include <h5cpp/windows.hpp>
 
 namespace hdf5
 {

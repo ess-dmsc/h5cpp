@@ -24,11 +24,11 @@
 //
 #pragma once
 
-#include "hdf5_capi.hpp"
+#include <h5cpp/hdf5_capi.hpp>
 #include <type_traits>
 #include <iostream>
-#include "windows.hpp"
-#include "property/link_access_list.hpp"
+#include <h5cpp/windows.hpp>
+#include <h5cpp/property/link_access_list.hpp>
 
 namespace hdf5 {
 
