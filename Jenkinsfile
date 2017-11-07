@@ -33,20 +33,39 @@ node('docker') {
 
 
     try {
-        def container_name = "${base_container_name}-centos"
-        container = centos.run("\
-            --name ${container_name} \
+        def centos_containter_name = "${base_container_name}-centos"
+        def fedora_containter_name = "${base_container_name}-fedora"
+
+        centos_container = centos.run("\
+            --name ${centos_containter_name} \
+            --tty \
+            --env http_proxy=${env.http_proxy} \
+            --env https_proxy=${env.https_proxy} \
+        ")
+
+        fedora_container = fedora.run("\
+            --name ${fedora_containter_name} \
             --tty \
             --env http_proxy=${env.http_proxy} \
             --env https_proxy=${env.https_proxy} \
         ")
 
         // Copy sources to container.
-        sh "docker cp ${project} ${container_name}:/home/jenkins/${project}"
+        sh "docker cp ${project} ${centos_containter_name}:/home/jenkins/${project}"
+        sh "docker cp ${project} ${fedora_containter_name}:/home/jenkins/${project}"
 
         stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
-            sh """docker exec ${container_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
+                mkdir build
+                cd build
+                conan --version
+                conan remote add \
+                    --insert 0 \
+                    ${conan_remote} ${local_conan_server}
+                conan install ../${project} --build=missing
+            \""""
+            sh """docker exec ${fedora_containter_name} sh -c \"
                 mkdir build
                 cd build
                 conan --version
@@ -58,15 +77,25 @@ node('docker') {
         }
 
         stage('Run CMake') {
-            sh """docker exec ${container_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 cmake3 --version
                 cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
             \""""
+            sh """docker exec ${fedora_containter_name} sh -c \"
+                cd build
+                cmake --version
+                cmake -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
+            \""""
         }
 
         stage('Build library') {
-            sh """docker exec ${container_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
+                cd build
+                make --version
+                make h5cpp_shared VERBOSE=1
+            \""""
+            sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make --version
                 make h5cpp_shared VERBOSE=1
@@ -74,14 +103,22 @@ node('docker') {
         }
 
         stage('Build tests') {
-            sh """docker exec ${container_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
+                cd build
+                make unit_tests VERBOSE=1
+            \""""
+            sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make unit_tests VERBOSE=1
             \""""
         }
 
         stage('Run tests') {
-            sh """docker exec ${container_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
+                cd build
+                make run_tests
+            \""""
+            sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make run_tests
             \""""
@@ -90,7 +127,8 @@ node('docker') {
     } catch(e) {
         failure_function(e, 'Failed')
     } finally {
-        container.stop()
+        centos_container.stop()
+        fedora_container.stop()
     }
 
 
