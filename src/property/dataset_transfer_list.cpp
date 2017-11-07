@@ -36,6 +36,84 @@ DatasetTransferList::DatasetTransferList():
 DatasetTransferList::~DatasetTransferList()
 {}
 
+#ifdef WITH_MPI
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
+#endif
+std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode)
+{
+  switch(mode)
+  {
+    case MPITransferMode::INDEPENDENT:
+      return stream<<"INDEPENDENT";
+    case MPITransferMode::COLLECTIVE:
+      return stream<<"COLLECTIVE";
+  }
+}
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
+#endif
+std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option)
+{
+  switch(option)
+  {
+    case MPIChunkOption::ONE_LINK_CHUNKED:
+      return stream<<"ONE_LINK_CHUNKED";
+    case MPIChunkOption::MULTI_CHUNK:
+      return stream<<"MULTI_CHUNK";
+  }
+}
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+
+void DatasetTransferList::mpi_transfer_mode(MPITransferMode mode) const
+{
+  if(H5Pset_dxpl_mpio(static_cast<hid_t>(*this),
+                      static_cast<H5FD_mpio_xfer_t>(mode))<0)
+  {
+    throw std::runtime_error("Failure to set MPI transfer mode!");
+  }
+
+}
+
+
+MPITransferMode DatasetTransferList::mpi_transfer_mode() const
+{
+  H5FD_mpio_xfer_t mode;
+  if(H5Pget_dxpl_mpio(static_cast<hid_t>(*this),&mode)<0)
+  {
+    throw std::runtime_error("Failure to obtain the MPI transfer mode!");
+  }
+  return static_cast<MPITransferMode>(mode);
+}
+
+void DatasetTransferList::mpi_chunk_option(MPIChunkOption option) const
+{
+  if(H5Pset_dxpl_mpio_chunk_opt(static_cast<hid_t>(*this),
+                                static_cast<H5FD_mpio_chunk_opt_t>(option))<0)
+  {
+    throw std::runtime_error("Failure to set MPI chunk option!");
+  }
+}
+
+MPIChunkOption DatasetTransferList::mpi_chunk_option() const
+{
+
+}
+
+
+#endif
+
 
 } // namespace property
 } // namespace hdf5
