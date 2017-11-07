@@ -31,6 +31,8 @@
 namespace hdf5 {
 namespace file {
 
+#ifdef WITH_MPI
+
 MPIDriver::MPIDriver(MPI_Comm comm,MPI_Info info):
     comm_(comm),
     info_(info)
@@ -48,6 +50,8 @@ DriverID MPIDriver::id() const noexcept
 {
   return DriverID::MPI;
 }
+
+#endif
 
 } // namespace file
 } // namespace hdf5

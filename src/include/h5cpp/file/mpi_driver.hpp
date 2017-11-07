@@ -24,13 +24,13 @@
 //
 #pragma once
 
-#include <mpi.h>
-
-
 #include <h5cpp/file/driver.hpp>
+#include <h5cpp/hdf5_capi.hpp>
 
 namespace hdf5 {
 namespace file {
+
+#ifdef WITH_MPI
 
 class MPIDriver : public Driver
 {
@@ -45,6 +45,8 @@ class MPIDriver : public Driver
     MPI_Comm comm_;
     MPI_Info info_;
 };
+
+#endif
 
 } // namespace file
 } // namespace hdf5
