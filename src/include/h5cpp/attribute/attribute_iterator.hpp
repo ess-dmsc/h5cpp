@@ -24,10 +24,10 @@
 //
 #pragma once
 
-#include "../iterator.hpp"
-#include "../windows.hpp"
-#include "attribute.hpp"
-#include "attribute_manager.hpp"
+#include <h5cpp/iterator.hpp>
+#include <h5cpp/windows.hpp>
+#include <h5cpp/attribute/attribute.hpp>
+#include <h5cpp/attribute/attribute_manager.hpp>
 
 namespace hdf5 {
 namespace attribute {

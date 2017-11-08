@@ -24,8 +24,8 @@
 //
 #pragma once
 
-#include "group_view.hpp"
-#include "../windows.hpp"
+#include <h5cpp/node/group_view.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace node {

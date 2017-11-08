@@ -27,10 +27,10 @@
 #include <vector>
 #include <array>
 
-#include "dataspace.hpp"
-#include "scalar.hpp"
-#include "simple.hpp"
-#include "../types.hpp"
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/scalar.hpp>
+#include <h5cpp/dataspace/simple.hpp>
+#include <h5cpp/types.hpp>
 
 
 namespace hdf5 {

@@ -24,18 +24,18 @@
 //
 #pragma once
 
-#include "node.hpp"
-#include "link_view.hpp"
-#include "node_view.hpp"
-#include "dataset.hpp"
-#include "../iterator_config.hpp"
-#include "../property/link_creation_list.hpp"
-#include "../property/group_creation_list.hpp"
-#include "../property/group_access_list.hpp"
-#include "../property/dataset_creation_list.hpp"
-#include "../property/dataset_access_list.hpp"
-#include "../dataspace/dataspace.hpp"
-#include "../datatype/datatype.hpp"
+#include <h5cpp/node/node.hpp>
+#include <h5cpp/node/link_view.hpp>
+#include <h5cpp/node/node_view.hpp>
+#include <h5cpp/node/dataset.hpp>
+#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/property/link_creation_list.hpp>
+#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/property/group_access_list.hpp>
+#include <h5cpp/property/dataset_creation_list.hpp>
+#include <h5cpp/property/dataset_access_list.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/datatype/datatype.hpp>
 
 
 namespace hdf5 {

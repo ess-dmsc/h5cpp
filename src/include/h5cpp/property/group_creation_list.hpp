@@ -24,9 +24,9 @@
 //
 #pragma once
 
-#include "object_creation_list.hpp"
-#include "creation_order.hpp"
-#include "../windows.hpp"
+#include <h5cpp/property/object_creation_list.hpp>
+#include <h5cpp/property/creation_order.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {

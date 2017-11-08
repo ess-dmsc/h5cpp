@@ -24,12 +24,12 @@
 //
 #pragma once
 
-#include "types.hpp"
+#include <h5cpp/file/types.hpp>
 #include <boost/filesystem.hpp>
-#include "../windows.hpp"
-#include "../object_handle.hpp"
-#include "../object_id.hpp"
-#include "../property/group_access_list.hpp"
+#include <h5cpp/windows.hpp>
+#include <h5cpp/object_handle.hpp>
+#include <h5cpp/object_id.hpp>
+#include <h5cpp/property/group_access_list.hpp>
 
 namespace hdf5 {
 namespace node {

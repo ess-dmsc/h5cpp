@@ -25,7 +25,7 @@
 #pragma once
 
 
-#include "list.hpp"
+#include <h5cpp/property/list.hpp>
 
 namespace hdf5 {
 namespace property {

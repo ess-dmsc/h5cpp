@@ -24,10 +24,10 @@
 //
 #pragma once
 
-#include "datatype.hpp"
-#include "integer.hpp"
-#include "float.hpp"
-#include "string.hpp"
+#include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/datatype/integer.hpp>
+#include <h5cpp/datatype/float.hpp>
+#include <h5cpp/datatype/string.hpp>
 
 #include <vector>
 #include <array>
