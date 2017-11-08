@@ -50,6 +50,10 @@ class DLL_EXPORT ChunkCacheParameters
 
     void preemption_policy(double value) noexcept;
     double preemption_policy() const noexcept;
+
+#if H5_VERSION_GE(1,10,0)
+
+#endif
   private:
     size_t nslots_;
     size_t nbytes_;
