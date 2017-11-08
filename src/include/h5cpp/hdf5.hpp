@@ -65,7 +65,7 @@
 #include <h5cpp/file/mpi_driver.hpp>
 #include <h5cpp/file/posix_driver.hpp>
 
-#include <h5cpp/filter/filter.hp>
+#include <h5cpp/filter/filter.hpp>
 #include <h5cpp/filter/types.hpp>
 #include <h5cpp/filter/deflate.hpp>
 #include <h5cpp/filter/fletcher32.hpp>
