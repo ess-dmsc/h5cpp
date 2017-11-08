@@ -102,8 +102,8 @@ node('docker') {
 
         stage('Get dependencies') {
             try {
-                docker_dependencies(centos_containter_name)
-                docker_dependencies(fedora_containter_name)
+                docker_dependencies(${centos_containter_name})
+                docker_dependencies(${fedora_containter_name})
             } catch (e) {
                 failure_function(e, 'Get dependencies failed')
             }
@@ -120,16 +120,16 @@ node('docker') {
 
         stage('Build') {
             try {
-                docker_build(centos_containter_name)
-                docker_build(fedora_containter_name)
+                docker_build(${centos_containter_name})
+                docker_build(${fedora_containter_name})
             } catch (e) {
                 failure_function(e, 'Build failed')
             }
         }
 
         stage('Run tests') {
-            docker_tests(centos_containter_name)
-            docker_tests(fedora_containter_name)
+            docker_tests(${centos_containter_name})
+            docker_tests(${fedora_containter_name})
         }
 
     } catch(e) {
