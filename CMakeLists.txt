@@ -39,7 +39,7 @@ endif()
 if(EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
     message(STATUS "Using existing conanbuildinfo.cmake file")
     include(${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
+    conan_basic_setup(SKIP_RPATH)
 endif()
 
 
@@ -98,4 +98,6 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
 	    COMPONENT development)
 
 add_custom_target(Jenkins SOURCES
-  ${PROJECT_SOURCE_DIR}/Jenkinsfile ${PROJECT_SOURCE_DIR}/push_to_repo.sh)
+  ${PROJECT_SOURCE_DIR}/conanfile.txt
+  ${PROJECT_SOURCE_DIR}/Jenkinsfile
+  ${PROJECT_SOURCE_DIR}/push_to_repo.sh)
