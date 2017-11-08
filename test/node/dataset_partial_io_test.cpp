@@ -57,7 +57,7 @@ TEST_F(PartialIO, test_read_write_scalar_int)
   for(size_t index=0;index<100;index++)
   {
     dset.extent(0,1);
-    slab.start(0,index);
+    slab.offset(0,index);
     dset.write(write_value,slab);
     dset.read(read_value,slab);
     EXPECT_EQ(write_value,read_value);

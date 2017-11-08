@@ -126,7 +126,7 @@ void Hyperslab::check_container_size(const Dimensions &container,
   }
 }
 
-void Hyperslab::start(size_t index,size_t value)
+void Hyperslab::offset(size_t index,size_t value)
 {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start value for a default "
                                "constructed Hyperslab!")

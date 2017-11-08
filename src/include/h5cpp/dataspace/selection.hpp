@@ -188,7 +188,7 @@ class DLL_EXPORT Hyperslab : public Selection
     //! \param index dimension index
     //! \param value new start value
     //!
-    void start(size_t index,size_t value);
+    void offset(size_t index,size_t value);
 
     //!
     //! \brief set all start values

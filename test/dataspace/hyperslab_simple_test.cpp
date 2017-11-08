@@ -50,7 +50,7 @@ TEST(HyperslabSimple, test_case_2)
 
   dataspace::Hyperslab frame({0,0,0},{1,1024,1024},{1,1,1},{1,1,1});
   EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
-  frame.start(0,9);
+  frame.offset(0,9);
   EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
   EXPECT_EQ(space.selection.size(),2ul*1024ul*1024ul);
 
