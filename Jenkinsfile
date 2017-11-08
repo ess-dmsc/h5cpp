@@ -12,7 +12,20 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-def cmake_function(container_name, cmake_exec) {
+def docker_dependencies(container_name) {
+    def conan_remote = "ess-dmsc-local"
+    sh """docker exec ${containter_name} sh -c \"
+        mkdir build
+        cd build
+        conan --version
+        conan remote add \
+            --insert 0 \
+            ${conan_remote} ${local_conan_server}
+        conan install ../${project} --build=missing
+    \""""
+}
+
+def docker_cmake(container_name, cmake_exec) {
     sh """docker exec ${containter_name} sh -c \"
         cd build
         ${cmake_exec} --version
@@ -20,12 +33,28 @@ def cmake_function(container_name, cmake_exec) {
     \""""
 }
 
-def build_function(container_name) {
+def docker_build(container_name) {
     sh """docker exec ${containter_name} sh -c \"
         cd build
         make --version
         make unit_tests VERBOSE=1
     \""""
+}
+
+def docker_tests(container_name) {
+    dir("${project}/tests") {
+        try {
+            sh """docker exec ${containter_name} sh -c \"
+                cd build
+                make run_tests
+            \""""
+        } catch(e) {
+            failure_function(e, 'Run tests (${containter_name}) failed')
+        } finally {
+            sh "docker cp ${containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            junit 'unit_tests_run.xml'
+        }
+    }
 }
 
 def centos = docker.image('essdmscdm/centos-build-node:0.7.0')
@@ -73,25 +102,8 @@ node('docker') {
 
         stage('Get dependencies') {
             try {
-                def conan_remote = "ess-dmsc-local"
-                sh """docker exec ${centos_containter_name} sh -c \"
-                    mkdir build
-                    cd build
-                    conan --version
-                    conan remote add \
-                        --insert 0 \
-                        ${conan_remote} ${local_conan_server}
-                    conan install ../${project} --build=missing
-                \""""
-                sh """docker exec ${fedora_containter_name} sh -c \"
-                    mkdir build
-                    cd build
-                    conan --version
-                    conan remote add \
-                        --insert 0 \
-                        ${conan_remote} ${local_conan_server}
-                    conan install ../${project} --build=missing
-                \""""
+                docker_dependencies(centos_containter_name)
+                docker_dependencies(fedora_containter_name)
             } catch (e) {
                 failure_function(e, 'Get dependencies failed')
             }
@@ -99,8 +111,8 @@ node('docker') {
 
         stage('Run CMake') {
             try {
-                cmake_function('cmake3', centos_containter_name)
-                cmake_function('cmake', fedora_containter_name)
+                docker_cmake(centos_containter_name, 'cmake3')
+                docker_cmake(fedora_containter_name, 'cmake')
             } catch (e) {
                 failure_function(e, 'CMake failed')
             }
@@ -108,41 +120,16 @@ node('docker') {
 
         stage('Build') {
             try {
-                build_function(centos_containter_name)
-                build_function(fedora_containter_name)
+                docker_build(centos_containter_name)
+                docker_build(fedora_containter_name)
             } catch (e) {
                 failure_function(e, 'Build failed')
             }
         }
 
         stage('Run tests') {
-            dir("${project}/tests") {
-
-                try {
-                    sh """docker exec ${centos_containter_name} sh -c \"
-                        cd build
-                        make run_tests
-                    \""""
-                } catch(e) {
-                    failure_function(e, 'Run tests (centos) failed')
-                } finally {
-                    sh "docker cp ${centos_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-                    junit 'unit_tests_run.xml'
-                }
-
-
-                try {
-                    sh """docker exec ${fedora_containter_name} sh -c \"
-                        cd build
-                        make generate_coverage
-                    \""""
-                } catch(e) {
-                    failure_function(e, 'Run rests (fedora) failed')
-                } finally {
-                    sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-                    junit 'unit_tests_run.xml'
-                }
-            }
+            docker_tests(centos_containter_name)
+            docker_tests(fedora_containter_name)
         }
 
     } catch(e) {
