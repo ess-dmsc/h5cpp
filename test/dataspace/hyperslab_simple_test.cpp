@@ -71,4 +71,20 @@ TEST(HyperslabSimple,test_nothing_and_all_selected)
   EXPECT_EQ(space.selection.size(),10ul*1024ul);
 }
 
+TEST(HyperslabSimple,test_roi_construction)
+{
+  dataspace::Simple space({10,1024});
+  dataspace::Hyperslab slice{{0,0},{1,1024}};
+  space.selection(dataspace::SelectionOperation::SET,slice);
+  EXPECT_EQ(space.selection.size(),1024ul);
+}
+
+TEST(HyperslabSimple,test_scatter_construction)
+{
+  dataspace::Simple space{{20,1024}};
+  dataspace::Hyperslab selection{{1,1},{3,10},{2,4}};
+  space.selection(dataspace::SelectionOperation::SET,selection);
+  EXPECT_EQ(space.selection.size(),30ul);
+}
+
 
