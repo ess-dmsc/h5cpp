@@ -37,7 +37,7 @@ def docker_build(container_name) {
     sh """docker exec ${container_name} sh -c \"
         cd build
         make --version
-        make unit_tests VERBOSE=1
+        make unit_tests
     \""""
 }
 
@@ -68,8 +68,8 @@ node('docker') {
     // Delete workspace when build is done
     cleanWs()
 
-    dir("${project}/code") {
-        stage('Checkout project') {
+    stage('Checkout') {
+        dir("${project}/code") {
             try {
                 scm_vars = checkout scm
             } catch (e) {
@@ -79,7 +79,6 @@ node('docker') {
     }
 
     try {
-
         centos_container = centos.run("\
             --name ${centos_container_name} \
             --tty \
@@ -100,7 +99,7 @@ node('docker') {
             sh "docker cp code ${fedora_container_name}:/home/jenkins/${project}"
         }
 
-        stage('Get dependencies') {
+        stage('Dependencies') {
             try {
                 docker_dependencies(centos_container_name)
                 docker_dependencies(fedora_container_name)
@@ -109,7 +108,7 @@ node('docker') {
             }
         }
 
-        stage('Run CMake') {
+        stage('CMake') {
             try {
                 docker_cmake(centos_container_name, 'cmake3')
                 docker_cmake(fedora_container_name, 'cmake')
@@ -140,9 +139,10 @@ node('docker') {
     }
 }
 
-stage("Generate docs") {
-    node ("fedora") {
 
+node ("fedora") {
+
+    stage("Coverage") {
         dir("${project}/code") {
             try {
                 checkout scm
@@ -152,7 +152,6 @@ stage("Generate docs") {
         }
 
         dir("${project}/build") {
-
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
@@ -179,7 +178,11 @@ stage("Generate docs") {
             } catch (e) {
                 failure_function(e, 'Generate docs / generate coverage failed')
             }
+        }
+    }
 
+    stage("Documentation") {
+        dir("${project}/build") {
             try {
                 sh "make html"
                 if (env.BRANCH_NAME != 'master') {
@@ -189,7 +192,6 @@ stage("Generate docs") {
                 failure_function(e, 'Generate docs / make html failed')
             }
         }
-
         dir("${project}/docs") {
             try {
                   checkout scm
@@ -219,6 +221,6 @@ stage("Generate docs") {
                 failure_function(e, 'Generate docs / Publish docs failed')
             }
         }
-
     }
+
 }
