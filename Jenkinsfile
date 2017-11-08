@@ -21,7 +21,7 @@ node('docker') {
     // Delete workspace when build is done
     cleanWs()
 
-    dir("${project}") {
+    dir("${project}/code") {
         stage('Checkout project') {
             try {
                 scm_vars = checkout scm
@@ -51,8 +51,8 @@ node('docker') {
         ")
 
         // Copy sources to container.
-        sh "docker cp ${project} ${centos_containter_name}:/home/jenkins/${project}"
-        sh "docker cp ${project} ${fedora_containter_name}:/home/jenkins/${project}"
+        sh "docker cp ${project}/code ${centos_containter_name}:/home/jenkins/${project}"
+        sh "docker cp ${project}/code ${fedora_containter_name}:/home/jenkins/${project}"
 
         stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
@@ -123,12 +123,12 @@ node('docker') {
                     cd build
                     make generate_coverage
                 \""""
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml ${project}/build/coverage"
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml ${project}"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
                     autoUpdateStability: true,
-                    coberturaReportFile: '${project}/build/coverage/coverage.xml',
+                    coberturaReportFile: '${project}/coverage.xml',
                     failUnhealthy: false,
                     failUnstable: false,
                     maxNumberOfBuilds: 0,
@@ -139,19 +139,65 @@ node('docker') {
             } catch(e) {
                 failure_function(e, 'Tests failed')
             } finally {
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml ${project}/build/test"
-                junit '${project}/build/test/unit_tests_run.xml'
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml ${project}"
+                junit '${project}/unit_tests_run.xml'
             }
         }
 
+        try {
+            stage("Build docs") {
+                sh """docker exec ${fedora_containter_name} sh -c \"
+                    cd build
+                    make html
+                \""""
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/doc/build ${project}"
+            }
+        } catch (e) {
+            failure_function(e, 'Docs generation failed')
+        }
+
     } catch(e) {
-        failure_function(e, 'Failed')
+        failure_function(e, 'Unknown failure')
     } finally {
         centos_container.stop()
         fedora_container.stop()
     }
 
+    dir("${project}/gh-pages") {
+        try {
+            stage("Publish docs") {
+                checkout scm
 
+                if (env.BRANCH_NAME == 'master') {
+                    sh "git config user.email 'dm-jenkins-integration@esss.se'"
+                    sh "git config user.name 'cow-bot'"
+                    sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+
+                    sh "git fetch"
+                    sh "git checkout gh-pages"
+                    sh "shopt -u dotglob && rm -rf ./*"
+                    sh "mv -f ../build/* ./"
+                    sh "git add -A"
+                    sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
+
+                    withCredentials([usernamePassword(
+                        credentialsId: 'cow-bot-username',
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'PASSWORD'
+                    )]) {
+                        sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+                    }
+                }
+
+                if (env.BRANCH_NAME != 'master') {
+                  archiveArtifacts artifacts: '../build/'
+                }
+
+            }
+        } catch (e) {
+            failure_function(e, 'Publishing docs failed')
+        }
+    }
 
 }
 
