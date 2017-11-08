@@ -37,8 +37,8 @@ class DLL_EXPORT FileCreationList : public GroupCreationList
     FileCreationList();
     ~FileCreationList();
 
-    void userblock(hsize_t size) const;
-    hsize_t userblock() const;
+    void user_block(hsize_t size) const;
+    hsize_t user_block() const;
 
     void object_offset_size(size_t size) const;
     size_t object_offset_size() const;

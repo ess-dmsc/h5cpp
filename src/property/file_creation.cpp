@@ -38,7 +38,7 @@ FileCreationList::FileCreationList():
 FileCreationList::~FileCreationList()
 {}
 
-hsize_t FileCreationList::userblock() const
+hsize_t FileCreationList::user_block() const
 {
   hsize_t buffer;
   if(0 > H5Pget_userblock(static_cast<hid_t>(*this), &buffer))
@@ -48,7 +48,7 @@ hsize_t FileCreationList::userblock() const
   return buffer;
 }
 
-void FileCreationList::userblock(hsize_t size) const
+void FileCreationList::user_block(hsize_t size) const
 {
   if(0 > H5Pset_userblock(static_cast<hid_t>(*this), size))
   {
@@ -58,7 +58,7 @@ void FileCreationList::userblock(hsize_t size) const
 
 void FileCreationList::object_offset_size(size_t size) const
 {
-  if(0 > H5Pset_sizes(static_cast<hid_t>(*this), size, object_length_size()))
+  if(0 > H5Pset_sizes(static_cast<hid_t>(*this), size, 0))
   {
     throw std::runtime_error("Failure setting object offset size to file creation property list!");
   }
@@ -79,7 +79,7 @@ size_t FileCreationList::object_offset_size() const
 
 void FileCreationList::object_length_size(size_t size) const
 {
-  if(0 > H5Pset_sizes(static_cast<hid_t>(*this), object_offset_size(), size))
+  if(0 > H5Pset_sizes(static_cast<hid_t>(*this), 0, size))
   {
     throw std::runtime_error("Failure setting object length size in file creation property list!");
   }

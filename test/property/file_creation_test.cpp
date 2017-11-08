@@ -38,27 +38,38 @@ TEST(FileCreationList, test_user_block)
 {
   pl::FileCreationList fcpl;
 
-  EXPECT_NO_THROW(fcpl.userblock(1024));
-  EXPECT_EQ(fcpl.userblock(),1024ul);
+  EXPECT_NO_THROW(fcpl.user_block(1024));
+  EXPECT_EQ(fcpl.user_block(),1024ul);
 
   //too small
-  EXPECT_THROW(fcpl.userblock(256),std::runtime_error);
+  EXPECT_THROW(fcpl.user_block(256),std::runtime_error);
   //not a power of two
-  EXPECT_THROW(fcpl.userblock(513),std::runtime_error);
+  EXPECT_THROW(fcpl.user_block(513),std::runtime_error);
 }
 
 TEST(FileCreationList, test_object_offset_size)
 {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.object_offset_size(),sizeof(hsize_t));
+
+  EXPECT_NO_THROW(fcpl.object_length_size(2));
+  EXPECT_EQ(fcpl.object_length_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_offset_size(2));
   EXPECT_EQ(fcpl.object_offset_size(),2ul);
+  EXPECT_EQ(fcpl.object_length_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_offset_size(4));
   EXPECT_EQ(fcpl.object_offset_size(),4ul);
+  EXPECT_EQ(fcpl.object_length_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_offset_size(8));
   EXPECT_EQ(fcpl.object_offset_size(),8ul);
+  EXPECT_EQ(fcpl.object_length_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_offset_size(16));
   EXPECT_EQ(fcpl.object_offset_size(),16ul);
+  EXPECT_EQ(fcpl.object_length_size(),2ul);
 
   EXPECT_THROW(fcpl.object_offset_size(15),std::runtime_error);
   EXPECT_THROW(fcpl.object_offset_size(25),std::runtime_error);
@@ -69,14 +80,25 @@ TEST(FileCreationList, test_object_length_size)
 {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.object_length_size(),sizeof(hsize_t));
+
+  EXPECT_NO_THROW(fcpl.object_offset_size(2));
+  EXPECT_EQ(fcpl.object_offset_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_length_size(2));
   EXPECT_EQ(fcpl.object_length_size(),2ul);
+  EXPECT_EQ(fcpl.object_offset_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_length_size(4));
   EXPECT_EQ(fcpl.object_length_size(),4ul);
+  EXPECT_EQ(fcpl.object_offset_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_length_size(8));
   EXPECT_EQ(fcpl.object_length_size(),8ul);
+  EXPECT_EQ(fcpl.object_offset_size(),2ul);
+
   EXPECT_NO_THROW(fcpl.object_length_size(16));
   EXPECT_EQ(fcpl.object_length_size(),16ul);
+  EXPECT_EQ(fcpl.object_offset_size(),2ul);
 
   EXPECT_THROW(fcpl.object_length_size(15),std::runtime_error);
   EXPECT_THROW(fcpl.object_length_size(25),std::runtime_error);
