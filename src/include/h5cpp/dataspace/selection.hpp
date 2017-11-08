@@ -233,12 +233,58 @@ class DLL_EXPORT Hyperslab : public Selection
     //!
     const Dimensions &stride() const;
 
+    //!
+    //! \brief set count value for a particular dimension
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param index dimension index
+    //! \param value new count value for this dimension
+    //!
     void count(size_t index,size_t value);
+
+    //!
+    //! \brief set all count values
+    //! \throws std::runtime_error in case of a failure
+    //! \param values reference to the new count values
+    //!
     void count(const Dimensions &values);
+
+    //!
+    //! \brief get count values
+    //!
+    //! Return a const reference to the count values of the Hypeslab. The
+    //! values cannot be changed via this reference.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return reference to count values
+    //!
     const Dimensions &count() const;
 
+    //!
+    //! \brief set block size for dimension
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param index dimension index
+    //! \param value the new block size for this dimension
+    //1
     void block(size_t index,size_t value);
+
+    //!
+    //! \brief set all block values
+    //!
+    //! Set all block values for the hyperslab selection.
+    //! \throws std::runtime_error in case of a failure
+    //! \param values reference to the new block values
+    //!
     void block(const Dimensions &values);
+
+    //!
+    //! \brief get block values
+    //!
+    //! Get a const reference to the block values of the hyperslab.
+    //! \throws std::runtime_error in case of a failure
+    //! \return const reference to the block values
+    //!
     const Dimensions &block() const;
 
     virtual void apply(const Dataspace &space,
