@@ -116,108 +116,117 @@ node('docker') {
             \""""
         }
 
-        dir("${project}/tests") {
         stage('Run tests') {
-            /*sh """docker exec ${centos_containter_name} sh -c \"
-                cd build
-                make run_tests
-            \""""*/
-            try {
-                sh """docker exec ${fedora_containter_name} sh -c \"
-                    cd build
-                    make generate_coverage
-                \""""
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
-                step([
-                    $class: 'CoberturaPublisher',
-                    autoUpdateHealth: true,
-                    autoUpdateStability: true,
-                    coberturaReportFile: 'coverage.xml',
-                    failUnhealthy: false,
-                    failUnstable: false,
-                    maxNumberOfBuilds: 0,
-                    onlyStable: false,
-                    sourceEncoding: 'ASCII',
-                    zoomCoverageChart: false
-                ])
-            } catch(e) {
-                failure_function(e, 'Tests failed')
-            } finally {
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-                junit 'unit_tests_run.xml'
+            dir("${project}/tests") {
+
+                try {
+                    sh """docker exec ${centos_containter_name} sh -c \"
+                        cd build
+                        make run_tests
+                    \""""
+                } catch(e) {
+                    failure_function(e, 'Tests failed')
+                } finally {
+                    sh "docker cp ${centos_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+                    junit 'unit_tests_run.xml'
+                }
+
+
+                try {
+                    sh """docker exec ${fedora_containter_name} sh -c \"
+                        cd build
+                        make generate_coverage
+                    \""""
+                    sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
+                    step([
+                        $class: 'CoberturaPublisher',
+                        autoUpdateHealth: true,
+                        autoUpdateStability: true,
+                        coberturaReportFile: 'coverage.xml',
+                        failUnhealthy: false,
+                        failUnstable: false,
+                        maxNumberOfBuilds: 0,
+                        onlyStable: false,
+                        sourceEncoding: 'ASCII',
+                        zoomCoverageChart: false
+                    ])
+                } catch(e) {
+                    failure_function(e, 'Tests failed')
+                } finally {
+                    sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+                    junit 'unit_tests_run.xml'
+                }
             }
-        }
         }
 
     } catch(e) {
-        failure_function(e, 'Unknown failure')
+        failure_function(e, 'Unknown build failure')
     } finally {
         centos_container.stop()
         fedora_container.stop()
     }
 }
 
-node ("fedora") {
-
 stage("Generate docs") {
+    node ("fedora") {
 
-    dir("${project}/code") {
-        try {
-            checkout scm
-        } catch (e) {
-            failure_function(e, 'Checkout failed')
-        }
-    }
-
-    dir("${project}/build") {
-
-        try {
-            sh "HDF5_ROOT=$HDF5_ROOT \
-                CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                cmake ../code"
-        } catch (e) {
-            failure_function(e, 'CMake failed')
-        }
-
-        try {
-            sh "make html"
-            if (env.BRANCH_NAME != 'master') {
-                archiveArtifacts artifacts: 'doc/build/'
+        dir("${project}/code") {
+            try {
+                checkout scm
+            } catch (e) {
+                failure_function(e, 'Checkout failed')
             }
-        } catch (e) {
-            failure_function(e, 'Docs generation failed')
         }
-    }
 
-    dir("${project}/docs") {
-        try {
-              checkout scm
+        dir("${project}/build") {
 
-              if (env.BRANCH_NAME == 'master') {
-                sh "git config user.email 'dm-jenkins-integration@esss.se'"
-                sh "git config user.name 'cow-bot'"
-                sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+            try {
+                sh "HDF5_ROOT=$HDF5_ROOT \
+                    CMAKE_PREFIX_PATH=$HDF5_ROOT \
+                    cmake ../code"
+            } catch (e) {
+                failure_function(e, 'Generate docs / CMake failed')
+            }
 
-                sh "git fetch"
-                sh "git checkout gh-pages"
-                sh "shopt -u dotglob && rm -rf ./*"
-                sh "mv -f ../build/doc/build/* ./"
-                sh "git add -A"
-                sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
-
-                withCredentials([usernamePassword(
-                    credentialsId: 'cow-bot-username',
-                    usernameVariable: 'USERNAME',
-                    passwordVariable: 'PASSWORD'
-                )]) {
-                    sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+            try {
+                sh "make html"
+                if (env.BRANCH_NAME != 'master') {
+                    archiveArtifacts artifacts: 'doc/build/'
                 }
-
+            } catch (e) {
+                failure_function(e, 'Generate docs / make html failed')
             }
-        } catch (e) {
-            failure_function(e, 'Publishing docs failed')
         }
-    }
-}
 
+        dir("${project}/docs") {
+            try {
+                  checkout scm
+
+                  if (env.BRANCH_NAME == 'master') {
+                    sh "git config user.email 'dm-jenkins-integration@esss.se'"
+                    sh "git config user.name 'cow-bot'"
+                    sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+
+                    sh "git fetch"
+                    sh "git checkout gh-pages"
+                    sh "shopt -u dotglob && rm -rf ./*"
+                    sh "mv -f ../build/doc/build/* ./"
+                    sh "git add -A"
+                    sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
+
+                    withCredentials([usernamePassword(
+                        credentialsId: 'cow-bot-username',
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'PASSWORD'
+                    )]) {
+                        sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+                    }
+
+                }
+            } catch (e) {
+                failure_function(e, 'Generate docs / Publish docs failed')
+            }
+        }
+
+    }
 }
