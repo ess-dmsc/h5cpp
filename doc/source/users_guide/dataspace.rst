@@ -88,13 +88,72 @@ Such a dataspace has two basic properties
 * and the *dimensions* which is the number of elements along each dimension. 
 
 In *h5cpp* a simple dataspace can be constructed using the 
-:cpp:class:`hdf5::dataspace::Simple` class. Once created the only thing 
-that can be changed with a dataspace is the number of elements along each 
-dimension. There are basically three configurations 
+:cpp:class:`hdf5::dataspace::Simple` class. There are basically three 
+configurations we could use 
 
 * a dataspace of fixed size 
 * an extensible dataspace with bounded maximum dimensions
-* an extensible dataspace with unbounded maximum dimensions 
+* an extensible dataspace with unbounded maximum dimensions
+
+To create a simple dataspace with fixed dimensions use 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({2,3}); 
+    
+    Dimensions current = space.current_dimensions(); // {2,3}
+    Dimensions maximum = space.maximum_dimensions(); // {2,3} too
+    
+.. figure:: ../images/static_dataspace.svg
+   :align: center
+   :width: 20%
+    
+which will result in a dataspace of rank 2 with 6 elements. To build  an 
+extensible dataspace with fixed bounds we could use 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({2,3},{10,10}); 
+    
+    space.current_dimensions(); // {2,3}
+    space.maximum_dimensions(); // {10,10}
+    
+.. figure:: ../images/dynamic_dataspace_bounded.svg
+   :align: center
+   :width: 40%
+    
+Finally, for an extensible dataspace with an unlimited number of elements 
+along a dimension we could use 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({1},{dataspace::Simple::UNLIMITED}); 
+    
+.. figure:: ../images/dynamic_dataspace_unbounded.svg
+   :align: center
+   :width: 30%
+    
+The initial size of the dataspace  would be 1. However, we could extend it 
+as much as we want (basically can). We will see later how to use this feature
+along with datasets. 
+
+A simple dataspace can be completely modified during the lifetime of an 
+instance. For instance 
+
+.. code-block:: cpp
+
+    using namespace hdf5;
+    
+    dataspace::Simple space({3}); // rank=1,size=3
+    space.dimensions({2,3},{5,10}); // rank=2,size=6 
+    
+    
 
 
 .. _dataspace-conversion: 
@@ -129,12 +188,112 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf
                  {
                     return space.type() == Type::SIMPLE;
                  });
+                 
+Dataspace type trait
+====================
 
+When working with user defined types a new type trait to create a dataspace 
+must be provided if something else than a scalar dataspace should be 
+returned for this type. 
 
+As an example we consider here a trait for a 3x3 matrix type. The C++ class
+template for such a class could look like this 
+
+.. code-block:: cpp
+
+    template<typename T> class Matrix
+    {
+      private:
+        std::array<T,9> data_; 
+      public:
+      
+        T *data();
+        const T *data() const;
+    }; 
+
+Now as a dataspace for such a type we would like to have a simple dataspace 
+of shape 3x3 and fixed size. The type trait which must be provided could 
+look like this 
+
+.. code-block:: cpp
+
+    #include <h5cpp/hdf5.cpp>
+    
+    namespace hdf5 {
+    namespace dataspace {
+    
+    
+    template<> class TypeTrait<Matrix>
+    {
+      public:
+        using DataspaceType = Simple;
+        static DataspaceType create(const Matrix &)
+        {
+          return Simple({3,3});
+        }
+    
+        static void *ptr(Matrix &value)
+        {
+          return reinterpret_cast<void*>(value.data());
+        }
+    
+        static const void*cptr(const Matrix &value)
+        {
+          return reinterpret_cast<const void*>(value.data());
+        }
+    };
+    }
+    }
+    
 Selections
 ==========
+
+Selections in HDF5 allow the user to read or write only specific data to or 
+from a file. This is particularly useful if the total size of a dataset 
+is too large to fit into memory or only the specific data is required 
+to performa particular action. 
+
 
 .. figure:: ../images/hdf5_selections.svg
    :align: center
    :width: 60%
+   
+HDF5 provides two types of selections 
+
+* *hyperslabs* (:cpp:class:`hdf5::dataspace::Hyperslab`) which are 
+  multidimensional selections that maybe can be compared to the complex array 
+  slicing and indexing features that numpy arrays allow in Python 
+* *point selections* (:cpp:class:`hdf5::dataspace::Points`) which allow picking 
+  individual elements from a dataset. 
+  
+All selections derive from :cpp:class:`hdf5::dataspace::Selection`. This 
+class basically provides a single method to apply a selection on a dataspace. 
+
+  
+.. attention::
+
+    Currently only hyperslabs are implemented in *h5cpp*.
+    
+    
+Applying a selection
+--------------------
+
+To apply a selection you need to
+
+.. figure:: ../images/hdf5_selection_manager.svg
+   :align: center
+   :width: 75%
+   
+.. todo:: finish this section
+
+Hyperslab selections
+--------------------
+
+.. todo:: write this section
+
+Point selections
+----------------
+
+.. todo:: write this section
+
 
