@@ -58,62 +58,63 @@ node('docker') {
         }
 
         stage('Get dependencies') {
-            def conan_remote = "ess-dmsc-local"
-            sh """docker exec ${centos_containter_name} sh -c \"
-                mkdir build
-                cd build
-                conan --version
-                conan remote add \
-                    --insert 0 \
-                    ${conan_remote} ${local_conan_server}
-                conan install ../${project} --build=missing
-            \""""
-            sh """docker exec ${fedora_containter_name} sh -c \"
-                mkdir build
-                cd build
-                conan --version
-                conan remote add \
-                    --insert 0 \
-                    ${conan_remote} ${local_conan_server}
-                conan install ../${project} --build=missing
-            \""""
+            try {
+                def conan_remote = "ess-dmsc-local"
+                sh """docker exec ${centos_containter_name} sh -c \"
+                    mkdir build
+                    cd build
+                    conan --version
+                    conan remote add \
+                        --insert 0 \
+                        ${conan_remote} ${local_conan_server}
+                    conan install ../${project} --build=missing
+                \""""
+                sh """docker exec ${fedora_containter_name} sh -c \"
+                    mkdir build
+                    cd build
+                    conan --version
+                    conan remote add \
+                        --insert 0 \
+                        ${conan_remote} ${local_conan_server}
+                    conan install ../${project} --build=missing
+                \""""
+            } catch (e) {
+                failure_function(e, 'Get dependencies failed')
+            }
         }
 
         stage('Run CMake') {
-            sh """docker exec ${centos_containter_name} sh -c \"
-                cd build
-                cmake3 --version
-                cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
-            \""""
-            sh """docker exec ${fedora_containter_name} sh -c \"
-                cd build
-                cmake --version
-                cmake -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
-            \""""
+            try {
+                sh """docker exec ${centos_containter_name} sh -c \"
+                    cd build
+                    cmake3 --version
+                    cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
+                \""""
+                sh """docker exec ${fedora_containter_name} sh -c \"
+                    cd build
+                    cmake --version
+                    cmake -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
+                \""""
+            } catch (e) {
+                failure_function(e, 'CMake failed')
+            }
         }
 
-        stage('Build library') {
-            sh """docker exec ${centos_containter_name} sh -c \"
-                cd build
-                make --version
-                make h5cpp_shared VERBOSE=1
-            \""""
-            sh """docker exec ${fedora_containter_name} sh -c \"
-                cd build
-                make --version
-                make h5cpp_shared VERBOSE=1
-            \""""
-        }
-
-        stage('Build tests') {
-            sh """docker exec ${centos_containter_name} sh -c \"
-                cd build
-                make unit_tests VERBOSE=1
-            \""""
-            sh """docker exec ${fedora_containter_name} sh -c \"
-                cd build
-                make unit_tests VERBOSE=1
-            \""""
+        stage('Build') {
+            try {
+                sh """docker exec ${centos_containter_name} sh -c \"
+                    cd build
+                    make --version
+                    make unit_tests VERBOSE=1
+                \""""
+                sh """docker exec ${fedora_containter_name} sh -c \"
+                    cd build
+                    make --version
+                    make unit_tests VERBOSE=1
+                \""""
+            } catch (e) {
+                failure_function(e, 'Build failed')
+            }
         }
 
         stage('Run tests') {
@@ -125,7 +126,7 @@ node('docker') {
                         make run_tests
                     \""""
                 } catch(e) {
-                    failure_function(e, 'Tests failed')
+                    failure_function(e, 'Run tests (centos) failed')
                 } finally {
                     sh "docker cp ${centos_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
                     junit 'unit_tests_run.xml'
@@ -137,21 +138,8 @@ node('docker') {
                         cd build
                         make generate_coverage
                     \""""
-                    sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
-                    step([
-                        $class: 'CoberturaPublisher',
-                        autoUpdateHealth: true,
-                        autoUpdateStability: true,
-                        coberturaReportFile: 'coverage.xml',
-                        failUnhealthy: false,
-                        failUnstable: false,
-                        maxNumberOfBuilds: 0,
-                        onlyStable: false,
-                        sourceEncoding: 'ASCII',
-                        zoomCoverageChart: false
-                    ])
                 } catch(e) {
-                    failure_function(e, 'Tests failed')
+                    failure_function(e, 'Run rests (fedora) failed')
                 } finally {
                     sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
                     junit 'unit_tests_run.xml'
@@ -174,7 +162,7 @@ stage("Generate docs") {
             try {
                 checkout scm
             } catch (e) {
-                failure_function(e, 'Checkout failed')
+                failure_function(e, 'Generate docs / Checkout failed')
             }
         }
 
@@ -183,9 +171,28 @@ stage("Generate docs") {
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake ../code"
+                    cmake -DCOV=1 ../code"
             } catch (e) {
                 failure_function(e, 'Generate docs / CMake failed')
+            }
+
+            try {
+                sh "make generate_coverage"
+                //sh "make memcheck"
+                step([
+                    $class: 'CoberturaPublisher',
+                    autoUpdateHealth: true,
+                    autoUpdateStability: true,
+                    coberturaReportFile: 'coverage/coverage.xml',
+                    failUnhealthy: false,
+                    failUnstable: false,
+                    maxNumberOfBuilds: 0,
+                    onlyStable: false,
+                    sourceEncoding: 'ASCII',
+                    zoomCoverageChart: false
+                ])
+            } catch (e) {
+                failure_function(e, 'Generate docs / generate coverage failed')
             }
 
             try {
