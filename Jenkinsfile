@@ -31,7 +31,7 @@ node('docker') {
         }
     }
 
-
+    dir("${project}/build") {
     try {
         def centos_containter_name = "${base_container_name}-centos"
         def fedora_containter_name = "${base_container_name}-fedora"
@@ -123,12 +123,12 @@ node('docker') {
                     cd build
                     make generate_coverage
                 \""""
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml ${project}"
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
                     autoUpdateStability: true,
-                    coberturaReportFile: '${project}/coverage.xml',
+                    coberturaReportFile: 'coverage.xml',
                     failUnhealthy: false,
                     failUnstable: false,
                     maxNumberOfBuilds: 0,
@@ -139,8 +139,8 @@ node('docker') {
             } catch(e) {
                 failure_function(e, 'Tests failed')
             } finally {
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml ${project}"
-                junit '${project}/unit_tests_run.xml'
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+                junit 'unit_tests_run.xml'
             }
         }
 
@@ -150,7 +150,7 @@ node('docker') {
                     cd build
                     make html
                 \""""
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/doc/build ${project}"
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/doc/build html"
             }
         } catch (e) {
             failure_function(e, 'Docs generation failed')
@@ -161,6 +161,7 @@ node('docker') {
     } finally {
         centos_container.stop()
         fedora_container.stop()
+    }
     }
 
     dir("${project}/gh-pages") {
@@ -176,7 +177,7 @@ node('docker') {
                     sh "git fetch"
                     sh "git checkout gh-pages"
                     sh "shopt -u dotglob && rm -rf ./*"
-                    sh "mv -f ../build/* ./"
+                    sh "mv -f ../build/html/* ./"
                     sh "git add -A"
                     sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
 
@@ -190,7 +191,7 @@ node('docker') {
                 }
 
                 if (env.BRANCH_NAME != 'master') {
-                  archiveArtifacts artifacts: '../build/'
+                  archiveArtifacts artifacts: '../build/html/'
                 }
 
             }
