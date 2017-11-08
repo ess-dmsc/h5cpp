@@ -45,6 +45,10 @@ set(FILE_SOURCES
   file/types.cpp
   file/file.cpp
   file/functions.cpp
+  file/direct_driver.cpp
+  file/memory_driver.cpp
+  file/posix_driver.cpp
+  file/mpi_driver.cpp
   )
 
 set(ERROR_SOURCES
@@ -101,14 +105,21 @@ add_library(h5cpp_shared SHARED
   )
 
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
-set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem)
+set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem ${MPI_CXX_LIBRARIES})
 target_include_directories(h5cpp_shared
 	PRIVATE  
 	${PROJECT_SOURCE_DIR}/src/include
 	PUBLIC 
-	${HDF5_INCLUDE_DIRS}
+	${HDF5_INCLUDE_DIRS} ${MPI_CXX_INCLUDE_PATH}
 	INTERFACE 
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+#
+# THIS IS BAD
+# NEED TO GET RID OF THIS
+if(WITH_MPI) 
+target_compile_definitions(h5cpp_shared PUBLIC WITH_MPI)
+endif()
 
 set_target_properties(h5cpp_shared 
     PROPERTIES 

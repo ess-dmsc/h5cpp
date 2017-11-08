@@ -24,10 +24,10 @@
 //
 #pragma once
 
-#include "type.hpp"
-#include "../object_handle.hpp"
-#include "selection_manager.hpp"
-#include "../windows.hpp"
+#include <h5cpp/dataspace/type.hpp>
+#include <h5cpp/object_handle.hpp>
+#include <h5cpp/dataspace/selection_manager.hpp>
+#include <h5cpp/windows.hpp>
 
 
 namespace hdf5 {
