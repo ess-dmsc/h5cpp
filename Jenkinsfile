@@ -5,6 +5,10 @@ def fedora = docker.image('essdmscdm/fedora-build-node:0.3.0')
 
 def base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
+def centos_containter_name = "${base_container_name}-centos"
+def fedora_containter_name = "${base_container_name}-fedora"
+
+
 def failure_function(exception_obj, failureMessage) {
     def toEmails = [[$class: 'DevelopersRecipientProvider']]
     emailext body: '${DEFAULT_CONTENT}\n\"' + failureMessage +'\"\n\nCheck console output at $BUILD_URL to view the results.',
@@ -31,10 +35,7 @@ node('docker') {
         }
     }
 
-    dir("${project}/build") {
     try {
-        def centos_containter_name = "${base_container_name}-centos"
-        def fedora_containter_name = "${base_container_name}-fedora"
 
         centos_container = centos.run("\
             --name ${centos_containter_name} \
@@ -51,8 +52,10 @@ node('docker') {
         ")
 
         // Copy sources to container.
-        sh "docker cp ../code ${centos_containter_name}:/home/jenkins/${project}"
-        sh "docker cp ../code ${fedora_containter_name}:/home/jenkins/${project}"
+        dir("${project}") {
+            sh "docker cp code ${centos_containter_name}:/home/jenkins/${project}"
+            sh "docker cp code ${fedora_containter_name}:/home/jenkins/${project}"
+        }
 
         stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
@@ -113,6 +116,7 @@ node('docker') {
             \""""
         }
 
+        dir("${project}/tests") {
         stage('Run tests') {
             /*sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
@@ -143,17 +147,6 @@ node('docker') {
                 junit 'unit_tests_run.xml'
             }
         }
-
-        try {
-            stage("Build docs") {
-                sh """docker exec ${fedora_containter_name} sh -c \"
-                    cd build
-                    make html
-                \""""
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/build/doc/build html"
-            }
-        } catch (e) {
-            failure_function(e, 'Docs generation failed')
         }
 
     } catch(e) {
@@ -162,82 +155,35 @@ node('docker') {
         centos_container.stop()
         fedora_container.stop()
     }
-    }
-
-    dir("${project}/gh-pages") {
-        try {
-            stage("Publish docs") {
-                checkout scm
-
-                if (env.BRANCH_NAME == 'master') {
-                    sh "git config user.email 'dm-jenkins-integration@esss.se'"
-                    sh "git config user.name 'cow-bot'"
-                    sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
-
-                    sh "git fetch"
-                    sh "git checkout gh-pages"
-                    sh "shopt -u dotglob && rm -rf ./*"
-                    sh "mv -f ../build/html/* ./"
-                    sh "git add -A"
-                    sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
-
-                    withCredentials([usernamePassword(
-                        credentialsId: 'cow-bot-username',
-                        usernameVariable: 'USERNAME',
-                        passwordVariable: 'PASSWORD'
-                    )]) {
-                        sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
-                    }
-                }
-
-                if (env.BRANCH_NAME != 'master') {
-                  archiveArtifacts artifacts: '../build/html/'
-                }
-
-            }
-        } catch (e) {
-            failure_function(e, 'Publishing docs failed')
-        }
-    }
-
 }
 
-/*
 node ("centos7") {
+
+stage("Generate docs") {
+
+    dir("${project}/code") {
+        try {
+            checkout scm
+        } catch (e) {
+            failure_function(e, 'Checkout failed')
+        }
+    }
 
     dir("${project}/build") {
 
         try {
-            stage("Run tests") {
-                sh "make run_tests"
-                junit 'test/unit_tests_run.xml'
-                sh "make generate_coverage"
-                //sh "make memcheck"
-                step([
-                    $class: 'CoberturaPublisher',
-                    autoUpdateHealth: true,
-                    autoUpdateStability: true,
-                    coberturaReportFile: 'coverage/coverage.xml',
-                    failUnhealthy: false,
-                    failUnstable: false,
-                    maxNumberOfBuilds: 0,
-                    onlyStable: false,
-                    sourceEncoding: 'ASCII',
-                    zoomCoverageChart: false
-                ])
-          }
+            sh "HDF5_ROOT=$HDF5_ROOT \
+                CMAKE_PREFIX_PATH=$HDF5_ROOT \
+                cmake ../code"
         } catch (e) {
-            junit 'test/unit_tests_run.xml'
-            failure_function(e, 'Tests failed')
+            failure_function(e, 'CMake failed')
         }
 
         try {
-            stage("Build docs") {
-                sh "make html"
-                if (env.BRANCH_NAME != 'master') {
-                  archiveArtifacts artifacts: 'doc/build/'
-                }
-          }
+            sh "make html"
+            if (env.BRANCH_NAME != 'master') {
+                archiveArtifacts artifacts: 'doc/build/'
+            }
         } catch (e) {
             failure_function(e, 'Docs generation failed')
         }
@@ -245,8 +191,7 @@ node ("centos7") {
 
     dir("${project}/docs") {
         try {
-            stage("Publish docs") {
-                checkout scm
+              checkout scm
 
               if (env.BRANCH_NAME == 'master') {
                 sh "git config user.email 'dm-jenkins-integration@esss.se'"
@@ -269,10 +214,10 @@ node ("centos7") {
                 }
 
             }
-            }
         } catch (e) {
             failure_function(e, 'Publishing docs failed')
         }
     }
 }
-*/
+
+}
