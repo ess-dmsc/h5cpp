@@ -355,6 +355,46 @@ To construct such a hyperslab you could use
     Dimensions count{3,3};
     Dimensions stride{2,1};
     dataspace::Hyperslab{offset,block,count,stride};
+    
+For details of how to manipulate or alter an instance of 
+:cpp:class:`dataspace::Hyperslab` see the API documentation for details. 
+
+As this is quite some code there are two more additional constructors 
+which cover common but quite simplier selection scenarios. 
+The first one covers the selection of a single contiguous region of data 
+within the dataset. For our above example that could look somehow like this 
+
+.. figure:: ../images/hyperslab_2.svg
+   :align: center
+   :width: 65%
+   
+For such a purpose there is a two argument constructor which takes only 
+the *offset* and the *block* - everything else is set internally to 1
+
+.. code-block:: cpp
+
+    Dimensions offset{1,1};
+    Dimensions block{4,5};
+    dataspace::Hypeslab{offset,block};
+    
+In some applications domains such a selection would be called a 
+*region of interest* or *ROI*. 
+    
+The second selection scenario is a number of blocks of size 1 along each 
+dimension separated by a particular stride. 
+
+.. figure:: ../images/hyperslab_3.svg
+   :align: center
+   :width: 65%
+   
+The constructor call for such a selection would look like this
+
+.. code-block:: cpp
+
+    Dimensions offset{1,1};
+    Dimensions stride{2,3};
+    Dimensions count{3,3};
+    dataspace::Hyperslab{offset,count,stride};
 
 
 Point selections

@@ -80,6 +80,12 @@ class DLL_EXPORT Selection
 //! HDF5 dataset. The number of dimensions for every hyperslab  is determined
 //! during construction and cannot be altered once it has been fixed.
 //!
+//!
+//! \todo
+//! \li we may have to add a function to check if all the Dimension instances
+//!     have the same size. However, this might be an expensive procedure and
+//!     we should take performance considerations into account here.
+//!
 class DLL_EXPORT Hyperslab : public Selection
 {
   public:
@@ -126,6 +132,9 @@ class DLL_EXPORT Hyperslab : public Selection
     //!
     //! \brief constructor
     //!
+    //! This constructor exposes the full capabilities of a hyperslab. All
+    //! parameters can be adjusted.
+    //!
     //! \param offset the offset from which to start the selection
     //! \param block the size of a single block in the selection
     //! \param count the number of blocks along each dimensions
@@ -133,6 +142,32 @@ class DLL_EXPORT Hyperslab : public Selection
     //!
     Hyperslab(const Dimensions &offset,
               const Dimensions &block,
+              const Dimensions &count,
+              const Dimensions &stride);
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a hyperslab which constists of a single block starting
+    //! at a particular offset.
+    //!
+    //! \param offset the start offset of the block
+    //! \param block the size of the single block
+    //!
+    Hyperslab(const Dimensions &offset,
+              const Dimensions &block);
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a hyperslab which consists of \c count blocks of size 1
+    //! along each dimension separated by \c stride elements.
+    //!
+    //! \param offset starting offset of the selection
+    //! \param count number of blocks along each dimensions
+    //! \param stride the stride between the blocks along each dimension
+    //1
+    Hyperslab(const Dimensions &offset,
               const Dimensions &count,
               const Dimensions &stride);
 

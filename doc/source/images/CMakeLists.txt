@@ -20,6 +20,8 @@ set(IMAGES attribute_manager_uml.png
            storage_models.svg
            memory_storage_example.svg
            hyperslab_1.svg
+           hyperslab_2.svg
+           hyperslab_3.svg
            )
 
 add_sphinx_source(${IMAGES})

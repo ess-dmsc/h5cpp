@@ -76,6 +76,28 @@ Hyperslab::Hyperslab(const Dimensions &offset,
                          block_(block)
 {}
 
+Hyperslab::Hyperslab(const Dimensions &offset,const Dimensions &block):
+    Selection(),
+    start_(offset),
+    stride_(offset.size()),
+    count_(offset.size()),
+    block_(block)
+{
+  std::fill(stride_.begin(),stride_.end(),1ul);
+  std::fill(count_.begin(),count_.end(),1ul);
+}
+
+Hyperslab::Hyperslab(const Dimensions &offset,const Dimensions &count,
+                     const Dimensions &stride):
+    Selection(),
+    start_(offset),
+    stride_(stride),
+    count_(count),
+    block_(offset.size())
+{
+  std::fill(block_.begin(),block_.end(),1ul);
+}
+
 size_t Hyperslab::rank() const noexcept
 {
   return start_.size();
