@@ -56,7 +56,7 @@ node('docker') {
 
         stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
-            /*sh """docker exec ${centos_containter_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
                 mkdir build
                 cd build
                 conan --version
@@ -64,7 +64,7 @@ node('docker') {
                     --insert 0 \
                     ${conan_remote} ${local_conan_server}
                 conan install ../${project} --build=missing
-            \""""*/
+            \""""
             sh """docker exec ${fedora_containter_name} sh -c \"
                 mkdir build
                 cd build
@@ -77,11 +77,11 @@ node('docker') {
         }
 
         stage('Run CMake') {
-            /*sh """docker exec ${centos_containter_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 cmake3 --version
                 cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
-            \""""*/
+            \""""
             sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 cmake --version
@@ -90,11 +90,11 @@ node('docker') {
         }
 
         stage('Build library') {
-            /*sh """docker exec ${centos_containter_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 make --version
                 make h5cpp_shared VERBOSE=1
-            \""""*/
+            \""""
             sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make --version
@@ -103,10 +103,10 @@ node('docker') {
         }
 
         stage('Build tests') {
-            /*sh """docker exec ${centos_containter_name} sh -c \"
+            sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 make unit_tests VERBOSE=1
-            \""""*/
+            \""""
             sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make unit_tests VERBOSE=1
