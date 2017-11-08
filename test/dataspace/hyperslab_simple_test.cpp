@@ -34,7 +34,7 @@ TEST(HyperslabSimple, test_case_1)
   dataspace::Simple space({10,20});
   EXPECT_EQ(space.rank(),2);
   EXPECT_EQ(space.size(),200);
-  dataspace::Hyperslab slab({1,1},{1,1},{1,1},{5,5});
+  dataspace::Hyperslab slab({1,1},{5,5},{1,1},{1,1});
   space.selection(dataspace::SelectionOperation::SET,slab);
   EXPECT_EQ(space.selection.size(),25ul);
   EXPECT_EQ(space.selection.type(),dataspace::SelectionType::HYPERSLAB);
@@ -48,12 +48,27 @@ TEST(HyperslabSimple, test_case_2)
   dataspace::Simple space({10,1024,1024});
   EXPECT_EQ(space.selection.type(),dataspace::SelectionType::ALL);
 
-  dataspace::Hyperslab frame({0,0,0},{1,1,1},{1,1,1},{1,1024,1024});
+  dataspace::Hyperslab frame({0,0,0},{1,1024,1024},{1,1,1},{1,1,1});
   EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::SET,frame));
   frame.start(0,9);
   EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::OR,frame));
   EXPECT_EQ(space.selection.size(),2ul*1024ul*1024ul);
 
+}
+
+TEST(HyperslabSimple,test_nothing_and_all_selected)
+{
+  dataspace::Simple space({10,1024});
+  EXPECT_EQ(space.size(),10l*1024l);
+  EXPECT_EQ(space.selection.size(),10ul*1024ul);
+
+  space.selection.none();
+  EXPECT_EQ(space.size(),10l*1024l);
+  EXPECT_EQ(space.selection.size(),0ul);
+
+  space.selection.all();
+  EXPECT_EQ(space.size(),10l*1024l);
+  EXPECT_EQ(space.selection.size(),10ul*1024ul);
 }
 
 

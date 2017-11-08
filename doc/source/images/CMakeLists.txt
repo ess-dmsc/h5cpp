@@ -19,6 +19,7 @@ set(IMAGES attribute_manager_uml.png
            dataspace_high_level.svg
            storage_models.svg
            memory_storage_example.svg
+           hyperslab_1.svg
            )
 
 add_sphinx_source(${IMAGES})

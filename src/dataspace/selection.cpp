@@ -65,12 +65,12 @@ Hyperslab::Hyperslab(size_t rank):
   std::fill(count_.begin(),count_.end(),0);
 }
 
-Hyperslab::Hyperslab(const Dimensions &start,
-                     const Dimensions &stride,
+Hyperslab::Hyperslab(const Dimensions &offset,
+                     const Dimensions &block,
                      const Dimensions &count,
-                     const Dimensions &block):
+                     const Dimensions &stride):
                          Selection(),
-                         start_(start),
+                         start_(offset),
                          stride_(stride),
                          count_(count),
                          block_(block)

@@ -126,10 +126,15 @@ class DLL_EXPORT Hyperslab : public Selection
     //!
     //! \brief constructor
     //!
-    Hyperslab(const Dimensions &start,
-              const Dimensions &stride,
+    //! \param offset the offset from which to start the selection
+    //! \param block the size of a single block in the selection
+    //! \param count the number of blocks along each dimensions
+    //! \param stride the stride along each dimension between the blocks
+    //!
+    Hyperslab(const Dimensions &offset,
+              const Dimensions &block,
               const Dimensions &count,
-              const Dimensions &block);
+              const Dimensions &stride);
 
     //!
     //! \brief get rank
