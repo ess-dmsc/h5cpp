@@ -46,6 +46,31 @@ class DLL_EXPORT FileCreationList : public GroupCreationList
     void object_length_size(size_t size) const;
     size_t object_length_size() const;
 
+    void btree_rank(unsigned ik);
+    unsigned btree_rank() const;
+
+    void btree_symbols(unsigned lk);
+    unsigned btree_symbols() const;
+
+    // istore_k
+    void chunk_rank(unsigned ik);
+    unsigned chunk_rank() const;
+
+    // file_space_page_size
+    void page_size(hsize_t size);
+    hsize_t page_size() const;
+
+//        H5Pset_file_space_strategy
+//    H5Pget_file_space_strategy
+//
+//        H5Pset_shared_mesg_nindexes
+//    H5Pget_shared_mesg_nindexes
+//
+//        H5Pset_shared_mesg_index
+//    H5Pget_shared_mesg_index
+//
+//        H5Pset_shared_mesg_phase_change
+//    H5Pget_shared_mesg_phase_change
 };
 
 } // namespace property
