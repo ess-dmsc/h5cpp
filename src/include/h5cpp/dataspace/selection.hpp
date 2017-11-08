@@ -199,14 +199,14 @@ class DLL_EXPORT Hyperslab : public Selection
     //! \throws std::runtime_error in case of a failure
     //! \param values new start values for the hyperslab
     //!
-    void start(const Dimensions &values);
+    void offset(const Dimensions &values);
 
     //!
     //! \brief get start values
     //! \throws std::runtime_error if the Hyperslab is default constructed
     //! \return const reference to the start values of the hyperslab
     //!
-    const Dimensions &start() const;
+    const Dimensions &offset() const;
 
 
     //!

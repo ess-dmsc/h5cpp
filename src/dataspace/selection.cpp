@@ -135,7 +135,7 @@ void Hyperslab::offset(size_t index,size_t value)
   start_[index] = value;
 }
 
-void Hyperslab::start(const Dimensions &values)
+void Hyperslab::offset(const Dimensions &values)
 {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start values for a default "
                                "constructed Hyperslab!")
@@ -144,7 +144,7 @@ void Hyperslab::start(const Dimensions &values)
   start_  = values;
 }
 
-const Dimensions &Hyperslab::start() const
+const Dimensions &Hyperslab::offset() const
 {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot get start values for a default "
                                "constructed Hyperslab!")
