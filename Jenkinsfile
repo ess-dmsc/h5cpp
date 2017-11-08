@@ -1,4 +1,4 @@
-project = "h5cc"
+project = "h5cpp"
 def base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
 def failure_function(exception_obj, failureMessage) {
@@ -29,7 +29,7 @@ def docker_cmake(container_name, cmake_exec) {
     sh """docker exec ${container_name} sh -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
+        ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ../${project}
     \""""
 }
 
