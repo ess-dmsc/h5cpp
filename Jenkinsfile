@@ -51,8 +51,8 @@ node('docker') {
         ")
 
         // Copy sources to container.
-        sh "docker cp ${project}/code ${centos_containter_name}:/home/jenkins/${project}"
-        sh "docker cp ${project}/code ${fedora_containter_name}:/home/jenkins/${project}"
+        sh "docker cp ../code ${centos_containter_name}:/home/jenkins/${project}"
+        sh "docker cp ../code ${fedora_containter_name}:/home/jenkins/${project}"
 
         stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
