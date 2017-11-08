@@ -123,7 +123,7 @@ node('docker') {
                     cd build
                     make generate_coverage
                 \""""
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/${project}/build/coverage/coverage.xml ${project}/build/coverage"
+                sh "docker cp ${fedora_containter_name}:/home/build/coverage/coverage.xml ${project}/build/coverage"
                 step([
                     $class: 'CoberturaPublisher',
                     autoUpdateHealth: true,
@@ -139,7 +139,7 @@ node('docker') {
             } catch(e) {
                 failure_function(e, 'Tests failed')
             } finally {
-                sh "docker cp ${fedora_containter_name}:/home/jenkins/${project}/build/test/unit_tests_run.xml ${project}/build/test"
+                sh "docker cp ${fedora_containter_name}:/home/build/test/unit_tests_run.xml ${project}/build/test"
                 junit '${project}/build/test/unit_tests_run.xml'
             }
         }
