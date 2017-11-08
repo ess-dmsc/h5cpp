@@ -65,6 +65,12 @@
 #include <h5cpp/file/mpi_driver.hpp>
 #include <h5cpp/file/posix_driver.hpp>
 
+#include <h5cpp/filter/filter.hpp>
+#include <h5cpp/filter/types.hpp>
+#include <h5cpp/filter/deflate.hpp>
+#include <h5cpp/filter/fletcher32.hpp>
+#include <h5cpp/filter/shuffle.hpp>
+
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/group_view.hpp>
 #include <h5cpp/node/group.hpp>

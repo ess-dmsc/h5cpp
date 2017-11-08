@@ -76,6 +76,13 @@ set(ATTRIBUTE_SOURCES
   attribute/attribute_iterator.cpp
   )
 
+set(FILTER_SOURCES 
+    filter/filter.cpp
+    filter/deflate.cpp
+    filter/fletcher32.cpp
+    filter/shuffle.cpp
+    )
+
 set(SOURCES
   object_handle.cpp
   object_id.cpp
@@ -83,6 +90,7 @@ set(SOURCES
   iterator_config.cpp
   iterator.cpp
   )
+
 
 add_library(h5cpp_shared SHARED
   ${SOURCES}
@@ -93,6 +101,7 @@ add_library(h5cpp_shared SHARED
   ${FILE_SOURCES}
   ${NODE_SOURCES}
   ${ATTRIBUTE_SOURCES}
+  ${FILTER_SOURCES}
   )
 
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
