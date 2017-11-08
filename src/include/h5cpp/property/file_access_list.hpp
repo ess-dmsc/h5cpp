@@ -24,8 +24,9 @@
 //
 #pragma once
 
-#include "list.hpp"
-#include "../windows.hpp"
+#include <h5cpp/property/list.hpp>
+#include <h5cpp/windows.hpp>
+#include <h5cpp/file/driver.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -66,8 +67,21 @@ class DLL_EXPORT FileAccessList : public List
     //! \brief setting library version boundaries
     //!
     void library_version_bounds(LibVersion high,LibVersion low) const;
+
+    //!
+    //! \brief get library version high bound
+    //!
     LibVersion library_version_bound_high() const;
+
+    //!
+    //! \brief get library version low bound
+    //!
     LibVersion library_version_bound_low() const;
+
+    //!
+    //! \brief set the file driver
+    //!
+    void driver(const hdf5::file::Driver &file_driver) const;
 };
 
 } // namespace property
