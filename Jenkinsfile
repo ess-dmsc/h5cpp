@@ -56,7 +56,7 @@ node('docker') {
 
         stage('Get dependencies') {
             def conan_remote = "ess-dmsc-local"
-            sh """docker exec ${centos_containter_name} sh -c \"
+            /*sh """docker exec ${centos_containter_name} sh -c \"
                 mkdir build
                 cd build
                 conan --version
@@ -64,7 +64,7 @@ node('docker') {
                     --insert 0 \
                     ${conan_remote} ${local_conan_server}
                 conan install ../${project} --build=missing
-            \""""
+            \""""*/
             sh """docker exec ${fedora_containter_name} sh -c \"
                 mkdir build
                 cd build
@@ -77,11 +77,11 @@ node('docker') {
         }
 
         stage('Run CMake') {
-            sh """docker exec ${centos_containter_name} sh -c \"
+            /*sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 cmake3 --version
                 cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
-            \""""
+            \""""*/
             sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 cmake --version
@@ -90,11 +90,11 @@ node('docker') {
         }
 
         stage('Build library') {
-            sh """docker exec ${centos_containter_name} sh -c \"
+            /*sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 make --version
                 make h5cpp_shared VERBOSE=1
-            \""""
+            \""""*/
             sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make --version
@@ -103,10 +103,10 @@ node('docker') {
         }
 
         stage('Build tests') {
-            sh """docker exec ${centos_containter_name} sh -c \"
+            /*sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 make unit_tests VERBOSE=1
-            \""""
+            \""""*/
             sh """docker exec ${fedora_containter_name} sh -c \"
                 cd build
                 make unit_tests VERBOSE=1
@@ -114,14 +114,34 @@ node('docker') {
         }
 
         stage('Run tests') {
-            sh """docker exec ${centos_containter_name} sh -c \"
+            /*sh """docker exec ${centos_containter_name} sh -c \"
                 cd build
                 make run_tests
-            \""""
-            sh """docker exec ${fedora_containter_name} sh -c \"
-                cd build
-                make run_tests
-            \""""
+            \""""*/
+            try {
+                sh """docker exec ${fedora_containter_name} sh -c \"
+                    cd build
+                    make generate_coverage
+                \""""
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/${project}/build/coverage/coverage.xml ${project}/build/coverage"
+                step([
+                    $class: 'CoberturaPublisher',
+                    autoUpdateHealth: true,
+                    autoUpdateStability: true,
+                    coberturaReportFile: '${project}/build/coverage/coverage.xml',
+                    failUnhealthy: false,
+                    failUnstable: false,
+                    maxNumberOfBuilds: 0,
+                    onlyStable: false,
+                    sourceEncoding: 'ASCII',
+                    zoomCoverageChart: false
+                ])
+            } catch(e) {
+                failure_function(e, 'Tests failed')
+            } finally {
+                sh "docker cp ${fedora_containter_name}:/home/jenkins/${project}/build/test/unit_tests_run.xml ${project}/build/test"
+                junit '${project}/build/test/unit_tests_run.xml'
+            }
         }
 
     } catch(e) {
@@ -137,36 +157,8 @@ node('docker') {
 
 /*
 node ("centos7") {
-    cleanWs()
-
-    dir("${project}/code") {
-        try {
-            stage("Checkout project") {
-                checkout scm
-            }
-        } catch (e) {
-            failure_function(e, 'Checkout failed')
-        }
-    }
 
     dir("${project}/build") {
-        try {
-            stage("Run CMake") {
-                sh "HDF5_ROOT=$HDF5_ROOT \
-                    CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake3 -DCMAKE_BUILD_TYPE=Debug ../code"
-            }
-        } catch (e) {
-            failure_function(e, 'CMake failed')
-        }
-
-        try {
-            stage("Build project") {
-                sh "make VERBOSE=1"
-            }
-        } catch (e) {
-            failure_function(e, 'Build failed')
-        }
 
         try {
             stage("Run tests") {
