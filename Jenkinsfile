@@ -14,7 +14,7 @@ def failure_function(exception_obj, failureMessage) {
 
 def docker_dependencies(container_name) {
     def conan_remote = "ess-dmsc-local"
-    sh """docker exec ${containter_name} sh -c \"
+    sh """docker exec ${container_name} sh -c \"
         mkdir build
         cd build
         conan --version
@@ -26,7 +26,7 @@ def docker_dependencies(container_name) {
 }
 
 def docker_cmake(container_name, cmake_exec) {
-    sh """docker exec ${containter_name} sh -c \"
+    sh """docker exec ${container_name} sh -c \"
         cd build
         ${cmake_exec} --version
         ${cmake_exec} -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
@@ -34,7 +34,7 @@ def docker_cmake(container_name, cmake_exec) {
 }
 
 def docker_build(container_name) {
-    sh """docker exec ${containter_name} sh -c \"
+    sh """docker exec ${container_name} sh -c \"
         cd build
         make --version
         make unit_tests VERBOSE=1
@@ -44,14 +44,14 @@ def docker_build(container_name) {
 def docker_tests(container_name) {
     dir("${project}/tests") {
         try {
-            sh """docker exec ${containter_name} sh -c \"
+            sh """docker exec ${container_name} sh -c \"
                 cd build
                 make run_tests
             \""""
         } catch(e) {
-            failure_function(e, 'Run tests (${containter_name}) failed')
+            failure_function(e, 'Run tests (${container_name}) failed')
         } finally {
-            sh "docker cp ${containter_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            sh "docker cp ${container_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
         }
     }
@@ -60,8 +60,8 @@ def docker_tests(container_name) {
 def centos = docker.image('essdmscdm/centos-build-node:0.7.0')
 def fedora = docker.image('essdmscdm/fedora-build-node:0.3.0')
 
-def centos_containter_name = "${base_container_name}-centos"
-def fedora_containter_name = "${base_container_name}-fedora"
+def centos_container_name = "${base_container_name}-centos"
+def fedora_container_name = "${base_container_name}-fedora"
 
 
 node('docker') {
@@ -81,14 +81,14 @@ node('docker') {
     try {
 
         centos_container = centos.run("\
-            --name ${centos_containter_name} \
+            --name ${centos_container_name} \
             --tty \
             --env http_proxy=${env.http_proxy} \
             --env https_proxy=${env.https_proxy} \
         ")
 
         fedora_container = fedora.run("\
-            --name ${fedora_containter_name} \
+            --name ${fedora_container_name} \
             --tty \
             --env http_proxy=${env.http_proxy} \
             --env https_proxy=${env.https_proxy} \
@@ -96,14 +96,14 @@ node('docker') {
 
         // Copy sources to container.
         dir("${project}") {
-            sh "docker cp code ${centos_containter_name}:/home/jenkins/${project}"
-            sh "docker cp code ${fedora_containter_name}:/home/jenkins/${project}"
+            sh "docker cp code ${centos_container_name}:/home/jenkins/${project}"
+            sh "docker cp code ${fedora_container_name}:/home/jenkins/${project}"
         }
 
         stage('Get dependencies') {
             try {
-                docker_dependencies(${centos_containter_name})
-                docker_dependencies(${fedora_containter_name})
+                docker_dependencies(centos_container_name)
+                docker_dependencies(fedora_container_name)
             } catch (e) {
                 failure_function(e, 'Get dependencies failed')
             }
@@ -111,8 +111,8 @@ node('docker') {
 
         stage('Run CMake') {
             try {
-                docker_cmake(centos_containter_name, 'cmake3')
-                docker_cmake(fedora_containter_name, 'cmake')
+                docker_cmake(centos_container_name, 'cmake3')
+                docker_cmake(fedora_container_name, 'cmake')
             } catch (e) {
                 failure_function(e, 'CMake failed')
             }
@@ -120,16 +120,16 @@ node('docker') {
 
         stage('Build') {
             try {
-                docker_build(${centos_containter_name})
-                docker_build(${fedora_containter_name})
+                docker_build(centos_container_name)
+                docker_build(fedora_container_name)
             } catch (e) {
                 failure_function(e, 'Build failed')
             }
         }
 
         stage('Run tests') {
-            docker_tests(${centos_containter_name})
-            docker_tests(${fedora_containter_name})
+            docker_tests(centos_container_name)
+            docker_tests(fedora_container_name)
         }
 
     } catch(e) {
