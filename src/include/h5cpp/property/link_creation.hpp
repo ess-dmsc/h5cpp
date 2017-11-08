@@ -24,29 +24,48 @@
 //
 #pragma once
 
-
-#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT FileCreationList : public GroupCreationList
+class DLL_EXPORT LinkCreationList : public StringCreationList
 {
   public:
-    FileCreationList();
-    ~FileCreationList();
+    //!
+    //! \brief default constructor
+    //!
+    LinkCreationList();
 
-    void userblock(hsize_t size) const;
-    hsize_t userblock() const;
+    //!
+    //! \brief destructor
+    //!
+    ~LinkCreationList();
 
-    void object_offset_size(size_t size) const;
-    size_t object_offset_size() const;
+    //!
+    //! \brief enable intermediate group creation
+    //!
+    //! With this flag set, intermediate groups in a path to an object to be
+    //! created will be created if necessary.
+    //! \sa disable_intermediate_group_creation
+    //! \sa intermediate_group_creation
+    void enable_intermediate_group_creation() const;
 
-    void object_length_size(size_t size) const;
-    size_t object_length_size() const;
+    //!
+    //! \brief disable intermediate group creation
+    //! \sa enable_intermediate_group_creation
+    //! \sa intermediate_group_creation
+    void disable_intermediate_group_creation() const;
 
+    //!
+    //! \brief query intermediate group creation flag
+    //! @return true if intermediate group creation flag is set, false otherwise
+    //! \sa enable_intermediate_group_creation
+    //! \sa disable_intermediate_group_creation
+    bool intermediate_group_creation() const;
 };
+
 
 } // namespace property
 } // namespace hdf5

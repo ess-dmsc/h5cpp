@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,24 +20,54 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 15, 2017
 //
-#pragma once
 
-#include <h5cpp/property/link_access_list.hpp>
-#include <h5cpp/windows.hpp>
+#include <stdexcept>
+#include <h5cpp/property/property_list.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT GroupAccessList : public LinkAccessList
+List::List(const Class &plist_class):
+          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
 {
-  public:
-    GroupAccessList();
-    ~GroupAccessList();
+}
+
+List::List(const List &plist)
+{
+  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy-construct property list");
+  }
+  handle_ = ObjectHandle(ret);
+}
+
+List& List::operator=(const List &plist)
+{
+  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
+  if (0 > ret)
+  {
+    throw std::runtime_error("could not copy property list");
+  }
+  handle_ = ObjectHandle(ret);
+  return *this;
+}
 
 
-};
+List::~List()
+{
+}
 
-} // namespace property
+Class List::get_class() const
+{
+  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
+}
+
+
+} // namespace property_list
 } // namespace hdf5
+
+

@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/property/link_access.hpp>
 #include <h5cpp/windows.hpp>
 
 namespace hdf5 {

@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,45 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 21, 2017
 //
-#pragma once
 
-#include <h5cpp/property/list.hpp>
-#include <h5cpp/datatype/types.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/property/type_creation.hpp>
+#include <h5cpp/property/property_class.hpp>
 
-namespace hdf5{
-namespace property{
+namespace hdf5 {
+namespace property {
 
-class DLL_EXPORT StringCreationList : public List
-{
-  public:
-    //!
-    //! \brief constructor
-    //!
-    StringCreationList();
+TypeCreationList::TypeCreationList():
+    ObjectCreationList(kDatatypeCreate)
+{}
 
-    //!
-    //! \brief destructor
-    //!
-    virtual ~StringCreationList();
+TypeCreationList::~TypeCreationList()
+{}
 
-    //!
-    //! \brief get character encoding
-    //! @return current character encoding
-    //! \sa character_encoding
-    datatype::CharacterEncoding character_encoding() const;
-
-    //!
-    //! \brief set character encoding
-    //! @param encoding the required character encoding
-    //! \sa character_encoding
-    void character_encoding(datatype::CharacterEncoding encoding) const;
-
-  protected:
-    StringCreationList(const Class &plist_class);
-};
-
-}
-}
+} // namespace property
+} // namespace hdf5

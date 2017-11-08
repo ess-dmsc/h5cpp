@@ -24,8 +24,8 @@
 //
 
 #include <stdexcept>
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {

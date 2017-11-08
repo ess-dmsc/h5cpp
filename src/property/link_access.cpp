@@ -23,8 +23,8 @@
 // Created on: Aug 21, 2017
 //
 
-#include <h5cpp/property/link_access_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/link_access.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 
 namespace hdf5 {

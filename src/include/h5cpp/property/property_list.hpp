@@ -29,7 +29,7 @@
 
 #include <h5cpp/hdf5_capi.hpp>
 #include <h5cpp/object_handle.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/property_class.hpp>
 #include <h5cpp/windows.hpp>
 
 

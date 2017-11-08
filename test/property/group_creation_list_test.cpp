@@ -24,8 +24,8 @@
 // Created on: Aug 17, 2017
 //
 #include <gtest/gtest.h>
-#include <h5cpp/property/group_creation_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/group_creation.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace pl = hdf5::property;
 

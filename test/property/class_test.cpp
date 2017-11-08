@@ -22,7 +22,7 @@
 // Created on: Aug 16, 2017
 //
 #include <gtest/gtest.h>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/property_class.hpp>
 #include <h5cpp/object_handle.hpp>
 
 namespace pl = hdf5::property;

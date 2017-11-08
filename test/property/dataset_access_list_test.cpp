@@ -24,8 +24,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/dataset_access_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/dataset_access.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace pl = hdf5::property;
 

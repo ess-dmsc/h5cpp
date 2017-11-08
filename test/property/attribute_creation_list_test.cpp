@@ -24,8 +24,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/attribute_creation_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/attribute_creation.hpp>
+#include <h5cpp/property/property_class.hpp>
 #include <h5cpp/datatype/types.hpp>
 
 namespace pl = hdf5::property;

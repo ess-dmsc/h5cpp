@@ -25,7 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <boost/test/floating_point_comparison.hpp>
-#include <h5cpp/property/dataset_creation_list.hpp>
+#include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/datatype/factory.hpp>
 
 namespace prop = hdf5::property;

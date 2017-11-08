@@ -20,21 +20,31 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 22, 2017
+// Created on: Aug 21, 2017
 //
 #pragma once
 
-#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/windows.hpp>
+
 
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT DatatypeAccessList : public LinkAccessList
+class DLL_EXPORT AttributeCreationList : public StringCreationList
 {
   public:
-    DatatypeAccessList();
-    ~DatatypeAccessList();
+    //!
+    //! \brief default constructor
+    //!
+    AttributeCreationList();
+
+    //!
+    //! \brief destructor
+    //!
+    ~AttributeCreationList();
+
 };
+
 } // namespace property
 } // namespace hdf5

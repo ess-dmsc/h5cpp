@@ -20,28 +20,44 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 22, 2017
+// Created on: Aug 18, 2017
 //
 #pragma once
 
-#include <h5cpp/property/list.hpp>
+#include <h5cpp/property/property_list.hpp>
+#include <h5cpp/datatype/types.hpp>
 #include <h5cpp/windows.hpp>
 
-namespace hdf5 {
-namespace property {
+namespace hdf5{
+namespace property{
 
-class DLL_EXPORT FileMountList : public List
+class DLL_EXPORT StringCreationList : public List
 {
   public:
     //!
-    //! \brief default constructor
+    //! \brief constructor
     //!
-    FileMountList();
+    StringCreationList();
 
     //!
     //! \brief destructor
     //!
-    ~FileMountList();
+    virtual ~StringCreationList();
+
+    //!
+    //! \brief get character encoding
+    //! @return current character encoding
+    //! \sa character_encoding
+    datatype::CharacterEncoding character_encoding() const;
+
+    //!
+    //! \brief set character encoding
+    //! @param encoding the required character encoding
+    //! \sa character_encoding
+    void character_encoding(datatype::CharacterEncoding encoding) const;
+
+  protected:
+    StringCreationList(const Class &plist_class);
 };
 
 }

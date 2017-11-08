@@ -24,7 +24,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/type_creation_list.hpp>
+#include <h5cpp/property/type_creation.hpp>
 
 namespace pl = hdf5::property;
 

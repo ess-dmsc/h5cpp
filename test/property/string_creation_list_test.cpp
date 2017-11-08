@@ -24,7 +24,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/string_creation_list.hpp>
+#include <h5cpp/property/string_creation.hpp>
 
 namespace prop = hdf5::property;
 namespace type = hdf5::datatype;

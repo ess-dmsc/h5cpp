@@ -25,7 +25,7 @@
 #pragma once
 
 #include <boost/filesystem.hpp>
-#include <h5cpp/property/list.hpp>
+#include <h5cpp/property/property_list.hpp>
 #include <h5cpp/windows.hpp>
 
 namespace hdf5 {

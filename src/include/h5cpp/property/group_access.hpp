@@ -24,48 +24,20 @@
 //
 #pragma once
 
-#include <h5cpp/property/string_creation_list.hpp>
+#include <h5cpp/property/link_access.hpp>
 #include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT LinkCreationList : public StringCreationList
+class DLL_EXPORT GroupAccessList : public LinkAccessList
 {
   public:
-    //!
-    //! \brief default constructor
-    //!
-    LinkCreationList();
+    GroupAccessList();
+    ~GroupAccessList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~LinkCreationList();
 
-    //!
-    //! \brief enable intermediate group creation
-    //!
-    //! With this flag set, intermediate groups in a path to an object to be
-    //! created will be created if necessary.
-    //! \sa disable_intermediate_group_creation
-    //! \sa intermediate_group_creation
-    void enable_intermediate_group_creation() const;
-
-    //!
-    //! \brief disable intermediate group creation
-    //! \sa enable_intermediate_group_creation
-    //! \sa intermediate_group_creation
-    void disable_intermediate_group_creation() const;
-
-    //!
-    //! \brief query intermediate group creation flag
-    //! @return true if intermediate group creation flag is set, false otherwise
-    //! \sa enable_intermediate_group_creation
-    //! \sa disable_intermediate_group_creation
-    bool intermediate_group_creation() const;
 };
-
 
 } // namespace property
 } // namespace hdf5

@@ -20,54 +20,46 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Aug 18, 2017
 //
 
+#include <type_traits>
 #include <stdexcept>
-#include <h5cpp/property/list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/string_creation.hpp>
 
 namespace hdf5 {
 namespace property {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
+
+StringCreationList::StringCreationList():
+    List(kStringCreate)
+{}
+
+StringCreationList::~StringCreationList()
+{}
+
+datatype::CharacterEncoding StringCreationList::character_encoding() const
 {
+   H5T_cset_t encoding;
+   if(H5Pget_char_encoding(static_cast<hid_t>(*this),&encoding)<0)
+   {
+     throw std::runtime_error("Failure retrieving character encoding!");
+   }
+   return static_cast<datatype::CharacterEncoding>(encoding);
 }
 
-List::List(const List &plist)
+void StringCreationList::character_encoding(datatype::CharacterEncoding encoding) const
 {
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
+  if(H5Pset_char_encoding(static_cast<hid_t>(*this),static_cast<H5T_cset_t>(encoding))<0)
   {
-    throw std::runtime_error("could not copy-construct property list");
+    throw std::runtime_error("Failure setting character encoding!");
   }
-  handle_ = ObjectHandle(ret);
 }
 
-List& List::operator=(const List &plist)
-{
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy property list");
-  }
-  handle_ = ObjectHandle(ret);
-  return *this;
-}
+StringCreationList::StringCreationList(const Class &plist_class):
+    List(plist_class)
+{}
 
 
-List::~List()
-{
-}
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
-
-
-} // namespace property_list
+} // namespace property
 } // namespace hdf5
-
-

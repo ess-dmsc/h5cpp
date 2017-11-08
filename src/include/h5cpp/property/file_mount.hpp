@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -22,19 +22,27 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 22, 2017
 //
+#pragma once
 
-#include <h5cpp/property/file_mount_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/property_list.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {
 
-FileMountList::FileMountList():
-    List(kFileMount)
-{}
+class DLL_EXPORT FileMountList : public List
+{
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    FileMountList();
 
-FileMountList::~FileMountList()
-{}
+    //!
+    //! \brief destructor
+    //!
+    ~FileMountList();
+};
 
 }
 }

@@ -23,7 +23,7 @@
 // Created on: Aug 16, 2017
 //
 
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 #include <iterator>
 #include <string>

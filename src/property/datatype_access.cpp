@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,30 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 21, 2017
+// Created on: Aug 22, 2017
 //
-#pragma once
 
-#include <h5cpp/property/object_creation_list.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/property/datatype_access.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT TypeCreationList : public ObjectCreationList
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    TypeCreationList();
+DatatypeAccessList::DatatypeAccessList():
+    LinkAccessList(kDatatypeAccess)
+{}
 
-    //!
-    //! \brief destructor
-    //!
-    ~TypeCreationList();
-
-};
+DatatypeAccessList::~DatatypeAccessList()
+{}
 
 } // namespace property
 } // namespace hdf5

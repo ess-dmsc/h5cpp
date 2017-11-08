@@ -24,8 +24,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/dataset_transfer_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/dataset_transfer.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace prop = hdf5::property;
 

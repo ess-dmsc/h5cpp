@@ -23,8 +23,8 @@
 // Created on: Aug 22, 2017
 //
 
-#include <h5cpp/property/dataset_access_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/dataset_access.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {

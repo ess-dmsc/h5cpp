@@ -24,8 +24,8 @@
 //
 #pragma once
 
-#include "../property/dataset_creation_list.hpp"
-#include "types.hpp"
+#include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/filter/types.hpp>
 
 namespace hdf5 {
 namespace filter {

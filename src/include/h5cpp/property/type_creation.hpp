@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -22,19 +22,28 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 21, 2017
 //
+#pragma once
 
-#include <h5cpp/property/attribute_creation_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/object_creation.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {
 
-AttributeCreationList::AttributeCreationList():
-    StringCreationList(kAttributeCreate)
-{}
+class DLL_EXPORT TypeCreationList : public ObjectCreationList
+{
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    TypeCreationList();
 
-AttributeCreationList::~AttributeCreationList()
-{}
+    //!
+    //! \brief destructor
+    //!
+    ~TypeCreationList();
+
+};
 
 } // namespace property
 } // namespace hdf5

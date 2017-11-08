@@ -23,8 +23,8 @@
 // Created on: Aug 25, 2017
 //
 #include <stdexcept>
-#include <h5cpp/property/class.hpp>
-#include <h5cpp/property/dataset_creation_list.hpp>
+#include <h5cpp/property/property_class.hpp>
+#include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/types.hpp>
 
 namespace hdf5 {

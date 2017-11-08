@@ -23,8 +23,8 @@
 // Created on: Aug 17, 2017
 //
 #include <stdexcept>
-#include <h5cpp/property/file_access_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/file_access.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {

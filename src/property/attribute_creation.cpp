@@ -20,46 +20,21 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 18, 2017
+// Created on: Aug 21, 2017
 //
 
-#include <type_traits>
-#include <stdexcept>
-#include <h5cpp/property/string_creation_list.hpp>
+#include <h5cpp/property/attribute_creation.hpp>
+#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {
 
-
-StringCreationList::StringCreationList():
-    List(kStringCreate)
+AttributeCreationList::AttributeCreationList():
+    StringCreationList(kAttributeCreate)
 {}
 
-StringCreationList::~StringCreationList()
+AttributeCreationList::~AttributeCreationList()
 {}
-
-datatype::CharacterEncoding StringCreationList::character_encoding() const
-{
-   H5T_cset_t encoding;
-   if(H5Pget_char_encoding(static_cast<hid_t>(*this),&encoding)<0)
-   {
-     throw std::runtime_error("Failure retrieving character encoding!");
-   }
-   return static_cast<datatype::CharacterEncoding>(encoding);
-}
-
-void StringCreationList::character_encoding(datatype::CharacterEncoding encoding) const
-{
-  if(H5Pset_char_encoding(static_cast<hid_t>(*this),static_cast<H5T_cset_t>(encoding))<0)
-  {
-    throw std::runtime_error("Failure setting character encoding!");
-  }
-}
-
-StringCreationList::StringCreationList(const Class &plist_class):
-    List(plist_class)
-{}
-
 
 } // namespace property
 } // namespace hdf5

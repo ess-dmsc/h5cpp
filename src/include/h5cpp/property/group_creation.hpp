@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include <h5cpp/property/object_creation_list.hpp>
+#include <h5cpp/property/object_creation.hpp>
 #include <h5cpp/property/creation_order.hpp>
 #include <h5cpp/windows.hpp>
 
