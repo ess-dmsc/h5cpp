@@ -157,7 +157,7 @@ node('docker') {
     }
 }
 
-node ("centos7") {
+node ("fedora") {
 
 stage("Generate docs") {
 
