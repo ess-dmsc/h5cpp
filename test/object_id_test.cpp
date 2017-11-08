@@ -52,10 +52,7 @@
 
 #include <gtest/gtest.h>
 
-extern "C"
-{
-#include <hdf5.h>
-}
+#include <h5cpp/hdf5_capi.hpp>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>

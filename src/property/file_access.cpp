@@ -83,5 +83,10 @@ LibVersion FileAccessList::library_version_bound_low() const
   return static_cast<LibVersion>(low);
 }
 
+void FileAccessList::driver(const file::Driver &file_driver) const
+{
+  file_driver(*this);
+}
+
 } // namespace property
 } // namespace hdf5

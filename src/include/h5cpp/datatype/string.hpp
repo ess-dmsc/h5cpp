@@ -25,8 +25,8 @@
 #pragma once
 
 #include <type_traits>
-#include "datatype.hpp"
-#include "../windows.hpp"
+#include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace datatype {

@@ -24,11 +24,11 @@
 //
 #pragma once
 
-#include "../file/file.hpp"
-#include "../path.hpp"
-#include "../windows.hpp"
-#include "../property/link_access_list.hpp"
-#include "types.hpp"
+#include <h5cpp/file/file.hpp>
+#include <h5cpp/path.hpp>
+#include <h5cpp/windows.hpp>
+#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/node/types.hpp>
 
 namespace hdf5 {
 namespace node {

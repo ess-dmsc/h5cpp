@@ -6,6 +6,19 @@ set(IMAGES attribute_manager_uml.png
            hdf5_attributes.svg
            hdf5_basic_tree.svg
            hdf5_links.svg
+           hdf5_package_overview.svg
+           hdf5_node_types.svg
+           hdf5_dataspaces.svg
+           hdf5_selections.svg
+           static_dataspace.svg
+           dynamic_dataspace_bounded.svg
+           dynamic_dataspace_unbounded.svg
+           hdf5_selection_manager.svg
+           memory_buffer_40byte.svg
+           32bit_integer.svg
+           dataspace_high_level.svg
+           storage_models.svg
+           memory_storage_example.svg
            )
 
 add_sphinx_source(${IMAGES})

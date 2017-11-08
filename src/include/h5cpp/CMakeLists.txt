@@ -6,6 +6,7 @@ set(HEADERS object_handle.hpp
 	        iterator.hpp
 	        object_id.hpp
 	        hdf5.hpp
+	        hdf5_capi.hpp
 	       )
 	      
 	      
@@ -17,6 +18,7 @@ add_subdirectory(node)
 add_subdirectory(file)
 add_subdirectory(attribute)
 add_subdirectory(error)
+add_subdirectory(filter)
 
 install(FILES ${HEADERS} 
 	    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp)     

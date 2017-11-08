@@ -25,9 +25,7 @@
 #pragma once
 
 #include <iostream>
-extern "C" {
-#include <hdf5.h>
-}
+#include "../hdf5_capi.hpp"
 #include "../windows.hpp"
 
 
@@ -92,6 +90,7 @@ enum class Scope : std::underlying_type<H5F_scope_t>::type
 using ScopeBase = std::underlying_type<Scope>::type;
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Scope &scope);
+
 
 
 } // namespace file
