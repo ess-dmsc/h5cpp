@@ -1,13 +1,5 @@
 project = "h5cc"
-
-def centos = docker.image('essdmscdm/centos-build-node:0.7.0')
-def fedora = docker.image('essdmscdm/fedora-build-node:0.3.0')
-
 def base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-
-def centos_containter_name = "${base_container_name}-centos"
-def fedora_containter_name = "${base_container_name}-fedora"
-
 
 def failure_function(exception_obj, failureMessage) {
     def toEmails = [[$class: 'DevelopersRecipientProvider']]
@@ -19,6 +11,28 @@ def failure_function(exception_obj, failureMessage) {
 
     throw exception_obj
 }
+
+def cmake_function(container_name, cmake_exec) {
+    sh """docker exec ${containter_name} sh -c \"
+        cd build
+        ${cmake_exec} --version
+        ${cmake_exec} -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
+    \""""
+}
+
+def build_function(container_name) {
+    sh """docker exec ${containter_name} sh -c \"
+        cd build
+        make --version
+        make unit_tests VERBOSE=1
+    \""""
+}
+
+def centos = docker.image('essdmscdm/centos-build-node:0.7.0')
+def fedora = docker.image('essdmscdm/fedora-build-node:0.3.0')
+
+def centos_containter_name = "${base_container_name}-centos"
+def fedora_containter_name = "${base_container_name}-fedora"
 
 
 node('docker') {
@@ -85,16 +99,8 @@ node('docker') {
 
         stage('Run CMake') {
             try {
-                sh """docker exec ${centos_containter_name} sh -c \"
-                    cd build
-                    cmake3 --version
-                    cmake3 -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
-                \""""
-                sh """docker exec ${fedora_containter_name} sh -c \"
-                    cd build
-                    cmake --version
-                    cmake -DCOV=1 -DCMAKE_BUILD_TYPE=Debug ../${project}
-                \""""
+                cmake_function('cmake3', centos_containter_name)
+                cmake_function('cmake', fedora_containter_name)
             } catch (e) {
                 failure_function(e, 'CMake failed')
             }
@@ -102,16 +108,8 @@ node('docker') {
 
         stage('Build') {
             try {
-                sh """docker exec ${centos_containter_name} sh -c \"
-                    cd build
-                    make --version
-                    make unit_tests VERBOSE=1
-                \""""
-                sh """docker exec ${fedora_containter_name} sh -c \"
-                    cd build
-                    make --version
-                    make unit_tests VERBOSE=1
-                \""""
+                build_function(centos_containter_name)
+                build_function(fedora_containter_name)
             } catch (e) {
                 failure_function(e, 'Build failed')
             }
