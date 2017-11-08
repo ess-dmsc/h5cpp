@@ -66,10 +66,8 @@ void FileCreationList::object_offset_size(size_t size) const
 
 size_t FileCreationList::object_offset_size() const
 {
-  size_t offset_size = 0,
-         length_size = 0;
-
-  if(0 > H5Pget_sizes(static_cast<hid_t>(*this), &offset_size, &length_size))
+  size_t offset_size {0};
+  if(0 > H5Pget_sizes(static_cast<hid_t>(*this), &offset_size, NULL))
   {
     throw std::runtime_error("Failure retrieving object offset size from file creation property list!");
   }
@@ -87,14 +85,11 @@ void FileCreationList::object_length_size(size_t size) const
 
 size_t FileCreationList::object_length_size() const
 {
-  size_t offset_size = 0,
-         length_size = 0;
-
-  if(0 > H5Pget_sizes(static_cast<hid_t>(*this), &offset_size, &length_size))
+  size_t length_size {0};
+  if(0 > H5Pget_sizes(static_cast<hid_t>(*this), NULL, &length_size))
   {
     throw std::runtime_error("Failure retrieving object length size from file creation property list!");
   }
-
   return length_size;
 }
 
@@ -108,12 +103,12 @@ size_t FileCreationList::object_length_size() const
 
   unsigned FileCreationList::btree_rank() const
   {
-    unsigned ret;
-    if(0 > H5Pget_sym_k(static_cast<hid_t>(*this), &ret, NULL))
+    unsigned ik {0};
+    if(0 > H5Pget_sym_k(static_cast<hid_t>(*this), &ik, NULL))
     {
       throw std::runtime_error("Failure retrieving rank parameter for symbol table nodes!");
     }
-    return ret;
+    return ik;
   }
 
   void FileCreationList::btree_symbols(unsigned lk)
@@ -126,12 +121,12 @@ size_t FileCreationList::object_length_size() const
 
   unsigned FileCreationList::btree_symbols() const
   {
-    unsigned ret;
-    if(0 > H5Pget_sym_k(static_cast<hid_t>(*this), NULL, &ret))
+    unsigned lk {0};
+    if(0 > H5Pget_sym_k(static_cast<hid_t>(*this), NULL, &lk))
     {
       throw std::runtime_error("Failure retrieving symbol size parameter for symbol table nodes!");
     }
-    return ret;
+    return lk;
   }
 
 } // namespace property
