@@ -29,11 +29,11 @@
 #include <h5cpp/node/node_view.hpp>
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/iterator_config.hpp>
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/group_creation_list.hpp>
-#include <h5cpp/property/group_access_list.hpp>
-#include <h5cpp/property/dataset_creation_list.hpp>
-#include <h5cpp/property/dataset_access_list.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/group_creation.hpp>
+#include <h5cpp/property/group_access.hpp>
+#include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 

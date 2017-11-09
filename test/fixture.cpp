@@ -23,8 +23,8 @@
 // Created on: Oct 08, 2017
 //
 #include "fixture.hpp"
-#include <h5cpp/property/file_creation_list.hpp>
-#include <h5cpp/property/file_access_list.hpp>
+#include <h5cpp/property/file_creation.hpp>
+#include <h5cpp/property/file_access.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <boost/filesystem.hpp>
 

@@ -29,7 +29,7 @@
 #include <h5cpp/windows.hpp>
 #include <h5cpp/object_handle.hpp>
 #include <h5cpp/object_id.hpp>
-#include <h5cpp/property/group_access_list.hpp>
+#include <h5cpp/property/group_access.hpp>
 
 namespace hdf5 {
 namespace node {

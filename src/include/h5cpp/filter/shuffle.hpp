@@ -24,12 +24,12 @@
 //
 #pragma once
 
-#include "filter.hpp"
+#include <h5cpp/filter/filter.hpp>
 
 namespace hdf5 {
 namespace filter {
 
-class Shuffle : public Filter
+class DLL_EXPORT Shuffle : public Filter
 {
   public:
     Shuffle();

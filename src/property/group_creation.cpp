@@ -24,8 +24,8 @@
 //
 
 #include <stdexcept>
-#include <h5cpp/property/class.hpp>
-#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/property/property_class.hpp>
+#include <h5cpp/property/group_creation.hpp>
 
 namespace hdf5 {
 namespace property {

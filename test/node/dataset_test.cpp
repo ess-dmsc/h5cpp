@@ -25,10 +25,10 @@
 
 #include <boost/test/floating_point_comparison.hpp>
 #include <h5cpp/datatype/datatype.hpp>
-#include <h5cpp/property/dataset_creation_list.hpp>
-#include <h5cpp/property/dataset_access_list.hpp>
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/property/dataset_access.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/link_access.hpp>
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/node/dataset.hpp>

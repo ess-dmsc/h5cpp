@@ -24,7 +24,7 @@
 //
 
 #include <stdexcept>
-#include <h5cpp/property/object_creation_list.hpp>
+#include <h5cpp/property/object_creation.hpp>
 
 namespace hdf5 {
 namespace property {

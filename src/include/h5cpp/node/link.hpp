@@ -27,7 +27,7 @@
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/path.hpp>
 #include <h5cpp/windows.hpp>
-#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/property/link_access.hpp>
 #include <h5cpp/node/types.hpp>
 
 namespace hdf5 {
