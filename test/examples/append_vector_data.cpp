@@ -55,7 +55,7 @@ int main()
     std::fill(data.begin(),data.end(),value);
     dset.extent(0,1);
     dset.write(data,slab);
-    slab.start(0,index);
+    slab.offset(0,index);
 
   }
 }

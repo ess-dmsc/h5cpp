@@ -69,7 +69,7 @@ int main()
   for(size_t index=0;index<100 && !terminated;index++,buffer++)
   {
     dset.extent(0,1);                     //extend dataset
-    selection.start(0,index);             //update selection
+    selection.offset(0,index);             //update selection
     dset.write(buffer,selection);         //write data to selection
     write_file.flush(file::Scope::GLOBAL); // flush file
     std::cout<<"Writing "<<buffer<<std::endl;

@@ -53,7 +53,7 @@ int main()
     Dimensions current = dataspace::Simple(dset.dataspace()).current_dimensions();
     size_t block_size = current[0] - first_index;
 
-    selection.start(0,first_index);
+    selection.offset(0,first_index);
     selection.block(0,block_size);
     buffer = std::vector<double>(block_size);
     dset.read(buffer,selection);
