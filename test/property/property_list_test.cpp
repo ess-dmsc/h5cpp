@@ -47,8 +47,7 @@ TEST(List, from_class)
 TEST(List, copy_construction)
 {
   List c = List(kDatasetAccess);
-  ObjectHandle oh(static_cast<hid_t>(c));
-  oh.close();
+  ObjectHandle(static_cast<hid_t>(c)).close();
   EXPECT_THROW(List(c).get_class(), std::runtime_error);
 
   List s = List(kDatasetAccess);
@@ -59,10 +58,9 @@ TEST(List, copy_construction)
 
 TEST(List, copy_assignment)
 {
-  List c = List(kDatasetAccess);
-  ObjectHandle oh(static_cast<hid_t>(c));
-  oh.close();
-  List c2 = List(kDatasetAccess);
+  List c(kDatasetAccess);
+  List c2(kDatasetAccess);
+  ObjectHandle(static_cast<hid_t>(c)).close();
   EXPECT_THROW((c2 = c), std::runtime_error);
 
   List s = List(kDatasetAccess);

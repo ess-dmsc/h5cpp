@@ -45,6 +45,9 @@ TEST(FileCreationList, user_block)
   EXPECT_THROW(fcpl.user_block(256), std::runtime_error);
   //not a power of two
   EXPECT_THROW(fcpl.user_block(513), std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.user_block(), std::runtime_error);
 }
 
 TEST(FileCreationList, object_offset_size)
@@ -74,6 +77,8 @@ TEST(FileCreationList, object_offset_size)
   EXPECT_THROW(fcpl.object_offset_size(15), std::runtime_error);
   EXPECT_THROW(fcpl.object_offset_size(25), std::runtime_error);
 
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.object_offset_size(), std::runtime_error);
 }
 
 TEST(FileCreationList, object_length_size)
@@ -102,6 +107,9 @@ TEST(FileCreationList, object_length_size)
 
   EXPECT_THROW(fcpl.object_length_size(15), std::runtime_error);
   EXPECT_THROW(fcpl.object_length_size(25), std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.object_length_size(), std::runtime_error);
 }
 
 TEST(FileCreationList, btree_rank)
@@ -119,6 +127,9 @@ TEST(FileCreationList, btree_rank)
   EXPECT_EQ(fcpl.btree_rank(), 32767u);
 
   EXPECT_THROW(fcpl.btree_rank(32768), std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.btree_rank(), std::runtime_error);
 }
 
 TEST(FileCreationList, btree_symbols)
@@ -134,6 +145,10 @@ TEST(FileCreationList, btree_symbols)
 
   EXPECT_NO_THROW(fcpl.btree_symbols(42));
   EXPECT_EQ(fcpl.btree_symbols(), 42u);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.btree_symbols(), std::runtime_error);
+  EXPECT_THROW(fcpl.btree_symbols(7), std::runtime_error);
 }
 
 TEST(FileCreationList, chunk_tree_rank)
@@ -152,6 +167,9 @@ TEST(FileCreationList, chunk_tree_rank)
 
   EXPECT_THROW(fcpl.chunk_tree_rank(0), std::runtime_error);
   EXPECT_THROW(fcpl.chunk_tree_rank(32768), std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.chunk_tree_rank(), std::runtime_error);
 }
 
 #if H5_VERSION_GE(1,10,1)
@@ -169,5 +187,8 @@ TEST(FileCreationList, page_size)
   EXPECT_THROW(fcpl.page_size(0), std::runtime_error);
   EXPECT_THROW(fcpl.page_size(1), std::runtime_error);
   EXPECT_THROW(fcpl.page_size(511), std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
+  EXPECT_THROW(fcpl.page_size(), std::runtime_error);
 }
 #endif
