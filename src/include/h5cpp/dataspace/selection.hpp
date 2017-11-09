@@ -24,10 +24,10 @@
 //
 #pragma once
 
-#include "type.hpp"
-#include "dataspace.hpp"
-#include "../types.hpp"
-#include "../windows.hpp"
+#include <h5cpp/dataspace/type.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/types.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace dataspace {

@@ -25,11 +25,11 @@
 #pragma once
 
 #include <iostream>
-#include "object_creation_list.hpp"
-#include "../types.hpp"
-#include "../datatype/datatype.hpp"
-#include "../datatype/type_trait.hpp"
-#include "../windows.hpp"
+#include <h5cpp/property/object_creation_list.hpp>
+#include <h5cpp/types.hpp>
+#include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/datatype/type_trait.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {

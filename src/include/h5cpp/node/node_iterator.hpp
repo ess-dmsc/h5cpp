@@ -25,10 +25,10 @@
 #pragma once
 
 #include <functional>
-#include "../iterator.hpp"
-#include "node_view.hpp"
-#include "node.hpp"
-#include "../windows.hpp"
+#include <h5cpp/iterator.hpp>
+#include <h5cpp/node/node_view.hpp>
+#include <h5cpp/node/node.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace node {

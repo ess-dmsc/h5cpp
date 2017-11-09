@@ -23,15 +23,12 @@
 //
 #pragma once
 
-extern "C" {
-#include <hdf5.h>
-}
-
+#include <h5cpp/hdf5_capi.hpp>
 #include <string>
 #include <sstream>
 #include <boost/filesystem.hpp>
-#include "windows.hpp"
-#include "object_handle.hpp"
+#include <h5cpp/windows.hpp>
+#include <h5cpp/object_handle.hpp>
 
 namespace hdf5
 {

@@ -24,10 +24,10 @@
 //
 #pragma once
 
-#include "group_view.hpp"
-#include "../path.hpp"
-#include "../property/link_access_list.hpp"
-#include "../windows.hpp"
+#include <h5cpp/node/group_view.hpp>
+#include <h5cpp/path.hpp>
+#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace node {

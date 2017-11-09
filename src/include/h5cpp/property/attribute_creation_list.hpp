@@ -24,8 +24,8 @@
 //
 #pragma once
 
-#include "string_creation_list.hpp"
-#include "../windows.hpp"
+#include <h5cpp/property/string_creation_list.hpp>
+#include <h5cpp/windows.hpp>
 
 
 namespace hdf5 {

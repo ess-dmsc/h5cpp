@@ -24,8 +24,8 @@
 //
 #pragma once
 
-#include "type.hpp"
-#include "../windows.hpp"
+#include <h5cpp/dataspace/type.hpp>
+#include <h5cpp/windows.hpp>
 
 
 namespace hdf5 {
