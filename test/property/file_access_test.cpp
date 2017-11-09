@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <h5cpp/property/file_access.hpp>
+#include <h5cpp/file/memory_driver.hpp>
 
 namespace pl = hdf5::property;
 
@@ -54,5 +55,17 @@ TEST(FileAccessList, library_version_bounds)
 
   EXPECT_THROW(fapl.library_version_bounds(pl::LibVersion::LATEST, pl::LibVersion::EARLIEST),
                std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fapl)).close();
+  EXPECT_THROW(fapl.library_version_bound_low(), std::runtime_error);
+  EXPECT_THROW(fapl.library_version_bound_high(), std::runtime_error);
 }
 
+TEST(FileAccessList, driver)
+{
+  pl::FileAccessList fapl;
+
+  hdf5::file::MemoryDriver driver;
+
+  EXPECT_NO_THROW(fapl.driver(driver));
+}
