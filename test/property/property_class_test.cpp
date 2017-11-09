@@ -23,7 +23,6 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/property/property_class.hpp>
-#include <h5cpp/object_handle.hpp>
 
 namespace pl = hdf5::property;
 
@@ -56,6 +55,10 @@ TEST(PropertyList, test_equality_operator)
 {
   EXPECT_TRUE(pl::kAttributeCreate == pl::kAttributeCreate);
   EXPECT_TRUE(pl::kAttributeCreate != pl::kFileAccess);
+
+  pl::Class p2;
+  EXPECT_THROW((pl::kAttributeCreate == p2), std::runtime_error);
+  EXPECT_THROW((pl::kAttributeCreate != p2), std::runtime_error);
 }
 
 
