@@ -32,7 +32,7 @@
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/dataspace/simple.hpp>
-#include <h5cpp/property/attribute_creation_list.hpp>
+#include <h5cpp/property/attribute_creation.hpp>
 
 //
 // forward declarations

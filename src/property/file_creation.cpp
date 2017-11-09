@@ -25,7 +25,7 @@
 
 #include <stdexcept>
 
-#include <h5cpp/property/file_creation_list.hpp>
+#include <h5cpp/property/file_creation.hpp>
 
 namespace hdf5 {
 namespace property{
@@ -38,19 +38,19 @@ FileCreationList::FileCreationList():
 FileCreationList::~FileCreationList()
 {}
 
-hsize_t FileCreationList::userblock() const
+hsize_t FileCreationList::user_block() const
 {
   hsize_t buffer;
-  if(H5Pget_userblock(static_cast<hid_t>(*this),&buffer)<0)
+  if(0 > H5Pget_userblock(static_cast<hid_t>(*this), &buffer))
   {
     throw std::runtime_error("Cannot retrieve user block size from file creation property list!");
   }
   return buffer;
 }
 
-void FileCreationList::userblock(hsize_t size) const
+void FileCreationList::user_block(hsize_t size) const
 {
-  if(H5Pset_userblock(static_cast<hid_t>(*this),size)<0)
+  if(0 > H5Pset_userblock(static_cast<hid_t>(*this), size))
   {
     throw std::runtime_error("Cannot set user block size for file creation property list!");
   }
@@ -58,7 +58,7 @@ void FileCreationList::userblock(hsize_t size) const
 
 void FileCreationList::object_offset_size(size_t size) const
 {
-  if(H5Pset_sizes(static_cast<hid_t>(*this),size,object_length_size())<0)
+  if(0 > H5Pset_sizes(static_cast<hid_t>(*this), size, 0))
   {
     throw std::runtime_error("Failure setting object offset size to file creation property list!");
   }
@@ -66,10 +66,8 @@ void FileCreationList::object_offset_size(size_t size) const
 
 size_t FileCreationList::object_offset_size() const
 {
-  size_t offset_size = 0,
-         length_size = 0;
-
-  if(H5Pget_sizes(static_cast<hid_t>(*this),&offset_size,&length_size)<0)
+  size_t offset_size {0};
+  if(0 > H5Pget_sizes(static_cast<hid_t>(*this), &offset_size, NULL))
   {
     throw std::runtime_error("Failure retrieving object offset size from file creation property list!");
   }
@@ -79,7 +77,7 @@ size_t FileCreationList::object_offset_size() const
 
 void FileCreationList::object_length_size(size_t size) const
 {
-  if(H5Pset_sizes(static_cast<hid_t>(*this),object_offset_size(),size)<0)
+  if(0 > H5Pset_sizes(static_cast<hid_t>(*this), 0, size))
   {
     throw std::runtime_error("Failure setting object length size in file creation property list!");
   }
@@ -87,16 +85,87 @@ void FileCreationList::object_length_size(size_t size) const
 
 size_t FileCreationList::object_length_size() const
 {
-  size_t offset_size = 0,
-         length_size = 0;
-
-  if(H5Pget_sizes(static_cast<hid_t>(*this),&offset_size,&length_size)<0)
+  size_t length_size {0};
+  if(0 > H5Pget_sizes(static_cast<hid_t>(*this), NULL, &length_size))
   {
     throw std::runtime_error("Failure retrieving object length size from file creation property list!");
   }
-
   return length_size;
 }
+
+void FileCreationList::btree_rank(unsigned int ik)
+{
+  if(0 > H5Pset_sym_k(static_cast<hid_t>(*this), ik, 0))
+  {
+    throw std::runtime_error("Failure setting rank parameter for symbol table nodes!");
+  }
+}
+
+unsigned int FileCreationList::btree_rank() const
+{
+  unsigned int ik {0};
+  if(0 > H5Pget_sym_k(static_cast<hid_t>(*this), &ik, NULL))
+  {
+    throw std::runtime_error("Failure retrieving rank parameter for symbol table nodes!");
+  }
+  return ik;
+}
+
+void FileCreationList::btree_symbols(unsigned int lk)
+{
+  if(0 > H5Pset_sym_k(static_cast<hid_t>(*this), 0, lk))
+  {
+    throw std::runtime_error("Failure setting symbol size parameter for symbol table nodes!");
+  }
+}
+
+unsigned int FileCreationList::btree_symbols() const
+{
+  unsigned int lk {0};
+  if(0 > H5Pget_sym_k(static_cast<hid_t>(*this), NULL, &lk))
+  {
+    throw std::runtime_error("Failure retrieving symbol size parameter for symbol table nodes!");
+  }
+  return lk;
+}
+
+void FileCreationList::chunk_tree_rank(unsigned int ik)
+{
+  if(0 > H5Pset_istore_k(static_cast<hid_t>(*this), ik))
+  {
+    throw std::runtime_error("Failure setting rank parameter for symbol table nodes!");
+  }
+}
+
+unsigned int FileCreationList::chunk_tree_rank() const
+{
+  unsigned int ik {0};
+  if(0 > H5Pget_istore_k(static_cast<hid_t>(*this), &ik))
+  {
+    throw std::runtime_error("Failure retrieving rank parameter for symbol table nodes!");
+  }
+  return ik;
+}
+
+#if H5_VERSION_GE(1,10,1)
+void FileCreationList::page_size(hsize_t size)
+{
+  if(0 > H5Pset_file_space_page_size(static_cast<hid_t>(*this), size))
+  {
+    throw std::runtime_error("Failure setting rank parameter for symbol table nodes!");
+  }
+}
+
+hsize_t FileCreationList::page_size() const
+{
+  hsize_t size {0};
+  if(0 > H5Pget_file_space_page_size(static_cast<hid_t>(*this), &size))
+  {
+    throw std::runtime_error("Failure retrieving rank parameter for symbol table nodes!");
+  }
+  return size;
+}
+#endif
 
 } // namespace property
 } // namespace hdf5
