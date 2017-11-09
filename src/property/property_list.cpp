@@ -25,7 +25,6 @@
 
 #include <stdexcept>
 #include <h5cpp/property/property_list.hpp>
-#include <h5cpp/property/property_class.hpp>
 
 namespace hdf5 {
 namespace property {

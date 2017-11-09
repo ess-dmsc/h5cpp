@@ -24,9 +24,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/property_list.hpp>
-#include <h5cpp/object_handle.hpp>
 
 using namespace hdf5;
 using namespace hdf5::property;
@@ -48,10 +46,10 @@ TEST(List, from_class)
 
 TEST(List, copy_construction)
 {
-//  pl::Class c;
-//  List s(c);
-//  const List& ss = s;
-//  EXPECT_THROW(List(ss).get_class(), std::runtime_error);
+  List c = List(kDatasetAccess);
+  ObjectHandle oh(static_cast<hid_t>(c));
+  oh.close();
+  EXPECT_THROW(List(c).get_class(), std::runtime_error);
 
   List s = List(kDatasetAccess);
   List s2(s);
@@ -61,8 +59,11 @@ TEST(List, copy_construction)
 
 TEST(List, copy_assignment)
 {
-//  List s, s2;
-//  EXPECT_THROW((s2 = s), std::runtime_error);
+  List c = List(kDatasetAccess);
+  ObjectHandle oh(static_cast<hid_t>(c));
+  oh.close();
+  List c2 = List(kDatasetAccess);
+  EXPECT_THROW((c2 = c), std::runtime_error);
 
   List s = List(kDatasetAccess);
   List s2 = s;
