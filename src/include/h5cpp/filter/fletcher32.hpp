@@ -35,7 +35,7 @@ namespace filter {
 //! If applied to a dataset creation property list this filter will setup
 //! the fletcher32 checksum filter.
 //!
-class Fletcher32 : public Filter
+class DLL_EXPORT Fletcher32 : public Filter
 {
   public:
     //!

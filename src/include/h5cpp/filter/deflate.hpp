@@ -29,7 +29,7 @@
 namespace hdf5 {
 namespace filter {
 
-class Deflate : public Filter
+class DLL_EXPORT Deflate : public Filter
 {
   private:
     unsigned int level_;

@@ -24,8 +24,9 @@
 //
 #pragma once
 
-#include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/property/dataset_creation_list.hpp>
 #include <h5cpp/filter/types.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace filter {
@@ -37,7 +38,7 @@ namespace filter {
 //! easy configuration of filters. They basically only store the fitlers
 //! parameters and apply them to the dataset creation property list.
 //!
-class Filter
+class DLL_EXPORT Filter
 {
   public:
     //!

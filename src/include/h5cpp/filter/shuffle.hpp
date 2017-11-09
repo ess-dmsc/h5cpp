@@ -29,7 +29,7 @@
 namespace hdf5 {
 namespace filter {
 
-class Shuffle : public Filter
+class DLL_EXPORT Shuffle : public Filter
 {
   public:
     Shuffle();
