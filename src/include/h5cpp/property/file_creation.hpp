@@ -60,6 +60,7 @@ class DLL_EXPORT FileCreationList : public GroupCreationList
     hsize_t page_size() const;
 #endif
 
+// The following still need wrapping
 //    H5Pset_file_space_strategy
 //    H5Pget_file_space_strategy
 //
@@ -71,6 +72,7 @@ class DLL_EXPORT FileCreationList : public GroupCreationList
 //
 //    H5Pset_shared_mesg_phase_change
 //    H5Pget_shared_mesg_phase_change
+
 };
 
 } // namespace property

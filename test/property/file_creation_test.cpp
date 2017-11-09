@@ -34,7 +34,7 @@ TEST(FileCreationList, test_default_construction)
   EXPECT_TRUE(fcpl.get_class() == pl::kFileCreate);
 }
 
-TEST(FileCreationList, test_user_block)
+TEST(FileCreationList, user_block)
 {
   pl::FileCreationList fcpl;
 
@@ -47,7 +47,7 @@ TEST(FileCreationList, test_user_block)
   EXPECT_THROW(fcpl.user_block(513),std::runtime_error);
 }
 
-TEST(FileCreationList, test_object_offset_size)
+TEST(FileCreationList, object_offset_size)
 {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.object_offset_size(),sizeof(hsize_t));
@@ -76,7 +76,7 @@ TEST(FileCreationList, test_object_offset_size)
 
 }
 
-TEST(FileCreationList, test_object_length_size)
+TEST(FileCreationList, object_length_size)
 {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.object_length_size(),sizeof(hsize_t));
@@ -104,5 +104,70 @@ TEST(FileCreationList, test_object_length_size)
   EXPECT_THROW(fcpl.object_length_size(25),std::runtime_error);
 }
 
+TEST(FileCreationList, btree_rank)
+{
+  pl::FileCreationList fcpl;
+  EXPECT_EQ(fcpl.btree_rank(),16u);
 
+  EXPECT_NO_THROW(fcpl.btree_rank(0));
+  EXPECT_EQ(fcpl.btree_rank(),16u);
 
+  EXPECT_NO_THROW(fcpl.btree_rank(2));
+  EXPECT_EQ(fcpl.btree_rank(),2u);
+
+  EXPECT_NO_THROW(fcpl.btree_rank(32767));
+  EXPECT_EQ(fcpl.btree_rank(),32767u);
+
+  EXPECT_THROW(fcpl.btree_rank(32768),std::runtime_error);
+}
+
+TEST(FileCreationList, btree_symbols)
+{
+  pl::FileCreationList fcpl;
+  EXPECT_EQ(fcpl.btree_symbols(),4u);
+
+  EXPECT_NO_THROW(fcpl.btree_symbols(0));
+  EXPECT_EQ(fcpl.btree_symbols(),4u);
+
+  EXPECT_NO_THROW(fcpl.btree_symbols(7));
+  EXPECT_EQ(fcpl.btree_symbols(),7u);
+
+  EXPECT_NO_THROW(fcpl.btree_symbols(42));
+  EXPECT_EQ(fcpl.btree_symbols(),42u);
+}
+
+TEST(FileCreationList, chunk_tree_rank)
+{
+  pl::FileCreationList fcpl;
+  EXPECT_EQ(fcpl.chunk_tree_rank(),32u);
+
+  EXPECT_NO_THROW(fcpl.chunk_tree_rank(1));
+  EXPECT_EQ(fcpl.chunk_tree_rank(),1u);
+
+  EXPECT_NO_THROW(fcpl.chunk_tree_rank(2));
+  EXPECT_EQ(fcpl.chunk_tree_rank(),2u);
+
+  EXPECT_NO_THROW(fcpl.chunk_tree_rank(32767));
+  EXPECT_EQ(fcpl.chunk_tree_rank(),32767u);
+
+  EXPECT_THROW(fcpl.chunk_tree_rank(0),std::runtime_error);
+  EXPECT_THROW(fcpl.chunk_tree_rank(32768),std::runtime_error);
+}
+
+#if H5_VERSION_GE(1,10,1)
+TEST(FileCreationList, page_size)
+{
+  pl::FileCreationList fcpl;
+  EXPECT_EQ(fcpl.page_size(),4096lu);
+
+  EXPECT_NO_THROW(fcpl.page_size(512));
+  EXPECT_EQ(fcpl.page_size(),512lu);
+
+  EXPECT_NO_THROW(fcpl.page_size(513));
+  EXPECT_EQ(fcpl.page_size(),513lu);
+
+  EXPECT_THROW(fcpl.page_size(0),std::runtime_error);
+  EXPECT_THROW(fcpl.page_size(1),std::runtime_error);
+  EXPECT_THROW(fcpl.page_size(511),std::runtime_error);
+}
+#endif
