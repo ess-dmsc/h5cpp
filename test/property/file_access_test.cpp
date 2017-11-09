@@ -25,14 +25,34 @@
 
 #include <gtest/gtest.h>
 #include <h5cpp/property/file_access.hpp>
-#include <h5cpp/property/property_class.hpp>
 
 namespace pl = hdf5::property;
 
-TEST(FileAccessList, test_default_construction)
+TEST(FileAccessList, default_construction)
 {
   pl::FileAccessList fapl;
-  EXPECT_TRUE(fapl.get_class() == pl::kFileAccess);
+  EXPECT_EQ(fapl.get_class(), pl::kFileAccess);
 }
 
+TEST(FileAccessList, library_version_bounds)
+{
+  pl::FileAccessList fapl;
+
+  EXPECT_EQ(fapl.library_version_bound_low(), pl::LibVersion::EARLIEST);
+  EXPECT_EQ(fapl.library_version_bound_high(), pl::LibVersion::LATEST);
+
+  EXPECT_NO_THROW(fapl.library_version_bounds(pl::LibVersion::LATEST, pl::LibVersion::LATEST));
+  EXPECT_EQ(fapl.library_version_bound_low(), pl::LibVersion::LATEST);
+  EXPECT_EQ(fapl.library_version_bound_high(), pl::LibVersion::LATEST);
+
+  EXPECT_NO_THROW(fapl.library_version_bounds(pl::LibVersion::EARLIEST, pl::LibVersion::LATEST));
+  EXPECT_EQ(fapl.library_version_bound_low(), pl::LibVersion::EARLIEST);
+  EXPECT_EQ(fapl.library_version_bound_high(), pl::LibVersion::LATEST);
+
+  EXPECT_THROW(fapl.library_version_bounds(pl::LibVersion::EARLIEST, pl::LibVersion::EARLIEST),
+               std::runtime_error);
+
+  EXPECT_THROW(fapl.library_version_bounds(pl::LibVersion::LATEST, pl::LibVersion::EARLIEST),
+               std::runtime_error);
+}
 

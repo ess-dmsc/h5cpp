@@ -73,6 +73,9 @@ class DLL_EXPORT FileCreationList : public GroupCreationList
 //    H5Pset_shared_mesg_phase_change
 //    H5Pget_shared_mesg_phase_change
 
+// DO NOT WRAP the following:
+//    H5Pget_version -- deprecated in favor of H5Fget_info
+
 };
 
 } // namespace property
