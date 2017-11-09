@@ -24,14 +24,14 @@
 //
 #pragma once
 
-#include "node.hpp"
-#include "group.hpp"
-#include "dataset.hpp"
-#include "../path.hpp"
-#include "../property/link_creation_list.hpp"
-#include "../property/link_access_list.hpp"
-#include "../property/object_copy_list.hpp"
-#include "../windows.hpp"
+#include <h5cpp/node/node.hpp>
+#include <h5cpp/node/group.hpp>
+#include <h5cpp/node/dataset.hpp>
+#include <h5cpp/path.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/link_access.hpp>
+#include <h5cpp/property/object_copy.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace node {

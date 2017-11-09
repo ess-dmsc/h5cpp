@@ -24,8 +24,8 @@
 //
 #pragma once
 
-#include "../windows.hpp"
-#include "../object_handle.hpp"
+#include <h5cpp/windows.hpp>
+#include <h5cpp/object_handle.hpp>
 
 namespace hdf5 {
 namespace error {

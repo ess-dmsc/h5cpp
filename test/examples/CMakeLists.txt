@@ -38,3 +38,7 @@ if(HDF5_VERSION VERSION_GREATER 1.10.0)
 	add_executable(swmr_read swmr_reader.cpp ${SWMR_SOURCES})
 	target_link_libraries(swmr_read h5cpp_shared)
 endif()
+
+if(WITH_MPI)
+    add_subdirectory(mpi)
+endif()

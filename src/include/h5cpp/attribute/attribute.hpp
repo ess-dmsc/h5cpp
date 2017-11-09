@@ -24,14 +24,14 @@
 //
 #pragma once
 
-#include "../datatype/datatype.hpp"
-#include "../dataspace/dataspace.hpp"
-#include "../datatype/factory.hpp"
-#include "../dataspace/type_trait.hpp"
-#include "../property/dataset_transfer_list.hpp"
-#include "../object_handle.hpp"
-#include "../windows.hpp"
-#include "../types.hpp"
+#include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/datatype/factory.hpp>
+#include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/property/dataset_transfer.hpp>
+#include <h5cpp/object_handle.hpp>
+#include <h5cpp/windows.hpp>
+#include <h5cpp/types.hpp>
 #include <initializer_list>
 
 namespace hdf5 {

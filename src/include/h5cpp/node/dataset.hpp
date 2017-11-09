@@ -24,12 +24,12 @@
 //
 #pragma once
 
-#include "node.hpp"
-#include "../dataspace/dataspace.hpp"
-#include "../datatype/datatype.hpp"
-#include "../property/dataset_transfer_list.hpp"
-#include "../types.hpp"
-#include "../windows.hpp"
+#include <h5cpp/node/node.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/property/dataset_transfer.hpp>
+#include <h5cpp/types.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace node {

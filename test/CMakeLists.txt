@@ -59,6 +59,7 @@ add_subdirectory(node)
 add_subdirectory(attribute)
 add_subdirectory(examples)
 add_subdirectory(error)
+add_subdirectory(filter)
 
 add_executable(unit_tests EXCLUDE_FROM_ALL ${Common_SRC} ${Common_INC})
 add_dependencies(unit_tests h5cpp_shared)

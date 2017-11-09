@@ -25,14 +25,14 @@
 #pragma once
 
 #include <string>
-#include "attribute.hpp"
-#include "../types.hpp"
-#include "../windows.hpp"
-#include "../iterator_config.hpp"
-#include "../datatype/factory.hpp"
-#include "../dataspace/scalar.hpp"
-#include "../dataspace/simple.hpp"
-#include "../property/attribute_creation_list.hpp"
+#include <h5cpp/attribute/attribute.hpp>
+#include <h5cpp/types.hpp>
+#include <h5cpp/windows.hpp>
+#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/datatype/factory.hpp>
+#include <h5cpp/dataspace/scalar.hpp>
+#include <h5cpp/dataspace/simple.hpp>
+#include <h5cpp/property/attribute_creation.hpp>
 
 //
 // forward declarations

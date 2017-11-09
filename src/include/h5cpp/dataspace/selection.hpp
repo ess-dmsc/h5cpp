@@ -24,10 +24,10 @@
 //
 #pragma once
 
-#include "type.hpp"
-#include "dataspace.hpp"
-#include "../types.hpp"
-#include "../windows.hpp"
+#include <h5cpp/dataspace/type.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/types.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -80,6 +80,12 @@ class DLL_EXPORT Selection
 //! HDF5 dataset. The number of dimensions for every hyperslab  is determined
 //! during construction and cannot be altered once it has been fixed.
 //!
+//!
+//! \todo
+//! \li we may have to add a function to check if all the Dimension instances
+//!     have the same size. However, this might be an expensive procedure and
+//!     we should take performance considerations into account here.
+//!
 class DLL_EXPORT Hyperslab : public Selection
 {
   public:
@@ -126,10 +132,44 @@ class DLL_EXPORT Hyperslab : public Selection
     //!
     //! \brief constructor
     //!
-    Hyperslab(const Dimensions &start,
-              const Dimensions &stride,
+    //! This constructor exposes the full capabilities of a hyperslab. All
+    //! parameters can be adjusted.
+    //!
+    //! \param offset the offset from which to start the selection
+    //! \param block the size of a single block in the selection
+    //! \param count the number of blocks along each dimensions
+    //! \param stride the stride along each dimension between the blocks
+    //!
+    Hyperslab(const Dimensions &offset,
+              const Dimensions &block,
               const Dimensions &count,
+              const Dimensions &stride);
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a hyperslab which constists of a single block starting
+    //! at a particular offset.
+    //!
+    //! \param offset the start offset of the block
+    //! \param block the size of the single block
+    //!
+    Hyperslab(const Dimensions &offset,
               const Dimensions &block);
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a hyperslab which consists of \c count blocks of size 1
+    //! along each dimension separated by \c stride elements.
+    //!
+    //! \param offset starting offset of the selection
+    //! \param count number of blocks along each dimensions
+    //! \param stride the stride between the blocks along each dimension
+    //1
+    Hyperslab(const Dimensions &offset,
+              const Dimensions &count,
+              const Dimensions &stride);
 
     //!
     //! \brief get rank
@@ -148,7 +188,7 @@ class DLL_EXPORT Hyperslab : public Selection
     //! \param index dimension index
     //! \param value new start value
     //!
-    void start(size_t index,size_t value);
+    void offset(size_t index,size_t value);
 
     //!
     //! \brief set all start values
@@ -159,14 +199,14 @@ class DLL_EXPORT Hyperslab : public Selection
     //! \throws std::runtime_error in case of a failure
     //! \param values new start values for the hyperslab
     //!
-    void start(const Dimensions &values);
+    void offset(const Dimensions &values);
 
     //!
     //! \brief get start values
     //! \throws std::runtime_error if the Hyperslab is default constructed
     //! \return const reference to the start values of the hyperslab
     //!
-    const Dimensions &start() const;
+    const Dimensions &offset() const;
 
 
     //!
@@ -193,12 +233,58 @@ class DLL_EXPORT Hyperslab : public Selection
     //!
     const Dimensions &stride() const;
 
+    //!
+    //! \brief set count value for a particular dimension
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param index dimension index
+    //! \param value new count value for this dimension
+    //!
     void count(size_t index,size_t value);
+
+    //!
+    //! \brief set all count values
+    //! \throws std::runtime_error in case of a failure
+    //! \param values reference to the new count values
+    //!
     void count(const Dimensions &values);
+
+    //!
+    //! \brief get count values
+    //!
+    //! Return a const reference to the count values of the Hypeslab. The
+    //! values cannot be changed via this reference.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return reference to count values
+    //!
     const Dimensions &count() const;
 
+    //!
+    //! \brief set block size for dimension
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param index dimension index
+    //! \param value the new block size for this dimension
+    //1
     void block(size_t index,size_t value);
+
+    //!
+    //! \brief set all block values
+    //!
+    //! Set all block values for the hyperslab selection.
+    //! \throws std::runtime_error in case of a failure
+    //! \param values reference to the new block values
+    //!
     void block(const Dimensions &values);
+
+    //!
+    //! \brief get block values
+    //!
+    //! Get a const reference to the block values of the hyperslab.
+    //! \throws std::runtime_error in case of a failure
+    //! \return const reference to the block values
+    //!
     const Dimensions &block() const;
 
     virtual void apply(const Dataspace &space,
