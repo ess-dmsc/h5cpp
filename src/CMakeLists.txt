@@ -102,6 +102,7 @@ add_library(h5cpp_shared SHARED
   ${NODE_SOURCES}
   ${ATTRIBUTE_SOURCES}
   ${FILTER_SOURCES}
+  ${h5cpp_headers}
   )
 
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
