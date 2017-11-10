@@ -57,6 +57,17 @@ def docker_tests(container_name) {
     }
 }
 
+static Object get_container(container_name, image_name) {
+    image = docker.image('$image_name')
+    container = image.run("\
+        --name ${container_name} \
+        --tty \
+        --env http_proxy=${env.http_proxy} \
+        --env https_proxy=${env.https_proxy} \
+        ")
+    return container
+}
+
 def centos = docker.image('essdmscdm/centos-build-node:0.8.0')
 def fedora = docker.image('essdmscdm/fedora-build-node:0.4.1')
 def ub1604 = docker.image('essdmscdm/ubuntu16.04-build-node:0.0.1')
