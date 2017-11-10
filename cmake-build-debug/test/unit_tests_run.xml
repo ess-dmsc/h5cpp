@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="296" failures="0" disabled="0" errors="0" timestamp="2017-11-09T19:37:29" time="0.066" name="AllTests">
+  <testsuite name="IterationIndex" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_string_representation" status="run" time="0" classname="IterationIndex" />
+    <testcase name="test_value" status="run" time="0" classname="IterationIndex" />
+  </testsuite>
+  <testsuite name="IterationOrder" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_string_representation" status="run" time="0" classname="IterationOrder" />
+    <testcase name="test_value" status="run" time="0" classname="IterationOrder" />
+  </testsuite>
+  <testsuite name="Iterator" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="constructors" status="run" time="0" classname="Iterator" />
+    <testcase name="comparators" status="run" time="0" classname="Iterator" />
+    <testcase name="increment" status="run" time="0" classname="Iterator" />
+    <testcase name="decrement" status="run" time="0" classname="Iterator" />
+  </testsuite>
+  <testsuite name="ObjectIdTest" tests="15" failures="0" disabled="0" errors="0" time="0.011">
+    <testcase name="printing" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="default_construction" status="run" time="0" classname="ObjectIdTest" />
+    <testcase name="construction_from_invalid_handler" status="run" time="0" classname="ObjectIdTest" />
+    <testcase name="construction" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="hard_group" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="hard_dset" status="run" time="0" classname="ObjectIdTest" />
+    <testcase name="soft_group" status="run" time="0" classname="ObjectIdTest" />
+    <testcase name="soft_dset" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="file_copy" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="file_copy2" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="symlink_id" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="file_external_group" status="run" time="0.001" classname="ObjectIdTest" />
+    <testcase name="file_external_symlink" status="run" time="0.002" classname="ObjectIdTest" />
+    <testcase name="repeated_open" status="run" time="0" classname="ObjectIdTest" />
+    <testcase name="comparison" status="run" time="0.001" classname="ObjectIdTest" />
+  </testsuite>
+  <testsuite name="Path" tests="14" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_default_construction" status="run" time="0" classname="Path" />
+    <testcase name="test_construction_from_string" status="run" time="0.001" classname="Path" />
+    <testcase name="test_conversion_to_string" status="run" time="0" classname="Path" />
+    <testcase name="test_sanitization" status="run" time="0" classname="Path" />
+    <testcase name="common_base" status="run" time="0" classname="Path" />
+    <testcase name="relative_to" status="run" time="0" classname="Path" />
+    <testcase name="test_append" status="run" time="0" classname="Path" />
+    <testcase name="test_append_link_name" status="run" time="0" classname="Path" />
+    <testcase name="test_prepend_link_name" status="run" time="0" classname="Path" />
+    <testcase name="test_adding_two_paths" status="run" time="0" classname="Path" />
+    <testcase name="test_root_path" status="run" time="0" classname="Path" />
+    <testcase name="test_name" status="run" time="0" classname="Path" />
+    <testcase name="test_parent_path" status="run" time="0" classname="Path" />
+    <testcase name="test_path_equality" status="run" time="0" classname="Path" />
+  </testsuite>
+  <testsuite name="ObjHandleTest" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="DefaultConstruction" status="run" time="0" classname="ObjHandleTest" />
+  </testsuite>
+  <testsuite name="PropertyList" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_construction" status="run" time="0" classname="PropertyList" />
+    <testcase name="test_predefined_classes" status="run" time="0" classname="PropertyList" />
+    <testcase name="test_equality_operator" status="run" time="0" classname="PropertyList" />
+  </testsuite>
+  <testsuite name="List" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="default_construction_impossible" status="run" time="0" classname="List" />
+    <testcase name="from_class" status="run" time="0" classname="List" />
+    <testcase name="copy_construction" status="run" time="0" classname="List" />
+    <testcase name="copy_assignment" status="run" time="0" classname="List" />
+  </testsuite>
+  <testsuite name="AttributeCreationList" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="AttributeCreationList" />
+    <testcase name="test_character_encoding" status="run" time="0" classname="AttributeCreationList" />
+  </testsuite>
+  <testsuite name="ChunkCacheParameters" tests="6" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="default_construction" status="run" time="0" classname="ChunkCacheParameters" />
+    <testcase name="test_construction" status="run" time="0" classname="ChunkCacheParameters" />
+    <testcase name="test_copy_construction" status="run" time="0" classname="ChunkCacheParameters" />
+    <testcase name="test_chunk_slots" status="run" time="0" classname="ChunkCacheParameters" />
+    <testcase name="test_chunk_cache_size" status="run" time="0" classname="ChunkCacheParameters" />
+    <testcase name="test_preemption_policy" status="run" time="0" classname="ChunkCacheParameters" />
+  </testsuite>
+  <testsuite name="LinkCreationOrder" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="LinkCreationOrder" />
+    <testcase name="test_conversion_construction" status="run" time="0" classname="LinkCreationOrder" />
+    <testcase name="test_set_tracked" status="run" time="0" classname="LinkCreationOrder" />
+    <testcase name="test_set_indexed" status="run" time="0" classname="LinkCreationOrder" />
+  </testsuite>
+  <testsuite name="DatasetAccessList" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="DatasetAccessList" />
+    <testcase name="test_chunk_cache_parameters" status="run" time="0" classname="DatasetAccessList" />
+  </testsuite>
+  <testsuite name="DatasetCreationList" tests="7" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_construction" status="run" time="0" classname="DatasetCreationList" />
+    <testcase name="test_layout" status="run" time="0" classname="DatasetCreationList" />
+    <testcase name="test_chunk" status="run" time="0" classname="DatasetCreationList" />
+    <testcase name="test_fill_time" status="run" time="0" classname="DatasetCreationList" />
+    <testcase name="test_allocation_time" status="run" time="0" classname="DatasetCreationList" />
+    <testcase name="test_fill_value_default" status="run" time="0" classname="DatasetCreationList" />
+    <testcase name="test_fill_value_custom_type" status="run" time="0" classname="DatasetCreationList" />
+  </testsuite>
+  <testsuite name="DatasetTransferList" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="DatasetTransferList" />
+  </testsuite>
+  <testsuite name="DatatypeAccessList" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="DatatypeAccessList" />
+  </testsuite>
+  <testsuite name="FileAccessList" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="default_construction" status="run" time="0" classname="FileAccessList" />
+    <testcase name="library_version_bounds" status="run" time="0" classname="FileAccessList" />
+    <testcase name="driver" status="run" time="0" classname="FileAccessList" />
+  </testsuite>
+  <testsuite name="FileCreationList" tests="8" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="FileCreationList" />
+    <testcase name="user_block" status="run" time="0" classname="FileCreationList" />
+    <testcase name="object_offset_size" status="run" time="0" classname="FileCreationList" />
+    <testcase name="object_length_size" status="run" time="0" classname="FileCreationList" />
+    <testcase name="btree_rank" status="run" time="0" classname="FileCreationList" />
+    <testcase name="btree_symbols" status="run" time="0" classname="FileCreationList" />
+    <testcase name="chunk_tree_rank" status="run" time="0" classname="FileCreationList" />
+    <testcase name="page_size" status="run" time="0" classname="FileCreationList" />
+  </testsuite>
+  <testsuite name="FileMountList" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="FileMountList" />
+  </testsuite>
+  <testsuite name="GroupAccessList" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default" status="run" time="0" classname="GroupAccessList" />
+  </testsuite>
+  <testsuite name="GroupCreationList" tests="6" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_construction" status="run" time="0" classname="GroupCreationList" />
+    <testcase name="test_local_heap_size_hint" status="run" time="0.001" classname="GroupCreationList" />
+    <testcase name="test_estimated_number_of_links" status="run" time="0" classname="GroupCreationList" />
+    <testcase name="test_estimated_link_name_length" status="run" time="0" classname="GroupCreationList" />
+    <testcase name="test_link_creation_order" status="run" time="0" classname="GroupCreationList" />
+    <testcase name="test_link_storage_threshold" status="run" time="0" classname="GroupCreationList" />
+  </testsuite>
+  <testsuite name="LinkAccessList" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="LinkAccessList" />
+    <testcase name="test_maximum_link_traversal" status="run" time="0" classname="LinkAccessList" />
+    <testcase name="test_external_link_prefix" status="run" time="0" classname="LinkAccessList" />
+  </testsuite>
+  <testsuite name="LinkCreationList" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="LinkCreationList" />
+    <testcase name="test_intermediate_gruop_creation" status="run" time="0" classname="LinkCreationList" />
+    <testcase name="test_character_encoding" status="run" time="0" classname="LinkCreationList" />
+  </testsuite>
+  <testsuite name="ObjectCopyClasses" tests="7" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_string_representation" status="run" time="0" classname="ObjectCopyClasses" />
+    <testcase name="test_or_operator_1" status="run" time="0" classname="ObjectCopyClasses" />
+    <testcase name="test_or_operator_2" status="run" time="0" classname="ObjectCopyClasses" />
+    <testcase name="test_or_operator_3" status="run" time="0" classname="ObjectCopyClasses" />
+    <testcase name="test_or_operator_4" status="run" time="0" classname="ObjectCopyClasses" />
+    <testcase name="test_or_operator_5" status="run" time="0" classname="ObjectCopyClasses" />
+    <testcase name="test_or_operator_6" status="run" time="0" classname="ObjectCopyClasses" />
+  </testsuite>
+  <testsuite name="CopyFlags" tests="9" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_shallow_hierarchy" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_expand_soft_links" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_expand_external_links" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_expand_references" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_without_attributes" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_merge_committed_types" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_unary_or_1" status="run" time="0" classname="CopyFlags" />
+    <testcase name="test_or_operations_1" status="run" time="0" classname="CopyFlags" />
+  </testsuite>
+  <testsuite name="ObjectCreationList" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="default_construction" status="run" time="0" classname="ObjectCreationList" />
+    <testcase name="test_time_tracking" status="run" time="0" classname="ObjectCreationList" />
+    <testcase name="test_attribute_creation_order" status="run" time="0" classname="ObjectCreationList" />
+    <testcase name="test_attribute_storage_threshold" status="run" time="0" classname="ObjectCreationList" />
+  </testsuite>
+  <testsuite name="StringCreationList" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="StringCreationList" />
+    <testcase name="test_encoding" status="run" time="0" classname="StringCreationList" />
+  </testsuite>
+  <testsuite name="TypeCreationList" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="TypeCreationList" />
+  </testsuite>
+  <testsuite name="Datatype" tests="5" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="DefaultConstruction" status="run" time="0" classname="Datatype" />
+    <testcase name="ConstructCopy" status="run" time="0" classname="Datatype" />
+    <testcase name="Comparators" status="run" time="0" classname="Datatype" />
+    <testcase name="Classes" status="run" time="0" classname="Datatype" />
+    <testcase name="Size" status="run" time="0" classname="Datatype" />
+  </testsuite>
+  <testsuite name="Integer/0" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="char" status="run" time="0" classname="Integer/0" />
+  </testsuite>
+  <testsuite name="Integer/1" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="unsigned char" status="run" time="0" classname="Integer/1" />
+  </testsuite>
+  <testsuite name="Integer/2" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="signed char" status="run" time="0" classname="Integer/2" />
+  </testsuite>
+  <testsuite name="Integer/3" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="short" status="run" time="0" classname="Integer/3" />
+  </testsuite>
+  <testsuite name="Integer/4" tests="1" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="General" type_param="unsigned short" status="run" time="0.001" classname="Integer/4" />
+  </testsuite>
+  <testsuite name="Integer/5" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="int" status="run" time="0" classname="Integer/5" />
+  </testsuite>
+  <testsuite name="Integer/6" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="unsigned int" status="run" time="0" classname="Integer/6" />
+  </testsuite>
+  <testsuite name="Integer/7" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="long" status="run" time="0" classname="Integer/7" />
+  </testsuite>
+  <testsuite name="Integer/8" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="unsigned long" status="run" time="0" classname="Integer/8" />
+  </testsuite>
+  <testsuite name="Integer/9" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="long long" status="run" time="0" classname="Integer/9" />
+  </testsuite>
+  <testsuite name="Integer/10" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="unsigned long long" status="run" time="0" classname="Integer/10" />
+  </testsuite>
+  <testsuite name="CompoundType" tests="4" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_default_construction" status="run" time="0" classname="CompoundType" />
+    <testcase name="test_complex_number" status="run" time="0.001" classname="CompoundType" />
+    <testcase name="test_complex_number_io" status="run" time="0" classname="CompoundType" />
+    <testcase name="test_pixel_type" status="run" time="0" classname="CompoundType" />
+  </testsuite>
+  <testsuite name="Float/0" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="float" status="run" time="0" classname="Float/0" />
+  </testsuite>
+  <testsuite name="Float/1" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="General" type_param="double" status="run" time="0" classname="Float/1" />
+  </testsuite>
+  <testsuite name="Float/2" tests="1" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="General" type_param="long double" status="run" time="0.001" classname="Float/2" />
+  </testsuite>
+  <testsuite name="String" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="Constructors" status="run" time="0" classname="String" />
+  </testsuite>
+  <testsuite name="TypeTrait" tests="16" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_char" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_unsigned_char" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_signed_char" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_short" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_unsigned_short" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_int" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_unsigned_int" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_long" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_unsigned_long" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_long_long" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_unsigned_long_long" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_float" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_double" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_long_double" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_vector" status="run" time="0" classname="TypeTrait" />
+    <testcase name="test_scalar" status="run" time="0" classname="TypeTrait" />
+  </testsuite>
+  <testsuite name="Array" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="DefaultConstruction" status="run" time="0" classname="Array" />
+    <testcase name="TensorConstruction" status="run" time="0" classname="Array" />
+    <testcase name="VectorConstruction" status="run" time="0" classname="Array" />
+  </testsuite>
+  <testsuite name="VLengthArray" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="DefaultConstruction" status="run" time="0" classname="VLengthArray" />
+    <testcase name="Construction" status="run" time="0" classname="VLengthArray" />
+  </testsuite>
+  <testsuite name="Dataspace" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="default_construction" status="run" time="0" classname="Dataspace" />
+    <testcase name="from_hid" status="run" time="0" classname="Dataspace" />
+    <testcase name="copy_construction" status="run" time="0" classname="Dataspace" />
+    <testcase name="copy_assignment" status="run" time="0" classname="Dataspace" />
+  </testsuite>
+  <testsuite name="Scalar" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="Scalar" />
+    <testcase name="test_copy_construction" status="run" time="0" classname="Scalar" />
+    <testcase name="test_copy_construction_from_dataspace" status="run" time="0" classname="Scalar" />
+    <testcase name="test_copy_assignment_from_dataspace" status="run" time="0" classname="Scalar" />
+  </testsuite>
+  <testsuite name="Simple" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_default_construction" status="run" time="0" classname="Simple" />
+    <testcase name="test_construction_only_current" status="run" time="0" classname="Simple" />
+    <testcase name="test_construction_current_and_max" status="run" time="0" classname="Simple" />
+    <testcase name="test_change_rank" status="run" time="0" classname="Simple" />
+  </testsuite>
+  <testsuite name="HyperslabSimple" tests="5" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_case_1" status="run" time="0" classname="HyperslabSimple" />
+    <testcase name="test_case_2" status="run" time="0" classname="HyperslabSimple" />
+    <testcase name="test_nothing_and_all_selected" status="run" time="0" classname="HyperslabSimple" />
+    <testcase name="test_roi_construction" status="run" time="0" classname="HyperslabSimple" />
+    <testcase name="test_scatter_construction" status="run" time="0" classname="HyperslabSimple" />
+  </testsuite>
+  <testsuite name="SearchFlags" tests="4" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_output_stream" status="run" time="0" classname="SearchFlags" />
+    <testcase name="test_or_all_flags" status="run" time="0" classname="SearchFlags" />
+    <testcase name="test_or_left_three" status="run" time="0" classname="SearchFlags" />
+    <testcase name="test_values" status="run" time="0" classname="SearchFlags" />
+  </testsuite>
+  <testsuite name="AccessFlags" tests="2" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_output_stream" status="run" time="0" classname="AccessFlags" />
+    <testcase name="test_values" status="run" time="0" classname="AccessFlags" />
+  </testsuite>
+  <testsuite name="Scope" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_string_representation" status="run" time="0" classname="Scope" />
+    <testcase name="test_values" status="run" time="0" classname="Scope" />
+  </testsuite>
+  <testsuite name="FileCreation" tests="5" failures="0" disabled="0" errors="0" time="0.002">
+    <testcase name="test_default" status="run" time="0" classname="FileCreation" />
+    <testcase name="test_no_truncate" status="run" time="0" classname="FileCreation" />
+    <testcase name="test_truncation" status="run" time="0.001" classname="FileCreation" />
+    <testcase name="test_same_file_ro" status="run" time="0" classname="FileCreation" />
+    <testcase name="test_same_file_with_symbolic_link" status="run" time="0.001" classname="FileCreation" />
+  </testsuite>
+  <testsuite name="FileOpen" tests="4" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_open_default" status="run" time="0" classname="FileOpen" />
+    <testcase name="test_open_readwrite" status="run" time="0" classname="FileOpen" />
+    <testcase name="test_open_swmr_read" status="run" time="0.001" classname="FileOpen" />
+    <testcase name="test_open_swmr_write" status="run" time="0" classname="FileOpen" />
+  </testsuite>
+  <testsuite name="IsHDF5" tests="2" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_hdf5_file" status="run" time="0" classname="IsHDF5" />
+    <testcase name="test_no_hdf5_file" status="run" time="0.001" classname="IsHDF5" />
+  </testsuite>
+  <testsuite name="Node" tests="7" failures="0" disabled="0" errors="0" time="0.005">
+    <testcase name="test_default_construction" status="run" time="0" classname="Node" />
+    <testcase name="test_equality_operator" status="run" time="0.001" classname="Node" />
+    <testcase name="test_remove_node" status="run" time="0" classname="Node" />
+    <testcase name="test_copy_node" status="run" time="0.001" classname="Node" />
+    <testcase name="test_move_node" status="run" time="0.001" classname="Node" />
+    <testcase name="test_external_link" status="run" time="0.002" classname="Node" />
+    <testcase name="test_soft_link" status="run" time="0" classname="Node" />
+  </testsuite>
+  <testsuite name="NodeType" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_string_representation" status="run" time="0" classname="NodeType" />
+    <testcase name="test_values" status="run" time="0" classname="NodeType" />
+  </testsuite>
+  <testsuite name="Link" tests="3" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_string_representation" status="run" time="0" classname="Link" />
+    <testcase name="test_value" status="run" time="0" classname="Link" />
+    <testcase name="test_default_construction" status="run" time="0" classname="Link" />
+  </testsuite>
+  <testsuite name="Group" tests="8" failures="0" disabled="0" errors="0" time="0.006">
+    <testcase name="test_root_group" status="run" time="0.001" classname="Group" />
+    <testcase name="test_default_construction" status="run" time="0" classname="Group" />
+    <testcase name="test_group_creation" status="run" time="0.001" classname="Group" />
+    <testcase name="test_group_linkview" status="run" time="0" classname="Group" />
+    <testcase name="test_group_nodeview" status="run" time="0.001" classname="Group" />
+    <testcase name="test_group_existence" status="run" time="0" classname="Group" />
+    <testcase name="test_group_accessor" status="run" time="0.001" classname="Group" />
+    <testcase name="test_funky_names" status="run" time="0.002" classname="Group" />
+  </testsuite>
+  <testsuite name="NodeIteration" tests="5" failures="0" disabled="0" errors="0" time="0.004">
+    <testcase name="group_index_name_order_access" status="run" time="0.001" classname="NodeIteration" />
+    <testcase name="group_index_creation_order_access" status="run" time="0.001" classname="NodeIteration" />
+    <testcase name="group_name_access" status="run" time="0" classname="NodeIteration" />
+    <testcase name="group_node_iteration" status="run" time="0.001" classname="NodeIteration" />
+    <testcase name="group_node_foreach" status="run" time="0.001" classname="NodeIteration" />
+  </testsuite>
+  <testsuite name="LinkIteration" tests="5" failures="0" disabled="0" errors="0" time="0.003">
+    <testcase name="group_index_name_order_access" status="run" time="0.001" classname="LinkIteration" />
+    <testcase name="group_index_creation_order_access" status="run" time="0" classname="LinkIteration" />
+    <testcase name="group_name_access" status="run" time="0.001" classname="LinkIteration" />
+    <testcase name="group_node_iteration" status="run" time="0.001" classname="LinkIteration" />
+    <testcase name="group_node_foreach" status="run" time="0" classname="LinkIteration" />
+  </testsuite>
+  <testsuite name="Dataset" tests="2" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_default_construction" status="run" time="0.001" classname="Dataset" />
+    <testcase name="test_scalar_dataset" status="run" time="0" classname="Dataset" />
+  </testsuite>
+  <testsuite name="Extent" tests="4" failures="0" disabled="0" errors="0" time="0.002">
+    <testcase name="test_infinite_extent_absolut" status="run" time="0.001" classname="Extent" />
+    <testcase name="test_infinite_extent_relative" status="run" time="0" classname="Extent" />
+    <testcase name="test_finite_extent_absolute" status="run" time="0.001" classname="Extent" />
+    <testcase name="test_finite_extent_relative" status="run" time="0" classname="Extent" />
+  </testsuite>
+  <testsuite name="PartialIO" tests="1" failures="0" disabled="0" errors="0" time="0.003">
+    <testcase name="test_read_write_scalar_int" status="run" time="0.003" classname="PartialIO" />
+  </testsuite>
+  <testsuite name="DatasetArrayIO" tests="1" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="read_write_vector" status="run" time="0" classname="DatasetArrayIO" />
+  </testsuite>
+  <testsuite name="DatasetVLenghtArrayIO" tests="1" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="read_write_hkl_list" status="run" time="0.001" classname="DatasetVLenghtArrayIO" />
+  </testsuite>
+  <testsuite name="DatasetFixedStringIO" tests="2" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="scalar_auto_config" status="run" time="0.001" classname="DatasetFixedStringIO" />
+    <testcase name="vector_no_auto_config" status="run" time="0" classname="DatasetFixedStringIO" />
+  </testsuite>
+  <testsuite name="DatasetVariableStringIO" tests="3" failures="0" disabled="0" errors="0" time="0.003">
+    <testcase name="scalar_io" status="run" time="0.001" classname="DatasetVariableStringIO" />
+    <testcase name="scalar_const_char_ptr_io" status="run" time="0.001" classname="DatasetVariableStringIO" />
+    <testcase name="vector_io" status="run" time="0.001" classname="DatasetVariableStringIO" />
+  </testsuite>
+  <testsuite name="Attribute" tests="4" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_default_construction" status="run" time="0" classname="Attribute" />
+    <testcase name="test_scalar" status="run" time="0.001" classname="Attribute" />
+    <testcase name="test_multidim_simple_construction" status="run" time="0" classname="Attribute" />
+    <testcase name="test_multidim_construction" status="run" time="0" classname="Attribute" />
+  </testsuite>
+  <testsuite name="AttributeName" tests="10" failures="0" disabled="0" errors="0" time="0.004">
+    <testcase name="test_name_access" status="run" time="0.001" classname="AttributeName" />
+    <testcase name="test_index_access_creation_order_increasing" status="run" time="0" classname="AttributeName" />
+    <testcase name="test_iterator_access_creation_order_increasing" status="run" time="0" classname="AttributeName" />
+    <testcase name="test_index_access_creation_order_decreasing" status="run" time="0.001" classname="AttributeName" />
+    <testcase name="test_iterator_access_creation_order_decreasing" status="run" time="0" classname="AttributeName" />
+    <testcase name="test_index_access_name_order_increasing" status="run" time="0" classname="AttributeName" />
+    <testcase name="test_iterator_access_name_order_increasing" status="run" time="0.001" classname="AttributeName" />
+    <testcase name="test_index_access_name_order_decreasing" status="run" time="0" classname="AttributeName" />
+    <testcase name="test_iterator_access_name_order_decreasing" status="run" time="0" classname="AttributeName" />
+    <testcase name="test_access_failure" status="run" time="0.001" classname="AttributeName" />
+  </testsuite>
+  <testsuite name="AttributeManagement" tests="6" failures="0" disabled="0" errors="0" time="0.002">
+    <testcase name="test_remove_attribute_by_index" status="run" time="0" classname="AttributeManagement" />
+    <testcase name="test_remove_attribute_by_name" status="run" time="0" classname="AttributeManagement" />
+    <testcase name="test_remove_remains" status="run" time="0.001" classname="AttributeManagement" />
+    <testcase name="test_remove_failure" status="run" time="0" classname="AttributeManagement" />
+    <testcase name="test_rename_attribute" status="run" time="0" classname="AttributeManagement" />
+    <testcase name="test_rename_failure" status="run" time="0.001" classname="AttributeManagement" />
+  </testsuite>
+  <testsuite name="AttributeScalarIO" tests="4" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_uint8" status="run" time="0" classname="AttributeScalarIO" />
+    <testcase name="test_float32" status="run" time="0" classname="AttributeScalarIO" />
+    <testcase name="test_vector_io" status="run" time="0.001" classname="AttributeScalarIO" />
+    <testcase name="test_shape_mismatch" status="run" time="0" classname="AttributeScalarIO" />
+  </testsuite>
+  <testsuite name="AttributeMultidimIO" tests="3" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="test_uint8_vector" status="run" time="0" classname="AttributeMultidimIO" />
+    <testcase name="test_uint8_array" status="run" time="0.001" classname="AttributeMultidimIO" />
+    <testcase name="test_init_list" status="run" time="0" classname="AttributeMultidimIO" />
+  </testsuite>
+  <testsuite name="AttributeComplexIO" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="test_complex_scalar" status="run" time="0" classname="AttributeComplexIO" />
+    <testcase name="test_complex_vector" status="run" time="0" classname="AttributeComplexIO" />
+  </testsuite>
+  <testsuite name="AttributeFixedStringIO" tests="2" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="scalar_io" status="run" time="0.001" classname="AttributeFixedStringIO" />
+    <testcase name="vector_io" status="run" time="0" classname="AttributeFixedStringIO" />
+  </testsuite>
+  <testsuite name="AttributeVariableStringIO" tests="3" failures="0" disabled="0" errors="0" time="0.001">
+    <testcase name="scalar_io" status="run" time="0" classname="AttributeVariableStringIO" />
+    <testcase name="scalar_io_const_char" status="run" time="0.001" classname="AttributeVariableStringIO" />
+    <testcase name="vector_io" status="run" time="0" classname="AttributeVariableStringIO" />
+  </testsuite>
+  <testsuite name="Error" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="auto_on" status="run" time="0" classname="Error" />
+    <testcase name="auto_off" status="run" time="0" classname="Error" />
+  </testsuite>
+  <testsuite name="DeflateFilter" tests="5" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="default_construction" status="run" time="0" classname="DeflateFilter" />
+    <testcase name="level_construction" status="run" time="0" classname="DeflateFilter" />
+    <testcase name="application" status="run" time="0" classname="DeflateFilter" />
+    <testcase name="construct_with_invalid_level" status="run" time="0" classname="DeflateFilter" />
+    <testcase name="set_invalid_level" status="run" time="0" classname="DeflateFilter" />
+  </testsuite>
+  <testsuite name="ShuffleTest" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="construction" status="run" time="0" classname="ShuffleTest" />
+    <testcase name="application" status="run" time="0" classname="ShuffleTest" />
+  </testsuite>
+  <testsuite name="Fletcher32Test" tests="2" failures="0" disabled="0" errors="0" time="0">
+    <testcase name="construction" status="run" time="0" classname="Fletcher32Test" />
+    <testcase name="application" status="run" time="0" classname="Fletcher32Test" />
+  </testsuite>
+  <testsuite name="ObjHandleTest/ObjHandleFixture" tests="10" failures="0" disabled="0" errors="0" time="0.004">
+    <testcase name="Types/0" value_param="FILE" status="run" time="0.002" classname="ObjHandleTest/ObjHandleFixture" Type="FILE" />
+    <testcase name="Types/1" value_param="DATATYPE" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="DATATYPE" />
+    <testcase name="Types/2" value_param="DATASPACE" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="DATASPACE" />
+    <testcase name="Types/3" value_param="GROUP" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="GROUP" />
+    <testcase name="Types/4" value_param="DATASET" status="run" time="0.001" classname="ObjHandleTest/ObjHandleFixture" Type="DATASET" />
+    <testcase name="Types/5" value_param="ATTRIBUTE" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="ATTRIBUTE" />
+    <testcase name="Types/6" value_param="PROPERTY_LIST" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="PROPERTY_LIST" />
+    <testcase name="Types/7" value_param="ERROR_MESSAGE" status="run" time="0.001" classname="ObjHandleTest/ObjHandleFixture" Type="ERROR_MESSAGE" />
+    <testcase name="Types/8" value_param="ERROR_CLASS" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="ERROR_CLASS" />
+    <testcase name="Types/9" value_param="ERROR_STACK" status="run" time="0" classname="ObjHandleTest/ObjHandleFixture" Type="ERROR_STACK" />
+  </testsuite>
+</testsuites>

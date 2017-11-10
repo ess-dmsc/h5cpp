@@ -1,0 +1,9 @@
+/*!
+ \defgroup apidoc API documentation
+ */
+
+ /*! \defgroup genfuncs General functions and classes
+ */
+
+ /*! \defgroup filefuncs Classes and functions related to file management
+  */

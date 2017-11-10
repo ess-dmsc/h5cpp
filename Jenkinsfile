@@ -59,9 +59,11 @@ def docker_tests(container_name) {
 
 def centos = docker.image('essdmscdm/centos-build-node:0.8.0')
 def fedora = docker.image('essdmscdm/fedora-build-node:0.4.1')
+def ub1604 = docker.image('essdmscdm/ubuntu16.04-build-node:0.1.1')
 
 def centos_container_name = "${base_container_name}-centos"
 def fedora_container_name = "${base_container_name}-fedora"
+def ub1604_container_name = "${base_container_name}-ub1604"
 
 
 node('docker') {
@@ -93,16 +95,25 @@ node('docker') {
             --env https_proxy=${env.https_proxy} \
         ")
 
+        ub1604_container = ub1604.run("\
+            --name ${ub1604_container_name} \
+            --tty \
+            --env http_proxy=${env.http_proxy} \
+            --env https_proxy=${env.https_proxy} \
+        ")
+
         // Copy sources to container.
         dir("${project}") {
             sh "docker cp code ${centos_container_name}:/home/jenkins/${project}"
             sh "docker cp code ${fedora_container_name}:/home/jenkins/${project}"
+            sh "docker cp code ${ub1604_container_name}:/home/jenkins/${project}"
         }
 
         stage('Dependencies') {
             try {
                 docker_dependencies(centos_container_name)
                 docker_dependencies(fedora_container_name)
+                ub1604_dependencies(fedora_container_name)
             } catch (e) {
                 failure_function(e, 'Get dependencies failed')
             }
@@ -112,6 +123,7 @@ node('docker') {
             try {
                 docker_cmake(centos_container_name, 'cmake3')
                 docker_cmake(fedora_container_name, 'cmake')
+                docker_cmake(ub1604_container_name, 'cmake')
             } catch (e) {
                 failure_function(e, 'CMake failed')
             }
@@ -121,6 +133,7 @@ node('docker') {
             try {
                 docker_build(centos_container_name)
                 docker_build(fedora_container_name)
+                docker_build(ub1604_container_name)
             } catch (e) {
                 failure_function(e, 'Build failed')
             }
@@ -129,6 +142,7 @@ node('docker') {
         stage('Run tests') {
             docker_tests(centos_container_name)
             docker_tests(fedora_container_name)
+            docker_tests(ub1604_container_name)
         }
 
     } catch(e) {
@@ -136,6 +150,7 @@ node('docker') {
     } finally {
         centos_container.stop()
         fedora_container.stop()
+        ub1604_container.stop()
     }
 }
 

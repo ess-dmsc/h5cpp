@@ -1,0 +1,1478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="h5cpp"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake\;CMake Files\src\;CMake Files\src\include\;CMake Files\src\include\h5cpp\;CMake Files\src\include\h5cpp\property\;CMake Files\src\include\h5cpp\dataspace\;CMake Files\src\include\h5cpp\datatype\;CMake Files\src\include\h5cpp\node\;CMake Files\src\include\h5cpp\file\;CMake Files\src\include\h5cpp\attribute\;CMake Files\src\include\h5cpp\error\;CMake Files\src\include\h5cpp\filter\;CMake Files\doc\;CMake Files\doc\build\;CMake Files\doc\build\doxygen\;CMake Files\doc\source\;CMake Files\doc\source\_static\;CMake Files\doc\source\_templates\;CMake Files\doc\source\images\;CMake Files\doc\source\users_guide\;CMake Files\doc\source\design\;CMake Files\doc\source\api_reference\;CMake Files\doc\source\advanced\;CMake Files\test\;CMake Files\test\ObjectHandle\;CMake Files\test\property\;CMake Files\test\datatype\;CMake Files\test\dataspace\;CMake Files\test\logs\;CMake Files\test\file\;CMake Files\test\node\;CMake Files\test\attribute\;CMake Files\test\examples\;CMake Files\test\error\;CMake Files\test\filter\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="BuildScripts">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 BuildScripts"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="html">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 html"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="h5cpp_shared">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/lib/libh5cpp_shared.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DDLL_BUILD"/>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 h5cpp_shared"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="h5cpp_shared/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/lib/libh5cpp_shared.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DDLL_BUILD"/>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 h5cpp_shared/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="users_guide">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/doc"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 users_guide"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="api_doc">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/doc"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 api_doc"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/doc/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="run_tests">
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/test"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 run_tests"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="unit_tests">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/unit_tests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/home/bdv/dev/h5cpp/test/h5cpp_shared"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 unit_tests"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="unit_tests/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/unit_tests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/home/bdv/dev/h5cpp/test/h5cpp_shared"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 unit_tests/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="writing_vector">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/writing_vector" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 writing_vector"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="writing_vector/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/writing_vector" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 writing_vector/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="selecting_datasets">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/selecting_datasets" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 selecting_datasets"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="selecting_datasets/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/selecting_datasets" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 selecting_datasets/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="writing_complex">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/writing_complex" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 writing_complex"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="writing_complex/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/writing_complex" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 writing_complex/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="basic_files">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/basic_files" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 basic_files"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="basic_files/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/basic_files" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 basic_files/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="append_vector_data">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/append_vector_data" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 append_vector_data"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="append_vector_data/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/append_vector_data" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 append_vector_data/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="writing_image">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/writing_image" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 writing_image"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="writing_image/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/writing_image" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 writing_image/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="append_scalar_data">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/append_scalar_data" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 append_scalar_data"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="append_scalar_data/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/append_scalar_data" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 append_scalar_data/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="swmr_write">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/swmr_write" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 swmr_write"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="swmr_write/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/swmr_write" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 swmr_write/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="swmr_read">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/swmr_read" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 swmr_read"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="swmr_read/fast">
+				<Option output="/home/bdv/dev/h5cpp/cmake-build-debug/bin/swmr_read" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bdv/dev/h5cpp/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/bdv/dev/h5cpp/src/include"/>
+					<Add directory="/usr/local/hdf5/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 swmr_read/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/bdv/dev/h5cpp/cmake-build-debug/test/examples/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/bdv/dev/h5cpp/Jenkinsfile">
+			<Option target="BuildScripts"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/conanfile.txt">
+			<Option target="BuildScripts"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/push_to_repo.sh">
+			<Option target="BuildScripts"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/attribute/attribute.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/attribute/attribute_iterator.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/attribute/attribute_manager.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/dataspace/dataspace.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/dataspace/scalar.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/dataspace/selection.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/dataspace/selection_manager.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/dataspace/simple.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/dataspace/type.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/array.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/compound.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/datatype.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/float.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/integer.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/string.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/datatype/types.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/error/error.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/direct_driver.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/file.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/functions.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/memory_driver.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/mpi_driver.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/posix_driver.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/file/types.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/filter/deflate.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/filter/filter.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/filter/fletcher32.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/filter/shuffle.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/iterator.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/iterator_config.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/dataset.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/functions.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/group.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/group_view.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/link.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/link_iterator.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/link_view.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/node.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/node_iterator.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/node_view.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/types.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/utilities.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/node/utilities.hpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/object_handle.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/object_id.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/path.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/attribute_creation_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/class.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/creation_order.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/dataset_access_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/dataset_creation_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/dataset_transfer_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/datatype_access_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/file_access.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/file_creation.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/file_mount_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/group_access.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/group_creation.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/link_access_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/link_creation_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/object_copy_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/object_creation.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/string_creation_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/property/type_creation_list.cpp">
+			<Option target="h5cpp_shared"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/ObjectHandleDefault.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/attribute_object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/dataset_object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/dataspace_object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/datatype_object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/error_objects_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/file_object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/group_object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/object_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/object_handle_test.hpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/property_objects_handle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/test_environment.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_complex_io_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_fixed_string_io.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_management_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_multidim_io_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_name_access_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_scalar_io_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_test_fixtures.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_test_fixtures.hpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/attribute_variable_string_io.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/dataspace/dataspace_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/dataspace/hyperslab_simple_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/dataspace/scalar_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/dataspace/simple_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/dataspace/type_trait_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/array_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/compound_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/datatype_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/float_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/integer_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/string_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/type_trait_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/vlen_array_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/error/error_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/append_scalar_data.cpp">
+			<Option target="append_scalar_data"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/append_vector_data.cpp">
+			<Option target="append_vector_data"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/basic_files.cpp">
+			<Option target="basic_files"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/rgbpixel.cpp">
+			<Option target="unit_tests"/>
+			<Option target="writing_image"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/rgbpixel.hpp">
+			<Option target="unit_tests"/>
+			<Option target="writing_image"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/selecting_datasets.cpp">
+			<Option target="selecting_datasets"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/swmr_builder.cpp">
+			<Option target="swmr_write"/>
+			<Option target="swmr_read"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/swmr_builder.hpp">
+			<Option target="swmr_write"/>
+			<Option target="swmr_read"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/swmr_environment.cpp">
+			<Option target="swmr_write"/>
+			<Option target="swmr_read"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/swmr_environment.hpp">
+			<Option target="swmr_write"/>
+			<Option target="swmr_read"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/swmr_reader.cpp">
+			<Option target="swmr_read"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/swmr_write.cpp">
+			<Option target="swmr_write"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/writing_complex.cpp">
+			<Option target="writing_complex"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/writing_image.cpp">
+			<Option target="writing_image"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/writing_vector.cpp">
+			<Option target="writing_vector"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/accessflags_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/file_creation_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/file_open_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/is_hdf5_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/scope_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/searchflags_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/filter/deflate_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/filter/fletcher32_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/filter/shuffle_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/fixture.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/fixture.hpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/iteration_index_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/iteration_order_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/iterator_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/main.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_array_type_io.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_extent_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_fixed_string_io.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_partial_io_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_variable_string_io.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/dataset_vlen_array_io.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/group_link_iteration_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/group_node_iteration_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/group_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/group_test_fixtures.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/group_test_fixtures.hpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/link_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/link_type_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/node_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/type_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/object_id_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/path_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/attribute_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/chunk_cache_parameters_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/class_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/creation_order_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/dataset_access_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/dataset_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/dataset_transfer_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/datatype_access_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/file_access_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/file_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/file_mount_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/group_access_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/group_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/link_access_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/link_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/object_copy_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/object_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/property_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/string_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/type_creation_list_test.cpp">
+			<Option target="unit_tests"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/h5cpp-config.cmake">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/InstallConfig.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/OutputDirConfig.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/EnsureBuildType.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/WindowsUtils.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/PackageConfig.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/BuildInfo.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/Sphinx.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/utilities.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/DoxygenUtilities.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/CompilerConfig.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/HDF5LibraryConfig.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/cmake/BoostLibraryConfig.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/property/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\property\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/dataspace/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\dataspace\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/datatype/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\datatype\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/node/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\node\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/file/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\file\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/attribute/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\attribute\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/error/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\error\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/src/include/h5cpp/filter/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\include\h5cpp\filter\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/Doxyfile.in">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/groups.dox">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/mainpage.dox">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/namespaces.dox">
+			<Option virtualFolder="CMake Files\doc\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/build/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\build\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/build/doxygen/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\build\doxygen\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/conf.py.in">
+			<Option virtualFolder="CMake Files\doc\source\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/index.rst.in">
+			<Option virtualFolder="CMake Files\doc\source\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/_static/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\_static\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/_templates/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\_templates\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/_templates/layout.html.in">
+			<Option virtualFolder="CMake Files\doc\source\_templates\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/attribute_manager_uml.png">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/base_classes_uml.png">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hyperslab_uml.png">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/property_lists_uml.png">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/selection_classes.png">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_attributes.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_basic_tree.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_links.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_package_overview.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_node_types.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_dataspaces.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_selections.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/static_dataspace.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/dynamic_dataspace_bounded.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/dynamic_dataspace_unbounded.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/hdf5_selection_manager.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/memory_buffer_40byte.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/32bit_integer.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/dataspace_high_level.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/storage_models.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/images/memory_storage_example.svg">
+			<Option virtualFolder="CMake Files\doc\source\images\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/index.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/installing.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/using.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/files.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/groups.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/overview.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/users_guide/dataspace.rst">
+			<Option virtualFolder="CMake Files\doc\source\users_guide\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/design/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\design\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/design/index.rst">
+			<Option virtualFolder="CMake Files\doc\source\design\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/api_reference/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\api_reference\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/api_reference/index.rst">
+			<Option virtualFolder="CMake Files\doc\source\api_reference\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/advanced/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\doc\source\advanced\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/advanced/index.rst">
+			<Option virtualFolder="CMake Files\doc\source\advanced\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/advanced/user_data.rst">
+			<Option virtualFolder="CMake Files\doc\source\advanced\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/advanced/io.rst">
+			<Option virtualFolder="CMake Files\doc\source\advanced\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/advanced/cpp_datastructures.rst">
+			<Option virtualFolder="CMake Files\doc\source\advanced\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/doc/source/advanced/hdf5_handlers.rst">
+			<Option virtualFolder="CMake Files\doc\source\advanced\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/ObjectHandle/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\ObjectHandle\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/property/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\property\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/datatype/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\datatype\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/dataspace/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\dataspace\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/logs/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\logs\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/file/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\file\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/node/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\node\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/attribute/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\attribute\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/examples/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\examples\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/error/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\error\"/>
+		</Unit>
+		<Unit filename="/home/bdv/dev/h5cpp/test/filter/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\filter\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
