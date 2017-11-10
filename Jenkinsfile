@@ -113,7 +113,7 @@ node('docker') {
             try {
                 docker_dependencies(centos_container_name)
                 docker_dependencies(fedora_container_name)
-                ub1604_dependencies(fedora_container_name)
+                docker_dependencies(ub1604_container_name)
             } catch (e) {
                 failure_function(e, 'Get dependencies failed')
             }
