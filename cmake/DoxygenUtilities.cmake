@@ -14,7 +14,7 @@ function(add_doxygen_source_deps)
 	
 	set(DEPENDENCIES)
 	foreach(deps ${ARGV})
-		list(APPEND DEPENDENCIES ${CMAKE_CURRENT_SOURCE_DIR}/${deps})
+		list(APPEND DEPENDENCIES ${deps})
 	endforeach()
 	
 	set(CMAKE_DOXYGEN_BUILD_DEPENDENCIES ${CMAKE_DOXYGEN_BUILD_DEPENDENCIES} 

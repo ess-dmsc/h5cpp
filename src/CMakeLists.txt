@@ -77,7 +77,7 @@ set(ATTRIBUTE_SOURCES
   attribute/attribute_iterator.cpp
   )
 
-set(FILTER_SOURCES 
+set(FILTER_SOURCES
     filter/filter.cpp
     filter/deflate.cpp
     filter/fletcher32.cpp
@@ -103,27 +103,28 @@ add_library(h5cpp_shared SHARED
   ${NODE_SOURCES}
   ${ATTRIBUTE_SOURCES}
   ${FILTER_SOURCES}
+  ${h5cpp_headers}
   )
 
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem ${MPI_CXX_LIBRARIES})
 target_include_directories(h5cpp_shared
-	PRIVATE  
+	PRIVATE
 	${PROJECT_SOURCE_DIR}/src/include
-	PUBLIC 
+	PUBLIC
 	${HDF5_INCLUDE_DIRS} ${MPI_CXX_INCLUDE_PATH}
-	INTERFACE 
+	INTERFACE
 	$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 #
 # THIS IS BAD
 # NEED TO GET RID OF THIS
-if(WITH_MPI) 
+if(WITH_MPI)
 target_compile_definitions(h5cpp_shared PUBLIC WITH_MPI)
 endif()
 
-set_target_properties(h5cpp_shared 
-    PROPERTIES 
+set_target_properties(h5cpp_shared
+    PROPERTIES
     VERSION ${PROJECT_VERSION}
     SO_VERSION 0
     CXX_STANDARD_REQUIRED ON
@@ -148,14 +149,14 @@ target_link_libraries(h5cpp_shared PUBLIC ${H5CPP_LINKS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
-install(TARGETS h5cpp_shared 
+install(TARGETS h5cpp_shared
 	    EXPORT h5cpp_shared_targets
 	    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 	    COMPONENT runtime
 	    )
-	   
+
 install(EXPORT h5cpp_shared_targets
 	    DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
 	    COMPONENT development)
