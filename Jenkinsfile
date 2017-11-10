@@ -57,9 +57,9 @@ def docker_tests(container_name) {
     }
 }
 
-static Object get_container(container_name, image_name) {
-    image = docker.image('$image_name')
-    container = image.run("\
+def Object get_container(container_name, image_name) {
+    def image = docker.image('$image_name')
+    def container = image.run("\
         --name ${container_name} \
         --tty \
         --env http_proxy=${env.http_proxy} \
