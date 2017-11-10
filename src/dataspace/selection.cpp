@@ -235,6 +235,20 @@ void Hyperslab::apply(const Dataspace &space,SelectionOperation ops) const
   }
 }
 
+SelectionList operator|(const Hyperslab &a,const Hyperslab &b)
+{
+  return {{SelectionOperation::SET,Selection::SharedPointer(new Hyperslab(a))},
+    {SelectionOperation::OR,Selection::SharedPointer(new Hyperslab(b))}
+  };
+}
+
+SelectionList &operator|(SelectionList &selections,const Hyperslab &b)
+{
+  selections.push_back({SelectionOperation::SET,
+    Selection::SharedPointer(new Hyperslab(b))});
+  return selections;
+}
+
 
 Points::Points():
     Selection()
