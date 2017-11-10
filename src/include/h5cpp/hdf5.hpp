@@ -102,3 +102,4 @@
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/property/type_creation.hpp>
 #include <h5cpp/property/object_copy.hpp>
+#include <h5cpp/property/virtual_data_map.hpp>

@@ -20,6 +20,7 @@ set(PROPERTY_SOURCES
   property/link_creation.cpp
   property/link_access.cpp
   property/attribute_creation.cpp
+  property/virtual_data_map.cpp
   )
 
 set(DATATYPE_SOURCES

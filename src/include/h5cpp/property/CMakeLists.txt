@@ -19,6 +19,7 @@ set(HEADERS
     object_creation.hpp
     string_creation.hpp
     type_creation.hpp
+    virtual_data_map.hpp
     )
 
 add_doxygen_source_deps(${HEADERS})
