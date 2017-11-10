@@ -70,6 +70,19 @@ double ChunkCacheParameters::preemption_policy() const noexcept
   return w0_;
 }
 
+std::ostream &operator<<(std::ostream &stream,const VirtualDataView &view)
+{
+  switch(view)
+  {
+    case VirtualDataView::FIRST_MISSING:
+      return stream<<"FIRST_MISSING";
+    case VirtualDataView::LAST_AVAILABLE:
+      return stream<<"LAST_AVAILABLE";
+    default:
+      return stream;
+  }
+}
+
 DatasetAccessList::DatasetAccessList():
     LinkAccessList(kDatasetAccess)
 {}
@@ -99,6 +112,29 @@ ChunkCacheParameters DatasetAccessList::chunk_cache_parameters() const
   return ChunkCacheParameters(nslots,nbytes,w0);
 }
 
+#if H5_VERSION_GE(1,10,0)
+
+void DatasetAccessList::virtual_view(VirtualDataView view) const
+{
+  if(H5Pset_virtual_view(static_cast<hid_t>(*this),
+                         static_cast<H5D_vds_view_t>(view))<0)
+  {
+    throw std::runtime_error("Failure to set missing data strategy!");
+  }
+}
+
+VirtualDataView DatasetAccessList::virtual_view() const
+{
+  H5D_vds_view_t view;
+  if(H5Pget_virtual_view(static_cast<hid_t>(*this),&view)<0)
+  {
+    throw std::runtime_error("Failure to retrieve the missing data strategy!");
+  }
+
+  return static_cast<VirtualDataView>(view);
+}
+
+#endif
 
 }
 }

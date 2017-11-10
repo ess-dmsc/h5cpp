@@ -24,6 +24,7 @@
 //
 #pragma once
 
+#include <iostream>
 #include <h5cpp/property/link_access.hpp>
 #include <h5cpp/windows.hpp>
 
@@ -55,7 +56,17 @@ class DLL_EXPORT ChunkCacheParameters
     size_t nbytes_;
     double w0_;
 };
-	
+
+#if H5_VERSION_GE(1,10,0)
+enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type
+{
+  FIRST_MISSING = H5D_VDS_FIRST_MISSING,
+  LAST_AVAILABLE = H5D_VDS_LAST_AVAILABLE
+};
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
+                                    const VirtualDataView &view);
+#endif
 //!
 //! \brief dataset access property list
 //!
@@ -83,6 +94,22 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList
     //! \throws std::runtime_error in case of a failure
     //!
     ChunkCacheParameters chunk_cache_parameters() const;
+
+#if H5_VERSION_GE(1,10,0)
+    //!
+    //! \brief missing data handling for virtual datasets
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param view set missing data strategy
+    //!
+    void virtual_view(VirtualDataView view) const;
+
+    //!
+    //! \brief get missing data strategy for virtual datasets
+    //!
+    VirtualDataView virtual_view() const;
+
+#endif
 };
 
 } // namespace property
