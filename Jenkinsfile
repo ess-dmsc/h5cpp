@@ -59,7 +59,7 @@ def docker_tests(container_name) {
 
 def centos = docker.image('essdmscdm/centos-build-node:0.8.0')
 def fedora = docker.image('essdmscdm/fedora-build-node:0.4.1')
-def ub1604 = docker.image('essdmscdm/ubuntu16.04-build-node:0.1.1')
+def ub1604 = docker.image('essdmscdm/ubuntu16.04-build-node:0.0.1')
 
 def centos_container_name = "${base_container_name}-centos"
 def fedora_container_name = "${base_container_name}-fedora"
