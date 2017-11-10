@@ -1,25 +1,29 @@
-set(HEADERS attribute_creation_list.hpp
-	class.hpp
-	creation_order.hpp
-	dataset_access_list.hpp
-	dataset_creation_list.hpp
-	dataset_transfer_list.hpp
-	datatype_access_list.hpp
-	
-	file_access_list.hpp
-	file_creation_list.hpp
-	file_mount_list.hpp
-	group_access_list.hpp
-	group_creation_list.hpp
-	link_access_list.hpp
-	link_creation_list.hpp
-	list.hpp
-	object_creation_list.hpp
-	string_creation_list.hpp
-	type_creation_list.hpp
-	object_copy_list.hpp
-)
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_doxygen_source_deps(${HEADERS})
+set(HEADERS
+    ${dir}/property_class.hpp
+    ${dir}/property_list.hpp
+
+    ${dir}/attribute_creation.hpp
+    ${dir}/creation_order.hpp
+    ${dir}/dataset_access.hpp
+    ${dir}/dataset_creation.hpp
+    ${dir}/dataset_transfer.hpp
+    ${dir}/datatype_access.hpp
+    ${dir}/file_access.hpp
+    ${dir}/file_creation.hpp
+    ${dir}/file_mount.hpp
+    ${dir}/group_access.hpp
+    ${dir}/group_creation.hpp
+    ${dir}/link_access.hpp
+    ${dir}/link_creation.hpp
+    ${dir}/object_copy.hpp
+    ${dir}/object_creation.hpp
+    ${dir}/string_creation.hpp
+    ${dir}/type_creation.hpp
+    )
+
 install(FILES ${HEADERS}
-	    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp/property)
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp/property)
+
+set(h5cpp_headers ${h5cpp_headers} ${HEADERS} PARENT_SCOPE)

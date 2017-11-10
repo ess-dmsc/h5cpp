@@ -50,7 +50,7 @@ int main()
   {
     dset.extent(0,1);      //grow dataset
     dset.write(data,slab); //write data
-    slab.start(0,index);   //update selection
+    slab.offset(0,index);   //update selection
   }
 }
 

@@ -28,7 +28,7 @@
 #include <type_traits>
 #include <iostream>
 #include <h5cpp/windows.hpp>
-#include <h5cpp/property/link_access_list.hpp>
+#include <h5cpp/property/link_access.hpp>
 
 namespace hdf5 {
 

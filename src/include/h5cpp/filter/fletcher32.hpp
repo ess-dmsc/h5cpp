@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include "filter.hpp"
+#include <h5cpp/filter/filter.hpp>
 
 namespace hdf5 {
 namespace filter {
@@ -35,7 +35,7 @@ namespace filter {
 //! If applied to a dataset creation property list this filter will setup
 //! the fletcher32 checksum filter.
 //!
-class Fletcher32 : public Filter
+class DLL_EXPORT Fletcher32 : public Filter
 {
   public:
     //!

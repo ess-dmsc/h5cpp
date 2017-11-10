@@ -65,16 +65,38 @@ Hyperslab::Hyperslab(size_t rank):
   std::fill(count_.begin(),count_.end(),0);
 }
 
-Hyperslab::Hyperslab(const Dimensions &start,
-                     const Dimensions &stride,
+Hyperslab::Hyperslab(const Dimensions &offset,
+                     const Dimensions &block,
                      const Dimensions &count,
-                     const Dimensions &block):
+                     const Dimensions &stride):
                          Selection(),
-                         start_(start),
+                         start_(offset),
                          stride_(stride),
                          count_(count),
                          block_(block)
 {}
+
+Hyperslab::Hyperslab(const Dimensions &offset,const Dimensions &block):
+    Selection(),
+    start_(offset),
+    stride_(offset.size()),
+    count_(offset.size()),
+    block_(block)
+{
+  std::fill(stride_.begin(),stride_.end(),1ul);
+  std::fill(count_.begin(),count_.end(),1ul);
+}
+
+Hyperslab::Hyperslab(const Dimensions &offset,const Dimensions &count,
+                     const Dimensions &stride):
+    Selection(),
+    start_(offset),
+    stride_(stride),
+    count_(count),
+    block_(offset.size())
+{
+  std::fill(block_.begin(),block_.end(),1ul);
+}
 
 size_t Hyperslab::rank() const noexcept
 {
@@ -104,7 +126,7 @@ void Hyperslab::check_container_size(const Dimensions &container,
   }
 }
 
-void Hyperslab::start(size_t index,size_t value)
+void Hyperslab::offset(size_t index,size_t value)
 {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start value for a default "
                                "constructed Hyperslab!")
@@ -113,7 +135,7 @@ void Hyperslab::start(size_t index,size_t value)
   start_[index] = value;
 }
 
-void Hyperslab::start(const Dimensions &values)
+void Hyperslab::offset(const Dimensions &values)
 {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start values for a default "
                                "constructed Hyperslab!")
@@ -122,7 +144,7 @@ void Hyperslab::start(const Dimensions &values)
   start_  = values;
 }
 
-const Dimensions &Hyperslab::start() const
+const Dimensions &Hyperslab::offset() const
 {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot get start values for a default "
                                "constructed Hyperslab!")

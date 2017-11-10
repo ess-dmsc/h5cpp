@@ -28,9 +28,9 @@
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/path.hpp>
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/link_access_list.hpp>
-#include <h5cpp/property/object_copy_list.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/link_access.hpp>
+#include <h5cpp/property/object_copy.hpp>
 #include <h5cpp/windows.hpp>
 
 namespace hdf5 {

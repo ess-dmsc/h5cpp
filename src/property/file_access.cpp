@@ -23,8 +23,7 @@
 // Created on: Aug 17, 2017
 //
 #include <stdexcept>
-#include <h5cpp/property/file_access_list.hpp>
-#include <h5cpp/property/class.hpp>
+#include <h5cpp/property/file_access.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -51,9 +50,9 @@ FileAccessList::~FileAccessList()
 
 void FileAccessList::library_version_bounds(LibVersion high,LibVersion low) const
 {
-  if(H5Pset_libver_bounds(static_cast<hid_t>(*this),
+  if (0 > H5Pset_libver_bounds(static_cast<hid_t>(*this),
                           static_cast<H5F_libver_t>(high),
-                          static_cast<H5F_libver_t>(low))<0)
+                          static_cast<H5F_libver_t>(low)))
   {
     throw std::runtime_error("Failure setting the library version bounds!");
   }
@@ -63,7 +62,7 @@ LibVersion FileAccessList::library_version_bound_high() const
 {
   H5F_libver_t high,low;
 
-  if(H5Pget_libver_bounds(static_cast<hid_t>(*this),&high,&low)<0)
+  if (0 > H5Pget_libver_bounds(static_cast<hid_t>(*this),&low,&high))
   {
     throw std::runtime_error("Failure retrieving library version bounds!");
   }
@@ -75,7 +74,7 @@ LibVersion FileAccessList::library_version_bound_low() const
 {
   H5F_libver_t high,low;
 
-  if(H5Pget_libver_bounds(static_cast<hid_t>(*this),&high,&low)<0)
+  if (0 > H5Pget_libver_bounds(static_cast<hid_t>(*this),&low,&high))
   {
     throw std::runtime_error("Failure retrieving library version bounds!");
   }
