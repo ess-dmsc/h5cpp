@@ -1,9 +1,0 @@
-/*!
-\namespace hdf5
-\brief top-level namespace of the entire library
-*/
-
-/*! 
-\namespace hdf5::node
-\brief namespace for node like objects and related functions
-*/ 

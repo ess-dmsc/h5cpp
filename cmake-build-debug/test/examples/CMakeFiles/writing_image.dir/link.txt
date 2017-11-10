@@ -1,1 +1,0 @@
-/usr/bin/c++   -Wall -pedantic -Wextra -g -O0 -g  -rdynamic CMakeFiles/writing_image.dir/writing_image.cpp.o CMakeFiles/writing_image.dir/rgbpixel.cpp.o  -o ../../bin/writing_image -Wl,-rpath,/home/bdv/dev/h5cpp/cmake-build-debug/lib:/usr/local/hdf5/lib ../../lib/libh5cpp_shared.so.0.0.1 /usr/local/hdf5/lib/libhdf5.so -lz -ldl -lm -lboost_system -lboost_filesystem 
