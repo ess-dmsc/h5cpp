@@ -68,13 +68,20 @@ def Object get_container(container_name, image_name) {
     return container
 }
 
+def String cont_name(suffix) {
+    def name = "${base_container_name}-${suffix}"
+    return name
+}
+
 def centos = docker.image('essdmscdm/centos-build-node:0.8.0')
 def fedora = docker.image('essdmscdm/fedora-build-node:0.4.1')
 //def ub1604 = docker.image('essdmscdm/ubuntu16.04-build-node:0.0.1')
 
 def centos_container_name = "${base_container_name}-centos"
 def fedora_container_name = "${base_container_name}-fedora"
-def ub1604_container_name = "${base_container_name}-ub1604"
+//def ub1604_container_name = "${base_container_name}-ub1604"
+
+def ub1604_container_name = cont_name('ub1604')
 
 node('docker && dmbuild03.dm.esss.dk') {
     // Delete workspace when build is done
@@ -105,14 +112,14 @@ node('docker && dmbuild03.dm.esss.dk') {
             --env https_proxy=${env.https_proxy} \
         ")
 
-        /*ub1604_container = ub1604.run("\
+        ub1604_container = ub1604.run("\
             --name ${ub1604_container_name} \
             --tty \
             --env http_proxy=${env.http_proxy} \
             --env https_proxy=${env.https_proxy} \
-        ")*/
+        ")
 
-        ub1604_container = get_container(${ub1604_container_name}, 'essdmscdm/ubuntu16.04-build-node:0.0.1')
+        //ub1604_container = get_container(${ub1604_container_name}, 'essdmscdm/ubuntu16.04-build-node:0.0.1')
 
         // Copy sources to container.
         dir("${project}") {
