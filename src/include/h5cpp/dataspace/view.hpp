@@ -79,6 +79,19 @@ class View
     View(const Dataspace &space,const SelectionList &selections);
 
     //!
+    //! \brief constructor
+    //!
+    //! Creates a copy of the dataspace and applies a single hyperslab on it.
+    //! This is a conveniance constructor in the case that we need only a
+    //! single hyperslab.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param space reference to the original dataspace
+    //! \param selection reference to the original hyperslab
+    //!
+    View(const Dataspace &space,const Hyperslab &selection);
+
+    //!
     //! \brief apply a new set of selections
     //!
     //! Calling this operator will erase all current selections and replace

@@ -53,6 +53,15 @@ View::View(const Dataspace &space,const SelectionList &selections):
   apply(selections);
 }
 
+View::View(const Dataspace &space,const Hyperslab &selection):
+    space_(space)
+{
+  SelectionList selections{{SelectionOperation::SET,
+                            Selection::SharedPointer(new Hyperslab(selection))}};
+
+  apply(selections);
+}
+
 void View::operator()(const SelectionList &selections) const
 {
   clear();

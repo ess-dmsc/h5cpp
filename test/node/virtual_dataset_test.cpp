@@ -26,6 +26,8 @@
 #include <gtest/gtest.h>
 
 #include <h5cpp/hdf5.hpp>
+#include <algorithm>
+#include <vector>
 
 using namespace hdf5;
 
@@ -91,6 +93,7 @@ void VirtualDatasetTest::TearDown()
 //    boost::filesystem::remove(filename);
 }
 
+using Mappings = std::vector<property::VirtualDataMap>;
 
 TEST_F(VirtualDatasetTest,test_concatenation)
 {
@@ -98,6 +101,8 @@ TEST_F(VirtualDatasetTest,test_concatenation)
   using dataspace::Hyperslab;
   using dataspace::SelectionOperation;
   using hdf5::Path;
+  using dataspace::View;
+
   file::File f = file::create("VirtualDatasetTest.h5",file::AccessFlags::TRUNCATE,gfcpl,gfapl);
   node::Group root = f.root();
 
@@ -106,21 +111,17 @@ TEST_F(VirtualDatasetTest,test_concatenation)
   dataspace::Simple module_space{{30}};
   property::DatasetCreationList dcpl;
 
-  dataspace::Simple m1_space(file_space);
-  m1_space.selection(SelectionOperation::SET,Hyperslab{{0,0},{1,30}});
-  VirtualDataMap module_1(m1_space,"vds_source_1.h5",Path("/module_data"),module_space);
+  // Create the virtual data maps
+  Mappings vds_map = {
+      {View{file_space,Hyperslab{{0,0},{1,30}}},"vds_source_1.h5",Path("/module_data"),View{module_space}},
+      {View{file_space,Hyperslab{{1,0},{1,30}}},"vds_source_2.h5",Path("/module_data"),View{module_space}},
+      {View{file_space,Hyperslab{{2,0},{1,30}}},"vds_source_3.h5",Path("/module_data"),View{module_space}}
+  };
 
-  dataspace::Simple m2_space(file_space);
-  m2_space.selection(SelectionOperation::SET,Hyperslab{{1,0},{1,30}});
-  VirtualDataMap module_2(m2_space,"vds_source_2.h5",Path("/module_data"),module_space);
+  // apply the maps to the datset creation list
+  std::for_each(vds_map.begin(),vds_map.end(),
+                [&dcpl](const VirtualDataMap &map) {map(dcpl);});
 
-  dataspace::Simple m3_space(file_space);
-  m3_space.selection(SelectionOperation::SET,Hyperslab{{2,0},{1,30}});
-  VirtualDataMap module_3(m3_space,"vds_source_3.h5",Path("/module_data"),module_space);
-
-  EXPECT_NO_THROW(module_1(dcpl));
-  EXPECT_NO_THROW(module_2(dcpl));
-  EXPECT_NO_THROW(module_3(dcpl));
 
   node::Dataset dataset;
   EXPECT_NO_THROW((dataset = root.create_dataset("all",file_type,file_space,
