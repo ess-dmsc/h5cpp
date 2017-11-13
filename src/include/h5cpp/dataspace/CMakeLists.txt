@@ -8,6 +8,7 @@ set(HEADERS
     ${dir}/simple.hpp
     ${dir}/type.hpp
     ${dir}/type_trait.hpp
+    ${dir}/view.hpp
     )
 
 install(FILES ${HEADERS}

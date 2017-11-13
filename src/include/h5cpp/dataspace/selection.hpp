@@ -82,8 +82,14 @@ class DLL_EXPORT Selection
                        SelectionOperation ops) const = 0;
 };
 
+struct OperationWithSelection
+{
+    SelectionOperation operation;
+    Selection::SharedPointer selection;
+};
+
 using SelectionPair = std::pair<SelectionOperation,Selection::SharedPointer>;
-using SelectionList = std::list<SelectionPair>;
+using SelectionList = std::list<OperationWithSelection>;
 
 //!
 //! \brief hyperslab selection class

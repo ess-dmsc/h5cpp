@@ -40,6 +40,7 @@ set(DATASPACE_SOURCES
   dataspace/selection.cpp
   dataspace/selection_manager.cpp
   dataspace/type.cpp
+  dataspace/view.cpp
   )
 
 set(FILE_SOURCES

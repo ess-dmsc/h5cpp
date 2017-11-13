@@ -55,6 +55,7 @@
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/dataspace/view.hpp>
 
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/file/functions.hpp>
