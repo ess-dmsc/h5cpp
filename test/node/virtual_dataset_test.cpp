@@ -36,6 +36,8 @@ using DataVector = std::vector<int>;
 
 static const size_t kModuleSize = 30;
 
+#if H5_VERSION_GE(1,10,0)
+
 class VirtualDatasetTest : public testing::Test
 {
   protected:
@@ -196,4 +198,5 @@ TEST_F(VirtualDatasetTest,test_interleaving)
   }
 }
 
+#endif
 

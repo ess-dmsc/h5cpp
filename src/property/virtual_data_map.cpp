@@ -28,6 +28,8 @@
 namespace hdf5 {
 namespace property {
 
+#if H5_VERSION_GE(1,10,0)
+
 VirtualDataMap::VirtualDataMap(const dataspace::View &target_view,
                                const boost::filesystem::path &source_file,
                                const hdf5::Path &source_dataset,
@@ -49,6 +51,8 @@ void VirtualDataMap::operator()(const property::DatasetCreationList &dcpl) const
     throw std::runtime_error("Failure to apply virtual data mapping!");
   }
 }
+
+#endif
 
 } // namespace property
 } // namespace hdf5

@@ -70,6 +70,7 @@ double ChunkCacheParameters::preemption_policy() const noexcept
   return w0_;
 }
 
+#if H5_VERSION_GE(1,10,0)
 std::ostream &operator<<(std::ostream &stream,const VirtualDataView &view)
 {
   switch(view)
@@ -82,6 +83,7 @@ std::ostream &operator<<(std::ostream &stream,const VirtualDataView &view)
       return stream;
   }
 }
+#endif
 
 DatasetAccessList::DatasetAccessList():
     LinkAccessList(kDatasetAccess)
