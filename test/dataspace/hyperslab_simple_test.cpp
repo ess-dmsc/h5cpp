@@ -87,4 +87,15 @@ TEST(HyperslabSimple,test_scatter_construction)
   EXPECT_EQ(space.selection.size(),30ul);
 }
 
+TEST(HyperslabSimple,test_dataspace_copy_with_selection)
+{
+  dataspace::Simple space{{20,1024}};
+  dataspace::Hyperslab selection{{1,1},{3,10},{2,4}};
+  space.selection(dataspace::SelectionOperation::SET,selection);
+  EXPECT_EQ(space.selection.size(),30ul);
+
+  dataspace::Simple new_space(space);
+  EXPECT_EQ(new_space.selection.size(),30ul);
+}
+
 

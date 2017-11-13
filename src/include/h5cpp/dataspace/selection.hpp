@@ -320,8 +320,9 @@ class DLL_EXPORT Hyperslab : public Selection
 
 };
 
-SelectionList operator|(const Hyperslab &a,const Hyperslab &b);
-SelectionList& operator|(SelectionList &selections,const Hyperslab &b);
+Dataspace operator||(const Dataspace &space,const Hyperslab &selection);
+Dataspace operator||(const Dataspace &space,const SelectionList &selections);
+
 
 
 class DLL_EXPORT Points : public Selection
