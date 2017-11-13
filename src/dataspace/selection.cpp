@@ -235,6 +235,39 @@ void Hyperslab::apply(const Dataspace &space,SelectionOperation ops) const
   }
 }
 
+Dataspace operator||(const Dataspace &space,const Hyperslab &selection)
+{
+  Dataspace new_space(space);
+
+  new_space.selection(SelectionOperation::SET,selection);
+  std::cout<<new_space.selection.size()<<std::endl;
+  return new_space;
+}
+
+Dataspace operator||(const Dataspace &space,const SelectionList &selections)
+{
+  Dataspace new_space(space);
+
+  for(auto selection: selections)
+    new_space.selection(selection.first,*selection.second);
+
+  return new_space;
+}
+
+SelectionList operator|(const Hyperslab &a,const Hyperslab &b)
+{
+  return {{SelectionOperation::SET,Selection::SharedPointer(new Hyperslab(a))},
+    {SelectionOperation::OR,Selection::SharedPointer(new Hyperslab(b))}
+  };
+}
+
+SelectionList &operator|(SelectionList &selections,const Hyperslab &b)
+{
+  selections.push_back({SelectionOperation::SET,
+    Selection::SharedPointer(new Hyperslab(b))});
+  return selections;
+}
+
 
 Points::Points():
     Selection()
