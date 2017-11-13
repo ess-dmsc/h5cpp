@@ -34,11 +34,18 @@ using namespace hdf5;
 using PathVector = std::vector<boost::filesystem::path>;
 using DataVector = std::vector<int>;
 
+static const size_t kModuleSize = 30;
+
 class VirtualDatasetTest : public testing::Test
 {
   protected:
     property::FileCreationList gfcpl;
     property::FileAccessList gfapl;
+    DataVector data_module_1;
+    DataVector data_module_2;
+    DataVector data_module_3;
+    dataspace::Simple module_space;
+    datatype::Integer module_type;
     VirtualDatasetTest();
 
     virtual void SetUp();
@@ -47,7 +54,8 @@ class VirtualDatasetTest : public testing::Test
 
   private:
 
-    void create_source(const boost::filesystem::path &filename,int value);
+    void create_source(const boost::filesystem::path &filename,
+                       const DataVector &data);
 
     static const PathVector files_to_delete;
 };
@@ -56,35 +64,39 @@ const PathVector VirtualDatasetTest::files_to_delete = {
     "vds_source_1.h5","vds_source_2.h5","vds_source_3.h5"
 };
 
-void VirtualDatasetTest::create_source(const boost::filesystem::path &filename,int value)
+void VirtualDatasetTest::create_source(const boost::filesystem::path &filename,
+                                       const DataVector &data)
 {
   file::File f = file::create(filename,file::AccessFlags::TRUNCATE,gfcpl,gfapl);
   node::Group root_group = f.root();
-
-  auto file_type = datatype::create<int>();
-  dataspace::Simple file_space{{30}};
-  DataVector data(file_space.size());
-  std::fill(data.begin(),data.end(),value);
-
   node::Dataset dataset = root_group.create_dataset("module_data",
-                                                    file_type,
-                                                    file_space);
+                                                    module_type,
+                                                    module_space);
   dataset.write(data);
 }
 
 VirtualDatasetTest::VirtualDatasetTest():
     gfcpl(),
-    gfapl()
+    gfapl(),
+    data_module_1(kModuleSize),
+    data_module_2(kModuleSize),
+    data_module_3(kModuleSize),
+    module_space(dataspace::Simple{{kModuleSize}}),
+    module_type(datatype::create<int>())
 {
   gfapl.library_version_bounds(property::LibVersion::LATEST,
                                property::LibVersion::LATEST);
+  std::fill(data_module_1.begin(),data_module_1.end(),1);
+  std::fill(data_module_2.begin(),data_module_2.end(),2);
+  std::fill(data_module_3.begin(),data_module_3.end(),3);
+
 }
 
 void VirtualDatasetTest::SetUp()
 {
-  create_source("vds_source_1.h5",1);
-  create_source("vds_source_2.h5",2);
-  create_source("vds_source_3.h5",3);
+  create_source("vds_source_1.h5",data_module_1);
+  create_source("vds_source_2.h5",data_module_2);
+  create_source("vds_source_3.h5",data_module_3);
 }
 
 void VirtualDatasetTest::TearDown()
@@ -97,18 +109,14 @@ using Mappings = std::vector<property::VirtualDataMap>;
 
 TEST_F(VirtualDatasetTest,test_concatenation)
 {
-  using property::VirtualDataMap;
   using dataspace::Hyperslab;
-  using dataspace::SelectionOperation;
   using hdf5::Path;
   using dataspace::View;
 
   file::File f = file::create("VirtualDatasetTest.h5",file::AccessFlags::TRUNCATE,gfcpl,gfapl);
   node::Group root = f.root();
 
-  auto file_type = datatype::create<int>();
-  dataspace::Simple file_space{{3,30}};
-  dataspace::Simple module_space{{30}};
+  dataspace::Simple file_space{{3,kModuleSize}};
   property::DatasetCreationList dcpl;
 
   // Create the virtual data maps
@@ -120,24 +128,26 @@ TEST_F(VirtualDatasetTest,test_concatenation)
 
   // apply the maps to the datset creation list
   std::for_each(vds_map.begin(),vds_map.end(),
-                [&dcpl](const VirtualDataMap &map) {map(dcpl);});
+                [&dcpl](const property::VirtualDataMap &map) {map(dcpl);});
 
 
   node::Dataset dataset;
-  EXPECT_NO_THROW((dataset = root.create_dataset("all",file_type,file_space,
+  EXPECT_NO_THROW((dataset = root.create_dataset("all",module_type,file_space,
                                               property::LinkCreationList(),
                                               dcpl)));
   EXPECT_EQ(dataset.dataspace().size(),90);
 
-  DataVector m1_data(30),m2_data(30),m3_data(30);
-  std::fill(m1_data.begin(),m1_data.end(),1);
-  std::fill(m2_data.begin(),m2_data.end(),2);
-  std::fill(m3_data.begin(),m3_data.end(),3);
-  f.flush(file::Scope::GLOBAL);
+  DataVector read(kModuleSize);
+  Hyperslab slab{{0,0},{1,kModuleSize}};
+  EXPECT_NO_THROW(dataset.read(read,slab));
+  EXPECT_EQ(read,data_module_1);
 
-  DataVector read(30);
-  Hyperslab slab{{0,0},{1,30}};
-  dataset.read(read,slab);
-  EXPECT_EQ(read,m1_data);
+  slab.offset({1,0});
+  EXPECT_NO_THROW(dataset.read(read,slab));
+  EXPECT_EQ(read,data_module_2);
+
+  slab.offset({2,0});
+  EXPECT_NO_THROW(dataset.read(read,slab));
+  EXPECT_EQ(read,data_module_3);
 
 }
