@@ -151,3 +151,49 @@ TEST_F(VirtualDatasetTest,test_concatenation)
   EXPECT_EQ(read,data_module_3);
 
 }
+
+TEST_F(VirtualDatasetTest,test_interleaving)
+{
+  using dataspace::Hyperslab;
+  using hdf5::Path;
+  using dataspace::View;
+  using hdf5::Dimensions;
+
+  file::File f = file::create("VirtualDatasetTest_Interleaving.h5",file::AccessFlags::TRUNCATE,gfcpl,gfapl);
+  node::Group root = f.root();
+
+  dataspace::Simple file_space{{3*kModuleSize}};
+  property::DatasetCreationList dcpl;
+
+  // Create the virtual data maps
+
+  Dimensions count{kModuleSize};
+  Dimensions stride{3};
+  Dimensions block{1};
+  Mappings vds_map = {
+      {View{file_space,Hyperslab{{0},block,count,stride}},"vds_source_1.h5",Path("/module_data"),View{module_space}},
+      {View{file_space,Hyperslab{{1},block,count,stride}},"vds_source_2.h5",Path("/module_data"),View{module_space}},
+      {View{file_space,Hyperslab{{2},block,count,stride}},"vds_source_3.h5",Path("/module_data"),View{module_space}}
+  };
+
+  // apply the maps to the datset creation list
+  std::for_each(vds_map.begin(),vds_map.end(),
+                [&dcpl](const property::VirtualDataMap &map) {map(dcpl);});
+
+
+  node::Dataset dataset;
+  EXPECT_NO_THROW((dataset = root.create_dataset("all",module_type,file_space,
+                                                 property::LinkCreationList(),
+                                                 dcpl)));
+  EXPECT_EQ(dataset.dataspace().size(),90);
+  //readback data
+  DataVector data(3);
+  DataVector ref_data{1,2,3};
+  for(size_t offset=0;offset<kModuleSize*3;offset+=3)
+  {
+    EXPECT_NO_THROW(dataset.read(data,Hyperslab{{offset},{3}}));
+    EXPECT_EQ(data,ref_data);
+  }
+}
+
+
