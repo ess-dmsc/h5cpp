@@ -49,10 +49,9 @@ def docker_tests(container_name) {
                 make run_tests
             \""""
         } catch(e) {
-            failure_function(e, 'Run tests (${container_name}) failed')
-        } finally {
             sh "docker cp ${container_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
+            failure_function(e, 'Run tests (${container_name}) failed')
         }
     }
 }
@@ -73,10 +72,6 @@ def Object concat_name(base_name, suffix) {
     return name
 }
 
-//def centos = docker.image('essdmscdm/centos-build-node:0.8.0')
-//def fedora = docker.image('essdmscdm/fedora-build-node:0.4.1')
-//def ub1604 = docker.image('essdmscdm/ubuntu16.04-build-node:0.0.1')
-
 node('docker && dmbuild03.dm.esss.dk') {
     // Delete workspace when build is done
     cleanWs()
@@ -92,26 +87,6 @@ node('docker && dmbuild03.dm.esss.dk') {
     }
 
     try {
-        /*centos_container = centos.run("\
-            --name ${centos_container_name} \
-            --tty \
-            --env http_proxy=${env.http_proxy} \
-            --env https_proxy=${env.https_proxy} \
-        ")
-
-        fedora_container = fedora.run("\
-            --name ${fedora_container_name} \
-            --tty \
-            --env http_proxy=${env.http_proxy} \
-            --env https_proxy=${env.https_proxy} \
-        ")
-
-        ub1604_container = ub1604.run("\
-            --name ${ub1604_container_name} \
-            --tty \
-            --env http_proxy=${env.http_proxy} \
-            --env https_proxy=${env.https_proxy} \
-        ")*/
 
         def centos_container_name = concat_name(base_container_name, 'centos')
         def fedora_container_name = concat_name(base_container_name, 'fedora')
@@ -198,6 +173,7 @@ node ("fedora") {
 
             try {
                 sh "make generate_coverage"
+                junit 'test/unit_tests_run.xml'
                 //sh "make memcheck"
                 step([
                     $class: 'CoberturaPublisher',
@@ -213,6 +189,7 @@ node ("fedora") {
                 ])
             } catch (e) {
                 failure_function(e, 'Generate docs / generate coverage failed')
+                junit 'test/unit_tests_run.xml'
             }
         }
     }
