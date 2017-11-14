@@ -127,18 +127,18 @@ def build_on_image(name)
         }
 
         try {
-            docker_cmake('centos')
+            docker_cmake(name)
         } catch (e) {
             failure_function(e, 'CMake for ${name} failed')
         }
 
         try {
-            docker_build('centos')
+            docker_build(name)
         } catch (e) {
             failure_function(e, 'Build for ${name} failed')
         }
 
-        docker_tests('centos')
+        docker_tests(name)
     } catch(e) {
         failure_function(e, 'Unknown build failure for ${name} ')
     } finally {
