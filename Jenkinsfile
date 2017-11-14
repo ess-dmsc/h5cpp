@@ -42,8 +42,7 @@ def failure_function(exception_obj, failureMessage) {
 }
 
 def Object cont_name(suffix) {
-    def ret = "${base_container_name}-${suffix}"
-    return ret
+    return "${base_container_name}-${suffix}"
 }
 
 def docker_dependencies(name) {
@@ -96,9 +95,9 @@ def docker_tests(name) {
 }
 
 def Object get_container(name) {
-    container_name = cont_name(name)
-    image_name = images[name]['name']
-    def image = docker.image(image_name)
+    def container_name = cont_name(name)
+    //image_name = images[name]['name']
+    def image = docker.image(images[name]['name'])
     /*def container = image.run("\
         --name ${container_name} \
         --tty \
