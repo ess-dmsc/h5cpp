@@ -1,4 +1,33 @@
 project = "h5cpp"
+
+images = [
+    'centos': [
+        'name': 'essdmscdm/centos-build-node:0.8.0',
+        'sh': 'sh',
+        'cmake': 'cmake3'
+    ],
+    'centos-gcc6': [
+        'name': 'essdmscdm/centos-gcc6-build-node:0.2.0',
+        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
+        'cmake': 'cmake'
+    ],
+    'fedora': [
+        'name': 'essdmscdm/fedora-build-node:0.4.1',
+        'sh': 'sh',
+        'cmake': 'cmake'
+    ],
+    'ubuntu1604': [
+        'name': 'essdmscdm/ubuntu16.04-build-node:0.0.1',
+        'sh': 'sh',
+        'cmake': 'cmake'
+    ],
+    'ubuntu1710': [
+        'name': 'essdmscdm/ubuntu17.10-build-node:0.0.2',
+        'sh': 'sh',
+        'cmake': 'cmake'
+    ]
+]
+
 def base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
 def failure_function(exception_obj, failureMessage) {
@@ -68,7 +97,7 @@ def Object get_container(container_name, image_name) {
 }
 
 def Object concat_name(base_name, suffix) {
-    def name = "${base_name}-${suffix}"
+    def name = "${base_container_name}-${suffix}"
     return name
 }
 
