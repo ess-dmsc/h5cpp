@@ -108,8 +108,9 @@ def Object get_container(name) {
     return container
 }
 
-def build_on_image(name)
+def get_pipeline(name)
 {
+    return {
     stage("${name}") {
 
     try {
@@ -146,9 +147,11 @@ def build_on_image(name)
     }
 
     }
+    }
 }
 
 node('docker && dmbuild03.dm.esss.dk') {
+
     // Delete workspace when build is done
     cleanWs()
 
@@ -162,9 +165,18 @@ node('docker && dmbuild03.dm.esss.dk') {
         }
     }
 
-    build_on_image('centos')
-    build_on_image('fedora')
-    build_on_image('ubuntu1604')
+    def builders = [:]
+    builders['centos'] = get_pipeline('centos')
+    builders['fedora'] = get_pipeline('fedora')
+    builders['ubuntu1604'] = get_pipeline('ubuntu1604')
+
+    /*
+    for (x in images.keySet()) {
+        def image_key = x
+        builders[image_key] = get_pipeline(image_key)
+    }
+    */
+    parallel builders
 }
 
 
