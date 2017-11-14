@@ -85,6 +85,10 @@ def docker_tests(container_name) {
     }
 }
 
+def cont_name(suffix) {
+    return "${base_container_name}-${suffix}"
+}
+
 def Object get_container(container_name, image_name) {
     def image = docker.image(image_name)
     def container = image.run("\
@@ -94,10 +98,6 @@ def Object get_container(container_name, image_name) {
         --env https_proxy=${env.https_proxy} \
         ")
     return container
-}
-
-def concat_name(base_name, suffix) {
-    return "${base_container_name}-${suffix}"
 }
 
 node('docker && dmbuild03.dm.esss.dk') {
@@ -115,27 +115,22 @@ node('docker && dmbuild03.dm.esss.dk') {
     }
 
     try {
-
-        def centos_container_name = concat_name(base_container_name, 'centos')
-        def fedora_container_name = concat_name(base_container_name, 'fedora')
-        def ub1604_container_name = concat_name(base_container_name, 'ub1604')
-
-        centos_container = get_container(centos_container_name, 'essdmscdm/centos-build-node:0.8.0')
-        fedora_container = get_container(fedora_container_name, 'essdmscdm/fedora-build-node:0.4.1')
-        ub1604_container = get_container(ub1604_container_name, 'essdmscdm/ubuntu16.04-build-node:0.0.1')
+        centos_container = get_container(cont_name('centos'), 'essdmscdm/centos-build-node:0.8.0')
+        fedora_container = get_container(cont_name('fedora'), 'essdmscdm/fedora-build-node:0.4.1')
+        ub1604_container = get_container(cont_name('ub1604'), 'essdmscdm/ubuntu16.04-build-node:0.0.1')
 
         // Copy sources to container.
         dir("${project}") {
-            sh "docker cp code ${centos_container_name}:/home/jenkins/${project}"
-            sh "docker cp code ${fedora_container_name}:/home/jenkins/${project}"
-            sh "docker cp code ${ub1604_container_name}:/home/jenkins/${project}"
+            sh "docker cp code ${cont_name('centos')}:/home/jenkins/${project}"
+            sh "docker cp code ${cont_name('fedora')}:/home/jenkins/${project}"
+            sh "docker cp code ${cont_name('ub1604')}:/home/jenkins/${project}"
         }
 
         stage('Dependencies') {
             try {
-                docker_dependencies(centos_container_name)
-                docker_dependencies(fedora_container_name)
-                docker_dependencies(ub1604_container_name)
+                docker_dependencies(cont_name('centos'))
+                docker_dependencies(cont_name('fedora'))
+                docker_dependencies(cont_name('ub1604'))
             } catch (e) {
                 failure_function(e, 'Get dependencies failed')
             }
@@ -143,9 +138,9 @@ node('docker && dmbuild03.dm.esss.dk') {
 
         stage('CMake') {
             try {
-                docker_cmake(centos_container_name, 'cmake3')
-                docker_cmake(fedora_container_name, 'cmake')
-                docker_cmake(ub1604_container_name, 'cmake')
+                docker_cmake(cont_name('centos'), 'cmake3')
+                docker_cmake(cont_name('fedora'), 'cmake')
+                docker_cmake(cont_name('ub1604'), 'cmake')
             } catch (e) {
                 failure_function(e, 'CMake failed')
             }
@@ -153,18 +148,18 @@ node('docker && dmbuild03.dm.esss.dk') {
 
         stage('Build') {
             try {
-                docker_build(centos_container_name)
-                docker_build(fedora_container_name)
-                docker_build(ub1604_container_name)
+                docker_build(cont_name('centos'))
+                docker_build(cont_name('fedora'))
+                docker_build(cont_name('ub1604'))
             } catch (e) {
                 failure_function(e, 'Build failed')
             }
         }
 
         stage('Run tests') {
-            docker_tests(centos_container_name)
-            docker_tests(fedora_container_name)
-            docker_tests(ub1604_container_name)
+            docker_tests(cont_name('centos'))
+            docker_tests(cont_name('fedora'))
+            docker_tests(cont_name('ub1604'))
         }
 
     } catch(e) {
