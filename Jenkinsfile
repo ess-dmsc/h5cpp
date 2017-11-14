@@ -99,11 +99,19 @@ def Object get_container(name) {
     container_name = cont_name(name)
     image_name = images[name]['name']
     def image = docker.image(image_name)
-    def container = image.run("\
+    /*def container = image.run("\
         --name ${container_name} \
         --tty \
         --env http_proxy=${env.http_proxy} \
         --env https_proxy=${env.https_proxy} \
+        ")*/
+    def container = image.run("\
+        --name ${container_name} \
+        --tty \
+        --network=host \
+        --env http_proxy=${env.http_proxy} \
+        --env https_proxy=${env.https_proxy} \
+        --env local_conan_server=${env.local_conan_server} \
         ")
     return container
 }
@@ -115,10 +123,16 @@ def get_pipeline(name)
 
     try {
         container = get_container(name)
+        def custom_sh = images[image_key]['sh']
 
         // Copy sources to container.
         dir("${project}") {
             sh "docker cp code ${cont_name(name)}:/home/jenkins/${project}"
+            // Copy sources to container and change owner and group.
+            //sh "docker cp ${project} ${container_name}:/home/jenkins/${project}"
+            sh """docker exec --user root ${cont_name(name)} ${custom_sh} -c \"
+                chown -R jenkins.jenkins /home/jenkins/${project}
+                \""""
         }
 
         try {
@@ -143,7 +157,9 @@ def get_pipeline(name)
     } catch(e) {
         failure_function(e, 'Unknown build failure for ${name} ')
     } finally {
-        container.stop()
+        sh "docker stop ${cont_name(name)}"
+        sh "docker rm -f ${cont_name(name)}"
+        //container.stop()
     }
 
     }
