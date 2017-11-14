@@ -28,7 +28,7 @@ images = [
     ]
 ]
 
-def base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
 
 def failure_function(exception_obj, failureMessage) {
     def toEmails = [[$class: 'DevelopersRecipientProvider']]
