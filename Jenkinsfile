@@ -122,7 +122,7 @@ def get_pipeline(name)
 
     try {
         container = get_container(name)
-        def custom_sh = images[image_key]['sh']
+        def custom_sh = images[name]['sh']
 
         // Copy sources to container.
         dir("${project}") {
