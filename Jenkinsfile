@@ -85,8 +85,9 @@ def docker_tests(container_name) {
     }
 }
 
-def cont_name(suffix) {
-    return "${base_container_name}-${suffix}"
+def Object cont_name(suffix) {
+    def ret = "${base_container_name}-${suffix}"
+    return ret
 }
 
 def Object get_container(container_name, image_name) {
