@@ -108,6 +108,46 @@ def Object get_container(name) {
     return container
 }
 
+def build_on_image(name)
+{
+    stage('Bulid on ${name}') {
+
+    try {
+        container = get_container(name)
+
+        // Copy sources to container.
+        dir("${project}") {
+            sh "docker cp code ${cont_name(name)}:/home/jenkins/${project}"
+        }
+
+        try {
+            docker_dependencies(name)
+        } catch (e) {
+            failure_function(e, 'Get dependencies for ${name} failed')
+        }
+
+        try {
+            docker_cmake('centos')
+        } catch (e) {
+            failure_function(e, 'CMake for ${name} failed')
+        }
+
+        try {
+            docker_build('centos')
+        } catch (e) {
+            failure_function(e, 'Build for ${name} failed')
+        }
+
+        docker_tests('centos')
+    } catch(e) {
+        failure_function(e, 'Unknown build failure for ${name} ')
+    } finally {
+        container.stop()
+    }
+
+    }
+}
+
 node('docker && dmbuild03.dm.esss.dk') {
     // Delete workspace when build is done
     cleanWs()
@@ -122,61 +162,9 @@ node('docker && dmbuild03.dm.esss.dk') {
         }
     }
 
-    try {
-        centos_container = get_container('centos')
-        fedora_container = get_container('fedora')
-        ub1604_container = get_container('ubuntu1604')
-
-        // Copy sources to container.
-        dir("${project}") {
-            sh "docker cp code ${cont_name('centos')}:/home/jenkins/${project}"
-            sh "docker cp code ${cont_name('fedora')}:/home/jenkins/${project}"
-            sh "docker cp code ${cont_name('ubuntu1604')}:/home/jenkins/${project}"
-        }
-
-        stage('Dependencies') {
-            try {
-                docker_dependencies('centos')
-                docker_dependencies('fedora')
-                docker_dependencies('ubuntu1604')
-            } catch (e) {
-                failure_function(e, 'Get dependencies failed')
-            }
-        }
-
-        stage('CMake') {
-            try {
-                docker_cmake('centos')
-                docker_cmake('fedora')
-                docker_cmake('ubuntu1604')
-            } catch (e) {
-                failure_function(e, 'CMake failed')
-            }
-        }
-
-        stage('Build') {
-            try {
-                docker_build('centos')
-                docker_build('fedora')
-                docker_build('ubuntu1604')
-            } catch (e) {
-                failure_function(e, 'Build failed')
-            }
-        }
-
-        stage('Run tests') {
-            docker_tests('centos')
-            docker_tests('fedora')
-            docker_tests('ubuntu1604')
-        }
-
-    } catch(e) {
-        failure_function(e, 'Unknown build failure')
-    } finally {
-        centos_container.stop()
-        fedora_container.stop()
-        ub1604_container.stop()
-    }
+    build_on_image('centos')
+    build_on_image('fedora')
+    build_on_image('ubuntu1604')
 }
 
 
