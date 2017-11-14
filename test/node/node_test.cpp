@@ -22,26 +22,22 @@
 // Created on: Oct 2, 2017
 //
 
-#include <h5cpp/node/node.hpp>
+#include "group_test_fixtures.hpp"
+
 #include <h5cpp/node/functions.hpp>
 #include <h5cpp/file/functions.hpp>
-
-#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 namespace nd = hdf5::node;
 
-class Node : public BasicFixture
-{
+class Node : public BasicFixture {
 };
 
-TEST_F(Node, test_default_construction)
-{
+TEST_F(Node, test_default_construction) {
   nd::Node n;
 }
 
-TEST_F(Node, test_equality_operator)
-{
+TEST_F(Node, test_equality_operator) {
   nd::Node m, n;
   EXPECT_TRUE(m == n);
   EXPECT_FALSE((m != n));
@@ -51,8 +47,7 @@ TEST_F(Node, test_equality_operator)
   EXPECT_TRUE(g != g2);
 }
 
-TEST_F(Node, test_remove_node)
-{
+TEST_F(Node, test_remove_node) {
   nd::Group f = file_.root();
 
   f.create_group("group");
@@ -67,10 +62,14 @@ TEST_F(Node, test_remove_node)
   EXPECT_NO_THROW(nd::remove(g));
   EXPECT_FALSE(f.exists("group2"));
   EXPECT_THROW(nd::remove(g), std::runtime_error);
+
+  f.create_group("group");
+  property::LinkAccessList lapl;
+  ObjectHandle(static_cast<hid_t>(lapl)).close();
+  EXPECT_THROW(nd::remove(f, Path("group"), lapl), std::runtime_error);
 }
 
-TEST_F(Node, test_copy_node)
-{
+TEST_F(Node, test_copy_node) {
   nd::Group f = file_.root();
   auto g1 = f.create_group("group_1");
   auto gt = g1.create_group("target");
@@ -80,6 +79,10 @@ TEST_F(Node, test_copy_node)
   EXPECT_NO_THROW(nd::copy(gt, g2, Path("gt")));
   EXPECT_TRUE(g2.exists("gt"));
   EXPECT_THROW(nd::copy(gt, g2, Path("gt")), std::runtime_error);
+
+  property::ObjectCopyList ocpl;
+  ObjectHandle(static_cast<hid_t>(ocpl)).close();
+  EXPECT_THROW(nd::copy(gt, g2, Path("gt2"), ocpl), std::runtime_error);
 
   EXPECT_NO_THROW(nd::copy(gt, g2));
   EXPECT_TRUE(g2.exists("target"));
@@ -93,8 +96,7 @@ TEST_F(Node, test_copy_node)
   EXPECT_THROW(nd::copy(f, g2), std::runtime_error);
 }
 
-TEST_F(Node, test_move_node)
-{
+TEST_F(Node, test_move_node) {
   nd::Group f = file_.root();
   auto g1 = f.create_group("group_1");
   auto gt = g1.create_group("target");
@@ -106,6 +108,10 @@ TEST_F(Node, test_move_node)
   EXPECT_FALSE(g1.exists("target"));
   EXPECT_TRUE(g2.exists("gt"));
 
+  property::LinkCreationList lcpl;
+  ObjectHandle(static_cast<hid_t>(lcpl)).close();
+  EXPECT_THROW(nd::move(gt, g2, Path("gt2"), lcpl), std::runtime_error);
+
   gt = g1.create_group("target");
   EXPECT_THROW(nd::move(gt, g2, Path("gt")), std::runtime_error);
 
@@ -116,8 +122,7 @@ TEST_F(Node, test_move_node)
   EXPECT_THROW(nd::move(gm, g1), std::runtime_error);
 }
 
-TEST_F(Node, test_external_link)
-{
+TEST_F(Node, test_external_link) {
   auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
   file2.root().create_group("group").create_group("contents");
   file2.close();
@@ -126,10 +131,16 @@ TEST_F(Node, test_external_link)
   f.create_group("group");
 
   EXPECT_THROW(nd::link("./file2.h5", Path("group"),
-                             f, Path("group")),
-                    std::runtime_error);
+                        f, Path("group")),
+               std::runtime_error);
   EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"),
-                             f, Path("group2")));
+                           f, Path("group2")));
+
+  property::LinkCreationList lcpl;
+  ObjectHandle(static_cast<hid_t>(lcpl)).close();
+  EXPECT_THROW(nd::link("./file2.h5", Path("group"),
+                        f, Path("group3"), lcpl),
+               std::runtime_error);
 
   EXPECT_TRUE(f.links.exists("group2"));
   EXPECT_TRUE(f.exists("group2"));
@@ -137,8 +148,7 @@ TEST_F(Node, test_external_link)
   EXPECT_TRUE(gg2.exists("contents"));
 }
 
-TEST_F(Node, test_soft_link)
-{
+TEST_F(Node, test_soft_link) {
   nd::Group f = file_.root();
   auto g = f.create_group("group");
   auto g1 = g.create_group("group_1");
@@ -147,4 +157,17 @@ TEST_F(Node, test_soft_link)
   EXPECT_NO_THROW(nd::link(g1, g, Path("group_2")));
   EXPECT_TRUE(g.links.exists("group_2"));
   EXPECT_TRUE(nd::Group(g["group_2"]).exists("target"));
+
+  EXPECT_NO_THROW(nd::link(g1, gt, Path("/group_abs")));
+  EXPECT_TRUE(f.links.exists("group_abs"));
+
+  EXPECT_THROW(nd::link(g1, gt, Path("/group_abs")), std::runtime_error);
+
+  property::LinkCreationList lcpl;
+  ObjectHandle(static_cast<hid_t>(lcpl)).close();
+  EXPECT_THROW(nd::link(g1, gt, Path("/group_bad_lcp"), lcpl), std::runtime_error);
+
+  auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
+  auto target = file2.root().create_group("group").create_group("contents");
+  EXPECT_NO_THROW(nd::link(target, g, Path("group_5")));
 }

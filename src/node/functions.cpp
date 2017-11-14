@@ -188,7 +188,8 @@ void link(const boost::filesystem::path &target_file,
 }
 
 void link(const Node &target,
-          const Group &link_base,const Path &link_path,
+          const Group &link_base,
+          const Path &link_path,
           const property::LinkCreationList &lcpl,
           const property::LinkAccessList &lapl)
 {
@@ -201,14 +202,19 @@ void link(const Node &target,
   else
   {
     auto base = link_base;
+    auto lpath = link_path.name();
     if (link_path.absolute())
+    {
       base = link_base.link().file().root();
-    auto lpath = static_cast<std::string>(link_path);
-    if (link_base.links.exists(lpath))
+      auto stripped = link_path;
+      stripped.absolute(false);
+      lpath = static_cast<std::string>(stripped);
+    }
+    if (base.links.exists(lpath))
     {
       std::stringstream ss;
       ss << "node::link (soft) failed. "
-         << base.link() << " / " << link_path << " already exists!";
+         << link_base.link() << " / " << link_path << " already exists!";
       throw std::runtime_error(ss.str());
     }
     if (0 > H5Lcreate_soft(
@@ -220,7 +226,7 @@ void link(const Node &target,
     {
       std::stringstream ss;
       ss << "node::link (soft) failed. "
-         << base.link() << " / " << link_path
+         << link_base.link() << " / " << link_path
          << " -> "
          << target.link();
       throw std::runtime_error(ss.str());
