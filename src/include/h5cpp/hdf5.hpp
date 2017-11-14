@@ -55,6 +55,7 @@
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/dataspace/view.hpp>
 
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/file/functions.hpp>
@@ -102,3 +103,6 @@
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/property/type_creation.hpp>
 #include <h5cpp/property/object_copy.hpp>
+#if H5_VERSION_GE(1,10,0)
+#include <h5cpp/property/virtual_data_map.hpp>
+#endif
