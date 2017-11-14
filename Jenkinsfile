@@ -68,7 +68,7 @@ def Object get_container(container_name, image_name) {
     return container
 }
 
-String cont_name(base, suffix) {
+static String cont_name(base, suffix) {
     def name = "${base}-${suffix}"
     return name
 }
