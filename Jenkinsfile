@@ -41,14 +41,14 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-def Object cont_name(suffix) {
-    return "${base_container_name}-${suffix}"
+def Object cont_name(image_key) {
+    return "${base_container_name}-${image_key}"
 }
 
-def docker_dependencies(name) {
+def docker_dependencies(image_key) {
     def conan_remote = "ess-dmsc-local"
-    def custom_sh = images[name]['sh']
-    sh """docker exec ${cont_name(name)} ${custom_sh} -c \"
+    def custom_sh = images[image_key]['sh']
+    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         mkdir build
         cd build
         conan --version
@@ -59,46 +59,45 @@ def docker_dependencies(name) {
     \""""
 }
 
-def docker_cmake(name) {
-    cmake_exec = images[name]['cmake']
-    def custom_sh = images[name]['sh']
-    sh """docker exec ${cont_name(name)} ${custom_sh} -c \"
+def docker_cmake(image_key) {
+    cmake_exec = images[image_key]['cmake']
+    def custom_sh = images[image_key]['sh']
+    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
         ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ../${project}
     \""""
 }
 
-def docker_build(name) {
-    def custom_sh = images[name]['sh']
-    sh """docker exec ${cont_name(name)} ${custom_sh} -c \"
+def docker_build(image_key) {
+    def custom_sh = images[image_key]['sh']
+    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         make --version
         make unit_tests
     \""""
 }
 
-def docker_tests(name) {
-    container_name = cont_name(name)
-    def custom_sh = images[name]['sh']
+def docker_tests(image_key) {
+    def custom_sh = images[image_key]['sh']
     dir("${project}/tests") {
         try {
-            sh """docker exec ${container_name} ${custom_sh} -c \"
+            sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd build
                 make run_tests
             \""""
         } catch(e) {
-            sh "docker cp ${container_name}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
-            failure_function(e, 'Run tests (${container_name}) failed')
+            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
     }
 }
 
-def Object get_container(name) {
-    def image = docker.image(images[name]['name'])
+def Object get_container(image_key) {
+    def image = docker.image(images[image_key]['name'])
     def container = image.run("\
-        --name ${cont_name(name)} \
+        --name ${container_name(image_key)} \
         --tty \
         --network=host \
         --env http_proxy=${env.http_proxy} \
@@ -108,47 +107,46 @@ def Object get_container(name) {
     return container
 }
 
-def get_pipeline(name)
+def get_pipeline(image_key)
 {
     return {
-        stage("${name}") {
+        stage("${image_key}") {
             try {
-                def container = get_container(name)
-                def container_name = cont_name(name)
-                def custom_sh = images[name]['sh']
+                def container = get_container(image_key)
+                def custom_sh = images[image_key]['sh']
 
                 // Copy sources to container and change owner and group.
                 dir("${project}") {
-                    sh "docker cp code ${container_name}:/home/jenkins/${project}"
-                    sh """docker exec --user root ${container_name} ${custom_sh} -c \"
+                    sh "docker cp code ${container_name(image_key)}:/home/jenkins/${project}"
+                    sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
                         chown -R jenkins.jenkins /home/jenkins/${project}
                         \""""
                 }
 
                 try {
-                    docker_dependencies(name)
+                    docker_dependencies(image_key)
                 } catch (e) {
-                    failure_function(e, 'Get dependencies for ${name} failed')
+                    failure_function(e, 'Get dependencies for ${image_key} failed')
                 }
 
                 try {
-                    docker_cmake(name)
+                    docker_cmake(image_key)
                 } catch (e) {
-                    failure_function(e, 'CMake for ${name} failed')
+                    failure_function(e, 'CMake for ${image_key} failed')
                 }
 
                 try {
-                    docker_build(name)
+                    docker_build(image_key)
                 } catch (e) {
-                    failure_function(e, 'Build for ${name} failed')
+                    failure_function(e, 'Build for ${image_key} failed')
                 }
 
-                docker_tests(name)
+                docker_tests(image_key)
             } catch(e) {
-                failure_function(e, 'Unknown build failure for ${name} ')
+                failure_function(e, 'Unknown build failure for ${image_key} ')
             } finally {
-                sh "docker stop ${container_name}"
-                sh "docker rm -f ${container_name}"
+                sh "docker stop ${container_name(image_key)}"
+                sh "docker rm -f ${container_name(image_key)}"
             }
         }
     }
