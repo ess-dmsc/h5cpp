@@ -96,9 +96,8 @@ def Object get_container(container_name, image_name) {
     return container
 }
 
-def Object concat_name(base_name, suffix) {
-    def name = "${base_container_name}-${suffix}"
-    return name
+def concat_name(base_name, suffix) {
+    return "${base_name}-${suffix}"
 }
 
 node('docker && dmbuild03.dm.esss.dk') {
