@@ -110,7 +110,7 @@ def Object get_container(name) {
 
 def build_on_image(name)
 {
-    stage('Bulid on ${name}') {
+    stage("${name}") {
 
     try {
         container = get_container(name)
