@@ -1,91 +1,6 @@
 add_subdirectory(include)
 
-set(PROPERTY_SOURCES
-  property/property_class.cpp
-  property/creation_order.cpp
-  property/property_list.cpp
-  property/file_creation.cpp
-  property/file_access.cpp
-  property/file_mount.cpp
-  property/dataset_access.cpp
-  property/dataset_creation.cpp
-  property/dataset_transfer.cpp
-  property/group_creation.cpp
-  property/group_access.cpp
-  property/object_creation.cpp
-  property/object_copy.cpp
-  property/string_creation.cpp
-  property/type_creation.cpp
-  property/datatype_access.cpp
-  property/link_creation.cpp
-  property/link_access.cpp
-  property/attribute_creation.cpp
-  property/virtual_data_map.cpp
-  )
-
-set(DATATYPE_SOURCES
-  datatype/datatype.cpp
-  datatype/integer.cpp
-  datatype/float.cpp
-  datatype/types.cpp
-  datatype/compound.cpp
-  datatype/string.cpp
-  datatype/array.cpp
-  )
-
-set(DATASPACE_SOURCES
-  dataspace/dataspace.cpp
-  dataspace/scalar.cpp
-  dataspace/simple.cpp
-  dataspace/selection.cpp
-  dataspace/selection_manager.cpp
-  dataspace/type.cpp
-  dataspace/view.cpp
-  )
-
-set(FILE_SOURCES
-  file/types.cpp
-  file/file.cpp
-  file/functions.cpp
-  file/direct_driver.cpp
-  file/memory_driver.cpp
-  file/posix_driver.cpp
-  file/mpi_driver.cpp
-  )
-
-set(ERROR_SOURCES
-  error/error.cpp
-  )
-
-set(NODE_SOURCES
-  node/types.cpp
-  node/group_view.cpp
-  node/node_view.cpp
-  node/link_view.cpp
-  node/node.cpp
-  node/link.cpp
-  node/group.cpp
-  node/utilities.cpp
-  node/dataset.cpp
-  node/functions.cpp
-  node/node_iterator.cpp
-  node/link_iterator.cpp
-  )
-
-set(ATTRIBUTE_SOURCES
-  attribute/attribute.cpp
-  attribute/attribute_manager.cpp
-  attribute/attribute_iterator.cpp
-  )
-
-set(FILTER_SOURCES
-    filter/filter.cpp
-    filter/deflate.cpp
-    filter/fletcher32.cpp
-    filter/shuffle.cpp
-    )
-
-set(SOURCES
+set(h5cpp_sources
   object_handle.cpp
   object_id.cpp
   path.cpp
@@ -93,17 +8,17 @@ set(SOURCES
   iterator.cpp
   )
 
+add_subdirectory(attribute)
+add_subdirectory(dataspace)
+add_subdirectory(datatype)
+add_subdirectory(error)
+add_subdirectory(file)
+add_subdirectory(filter)
+add_subdirectory(node)
+add_subdirectory(property)
 
 add_library(h5cpp_shared SHARED
-  ${SOURCES}
-  ${PROPERTY_SOURCES}
-  ${DATATYPE_SOURCES}
-  ${DATASPACE_SOURCES}
-  ${ERROR_SOURCES}
-  ${FILE_SOURCES}
-  ${NODE_SOURCES}
-  ${ATTRIBUTE_SOURCES}
-  ${FILTER_SOURCES}
+	${h5cpp_sources}
   ${h5cpp_headers}
   )
 
