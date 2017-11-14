@@ -46,9 +46,9 @@ def Object cont_name(suffix) {
 }
 
 def docker_dependencies(name) {
-    container_name = cont_name(name)
     def conan_remote = "ess-dmsc-local"
-    sh """docker exec ${container_name} sh -c \"
+    def custom_sh = images[name]['sh']
+    sh """docker exec ${cont_name(name)} ${custom_sh} -c \"
         mkdir build
         cd build
         conan --version
@@ -60,9 +60,9 @@ def docker_dependencies(name) {
 }
 
 def docker_cmake(name) {
-    container_name = cont_name(name)
     cmake_exec = images[name]['cmake']
-    sh """docker exec ${container_name} sh -c \"
+    def custom_sh = images[name]['sh']
+    sh """docker exec ${cont_name(name)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
         ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ../${project}
@@ -70,8 +70,8 @@ def docker_cmake(name) {
 }
 
 def docker_build(name) {
-    container_name = cont_name(name)
-    sh """docker exec ${container_name} sh -c \"
+    def custom_sh = images[name]['sh']
+    sh """docker exec ${cont_name(name)} ${custom_sh} -c \"
         cd build
         make --version
         make unit_tests
@@ -80,9 +80,10 @@ def docker_build(name) {
 
 def docker_tests(name) {
     container_name = cont_name(name)
+    def custom_sh = images[name]['sh']
     dir("${project}/tests") {
         try {
-            sh """docker exec ${container_name} sh -c \"
+            sh """docker exec ${container_name} ${custom_sh} -c \"
                 cd build
                 make run_tests
             \""""
@@ -95,17 +96,9 @@ def docker_tests(name) {
 }
 
 def Object get_container(name) {
-    def container_name = cont_name(name)
-    //image_name = images[name]['name']
     def image = docker.image(images[name]['name'])
-    /*def container = image.run("\
-        --name ${container_name} \
-        --tty \
-        --env http_proxy=${env.http_proxy} \
-        --env https_proxy=${env.https_proxy} \
-        ")*/
     def container = image.run("\
-        --name ${container_name} \
+        --name ${cont_name(name)} \
         --tty \
         --network=host \
         --env http_proxy=${env.http_proxy} \
@@ -118,50 +111,46 @@ def Object get_container(name) {
 def get_pipeline(name)
 {
     return {
-    stage("${name}") {
+        stage("${name}") {
+            try {
+                def container = get_container(name)
+                def container_name = cont_name(name)
+                def custom_sh = images[name]['sh']
 
-    try {
-        container = get_container(name)
-        def custom_sh = images[name]['sh']
+                // Copy sources to container and change owner and group.
+                dir("${project}") {
+                    sh "docker cp code ${container_name}:/home/jenkins/${project}"
+                    sh """docker exec --user root ${container_name} ${custom_sh} -c \"
+                        chown -R jenkins.jenkins /home/jenkins/${project}
+                        \""""
+                }
 
-        // Copy sources to container.
-        dir("${project}") {
-            sh "docker cp code ${cont_name(name)}:/home/jenkins/${project}"
-            // Copy sources to container and change owner and group.
-            //sh "docker cp ${project} ${container_name}:/home/jenkins/${project}"
-            sh """docker exec --user root ${cont_name(name)} ${custom_sh} -c \"
-                chown -R jenkins.jenkins /home/jenkins/${project}
-                \""""
+                try {
+                    docker_dependencies(name)
+                } catch (e) {
+                    failure_function(e, 'Get dependencies for ${name} failed')
+                }
+
+                try {
+                    docker_cmake(name)
+                } catch (e) {
+                    failure_function(e, 'CMake for ${name} failed')
+                }
+
+                try {
+                    docker_build(name)
+                } catch (e) {
+                    failure_function(e, 'Build for ${name} failed')
+                }
+
+                docker_tests(name)
+            } catch(e) {
+                failure_function(e, 'Unknown build failure for ${name} ')
+            } finally {
+                sh "docker stop ${container_name}"
+                sh "docker rm -f ${container_name}"
+            }
         }
-
-        try {
-            docker_dependencies(name)
-        } catch (e) {
-            failure_function(e, 'Get dependencies for ${name} failed')
-        }
-
-        try {
-            docker_cmake(name)
-        } catch (e) {
-            failure_function(e, 'CMake for ${name} failed')
-        }
-
-        try {
-            docker_build(name)
-        } catch (e) {
-            failure_function(e, 'Build for ${name} failed')
-        }
-
-        docker_tests(name)
-    } catch(e) {
-        failure_function(e, 'Unknown build failure for ${name} ')
-    } finally {
-        sh "docker stop ${cont_name(name)}"
-        sh "docker rm -f ${cont_name(name)}"
-        //container.stop()
-    }
-
-    }
     }
 }
 
