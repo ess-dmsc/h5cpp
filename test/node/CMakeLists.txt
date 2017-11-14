@@ -17,6 +17,7 @@ set(Common_SRC
   ${dir}/dataset_vlen_array_io.cpp
   ${dir}/dataset_fixed_string_io.cpp
   ${dir}/dataset_variable_string_io.cpp
+  ${dir}/virtual_dataset_test.cpp
   PARENT_SCOPE)
 
 set(Common_INC

@@ -28,6 +28,8 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/types.hpp>
 #include <h5cpp/windows.hpp>
+#include <memory>
+#include <list>
 
 namespace hdf5 {
 namespace dataspace {
@@ -38,6 +40,13 @@ namespace dataspace {
 class DLL_EXPORT Selection
 {
   public:
+    //!
+    //! \brief pointer for selection stacks
+    //!
+    //! As selections use virtual functions for being applied we have to
+    using UniquePointer = std::unique_ptr<Selection>;
+    using SharedPointer = std::shared_ptr<Selection>;
+
     //!
     //! \brief default constructor
     //!
@@ -72,6 +81,15 @@ class DLL_EXPORT Selection
     virtual void apply(const Dataspace &space,
                        SelectionOperation ops) const = 0;
 };
+
+struct OperationWithSelection
+{
+    SelectionOperation operation;
+    Selection::SharedPointer selection;
+};
+
+using SelectionPair = std::pair<SelectionOperation,Selection::SharedPointer>;
+using SelectionList = std::list<OperationWithSelection>;
 
 //!
 //! \brief hyperslab selection class
@@ -307,6 +325,10 @@ class DLL_EXPORT Hyperslab : public Selection
 #endif
 
 };
+
+Dataspace operator||(const Dataspace &space,const Hyperslab &selection);
+Dataspace operator||(const Dataspace &space,const SelectionList &selections);
+
 
 
 class DLL_EXPORT Points : public Selection

@@ -21,6 +21,7 @@ set(HEADERS
     ${dir}/object_creation.hpp
     ${dir}/string_creation.hpp
     ${dir}/type_creation.hpp
+    ${dir}/virtual_data_map.hpp
     )
 
 install(FILES ${HEADERS}
