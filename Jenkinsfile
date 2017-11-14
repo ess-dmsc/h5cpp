@@ -41,7 +41,7 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-def Object cont_name(image_key) {
+def Object container_name(image_key) {
     return "${base_container_name}-${image_key}"
 }
 
