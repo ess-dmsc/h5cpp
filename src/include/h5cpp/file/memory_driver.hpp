@@ -37,7 +37,7 @@ namespace file {
 //! enabled the file will be written to disk with the same file name used
 //! to create the file in memory.
 //!
-class MemoryDriver : public Driver
+class DLL_EXPORT MemoryDriver : public Driver
 {
   public:
     //!

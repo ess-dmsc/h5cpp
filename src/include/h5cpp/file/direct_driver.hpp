@@ -33,7 +33,7 @@ namespace file {
 //!
 //! \brief direct write without buffering
 //!
-class DirectDriver : public Driver
+class DLL_EXPORT DirectDriver : public Driver
 {
   public:
     //!

@@ -26,6 +26,7 @@
 
 #include <h5cpp/dataspace/selection.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -36,7 +37,7 @@ namespace dataspace {
 //! The View class applies selections on a dataspace. Since a copy of the
 //! original dataspace is created the former one remains unchanged.
 //!
-class View
+class DLL_EXPORT View
 {
   public:
     //!

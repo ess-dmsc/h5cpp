@@ -32,7 +32,7 @@ namespace file {
 
 #ifdef WITH_MPI
 
-class MPIDriver : public Driver
+class DLL_EXPORT MPIDriver : public Driver
 {
   public:
     MPIDriver(MPI_Comm comm,MPI_Info info);

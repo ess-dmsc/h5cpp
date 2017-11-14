@@ -24,6 +24,7 @@
 //
 #pragma once
 #include <memory>
+#include <h5cpp/windows.hpp>
 
 
 //
@@ -58,7 +59,7 @@ enum class DriverID : unsigned {
 //! mainly due to the fact that we are currently accessing the drivers
 //! only via the file access property list.
 //!
-class Driver
+class DLL_EXPORT Driver
 {
   public:
     //!

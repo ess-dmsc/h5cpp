@@ -29,6 +29,7 @@
 #include <h5cpp/dataspace/view.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/path.hpp>
+#include <h5cpp/windows.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -40,7 +41,7 @@ namespace property {
 //! This class describes the mapping of data between the dataspace of a
 //! virtual dataset and the source dataset.
 //!
-class VirtualDataMap {
+class DLL_EXPORT VirtualDataMap {
   public:
     //!
     //! \brief default constructor

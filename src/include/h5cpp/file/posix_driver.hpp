@@ -29,7 +29,7 @@
 namespace hdf5 {
 namespace file {
 
-class PosixDriver : public Driver
+class DLL_EXPORT PosixDriver : public Driver
 {
   public:
     PosixDriver();
