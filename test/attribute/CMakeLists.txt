@@ -1,7 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(Common_SRC
-  ${Common_SRC}
+set(test_sources
+  ${test_sources}
   ${dir}/attribute_test_fixtures.cpp
   ${dir}/attribute_test.cpp
   ${dir}/attribute_name_access_test.cpp
@@ -13,8 +13,8 @@ set(Common_SRC
   ${dir}/attribute_variable_string_io.cpp
   PARENT_SCOPE)
 
-set(Common_INC
-  ${Common_INC}
+set(test_headers
+  ${test_headers}
   ${dir}/attribute_test_fixtures.hpp
   PARENT_SCOPE)
                 
