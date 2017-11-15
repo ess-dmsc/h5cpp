@@ -1,7 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(Common_SRC
-  ${Common_SRC}
+set(test_sources
+  ${test_sources}
   ${dir}/node_test.cpp
   ${dir}/group_test_fixtures.cpp
   ${dir}/type_test.cpp
@@ -20,8 +20,8 @@ set(Common_SRC
   ${dir}/virtual_dataset_test.cpp
   PARENT_SCOPE)
 
-set(Common_INC
-  ${Common_INC}
+set(test_headers
+  ${test_headers}
   ${dir}/group_test_fixtures.hpp
   PARENT_SCOPE)
 

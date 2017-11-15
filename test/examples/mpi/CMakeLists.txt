@@ -1,7 +1,7 @@
 
-add_executable(writer_simple writer.cpp)
+add_executable(writer_simple EXCLUDE_FROM_ALL writer.cpp)
 target_link_libraries(writer_simple h5cpp_shared)
 
 
-add_executable(writer_extend writer_extend.cpp)
+add_executable(writer_extend EXCLUDE_FROM_ALL writer_extend.cpp)
 target_link_libraries(writer_extend h5cpp_shared)
