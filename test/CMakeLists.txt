@@ -58,6 +58,8 @@ add_subdirectory(filter)
 add_subdirectory(node)
 add_subdirectory(property)
 
+add_subdirectory(examples)
+
 add_executable(unit_tests EXCLUDE_FROM_ALL ${test_sources} ${test_headers})
 add_dependencies(unit_tests h5cpp_shared)
 target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_shared)

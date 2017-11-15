@@ -126,24 +126,24 @@ def get_pipeline(image_key)
                 try {
                     docker_dependencies(image_key)
                 } catch (e) {
-                    failure_function(e, 'Get dependencies for ${image_key} failed')
+                    failure_function(e, "Get dependencies for ${image_key} failed")
                 }
 
                 try {
                     docker_cmake(image_key)
                 } catch (e) {
-                    failure_function(e, 'CMake for ${image_key} failed')
+                    failure_function(e, "CMake for ${image_key} failed")
                 }
 
                 try {
                     docker_build(image_key)
                 } catch (e) {
-                    failure_function(e, 'Build for ${image_key} failed')
+                    failure_function(e, "Build for ${image_key} failed")
                 }
 
                 docker_tests(image_key)
             } catch(e) {
-                failure_function(e, 'Unknown build failure for ${image_key} ')
+                failure_function(e, "Unknown build failure for ${image_key}")
             } finally {
                 sh "docker stop ${container_name(image_key)}"
                 sh "docker rm -f ${container_name(image_key)}"
