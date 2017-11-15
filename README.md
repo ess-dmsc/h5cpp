@@ -2,7 +2,7 @@
 
 *h5cpp* is a new C++ wrapper for HDF5s C-API. 
 
-##Motivation
+## Motivation
 
 HDF5 is a powerful binary file format. There is virtually nothing that cannot 
 be stored within an HDF5 file. To read and write data from and to an HDF5 file
