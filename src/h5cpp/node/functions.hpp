@@ -192,6 +192,17 @@ DLL_EXPORT void link(const boost::filesystem::path &target_file,
                      const property::LinkCreationList &lcpl = property::LinkCreationList(),
                      const property::LinkAccessList &lapl = property::LinkAccessList());
 
+//!
+//! \brief get a node
+//!
+//! Get a node from a base group.
+//!
+//! \throws std::runtime_error in case of a failure
+//! \param base reference to the base group
+//! \param node_path reference to the path of the node
+//! \return new node instance
+DLL_EXPORT Node get(const Group &base,const Path &node_path);
+
 
 } // namespace node
 } // namespace hdf5

@@ -67,6 +67,23 @@ class DLL_EXPORT Group : public Node
     //!
     Group(const Node &node);
 
+    //!
+    //! \brief constructor
+    //!
+    //! \param parent reference to the parent group of the new group
+    //! \param path the path to the new group
+    //! \param lcpl reference to the link creation property list
+    //! \param gcpl reference to the group creation property list
+    //! \param gapl reference to the group access property list
+    //!
+    Group(const Group &parent,const Path &path,
+          const property::LinkCreationList &lcpl = property::LinkCreationList(),
+          const property::GroupCreationList &gcpl = property::GroupCreationList(),
+          const property::GroupAccessList &gapl = property::GroupAccessList());
+
+    //!
+    //! \brief copy assignment operator
+    //!
     Group &operator=(const Group &group);
 
     //!

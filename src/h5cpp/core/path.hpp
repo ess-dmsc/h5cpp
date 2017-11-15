@@ -40,6 +40,12 @@ namespace hdf5 {
 //! While HDF5s C-API uses a simple string to represent a path, the C++ wrapper
 //! provides a class for this purpose.
 //!
+//! Though an HDF5 path look quit similar to an Unix filesystem path there is
+//! one major difference: \c .. has no special meaning. On a Unix filesystem
+//! \c .. would reference to the directory above the current one. In HDF5
+//! \c .. simply means nothing. It would be even allowed to use \c .. as a
+//! name for a group, dataset or committed datatype.
+//!
 class DLL_EXPORT Path
 {
   public:
@@ -90,10 +96,60 @@ class DLL_EXPORT Path
     //!
     const_iterator end() const;
 
+
+    //@{
+    //!
+    //! \brief get reverse iterator
+    //!
+    //! rbegin() and rend() return the pair of reverse iterators for the path.
+    //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::for_each(p.rbegin(),p.rend(),
+    //!               [](const std::string &name) { std::cout<<name<<" "; });
+    //! //output: temperature sensors run
+    //! \endcode
+    //!
+    //! \return instance of a const reverse iterator
+    //!
     const_reverse_iterator rbegin() const;
     const_reverse_iterator rend() const;
+    //@}
 
+    //!
+    //! \brief returns true if a path is absolute
+    //!
+    //! A path is considered absolute if its first element references the
+    //! root node. This is indicated by a leading \c / of the path string.
+    //!
+    //! \code
+    //! hdf5::Path p("/log/data");
+    //! if(p.absolute())
+    //! {
+    //!    std::cout<<"got absolute path"<<std::endl;
+    //! }
+    //! \endcode
+    //!
+    //! \return true if path is absolute, false otherwise
+    //!
     bool absolute() const noexcept;
+
+    //!
+    //! \brief set a path to be absolute
+    //!
+    //! Use this flag to set or unset the absolut flag.
+    //!
+    //! \code
+    //! Path p("data/modules");
+    //! std::cout<<p<<std::endl; // output: data/modules
+    //! p.absolute(true);
+    //! std::cout<<p<<std::endl; // output: /data/modules
+    //! p.absolute(false);
+    //! std::cout<<p<<std::endl; // output: data/modules
+    //! \endcode
+    //!
+    //! \param value boolean value deciding whether a path is absolute or not
+    //!
     void absolute(bool value) noexcept;
 
     //!
@@ -119,12 +175,29 @@ class DLL_EXPORT Path
     //!
     Path parent() const;
 
+    //!
+    //! \brief append a path to this instance
+    //!
+    //! Adding path p to this instance. Basically this
+    //!
+    //! \code
+    //! hdf5::Path base_path("/entry/instrument");
+    //! hdf5::Path detector_transforms("detector/transformations");
+    //! hdf5::Path p = base_path.append(detector_transforms);
+    //! std::cout<<p<<std::endl;
+    //! //output: /entry/instrument/detector/transformations
+    //! \endcode
+    //!
     void append(const Path& p);
 
     Path relative_to(const Path& base) const;
 
     Path& operator+=(const Path &other);
 
+    //!
+    //! \brief checks two paths for equality
+    //!
+    //! Two paths are considered equal if each of their elements is
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
     DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
 

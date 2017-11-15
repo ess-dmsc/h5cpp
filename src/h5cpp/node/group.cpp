@@ -52,6 +52,30 @@ Group::Group(const Node &node):
     iter_config_(IteratorConfig())
 {}
 
+Group::Group(const Group &parent,const Path &path,
+             const property::LinkCreationList &lcpl,
+             const property::GroupCreationList &gcpl,
+             const property::GroupAccessList &gapl):
+     Node()
+{
+  hid_t gid = 0;
+
+  if((gid=H5Gcreate(static_cast<hid_t>(parent),
+                    static_cast<std::string>(path).c_str(),
+                    static_cast<hid_t>(lcpl),
+                    static_cast<hid_t>(gcpl),
+                    static_cast<hid_t>(gapl)))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to create new group ["<<path<<"] below ["
+      <<parent.link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+
+  *this = Node(Object())
+
+}
+
 
 Group &Group::operator=(const Group &group)
 {
