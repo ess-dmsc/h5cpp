@@ -22,7 +22,6 @@ if (WITH_MPI AND (CMAKE_SYSTEM_NAME MATCHES Darwin))
   message(FATAL_ERROR "MPI not supported for OSX")
 endif ()
 
-
 #=============================================================================
 # setting up conan for use from within cmake
 #=============================================================================
@@ -30,7 +29,6 @@ set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
 
 if (WITH_CONAN)
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
-
   conan_cmake_run(CONANFILE conanfile.txt
     BASIC_SETUP
     BUILD missing)
@@ -97,3 +95,15 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)
 
+#
+# uninstall target
+#
+if(NOT TARGET uninstall)
+	configure_file(
+		"${EXTRA_MODULES_DIR}/cmake_uninstall.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+		IMMEDIATE @ONLY)
+
+	add_custom_target(uninstall
+		COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
