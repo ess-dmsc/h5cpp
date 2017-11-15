@@ -1,4 +1,4 @@
-include_directories(${PROJECT_SOURCE_DIR}/src/include)
+include_directories(${PROJECT_SOURCE_DIR}/src)
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 #include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
