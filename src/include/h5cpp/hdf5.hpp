@@ -24,15 +24,15 @@
 //
 #pragma once
 
-#include <h5cpp/hdf5_capi.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 
-#include <h5cpp/iterator_config.hpp>
-#include <h5cpp/iterator.hpp>
-#include <h5cpp/object_handle.hpp>
-#include <h5cpp/object_id.hpp>
-#include <h5cpp/path.hpp>
-#include <h5cpp/types.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/iterator_config.hpp>
+#include <h5cpp/core/iterator.hpp>
+#include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/object_id.hpp>
+#include <h5cpp/core/path.hpp>
+#include <h5cpp/core/types.hpp>
+#include <h5cpp/core/windows.hpp>
 
 #include <h5cpp/attribute/attribute_iterator.hpp>
 #include <h5cpp/attribute/attribute_manager.hpp>

@@ -26,7 +26,7 @@
 
 #include <h5cpp/node/types.hpp>
 #include <h5cpp/property/link_access.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace node {

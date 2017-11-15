@@ -25,8 +25,8 @@
 #pragma once
 
 #include <h5cpp/file/file.hpp>
-#include <h5cpp/path.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/path.hpp>
+#include <h5cpp/core/windows.hpp>
 #include <h5cpp/property/link_access.hpp>
 #include <h5cpp/node/types.hpp>
 

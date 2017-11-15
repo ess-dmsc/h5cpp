@@ -25,7 +25,7 @@
 #include <stdexcept>
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
-#include <h5cpp/types.hpp>
+#include <h5cpp/core/types.hpp>
 
 namespace hdf5 {
 namespace property {

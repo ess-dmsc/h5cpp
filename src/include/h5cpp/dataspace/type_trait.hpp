@@ -30,7 +30,7 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/dataspace/simple.hpp>
-#include <h5cpp/types.hpp>
+#include <h5cpp/core/types.hpp>
 
 
 namespace hdf5 {

@@ -1,13 +1,8 @@
 add_subdirectory(include)
 
-set(h5cpp_sources
-  object_handle.cpp
-  object_id.cpp
-  path.cpp
-  iterator_config.cpp
-  iterator.cpp
-  )
+set(h5cpp_sources )
 
+add_subdirectory(core)
 add_subdirectory(attribute)
 add_subdirectory(dataspace)
 add_subdirectory(datatype)

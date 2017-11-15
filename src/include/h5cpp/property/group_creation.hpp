@@ -26,7 +26,7 @@
 
 #include <h5cpp/property/object_creation.hpp>
 #include <h5cpp/property/creation_order.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace property {

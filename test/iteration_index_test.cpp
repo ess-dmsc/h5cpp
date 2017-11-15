@@ -31,7 +31,7 @@
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/core/iterator_config.hpp>
 
 using namespace hdf5;
 

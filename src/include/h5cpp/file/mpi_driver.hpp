@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/file/driver.hpp>
-#include <h5cpp/hdf5_capi.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 
 namespace hdf5 {
 namespace file {

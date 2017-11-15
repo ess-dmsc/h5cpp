@@ -21,7 +21,7 @@
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
 //
-#include <h5cpp/object_id.hpp>
+#include <h5cpp/core/object_id.hpp>
 #include <vector>
 
 namespace hdf5

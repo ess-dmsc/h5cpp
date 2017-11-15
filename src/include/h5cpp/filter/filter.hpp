@@ -26,7 +26,7 @@
 
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/filter/types.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace filter {

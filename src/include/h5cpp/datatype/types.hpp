@@ -26,8 +26,8 @@
 
 #include <iostream>
 #include <type_traits>
-#include <h5cpp/hdf5_capi.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace datatype {

@@ -27,7 +27,7 @@
 #include <h5cpp/node/link_view.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/link.hpp>
-#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/core/iterator_config.hpp>
 #include <h5cpp/node/link_iterator.hpp>
 #include "utilities.hpp"
 

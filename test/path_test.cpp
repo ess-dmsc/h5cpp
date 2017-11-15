@@ -25,7 +25,7 @@
 // Created on: Aug 24, 2017
 //
 #include <gtest/gtest.h>
-#include <h5cpp/path.hpp>
+#include <h5cpp/core/path.hpp>
 
 using namespace hdf5;
 using namespace std;

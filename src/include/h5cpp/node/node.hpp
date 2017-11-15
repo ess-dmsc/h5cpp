@@ -25,12 +25,12 @@
 //
 #pragma once
 
-#include <h5cpp/object_handle.hpp>
-#include <h5cpp/path.hpp>
+#include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/path.hpp>
 #include <h5cpp/node/types.hpp>
 #include <h5cpp/node/link.hpp>
-#include <h5cpp/windows.hpp>
-#include <h5cpp/object_id.hpp>
+#include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/object_id.hpp>
 #include <h5cpp/attribute/attribute_manager.hpp>
 
 namespace hdf5 {

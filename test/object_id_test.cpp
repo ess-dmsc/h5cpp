@@ -52,15 +52,15 @@
 
 #include <gtest/gtest.h>
 
-#include <h5cpp/hdf5_capi.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 
 #define BOOST_NO_CXX11_SCOPED_ENUMS
 #include <boost/filesystem.hpp>
 #undef BOOST_NO_CXX11_SCOPED_ENUMS
 
-#include <h5cpp/object_id.hpp>
-#include <h5cpp/object_handle.hpp>
-#include <h5cpp/types.hpp>
+#include <h5cpp/core/object_id.hpp>
+#include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/types.hpp>
 #include <iostream>
 
 namespace fs = boost::filesystem;

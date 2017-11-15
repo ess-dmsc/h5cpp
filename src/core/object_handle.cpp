@@ -23,7 +23,7 @@
 // Created on: Aug 07, 2017
 //
 
-#include <h5cpp/object_handle.hpp>
+#include <h5cpp/core/object_handle.hpp>
 
 #include <sstream>
 #include <stdexcept>

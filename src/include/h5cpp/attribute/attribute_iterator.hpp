@@ -24,8 +24,8 @@
 //
 #pragma once
 
-#include <h5cpp/iterator.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/iterator.hpp>
+#include <h5cpp/core/windows.hpp>
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/attribute/attribute_manager.hpp>
 

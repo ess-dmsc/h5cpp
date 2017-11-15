@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/property/property_list.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 #include <h5cpp/file/driver.hpp>
 
 namespace hdf5 {

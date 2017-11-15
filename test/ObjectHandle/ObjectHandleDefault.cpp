@@ -24,7 +24,7 @@
 // Created on: Aug 14, 2017
 //
 #include <gtest/gtest.h>
-#include <h5cpp/object_handle.hpp>
+#include <h5cpp/core/object_handle.hpp>
 #include <vector>
 #include <string>
 

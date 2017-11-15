@@ -23,12 +23,12 @@
 //
 #pragma once
 
-#include <h5cpp/hdf5_capi.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 #include <string>
 #include <sstream>
 #include <boost/filesystem.hpp>
-#include <h5cpp/windows.hpp>
-#include <h5cpp/object_handle.hpp>
+#include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/object_handle.hpp>
 
 namespace hdf5
 {

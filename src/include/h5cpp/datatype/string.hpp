@@ -26,7 +26,7 @@
 
 #include <type_traits>
 #include <h5cpp/datatype/datatype.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace datatype {

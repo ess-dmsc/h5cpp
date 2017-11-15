@@ -25,9 +25,9 @@
 #pragma once
 
 #include <h5cpp/dataspace/type.hpp>
-#include <h5cpp/object_handle.hpp>
+#include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/dataspace/selection_manager.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 
 namespace hdf5 {

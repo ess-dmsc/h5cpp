@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Nov 6, 2017
 //
-#include <h5cpp/hdf5_capi.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 #include <stdexcept>
 #include <h5cpp/file/posix_driver.hpp>
 #include <h5cpp/property/file_access.hpp>

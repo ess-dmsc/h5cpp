@@ -26,9 +26,9 @@
 
 #include <h5cpp/file/types.hpp>
 #include <boost/filesystem.hpp>
-#include <h5cpp/windows.hpp>
-#include <h5cpp/object_handle.hpp>
-#include <h5cpp/object_id.hpp>
+#include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/object_id.hpp>
 #include <h5cpp/property/group_access.hpp>
 
 namespace hdf5 {

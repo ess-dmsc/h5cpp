@@ -26,9 +26,9 @@
 
 #include <string>
 #include <h5cpp/attribute/attribute.hpp>
-#include <h5cpp/types.hpp>
-#include <h5cpp/windows.hpp>
-#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/core/types.hpp>
+#include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/iterator_config.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/dataspace/simple.hpp>

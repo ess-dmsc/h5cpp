@@ -23,7 +23,7 @@
 // Created on: Sep 13, 2017
 //
 
-#include <h5cpp/iterator.hpp>
+#include <h5cpp/core/iterator.hpp>
 
 namespace hdf5 {
 

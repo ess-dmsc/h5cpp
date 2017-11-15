@@ -28,8 +28,8 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/view.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
-#include <h5cpp/path.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/path.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace property {

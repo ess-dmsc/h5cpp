@@ -24,7 +24,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/iterator.hpp>
+#include <h5cpp/core/iterator.hpp>
 
 using namespace hdf5;
 

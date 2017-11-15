@@ -25,7 +25,7 @@
 // Created on: Aug 24, 2017
 //
 
-#include <h5cpp/path.hpp>
+#include <h5cpp/core/path.hpp>
 #include <boost/algorithm/string.hpp>
 
 namespace hdf5 {

@@ -28,7 +28,7 @@
 #include <h5cpp/file/types.hpp>
 #include <h5cpp/property/file_creation.hpp>
 #include <h5cpp/property/file_access.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace file {

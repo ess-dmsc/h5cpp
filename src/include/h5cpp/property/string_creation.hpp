@@ -26,7 +26,7 @@
 
 #include <h5cpp/property/property_list.hpp>
 #include <h5cpp/datatype/types.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5{
 namespace property{

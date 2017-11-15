@@ -27,11 +27,11 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/dataset.hpp>
-#include <h5cpp/path.hpp>
+#include <h5cpp/core/path.hpp>
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/property/link_access.hpp>
 #include <h5cpp/property/object_copy.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace node {

@@ -29,9 +29,9 @@
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
-#include <h5cpp/object_handle.hpp>
-#include <h5cpp/windows.hpp>
-#include <h5cpp/types.hpp>
+#include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/types.hpp>
 #include <initializer_list>
 
 namespace hdf5 {

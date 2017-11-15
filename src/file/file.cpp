@@ -27,7 +27,7 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/link.hpp>
-#include <h5cpp/path.hpp>
+#include <h5cpp/core/path.hpp>
 
 namespace hdf5 {
 namespace file {

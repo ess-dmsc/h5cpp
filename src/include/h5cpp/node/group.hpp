@@ -28,7 +28,7 @@
 #include <h5cpp/node/link_view.hpp>
 #include <h5cpp/node/node_view.hpp>
 #include <h5cpp/node/dataset.hpp>
-#include <h5cpp/iterator_config.hpp>
+#include <h5cpp/core/iterator_config.hpp>
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/property/group_creation.hpp>
 #include <h5cpp/property/group_access.hpp>

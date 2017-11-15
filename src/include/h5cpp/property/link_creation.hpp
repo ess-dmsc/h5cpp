@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/property/string_creation.hpp>
-#include <h5cpp/windows.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace property {
