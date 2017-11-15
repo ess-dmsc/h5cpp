@@ -59,7 +59,7 @@ add_subdirectory(property)
 add_subdirectory(examples)
 
 add_executable(unit_tests EXCLUDE_FROM_ALL ${test_sources} ${test_headers})
-add_dependencies(unit_tests h5cpp_shared)
+add_dependencies(unit_tests h5cpp_shared examples)
 target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_shared)
 target_link_libraries(unit_tests h5cpp_shared ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
