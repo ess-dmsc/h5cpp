@@ -1,7 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(Common_SRC
-    ${Common_SRC}
+set(test_sources
+    ${test_sources}
     ${dir}/property_class_test.cpp
     ${dir}/property_list_test.cpp
     ${dir}/attribute_creation_test.cpp

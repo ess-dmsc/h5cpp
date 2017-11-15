@@ -35,33 +35,30 @@ if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 endif()
 
 
-set(Common_SRC
-  ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/iteration_index_test.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/iteration_order_test.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/iterator_test.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/object_id_test.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/path_test.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/fixture.cpp
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(test_sources
+  ${dir}/main.cpp
+  ${dir}/fixture.cpp
   )
 
-set(Common_INC
-  ${CMAKE_CURRENT_SOURCE_DIR}/fixture.hpp
+set(test_headers
+  ${dir}/fixture.hpp
   )
 
-add_subdirectory(ObjectHandle)
-add_subdirectory(property)
-add_subdirectory(datatype)
-add_subdirectory(dataspace)
-add_subdirectory(logs)
-add_subdirectory(file)
-add_subdirectory(node)
+add_subdirectory(core)
 add_subdirectory(attribute)
-add_subdirectory(examples)
+add_subdirectory(dataspace)
+add_subdirectory(datatype)
 add_subdirectory(error)
+add_subdirectory(file)
 add_subdirectory(filter)
+add_subdirectory(node)
+add_subdirectory(property)
 
-add_executable(unit_tests EXCLUDE_FROM_ALL ${Common_SRC} ${Common_INC})
+add_subdirectory(examples)
+
+add_executable(unit_tests EXCLUDE_FROM_ALL ${test_sources} ${test_headers})
 add_dependencies(unit_tests h5cpp_shared)
 target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_shared)
 target_link_libraries(unit_tests h5cpp_shared ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
