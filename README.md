@@ -1,55 +1,55 @@
-# h5cpp
-C++ wrapper for the HDF5 C-library
+# C++ wrapper for the HDF5 C-library
 
-## Compiling
-This project uses CMake for setting up a build system, usually GNU Make. This is done as follows:
+*h5cpp* is a new C++ wrapper for HDF5s C-API. 
 
- * ``cd`` to the ``h5cpp`` directory.
- * Create a build directory and ``cd`` into that: ``mkdir build; cd build``.
- * Run CMake: ``cmake ..``. Note that the default build build type is *Release*. To build in debug mode, run CMake as follows: ``cmake -DCMAKE_BUILD_TYPE=Debug ..``.
- * To compile run: ``make``.
+## Motivation
 
-### Pull down dependencies with Conan
-If you want to avoid the hassle of making sure that all the dependencies are correct, you can use conan to download and build them automatically for you. Conan is written in Python  so this assumes that a relatively recent version of *Python* (and *pip*) is installed. First install Conan if you do not already have it:
-```bash
-pip install conan
-```
+HDF5 is a powerful binary file format. There is virtually nothing that cannot 
+be stored within an HDF5 file. To read and write data from and to an HDF5 file
+you can either use the C-API or one of the wrappers for a scripting language 
+(for Python there is for instance [h5py](http://www.h5py.org/) or 
+[pytables](http://www.pytables.org/)). However, to keep their interfaces 
+simple, many of these wrappers do not provide the full functionality HDF5 
+has to offer. If you want to use all features available the C-API is most 
+probably the safest way to go. 
 
-The boost dependency is not in the standard conan package receipt repository. Instead, you have add a package repository that has it.
+*h5cpp* wants to provide both, an easy to use modern C++ interface but at the 
+same time give you access to the full functionality HDF5 has to offer. 
 
-```bash
-conan remote add dmsc_packages https://api.bintray.com/conan/ess-dmsc/conan
-```
 
-Now create a CMake build directory (this assumes that you are in the root of the h5cpp repository):
+### Complete and domain agnostic 
 
-```bash
-mkdir build
-cd build
-```
+Many HDF5 wrappers which are currently around have to major issues:
 
-Tell conan to download, build and install the required packages in the current build directory:
+1. they do not provide the full functionality of the C-API
+2. they are specifically made for a particular field of application
 
-```bash
-conan install ../ --build=missing
-```
+Our goal is to keep *h5cpp* as much as application agnostic as possible and 
+provide the full functionality of the C-API. 
 
-Finally, follow the regular cmake build instructions, i.e.:
+### Easy to use 
 
-```bash
-cmake ..
-make
-```
+HDF5 is a rather powerful file format and thus the C-API is rather complex. 
+*h5cpp*s approach to this degree of complexity can be best described by a quote 
+of [Alan Kay](http://startupquote.com/post/5626579141)
 
-### Code coverage
-To activate the generation of code coverage information run CMake with the ``-DCOV`` argument, e.g.:
-```
-cmake -DCOV=TRUE ..
-```
+    Simple things should be simple, complex things should be possible.
+    
+That's what we try to achieve and hopefully we succeeded in it. 
 
-**WARNING:** Only activate code when compiling the library for running unit tests. Never install or otherwise use the library when code coverage has been activated.
+### Support for major platforms 
 
-### Requirements
-The H5CPP library requires the [*HDF5 C-library*](https://www.hdfgroup.org) in order to build. The [*Boost*](http://www.boost.org) library is also required as it is used to implement filesystem access and to do unit testing.
+We currently support the following operating systems 
 
-In order to generate the documentation, [*Sphinx*](http://www.sphinx-doc.org/) with the [Read the Docs Sphinx Theme](https://github.com/rtfd/sphinx_rtd_theme) are required.
+* Linux 
+* Windows 
+* OSX
+
+Since we are using `cmake` to build *h5cpp* and also provide a `cmake` package 
+for the library, using it should be the same on each of these platforms.  
+
+## Installation and using it
+
+See the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html) for 
+more on this.
+

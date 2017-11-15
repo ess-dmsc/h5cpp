@@ -46,5 +46,17 @@ TEST(DatasetAccessList, test_chunk_cache_parameters)
   EXPECT_NEAR(p2.preemption_policy(),0.5,0.0001);
 }
 
+#if H5_VERSION_GE(1,10,0)
+TEST(DatasetAccessList,test_virtual_data_view)
+{
+  pl::DatasetAccessList dapl;
+  dapl.virtual_view(pl::VirtualDataView::FIRST_MISSING);
+  EXPECT_EQ(dapl.virtual_view(),pl::VirtualDataView::FIRST_MISSING);
+
+  dapl.virtual_view(pl::VirtualDataView::LAST_AVAILABLE);
+  EXPECT_EQ(dapl.virtual_view(),pl::VirtualDataView::LAST_AVAILABLE);
+}
+
+#endif
 
 
