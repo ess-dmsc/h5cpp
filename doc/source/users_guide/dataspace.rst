@@ -106,6 +106,10 @@ To create a simple dataspace with fixed dimensions use
     Dimensions current = space.current_dimensions(); // {2,3}
     Dimensions maximum = space.maximum_dimensions(); // {2,3} too
     
+.. figure:: ../images/static_dataspace.svg
+   :align: center
+   :width: 20%
+    
 which will result in a dataspace of rank 2 with 6 elements. To build  an 
 extensible dataspace with fixed bounds we could use 
 
@@ -113,10 +117,14 @@ extensible dataspace with fixed bounds we could use
 
     using namespace hdf5;
     
-    dataspace::Simple space({2,3},{10,100}); 
+    dataspace::Simple space({2,3},{10,10}); 
     
     space.current_dimensions(); // {2,3}
-    space.maximum_dimensions(); // {10,100}
+    space.maximum_dimensions(); // {10,10}
+    
+.. figure:: ../images/dynamic_dataspace_bounded.svg
+   :align: center
+   :width: 40%
     
 Finally, for an extensible dataspace with an unlimited number of elements 
 along a dimension we could use 
@@ -126,6 +134,10 @@ along a dimension we could use
     using namespace hdf5;
     
     dataspace::Simple space({1},{dataspace::Simple::UNLIMITED}); 
+    
+.. figure:: ../images/dynamic_dataspace_unbounded.svg
+   :align: center
+   :width: 30%
     
 The initial size of the dataspace  would be 1. However, we could extend it 
 as much as we want (basically can). We will see later how to use this feature
@@ -176,12 +188,17 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf
                  {
                     return space.type() == Type::SIMPLE;
                  });
+                 
 
 
-Selections
-==========
+.. toctree::
+   :maxdepth: 2
+   
+   dataspace_custom_types
+   dataspace_selections
 
-.. figure:: ../images/hdf5_selections.svg
-   :align: center
-   :width: 60%
+
+    
+
+
 

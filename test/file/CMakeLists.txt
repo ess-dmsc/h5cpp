@@ -1,7 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(Common_SRC
-  ${Common_SRC}
+set(test_sources
+  ${test_sources}
   ${dir}/searchflags_test.cpp
   ${dir}/accessflags_test.cpp
   ${dir}/scope_test.cpp

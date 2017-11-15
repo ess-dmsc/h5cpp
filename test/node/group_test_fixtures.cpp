@@ -24,8 +24,8 @@
 //
 
 #include "group_test_fixtures.hpp"
-#include <h5cpp/property/link_creation_list.hpp>
-#include <h5cpp/property/group_creation_list.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/group_creation.hpp>
 
 void NodeIterationFixture::SetUp()
 {

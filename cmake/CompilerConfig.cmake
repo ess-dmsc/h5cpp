@@ -16,6 +16,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     elseif(CMAKE_BUILD_TYPE MATCHES Debug)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
     endif()
+    
+    if(WITH_MPI)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-literal-suffix")
+    endif()
 
 elseif(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
 

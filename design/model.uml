@@ -238,6 +238,10 @@ the parent or base object.
 
 Such an approach needs to be discussed to. </body>
       </ownedComment>
+      <ownedComment xmi:type="uml:Comment" xmi:id="_gISdgMB5EeeTRsWcQr6V8g" annotatedElement="_OxETAMB5EeeTRsWcQr6V8g">
+        <body>We would need something like 
+this for the container adapter.</body>
+      </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_VYW3UJObEeeoI7oI9Ds2zg" name="Node">
         <ownedAttribute xmi:type="uml:Property" xmi:id="_GVXlEa3NEeeC8tqFVijy6A" name="link" type="_jXRCUPhEEearHstUE6s_yg" aggregation="composite" association="_GVWW8K3NEeeC8tqFVijy6A">
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_GVXlEq3NEeeC8tqFVijy6A" value="1"/>
@@ -460,6 +464,15 @@ Such an approach needs to be discussed to. </body>
         </eAnnotations>
         <ownedEnd xmi:type="uml:Property" xmi:id="_RB0iELpBEeeNd9VwTnWPtA" name="link" type="_jXRCUPhEEearHstUE6s_yg" association="_RBys4LpBEeeNd9VwTnWPtA"/>
         <ownedEnd xmi:type="uml:Property" xmi:id="_RBz7ArpBEeeNd9VwTnWPtA" name="path" type="_wv4CEJObEeeoI7oI9Ds2zg" aggregation="composite" association="_RBys4LpBEeeNd9VwTnWPtA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_H62CEMB5EeeTRsWcQr6V8g" name="ScalarDataset">
+        <generalization xmi:type="uml:Generalization" xmi:id="_ZLBwcMB5EeeTRsWcQr6V8g" general="_YThA4JObEeeoI7oI9Ds2zg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_OxETAMB5EeeTRsWcQr6V8g" name="ExtensibleDataset">
+        <generalization xmi:type="uml:Generalization" xmi:id="_ayCKgMB5EeeTRsWcQr6V8g" general="_SYJHYMB5EeeTRsWcQr6V8g"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_SYJHYMB5EeeTRsWcQr6V8g" name="ChunkedDataset">
+        <generalization xmi:type="uml:Generalization" xmi:id="_aWp2EMB5EeeTRsWcQr6V8g" general="_YThA4JObEeeoI7oI9Ds2zg"/>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_04wLcP88EeaZaM7lOsGynA">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3XNNwJWQEee7vqXOLcolPQ" source="PapyrusVersion">
@@ -851,6 +864,25 @@ Such an approach needs to be discussed to. </body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Usage" xmi:id="_xPMywJSVEeeoI7oI9Ds2zg" client="_dmyBsJSVEeeoI7oI9Ds2zg" supplier="_indGQJSVEeeoI7oI9Ds2zg"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_5IWF0MLjEeeoBrECR30aeA" name="Driver"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_77s-QMLjEeeoBrECR30aeA" name="PosixDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_FHpwcMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_90edwMLjEeeoBrECR30aeA" name="DirectDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_Fha7UMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_-1t4UMLjEeeoBrECR30aeA" name="MemoryDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_F9yHMMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="__9gm0MLjEeeoBrECR30aeA" name="MPIDriver">
+        <generalization xmi:type="uml:Generalization" xmi:id="_GXQ-MMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_HXfFEMLkEeeoBrECR30aeA" name="DriverID">
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_J6AsMMLkEeeoBrECR30aeA" name="POSIX"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K9b4EMLkEeeoBrECR30aeA" name="DIRECT"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_L3GrAMLkEeeoBrECR30aeA" name="MEMORY"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Mv1CwMLkEeeoBrECR30aeA" name="MPI"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_in-CgJO3EeeoI7oI9Ds2zg" name="IterationOrder">
       <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oSac0JO3EeeoI7oI9Ds2zg" name="INCREASING"/>
@@ -896,6 +928,52 @@ Such an approach needs to be discussed to. </body>
         </parameterSubstitution>
         <signature xmi:type="uml:RedefinableTemplateSignature" href="stdcpp.uml#_80gXYO-hEeaKneflegtjzg"/>
       </templateBinding>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_hlkwUMB4EeeTRsWcQr6V8g" name="Storage"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_k5exEMB4EeeTRsWcQr6V8g" name="DiskStorage">
+      <generalization xmi:type="uml:Generalization" xmi:id="_ILe3YMB_EeeTRsWcQr6V8g" general="_hlkwUMB4EeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_mPY0EMB4EeeTRsWcQr6V8g" name="MemoryStorage">
+      <generalization xmi:type="uml:Generalization" xmi:id="_IsTsgMB_EeeTRsWcQr6V8g" general="_hlkwUMB4EeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_gEeCkMB7EeeTRsWcQr6V8g" name="VarLengthDataStorage">
+      <generalization xmi:type="uml:Generalization" xmi:id="_GuzeAMB_EeeTRsWcQr6V8g" general="_mPY0EMB4EeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_kesLIMB7EeeTRsWcQr6V8g" name="VarLengthStringStorage">
+      <generalization xmi:type="uml:Generalization" xmi:id="_HIrWkMB_EeeTRsWcQr6V8g" general="_mPY0EMB4EeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_mw3pIMB7EeeTRsWcQr6V8g" name="FixedLengthStringStorage">
+      <generalization xmi:type="uml:Generalization" xmi:id="_HvVt8MB_EeeTRsWcQr6V8g" general="_mPY0EMB4EeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_EVtAAMB8EeeTRsWcQr6V8g" name="MemoryStorageFactory"/>
+    <packagedElement xmi:type="uml:Usage" xmi:id="_WE17QMB8EeeTRsWcQr6V8g" name="file_dataspace" client="_EVtAAMB8EeeTRsWcQr6V8g" supplier="_hzOugJOZEeeoI7oI9Ds2zg"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_I61l0MCBEeeTRsWcQr6V8g" name="memory_space" memberEnd="_I64pIMCBEeeTRsWcQr6V8g _I65QMMCBEeeTRsWcQr6V8g">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_I63bAMCBEeeTRsWcQr6V8g" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_I64CEMCBEeeTRsWcQr6V8g" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_I65QMMCBEeeTRsWcQr6V8g" name="memorystorage" type="_mPY0EMB4EeeTRsWcQr6V8g" association="_I61l0MCBEeeTRsWcQr6V8g"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_I64pIMCBEeeTRsWcQr6V8g" name="dataspace" type="_hzOugJOZEeeoI7oI9Ds2zg" aggregation="composite" association="_I61l0MCBEeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_OJxI0MCBEeeTRsWcQr6V8g" name="memory_type" memberEnd="_OJxv4sCBEeeTRsWcQr6V8g _OJyW8MCBEeeTRsWcQr6V8g">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_OJxv4MCBEeeTRsWcQr6V8g" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_OJxv4cCBEeeTRsWcQr6V8g" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_OJyW8MCBEeeTRsWcQr6V8g" name="memorystorage" type="_mPY0EMB4EeeTRsWcQr6V8g" association="_OJxI0MCBEeeTRsWcQr6V8g"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_OJxv4sCBEeeTRsWcQr6V8g" name="datatype" type="_2RxIIJL9EeeoI7oI9Ds2zg" aggregation="composite" association="_OJxI0MCBEeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_lCEWQMCBEeeTRsWcQr6V8g" name="file_space" memberEnd="_lCE9UsCBEeeTRsWcQr6V8g _lCFkYMCBEeeTRsWcQr6V8g">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_lCE9UMCBEeeTRsWcQr6V8g" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_lCE9UcCBEeeTRsWcQr6V8g" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_lCFkYMCBEeeTRsWcQr6V8g" name="diskstorage" type="_k5exEMB4EeeTRsWcQr6V8g" association="_lCEWQMCBEeeTRsWcQr6V8g"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_lCE9UsCBEeeTRsWcQr6V8g" name="dataspace" type="_hzOugJOZEeeoI7oI9Ds2zg" aggregation="composite" association="_lCEWQMCBEeeTRsWcQr6V8g"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_pJznsMCBEeeTRsWcQr6V8g" name="file_type" memberEnd="_pJ010cCBEeeTRsWcQr6V8g _pJ010sCBEeeTRsWcQr6V8g">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pJ0OwMCBEeeTRsWcQr6V8g" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_pJ010MCBEeeTRsWcQr6V8g" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_pJ010sCBEeeTRsWcQr6V8g" name="diskstorage" type="_k5exEMB4EeeTRsWcQr6V8g" association="_pJznsMCBEeeTRsWcQr6V8g"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_pJ010cCBEeeTRsWcQr6V8g" name="datatype" type="_2RxIIJL9EeeoI7oI9Ds2zg" aggregation="composite" association="_pJznsMCBEeeTRsWcQr6V8g"/>
     </packagedElement>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_NY5wMP8sEeaZaM7lOsGynA">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_iBnpkJR6EeeoI7oI9Ds2zg" source="PapyrusVersion">
