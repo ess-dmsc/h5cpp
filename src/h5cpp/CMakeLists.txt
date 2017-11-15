@@ -1,13 +1,10 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(HEADERS
-  ${dir}/hdf5.hpp
-  )
-
+set(HEADERS ${dir}/hdf5.hpp)
 install(FILES ${HEADERS}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp)
 
-set(h5cpp_headers )
+set(h5cpp_headers ${HEADERS})
 set(h5cpp_sources )
 add_subdirectory(core)
 add_subdirectory(attribute)

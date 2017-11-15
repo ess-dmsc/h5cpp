@@ -38,6 +38,8 @@
 #include <h5cpp/attribute/attribute_manager.hpp>
 #include <h5cpp/attribute/attribute.hpp>
 
+#include <h5cpp/error/error.hpp>
+
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/datatype/factory.hpp>

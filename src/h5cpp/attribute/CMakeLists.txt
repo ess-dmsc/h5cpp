@@ -1,15 +1,15 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(HEADERS
-  ${dir}/attribute_iterator.hpp
-  ${dir}/attribute_manager.hpp
-  ${dir}/attribute.hpp
-  )
-
 set(SOURCES
   ${dir}/attribute.cpp
   ${dir}/attribute_iterator.cpp
   ${dir}/attribute_manager.cpp
+  )
+
+set(HEADERS
+  ${dir}/attribute_iterator.hpp
+  ${dir}/attribute_manager.hpp
+  ${dir}/attribute.hpp
   )
 
 install(FILES ${HEADERS}
