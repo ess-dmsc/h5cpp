@@ -26,13 +26,61 @@
 #include <sstream>
 #include <stdexcept>
 #include <h5cpp/node/dataset.hpp>
+#include <h5cpp/node/functions.hpp>
 
 namespace hdf5 {
 namespace node {
 
+//=============================================================================
+// implementation of private member functions
+//=============================================================================
+
+
+Node Dataset::create_dataset(const Group &base,
+                             const Path &path,
+                             const datatype::Datatype &type,
+                             const dataspace::Dataspace &space,
+                             const property::LinkCreationList &lcpl,
+                             const property::DatasetCreationList &dcpl,
+                             const property::DatasetAccessList &dapl)
+{
+
+  hid_t id = 0;
+
+  if((id = H5Dcreate(static_cast<hid_t>(base),
+                     static_cast<std::string>(path).c_str(),
+                     static_cast<hid_t>(type),
+                     static_cast<hid_t>(space),
+                     static_cast<hid_t>(lcpl),
+                     static_cast<hid_t>(dcpl),
+                     static_cast<hid_t>(dapl))) < 0 )
+  {
+    std::stringstream ss;
+    ss<<"Failure to create dataset ["<<path<<"] on group ["<<base.link().path()
+      <<"]!";
+    throw std::runtime_error(ss.str());
+  }
+  H5Dclose(id);
+
+  return Node(node::get_node(base,path));
+}
+
+//=============================================================================
+// implementation of public member functions
+//=============================================================================
 Dataset::Dataset(const Node &node):
     Node(node)
 {}
+
+Dataset::Dataset(const Group &base,const Path &path,
+                 const datatype::Datatype &type,
+                 const dataspace::Dataspace &space,
+                 const property::LinkCreationList &lcpl,
+                 const property::DatasetCreationList &dcpl,
+                 const property::DatasetAccessList &dapl):
+ Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
+{}
+
 
 dataspace::Dataspace Dataset::dataspace() const
 {
