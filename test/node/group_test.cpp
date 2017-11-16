@@ -26,16 +26,16 @@
 //
 
 #include <vector>
-#include <h5cpp/file/functions.hpp>
+#include <h5cpp/hdf5.hpp>
 #include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-class Group : public BasicFixture
+class GroupTest : public BasicFixture
 {
 };
 
-TEST_F(Group, test_root_group)
+TEST_F(GroupTest, test_root_group)
 {
   node::Group root;
   EXPECT_NO_THROW(root = file_.root());
@@ -46,13 +46,22 @@ TEST_F(Group, test_root_group)
   EXPECT_EQ(static_cast<std::string>(root.link().path()),"/");
 }
 
-TEST_F(Group, test_default_construction)
+TEST_F(GroupTest, test_default_construction)
 {
   node::Group group;
   EXPECT_FALSE(group.is_valid());
 }
 
-TEST_F(Group, test_group_creation)
+TEST_F(GroupTest,test_constructor_construction)
+{
+  node::Group root_group = file_.root();
+  node::Group g(root_group,Path("test_group"));
+  EXPECT_TRUE(g.is_valid());
+  EXPECT_EQ(g.link().path().name(),"test_group");
+  EXPECT_EQ(static_cast<std::string>(g.link().path().parent()),"/");
+}
+
+TEST_F(GroupTest, test_group_creation)
 {
   node::Group g = file_.root();
   EXPECT_EQ(g.nodes.size(),0ul);
@@ -65,7 +74,7 @@ TEST_F(Group, test_group_creation)
   EXPECT_EQ(g.links.size(),2ul);
 }
 
-TEST_F(Group, test_group_linkview)
+TEST_F(GroupTest, test_group_linkview)
 {
   node::Group g = file_.root();
   EXPECT_FALSE(g.links.exists("group_1"));
@@ -79,11 +88,11 @@ TEST_F(Group, test_group_linkview)
   EXPECT_EQ(l, g1.link());
 }
 
-TEST_F(Group, test_group_nodeview)
+TEST_F(GroupTest, test_group_nodeview)
 {
   node::Group g = file_.root();
 
-  EXPECT_THROW(g.nodes.exists("group_1"), std::runtime_error);
+  EXPECT_FALSE(g.nodes.exists("group_1"));
 
   node::Group g1 = g.create_group("group_1");
 
@@ -94,7 +103,7 @@ TEST_F(Group, test_group_nodeview)
   EXPECT_EQ(n.id(), g1.id());
 }
 
-TEST_F(Group, test_group_existence)
+TEST_F(GroupTest, test_group_existence)
 {
   node::Group g = file_.root();
 
@@ -105,7 +114,7 @@ TEST_F(Group, test_group_existence)
   EXPECT_TRUE(g.exists("group_1"));
 }
 
-TEST_F(Group, test_group_accessor)
+TEST_F(GroupTest, test_group_accessor)
 {
   node::Group g = file_.root();
   node::Group g1 = g.create_group("group_1");
@@ -113,7 +122,7 @@ TEST_F(Group, test_group_accessor)
   EXPECT_EQ(g1.id(), g["group_1"].id());
 }
 
-TEST_F(Group, test_funky_names)
+TEST_F(GroupTest, test_funky_names)
 {
   auto f = file::create("funky_names.h5",file::AccessFlags::TRUNCATE);
   node::Group g = f.root();

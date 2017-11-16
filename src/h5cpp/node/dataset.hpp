@@ -30,6 +30,9 @@
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/property/link_creation.hpp>
+#include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/property/dataset_access.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -62,6 +65,24 @@ class DLL_EXPORT Dataset : public Node
     //! Construct a dataset from a node instance.
     //!
     Dataset(const Node &node);
+
+    //!
+    //! \brief constructor
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param base the base object for the dataset creation
+    //! \param path the path to the new dataset
+    //! \param space optional reference to a dataspace (default is a scalar one)
+    //! \param lcpl optional reference to a link creation property list
+    //! \param dcpl optional reference to a dataset creation property list
+    //! \param dapl optional reference to a dataset access property list
+    //!
+    Dataset(const Group &base,const Path &path,
+            const datatype::Datatype &type,
+            const dataspace::Dataspace &space = dataspace::Scalar(),
+            const property::LinkCreationList &lcpl = property::LinkCreationList(),
+            const property::DatasetCreationList &dcpl = property::DatasetCreationList(),
+            const property::DatasetAccessList &dapl = property::DatasetAccessList());
 
     //!
     //! \brief get dataspace of dataset
@@ -221,6 +242,19 @@ class DLL_EXPORT Dataset : public Node
                   property::DatasetTransferList()) const;
 
   private:
+    //!
+    //! \brief static factory function for dataset creation
+    //!
+    //! This function is used in the constructors for the Dataset class
+    //! in order to avoid code duplications.
+    //!
+    static Node create_dataset(const Group &base,
+                               const Path &path,
+                               const datatype::Datatype &type,
+                               const dataspace::Dataspace &space,
+                               const property::LinkCreationList &lcpl,
+                               const property::DatasetCreationList &dcpl,
+                               const property::DatasetAccessList &dapl);
 
     //
     // writing template methods for various data configurations

@@ -25,6 +25,7 @@
 
 #include <sstream>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/node/functions.hpp>
 #include "utilities.hpp"
 
 namespace hdf5 {
@@ -51,6 +52,33 @@ Group::Group(const Node &node):
     nodes(*this),
     iter_config_(IteratorConfig())
 {}
+
+Group::Group(const Group &parent,const Path &path,
+             const property::LinkCreationList &lcpl,
+             const property::GroupCreationList &gcpl,
+             const property::GroupAccessList &gapl):
+     Node(),
+     links(*this),
+     nodes(*this),
+     iter_config_(IteratorConfig())
+{
+  hid_t gid = 0;
+
+  if((gid=H5Gcreate(static_cast<hid_t>(parent),
+                    static_cast<std::string>(path).c_str(),
+                    static_cast<hid_t>(lcpl),
+                    static_cast<hid_t>(gcpl),
+                    static_cast<hid_t>(gapl)))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure to create new group ["<<path<<"] below ["
+      <<parent.link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+  H5Gclose(gid);
+
+  *this = node::get_node(parent,path);
+}
 
 
 Group &Group::operator=(const Group &group)
@@ -90,25 +118,7 @@ Group Group::create_group(const std::string &name,
     throw std::runtime_error(ss.str());
   }
 
-  try
-  {
-    ObjectHandle handle(H5Gcreate(static_cast<hid_t>(*this),
-                                  name.c_str(),
-                                  static_cast<hid_t>(lcpl),
-                                  static_cast<hid_t>(gcpl),
-                                  static_cast<hid_t>(gapl)
-                                  ));
-
-    return Group(Node(std::move(handle),links[name]));
-
-  }
-  catch(const std::runtime_error &error)
-  {
-    std::stringstream ss;
-    ss<<"Could not create group of name ["<<name<<"] below ";
-    ss<<"group ["<<link().path()<<"]";
-    throw std::runtime_error(ss.str());
-  }
+  return Group(*this,Path(name),lcpl,gcpl,gapl);
 }
 
 Dataset Group::create_dataset(const std::string &name,
@@ -125,25 +135,7 @@ Dataset Group::create_dataset(const std::string &name,
     throw std::runtime_error(ss.str());
   }
 
-  try
-  {
-    ObjectHandle handle(H5Dcreate(static_cast<hid_t>(*this),
-                                  name.c_str(),
-                                  static_cast<hid_t>(type),
-                                  static_cast<hid_t>(space),
-                                  static_cast<hid_t>(lcpl),
-                                  static_cast<hid_t>(dcpl),
-                                  static_cast<hid_t>(dapl)));
-    Link new_link(link().file(),link().path(),name);
-    return Dataset(Node(std::move(handle),new_link));
-
-  }
-  catch(const std::runtime_error &error)
-  {
-    std::stringstream ss;
-    ss<<"Failure creating dataset ["<<name<<"] below ["<<link().path()<<"]!";
-    throw std::runtime_error(ss.str());
-  }
+  return Dataset(*this,Path(name),type,space,lcpl,dcpl,dapl);
 }
 
 Node Group::operator[](const std::string &name) const

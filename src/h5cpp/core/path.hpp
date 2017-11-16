@@ -40,6 +40,12 @@ namespace hdf5 {
 //! While HDF5s C-API uses a simple string to represent a path, the C++ wrapper
 //! provides a class for this purpose.
 //!
+//! Though an HDF5 path look quit similar to an Unix filesystem path there is
+//! one major difference: \c .. has no special meaning. On a Unix filesystem
+//! \c .. would reference to the directory above the current one. In HDF5
+//! \c .. simply means nothing. It would be even allowed to use \c .. as a
+//! name for a group, dataset or committed datatype.
+//!
 class DLL_EXPORT Path
 {
   public:
@@ -65,6 +71,8 @@ class DLL_EXPORT Path
     //!
     explicit Path(const std::string &str);
 
+    Path(const_iterator first_element,const_iterator last_element);
+
     //!
     //! \brief copy constructor
     //!
@@ -78,22 +86,83 @@ class DLL_EXPORT Path
     //!
     //! \brief return number of path elements
     //!
-    size_t size() const;
-
+    //! Returns the number of elements in the path. In the case that the path
+    //! references the root group this method will return 0.
     //!
-    //! \brief const iterator to first path element
+    size_t size() const noexcept;
+
+    //@{
+    //!
+    //! \brief get forward iterators
+    //!
+    //! Get the iterators to the beginning or the end+1 element of the path
+    //! in forward direction.
+    //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::for_each(p.begin(),p.end(),
+    //!               [](const std::string &name) { std::cout<<name<<" "; });
+    //! //output: run sensors temperature
+    //! \endcode
     //!
     const_iterator begin() const;
-
-    //!
-    //! \brief const iterator to last + 1 element
-    //!
     const_iterator end() const;
+    //@}
 
+
+    //@{
+    //!
+    //! \brief get reverse iterator
+    //!
+    //! rbegin() and rend() return the pair of reverse iterators for the path.
+    //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::for_each(p.rbegin(),p.rend(),
+    //!               [](const std::string &name) { std::cout<<name<<" "; });
+    //! //output: temperature sensors run
+    //! \endcode
+    //!
+    //! \return instance of a const reverse iterator
+    //!
     const_reverse_iterator rbegin() const;
     const_reverse_iterator rend() const;
+    //@}
 
+    //!
+    //! \brief returns true if a path is absolute
+    //!
+    //! A path is considered absolute if its first element references the
+    //! root node. This is indicated by a leading \c / of the path string.
+    //!
+    //! \code
+    //! hdf5::Path p("/log/data");
+    //! if(p.absolute())
+    //! {
+    //!    std::cout<<"got absolute path"<<std::endl;
+    //! }
+    //! \endcode
+    //!
+    //! \return true if path is absolute, false otherwise
+    //!
     bool absolute() const noexcept;
+
+    //!
+    //! \brief set a path to be absolute
+    //!
+    //! Use this flag to set or unset the absolut flag.
+    //!
+    //! \code
+    //! Path p("data/modules");
+    //! std::cout<<p<<std::endl; // output: data/modules
+    //! p.absolute(true);
+    //! std::cout<<p<<std::endl; // output: /data/modules
+    //! p.absolute(false);
+    //! std::cout<<p<<std::endl; // output: data/modules
+    //! \endcode
+    //!
+    //! \param value boolean value deciding whether a path is absolute or not
+    //!
     void absolute(bool value) noexcept;
 
     //!
@@ -102,29 +171,78 @@ class DLL_EXPORT Path
     //! A path is considered to reference the root group if the list
     //! of elements is empty but the absolute path flag is set.
     //!
+    //! You can construct a root path with
+    //! \code
+    //! Path root_path("/");
+    //! \endcode
+    //! or
+    //! \code
+    //! Path root_path();
+    //! root_path.absolute(true);
+    //! \endcode
+    //! though the former idiom shoud be prefered.
+    //!
+    //! \return true if the path references the root group, false otherwise
+    //!
     bool is_root() const;
 
     //!
     //! \brief get object name from a path
     //!
-    //! The object name is the last element of a path. In the case
-    //! of the root group it is empty.
+    //! The object name is the last element of a path. If the path references
+    //! the root group the return value is ".".
     //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::cout<<p.name()<<std::endl; //output: temperature
+    //! \endcode
+    //!
+    //! \return last element of the path
     std::string name() const;
 
     //!
     //! \brief get parent path
     //!
-    //! This is basically the path with the last component stripped of.
+    //! This is basically the path with the last component stripped of. In the
+    //! case that the path references the root group the parent is the
+    //! root group again.
+    //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::cout<<p.parent()<<std::endl; //output: /run/sensors
+    //! \endcode
+    //! but
+    //! \code
+    //! Path root_group("/");
+    //! std::cout<<root_group.parent()<<std::endl; //output: /
+    //! \endcode
+    //! \return new Path instance referencing the parent path of this instance
     //!
     Path parent() const;
 
+    //!
+    //! \brief append a path to this instance
+    //!
+    //! Adding path p to this instance. Basically this
+    //!
+    //! \code
+    //! hdf5::Path base_path("/entry/instrument");
+    //! hdf5::Path detector_transforms("detector/transformations");
+    //! hdf5::Path p = base_path.append(detector_transforms);
+    //! std::cout<<p<<std::endl;
+    //! //output: /entry/instrument/detector/transformations
+    //! \endcode
+    //!
     void append(const Path& p);
 
     Path relative_to(const Path& base) const;
 
     Path& operator+=(const Path &other);
 
+    //!
+    //! \brief checks two paths for equality
+    //!
+    //! Two paths are considered equal if each of their elements is
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
     DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
 

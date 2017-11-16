@@ -183,9 +183,8 @@ TEST(DatasetVLenghtArrayIO,read_write_hkl_list)
   file::File f = file::create("read_write_hkl_list.h5",file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
 
-  node::Dataset dset = root_group.create_dataset("data",
-                                                 datatype::create<HKLPointList>(),
-                                                 dataspace::Simple({2}));
+  node::Dataset dset(root_group,Path("data"),datatype::create<HKLPointList>(),
+                                             dataspace::Simple({2}));
 
   dset.write(write_points);
   dset.read(read_points);

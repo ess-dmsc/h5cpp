@@ -71,9 +71,7 @@ void VirtualDatasetTest::create_source(const boost::filesystem::path &filename,
 {
   file::File f = file::create(filename,file::AccessFlags::TRUNCATE,gfcpl,gfapl);
   node::Group root_group = f.root();
-  node::Dataset dataset = root_group.create_dataset("module_data",
-                                                    module_type,
-                                                    module_space);
+  node::Dataset dataset(root_group,Path("module_data"),module_type,module_space);
   dataset.write(data);
 }
 
@@ -134,7 +132,7 @@ TEST_F(VirtualDatasetTest,test_concatenation)
 
 
   node::Dataset dataset;
-  EXPECT_NO_THROW((dataset = root.create_dataset("all",module_type,file_space,
+  EXPECT_NO_THROW((dataset = node::Dataset(root,Path("all"),module_type,file_space,
                                               property::LinkCreationList(),
                                               dcpl)));
   EXPECT_EQ(dataset.dataspace().size(),90);

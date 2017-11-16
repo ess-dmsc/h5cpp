@@ -52,14 +52,14 @@ TEST_F(Dataset, test_default_construction)
 
 TEST_F(Dataset, test_scalar_dataset)
 {
-  node::Dataset dset = root_.create_dataset("data",datatype::create<int>(),
-                                            dataspace::Scalar());
+  node::Dataset dset(root_,Path("data"),datatype::create<int>());
 
   EXPECT_EQ(dset.dataspace().type(),dataspace::Type::SCALAR);
   EXPECT_EQ(dset.datatype().get_class(),datatype::Class::INTEGER);
 
   EXPECT_THROW(dset.extent({10}),std::runtime_error);
 }
+
 
 
 

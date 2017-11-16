@@ -24,7 +24,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/node/types.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
