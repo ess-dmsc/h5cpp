@@ -45,22 +45,11 @@ set_target_properties(h5cpp_shared
   CXX_STANDARD_REQUIRED ON
   )
 
-if (${COV})
-  if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
-    set(cov_compile_flags "-g -O0 -fprofile-instr-generate -fcoverage-mapping")
-    set(cov_link_flags "-g -O0 -fprofile-instr-generate -fcoverage-mapping")
-  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-    set(cov_compile_flags "-coverage -fprofile-generate -ftest-coverage")
-    set(cov_link_flags "-g -O0 -coverage -fprofile-generate -ftest-coverage")
-    set(H5CPP_LINKS ${H5CPP_LINKS} gcov)
-  else ()
-    message(FATAL_ERROR "Unable to generate code coverage for this compiler (${CMAKE_CXX_COMPILER_ID}).")
-  endif ()
-  set_target_properties(h5cpp_shared PROPERTIES LINK_FLAGS ${cov_link_flags})
-  set_target_properties(h5cpp_shared PROPERTIES COMPILE_FLAGS ${cov_compile_flags})
-endif ()
+enable_coverage(h5cpp_shared)
 
-target_link_libraries(h5cpp_shared PUBLIC ${H5CPP_LINKS})
+target_link_libraries(h5cpp_shared
+  PUBLIC ${H5CPP_LINKS}
+  PRIVATE ${COVERAGE_LIBRARIES})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 

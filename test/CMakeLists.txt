@@ -1,4 +1,6 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
+include(${PROJECT_SOURCE_DIR}/cmake/TestCoverageReporting.cmake)
+
 set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
 
 #include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
@@ -58,26 +60,13 @@ add_subdirectory(property)
 
 add_executable(unit_tests EXCLUDE_FROM_ALL ${test_sources} ${test_headers})
 add_dependencies(unit_tests h5cpp_shared)
+enable_coverage(unit_tests)
 target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_shared)
-target_link_libraries(unit_tests h5cpp_shared ${GTEST_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-
-if (${COV})
-  message(STATUS "Enabling code coverage in unit tests.")
-  if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
-    set(cov_compile_flags "-g -O0 -fprofile-instr-generate -fcoverage-mapping")
-    set(cov_link_flags "-g -O0 -fprofile-instr-generate -fcoverage-mapping")
-  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-    set(cov_compile_flags "-coverage -fprofile-generate -ftest-coverage")
-    set(cov_link_flags "-g -O0 -coverage -fprofile-generate -ftest-coverage")
-    target_link_libraries(unit_tests gcov)
-  else ()
-    message(FATAL_ERROR "Unable to generate code coverage for this compiler (${CMAKE_CXX_COMPILER_ID}).")
-  endif ()
-  set_target_properties(unit_tests PROPERTIES LINK_FLAGS ${cov_link_flags})
-  set_target_properties(unit_tests PROPERTIES COMPILE_FLAGS ${cov_compile_flags})
-else ()
-  message(STATUS "Code coverage not enabled.")
-endif ()
+target_link_libraries(unit_tests
+  h5cpp_shared
+  ${GTEST_LIBRARIES}
+  ${CMAKE_THREAD_LIBS_INIT}
+  ${COVERAGE_LIBRARIES})
 
 add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
 add_test(NAME "RunGoogleTests" COMMAND unit_tests)
