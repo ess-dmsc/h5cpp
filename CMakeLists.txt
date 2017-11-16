@@ -40,7 +40,6 @@ if (EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
   conan_basic_setup()
 endif ()
 
-
 #=============================================================================
 # some general configuration
 #=============================================================================

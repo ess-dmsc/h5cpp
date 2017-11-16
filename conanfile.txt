@@ -1,8 +1,8 @@
 [requires]
-Boost/1.62.0@lasote/stable
-hdf5/1.10.1@eugenwintersberger/testing
-gtest/1.8.0@conan/stable
-zlib/1.2.8@conan/stable
+Boost/1.65.1-dm1@ess-dmsc/stable
+hdf5/1.10.1-dm1@ess-dmsc/stable
+gtest/3121b20-dm1@ess-dmsc/testing
+#zlib/1.2.8@conan/stable
 
 [generators]
 cmake
