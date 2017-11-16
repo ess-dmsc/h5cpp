@@ -118,25 +118,7 @@ Group Group::create_group(const std::string &name,
     throw std::runtime_error(ss.str());
   }
 
-  try
-  {
-    ObjectHandle handle(H5Gcreate(static_cast<hid_t>(*this),
-                                  name.c_str(),
-                                  static_cast<hid_t>(lcpl),
-                                  static_cast<hid_t>(gcpl),
-                                  static_cast<hid_t>(gapl)
-                                  ));
-
-    return Group(Node(std::move(handle),links[name]));
-
-  }
-  catch(const std::runtime_error &error)
-  {
-    std::stringstream ss;
-    ss<<"Could not create group of name ["<<name<<"] below ";
-    ss<<"group ["<<link().path()<<"]";
-    throw std::runtime_error(ss.str());
-  }
+  return Group(*this,Path(name),lcpl,gcpl,gapl);
 }
 
 Dataset Group::create_dataset(const std::string &name,
@@ -153,25 +135,7 @@ Dataset Group::create_dataset(const std::string &name,
     throw std::runtime_error(ss.str());
   }
 
-  try
-  {
-    ObjectHandle handle(H5Dcreate(static_cast<hid_t>(*this),
-                                  name.c_str(),
-                                  static_cast<hid_t>(type),
-                                  static_cast<hid_t>(space),
-                                  static_cast<hid_t>(lcpl),
-                                  static_cast<hid_t>(dcpl),
-                                  static_cast<hid_t>(dapl)));
-    Link new_link(link().file(),link().path(),name);
-    return Dataset(Node(std::move(handle),new_link));
-
-  }
-  catch(const std::runtime_error &error)
-  {
-    std::stringstream ss;
-    ss<<"Failure creating dataset ["<<name<<"] below ["<<link().path()<<"]!";
-    throw std::runtime_error(ss.str());
-  }
+  return Dataset(*this,Path(name),type,space,lcpl,dcpl,dapl);
 }
 
 Node Group::operator[](const std::string &name) const
