@@ -51,7 +51,7 @@ using namespace hdf5;
 
 TEST_F(DatasetFixedStringIO,scalar_auto_config)
 {
-  node::Dataset dset = root_group.create_dataset("data",string_type,scalar_space);
+  node::Dataset dset(root_group,Path("data"),string_type,scalar_space);
 
   std::string write_value = "hello";
   EXPECT_NO_THROW(dset.write(write_value,string_type,scalar_space,scalar_space,dtpl));
@@ -64,7 +64,7 @@ TEST_F(DatasetFixedStringIO,scalar_auto_config)
 
 TEST_F(DatasetFixedStringIO,vector_no_auto_config)
 {
-  node::Dataset dset = root_group.create_dataset("data",string_type,simple_space);
+  node::Dataset dset(root_group,Path("data"),string_type,simple_space);
 
   std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD","EEEEE","FFFFF"};
   EXPECT_NO_THROW(dset.write(write,string_type,simple_space,simple_space,dtpl));

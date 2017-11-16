@@ -95,7 +95,7 @@ TEST(DatasetArrayIO,read_write_vector)
   EXPECT_NO_THROW(type = datatype::create<ElementType>());
   EXPECT_NO_THROW(space = dataspace::Simple({2}));
 
-  node::Dataset dset = root_group.create_dataset("data",type,space);
+  node::Dataset dset(root_group,Path("data"),type,space);
 
 
   std::vector<ElementType> write_data{{1,2,3},{4,5,6}};

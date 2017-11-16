@@ -24,8 +24,7 @@
 //
 
 #include "group_test_fixtures.hpp"
-#include <h5cpp/property/link_creation.hpp>
-#include <h5cpp/property/group_creation.hpp>
+#include <h5cpp/hdf5.hpp>
 
 void NodeIterationFixture::SetUp()
 {
@@ -35,10 +34,10 @@ void NodeIterationFixture::SetUp()
   property::LinkCreationList lcpl;
   property::GroupCreationList gcpl;
   gcpl.link_creation_order(property::CreationOrder().enable_indexed());
-  root_.create_group("g1",lcpl,gcpl);
-  root_.create_group("g2",lcpl,gcpl);
-  root_.create_group("g3",lcpl,gcpl);
-  root_.create_dataset("d1",datatype::create<float>(),dataspace::Scalar());
-  root_.create_dataset("d2",datatype::create<int>(),dataspace::Scalar());
+  node::Group(root_,Path("g1"),lcpl,gcpl);
+  node::Group(root_,Path("g2"),lcpl,gcpl);
+  node::Group(root_,Path("g3"),lcpl,gcpl);
+  node::Dataset(root_,Path("d1"),datatype::create<float>());
+  node::Dataset(root_,Path("d2"),datatype::create<int>());
 }
 

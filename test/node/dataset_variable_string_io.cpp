@@ -43,8 +43,8 @@ struct DatasetVariableStringIO : public testing::Test
     scalar_space(),
     simple_space({7}),
     dtpl(hdf5::property::DatasetTransferList()),
-    scalar_dataset(root_group.create_dataset("scalar",string_type,scalar_space)),
-    vector_dataset(root_group.create_dataset("vector",string_type,simple_space))
+    scalar_dataset(root_group,hdf5::Path("scalar"),string_type,scalar_space),
+    vector_dataset(root_group,hdf5::Path("vector"),string_type,simple_space)
   {
   }
 };

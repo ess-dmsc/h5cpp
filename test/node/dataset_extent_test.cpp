@@ -47,10 +47,10 @@ class Extent : public BasicFixture
       dcpl.chunk({1024});
 
       dataspace::Simple fin_space({0},{4096});
-      fin_data = root_.create_dataset("fin_data",type,fin_space,lcpl,dcpl,dapl);
+      fin_data = node::Dataset(root_,Path("fin_data"),type,fin_space,lcpl,dcpl,dapl);
 
       dataspace::Simple inf_space({0},{dataspace::Simple::UNLIMITED});
-      inf_data = root_.create_dataset("inf_data",type,inf_space,lcpl,dcpl,dapl);
+      inf_data = node::Dataset(root_,Path("inf_data"),type,inf_space,lcpl,dcpl,dapl);
     }
 
 };

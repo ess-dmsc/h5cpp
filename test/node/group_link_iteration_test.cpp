@@ -23,8 +23,7 @@
 // Created on: Sep 13, 2017
 //
 #include "group_test_fixtures.hpp"
-#include <h5cpp/node/link.hpp>
-#include <h5cpp/node/link_iterator.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
