@@ -48,8 +48,96 @@ We currently support the following operating systems
 Since we are using `cmake` to build *h5cpp* and also provide a `cmake` package 
 for the library, using it should be the same on each of these platforms.  
 
-## Installation and using it
+## How to build and using *h5cpp*
 
-See the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html) for 
-more on this.
+Here is a little example of how to use the library on Linux. In order to build the code on Linux you need 
+
+* a C++ compiler, gcc>=4.8 should do well
+* the boost libraries
+* the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
+* cmake >= 3.5
+* doxygen and sphinx to build the documentation.
+
+Lets start with a top level test directory and create a source directory in it
+```bash
+mkdir h5cpp_test
+cd h5cpp_test
+mkdir src
+cd src
+```
+Now clone the *h5cpp* code from this repository in the source directory 
+
+```bash
+git clone https://github.com/ess-dmsc/h5cpp.git
+```
+and create a build directory in which you call cmake
+```bash
+mkdir h5cpp_build
+cd h5cpp_build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/../../ ../h5cpp
+```
+Once the configuration is done you simply run `make` and `make run_tests` to build the code
+```bash
+make -j4
+make run_tests
+```
+Finally to install the code use 
+```bash
+make install
+```
+Our overall project directory should look now somehow like this 
+```text
+h5cpp_test/
+   include/
+   lib/
+   src/
+     h5cpp/
+     h5cpp_build/
+```
+Now lets create a small project in the source directory with 
+```bash
+    src/
+      h5test/
+        CMakeLists.txt
+        h5test.cpp
+```
+where the `CMakeLists.txt` looks like this 
+```cmake
+cmake_minimum_required(VERSION 3.5.0)
+project(h5cpp_test 
+        LANGUAGES C CXX
+        VERSION 0.0.1)
+set(CMAKE_CXX_STANDARD 11)
+
+
+find_package(h5cpp REQUIRED)
+
+add_executable(h5test h5test.cpp)
+target_link_libraries(h5test h5cpp_shared)
+```
+and `h5test.cpp`
+```cpp
+#include <iostream>
+#include <h5cpp/hdf5.hpp>
+
+using namespace hdf5;
+
+int main()
+{
+  file::File f = file::create("h5test.h5",file::AccessFlags::TRUNCATE);
+
+  return 0;
+}
+```
+Finally we can create a build directory for the test program and build the code
+```bash
+mkdir h5test_buid
+cmake -DCMAKE_BUILD_TYPE=Release -Dh5cpp_DIR=$PWD/../../lib/cmake/h5cpp-0.0.1 ../h5test
+make
+./h5test
+```
+The imporant part here is the `h5cpp_DIR` variable which should point to the directory 
+with the package files for *h5cpp*.
+
+For OSX and Windows instructions see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
 
