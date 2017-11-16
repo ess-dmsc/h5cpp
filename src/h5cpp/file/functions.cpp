@@ -38,10 +38,16 @@ File create(const boost::filesystem::path &path, AccessFlags flags,
 File create(const boost::filesystem::path &path, AccessFlagsBase flags,
             const property::FileCreationList &fcpl, const property::FileAccessList &fapl)
 {
-  return File(hdf5::ObjectHandle(
-          H5Fcreate(path.string().c_str(), flags,
-                    static_cast<hid_t>(fcpl), static_cast<hid_t>(fapl))
-                  ));
+  hid_t fid = H5Fcreate(path.string().c_str(), flags,
+                        static_cast<hid_t>(fcpl), static_cast<hid_t>(fapl));
+  if(fid<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure creating file ["<<path<<"]";
+    throw std::runtime_error(ss.str());
+  }
+
+  return File(hdf5::ObjectHandle(fid));
 }
 
 

@@ -25,6 +25,7 @@
 
 #include <sstream>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/node/functions.hpp>
 #include "utilities.hpp"
 
 namespace hdf5 {
@@ -74,15 +75,9 @@ Group::Group(const Group &parent,const Path &path,
       <<parent.link().path()<<"]!";
     throw std::runtime_error(ss.str());
   }
+  H5Gclose(gid);
 
-  std::string name = path.name();
-  Path new_parent_path = path.parent();
-
-  Group parent_group;
-  for(auto group_name: new_parent_path)
-    parent_group = parent[group_name];
-
-  *this = Group(Node(ObjectHandle(gid),parent_group.links[name]));
+  *this = node::get_node(parent,path);
 }
 
 
