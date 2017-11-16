@@ -8,7 +8,7 @@
 #   note: this must be done for both, unit tests and tested code
 #
 #   2. Automatically create coverage generation targets with:
-#     create_coverage_tagers(target_base_name run_target bin_dir source_dir output_path), where
+#     create_coverage_targets(target_base_name run_target bin_dir source_dir output_path), where
 #       targer_base_name -- will create *_html *_xml and * which makes both
 #       run_target -- name of target that runs the tests
 #       bin_dir -- root directory of unit test binaries
@@ -24,9 +24,12 @@ function(configure_coverage_gcc)
   set(COVERAGE_COMPILE_FLAGS "-coverage -fprofile-generate -ftest-coverage" PARENT_SCOPE)
   set(COVERAGE_LINK_FLAGS "-g -O0 -coverage -fprofile-generate -ftest-coverage" PARENT_SCOPE)
   find_program(COVERAGE_GCOV_PATH gcov) # IS NEVER USED!!!!
-  find_program(COVERAGE_GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
-  if (NOT COVERAGE_GCOV_PATH OR NOT COVERAGE_GCOVR_PATH)
-    message(WARNING "Cannot enable coverage reporting; gcov and/or gocvr  not found.")
+  find_program(COVERAGE_GCOVR_PATH gcovr PATHS ${CMAKE_CURRENT_LIST_DIR})
+  if (NOT COVERAGE_GCOV_PATH)
+    message(WARNING "Cannot enable coverage reporting; gcov not found.")
+    set(COV OFF PARENT_SCOPE)
+  elseif (NOT COVERAGE_GCOVR_PATH)
+    message(WARNING "Cannot enable coverage reporting; gocvr not found.")
     set(COV OFF PARENT_SCOPE)
   else ()
     set(COVERAGE_LIBRARIES gcov PARENT_SCOPE)
