@@ -44,30 +44,42 @@ TEST(Path, test_construction_from_string)
   p = Path("/hello/world/data");
   EXPECT_EQ(p.size(),3ul);
   EXPECT_TRUE(p.absolute());
+  EXPECT_FALSE(p.is_root());
 
   p = Path("hello/world");
   EXPECT_EQ(p.size(),2ul);
   EXPECT_FALSE(p.absolute());
+  EXPECT_FALSE(p.is_root());
 
   p = Path("hello/world/instrument/data/");
   EXPECT_EQ(p.size(),4ul);
   EXPECT_FALSE(p.absolute());
+  EXPECT_FALSE(p.is_root());
 
   p = Path(".");
   EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
+  EXPECT_FALSE(p.is_root());
 
   p = Path("./");
   EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
+  EXPECT_FALSE(p.is_root());
 
   p = Path("/.");
   EXPECT_EQ(p.size(),0ul);
   EXPECT_TRUE(p.absolute());
+  EXPECT_TRUE(p.is_root());
+
+  p = Path("/");
+  EXPECT_EQ(p.size(),0ul);
+  EXPECT_TRUE(p.absolute());
+  EXPECT_TRUE(p.is_root());
 
   p = Path(".///");
   EXPECT_EQ(p.size(),0ul);
   EXPECT_FALSE(p.absolute());
+  EXPECT_FALSE(p.is_root());
 }
 
 TEST(Path, test_conversion_to_string)
@@ -245,6 +257,9 @@ TEST(Path,test_name)
   p = Path("/");
   EXPECT_TRUE(p.is_root());
   EXPECT_EQ(p.name(),".");
+
+  p = Path("/temperature");
+  EXPECT_EQ(p.name(),"temperature");
 }
 
 TEST(Path,test_parent_path)

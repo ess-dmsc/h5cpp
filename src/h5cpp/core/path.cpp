@@ -101,7 +101,7 @@ Path::Path(const std::string &str):
   from_string(str);
 }
 
-size_t Path::size() const
+size_t Path::size() const noexcept
 {
   return link_names_.size();
 }

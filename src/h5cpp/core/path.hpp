@@ -84,17 +84,28 @@ class DLL_EXPORT Path
     //!
     //! \brief return number of path elements
     //!
-    size_t size() const;
-
+    //! Returns the number of elements in the path. In the case that the path
+    //! references the root group this method will return 0.
     //!
-    //! \brief const iterator to first path element
+    size_t size() const noexcept;
+
+    //@{
+    //!
+    //! \brief get forward iterators
+    //!
+    //! Get the iterators to the beginning or the end+1 element of the path
+    //! in forward direction.
+    //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::for_each(p.begin(),p.end(),
+    //!               [](const std::string &name) { std::cout<<name<<" "; });
+    //! //output: run sensors temperature
+    //! \endcode
     //!
     const_iterator begin() const;
-
-    //!
-    //! \brief const iterator to last + 1 element
-    //!
     const_iterator end() const;
+    //@}
 
 
     //@{
@@ -158,20 +169,52 @@ class DLL_EXPORT Path
     //! A path is considered to reference the root group if the list
     //! of elements is empty but the absolute path flag is set.
     //!
+    //! You can construct a root path with
+    //! \code
+    //! Path root_path("/");
+    //! \endcode
+    //! or
+    //! \code
+    //! Path root_path();
+    //! root_path.absolute(true);
+    //! \endcode
+    //! though the former idiom shoud be prefered.
+    //!
+    //! \return true if the path references the root group, false otherwise
+    //!
     bool is_root() const;
 
     //!
     //! \brief get object name from a path
     //!
-    //! The object name is the last element of a path. In the case
-    //! of the root group it is empty.
+    //! The object name is the last element of a path. If the path references
+    //! the root group the return value is ".".
     //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::cout<<p.name()<<std::endl; //output: temperature
+    //! \endcode
+    //!
+    //! \return last element of the path
     std::string name() const;
 
     //!
     //! \brief get parent path
     //!
-    //! This is basically the path with the last component stripped of.
+    //! This is basically the path with the last component stripped of. In the
+    //! case that the path references the root group the parent is the
+    //! root group again.
+    //!
+    //! \code
+    //! Path p("/run/sensors/temperature");
+    //! std::cout<<p.parent()<<std::endl; //output: /run/sensors
+    //! \endcode
+    //! but
+    //! \code
+    //! Path root_group("/");
+    //! std::cout<<root_group.parent()<<std::endl; //output: /
+    //! \endcode
+    //! \return new Path instance referencing the parent path of this instance
     //!
     Path parent() const;
 
