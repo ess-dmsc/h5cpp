@@ -53,45 +53,30 @@ add_subdirectory(filter)
 add_subdirectory(node)
 add_subdirectory(property)
 
-add_executable(unit_tests EXCLUDE_FROM_ALL ${test_sources} ${test_headers})
+add_executable(unit_tests
+  EXCLUDE_FROM_ALL
+  ${test_sources}
+  ${test_headers})
 add_dependencies(unit_tests h5cpp_shared)
 enable_coverage(unit_tests)
-target_include_directories(unit_tests PRIVATE ${GTEST_INCLUDE_DIRS} h5cpp_shared)
+target_include_directories(unit_tests
+  PRIVATE ${GTEST_INCLUDE_DIRS}
+  PRIVATE h5cpp_shared)
 target_link_libraries(unit_tests
   h5cpp_shared
   ${GTEST_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${COVERAGE_LIBRARIES})
 
-add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
-add_test(NAME "RunGoogleTests" COMMAND unit_tests)
-create_coverage_targets(run_tests
+add_custom_target(run_tests
+  COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml"
+  DEPENDS unit_tests)
+add_test(NAME "RunGoogleTests" COMMAND run_tests)
+
+create_coverage_targets(
+  generate_coverage
+  run_tests
   ${PROJECT_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/src/h5cpp
   ${PROJECT_BINARY_DIR}/coverage)
 
-#if (${COV})
-#  set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/coverage/)
-#  file(MAKE_DIRECTORY ${COVERAGE_RESULTS_PATH})
-#  if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
-#    find_program(LLVM_COV_PATH NAMES "llvm-cov-mp-4.0" "llvm-cov")
-#    find_program(LLVM_PROF_PATH NAMES "llvm-profdata-mp-4.0" "llvm-profdata")
-#    if (NOT LLVM_PROF_PATH OR NOT LLVM_COV_PATH)
-#      message(WARNING "Unable to enable coverage as llvm-cov and/or llvm-profdata was not found.")
-#    else ()
-#      add_custom_target(generate_coverage_html COMMAND ${LLVM_PROF_PATH} "merge" "default.profraw" "-o" "default.profdata" ";" ${LLVM_COV_PATH} "show" "${PROJECT_BINARY_DIR}/bin/unit_tests" "-instr-profile=default.profdata" "-format=html" ">${COVERAGE_RESULTS_PATH}coverage.html" DEPENDS run_tests) # ";" ${LLVM_COV_PATH} "report" "${PROJECT_BINARY_DIR}/lib"
-#    endif ()
-#  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-#    find_program(GCOV_PATH gcov)
-#    find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
-#    if (NOT GCOV_PATH OR NOT GCOVR_PATH)
-#      message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
-#    else ()
-#      add_custom_target(generate_coverage_xml COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src/h5cpp" "-x" "${PROJECT_BINARY_DIR}" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" "${PROJECT_BINARY_DIR}" DEPENDS run_tests)
-#      add_custom_target(generate_coverage_html COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src/h5cpp" "--html" "--html-details" "-o" "${COVERAGE_RESULTS_PATH}/index.html" "${PROJECT_BINARY_DIR}" DEPENDS run_tests)
-#      add_custom_target(generate_coverage DEPENDS generate_coverage_xml generate_coverage_html)
-#    endif ()
-#  else ()
-#    #Cant generate targets for this compiler
-#  endif ()
-#endif ()
