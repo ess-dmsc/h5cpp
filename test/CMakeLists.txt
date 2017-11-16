@@ -1,9 +1,4 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
-include(${PROJECT_SOURCE_DIR}/cmake/TestCoverageReporting.cmake)
-
-set(WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/test)
-
-#include(${PROJECT_SOURCE_DIR}/cmake/TestCoverage.cmake)
 
 find_package(GTest)
 
@@ -70,28 +65,33 @@ target_link_libraries(unit_tests
 
 add_custom_target(run_tests COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml" DEPENDS unit_tests)
 add_test(NAME "RunGoogleTests" COMMAND unit_tests)
-if (${COV})
-  set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/coverage/)
-  file(MAKE_DIRECTORY ${COVERAGE_RESULTS_PATH})
-  if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
-    find_program(LLVM_COV_PATH NAMES "llvm-cov-mp-4.0" "llvm-cov")
-    find_program(LLVM_PROF_PATH NAMES "llvm-profdata-mp-4.0" "llvm-profdata")
-    if (NOT LLVM_PROF_PATH OR NOT LLVM_COV_PATH)
-      message(WARNING "Unable to enable coverage as llvm-cov and/or llvm-profdata was not found.")
-    else ()
-      add_custom_target(generate_coverage_html COMMAND ${LLVM_PROF_PATH} "merge" "default.profraw" "-o" "default.profdata" ";" ${LLVM_COV_PATH} "show" "${PROJECT_BINARY_DIR}/bin/unit_tests" "-instr-profile=default.profdata" "-format=html" ">${COVERAGE_RESULTS_PATH}coverage.html" DEPENDS run_tests) # ";" ${LLVM_COV_PATH} "report" "${PROJECT_BINARY_DIR}/lib"
-    endif ()
-  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-    find_program(GCOV_PATH gcov)
-    find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
-    if (NOT GCOV_PATH OR NOT GCOVR_PATH)
-      message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
-    else ()
-      add_custom_target(generate_coverage_xml COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src/h5cpp" "-x" "${PROJECT_BINARY_DIR}" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" "${PROJECT_BINARY_DIR}" DEPENDS run_tests)
-      add_custom_target(generate_coverage_html COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src/h5cpp" "--html" "--html-details" "-o" "${COVERAGE_RESULTS_PATH}/index.html" "${PROJECT_BINARY_DIR}" DEPENDS run_tests)
-      add_custom_target(generate_coverage DEPENDS generate_coverage_xml generate_coverage_html)
-    endif ()
-  else ()
-    #Cant generate targets for this compiler
-  endif ()
-endif ()
+create_coverage_targets(run_tests
+  ${PROJECT_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/src/h5cpp
+  ${PROJECT_BINARY_DIR}/coverage)
+
+#if (${COV})
+#  set(COVERAGE_RESULTS_PATH ${PROJECT_BINARY_DIR}/coverage/)
+#  file(MAKE_DIRECTORY ${COVERAGE_RESULTS_PATH})
+#  if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
+#    find_program(LLVM_COV_PATH NAMES "llvm-cov-mp-4.0" "llvm-cov")
+#    find_program(LLVM_PROF_PATH NAMES "llvm-profdata-mp-4.0" "llvm-profdata")
+#    if (NOT LLVM_PROF_PATH OR NOT LLVM_COV_PATH)
+#      message(WARNING "Unable to enable coverage as llvm-cov and/or llvm-profdata was not found.")
+#    else ()
+#      add_custom_target(generate_coverage_html COMMAND ${LLVM_PROF_PATH} "merge" "default.profraw" "-o" "default.profdata" ";" ${LLVM_COV_PATH} "show" "${PROJECT_BINARY_DIR}/bin/unit_tests" "-instr-profile=default.profdata" "-format=html" ">${COVERAGE_RESULTS_PATH}coverage.html" DEPENDS run_tests) # ";" ${LLVM_COV_PATH} "report" "${PROJECT_BINARY_DIR}/lib"
+#    endif ()
+#  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+#    find_program(GCOV_PATH gcov)
+#    find_program(GCOVR_PATH gcovr PATHS ${CMAKE_SOURCE_DIR}/test)
+#    if (NOT GCOV_PATH OR NOT GCOVR_PATH)
+#      message(WARNING "Unable to enable coverage target as gcov and/or gocvr was not found.")
+#    else ()
+#      add_custom_target(generate_coverage_xml COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src/h5cpp" "-x" "${PROJECT_BINARY_DIR}" "-o" "${COVERAGE_RESULTS_PATH}/coverage.xml" "${PROJECT_BINARY_DIR}" DEPENDS run_tests)
+#      add_custom_target(generate_coverage_html COMMAND ${GCOVR_PATH} "-r" "${CMAKE_SOURCE_DIR}/src/h5cpp" "--html" "--html-details" "-o" "${COVERAGE_RESULTS_PATH}/index.html" "${PROJECT_BINARY_DIR}" DEPENDS run_tests)
+#      add_custom_target(generate_coverage DEPENDS generate_coverage_xml generate_coverage_html)
+#    endif ()
+#  else ()
+#    #Cant generate targets for this compiler
+#  endif ()
+#endif ()
