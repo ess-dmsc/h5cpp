@@ -30,6 +30,7 @@
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/core/path.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <vector>
 
 namespace hdf5 {
 namespace property {
@@ -92,6 +93,22 @@ class DLL_EXPORT VirtualDataMap {
     dataspace::View         source_view_;
 
 
+};
+
+//!
+//! \brief utility container for virtual data maps
+//!
+//! This is a one to one derived type from std::vector in order to provide
+//! a convenient container for virtual data maps.
+//! The interface is exactly the same as for std::vector.
+//!
+class DLL_EXPORT VirtualDataMaps : public std::vector<VirtualDataMap>
+{
+  public:
+    //
+    // pull in std::vector constructors
+    //
+    using std::vector<VirtualDataMap>::vector;
 };
 
 } // namespace property

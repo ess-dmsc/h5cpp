@@ -14,6 +14,7 @@ set(SOURCES
   ${dir}/types.cpp
   ${dir}/utilities.cpp
   ${dir}/utilities.hpp
+  ${dir}/virtual_dataset.cpp
   )
 
 set(HEADERS
@@ -28,6 +29,7 @@ set(HEADERS
   ${dir}/node_view.hpp
   ${dir}/functions.hpp
   ${dir}/types.hpp
+  ${dir}/virtual_dataset.hpp}
   )
 
 install(FILES ${HEADERS}
