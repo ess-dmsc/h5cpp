@@ -71,6 +71,8 @@ class DLL_EXPORT Path
     //!
     explicit Path(const std::string &str);
 
+    Path(const_iterator first_element,const_iterator last_element);
+
     //!
     //! \brief copy constructor
     //!

@@ -18,6 +18,7 @@ set(test_sources
   ${dir}/dataset_fixed_string_io.cpp
   ${dir}/dataset_variable_string_io.cpp
   ${dir}/virtual_dataset_test.cpp
+  ${dir}/get_test.cpp
   PARENT_SCOPE)
 
 set(test_headers

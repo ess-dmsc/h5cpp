@@ -83,7 +83,7 @@ TEST_F(Group, test_group_nodeview)
 {
   node::Group g = file_.root();
 
-  EXPECT_THROW(g.nodes.exists("group_1"), std::runtime_error);
+  EXPECT_FALSE(g.nodes.exists("group_1"));
 
   node::Group g1 = g.create_group("group_1");
 

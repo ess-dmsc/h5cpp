@@ -101,6 +101,11 @@ Path::Path(const std::string &str):
   from_string(str);
 }
 
+Path::Path(const_iterator first_element,const_iterator last_element):
+    absolute_(false),
+    link_names_(first_element,last_element)
+{}
+
 size_t Path::size() const noexcept
 {
   return link_names_.size();

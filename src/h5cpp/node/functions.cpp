@@ -234,6 +234,62 @@ void link(const Node &target,
   }
 }
 
+Node get_node(const Group &base,const Path &node_path,const property::LinkAccessList &lapl)
+{
+
+  Group search_base(base);
+  Path search_path(node_path);
+
+  //if there is nothing to search we can simply return the base group
+  if(node_path.size()==0 && !node_path.is_root())
+    return base;
+
+  //if the search path is the root node we just return the root node of the
+  //search base
+  if(node_path.is_root())
+    return base.link().file().root();
+
+  //if the path is absolute we have to change the base group and the search path
+  if(node_path.absolute())
+  {
+    search_base = base.link().file().root();
+    search_path = node_path;
+    search_path.absolute(false); //make search path relative to root group
+
+    //and start it all over again
+    return get_node(search_base,search_path,lapl);
+  }
+  else
+  {
+    auto iter = search_path.begin(); //get the first path element
+    Node result;
+    if(search_base.nodes.exists(*iter,lapl))
+    {
+      result = search_base.nodes[*iter];
+
+      search_path = Path(++iter,search_path.end());
+      if(search_path.size()==0)
+      {
+        return result;
+      }
+      else
+      {
+        return get_node(Group(result),search_path);
+      }
+    }
+    else
+    {
+      std::stringstream ss;
+      ss<<"No node ["<<*iter<<"] below ["<<search_base.link().path()<<"]!";
+      throw std::runtime_error(ss.str());
+    }
+
+  }
+
+
+
+}
+
 } // namespace node
 } // namespace hdf5
 

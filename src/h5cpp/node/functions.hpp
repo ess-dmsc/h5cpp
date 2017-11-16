@@ -192,6 +192,7 @@ DLL_EXPORT void link(const boost::filesystem::path &target_file,
                      const property::LinkCreationList &lcpl = property::LinkCreationList(),
                      const property::LinkAccessList &lapl = property::LinkAccessList());
 
+
 //!
 //! \brief get a node
 //!
@@ -201,7 +202,10 @@ DLL_EXPORT void link(const boost::filesystem::path &target_file,
 //! \param base reference to the base group
 //! \param node_path reference to the path of the node
 //! \return new node instance
-DLL_EXPORT Node get(const Group &base,const Path &node_path);
+DLL_EXPORT Node get_node(const Group &base,
+                         const Path &node_path,
+                         const property::LinkAccessList &lapl=
+                             property::LinkAccessList());
 
 
 } // namespace node

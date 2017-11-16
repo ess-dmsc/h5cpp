@@ -93,6 +93,10 @@ Node NodeView::operator[](const std::string &name) const
 
 bool NodeView::exists(const std::string &name,const property::LinkAccessList &lapl) const
 {
+  //we first have to check whether the link exists
+  if(!group().links.exists(name))
+    return false;
+
   htri_t result = H5Oexists_by_name(static_cast<hid_t>(group()),
                                     name.c_str(),
                                     static_cast<hid_t>(lapl));
@@ -106,7 +110,10 @@ bool NodeView::exists(const std::string &name,const property::LinkAccessList &la
   }
   else
   {
-    throw std::runtime_error("Could not check if link resolves to object!");
+    std::stringstream ss;
+    ss<<"Failure to check if object ["<<name<<"] exists below ["
+      <<group().link().path()<<"]!";
+    throw std::runtime_error(ss.str());
   }
 }
 

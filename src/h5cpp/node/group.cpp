@@ -56,7 +56,10 @@ Group::Group(const Group &parent,const Path &path,
              const property::LinkCreationList &lcpl,
              const property::GroupCreationList &gcpl,
              const property::GroupAccessList &gapl):
-     Node()
+     Node(),
+     links(*this),
+     nodes(*this),
+     iter_config_(IteratorConfig())
 {
   hid_t gid = 0;
 
@@ -72,8 +75,14 @@ Group::Group(const Group &parent,const Path &path,
     throw std::runtime_error(ss.str());
   }
 
-  *this = Node(Object())
+  std::string name = path.name();
+  Path new_parent_path = path.parent();
 
+  Group parent_group;
+  for(auto group_name: new_parent_path)
+    parent_group = parent[group_name];
+
+  *this = Group(Node(ObjectHandle(gid),parent_group.links[name]));
 }
 
 
