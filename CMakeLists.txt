@@ -4,10 +4,8 @@ project(h5cpp
   VERSION 0.0.1
   )
 
-set(EXTRA_MODULES_DIR ${PROJECT_SOURCE_DIR}/cmake)
+set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
-
-option(COV "Enable code coverage test for unit tests (if possible)." OFF)
 
 #=============================================================================
 # enable MPI support if required 
@@ -22,7 +20,6 @@ if (WITH_MPI AND (CMAKE_SYSTEM_NAME MATCHES Darwin))
   message(FATAL_ERROR "MPI not supported for OSX")
 endif ()
 
-
 #=============================================================================
 # setting up conan for use from within cmake
 #=============================================================================
@@ -30,7 +27,6 @@ set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
 
 if (WITH_CONAN)
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
-
   conan_cmake_run(CONANFILE conanfile.txt
     BASIC_SETUP
     BUILD missing)
@@ -53,6 +49,7 @@ include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)
 include(${EXTRA_MODULES_DIR}/PackageConfig.cmake)
 include(${EXTRA_MODULES_DIR}/BuildInfo.cmake)
+include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
 include(Sphinx)
 include(utilities)
 include(DoxygenUtilities)
@@ -97,3 +94,15 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)
 
+#
+# uninstall target
+#
+if(NOT TARGET uninstall)
+	configure_file(
+		"${EXTRA_MODULES_DIR}/cmake_uninstall.cmake.in"
+		"${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+		IMMEDIATE @ONLY)
+
+	add_custom_target(uninstall
+		COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
