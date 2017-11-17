@@ -79,6 +79,18 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList
     DatasetAccessList();
 
     //!
+    //! \brief constructor
+    //!
+    //! Construct a dataset access property list from a handler instance.
+    //! This constructor will throw an exception if the handle does not
+    //! reference a dataset access property list.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param handle r-value reference to a handle instance
+    //!
+    explicit DatasetAccessList(ObjectHandle &&handle);
+
+    //!
     //! \brief destructor
     //!
     ~DatasetAccessList();

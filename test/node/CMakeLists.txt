@@ -19,6 +19,7 @@ set(test_sources
   ${dir}/dataset_variable_string_io.cpp
   ${dir}/virtual_dataset_test.cpp
   ${dir}/get_test.cpp
+  ${dir}/chunked_dataset_test.cpp
   PARENT_SCOPE)
 
 set(test_headers

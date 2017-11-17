@@ -85,6 +85,7 @@
 #include <h5cpp/node/node_view.hpp>
 #include <h5cpp/node/functions.hpp>
 #include <h5cpp/node/types.hpp>
+#include <h5cpp/node/chunked_dataset.hpp>
 #if H5_VERSION_GE(1,10,0)
 #include <h5cpp/node/virtual_dataset.hpp>
 #endif

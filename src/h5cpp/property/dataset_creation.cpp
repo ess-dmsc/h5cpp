@@ -100,6 +100,21 @@ DatasetCreationList::DatasetCreationList():
 DatasetCreationList::~DatasetCreationList()
 {}
 
+DatasetCreationList::DatasetCreationList(ObjectHandle &&handle):
+    ObjectCreationList()
+{
+  List l(std::move(handle));
+  if(l.get_class() != kDatasetCreate)
+  {
+    std::stringstream ss;
+    ss<<"Failure to construct DatasetCreationList instance: ";
+    ss<<"handle does not reference a dataset creation property list!";
+    throw std::runtime_error(ss.str());
+  }
+
+  List::operator=(std::move(l));
+}
+
 void DatasetCreationList::layout(DatasetLayout layout) const
 {
   if(H5Pset_layout(static_cast<hid_t>(*this),static_cast<H5D_layout_t>(layout))<0)

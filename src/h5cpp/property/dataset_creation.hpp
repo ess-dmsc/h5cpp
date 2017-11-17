@@ -113,8 +113,27 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const DatasetLayout &la
 class DLL_EXPORT DatasetCreationList : public ObjectCreationList
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     DatasetCreationList();
+
+    //!
+    //! \brief destructor
+    //!
     ~DatasetCreationList();
+
+    //!
+    //! \brief constructor
+    //!
+    //! Construct a new dataset creation property list from an HDF5 handle.
+    //! This constructor will throw an exception if the handle does not
+    //! reference a dataset creation property list.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param handle r-value reference to an HDF5 handle
+    //!
+    DatasetCreationList(ObjectHandle &&handle);
 
     //!
     //! \brief set dataset layout

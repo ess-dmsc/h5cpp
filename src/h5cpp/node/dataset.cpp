@@ -107,6 +107,34 @@ datatype::Datatype Dataset::datatype() const
   return datatype::Datatype(ObjectHandle(id));
 }
 
+property::DatasetCreationList Dataset::creation_list() const
+{
+  hid_t id = 0;
+  if((id=H5Dget_create_plist(static_cast<hid_t>(*this)))<0)
+  {
+    std::stringstream ss;
+    ss<<"Cannot obtain dataset creation property list for dataset ["
+      <<link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return property::DatasetCreationList(ObjectHandle(id));
+}
+
+property::DatasetAccessList Dataset::access_list() const
+{
+  hid_t id=0;
+  if((id=H5Dget_access_plist(static_cast<hid_t>(*this)))<0)
+  {
+    std::stringstream ss;
+    ss<<"Failure obtaining dataset creation property list for dataset ["
+      <<link().path()<<"]!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return property::DatasetAccessList(ObjectHandle(id));
+}
+
 void Dataset::extent(const Dimensions &dims) const
 {
   if(H5Dset_extent(static_cast<hid_t>(*this),dims.data())<0)
