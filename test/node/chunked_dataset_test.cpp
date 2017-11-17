@@ -20,59 +20,26 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Nov 17, 2017
 //
+#include <gtest/gtest.h>
+#include <h5cpp/hdf5.hpp>
+#include "../fixture.hpp"
 
-#include <stdexcept>
-#include <h5cpp/property/property_list.hpp>
+using namespace hdf5;
 
-namespace hdf5 {
-namespace property {
-
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
-{
-}
-
-List::List(ObjectHandle &&handle):
-    handle_(std::move(handle))
+class ChunkedDatasetTest : public BasicFixture
 {
 
-}
+};
 
-List::List(const List &plist)
+TEST_F(ChunkedDatasetTest,test_construction)
 {
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy-construct property list");
-  }
-  handle_ = ObjectHandle(ret);
+  auto type = datatype::create<int>();
+  dataspace::Simple space{{0,1024},{dataspace::Simple::UNLIMITED,1024}};
+  node::ChunkedDataset dset(root_,Path("data"),type,space,{1024,1024});
+
+  property::DatasetCreationList dcpl = dset.creation_list();
+  EXPECT_EQ(dcpl.layout(),property::DatasetLayout::CHUNKED);
 }
-
-List& List::operator=(const List &plist)
-{
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy property list");
-  }
-  handle_ = ObjectHandle(ret);
-  return *this;
-}
-
-
-List::~List()
-{
-}
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
-
-
-} // namespace property_list
-} // namespace hdf5
-
 

@@ -23,6 +23,7 @@
 // Created on: Aug 22, 2017
 //
 
+#include <sstream>
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/property/property_class.hpp>
 
@@ -91,6 +92,20 @@ DatasetAccessList::DatasetAccessList():
 
 DatasetAccessList::~DatasetAccessList()
 {}
+
+DatasetAccessList::DatasetAccessList(ObjectHandle &&handle):
+    LinkAccessList()
+{
+  List l(std::move(handle));
+  if(l.get_class() != kDatasetAccess)
+  {
+    std::stringstream ss;
+    ss<<"Handle does not reference a dataset access property list!";
+    throw std::runtime_error(ss.str());
+  }
+
+  List::operator=(std::move(l));
+}
 
 void DatasetAccessList::chunk_cache_parameters(const ChunkCacheParameters &params) const
 {

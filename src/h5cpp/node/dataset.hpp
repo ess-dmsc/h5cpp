@@ -95,6 +95,28 @@ class DLL_EXPORT Dataset : public Node
     dataspace::Dataspace dataspace() const;
 
     //!
+    //! \brief get the dataset creation property list used for creation
+    //!
+    //! Returns an instance of a dataset creation property list with the
+    //! values used for the creation of the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return instance of DatasetCreationList
+    //!
+    property::DatasetCreationList creation_list() const;
+
+    //!
+    //! \brief get the dataset access property list for the instance
+    //!
+    //! Returns an instance of the dataset access property list for the
+    //! dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return instance of DatasetAccessList
+    //!
+    property::DatasetAccessList access_list() const;
+
+    //!
     //! \brief get datatype of dataset
     //!
     //! Return an instance of the datatype describing the elements stored

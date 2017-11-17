@@ -1,6 +1,4 @@
 //
-// (c) Copyright 2017 DESY,ESS
-//
 // This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
@@ -20,59 +18,31 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 15, 2017
+// Created on: Nov 17, 2017
 //
 
-#include <stdexcept>
-#include <h5cpp/property/property_list.hpp>
+#include <h5cpp/node/chunked_dataset.hpp>
 
 namespace hdf5 {
-namespace property {
+namespace node {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
+
+ChunkedDataset::ChunkedDataset(const Group &base,const Path &path,
+                               const datatype::Datatype &type,
+                               const dataspace::Simple &space,
+                               const Dimensions &chunk_shape,
+                               const property::LinkCreationList &lcpl,
+                               const property::DatasetCreationList &dcpl,
+                               const property::DatasetAccessList &dapl):
+                                   Dataset()
 {
+  //create a local copy for the dataset creation property list
+  property::DatasetCreationList local_dcpl(dcpl);
+  local_dcpl.layout(property::DatasetLayout::CHUNKED);
+  local_dcpl.chunk(chunk_shape);
+
+  Dataset::operator=(Dataset(base,path,type,space,lcpl,local_dcpl,dapl));
 }
 
-List::List(ObjectHandle &&handle):
-    handle_(std::move(handle))
-{
-
-}
-
-List::List(const List &plist)
-{
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy-construct property list");
-  }
-  handle_ = ObjectHandle(ret);
-}
-
-List& List::operator=(const List &plist)
-{
-  hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
-    throw std::runtime_error("could not copy property list");
-  }
-  handle_ = ObjectHandle(ret);
-  return *this;
-}
-
-
-List::~List()
-{
-}
-
-Class List::get_class() const
-{
-  return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
-}
-
-
-} // namespace property_list
+} // namespace node
 } // namespace hdf5
-
-

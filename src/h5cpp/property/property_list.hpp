@@ -60,6 +60,18 @@ class DLL_EXPORT List
     List(const List &plist);
 
     //!
+    //! \brief constructor
+    //!
+    //! Construct a property list from a handler object. This constructor is
+    //! particularly useful in situations where we retrieve the handler of
+    //! a property list from a C-API function.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param handle r-value reference to the handle object
+    //!
+    List(ObjectHandle &&handle);
+
+    //!
     //! \brief copy assignment
     //!
     List &operator=(const List &type);
