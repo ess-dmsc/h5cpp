@@ -71,16 +71,23 @@ RecursiveNodeIterator &RecursiveNodeIterator::operator++()
 {
   if(current_node_.type()==Type::GROUP)
   {
-    *this =  RecursiveNodeIterator(Group(current_node_),*this);
+    Group new_top(current_node_);
+    if(new_top.nodes.size())
+    {
+      ++current_iterator_;
+      *this =  RecursiveNodeIterator(new_top,*this);
+      return *this;
+    }
   }
+
+  current_iterator_++;
+  if(current_iterator_)
+    current_node_ = *current_iterator_;
   else
   {
-    current_iterator_++;
-    if(*this)
-      current_node_ = *current_iterator_;
-    else
-      *this = *parent_iterator_;
+    *this = *parent_iterator_;
   }
+
 
   return *this;
 }
