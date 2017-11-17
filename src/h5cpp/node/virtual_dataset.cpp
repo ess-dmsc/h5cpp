@@ -23,6 +23,9 @@
 // Created on: Nov 16, 2017
 //
 
+#include <h5cpp/node/dataset.hpp>
+#if H5_VERSION_GE(1,10,0)
+
 #include <h5cpp/node/virtual_dataset.hpp>
 #include <algorithm>
 
@@ -50,3 +53,4 @@ VirtualDataset::VirtualDataset(const Group &base,const Path &path,
 
 } // namespace node
 } // namespace hdf5
+#endif
