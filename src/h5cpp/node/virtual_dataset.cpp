@@ -42,10 +42,10 @@ VirtualDataset::VirtualDataset(const Group &base,const Path &path,
   dcpl.layout(property::DatasetLayout::VIRTUAL);
 
   // apply the maps to the datset creation list
-  std::for_each(vds_map.begin(),vds_map.end(),
+  std::for_each(vds_maps.begin(),vds_maps.end(),
                 [&dcpl](const property::VirtualDataMap &map) {map(dcpl);});
 
-  *this = Dataspace(base,path,type,space,lcpl,dcpl,dapl);
+  Dataset::operator=(Dataset(base,path,type,space,lcpl,dcpl,dapl));
 }
 
 } // namespace node

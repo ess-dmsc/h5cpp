@@ -51,7 +51,6 @@ class VirtualDatasetTest : public testing::Test
     VirtualDatasetTest();
 
     virtual void SetUp();
-    virtual void TearDown();
     virtual ~VirtualDatasetTest() {}
 
   private:
@@ -99,14 +98,6 @@ void VirtualDatasetTest::SetUp()
   create_source("vds_source_3.h5",data_module_3);
 }
 
-void VirtualDatasetTest::TearDown()
-{
-//  for(auto filename: files_to_delete)
-//    boost::filesystem::remove(filename);
-}
-
-using Mappings = std::vector<property::VirtualDataMap>;
-
 TEST_F(VirtualDatasetTest,test_concatenation)
 {
   using dataspace::Hyperslab;
@@ -114,40 +105,30 @@ TEST_F(VirtualDatasetTest,test_concatenation)
   using dataspace::View;
 
   file::File f = file::create("VirtualDatasetTest.h5",file::AccessFlags::TRUNCATE,gfcpl,gfapl);
-  node::Group root = f.root();
 
   dataspace::Simple file_space{{3,kModuleSize}};
-  property::DatasetCreationList dcpl;
 
   // Create the virtual data maps
-  Mappings vds_map = {
+  property::VirtualDataMaps vds_map = {
       {View{file_space,Hyperslab{{0,0},{1,30}}},"vds_source_1.h5",Path("/module_data"),View{module_space}},
       {View{file_space,Hyperslab{{1,0},{1,30}}},"vds_source_2.h5",Path("/module_data"),View{module_space}},
       {View{file_space,Hyperslab{{2,0},{1,30}}},"vds_source_3.h5",Path("/module_data"),View{module_space}}
   };
 
-  // apply the maps to the datset creation list
-  std::for_each(vds_map.begin(),vds_map.end(),
-                [&dcpl](const property::VirtualDataMap &map) {map(dcpl);});
-
-
-  node::Dataset dataset;
-  EXPECT_NO_THROW((dataset = node::Dataset(root,Path("all"),module_type,file_space,
-                                              property::LinkCreationList(),
-                                              dcpl)));
-  EXPECT_EQ(dataset.dataspace().size(),90);
+  node::VirtualDataset vds(f.root(),Path("all"),module_type,file_space,vds_map);
+  EXPECT_EQ(vds.dataspace().size(),90);
 
   DataVector read(kModuleSize);
   Hyperslab slab{{0,0},{1,kModuleSize}};
-  EXPECT_NO_THROW(dataset.read(read,slab));
+  EXPECT_NO_THROW(vds.read(read,slab));
   EXPECT_EQ(read,data_module_1);
 
   slab.offset({1,0});
-  EXPECT_NO_THROW(dataset.read(read,slab));
+  EXPECT_NO_THROW(vds.read(read,slab));
   EXPECT_EQ(read,data_module_2);
 
   slab.offset({2,0});
-  EXPECT_NO_THROW(dataset.read(read,slab));
+  EXPECT_NO_THROW(vds.read(read,slab));
   EXPECT_EQ(read,data_module_3);
 
 }
@@ -160,38 +141,28 @@ TEST_F(VirtualDatasetTest,test_interleaving)
   using hdf5::Dimensions;
 
   file::File f = file::create("VirtualDatasetTest_Interleaving.h5",file::AccessFlags::TRUNCATE,gfcpl,gfapl);
-  node::Group root = f.root();
 
   dataspace::Simple file_space{{3*kModuleSize}};
-  property::DatasetCreationList dcpl;
 
   // Create the virtual data maps
-
   Dimensions count{kModuleSize};
   Dimensions stride{3};
   Dimensions block{1};
-  Mappings vds_map = {
+  property::VirtualDataMaps vds_map = {
       {View{file_space,Hyperslab{{0},block,count,stride}},"vds_source_1.h5",Path("/module_data"),View{module_space}},
       {View{file_space,Hyperslab{{1},block,count,stride}},"vds_source_2.h5",Path("/module_data"),View{module_space}},
       {View{file_space,Hyperslab{{2},block,count,stride}},"vds_source_3.h5",Path("/module_data"),View{module_space}}
   };
 
-  // apply the maps to the datset creation list
-  std::for_each(vds_map.begin(),vds_map.end(),
-                [&dcpl](const property::VirtualDataMap &map) {map(dcpl);});
+  node::VirtualDataset vds(f.root(),Path("all"),module_type,file_space,vds_map);
+  EXPECT_EQ(vds.dataspace().size(),90);
 
-
-  node::Dataset dataset;
-  EXPECT_NO_THROW((dataset = root.create_dataset("all",module_type,file_space,
-                                                 property::LinkCreationList(),
-                                                 dcpl)));
-  EXPECT_EQ(dataset.dataspace().size(),90);
   //readback data
   DataVector data(3);
   DataVector ref_data{1,2,3};
   for(size_t offset=0;offset<kModuleSize*3;offset+=3)
   {
-    EXPECT_NO_THROW(dataset.read(data,Hyperslab{{offset},{3}}));
+    EXPECT_NO_THROW(vds.read(data,Hyperslab{{offset},{3}}));
     EXPECT_EQ(data,ref_data);
   }
 }

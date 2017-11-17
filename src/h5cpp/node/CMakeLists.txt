@@ -29,7 +29,7 @@ set(HEADERS
   ${dir}/node_view.hpp
   ${dir}/functions.hpp
   ${dir}/types.hpp
-  ${dir}/virtual_dataset.hpp}
+  ${dir}/virtual_dataset.hpp
   )
 
 install(FILES ${HEADERS}
