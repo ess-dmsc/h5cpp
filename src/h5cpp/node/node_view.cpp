@@ -119,12 +119,12 @@ bool NodeView::exists(const std::string &name,const property::LinkAccessList &la
 
 NodeView::const_iterator NodeView::begin() const
 {
-  return NodeIterator(*this,0);
+  return NodeIterator(group(),0);
 }
 
 NodeView::const_iterator NodeView::end() const
 {
-  return NodeIterator(*this,size());
+  return NodeIterator(group(),size());
 }
 
 

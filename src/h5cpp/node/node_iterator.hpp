@@ -26,7 +26,7 @@
 
 #include <functional>
 #include <h5cpp/core/iterator.hpp>
-#include <h5cpp/node/node_view.hpp>
+#include <h5cpp/node/group.hpp>
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/core/windows.hpp>
 
@@ -44,7 +44,7 @@ class DLL_EXPORT NodeIterator : public Iterator
 
     NodeIterator() = delete;
     NodeIterator(const NodeIterator&) = default;
-    NodeIterator(const NodeView &view,ssize_t index);
+    NodeIterator(const Group &group,ssize_t index);
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -56,7 +56,7 @@ class DLL_EXPORT NodeIterator : public Iterator
 #endif
     explicit operator bool() const
     {
-      return !(index()<0 || index()>=view_.get().size());
+      return !(index()<0 || index()>=group_.nodes.size());
     }
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
@@ -86,7 +86,7 @@ class DLL_EXPORT NodeIterator : public Iterator
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
-    std::reference_wrapper<const NodeView> view_;
+    Group group_;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
