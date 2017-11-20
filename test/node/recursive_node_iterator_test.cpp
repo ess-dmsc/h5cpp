@@ -53,11 +53,24 @@ void RecursiveNodeIteratorTest::SetUp()
   node::Group(g2,Path("g2_2"));
 }
 
+TEST_F(RecursiveNodeIteratorTest,equality_operator)
+{
+  using hdf5::node::RecursiveNodeIterator;
+  EXPECT_EQ(RecursiveNodeIterator::begin(file.root()),
+            RecursiveNodeIterator::begin(file.root()));
+
+  EXPECT_EQ(RecursiveNodeIterator::end(file.root()),
+            RecursiveNodeIterator::end(file.root()));
+
+
+}
+
 TEST_F(RecursiveNodeIteratorTest,test)
 {
-  node::Group root = file.root();
-  node::RecursiveNodeIterator iter(root);
-  while(iter)
+  using hdf5::node::RecursiveNodeIterator;
+  auto iter = RecursiveNodeIterator::begin(file.root());
+  auto end  = RecursiveNodeIterator::end(file.root());
+  while(iter != end)
   {
 
     node::Node n = *iter;

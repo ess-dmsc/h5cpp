@@ -50,6 +50,19 @@ RecursiveNodeIterator::RecursiveNodeIterator(const Group &current_group,
     current_node_ = *current_iterator_;
 }
 
+RecursiveNodeIterator RecursiveNodeIterator::begin(const Group &current_group)
+{
+  return RecursiveNodeIterator(current_group);
+}
+
+RecursiveNodeIterator RecursiveNodeIterator::end(const Group &current_group)
+{
+  RecursiveNodeIterator iter(current_group);
+  iter.current_iterator_ = current_group.nodes.end();
+
+  return iter;
+}
+
 
 Node RecursiveNodeIterator::operator*() const
 {
@@ -106,14 +119,18 @@ RecursiveNodeIterator RecursiveNodeIterator::operator++(int)
 
 
 
-bool RecursiveNodeIterator::operator==(const RecursiveNodeIterator &a) const
+bool RecursiveNodeIterator::operator==(const RecursiveNodeIterator &rhs) const
 {
-  return true;
+  return (current_iterator_ == rhs.current_iterator_) &&
+         (current_group_    == rhs.current_group_   ) &&
+         (current_node_     == rhs.current_node_    ) &&
+         (parent_iterator_  == rhs.parent_iterator_ );
+
 }
 
-bool RecursiveNodeIterator::operator!=(const RecursiveNodeIterator &a) const
+bool RecursiveNodeIterator::operator!=(const RecursiveNodeIterator &rhs) const
 {
-  return false;
+  return !(*this == rhs);
 }
 
 } // namespace node
