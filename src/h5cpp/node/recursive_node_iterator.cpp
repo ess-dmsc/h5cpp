@@ -86,7 +86,7 @@ RecursiveNodeIterator &RecursiveNodeIterator::operator++()
     //we have reached the end of the current iterator and go back to
     //the parent iterator
     *this = *parent_iterator_;
-    ++current_iterator_;
+    ++current_iterator_; //move on to the next element in the current iterator
   }
   return *this;
 }

@@ -45,6 +45,8 @@ void RecursiveNodeIteratorTest::SetUp()
   node::Group(root,Path("g0"));
   node::Group g1(root,Path("g1"));
   node::Group g2(root,Path("g2"));
+  node::Dataset(g2,Path("data_1"),datatype::create<int>());
+  node::Dataset(g2,Path("data_2"),datatype::create<float>());
   node::Group g1_1(g1,Path("g1_1"));
   node::Group(g1_1,Path("g1_1_1"));
   node::Group(g1_1,Path("g1_1_2"));
@@ -68,13 +70,26 @@ TEST_F(RecursiveNodeIteratorTest,equality_operator)
 TEST_F(RecursiveNodeIteratorTest,test)
 {
   using hdf5::node::RecursiveNodeIterator;
+  std::vector<Path> node_path{
+    Path("/g0"),
+    Path("/g1"),
+    Path("/g1/g1_1"),
+    Path("/g1/g1_1/g1_1_1"),
+    Path("/g1/g1_1/g1_1_2"),
+    Path("/g1/g1_2"),
+    Path("/g2"),
+    Path("/g2/data_1"),
+    Path("/g2/data_2"),
+    Path("/g2/g2_1"),
+    Path("/g2/g2_2")
+  };
+
   auto iter = RecursiveNodeIterator::begin(file.root());
   auto end  = RecursiveNodeIterator::end(file.root());
+  auto path_iter = node_path.begin();
   while(iter != end)
   {
-
-    node::Node n = *iter;
-    std::cout<<n.link().path()<<std::endl;
-    ++iter;
+    node::Node n = *iter++;
+    EXPECT_EQ(n.link().path(),*path_iter++);
   }
 }
