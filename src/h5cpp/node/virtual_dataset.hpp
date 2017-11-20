@@ -36,7 +36,7 @@ namespace node {
 //! This class provides a special constructor which only takes arguments
 //! required to construct a virtual dataset.
 //!
-class VirtualDataset : public Dataset
+class DLL_EXPORT VirtualDataset : public Dataset
 {
   public:
     //!
