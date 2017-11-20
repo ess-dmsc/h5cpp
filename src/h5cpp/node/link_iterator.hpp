@@ -70,19 +70,13 @@ class DLL_EXPORT LinkIterator : public Iterator
     static LinkIterator end(const Group &group);
 
     value_type operator*() const;
-
     value_type *operator->();
-
     LinkIterator &operator++();
     LinkIterator operator++(int);
     LinkIterator &operator--();
     LinkIterator operator--(int);
 
-    LinkIterator &operator+=(ssize_t i);
-    LinkIterator &operator-=(ssize_t i);
-
     bool operator==(const LinkIterator &a) const;
-
     bool operator!=(const LinkIterator &a) const;
 
   private:

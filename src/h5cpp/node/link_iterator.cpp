@@ -96,20 +96,6 @@ LinkIterator LinkIterator::operator--(int)
   return tmp;
 }
 
-LinkIterator &LinkIterator::operator+=(ssize_t i)
-{
-  Iterator::operator+=(i);
-  if(*this) current_link_ = group_.links[index()];
-  return *this;
-}
-
-LinkIterator &LinkIterator::operator-=(ssize_t i)
-{
-  Iterator::operator-=(i);
-  if(*this) current_link_ = group_.links[index()];
-  return *this;
-}
-
 bool LinkIterator::operator==(const LinkIterator &a) const
 {
   //check first if we iterate over the same group
