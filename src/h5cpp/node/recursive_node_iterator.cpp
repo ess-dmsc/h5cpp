@@ -32,22 +32,16 @@ namespace node {
 RecursiveNodeIterator::RecursiveNodeIterator(const Group &current_group):
     current_group_(current_group),
     current_iterator_(current_group_.nodes.begin()),
-    current_node_(),
     parent_iterator_()
 {
-  if(*this)
-    current_node_ = *current_iterator_;
 }
 
 RecursiveNodeIterator::RecursiveNodeIterator(const Group &current_group,
                                              RecursiveNodeIterator parent_iterator):
     current_group_(current_group),
     current_iterator_(current_group_.nodes.begin()),
-    current_node_(),
     parent_iterator_(IteratorPointer(new RecursiveNodeIterator(parent_iterator)))
 {
-  if(*this)
-    current_node_ = *current_iterator_;
 }
 
 RecursiveNodeIterator RecursiveNodeIterator::begin(const Group &current_group)
@@ -66,25 +60,19 @@ RecursiveNodeIterator RecursiveNodeIterator::end(const Group &current_group)
 
 Node RecursiveNodeIterator::operator*() const
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
-  return current_node_;
+  return *current_iterator_;
 }
 
 Node *RecursiveNodeIterator::operator->()
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
-  return &current_node_;
+  return current_iterator_.operator->();
 }
 
 RecursiveNodeIterator &RecursiveNodeIterator::operator++()
 {
-  if(current_node_.type()==Type::GROUP)
+  if(current_iterator_->type()==Type::GROUP)
   {
-    Group new_top(current_node_);
+    Group new_top(*current_iterator_);
     if(new_top.nodes.size())
     {
       *this =  RecursiveNodeIterator(new_top,*this);
@@ -93,20 +81,13 @@ RecursiveNodeIterator &RecursiveNodeIterator::operator++()
   }
 
   current_iterator_++;
-  if(current_iterator_)
-    current_node_ = *current_iterator_;
-  else
+  if(current_iterator_ == current_group_.nodes.end())
   {
     //we have reached the end of the current iterator and go back to
     //the parent iterator
     *this = *parent_iterator_;
     ++current_iterator_;
-    if(current_iterator_)
-      current_node_ = *current_iterator_;
-
   }
-
-
   return *this;
 }
 
@@ -123,7 +104,6 @@ bool RecursiveNodeIterator::operator==(const RecursiveNodeIterator &rhs) const
 {
   return (current_iterator_ == rhs.current_iterator_) &&
          (current_group_    == rhs.current_group_   ) &&
-         (current_node_     == rhs.current_node_    ) &&
          (parent_iterator_  == rhs.parent_iterator_ );
 
 }

@@ -47,10 +47,6 @@ class DLL_EXPORT RecursiveNodeIterator
                           RecursiveNodeIterator parent_iterator);
     RecursiveNodeIterator(const Group &current_group);
 
-    explicit operator bool () const
-    {
-      return !((!current_iterator_) && (!parent_iterator_));
-    }
 
     static RecursiveNodeIterator begin(const Group &current_group);
     static RecursiveNodeIterator end(const Group &current_group);
@@ -68,8 +64,6 @@ class DLL_EXPORT RecursiveNodeIterator
     bool operator!=(const RecursiveNodeIterator &rhs) const;
 
   private:
-    using GroupPointer = std::shared_ptr<Group>;
-    using NodePointer  = std::shared_ptr<Node>;
     using IteratorPointer = std::shared_ptr<RecursiveNodeIterator>;
 
     //!
@@ -82,11 +76,6 @@ class DLL_EXPORT RecursiveNodeIterator
     //! iterator over the current group.
     //!
     NodeIterator    current_iterator_;
-
-    //!
-    //! The current node
-    //!
-    Node            current_node_;
 
     //!
     //! Pointer to the parent interator if there is one
