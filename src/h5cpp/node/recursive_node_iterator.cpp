@@ -74,7 +74,6 @@ RecursiveNodeIterator &RecursiveNodeIterator::operator++()
     Group new_top(current_node_);
     if(new_top.nodes.size())
     {
-      ++current_iterator_;
       *this =  RecursiveNodeIterator(new_top,*this);
       return *this;
     }
@@ -85,7 +84,13 @@ RecursiveNodeIterator &RecursiveNodeIterator::operator++()
     current_node_ = *current_iterator_;
   else
   {
+    //we have reached the end of the current iterator and go back to
+    //the parent iterator
     *this = *parent_iterator_;
+    ++current_iterator_;
+    if(current_iterator_)
+      current_node_ = *current_iterator_;
+
   }
 
 

@@ -42,6 +42,7 @@ void RecursiveNodeIteratorTest::SetUp()
   file = file::create("RecursiveNodeIteratorTest.h5",file::AccessFlags::TRUNCATE);
   node::Group root = file.root();
 
+  node::Group(root,Path("g0"));
   node::Group g1(root,Path("g1"));
   node::Group g2(root,Path("g2"));
   node::Group g1_1(g1,Path("g1_1"));
@@ -56,7 +57,7 @@ TEST_F(RecursiveNodeIteratorTest,test)
 {
   node::Group root = file.root();
   node::RecursiveNodeIterator iter(root);
-  for(size_t index=0;index<6;index++)
+  while(iter)
   {
 
     node::Node n = *iter;
