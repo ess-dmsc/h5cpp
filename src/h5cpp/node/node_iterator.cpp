@@ -33,34 +33,24 @@ NodeIterator::NodeIterator(const Group &group,ssize_t index):
     Iterator(index),
     group_(group),
     current_node_()
-{
-  if(*this)
-    current_node_ = group_.nodes[Iterator::index()];
-}
+{}
 
 
 Node NodeIterator::operator*() const
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
+  current_node_ = group_.nodes[index()];
   return current_node_;
 }
 
 Node *NodeIterator::operator->()
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
+  current_node_ = group_.nodes[index()];
   return &current_node_;
 }
 
 NodeIterator &NodeIterator::operator++()
 {
   Iterator::operator++();
-  if(*this)
-    current_node_ = group_.nodes[index()];
-
   return *this;
 }
 
@@ -74,7 +64,6 @@ NodeIterator NodeIterator::operator++(int)
 NodeIterator &NodeIterator::operator--()
 {
   Iterator::operator--();
-  if(*this) current_node_ = group_.nodes[index()];
   return *this;
 }
 
@@ -89,14 +78,12 @@ NodeIterator NodeIterator::operator--(int)
 NodeIterator &NodeIterator::operator+=(ssize_t i)
 {
   Iterator::operator+=(i);
-  if(*this) current_node_ = group_.nodes[index()];
   return *this;
 }
 
 NodeIterator &NodeIterator::operator-=(ssize_t i)
 {
   Iterator::operator-=(i);
-  if(*this) current_node_ = group_.nodes[index()];
   return *this;
 }
 

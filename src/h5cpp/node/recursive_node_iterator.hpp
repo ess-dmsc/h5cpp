@@ -32,6 +32,24 @@
 namespace hdf5 {
 namespace node {
 
+//!
+//! \brief recursive node iterator
+//!
+//! Iterator which recursively iterates over all subelements of a particular
+//! group.
+//! All relevant constructors are private. To construct an instance of
+//! this iterator use the two static factory functions begin() and end().
+//!
+//! \code
+//! auto iter = RecursiveNodeIterator::begin();
+//! auto end  = RecursiveNodeIterator::end();
+//!
+//! while(iter != end)
+//! {
+//!   std::cout<<
+//! }
+//!
+//!
 class DLL_EXPORT RecursiveNodeIterator
 {
   public:
@@ -41,11 +59,20 @@ class DLL_EXPORT RecursiveNodeIterator
     using difference_type = ssize_t;
     using iterator_category = std::random_access_iterator_tag;
 
+    //!
+    //! \brief default constructor
+    //!
+    //! There is no default constructors -> would not make too much sense.
+    //!
     RecursiveNodeIterator() = delete;
+
+    //!
+    //! \brief copy constructor
+    //!
+    //! Required, but we can use the compiler provided default version here.
+    //!
     RecursiveNodeIterator(const RecursiveNodeIterator&) = default;
-    RecursiveNodeIterator(const Group &current_group,
-                          RecursiveNodeIterator parent_iterator);
-    RecursiveNodeIterator(const Group &current_group);
+
 
 
     static RecursiveNodeIterator begin(const Group &current_group);
@@ -64,6 +91,10 @@ class DLL_EXPORT RecursiveNodeIterator
     bool operator!=(const RecursiveNodeIterator &rhs) const;
 
   private:
+    RecursiveNodeIterator(const Group &current_group,
+                          RecursiveNodeIterator parent_iterator);
+    RecursiveNodeIterator(const Group &current_group);
+
     using IteratorPointer = std::shared_ptr<RecursiveNodeIterator>;
 
     //!

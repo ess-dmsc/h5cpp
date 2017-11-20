@@ -46,25 +46,6 @@ class DLL_EXPORT NodeIterator : public Iterator
     NodeIterator(const NodeIterator&) = default;
     NodeIterator(const Group &group,ssize_t index);
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4018)
-#endif
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
-    explicit operator bool() const
-    {
-      return !(index()<0 || index()>=group_.nodes.size());
-    }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-
     Node operator*() const;
 
     Node *operator->();
@@ -90,7 +71,13 @@ class DLL_EXPORT NodeIterator : public Iterator
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-    Node current_node_;
+    //!
+    //! stores the current node instance. The only reason we have this
+    //! member is to be able to return an adress to the current object.
+    //! This would not be possible as there is no such thing as an
+    //! adress to an HDF5 object in memory.
+    //!
+    mutable Node current_node_;
 
 };
 
