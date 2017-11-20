@@ -36,6 +36,16 @@ NodeIterator::NodeIterator(const Group &group,ssize_t index):
 {}
 
 
+NodeIterator NodeIterator::begin(const Group &group)
+{
+  return NodeIterator(group,0);
+}
+
+NodeIterator NodeIterator::end(const Group &group)
+{
+  return NodeIterator(group,group.nodes.size());
+}
+
 Node NodeIterator::operator*() const
 {
   current_node_ = group_.nodes[index()];
@@ -73,18 +83,6 @@ NodeIterator NodeIterator::operator--(int)
   NodeIterator tmp = *this;
   --(*this);
   return tmp;
-}
-
-NodeIterator &NodeIterator::operator+=(ssize_t i)
-{
-  Iterator::operator+=(i);
-  return *this;
-}
-
-NodeIterator &NodeIterator::operator-=(ssize_t i)
-{
-  Iterator::operator-=(i);
-  return *this;
 }
 
 bool NodeIterator::operator==(const NodeIterator &a) const

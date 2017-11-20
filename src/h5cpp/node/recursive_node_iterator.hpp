@@ -47,7 +47,8 @@ namespace node {
 //!
 //! while(iter != end)
 //! {
-//!   std::cout<<
+//!   //do something here
+//!   ++iter;
 //! }
 //! // or with STL
 //!
