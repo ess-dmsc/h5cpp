@@ -34,8 +34,6 @@ LinkIterator::LinkIterator(const Group &group,ssize_t index):
     group_(group),
     current_link_()
 {
-  if(*this)
-    current_link_ = group_.links[Iterator::index()];
 }
 
 LinkIterator LinkIterator::begin(const Group &group)
@@ -51,26 +49,19 @@ LinkIterator LinkIterator::end(const Group &group)
 
 Link LinkIterator::operator*() const
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
+  current_link_ = group_.links[index()];
   return current_link_;
 }
 
 Link *LinkIterator::operator->()
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
+  current_link_ = group_.links[index()];
   return &current_link_;
 }
 
 LinkIterator &LinkIterator::operator++()
 {
   Iterator::operator++();
-  if(*this)
-    current_link_ = group_.links[index()];
-
   return *this;
 }
 
@@ -84,7 +75,6 @@ LinkIterator LinkIterator::operator++(int)
 LinkIterator &LinkIterator::operator--()
 {
   Iterator::operator--();
-  if(*this) current_link_ = group_.links[index()];
   return *this;
 }
 

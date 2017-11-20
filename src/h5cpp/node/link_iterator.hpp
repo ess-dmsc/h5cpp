@@ -41,30 +41,10 @@ class DLL_EXPORT LinkIterator : public Iterator
     using pointer = value_type*;
     using reference = value_type&;
     using difference_type = ssize_t;
-    using iterator_category = std::random_access_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
 
     LinkIterator() = delete;
     LinkIterator(const LinkIterator&) = default;
-
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4018)
-#endif
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
-    explicit operator bool() const
-    {
-      return !(index()<0 || index()>=group_.links.size());
-    }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
     static LinkIterator begin(const Group &group);
     static LinkIterator end(const Group &group);
@@ -89,7 +69,7 @@ class DLL_EXPORT LinkIterator : public Iterator
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-    Link current_link_;
+    mutable Link current_link_;
 
 };
 
