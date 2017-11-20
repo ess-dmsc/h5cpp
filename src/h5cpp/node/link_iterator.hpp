@@ -29,6 +29,7 @@
 #include <h5cpp/node/link_view.hpp>
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/node/group.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -44,7 +45,7 @@ class DLL_EXPORT LinkIterator : public Iterator
 
     LinkIterator() = delete;
     LinkIterator(const LinkIterator&) = default;
-    LinkIterator(const LinkView &view,ssize_t index);
+
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -56,7 +57,7 @@ class DLL_EXPORT LinkIterator : public Iterator
 #endif
     explicit operator bool() const
     {
-      return !(index()<0 || index()>=view_.get().size());
+      return !(index()<0 || index()>=group_.links.size());
     }
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
@@ -64,6 +65,9 @@ class DLL_EXPORT LinkIterator : public Iterator
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
+
+    static LinkIterator begin(const Group &group);
+    static LinkIterator end(const Group &group);
 
     value_type operator*() const;
 
@@ -82,11 +86,12 @@ class DLL_EXPORT LinkIterator : public Iterator
     bool operator!=(const LinkIterator &a) const;
 
   private:
+    LinkIterator(const Group &group,ssize_t index);
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
-    std::reference_wrapper<const LinkView> view_;
+    Group group_;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif

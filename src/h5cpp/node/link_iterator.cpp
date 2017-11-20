@@ -29,13 +29,23 @@
 namespace hdf5 {
 namespace node {
 
-LinkIterator::LinkIterator(const LinkView &view,ssize_t index):
+LinkIterator::LinkIterator(const Group &group,ssize_t index):
     Iterator(index),
-    view_(view),
+    group_(group),
     current_link_()
 {
   if(*this)
-    current_link_ = view_.get()[Iterator::index()];
+    current_link_ = group_.links[Iterator::index()];
+}
+
+LinkIterator LinkIterator::begin(const Group &group)
+{
+  return LinkIterator(group,0);
+}
+
+LinkIterator LinkIterator::end(const Group &group)
+{
+  return LinkIterator(group,group.links.size());
 }
 
 
@@ -59,7 +69,7 @@ LinkIterator &LinkIterator::operator++()
 {
   Iterator::operator++();
   if(*this)
-    current_link_ = view_.get()[index()];
+    current_link_ = group_.links[index()];
 
   return *this;
 }
@@ -74,7 +84,7 @@ LinkIterator LinkIterator::operator++(int)
 LinkIterator &LinkIterator::operator--()
 {
   Iterator::operator--();
-  if(*this) current_link_ = view_.get()[index()];
+  if(*this) current_link_ = group_.links[index()];
   return *this;
 }
 
@@ -89,21 +99,21 @@ LinkIterator LinkIterator::operator--(int)
 LinkIterator &LinkIterator::operator+=(ssize_t i)
 {
   Iterator::operator+=(i);
-  if(*this) current_link_ = view_.get()[index()];
+  if(*this) current_link_ = group_.links[index()];
   return *this;
 }
 
 LinkIterator &LinkIterator::operator-=(ssize_t i)
 {
   Iterator::operator-=(i);
-  if(*this) current_link_ = view_.get()[index()];
+  if(*this) current_link_ = group_.links[index()];
   return *this;
 }
 
 bool LinkIterator::operator==(const LinkIterator &a) const
 {
   //check first if we iterate over the same group
-  if(view_.get().group().id()!=a.view_.get().group().id())
+  if(group_.id()!=a.group_.id())
     return false;
 
   if(index()!=a.index())

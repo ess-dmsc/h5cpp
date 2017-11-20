@@ -131,12 +131,12 @@ bool LinkView::exists(const std::string &name,const property::LinkAccessList &la
 
 LinkView::const_iterator LinkView::begin() const
 {
-  return LinkIterator(*this,0);
+  return LinkIterator::begin(group());
 }
 
 LinkView::const_iterator LinkView::end() const
 {
-  return LinkIterator(*this,size());
+  return LinkIterator::end(group());
 }
 
 } // namespace node
