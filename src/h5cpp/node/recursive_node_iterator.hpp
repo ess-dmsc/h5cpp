@@ -41,13 +41,22 @@ namespace node {
 //! this iterator use the two static factory functions begin() and end().
 //!
 //! \code
-//! auto iter = RecursiveNodeIterator::begin();
-//! auto end  = RecursiveNodeIterator::end();
+//! Group top = ...;
+//! auto iter = RecursiveNodeIterator::begin(top);
+//! auto end  = RecursiveNodeIterator::end(top);
 //!
 //! while(iter != end)
 //! {
 //!   std::cout<<
 //! }
+//! // or with STL
+//!
+//! std::for_each(RecursiveNodeIterator::begin(top),
+//!               RecursiveNodeIterator::end(top),
+//!               [](const Node &node) { ...do something ... ; });
+//! \endcode
+//!
+//! Unlike NodeIterator, RecursiveNodeIterator is a simple forward iterator.
 //!
 //!
 class DLL_EXPORT RecursiveNodeIterator
@@ -57,7 +66,7 @@ class DLL_EXPORT RecursiveNodeIterator
     using pointer = value_type*;
     using reference = value_type&;
     using difference_type = ssize_t;
-    using iterator_category = std::random_access_iterator_tag;
+    using iterator_category = std::forward_iterator_tag;
 
     //!
     //! \brief default constructor
@@ -73,17 +82,80 @@ class DLL_EXPORT RecursiveNodeIterator
     //!
     RecursiveNodeIterator(const RecursiveNodeIterator&) = default;
 
-
-
+    //!
+    //! \brief create iterator to the first element
+    //!
+    //! Static factory function returning an instance of
+    //! RecursiveForwardIterator on the first element of the top group.
+    //!
+    //! \param current_group the top level group where to start with
+    //!                      recursive iteration
+    //! \return instance of RecursiveNodeIterator
+    //!
     static RecursiveNodeIterator begin(const Group &current_group);
+
+    //!
+    //! \brief create iterator to the last+1 element
+    //!
+    //! Static factory function returning an instance of
+    //! RecursiveForwardIterator on the last+1 element of top group.
+    //!
+    //! \param current_group the top level group at which to start the
+    //!                      recursive iteration.
+    //! \return instance of RecursiveNodeIterator
+    //!
     static RecursiveNodeIterator end(const Group &current_group);
 
-
+    //!
+    //! \brief return current Node instance
+    //!
+    //! Returns an instance of the actual node the iterator refers to.
+    //! \return instance of node::Node
+    //!
     Node operator*() const;
 
+    //!
+    //! \brief return address of the actual Node instance
+    //!
+    //! Returns the adress of the actual node in memory.
+    //! \return adress of current Node
+    //!
     Node *operator->();
 
+    //!
+    //! \brief advance to next element
+    //!
+    //! Advances to the next element in line.
+    //! \code
+    //! RecursiveNodeIterator iter = ...;
+    //! while(...)
+    //! {
+    //!   ++iter;
+    //! }
+    //! \endcode
+    //!
+    //! \return reference to the udpated iterator
+    //!
     RecursiveNodeIterator &operator++();
+
+    //!
+    //! \brief advance to next element
+    //!
+    //! Advances to the next element in line but returns an iterator to the
+    //! previous element.
+    //!
+    //! \code
+    //! RecursiveNodeIterator iter = ...;
+    //!
+    //! while(...)
+    //! {
+    //!   Node n = *iter++; //give me the actual node and advance
+    //!   std::cout<<n.link().path()<<std::endl;
+    //! }
+    //! \endcode
+    //!
+    //! \return instance of RecursiveNodeIterator
+    //!
     RecursiveNodeIterator operator++(int);
 
     bool operator==(const RecursiveNodeIterator &rhs) const;
