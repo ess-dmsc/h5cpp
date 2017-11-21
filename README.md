@@ -76,8 +76,8 @@ sudo make install
 
 ## How to use *h5cpp*
 
-With the library installed as a bove, you can use it with cmake by doing something
-like this in your `CMakeLists.txt` file: 
+With the library installed as above, you can bring it into your program by adding something
+like this to your `CMakeLists.txt` file: 
 ```cmake
 find_package(h5cpp REQUIRED)
 .
@@ -90,30 +90,35 @@ and adding the following:
 ```cpp
 #include <h5cpp/hdf5.hpp>
 ```
-to your your source code.
-Code for creating a file, a group and writing a vector to a dataset is as painless as:
+to your your source file.
+Here is a small example of how to make use of the library in code:
 
 ```cpp
 
 using namespace hdf5;
-using data_type = std::vector<int>;
 
+// create a file
 file::File f = file::create("writing_vector.h5",file::AccessFlags::TRUNCATE);
+
+// create a group
 node::Group root_group = f.root();
 node::Group my_group = root_group.create_group("my_group");
 
+// create a dataset
+using data_type = std::vector<int>;
 data_type data{1,2,3,4};
 node::Dataset dataset = my_group.create_dataset("data",
                                                 datatype::create<data_type>(),
                                                 dataspace::create(data));
+
+// write to dataset
 dataset.write(data);
 ```
 
 ## Alternate install directory
 
 If you do not wish to install *h5cpp* to your system folders you can slightly modify the
-above steps. For example, if you wished to install 
-When building the library, invoke CMake with the following option:
+above steps. When building the library, invoke CMake with the following option:
 
 ```bash
 cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
