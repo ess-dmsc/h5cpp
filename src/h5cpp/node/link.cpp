@@ -27,6 +27,7 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/node/functions.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -186,6 +187,38 @@ const file::File &Link::file() const
 {
   return parent_file_;
 }
+
+Node Link::operator*() const
+{
+  return get_node(parent_file_.root(),parent_path_+name_);
+}
+
+bool Link::exists() const
+{
+  Group parent = parent_file_.root();
+
+  for(auto link_name: parent_path_)
+  {
+    if(parent.nodes.exists(link_name))
+      parent = parent.nodes[link_name];
+    else
+      return false;
+  }
+
+  return parent.links.exists(name_);
+}
+
+bool Link::is_resolvable() const
+{
+  if(exists())
+  {
+    Group parent = this->parent();
+    return parent.nodes.exists(name_);
+  }
+  else
+    return false;
+}
+
 
 bool operator==(const Link &lhs, const Link &rhs)
 {

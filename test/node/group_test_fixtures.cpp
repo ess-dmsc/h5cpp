@@ -34,10 +34,15 @@ void NodeIterationFixture::SetUp()
   property::LinkCreationList lcpl;
   property::GroupCreationList gcpl;
   gcpl.link_creation_order(property::CreationOrder().enable_indexed());
-  node::Group(root_,Path("g1"),lcpl,gcpl);
-  node::Group(root_,Path("g2"),lcpl,gcpl);
-  node::Group(root_,Path("g3"),lcpl,gcpl);
-  node::Dataset(root_,Path("d1"),datatype::create<float>());
-  node::Dataset(root_,Path("d2"),datatype::create<int>());
+  node::Group g1(root_,Path("g1"),lcpl,gcpl);
+  node::Group g2(root_,Path("g2"),lcpl,gcpl);
+  node::Group g3(root_,Path("g3"),lcpl,gcpl);
+  node::Dataset d1(root_,Path("d1"),datatype::create<float>());
+  node::Dataset d2(root_,Path("d2"),datatype::create<int>());
+  node::link(g1,root_,Path("g1_soft_link"));
+  node::link(g2,root_,Path("g2_soft_link"));
+  node::link(g3,root_,Path("g3_soft_link"));
+  node::link(d1,root_,Path("d1_soft_link"));
+  node::link(d2,root_,Path("d2_soft_link"));
 }
 

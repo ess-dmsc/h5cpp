@@ -33,26 +33,40 @@ class NodeIteration : public NodeIterationFixture
 
 TEST_F(NodeIteration, group_index_name_order_access)
 {
-  EXPECT_EQ(root_.nodes.size(),5ul);
+  EXPECT_EQ(root_.nodes.size(),10ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::NAME);
   root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
   EXPECT_EQ(root_.nodes[0].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[0].link().path()),"/g3");
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[0].link().path()),"/g3_soft_link");
   EXPECT_EQ(root_.nodes[1].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[1].link().path()),"/g2");
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[1].link().path()),"/g3");
+
   EXPECT_EQ(root_.nodes[2].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[2].link().path()),"/g1");
-  EXPECT_EQ(root_.nodes[3].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[3].link().path()),"/d2");
-  EXPECT_EQ(root_.nodes[4].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[4].link().path()),"/d1");
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[2].link().path()),"/g2_soft_link");
+  EXPECT_EQ(root_.nodes[3].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[3].link().path()),"/g2");
+
+  EXPECT_EQ(root_.nodes[4].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[4].link().path()),"/g1_soft_link");
+  EXPECT_EQ(root_.nodes[5].type(),node::Type::GROUP);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[5].link().path()),"/g1");
+
+  EXPECT_EQ(root_.nodes[6].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[6].link().path()),"/d2_soft_link");
+  EXPECT_EQ(root_.nodes[7].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[7].link().path()),"/d2");
+
+  EXPECT_EQ(root_.nodes[8].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[8].link().path()),"/d1_soft_link");
+  EXPECT_EQ(root_.nodes[9].type(),node::Type::DATASET);
+  EXPECT_EQ(static_cast<std::string>(root_.nodes[9].link().path()),"/d1");
 }
 
 TEST_F(NodeIteration, group_index_creation_order_access)
 {
-  EXPECT_EQ(root_.nodes.size(),5ul);
+  EXPECT_EQ(root_.nodes.size(),10ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
   root_.iterator_config().order(hdf5::IterationOrder::INCREASING);
@@ -83,15 +97,22 @@ TEST_F(NodeIteration, group_name_access)
 
 TEST_F(NodeIteration, group_node_iteration)
 {
-  EXPECT_EQ(root_.nodes.size(),5ul);
+  EXPECT_EQ(root_.nodes.size(),10ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::NAME);
   root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
-  std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
+  std::vector<std::string> names{"/g3_soft_link","/g3",
+    "/g2_soft_link","/g2","/g1_soft_link","/g1","/d2_soft_link","/d2",
+    "/d1_soft_link","/d1"};
   std::vector<node::Type> types{node::Type::GROUP,
                                 node::Type::GROUP,
                                 node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::DATASET,
+                                node::Type::DATASET,
                                 node::Type::DATASET,
                                 node::Type::DATASET};
   auto name_iter = names.begin();
@@ -106,17 +127,25 @@ TEST_F(NodeIteration, group_node_iteration)
 
 TEST_F(NodeIteration, group_node_foreach)
 {
-  EXPECT_EQ(root_.nodes.size(),5ul);
+  EXPECT_EQ(root_.nodes.size(),10ul);
   //setup creation order
   root_.iterator_config().index(hdf5::IterationIndex::NAME);
   root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
-  std::vector<std::string> names{"/g3","/g2","/g1","/d2","/d1"};
+  std::vector<std::string> names{"/g3_soft_link","/g3",
+    "/g2_soft_link","/g2","/g1_soft_link","/g1","/d2_soft_link","/d2",
+    "/d1_soft_link","/d1"};
   std::vector<node::Type> types{node::Type::GROUP,
-    node::Type::GROUP,
-    node::Type::GROUP,
-    node::Type::DATASET,
-    node::Type::DATASET};
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::GROUP,
+                                node::Type::DATASET,
+                                node::Type::DATASET,
+                                node::Type::DATASET,
+                                node::Type::DATASET};
+
   auto name_iter = names.begin();
   auto type_iter = types.begin();
 
