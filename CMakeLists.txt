@@ -8,19 +8,6 @@ set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 
 #=============================================================================
-# enable MPI support if required 
-#=============================================================================
-set(WITH_MPI OFF CACHE BOOL "Enable MPI support")
-
-if (WITH_MPI AND (CMAKE_SYSTEM_NAME MATCHES Windows))
-  message(FATAL_ERROR "MPI not supported on the Windows platform!")
-endif ()
-
-if (WITH_MPI AND (CMAKE_SYSTEM_NAME MATCHES Darwin))
-  message(FATAL_ERROR "MPI not supported for OSX")
-endif ()
-
-#=============================================================================
 # setting up conan for use from within cmake
 #=============================================================================
 set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
@@ -57,13 +44,10 @@ include(DoxygenUtilities)
 #=============================================================================
 # compiler and library configuration
 #=============================================================================
-if (WITH_MPI)
-  include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
-endif ()
 include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
+include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
 include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
-
 
 add_custom_target(html)
 add_subdirectory(src)
