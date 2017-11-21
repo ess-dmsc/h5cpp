@@ -35,8 +35,6 @@
 #include <cstdint>
 #include <complex>
 #include <vector>
-#include "../examples/rgbpixel.hpp"
-#include "../examples/rgbpixel_h5.hpp"
 #include "../fixture.hpp"
 
 using namespace hdf5;
@@ -49,14 +47,18 @@ struct complex_struct
 
 };
 
-class Pixel
-{
-  private:
-   std::uint8_t red_;
-   std::uint8_t green_;
-   std::uint8_t blue_;
-  public:
+class Pixel {
+ public:
+  Pixel() {}
+  Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
+      : red_(red)
+      , green_(green)
+      , blue_(blue)
+  {}
 
+  std::uint8_t red_ {0};
+  std::uint8_t green_ {0};
+  std::uint8_t blue_ {0};
 };
 
 namespace hdf5 {
@@ -87,6 +89,26 @@ class TypeTrait<std::complex<T>>
       return type;
     }
 };
+
+
+template<>
+class TypeTrait<Pixel>
+{
+ public:
+  using TypeClass = Compound;
+
+  static TypeClass create()
+  {
+
+    datatype::Compound type(sizeof(Pixel));
+    type.insert("red",0,datatype::create<std::uint8_t>());
+    type.insert("green",1,datatype::create<std::uint8_t>());
+    type.insert("blue",2,datatype::create<std::uint8_t>());
+
+    return type;
+  }
+};
+
 
 }
 }
@@ -129,17 +151,17 @@ TEST_F(CompoundType, test_complex_number_io)
 
 TEST_F(CompoundType, test_pixel_type)
 {
-  RGBPixel write_pixel(1,2,3);
-  RGBPixel read_pixel(0,0,0);
+  Pixel write_pixel(1,2,3);
+  Pixel read_pixel(0,0,0);
 
-  auto type = datatype::create<RGBPixel>();
-  attribute::Attribute a = root_.attributes.create<RGBPixel>("pixel");
+  auto type = datatype::create<Pixel>();
+  attribute::Attribute a = root_.attributes.create<Pixel>("pixel");
   a.write(write_pixel);
   a.read(read_pixel);
 
-  EXPECT_EQ(write_pixel.red(),read_pixel.red());
-  EXPECT_EQ(write_pixel.green(),read_pixel.green());
-  EXPECT_EQ(write_pixel.blue(),read_pixel.blue());
+  EXPECT_EQ(write_pixel.red_,read_pixel.red_);
+  EXPECT_EQ(write_pixel.green_,read_pixel.green_);
+  EXPECT_EQ(write_pixel.blue_,read_pixel.blue_);
   EXPECT_TRUE(type.has_class(datatype::Class::INTEGER));
   EXPECT_FALSE(type.has_class(datatype::Class::FLOAT));
 }

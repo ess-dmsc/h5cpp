@@ -5,7 +5,6 @@ set(test_sources
   ${dir}/datatype_test.cpp
   ${dir}/integer_test.cpp
   ${dir}/compound_test.cpp
-  ${dir}/../examples/rgbpixel.cpp
   ${dir}/float_test.cpp
   ${dir}/string_test.cpp
   ${dir}/type_trait_test.cpp
