@@ -25,71 +25,18 @@
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
 #include <algorithm>
+#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-class RecursiveLinkIteratorTest : public testing::Test
+class RecursiveLinkIteratorTest : public RecursiveIterationFixture
 {
   public:
-    property::FileCreationList fcpl;
-    property::FileAccessList   fapl;
-    file::File file;
-    RecursiveLinkIteratorTest();
-
-    virtual void SetUp();
-
-    static void create_standard_test(const node::Group &root);
-    static void create_linked_group_test(const node::Group &root);
-
+    RecursiveLinkIteratorTest():
+      RecursiveIterationFixture("RecursiveLinkIteratorTest.h5")
+    {}
 };
 
-RecursiveLinkIteratorTest::RecursiveLinkIteratorTest():
-    fcpl(),
-    fapl(),
-    file()
-{
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-}
-
-void RecursiveLinkIteratorTest::create_standard_test(const node::Group &root)
-{
-  node::Group(root,Path("c_group"));
-  node::Group b_group(root,Path("b_group"));
-  node::Group a_group(root,Path("a_group"));
-
-  node::Group(a_group,Path("c_a_group"));
-  node::Group(a_group,Path("b_a_group"));
-  node::Group(a_group,Path("a_a_group"));
-  node::Dataset dset_d(a_group,Path("d_a_dataset"),datatype::create<int>());
-  node::Dataset dset_e(a_group,Path("e_a_dataset"),datatype::create<int>());
-
-  node::Group(b_group,Path("c_b_group"));
-  node::Group(b_group,Path("b_b_group"));
-  node::Group(b_group,Path("a_b_group"));
-
-  node::link(dset_d,b_group,Path("c_b_group/data"));
-  node::link(dset_e,b_group,Path("a_b_group/data"));
-}
-
-void RecursiveLinkIteratorTest::create_linked_group_test(const node::Group &root)
-{
-  node::Group orig_group(root,Path("original"));
-  node::Group(orig_group,Path("orig_1"));
-  node::Group(orig_group,Path("orig_2"));
-  node::link(orig_group,root,Path("link"));
-}
-
-void RecursiveLinkIteratorTest::SetUp()
-{
-  file = file::create("RecursiveLinkIteratorTest.h5",
-                      file::AccessFlags::TRUNCATE,fcpl,fapl);
-
-  create_standard_test(node::Group(file.root(),Path("standard")));
-  create_linked_group_test(node::Group(file.root(),Path("linkTest")));
-
-  file.flush(file::Scope::GLOBAL);
-}
 
 TEST_F(RecursiveLinkIteratorTest,equality_operator)
 {
