@@ -76,17 +76,12 @@ TEST_F(RecursiveLinkIteratorTest,test_name_increasing)
 
   auto iter = RecursiveLinkIterator::begin(root);
   auto end  = RecursiveLinkIterator::end(root);
-  while(iter!=end)
-  {
-    node::Link l = *iter;
-    std::cout<<l.path()<<std::endl;
-    ++iter;
-  }
-//  std::for_each(RecursiveLinkIterator::begin(root),
-//                RecursiveLinkIterator::end(root),
-//                [&path_iter](const node::Link &link)
-//                { EXPECT_EQ(link.path(),*path_iter++);}
-//                );
+
+  std::for_each(RecursiveLinkIterator::begin(root),
+                RecursiveLinkIterator::end(root),
+                [&path_iter](const node::Link &link)
+                { EXPECT_EQ(link.path(),*path_iter++);}
+                );
 }
 
 TEST_F(RecursiveLinkIteratorTest,test_name_decreasing)
@@ -114,37 +109,16 @@ TEST_F(RecursiveLinkIteratorTest,test_name_decreasing)
   root.iterator_config().order(IterationOrder::DECREASING);
   auto path_iter = node_path.begin();
 
-  auto iter = RecursiveLinkIterator::begin(root);
-  auto end  = RecursiveLinkIterator::end(root);
-  while(iter!=end)
-  {
-    node::Link l = *iter;
-    std::cout<<l.path()<<std::endl;
-    ++iter;
-  }
-
-//  std::for_each(RecursiveLinkIterator::begin(root),
-//                RecursiveLinkIterator::end(root),
-//                [&path_iter](const node::Link &link)
-//                { EXPECT_EQ(link.path(),*path_iter++);}
-//                );
+  std::for_each(RecursiveLinkIterator::begin(root),
+                RecursiveLinkIterator::end(root),
+                [&path_iter](const node::Link &link)
+                { EXPECT_EQ(link.path(),*path_iter++);}
+                );
 }
 
 TEST_F(RecursiveLinkIteratorTest,test_linked_group)
 {
   using hdf5::node::RecursiveLinkIterator;
   node::Group base = node::get_node(file.root(),Path("linkTest"));
-
-  property::LinkAccessList lapl;
-  std::cout<<lapl.maximum_link_traversals()<<std::endl;
-
-  auto iter = RecursiveLinkIterator::begin(base);
-  auto end  = RecursiveLinkIterator::end(base);
-  while(iter!=end)
-  {
-    node::Link l = *iter;
-    std::cout<<l.path()<<std::endl;
-    ++iter;
-  }
 
 }

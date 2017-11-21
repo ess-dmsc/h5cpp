@@ -70,34 +70,25 @@ Node *RecursiveNodeIterator::operator->()
 
 RecursiveNodeIterator &RecursiveNodeIterator::operator++()
 {
-  ++current_iterator_; // increment the current node iterator
-
-  if(current_iterator_ == current_group_.nodes.end())
+  //
+  // if we are actually on a group node we have to enter the node if
+  // it has children
+  //
+  if(current_iterator_->type()==Type::GROUP)
   {
-    //we have reached the end of the current iterator and go back to
-    //the parent iterator
-    if(parent_iterator_)
+    Group new_top(*current_iterator_);
+    if(new_top.nodes.size())
     {
-      *this = *parent_iterator_;
-      ++current_iterator_;
+      *this =  RecursiveNodeIterator(new_top,*this);
+      return *this;
     }
-
   }
-  else
+
+  ++current_iterator_; // increment the current node iterator
+  while((current_iterator_ == current_group_.nodes.end()) && parent_iterator_)
   {
-    --current_iterator_; //go back to the original element
-    //if the current iterator points to a group of finite size we have to
-    //enter this group and continue iteration.
-    if(current_iterator_->type()==Type::GROUP)
-    {
-      Group new_top(*current_iterator_);
-      if(new_top.nodes.size())
-      {
-        *this =  RecursiveNodeIterator(new_top,*this);
-        return *this;
-      }
-    }
-    ++current_iterator_;
+      *this = *parent_iterator_;
+      ++current_iterator_; //move on to the next element in the parent
   }
 
   return *this;

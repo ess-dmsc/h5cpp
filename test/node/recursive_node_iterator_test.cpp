@@ -25,51 +25,21 @@
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
 #include <algorithm>
+#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-class RecursiveNodeIteratorTest : public testing::Test
+class RecursiveNodeIteratorTest : public RecursiveIterationFixture
 {
   public:
-    property::FileCreationList fcpl;
-    property::FileAccessList   fapl;
-    file::File file;
-    RecursiveNodeIteratorTest();
+    RecursiveNodeIteratorTest():
+      RecursiveIterationFixture("RecursiveNodeIteratorTest.h5")
+    {}
 
-    virtual void SetUp();
+
 
 };
 
-RecursiveNodeIteratorTest::RecursiveNodeIteratorTest():
-    fcpl(),
-    fapl(),
-    file()
-{
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-}
-
-void RecursiveNodeIteratorTest::SetUp()
-{
-  file = file::create("RecursiveNodeIteratorTest.h5",
-                      file::AccessFlags::TRUNCATE,fcpl,fapl);
-  node::Group root = file.root();
-
-  node::Group(root,Path("c_group"));
-  node::Group b_group(root,Path("b_group"));
-  node::Group a_group(root,Path("a_group"));
-
-  node::Group(a_group,Path("c_a_group"));
-  node::Group(a_group,Path("b_a_group"));
-  node::Group(a_group,Path("a_a_group"));
-  node::Dataset(a_group,Path("d_a_dataset"),datatype::create<int>());
-  node::Dataset(a_group,Path("e_a_dataset"),datatype::create<int>());
-
-  node::Group(b_group,Path("c_b_group"));
-  node::Group(b_group,Path("b_b_group"));
-  node::Group(b_group,Path("a_b_group"));
-  file.flush(file::Scope::GLOBAL);
-}
 
 TEST_F(RecursiveNodeIteratorTest,equality_operator)
 {
@@ -86,25 +56,27 @@ TEST_F(RecursiveNodeIteratorTest,test_name_increasing)
 
   using hdf5::node::RecursiveNodeIterator;
   std::vector<Path> node_path{
-    Path("/a_group"),
-    Path("/a_group/a_a_group"),
-    Path("/a_group/b_a_group"),
-    Path("/a_group/c_a_group"),
-    Path("/a_group/d_a_dataset"),
-    Path("/a_group/e_a_dataset"),
-    Path("/b_group"),
-    Path("/b_group/a_b_group"),
-    Path("/b_group/b_b_group"),
-    Path("/b_group/c_b_group"),
-    Path("/c_group")};
+    Path("/standard/a_group"),
+    Path("/standard/a_group/a_a_group"),
+    Path("/standard/a_group/b_a_group"),
+    Path("/standard/a_group/c_a_group"),
+    Path("/standard/a_group/d_a_dataset"),
+    Path("/standard/a_group/e_a_dataset"),
+    Path("/standard/b_group"),
+    Path("/standard/b_group/a_b_group"),
+    Path("/standard/b_group/a_b_group/data"),
+    Path("/standard/b_group/b_b_group"),
+    Path("/standard/b_group/c_b_group"),
+    Path("/standard/b_group/c_b_group/data"),
+    Path("/standard/c_group")};
 
-  node::Group root = file.root();
-  root.iterator_config().index(IterationIndex::NAME);
-  root.iterator_config().order(IterationOrder::INCREASING);
+  node::Group base = node::get_node(file.root(),Path("standard"));
+  base.iterator_config().index(IterationIndex::NAME);
+  base.iterator_config().order(IterationOrder::INCREASING);
   auto path_iter = node_path.begin();
 
-  std::for_each(RecursiveNodeIterator::begin(root),
-                RecursiveNodeIterator::end(root),
+  std::for_each(RecursiveNodeIterator::begin(base),
+                RecursiveNodeIterator::end(base),
                 [&path_iter](const node::Node &node)
                 { EXPECT_EQ(node.link().path(),*path_iter++);}
                 );
@@ -115,26 +87,28 @@ TEST_F(RecursiveNodeIteratorTest,test_name_decreasing)
 
   using hdf5::node::RecursiveNodeIterator;
   std::vector<Path> node_path{
-    Path("/c_group"),
-    Path("/b_group"),
-    Path("/b_group/c_b_group"),
-    Path("/b_group/b_b_group"),
-    Path("/b_group/a_b_group"),
-    Path("/a_group"),
-    Path("/a_group/e_a_dataset"),
-    Path("/a_group/d_a_dataset"),
-    Path("/a_group/c_a_group"),
-    Path("/a_group/b_a_group"),
-    Path("/a_group/a_a_group")
+    Path("/standard/c_group"),
+    Path("/standard/b_group"),
+    Path("/standard/b_group/c_b_group"),
+    Path("/standard/b_group/c_b_group/data"),
+    Path("/standard/b_group/b_b_group"),
+    Path("/standard/b_group/a_b_group"),
+    Path("/standard/b_group/a_b_group/data"),
+    Path("/standard/a_group"),
+    Path("/standard/a_group/e_a_dataset"),
+    Path("/standard/a_group/d_a_dataset"),
+    Path("/standard/a_group/c_a_group"),
+    Path("/standard/a_group/b_a_group"),
+    Path("/standard/a_group/a_a_group")
    };
 
-  node::Group root = file.root();
-  root.iterator_config().index(IterationIndex::NAME);
-  root.iterator_config().order(IterationOrder::DECREASING);
+  node::Group base = node::get_node(file.root(),Path("standard"));
+  base.iterator_config().index(IterationIndex::NAME);
+  base.iterator_config().order(IterationOrder::DECREASING);
   auto path_iter = node_path.begin();
 
-  std::for_each(RecursiveNodeIterator::begin(root),
-                RecursiveNodeIterator::end(root),
+  std::for_each(RecursiveNodeIterator::begin(base),
+                RecursiveNodeIterator::end(base),
                 [&path_iter](const node::Node &node)
                 { EXPECT_EQ(node.link().path(),*path_iter++);}
                 );
