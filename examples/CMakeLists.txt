@@ -8,6 +8,8 @@ set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
 include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
 include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 
+
+
 add_executable(basic_files basic_files.cpp)
 target_link_libraries(basic_files h5cpp_shared)
 
@@ -50,26 +52,12 @@ add_dependencies(examples
 #
 # build this only for new versions of HDF5
 #
-if (HDF5_VERSION VERSION_GREATER 1.10.0)
-  set(SWMR_SOURCES swmr_environment.cpp swmr_builder.cpp)
-  add_executable(swmr_write swmr_write.cpp ${SWMR_SOURCES})
-  target_link_libraries(swmr_write h5cpp_shared)
 
-  add_executable(swmr_read swmr_reader.cpp ${SWMR_SOURCES})
-  target_link_libraries(swmr_read h5cpp_shared)
-
-  add_dependencies(examples
-    swmr_write
-    swmr_read
-    )
-
+if (WITH_SWMR)
+  add_subdirectory(swmr)
 endif ()
 
 if (WITH_MPI)
   add_subdirectory(mpi)
-  add_dependencies(examples
-    writer_simple
-    writer_extend
-    )
 endif ()
 
