@@ -33,7 +33,6 @@ namespace hdf5 {
 namespace error {
 
 struct Descriptor {
-//  Descriptor() {}
   Descriptor(const H5E_error2_t& d);
 
   std::string   major;         // major error text
