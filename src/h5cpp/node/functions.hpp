@@ -207,6 +207,106 @@ DLL_EXPORT Node get_node(const Group &base,
                          const property::LinkAccessList &lapl=
                              property::LinkAccessList());
 
+//!
+//! \brief get a group
+//!
+//! This is more or less a convenience function for get_node. It actually
+//! returns a Group instance if the node referenced by group_path is a group,
+//! otherwise an exception will be thrown.
+//! Use this function whenever you want to work with a Group only temporarily
+//!
+//! For instance
+//! \code
+//! Group root = file.root();
+//! if(get_group(root,"run_01/sensors").nodes.size()!=0)
+//! {
+//!
+//! }
+//! \endcode
+//!
+//! \throws std::runtime_error in case of a failure
+//! \param base reference to the base group
+//! \param group_path reference to the path of the group
+//! \return new Group instance
+//! \sa get_node
+//! \sa get_dataset
+DLL_EXPORT Group get_group(const Group &base,
+                           const Path &group_path,
+                           const property::LinkAccessList &lapl =
+                               property::LinkAccessList());
+//!
+//! \brief get a dataset
+//!
+//! This is more or less a convenience function for get_node. It actually
+//! returns a Dataset instance if the node referenced by dataset_path is a
+//! dataset, otherwise an exception will be thrown.
+//! Use this function whenever you want to work with a Dataset only temporarily
+//!
+//! For instance
+//! \code
+//! Group root = file.root();
+//! Dataspace space = get_dataset(root,"run_01/sensors/temperature").dataspace();
+//! \endcode
+//!
+//! \throws std::runtime_error in case of a failure
+//! \param base reference to the base group
+//! \param group_path reference to the path of the group
+//! \return new Group instance
+//! \sa get_node
+//! \sa get_dataset
+DLL_EXPORT Dataset get_dataset(const Group &base,
+                               const Path &dataset_path,
+                               const property::LinkAccessList &lapl =
+                                   property::LinkAccessList());
+
+
+//!
+//! \brief predicate function returning true if node is a group
+//!
+//! This predicate function is used to filter group nodes. A typical
+//! application would be for instance
+//!
+//! \code
+//! std::vector<Group> groups;
+//! std::copy_if(root.nodes.begin(),root.nodes.end(),std::back_inserter(groups),is_group);
+//! \endcode
+//!
+//! or whenever you want to partition a vector
+//! \code
+//! std::vector<Node> nodes;
+//! std::copy(root.nodes.begin(),root.nodes.end(),std::back_inserter(nodes));
+//! auto first_dset = std::partition_by(nodes.begin(),nodes.end(),is_group);
+//! \endcode
+//!
+//! \throws std::runtime_error in case of a failure
+//! \param node reference to the node
+//! \return true if the node is a group, false otherwise
+//!
+DLL_EXPORT bool is_group(const Node &node);
+
+//!
+//! \brief predicate function returning true if a node is a dataset
+//!
+//! This predicate function is used to filter dataset nodes. A typical
+//! application would be for instance
+//!
+//! \code
+//! std::vector<Dataset> datasets;
+//! std::copy_if(root.nodes.begin(),root.nodes.end(),std::back_inserter(datasets),is_dataset);
+//! \endcode
+//!
+//! or whenever you want to partition a vector
+//! \code
+//! std::vector<Nodes> nodes;
+//! std::copy(root.nodes.begin(),root.nodes.end(),std::back_inserter(nodes));
+//! auto first_group = std::partition_by(nodes.begin(),nodes.end(),is_dataset);
+//! \endcode
+//!
+//! \throws std::runtime_error in case of a failure
+//! \param node reference to the node
+//! \return true if the node is a dataset, false otherwise
+//!
+DLL_EXPORT bool is_dataset(const Node &node);
 
 } // namespace node
 } // namespace hdf5
