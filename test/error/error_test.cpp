@@ -76,7 +76,7 @@ TEST_F(Error, auto_off)
   EXPECT_FALSE(error::Singleton::instance().auto_print());
 }
 
-TEST_F(Error, print_string)
+TEST_F(Error, print_stack)
 {
   error::Singleton::instance().auto_print(false);
 
@@ -93,6 +93,20 @@ TEST_F(Error, print_string)
   EXPECT_EQ(size1, size2);
 //  TEST_COUT << "STACK2:\n" << stack2;
 }
+
+TEST_F(Error, extract_stack)
+{
+  error::Singleton::instance().auto_print(false);
+
+  H5Iget_ref(static_cast<hid_t>(invalid_handle));
+  auto stack1 = error::Singleton::instance().extract_stack();
+  auto size1 = stack1.size();
+  EXPECT_EQ(size1, 2);
+
+  for (auto e : stack1)
+    TEST_COUT << e;
+}
+
 
 TEST_F(Error, exception_generation_print_off)
 {

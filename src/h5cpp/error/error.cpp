@@ -98,6 +98,52 @@ std::string Singleton::print_stack()
   return ret;
 }
 
+std::list<std::string> Singleton::extract_stack()
+{
+  H5E_walk2_t func;
+  std::list<std::string> ret;
+  herr_t err = H5Ewalk2(H5E_DEFAULT, H5E_WALK_DOWNWARD,
+                        reinterpret_cast<H5E_walk2_t>(to_list), &ret);
+
+  if (0 > err)
+  {
+    throw std::runtime_error("Could not extract error stack");
+  }
+
+  return ret;
+}
+
+herr_t Singleton::to_list(unsigned n,
+                          const H5E_error2_t *err_desc,
+                          std::list<std::string> *list)
+{
+  std::stringstream ss;
+  ss << "[" << n << "] " << Descriptor(*err_desc);
+  list->push_back(ss.str());
+  return 0;
+}
+
+Descriptor::Descriptor(const H5E_error2_t& d)
+    : class_id(d.cls_id)
+    , major_num(d.maj_num)
+    , minor_num(d.min_num)
+    , line(d.line)
+{
+  func_name = std::string(d.func_name, strlen(d.func_name));
+  file_name = std::string(d.file_name, strlen(d.file_name));
+  desc = std::string(d.desc, strlen(d.desc));
+}
+
+std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
+{
+  stream << desc.file_name << ":" << desc.line
+         << " in function '" << desc.func_name << "': "
+         << desc.desc
+         << " (" << desc.class_id << "," << desc.major_num << "," << desc.minor_num << ")";
+  return stream;
+}
+
+
 void Singleton::throw_exception(const std::string& message)
 {
   if (!auto_print_)
