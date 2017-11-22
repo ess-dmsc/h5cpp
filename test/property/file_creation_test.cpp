@@ -126,7 +126,9 @@ TEST(FileCreationList, btree_rank)
   EXPECT_NO_THROW(fcpl.btree_rank(32767));
   EXPECT_EQ(fcpl.btree_rank(), 32767u);
 
+#if H5_VERSION_GE(1,10,0)
   EXPECT_THROW(fcpl.btree_rank(32768), std::runtime_error);
+#endif
 
   hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
   EXPECT_THROW(fcpl.btree_rank(), std::runtime_error);
@@ -166,7 +168,9 @@ TEST(FileCreationList, chunk_tree_rank)
   EXPECT_EQ(fcpl.chunk_tree_rank(), 32767u);
 
   EXPECT_THROW(fcpl.chunk_tree_rank(0), std::runtime_error);
+#if H5_VERSION_GE(1,10,0)
   EXPECT_THROW(fcpl.chunk_tree_rank(32768), std::runtime_error);
+#endif
 
   hdf5::ObjectHandle(static_cast<hid_t>(fcpl)).close();
   EXPECT_THROW(fcpl.chunk_tree_rank(), std::runtime_error);
