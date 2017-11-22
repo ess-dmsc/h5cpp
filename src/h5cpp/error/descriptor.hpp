@@ -33,16 +33,16 @@ namespace hdf5 {
 namespace error {
 
 struct Descriptor {
-  Descriptor() {}
+//  Descriptor() {}
   Descriptor(const H5E_error2_t& d);
 
-  std::string   major_txt;      // major error text
-  std::string   minor_txt;      // minor error text
+  std::string   major;         // major error text
+  std::string   minor;         // minor error text
 
-  unsigned      line      {0};  // line in file where error occurs
-  std::string   func_name;      // function in which error occurred
-  std::string   file_name;      // file in which error occurred
-  std::string   desc;           // optional supplied description
+  unsigned      line;          // line in file where error occurs
+  std::string   function;      // function in which error occurred
+  std::string   file;          // file in which error occurred
+  std::string   description;   // optional supplied description
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Descriptor &desc);

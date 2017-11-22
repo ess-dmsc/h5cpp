@@ -33,26 +33,26 @@ namespace hdf5 {
 namespace error {
 
 Descriptor::Descriptor(const H5E_error2_t& d)
-    : line(d.line)
 {
-  func_name = std::string(d.func_name, strlen(d.func_name));
-  file_name = std::string(d.file_name, strlen(d.file_name));
-  desc = std::string(d.desc, strlen(d.desc));
+  line = d.line;
+  file = std::string(d.file_name, strlen(d.file_name));
+  function = std::string(d.func_name, strlen(d.func_name));
+  description = std::string(d.desc, strlen(d.desc));
 
   auto mesg1 = H5Eget_major(d.maj_num);
-  major_txt = std::string(mesg1, strlen(mesg1));
+  major = std::string(mesg1, strlen(mesg1));
 
   auto mesg2 = H5Eget_minor(d.min_num);
-  minor_txt = std::string(mesg2, strlen(mesg2));
+  minor = std::string(mesg2, strlen(mesg2));
 }
 
 std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
 {
-  stream << desc.file_name << ":" << desc.line
-         << " in function '" << desc.func_name << "': "
-         << desc.desc
-         << " (maj=" << desc.major_txt
-         << ", min=" << desc.minor_txt
+  stream << desc.file << ":" << desc.line
+         << " in function '" << desc.function << "': "
+         << desc.description
+         << " (maj=" << desc.major
+         << ", min=" << desc.minor
          << ")";
   return stream;
 }
