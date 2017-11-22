@@ -26,6 +26,7 @@ set(test_sources
   ${dir}/is_group_test.cpp
   ${dir}/is_dataset_test.cpp
   ${dir}/get_group_test.cpp
+  ${dir}/get_dataset_test.cpp
   PARENT_SCOPE)
 
 set(test_headers
