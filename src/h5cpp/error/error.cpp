@@ -37,7 +37,7 @@ extern "C"{
 namespace hdf5 {
 namespace error {
 
-void clear_stack()
+void Singleton::clear_stack()
 {
   herr_t ret = H5Eclear2(H5E_DEFAULT);
   if (0 > ret)
@@ -46,7 +46,7 @@ void clear_stack()
   }
 }
 
-void auto_print(bool enable)
+void Singleton::auto_print(bool enable)
 {
   herr_t ret = H5Eset_auto2(H5E_DEFAULT,
                             enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
@@ -56,9 +56,16 @@ void auto_print(bool enable)
   {
     throw std::runtime_error("Could not set automatic error printing");
   }
+
+  auto_print_ = auto_print_enabled();
 }
 
-bool auto_print()
+bool Singleton::auto_print() const
+{
+  return auto_print_;
+}
+
+bool Singleton::auto_print_enabled() const
 {
   H5E_auto2_t func = NULL;
   herr_t ret = H5Eget_auto2(H5E_DEFAULT, &func, NULL);
@@ -72,7 +79,7 @@ bool auto_print()
 }
 
 
-std::string print_stack()
+std::string Singleton::print_stack()
 {
   char* buf {NULL};
   size_t size {0};
@@ -94,11 +101,11 @@ std::string print_stack()
   return ret;
 }
 
-void throw_exception(const std::string& message, bool with_stack)
+void Singleton::throw_exception(const std::string& message)
 {
   std::string m = message;
-  if (with_stack)
-    m += print_stack();
+  if (!auto_print_)
+    m += "\nHDF5 Stack trace:\n" + print_stack();
   throw std::runtime_error(m);
 }
 

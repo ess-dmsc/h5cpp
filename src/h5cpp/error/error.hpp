@@ -30,13 +30,35 @@
 namespace hdf5 {
 namespace error {
 
-void DLL_EXPORT auto_print(bool enable);
-bool DLL_EXPORT auto_print();
+class DLL_EXPORT Singleton
+{
+ public:
+  static Singleton& instance()
+  {
+    static Singleton singleton_instance;
+    return singleton_instance;
+  }
 
-void DLL_EXPORT clear_stack();
-std::string DLL_EXPORT print_stack();
+  void auto_print(bool enable);
+  bool auto_print() const;
 
-void DLL_EXPORT throw_exception(const std::string& message, bool with_stack);
+  std::string print_stack();
+
+  void throw_exception(const std::string& message);
+
+ private:
+  Singleton() {}
+  Singleton(Singleton const&) = delete;
+  void operator=(Singleton const&) = delete;
+
+  bool auto_print_ {true};
+
+ private:
+  bool auto_print_enabled() const;
+  void clear_stack();
+
+};
+
 
 } // namespace file
 } // namespace hdf5

@@ -63,32 +63,32 @@ class Error : public testing::Test
 
 TEST_F(Error, auto_on)
 {
-  error::auto_print(true);
+  error::Singleton::instance().auto_print(true);
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
   EXPECT_FALSE(extract_string().empty());
-  EXPECT_TRUE(error::auto_print());
+  EXPECT_TRUE(error::Singleton::instance().auto_print());
 }
 
 TEST_F(Error, auto_off)
 {
-  error::auto_print(false);
+  error::Singleton::instance().auto_print(false);
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
   EXPECT_TRUE(extract_string().empty()) << "post buffer contents:\n" << ss.str();
-  EXPECT_FALSE(error::auto_print());
+  EXPECT_FALSE(error::Singleton::instance().auto_print());
 }
 
 TEST_F(Error, print_string)
 {
-  error::auto_print(false);
+  error::Singleton::instance().auto_print(false);
 
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
-  auto stack1 = error::print_stack();
+  auto stack1 = error::Singleton::instance().print_stack();
   auto size1 = stack1.size();
   EXPECT_GT(size1, 0);
 //  TEST_COUT << "STACK:\n" << stack1;
 
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
-  auto stack2 = error::print_stack();
+  auto stack2 = error::Singleton::instance().print_stack();
   auto size2 = stack2.size();
   EXPECT_GT(size2, 0);
   EXPECT_EQ(size1, size2);
@@ -97,43 +97,39 @@ TEST_F(Error, print_string)
 
 TEST_F(Error, exception_generation_print_off)
 {
-  error::auto_print(false);
-  EXPECT_FALSE(error::auto_print());
-  error::clear_stack();
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
+  error::Singleton::instance().auto_print(false);
+  EXPECT_FALSE(error::Singleton::instance().auto_print());
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
 
-//  auto stack2 = error::print_stack();
+//  auto stack2 = error::Singleton::instance().print_stack();
 //  auto size2 = stack2.size();
 //  EXPECT_GT(size2, 0);
 
   try {
-    error::throw_exception("text", true);
+    error::Singleton::instance().throw_exception("some_error");
   }
   catch (std::runtime_error& e)
   {
     std::stringstream ss;
     ss << e.what();
-    EXPECT_GT(ss.str().size(), 4);
-    TEST_COUT << "w2\n" << ss.str().size() << "\n" << e.what();
+    EXPECT_GT(ss.str().size(), 20);
+    TEST_COUT << e.what();
   }
 }
 
 
 TEST_F(Error, exception_generation_print_on)
 {
-  error::auto_print(true);
-  EXPECT_TRUE(error::auto_print());
-  error::clear_stack();
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
+  error::Singleton::instance().auto_print(true);
+  EXPECT_TRUE(error::Singleton::instance().auto_print());
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
 
   try {
-    error::throw_exception("text", false);
+    error::Singleton::instance().throw_exception("some_error");
   }
   catch (std::runtime_error& e)
   {
-    EXPECT_EQ(std::string(e.what()), "text");
+    EXPECT_EQ(std::string(e.what()), "some_error");
   }
 }
 
