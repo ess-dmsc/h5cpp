@@ -32,8 +32,26 @@
 namespace hdf5 {
 namespace error {
 
+//!
+//! \brief HDF5 error descriptor
+//!
+//! This is a descriptor for an error from the HDF5 error stack.
+//! It contains information about where in the underlying HDF5
+//! library an error occurred. Such information may be passed on to the user
+//! of the library along with thrown exceptions, but only in the case
+//! that automatic error stack printing is turned off.
+//!
 struct DLL_EXPORT  Descriptor {
-  Descriptor(const H5E_error2_t& d);
+
+  //!
+  //! \brief constructor
+  //!
+  //! Constructs a mostly human-readable constructor from the underlying
+  //! C-API handle. Only used by the library internally.
+  //!
+  //! \param descr reference to C-API error entry
+  //!
+  Descriptor(const H5E_error2_t& descr);
 
   std::string   major;         // major error text
   std::string   minor;         // minor error text
@@ -41,9 +59,12 @@ struct DLL_EXPORT  Descriptor {
   unsigned      line;          // line in file where error occurs
   std::string   function;      // function in which error occurred
   std::string   file;          // file in which error occurred
-  std::string   description;   // optional supplied description
+  std::string   description;   // supplied description
 };
 
+//!
+//! \brief output operator for Descriptor
+//!
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Descriptor &desc);
 
 

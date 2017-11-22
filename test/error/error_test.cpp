@@ -25,6 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/object_handle.hpp>
 #include "../gtest_print.hpp"
 
 #include <cstring>
@@ -100,7 +101,24 @@ TEST_F(Error, extract_stack)
 
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
   auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_EQ(stack.contents.size(), 2);
+  EXPECT_EQ(stack.contents().size(), 2);
+}
+
+
+TEST_F(Error, exception_generation_print_on)
+{
+  error::Singleton::instance().auto_print(true);
+  EXPECT_TRUE(error::Singleton::instance().auto_print());
+  H5Iget_ref(static_cast<hid_t>(invalid_handle));
+
+  try {
+    error::Singleton::instance().throw_with_stack("some_error");
+  }
+  catch (std::exception& e)
+  {
+    auto message = error::print_nested(e);
+    EXPECT_EQ(message, "some_error\n");
+  }
 }
 
 
@@ -121,21 +139,3 @@ TEST_F(Error, exception_generation_print_off)
     TEST_COUT << "\n" << message;
   }
 }
-
-
-TEST_F(Error, exception_generation_print_on)
-{
-  error::Singleton::instance().auto_print(true);
-  EXPECT_TRUE(error::Singleton::instance().auto_print());
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
-
-  try {
-    error::Singleton::instance().throw_with_stack("some_error");
-  }
-  catch (std::exception& e)
-  {
-    auto message = error::print_nested(e);
-    EXPECT_EQ(message, "some_error\n");
-  }
-}
-

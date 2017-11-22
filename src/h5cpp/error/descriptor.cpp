@@ -32,17 +32,17 @@ extern "C"{
 namespace hdf5 {
 namespace error {
 
-Descriptor::Descriptor(const H5E_error2_t& d)
+Descriptor::Descriptor(const H5E_error2_t& descr)
 {
-  line = d.line;
-  file = std::string(d.file_name, strlen(d.file_name));
-  function = std::string(d.func_name, strlen(d.func_name));
-  description = std::string(d.desc, strlen(d.desc));
+  line = descr.line;
+  file = std::string(descr.file_name, strlen(descr.file_name));
+  function = std::string(descr.func_name, strlen(descr.func_name));
+  description = std::string(descr.desc, strlen(descr.desc));
 
-  auto mesg1 = H5Eget_major(d.maj_num);
+  auto mesg1 = H5Eget_major(descr.maj_num);
   major = std::string(mesg1, strlen(mesg1));
 
-  auto mesg2 = H5Eget_minor(d.min_num);
+  auto mesg2 = H5Eget_minor(descr.min_num);
   minor = std::string(mesg2, strlen(mesg2));
 }
 

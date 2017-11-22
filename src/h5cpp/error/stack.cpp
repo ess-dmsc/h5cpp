@@ -29,21 +29,30 @@
 namespace hdf5 {
 namespace error {
 
-Stack::Stack(std::list<Descriptor> s)
+Stack::Stack(const std::list<Descriptor>& stack)
 : std::runtime_error("")
-, contents(s)
+, contents_(stack)
 {
   std::stringstream ss;
-  for (auto c : contents)
+  for (auto c : contents_)
     ss << c << "\n";
-  what_message = ss.str();
+  what_message_ = ss.str();
 }
 
 const char* Stack::what() const throw()
 {
-  return what_message.c_str();
+  return what_message_.c_str();
 }
 
+const std::list<Descriptor>& Stack::contents() const
+{
+  return contents_;
+}
+
+bool Stack::empty() const
+{
+  return contents_.empty();
+}
 
 } // namespace file
 } // namespace hdf5

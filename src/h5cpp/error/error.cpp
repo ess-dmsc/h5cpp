@@ -76,7 +76,6 @@ std::string Singleton::print_stack()
 
 Stack Singleton::extract_stack()
 {
-  H5E_walk2_t func;
   std::list<Descriptor> ret;
   herr_t err = H5Ewalk2(H5E_DEFAULT, H5E_WALK_DOWNWARD,
                         reinterpret_cast<H5E_walk2_t>(to_list), &ret);
@@ -86,6 +85,7 @@ Stack Singleton::extract_stack()
     throw std::runtime_error("Could not extract error stack");
   }
 
+  clear_stack();
   return Stack(ret);
 }
 
@@ -105,18 +105,18 @@ void Singleton::throw_with_stack(const std::string& message)
   throw std::runtime_error(message);
 }
 
-std::string print_nested(const std::exception& e, int level)
+std::string print_nested(const std::exception& exception, int level)
 {
   std::stringstream ss;
-  ss << std::string(level, ' ') << e.what() << '\n';
+  ss << std::string(level, ' ') << exception.what() << '\n';
   try
   {
-    std::rethrow_if_nested(e);
+    std::rethrow_if_nested(exception);
   }
   catch(const Stack& s)
   {
-    for (auto e : s.contents)
-      ss << std::string(++level, ' ') << e << "\n";
+    for (auto error : s.contents())
+      ss << std::string(++level, ' ') << error << "\n";
   }
   catch(const std::exception& e)
   {
@@ -132,7 +132,7 @@ std::string print_nested(const std::exception& e, int level)
 void Singleton::throw_stack()
 {
   auto stack = extract_stack();
-  if (!stack.contents.empty())
+  if (!stack.empty())
     throw stack;
 }
 
