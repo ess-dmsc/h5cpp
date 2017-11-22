@@ -32,6 +32,7 @@
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/error/error.hpp>
 #include <initializer_list>
 
 namespace hdf5 {
@@ -189,7 +190,7 @@ class DLL_EXPORT Attribute
                   static_cast<hid_t>(mem_type),
                   buffer.data())<0)
       {
-        throw std::runtime_error("Failure to write data to attribute!");
+        error::Singleton::instance().throw_with_stack("Failure to write data to attribute!");
       }
 
     }
@@ -205,7 +206,7 @@ class DLL_EXPORT Attribute
                   static_cast<hid_t>(mem_type),
                   buffer.data())<0)
       {
-        throw std::runtime_error("Failure to write data to attribute!");
+        error::Singleton::instance().throw_with_stack("Failure to write data to attribute!");
       }
 
     }
@@ -217,7 +218,7 @@ class DLL_EXPORT Attribute
       const void *ptr = dataspace::cptr(data);
       if(H5Awrite(static_cast<hid_t>(handle_),static_cast<hid_t>(mem_type),ptr)<0)
       {
-        throw std::runtime_error("Failure to write data to attribute!");
+        error::Singleton::instance().throw_with_stack("Failure to write data to attribute!");
       }
     }
 
@@ -233,7 +234,7 @@ class DLL_EXPORT Attribute
                  static_cast<hid_t>(mem_type),
                  buffer.data())<0)
       {
-        throw std::runtime_error("Failure to read data from attribute!");
+        error::Singleton::instance().throw_with_stack("Failure to read data from attribute!");
       }
 
       data = Trait::from_buffer(buffer,datatype::String(datatype()));
@@ -252,7 +253,7 @@ class DLL_EXPORT Attribute
                  static_cast<hid_t>(mem_type),
                  buffer.data())<0)
       {
-        throw std::runtime_error("Failure to read data from attribute!");
+        error::Singleton::instance().throw_with_stack("Failure to read data from attribute!");
       }
 
       Trait::from_buffer(buffer,data);
@@ -265,7 +266,7 @@ class DLL_EXPORT Attribute
         std::stringstream ss;
         ss<<"Failure to reclaim buffer for variable length string"
           <<" string read on attribute!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
 
     }
@@ -278,7 +279,7 @@ class DLL_EXPORT Attribute
 
       if(H5Aread(static_cast<hid_t>(handle_),static_cast<hid_t>(mem_type),ptr)<0)
       {
-        throw std::runtime_error("Failure to read data from attribute!");
+        error::Singleton::instance().throw_with_stack("Failure to read data from attribute!");
       }
     }
 

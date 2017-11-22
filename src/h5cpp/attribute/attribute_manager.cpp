@@ -23,10 +23,10 @@
 // Created on: Oct 4, 2017
 //
 #include <sstream>
-#include <stdexcept>
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/attribute/attribute_manager.hpp>
 #include <h5cpp/attribute/attribute_iterator.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace attribute {
@@ -50,7 +50,7 @@ Attribute AttributeManager::operator[](size_t index) const
     std::stringstream ss;
     ss<<"Failure to access attribute ["<<index<<"] of node ["
       <<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return Attribute(ObjectHandle(id));
@@ -69,7 +69,7 @@ Attribute AttributeManager::operator[](const std::string &name) const
     std::stringstream ss;
     ss<<"Failure to access attribute ["<<name<<"] from node ["
       <<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return Attribute(ObjectHandle(id));
@@ -80,7 +80,7 @@ size_t AttributeManager::size() const
   H5O_info_t obj_info;
   if(H5Oget_info(static_cast<hid_t>(node_),&obj_info))
   {
-    throw std::runtime_error("Failure to determine the number of attributes!");
+    error::Singleton::instance().throw_with_stack("Failure to determine the number of attributes!");
   }
 
   return obj_info.num_attrs;
@@ -94,7 +94,7 @@ void AttributeManager::remove(const std::string &name) const
     std::stringstream ss;
     ss<<"Failure to remove attribute ["<<name<<"] from node ["
       <<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -109,7 +109,7 @@ void AttributeManager::remove(size_t index) const
     std::stringstream ss;
     ss<<"Failure to remove attribute ["<<index<<"] from node ["
       <<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -127,7 +127,7 @@ bool AttributeManager::exists(const std::string &name) const
     std::stringstream ss;
     ss<<"Failure to check the existence of attribute ["<<name<<"] on node ["
       <<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -147,7 +147,7 @@ Attribute AttributeManager::create(const std::string &name,
     std::stringstream ss;
     ss<<"Failure to create attribute ["<<name<<"] on node ["
       <<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return Attribute(ObjectHandle(id));
@@ -160,7 +160,7 @@ void AttributeManager::rename(const std::string &old_name,const std::string &new
     std::stringstream ss;
     ss<<"Failure to rename attribute ["<<old_name<<"] to ["<<new_name<<"] "
       <<"on node ["<<node_.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
