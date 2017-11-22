@@ -25,6 +25,7 @@ set(test_sources
   ${dir}/symbolic_link_creation_test.cpp
   ${dir}/is_group_test.cpp
   ${dir}/is_dataset_test.cpp
+  ${dir}/get_group_test.cpp
   PARENT_SCOPE)
 
 set(test_headers
