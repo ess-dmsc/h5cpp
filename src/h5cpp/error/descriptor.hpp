@@ -25,49 +25,27 @@
 #pragma once
 
 #include <h5cpp/core/windows.hpp>
-#include <h5cpp/core/object_handle.hpp>
-#include <h5cpp/error/stack.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
+#include <iostream>
+#include <string>
 
 namespace hdf5 {
 namespace error {
 
-class DLL_EXPORT Singleton
-{
- public:
-  static Singleton& instance()
-  {
-    static Singleton singleton_instance;
-    return singleton_instance;
-  }
+struct Descriptor {
+  Descriptor() {}
+  Descriptor(const H5E_error2_t& d);
 
-  void auto_print(bool enable);
-  bool auto_print() const;
+  std::string   major_txt;      // major error text
+  std::string   minor_txt;      // minor error text
 
-  std::string print_stack();
-  Stack extract_stack();
-
-  void throw_exception(const std::string& message);
-
- private:
-  Singleton() {}
-  Singleton(Singleton const&) = delete;
-  void operator=(Singleton const&) = delete;
-
-  bool auto_print_ {true};
-
- private:
-  bool auto_print_enabled() const;
-  void throw_stack();
-  void clear_stack();
-
-  static herr_t to_list(unsigned n,
-                        const H5E_error2_t *err_desc,
-                        std::list<Descriptor>* list);
+  unsigned      line      {0};  // line in file where error occurs
+  std::string   func_name;      // function in which error occurred
+  std::string   file_name;      // file in which error occurred
+  std::string   desc;           // optional supplied description
 };
 
-// prints the explanatory string of an exception. If the exception is nested,
-// recurses to print the explanatory of the exception it holds
-std::string DLL_EXPORT print_exception(const std::exception& e, int level =  0);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Descriptor &desc);
 
 
 } // namespace file

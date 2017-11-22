@@ -1,11 +1,15 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SOURCES
+  ${dir}/descriptor.cpp
   ${dir}/error.cpp
+  ${dir}/stack.cpp
   )
 
 set(HEADERS
+  ${dir}/descriptor.hpp
   ${dir}/error.hpp
+  ${dir}/stack.hpp
   )
 
 install(FILES ${HEADERS}

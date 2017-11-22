@@ -33,22 +33,6 @@ extern "C"{
 namespace hdf5 {
 namespace error {
 
-Stack::Stack(std::list<Descriptor> s)
-: std::runtime_error("")
-, contents(s)
-{
-  std::stringstream ss;
-  for (auto c : contents)
-    ss << c << "\n";
-  what_message = ss.str();
-}
-
-
-const char* Stack::what() const throw()
-{
-  return what_message.c_str();
-}
-
 void Singleton::clear_stack()
 {
   herr_t ret = H5Eclear2(H5E_DEFAULT);
@@ -135,32 +119,6 @@ herr_t Singleton::to_list(unsigned n,
   list->push_back(Descriptor(*err_desc));
   return 0;
 }
-
-Descriptor::Descriptor(const H5E_error2_t& d)
-    : line(d.line)
-{
-  func_name = std::string(d.func_name, strlen(d.func_name));
-  file_name = std::string(d.file_name, strlen(d.file_name));
-  desc = std::string(d.desc, strlen(d.desc));
-
-  auto mesg1 = H5Eget_major(d.maj_num);
-  major_txt = std::string(mesg1, strlen(mesg1));
-
-  auto mesg2 = H5Eget_minor(d.min_num);
-  minor_txt = std::string(mesg2, strlen(mesg2));
-}
-
-std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
-{
-  stream << desc.file_name << ":" << desc.line
-         << " in function '" << desc.func_name << "': "
-         << desc.desc
-         << " (maj=" << desc.major_txt
-         << ", min=" << desc.minor_txt
-         << ")";
-  return stream;
-}
-
 
 void Singleton::throw_exception(const std::string& message)
 {
