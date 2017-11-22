@@ -28,7 +28,6 @@
 #include "../gtest_print.hpp"
 
 #include <cstring>
-#include <cstdio>
 
 using namespace hdf5;
 

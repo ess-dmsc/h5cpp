@@ -24,11 +24,10 @@
 //
 
 #include <h5cpp/error/error.hpp>
-#include <stdexcept>
 #include <sstream>
+#include <exception>
 
 extern "C"{
-#include <cstdio>
 #include <cstring>
 }
 
