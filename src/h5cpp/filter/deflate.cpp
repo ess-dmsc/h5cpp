@@ -26,9 +26,9 @@
 extern "C" {
 #include <hdf5.h>
 }
-#include <stdexcept>
 #include <sstream>
 #include <h5cpp/filter/deflate.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace filter {
@@ -76,7 +76,7 @@ void Deflate::operator()(const property::DatasetCreationList &dcpl,
 {
   if(H5Pset_deflate(static_cast<hid_t>(dcpl),level_)<0)
   {
-    throw std::runtime_error("Could not apply Deflate filter!");
+    error::Singleton::instance().throw_with_stack("Could not apply Deflate filter!");
   }
 }
 
