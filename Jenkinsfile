@@ -58,7 +58,7 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install ../${project} --build=missing
+        conan install --file=../${project}/conanfile_ess.txt --build=missing
     \""""
 }
 
