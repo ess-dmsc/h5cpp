@@ -23,8 +23,8 @@
 // Created on: Nov 13, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/dataspace/view.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -33,7 +33,7 @@ void View::clear() const
 {
   if(H5Sselect_all(static_cast<hid_t>(space_))<0)
   {
-    throw std::runtime_error("Failure selecting all elements in the dataspace!");
+    error::Singleton::instance().throw_with_stack("Failure selecting all elements in the dataspace!");
   }
 }
 
@@ -82,7 +82,7 @@ size_t View::size() const
   hssize_t s = H5Sget_select_npoints(static_cast<hid_t>(space_));
   if(s<0)
   {
-    throw std::runtime_error("Failure retrieving selection size!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
   return s;
 }

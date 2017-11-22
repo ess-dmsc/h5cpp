@@ -23,8 +23,8 @@
 // Created on: Aug 24, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -49,7 +49,7 @@ Dataspace::Dataspace(const Dataspace &space)
   hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy-construct Dataspace");
+    error::Singleton::instance().throw_with_stack("could not copy-construct Dataspace");
   }
   handle_ = ObjectHandle(ret);
 }
@@ -59,7 +59,7 @@ Dataspace &Dataspace::operator=(const Dataspace &space)
   hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy Dataspace");
+    error::Singleton::instance().throw_with_stack("could not copy Dataspace");
   }
   handle_ = ObjectHandle(ret);
   return *this;
@@ -75,7 +75,7 @@ hssize_t Dataspace::size() const
   hssize_t s = H5Sget_simple_extent_npoints(static_cast<hid_t>(*this));
   if(s<0)
   {
-    throw std::runtime_error("Failure retrieving the number of elements in the dataspace!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the number of elements in the dataspace!");
   }
   return s;
 }
@@ -85,7 +85,7 @@ Type Dataspace::type() const
   H5S_class_t ret = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
   if(ret == H5S_NO_CLASS)
   {
-    throw std::runtime_error("Failure to retrieve the dataspace type!");
+    error::Singleton::instance().throw_with_stack("Failure to retrieve the dataspace type!");
   }
 
   return static_cast<Type>(ret);
