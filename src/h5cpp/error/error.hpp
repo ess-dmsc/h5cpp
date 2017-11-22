@@ -67,7 +67,7 @@ class DLL_EXPORT Singleton
 
 // prints the explanatory string of an exception. If the exception is nested,
 // recurses to print the explanatory of the exception it holds
-std::string DLL_EXPORT print_exception(const std::exception& e, int level =  0);
+std::string DLL_EXPORT print_nested(const std::exception& e, int level =  0);
 
 
 } // namespace file

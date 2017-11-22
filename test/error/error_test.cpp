@@ -101,9 +101,6 @@ TEST_F(Error, extract_stack)
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
   auto stack = error::Singleton::instance().extract_stack();
   EXPECT_EQ(stack.contents.size(), 2);
-
-  for (auto e : stack.contents)
-    TEST_COUT << e;
 }
 
 
@@ -113,16 +110,13 @@ TEST_F(Error, exception_generation_print_off)
   EXPECT_FALSE(error::Singleton::instance().auto_print());
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
 
-//  auto stack2 = error::Singleton::instance().print_stack();
-//  auto size2 = stack2.size();
-//  EXPECT_GT(size2, 0);
 
   try {
     error::Singleton::instance().throw_with_stack("some_error");
   }
   catch (std::exception& e)
   {
-    auto message = error::print_exception(e);
+    auto message = error::print_nested(e);
     EXPECT_GT(message.size(), 20);
     TEST_COUT << "\n" << message;
   }
@@ -140,9 +134,8 @@ TEST_F(Error, exception_generation_print_on)
   }
   catch (std::exception& e)
   {
-    auto message = error::print_exception(e);
+    auto message = error::print_nested(e);
     EXPECT_EQ(message, "some_error\n");
-//    TEST_COUT << "\n" << message;
   }
 }
 
