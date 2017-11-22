@@ -24,6 +24,7 @@
 //
 #include <sstream>
 #include <h5cpp/node/functions.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -33,12 +34,23 @@ void copy(const Node &source, const Group& base, const Path &rel_path,
           const property::LinkCreationList &lcpl)
 {
   //what if rel_path is actually absolute?
-  if (base.links.exists(static_cast<std::string>(rel_path)))
+
+  try
+  {
+    if (base.links.exists(static_cast<std::string>(rel_path)))
+    {
+      std::stringstream ss;
+      ss << "node::copy failed. "
+         << base.link() << " / " << rel_path << " already exists!";
+      throw std::runtime_error(ss.str());
+    }
+  }
+  catch (...)
   {
     std::stringstream ss;
     ss << "node::copy failed. "
        << base.link() << " / " << rel_path << " already exists!";
-    throw std::runtime_error(ss.str());
+    std::rethrow_if_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
@@ -52,7 +64,7 @@ void copy(const Node &source, const Group& base, const Path &rel_path,
     ss << "node::copy failed. Could not copy "
        << source.link() << " to "
        << base.link() << " / " << rel_path;
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -62,12 +74,21 @@ void copy(const Node &source, const Group& destination,
 {
   //what if rel_path is actually absolute?
   auto name = source.link().path().name(); //this feels awkward
-  if (destination.links.exists(name))
+
+  try {
+    if (destination.links.exists(name)) {
+      std::stringstream ss;
+      ss << "node::copy failed. "
+         << destination.link() << " / " << name << " already exists!";
+      throw std::runtime_error(ss.str());
+    }
+  }
+  catch(...)
   {
     std::stringstream ss;
     ss << "node::copy failed. "
        << destination.link() << " / " << name << " already exists!";
-    throw std::runtime_error(ss.str());
+    std::rethrow_if_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
@@ -81,7 +102,7 @@ void copy(const Node &source, const Group& destination,
     ss << "node::copy failed. Could not copy "
        << source.link() << " to "
        << destination.link() << " / " << name;
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -94,13 +115,22 @@ void remove(const Node &object,
 void remove(const Group &base, const Path &rel_path,
             const property::LinkAccessList &lapl)
 {
-  if (!base.links.exists(static_cast<std::string>(rel_path)))
+  try {
+    if (!base.links.exists(static_cast<std::string>(rel_path))) {
+      std::stringstream ss;
+      ss << "node::remove failed. "
+         << base.link() << " / " << rel_path << " does not exist.";
+      throw std::runtime_error(ss.str());
+    }
+  }
+  catch(...)
   {
     std::stringstream ss;
     ss << "node::remove failed. "
        << base.link() << " / " << rel_path << " does not exist.";
-    throw std::runtime_error(ss.str());
+    std::rethrow_if_nested(std::runtime_error(ss.str()));
   }
+
   if (0 > H5Ldelete(static_cast<hid_t>(base),
                     static_cast<std::string>(rel_path).c_str(),
                     static_cast<hid_t>(lapl)))
@@ -108,7 +138,7 @@ void remove(const Group &base, const Path &rel_path,
     std::stringstream ss;
     ss << "node::remove failed. Could not remove"
        << base.link() << " / " << rel_path;
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -130,12 +160,21 @@ void move(const Node &source,
           const property::LinkAccessList &lapl)
 {
   auto name = static_cast<std::string>(destination_path);
-  if (destination_base.links.exists(name))
+
+  try {
+    if (destination_base.links.exists(name)) {
+      std::stringstream ss;
+      ss << "node::move failed. "
+         << destination_base.link() << " / " << name << " already exists!";
+      throw std::runtime_error(ss.str());
+    }
+  }
+  catch (...)
   {
     std::stringstream ss;
     ss << "node::move failed. "
        << destination_base.link() << " / " << name << " already exists!";
-    throw std::runtime_error(ss.str());
+    std::rethrow_if_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
@@ -149,7 +188,7 @@ void move(const Node &source,
     ss << "node::move failed. Could not move "
        << source.link() << " to "
        << destination_base.link() << " / " << destination_path;
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -164,13 +203,23 @@ void link(const boost::filesystem::path &target_file,
   if (link_path.absolute())
     base = link_base.link().file().root();
   auto lpath = static_cast<std::string>(link_path);
-  if (link_base.links.exists(lpath))
+
+  try {
+    if (link_base.links.exists(lpath)) {
+      std::stringstream ss;
+      ss << "node::link (external) failed. "
+         << base.link() << " / " << link_path << " already exists!";
+      throw std::runtime_error(ss.str());
+    }
+  }
+  catch (...)
   {
     std::stringstream ss;
     ss << "node::link (external) failed. "
        << base.link() << " / " << link_path << " already exists!";
-    throw std::runtime_error(ss.str());
+    std::rethrow_if_nested(std::runtime_error(ss.str()));
   }
+
   if (0 > H5Lcreate_external(target_file.string().c_str(),
                              static_cast<std::string>(target_path).c_str(),
                              static_cast<hid_t>(base),
@@ -183,7 +232,7 @@ void link(const boost::filesystem::path &target_file,
        << link_base.link() << " / " << link_path
        << " -> "
        << target_file << " / " << target_path;
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -229,7 +278,7 @@ void link(const Node &target,
          << link_base.link() << " / " << link_path
          << " -> "
          << target.link();
-      throw std::runtime_error(ss.str());
+      error::Singleton::instance().throw_with_stack(ss.str());
     }
   }
 }

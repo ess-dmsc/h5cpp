@@ -70,7 +70,15 @@ ObjectHandle::ObjectHandle(ObjectHandle &&o) noexcept
 //-------------------------------------------------------------------------
 ObjectHandle::~ObjectHandle()
 {
-  close();
+  try
+  {
+    close();
+  }
+  catch (...)
+  {
+    // nothing clever to do here
+    // nasty hack to prevent destructor from throwing
+  }
 }   
 
 

@@ -24,8 +24,8 @@
 //
 
 #include <h5cpp/core/hdf5_capi.hpp>
-#include <stdexcept>
 #include <h5cpp/file/direct_driver.hpp>
+#include <h5cpp/error/error.hpp>
 
 #ifdef H5_HAVE_DIRECT
 
@@ -80,7 +80,7 @@ void DirectDriver::operator()(const property::FileAccessList &fapl) const
   if(H5Pset_fapl_direct(static_cast<hid_t>(fapl),alignment_,
                         block_size_,copy_buffer_size_)<0)
   {
-    throw std::runtime_error("Failure to set direct file driver!");
+    error::Singleton::instance().throw_with_stack("Failure to set direct file driver!");
   }
 }
 

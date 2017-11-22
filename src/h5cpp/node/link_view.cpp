@@ -30,6 +30,7 @@
 #include <h5cpp/core/iterator_config.hpp>
 #include <h5cpp/node/link_iterator.hpp>
 #include "utilities.hpp"
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -59,7 +60,7 @@ Link LinkView::operator[](size_t index) const
     std::stringstream ss;
     ss<<"Could not determine the size of link "<<index<<" on group ["
       <<group().link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   //setting up the string where to store the name
@@ -81,7 +82,7 @@ Link LinkView::operator[](size_t index) const
     std::stringstream ss;
     ss<<"Could not load name for link "<<index<<" on group ["
         <<group().link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return Link(group().link().file(),group().link().path(),name);
@@ -125,7 +126,7 @@ bool LinkView::exists(const std::string &name,const property::LinkAccessList &la
     std::stringstream ss;
     ss<<"Failure checking for link ["<<name<<"] on group ["
       <<group().link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 

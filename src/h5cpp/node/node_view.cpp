@@ -27,9 +27,8 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/node_view.hpp>
 #include <h5cpp/node/group.hpp>
-#include <h5cpp/core/iterator_config.hpp>
-#include <h5cpp/node/link.hpp>
 #include <h5cpp/node/node_iterator.hpp>
+#include <h5cpp/error/error.hpp>
 
 #include "utilities.hpp"
 
@@ -60,7 +59,7 @@ Node NodeView::operator[](size_t index) const
     std::stringstream ss;
     ss<<"Failure opening child with index "<<index<<" from group ";
     ss<<group().link().path();
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
 
@@ -83,7 +82,7 @@ Node NodeView::operator[](const std::string &name) const
                       static_cast<hid_t>(config.link_access_list()));
   if(id<0)
   {
-    throw std::runtime_error("Failure open child node ["+name+"]!");
+    error::Singleton::instance().throw_with_stack("Failure open child node ["+name+"]!");
   }
 
   //returning an object with the new path
@@ -113,7 +112,7 @@ bool NodeView::exists(const std::string &name,const property::LinkAccessList &la
     std::stringstream ss;
     ss<<"Failure to check if object ["<<name<<"] exists below ["
       <<group().link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 

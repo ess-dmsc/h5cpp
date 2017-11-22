@@ -23,9 +23,9 @@
 // Created on: Nov 6, 2017
 //
 #include <h5cpp/core/hdf5_capi.hpp>
-#include <stdexcept>
 #include <h5cpp/file/posix_driver.hpp>
 #include <h5cpp/property/file_access.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -37,7 +37,7 @@ void PosixDriver::operator()(const property::FileAccessList &fapl) const
 {
   if(H5Pset_fapl_sec2(static_cast<hid_t>(fapl))<0)
   {
-    throw std::runtime_error("Failure setting up POSIX driver!");
+    error::Singleton::instance().throw_with_stack("Failure setting up POSIX driver!");
   }
 }
 

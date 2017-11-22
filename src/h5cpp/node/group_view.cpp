@@ -24,6 +24,7 @@
 //
 
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/error/error.hpp>
 #include <h5cpp/node/group_view.hpp>
 
 
@@ -42,9 +43,8 @@ size_t GroupView::size() const
   H5G_info_t info;
   if(H5Gget_info(static_cast<hid_t>(group()),&info)<0)
   {
-    throw std::runtime_error("Could not access the group info data!");
+    error::Singleton::instance().throw_with_stack("Could not access the group info data!");
   }
-
   return info.nlinks;
 }
 

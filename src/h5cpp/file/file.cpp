@@ -26,8 +26,7 @@
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/group.hpp>
-#include <h5cpp/node/link.hpp>
-#include <h5cpp/core/path.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -43,7 +42,7 @@ AccessFlags File::intent() const
   AccessFlagsBase value;
   if(H5Fget_intent(static_cast<hid_t>(*this),&value)<0)
   {
-    throw std::runtime_error("Failure retrieving the file intent!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the file intent!");
   }
 
   return static_cast<AccessFlags>(value);
@@ -54,7 +53,7 @@ size_t File::size() const
   hsize_t s;
   if(H5Fget_filesize(static_cast<hid_t>(*this),&s)<0)
   {
-    throw std::runtime_error("Failure retrieving the file size!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the file size!");
   }
   return s;
 }
@@ -63,7 +62,7 @@ void File::flush(Scope scope) const
 {
   if(H5Fflush(static_cast<hid_t>(*this),static_cast<H5F_scope_t>(scope))<0)
   {
-    throw std::runtime_error("Failure to flush the file!");
+    error::Singleton::instance().throw_with_stack("Failure to flush the file!");
   }
 }
 
@@ -83,7 +82,7 @@ size_t File::count_open_objects(SearchFlagsBase flags) const
   nobjects=  H5Fget_obj_count(static_cast<hid_t>(*this),flags);
   if(nobjects<0)
   {
-    throw std::runtime_error("Failure retrieving the open object count for this file!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the open object count for this file!");
   }
 
   return nobjects;
@@ -103,9 +102,9 @@ class node::Group File::root(const property::GroupAccessList &gapl) const
 
     return node::Group(node::Node(std::move(handle),root_link));
   }
-  catch(const std::runtime_error &error)
+  catch(...)
   {
-    throw std::runtime_error("Error obtaining root group from file!");
+    std::rethrow_if_nested(std::runtime_error("Error obtaining root group from file!"));
   }
 }
 
@@ -116,9 +115,16 @@ bool File::is_valid() const
 
 ObjectId File::id() const
 {
-  if(!is_valid())
+  try
   {
-    throw std::runtime_error("Cannot obtain ObjectId from an invalid file instance!");
+    if(!is_valid())
+    {
+      error::Singleton::instance().throw_with_stack("Cannot obtain ObjectId from an invalid file instance!");
+    }
+  }
+  catch(...)
+  {
+    std::rethrow_if_nested(std::runtime_error("Cannot obtain ObjectId from an invalid file instance!"));
   }
   return ObjectId(handle_);
 }

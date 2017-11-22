@@ -27,6 +27,7 @@
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/functions.hpp>
 #include "utilities.hpp"
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -110,12 +111,22 @@ Group Group::create_group(const std::string &name,
   }
 
   //check if there is already a link with this name
-  if(this->links.exists(name))
+  try
+  {
+    if (this->links.exists(name))
+    {
+      std::stringstream ss;
+      ss << "A link with name [" << name << "] already exists below ["
+         << link().path() << "]!";
+      throw std::runtime_error(ss.str());
+    }
+  }
+  catch (...)
   {
     std::stringstream ss;
-    ss<<"A link with name ["<<name<<"] already exists below ["
-      <<link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    ss << "A link with name [" << name << "] could not be created in ["
+       << link().path() << "]!";
+    std::rethrow_if_nested(ss.str());
   }
 
   return Group(*this,Path(name),lcpl,gcpl,gapl);

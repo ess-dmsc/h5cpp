@@ -25,6 +25,7 @@
 //
 #include <sstream>
 #include <h5cpp/file/functions.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -44,7 +45,7 @@ File create(const boost::filesystem::path &path, AccessFlagsBase flags,
   {
     std::stringstream ss;
     ss<<"Failure creating file ["<<path<<"]";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return File(hdf5::ObjectHandle(fid));
@@ -80,7 +81,7 @@ bool is_hdf5_file(const boost::filesystem::path &path)
   {
     std::stringstream ss;
     ss<<"Failure to determine whether "<<path.string()<<"is an HDF5 file or not!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
