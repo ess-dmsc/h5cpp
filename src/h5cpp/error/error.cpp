@@ -25,7 +25,6 @@
 
 #include <h5cpp/error/error.hpp>
 #include <sstream>
-#include <exception>
 
 extern "C"{
 #include <cstring>
@@ -33,6 +32,22 @@ extern "C"{
 
 namespace hdf5 {
 namespace error {
+
+Stack::Stack(std::list<Descriptor> s)
+: std::runtime_error("")
+, contents(s)
+{
+  std::stringstream ss;
+  for (auto c : contents)
+    ss << c << "\n";
+  what_message = ss.str();
+}
+
+
+const char* Stack::what() const throw()
+{
+  return what_message.c_str();
+}
 
 void Singleton::clear_stack()
 {
@@ -98,10 +113,10 @@ std::string Singleton::print_stack()
   return ret;
 }
 
-std::list<std::string> Singleton::extract_stack()
+Stack Singleton::extract_stack()
 {
   H5E_walk2_t func;
-  std::list<std::string> ret;
+  std::list<Descriptor> ret;
   herr_t err = H5Ewalk2(H5E_DEFAULT, H5E_WALK_DOWNWARD,
                         reinterpret_cast<H5E_walk2_t>(to_list), &ret);
 
@@ -110,28 +125,29 @@ std::list<std::string> Singleton::extract_stack()
     throw std::runtime_error("Could not extract error stack");
   }
 
-  return ret;
+  return Stack(ret);
 }
 
 herr_t Singleton::to_list(unsigned n,
                           const H5E_error2_t *err_desc,
-                          std::list<std::string> *list)
+                          std::list<Descriptor> *list)
 {
-  std::stringstream ss;
-  ss << "[" << n << "] " << Descriptor(*err_desc);
-  list->push_back(ss.str());
+  list->push_back(Descriptor(*err_desc));
   return 0;
 }
 
 Descriptor::Descriptor(const H5E_error2_t& d)
-    : class_id(d.cls_id)
-    , major_num(d.maj_num)
-    , minor_num(d.min_num)
-    , line(d.line)
+    : line(d.line)
 {
   func_name = std::string(d.func_name, strlen(d.func_name));
   file_name = std::string(d.file_name, strlen(d.file_name));
   desc = std::string(d.desc, strlen(d.desc));
+
+  auto mesg1 = H5Eget_major(d.maj_num);
+  major_txt = std::string(mesg1, strlen(mesg1));
+
+  auto mesg2 = H5Eget_minor(d.min_num);
+  minor_txt = std::string(mesg2, strlen(mesg2));
 }
 
 std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
@@ -139,7 +155,9 @@ std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
   stream << desc.file_name << ":" << desc.line
          << " in function '" << desc.func_name << "': "
          << desc.desc
-         << " (" << desc.class_id << "," << desc.major_num << "," << desc.minor_num << ")";
+         << " (maj=" << desc.major_txt
+         << ", min=" << desc.minor_txt
+         << ")";
   return stream;
 }
 
@@ -162,9 +180,12 @@ void Singleton::throw_exception(const std::string& message)
 
 void Singleton::throw_stack()
 {
-  auto stack_text = print_stack();
-  if (!stack_text.empty())
-    throw std::runtime_error("HDF5 error stack:\n" + stack_text);
+//  auto stack_text = print_stack();
+//  if (!stack_text.empty())
+//    throw std::runtime_error("HDF5 error stack:\n" + stack_text);
+  auto stack = extract_stack();
+  if (!stack.contents.empty())
+    throw stack;
 }
 
 // prints the explanatory string of an exception. If the exception is nested,
@@ -176,6 +197,11 @@ std::string print_exception(const std::exception& e, int level)
   try
   {
     std::rethrow_if_nested(e);
+  }
+  catch(const Stack& s)
+  {
+    for (auto e : s.contents)
+      ss << std::string(++level, ' ') << e << "\n";
   }
   catch(const std::exception& e)
   {

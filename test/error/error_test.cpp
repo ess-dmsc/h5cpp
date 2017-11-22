@@ -99,11 +99,10 @@ TEST_F(Error, extract_stack)
   error::Singleton::instance().auto_print(false);
 
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
-  auto stack1 = error::Singleton::instance().extract_stack();
-  auto size1 = stack1.size();
-  EXPECT_EQ(size1, 2);
+  auto stack = error::Singleton::instance().extract_stack();
+  EXPECT_EQ(stack.contents.size(), 2);
 
-  for (auto e : stack1)
+  for (auto e : stack.contents)
     TEST_COUT << e;
 }
 

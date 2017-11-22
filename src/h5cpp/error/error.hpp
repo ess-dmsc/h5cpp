@@ -26,6 +26,7 @@
 
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/core/object_handle.hpp>
+#include <exception>
 #include <list>
 
 namespace hdf5 {
@@ -35,9 +36,9 @@ struct Descriptor {
   Descriptor() {}
   Descriptor(const H5E_error2_t& d);
 
-  hid_t         class_id  {0};  // class ID
-  hid_t         major_num {0};  // major error ID
-  hid_t         minor_num {0};  // minor error number
+  std::string   major_txt;      // major error text
+  std::string   minor_txt;      // minor error text
+
   unsigned      line      {0};  // line in file where error occurs
   std::string   func_name;      // function in which error occurred
   std::string   file_name;      // file in which error occurred
@@ -45,6 +46,18 @@ struct Descriptor {
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Descriptor &desc);
+
+
+class Stack : public std::runtime_error
+{
+ public:
+  Stack(std::list<Descriptor> s);
+  const char* what() const throw();
+
+  std::list<Descriptor> contents;
+  std::string what_message;
+};
+
 
 class DLL_EXPORT Singleton
 {
@@ -59,7 +72,7 @@ class DLL_EXPORT Singleton
   bool auto_print() const;
 
   std::string print_stack();
-  std::list<std::string> extract_stack();
+  Stack extract_stack();
 
   void throw_exception(const std::string& message);
 
@@ -77,7 +90,7 @@ class DLL_EXPORT Singleton
 
   static herr_t to_list(unsigned n,
                         const H5E_error2_t *err_desc,
-                        std::list<std::string>* list);
+                        std::list<Descriptor>* list);
 };
 
 // prints the explanatory string of an exception. If the exception is nested,
