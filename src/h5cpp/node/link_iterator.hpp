@@ -29,6 +29,7 @@
 #include <h5cpp/node/link_view.hpp>
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/node/group.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -40,57 +41,35 @@ class DLL_EXPORT LinkIterator : public Iterator
     using pointer = value_type*;
     using reference = value_type&;
     using difference_type = ssize_t;
-    using iterator_category = std::random_access_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
 
     LinkIterator() = delete;
     LinkIterator(const LinkIterator&) = default;
-    LinkIterator(const LinkView &view,ssize_t index);
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4018)
-#endif
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
-    explicit operator bool() const
-    {
-      return !(index()<0 || index()>=view_.get().size());
-    }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+    static LinkIterator begin(const Group &group);
+    static LinkIterator end(const Group &group);
 
     value_type operator*() const;
-
     value_type *operator->();
-
     LinkIterator &operator++();
     LinkIterator operator++(int);
     LinkIterator &operator--();
     LinkIterator operator--(int);
 
-    LinkIterator &operator+=(ssize_t i);
-    LinkIterator &operator-=(ssize_t i);
-
     bool operator==(const LinkIterator &a) const;
-
     bool operator!=(const LinkIterator &a) const;
 
   private:
+    LinkIterator(const Group &group,ssize_t index);
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
-    std::reference_wrapper<const LinkView> view_;
+    Group group_;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-    Link current_link_;
+    mutable Link current_link_;
 
 };
 

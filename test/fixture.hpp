@@ -25,8 +25,7 @@
 #pragma once
 
 #include <gtest/gtest.h>
-#include <h5cpp/file/file.hpp>
-#include <h5cpp/node/group.hpp>
+#include <h5cpp/hdf5.hpp>
 
 //!
 //! \brief base class for all test fixtures

@@ -20,6 +20,9 @@ set(test_sources
   ${dir}/virtual_dataset_test.cpp
   ${dir}/get_test.cpp
   ${dir}/chunked_dataset_test.cpp
+  ${dir}/recursive_node_iterator_test.cpp
+  ${dir}/recursive_link_iterator_test.cpp
+  ${dir}/symbolic_link_creation_test.cpp
   PARENT_SCOPE)
 
 set(test_headers

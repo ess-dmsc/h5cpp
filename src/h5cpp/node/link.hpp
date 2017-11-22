@@ -34,6 +34,7 @@ namespace hdf5 {
 namespace node {
 
 class Group;
+class Node;
 
 //!
 //! \brief link target descriptor
@@ -155,6 +156,27 @@ class DLL_EXPORT Link
     Group parent() const;
 
     const file::File &file() const;
+
+    //!
+    //! \brief get the node that the link references
+    //!
+    //! Return an instance to the node referenced by this particular link.
+    //!
+    //! \precondition all intermediate links exist and the final link must be
+    //!               resolvable.
+    Node operator*() const;
+
+
+    //!
+    //! \brief returns true if the given link exists
+    //!
+    bool exists() const;
+
+    //!
+    //! \brief returns true if the object reference by the link exists
+    //!
+    bool is_resolvable() const;
+
 
     DLL_EXPORT friend bool operator==(const Link &lhs, const Link &rhs);
 

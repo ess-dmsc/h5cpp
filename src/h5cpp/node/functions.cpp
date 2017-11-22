@@ -193,6 +193,8 @@ void link(const Node &target,
           const property::LinkCreationList &lcpl,
           const property::LinkAccessList &lapl)
 {
+  //if target and link base are in a different file we create an
+  //external link
   if (target.id().file_number() != link_base.id().file_number())
   {
     link(target.id().file_name(),
@@ -201,26 +203,24 @@ void link(const Node &target,
   }
   else
   {
-    auto base = link_base;
-    auto lpath = link_path.name();
-    if (link_path.absolute())
-    {
-      base = link_base.link().file().root();
-      auto stripped = link_path;
-      stripped.absolute(false);
-      lpath = static_cast<std::string>(stripped);
-    }
-    if (base.links.exists(lpath))
+    //we are in the same file - can create a symbolic link
+    auto link_parent = link_path.parent();
+    auto link_name   = link_path.name();
+
+    //need to get the real base node for the link
+    Node real_base_node = get_node(link_base,link_parent);
+    if(real_base_node.type()!=Type::GROUP)
     {
       std::stringstream ss;
-      ss << "node::link (soft) failed. "
-         << link_base.link() << " / " << link_path << " already exists!";
+      ss<<"Node ["<<real_base_node.link().path()<<"] is not a group and thus,"
+        <<" cannot be used as a base for link ["<<link_name<<"]!";
       throw std::runtime_error(ss.str());
     }
+
     if (0 > H5Lcreate_soft(
           static_cast<std::string>(target.link().path()).c_str(),
-          static_cast<hid_t>(base),
-          lpath.c_str(),
+          static_cast<hid_t>(Group(real_base_node)),
+          link_name.c_str(),
           static_cast<hid_t>(lcpl),
           static_cast<hid_t>(lapl)))
     {
