@@ -73,3 +73,19 @@ TEST_F(Error, auto_off)
   EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
   EXPECT_TRUE(extract_string().empty()) << "post buffer contents:\n" << ss.str();
 }
+
+TEST_F(Error, print_string)
+{
+  EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
+  auto stack1 = error::print_stack();
+  auto size1 = stack1.size();
+  EXPECT_GT(size1, 0);
+//  EXPECT_FALSE(true) << "STACK:\n" << stack1;
+
+  EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
+  auto stack2 = error::print_stack();
+  auto size2 = stack2.size();
+  EXPECT_GT(size2, 0);
+  EXPECT_EQ(size1, size2);
+//  EXPECT_FALSE(true) << "STACK2:\n" << stack2;
+}

@@ -25,10 +25,14 @@
 
 #include <h5cpp/error/error.hpp>
 #include <stdexcept>
+#include <sstream>
 
 extern "C"{
 #include <cstdio>
+#include <cstring>
 }
+
+#define bufsize 7000
 
 namespace hdf5 {
 namespace error {
@@ -44,9 +48,9 @@ void clear_stack()
 
 void auto_print(bool enable)
 {
-  herr_t ret = H5Eset_auto(H5E_DEFAULT,
-                           enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
-                           enable ? stderr : NULL);
+  herr_t ret = H5Eset_auto2(H5E_DEFAULT,
+                            enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
+                            enable ? stderr : NULL);
 
   if (0 > ret)
   {
@@ -54,6 +58,26 @@ void auto_print(bool enable)
   }
 }
 
+std::string DLL_EXPORT print_stack()
+{
+  char* buf {NULL};
+  size_t size {0};
+  FILE *stream = open_memstream (&buf, &size);
+
+  herr_t err = H5Eprint2(H5E_DEFAULT, stream);
+  fflush(stream);
+  fclose(stream);
+
+  if (0 > err)
+  {
+    free(buf);
+    throw std::runtime_error("Could not print error stack");
+  }
+
+  std::string ret(buf, size);
+  free(buf);
+  return ret;
+}
 
 } // namespace file
 } // namespace hdf5

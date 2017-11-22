@@ -32,7 +32,7 @@ namespace error {
 
 void DLL_EXPORT auto_print(bool enable);
 void DLL_EXPORT clear_stack();
-
+std::string DLL_EXPORT print_stack();
 
 } // namespace file
 } // namespace hdf5
