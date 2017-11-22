@@ -54,9 +54,23 @@ void auto_print(bool enable)
 
   if (0 > ret)
   {
-    throw std::runtime_error("Could not toggle automatic error stack printing");
+    throw std::runtime_error("Could not set automatic error printing");
   }
 }
+
+bool auto_print()
+{
+  H5E_auto2_t func = NULL;
+  herr_t ret = H5Eget_auto2(H5E_DEFAULT, &func, NULL);
+
+  if (0 > ret)
+  {
+    throw std::runtime_error("Could not determine automatic error printing settings");
+  }
+
+  return (func != NULL);
+}
+
 
 std::string DLL_EXPORT print_stack()
 {

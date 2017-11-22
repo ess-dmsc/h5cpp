@@ -65,6 +65,7 @@ TEST_F(Error, auto_on)
   error::auto_print(true);
   EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
   EXPECT_FALSE(extract_string().empty());
+  EXPECT_TRUE(error::auto_print());
 }
 
 TEST_F(Error, auto_off)
@@ -72,6 +73,7 @@ TEST_F(Error, auto_off)
   error::auto_print(false);
   EXPECT_THROW(invalid_handle.get_reference_count(),std::runtime_error);
   EXPECT_TRUE(extract_string().empty()) << "post buffer contents:\n" << ss.str();
+  EXPECT_FALSE(error::auto_print());
 }
 
 TEST_F(Error, print_string)

@@ -31,6 +31,8 @@ namespace hdf5 {
 namespace error {
 
 void DLL_EXPORT auto_print(bool enable);
+bool DLL_EXPORT auto_print();
+
 void DLL_EXPORT clear_stack();
 std::string DLL_EXPORT print_stack();
 
