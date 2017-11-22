@@ -39,7 +39,7 @@ namespace error {
 
 void clear_stack()
 {
-  herr_t ret = H5Eclear2(H5Eget_current_stack());
+  herr_t ret = H5Eclear2(H5E_DEFAULT);
   if (0 > ret)
   {
     throw std::runtime_error("Could not toggle automatic error stack printing");
@@ -72,7 +72,7 @@ bool auto_print()
 }
 
 
-std::string DLL_EXPORT print_stack()
+std::string print_stack()
 {
   char* buf {NULL};
   size_t size {0};
@@ -90,8 +90,18 @@ std::string DLL_EXPORT print_stack()
 
   std::string ret(buf, size);
   free(buf);
+  clear_stack();
   return ret;
 }
+
+void throw_exception(const std::string& message, bool with_stack)
+{
+  std::string m = message;
+  if (with_stack)
+    m += print_stack();
+  throw std::runtime_error(m);
+}
+
 
 } // namespace file
 } // namespace hdf5

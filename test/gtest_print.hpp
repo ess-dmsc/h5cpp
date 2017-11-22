@@ -1,5 +1,5 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
 //
 // This file is part of h5cpp.
 //
@@ -20,23 +20,37 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
-// Created on: Oct 25, 2017
+// Created on: Nov 22, 2017
 //
-#pragma once
 
-#include <h5cpp/core/windows.hpp>
-#include <h5cpp/core/object_handle.hpp>
+//#include <gtest/gtest.h>
 
-namespace hdf5 {
-namespace error {
+#pragma  once
 
-void DLL_EXPORT auto_print(bool enable);
-bool DLL_EXPORT auto_print();
+namespace testing
+{
+namespace internal
+{
+enum GTestColor {
+  COLOR_DEFAULT,
+  COLOR_RED,
+  COLOR_GREEN,
+  COLOR_YELLOW
+};
 
-void DLL_EXPORT clear_stack();
-std::string DLL_EXPORT print_stack();
+extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
+}
+}
+#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] "); testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__); } while(0)
 
-void DLL_EXPORT throw_exception(const std::string& message, bool with_stack);
+// C++ stream interface
+class TestCout : public std::stringstream
+{
+ public:
+  ~TestCout()
+  {
+    PRINTF("%s\n",str().c_str());
+  }
+};
 
-} // namespace file
-} // namespace hdf5
+#define TEST_COUT  TestCout()
