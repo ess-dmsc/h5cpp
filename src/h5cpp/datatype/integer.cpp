@@ -24,7 +24,7 @@
 //
 
 #include <h5cpp/datatype/integer.hpp>
-#include <stdexcept>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace datatype {
@@ -37,11 +37,11 @@ Integer::Integer(const Datatype &datatype):
     Datatype(datatype)
 {
   if(!datatype.is_valid())
-      throw std::runtime_error("Cannot construct from a default constructed type");
+    error::Singleton::instance().throw_with_stack("Cannot construct from a default constructed type");
 
   if(get_class()!=Class::INTEGER)
   {
-    throw std::runtime_error("Datatype is not an INTEGER type!");
+    error::Singleton::instance().throw_with_stack("Datatype is not an INTEGER type!");
   }
 }
 
