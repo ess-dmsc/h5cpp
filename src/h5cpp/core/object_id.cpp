@@ -22,7 +22,7 @@
 // Author: Martin Shetty <martin.shetty@esss.se>
 //
 #include <h5cpp/core/object_id.hpp>
-#include <vector>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5
 {
@@ -32,7 +32,7 @@ std::string ObjectId::get_file_name(const ObjectHandle &handle)
   ssize_t size = H5Fget_name(static_cast<hid_t>(handle), NULL, 0);
   if(size<0)
   {
-    throw std::runtime_error("Failure retrieving the size of the filename  string!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the size of the filename  string!");
   }
 
   //we have to add the space for the space for the \0 which will terminate the
@@ -42,9 +42,7 @@ std::string ObjectId::get_file_name(const ObjectHandle &handle)
   //read the characters to the buffer
   if(H5Fget_name(static_cast<hid_t>(handle), buffer.data(), size+1)<0)
   {
-    std::stringstream ss;
-    ss<<"Failure to retrieve the name of the HDF5 file.";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack("Failure to retrieve the name of the HDF5 file.");
   }
 
   std::string fname(buffer.data());
