@@ -24,7 +24,6 @@
 //
 #pragma once
 
-#include <h5cpp/core/windows.hpp>
 #include <h5cpp/error/descriptor.hpp>
 #include <exception>
 #include <list>
@@ -33,11 +32,12 @@ namespace hdf5 {
 namespace error {
 
 
-class Stack : public std::runtime_error
+class DLL_EXPORT Stack : public std::runtime_error
 {
  public:
   Stack(std::list<Descriptor> s);
   const char* what() const throw();
+
 
   std::list<Descriptor> contents;
   std::string what_message;

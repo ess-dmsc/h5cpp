@@ -39,7 +39,6 @@ Stack::Stack(std::list<Descriptor> s)
   what_message = ss.str();
 }
 
-
 const char* Stack::what() const throw()
 {
   return what_message.c_str();
