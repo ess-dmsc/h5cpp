@@ -22,10 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
-#include <stdexcept>
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
-#include <h5cpp/core/types.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -119,7 +117,7 @@ void DatasetCreationList::layout(DatasetLayout layout) const
 {
   if(H5Pset_layout(static_cast<hid_t>(*this),static_cast<H5D_layout_t>(layout))<0)
   {
-    throw std::runtime_error("Failure setting the dataset layout!");
+    error::Singleton::instance().throw_with_stack("Failure setting the dataset layout!");
   }
 }
 
@@ -138,7 +136,7 @@ DatasetLayout DatasetCreationList::layout() const
       return DatasetLayout::VIRTUAL;
 #endif
     default:
-      throw std::runtime_error("Failure retrieving the dataset layout!");
+      error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
   }
 }
 
@@ -146,7 +144,7 @@ void DatasetCreationList::chunk(const Dimensions &chunk_dims) const
 {
   if(H5Pset_chunk(static_cast<hid_t>(*this),chunk_dims.size(),chunk_dims.data())<0)
   {
-    throw std::runtime_error("Failure setting chunk dimensions!");
+    error::Singleton::instance().throw_with_stack("Failure setting chunk dimensions!");
   }
 }
 
@@ -155,13 +153,13 @@ Dimensions DatasetCreationList::chunk() const
   int s = H5Pget_chunk(static_cast<hid_t>(*this),0,NULL);
   if(s<0)
   {
-    throw std::runtime_error("Failure retrieving the chunk rank!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the chunk rank!");
   }
 
   Dimensions buffer(s);
   if(H5Pget_chunk(static_cast<hid_t>(*this),s,buffer.data())<0)
   {
-    throw std::runtime_error("Failure retrieving the chunk dimension!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the chunk dimension!");
   }
 
   return buffer;
@@ -172,7 +170,7 @@ DatasetFillValueStatus DatasetCreationList::fill_value_status() const
   H5D_fill_value_t status;
   if(H5Pfill_value_defined(static_cast<hid_t>(*this),&status)<0)
   {
-    throw std::runtime_error("Failure obtaining the fill value status!");
+    error::Singleton::instance().throw_with_stack("Failure obtaining the fill value status!");
   }
   return static_cast<DatasetFillValueStatus>(status);
 }
@@ -182,7 +180,7 @@ void DatasetCreationList::fill_time(DatasetFillTime time) const
   if(H5Pset_fill_time(static_cast<hid_t>(*this),
                       static_cast<H5D_fill_time_t>(time))<0)
   {
-    throw std::runtime_error("Failure setting the fill time for the dataset!");
+    error::Singleton::instance().throw_with_stack("Failure setting the fill time for the dataset!");
   }
 }
 
@@ -191,7 +189,7 @@ DatasetFillTime DatasetCreationList::fill_time() const
   H5D_fill_time_t buffer;
   if(H5Pget_fill_time(static_cast<hid_t>(*this),&buffer)<0)
   {
-    throw std::runtime_error("Failure retrieving dataset fill time!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving dataset fill time!");
   }
   return static_cast<DatasetFillTime>(buffer);
 }
@@ -201,7 +199,7 @@ void DatasetCreationList::allocation_time(DatasetAllocTime time) const
   if(H5Pset_alloc_time(static_cast<hid_t>(*this),
                        static_cast<H5D_alloc_time_t>(time))<0)
   {
-    throw std::runtime_error("Failure setting dataset allocation time!");
+    error::Singleton::instance().throw_with_stack("Failure setting dataset allocation time!");
   }
 }
 
@@ -210,7 +208,7 @@ DatasetAllocTime DatasetCreationList::allocation_time() const
   H5D_alloc_time_t buffer;
   if(H5Pget_alloc_time(static_cast<hid_t>(*this),&buffer)<0)
   {
-    throw std::runtime_error("Failure retrieving dataset allocation time!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving dataset allocation time!");
   }
   return static_cast<DatasetAllocTime>(buffer);
 }

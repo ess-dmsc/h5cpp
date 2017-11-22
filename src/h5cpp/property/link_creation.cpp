@@ -23,9 +23,8 @@
 // Created on: Aug 21, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/property/link_creation.hpp>
-#include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -41,7 +40,7 @@ void LinkCreationList::enable_intermediate_group_creation() const
 {
   if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),1)<0)
   {
-    throw std::runtime_error("Failure setting intermediate group creation "
+    error::Singleton::instance().throw_with_stack("Failure setting intermediate group creation "
         "flag to link creation property list!");
   }
 }
@@ -50,7 +49,7 @@ void LinkCreationList::disable_intermediate_group_creation() const
 {
   if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),-1)<0)
   {
-    throw std::runtime_error("Failure deleting intermediate group creation "
+    error::Singleton::instance().throw_with_stack("Failure deleting intermediate group creation "
         "flag on link creation property list!");
   }
 }
@@ -60,7 +59,7 @@ bool LinkCreationList::intermediate_group_creation() const
   unsigned buffer = 0;
   if(H5Pget_create_intermediate_group(static_cast<hid_t>(*this),&buffer)<0)
   {
-    std::runtime_error("Failure retrieving intermediate group creation flag "
+    error::Singleton::instance().throw_with_stack("Failure retrieving intermediate group creation flag "
         "from link creation property list!");
   }
   if(buffer>0)

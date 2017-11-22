@@ -25,6 +25,7 @@
 
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -81,7 +82,7 @@ void DatasetTransferList::mpi_transfer_mode(MPITransferMode mode) const
   if(H5Pset_dxpl_mpio(static_cast<hid_t>(*this),
                       static_cast<H5FD_mpio_xfer_t>(mode))<0)
   {
-    throw std::runtime_error("Failure to set MPI transfer mode!");
+    error::Singleton::instance().throw_with_stack("Failure to set MPI transfer mode!");
   }
 
 }
@@ -92,7 +93,7 @@ MPITransferMode DatasetTransferList::mpi_transfer_mode() const
   H5FD_mpio_xfer_t mode;
   if(H5Pget_dxpl_mpio(static_cast<hid_t>(*this),&mode)<0)
   {
-    throw std::runtime_error("Failure to obtain the MPI transfer mode!");
+    error::Singleton::instance().throw_with_stack("Failure to obtain the MPI transfer mode!");
   }
   return static_cast<MPITransferMode>(mode);
 }
@@ -102,7 +103,7 @@ void DatasetTransferList::mpi_chunk_option(MPIChunkOption option) const
   if(H5Pset_dxpl_mpio_chunk_opt(static_cast<hid_t>(*this),
                                 static_cast<H5FD_mpio_chunk_opt_t>(option))<0)
   {
-    throw std::runtime_error("Failure to set MPI chunk option!");
+    error::Singleton::instance().throw_with_stack("Failure to set MPI chunk option!");
   }
 }
 

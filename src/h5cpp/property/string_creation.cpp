@@ -24,8 +24,8 @@
 //
 
 #include <type_traits>
-#include <stdexcept>
 #include <h5cpp/property/string_creation.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -43,7 +43,7 @@ datatype::CharacterEncoding StringCreationList::character_encoding() const
    H5T_cset_t encoding;
    if(H5Pget_char_encoding(static_cast<hid_t>(*this),&encoding)<0)
    {
-     throw std::runtime_error("Failure retrieving character encoding!");
+     error::Singleton::instance().throw_with_stack("Failure retrieving character encoding!");
    }
    return static_cast<datatype::CharacterEncoding>(encoding);
 }
@@ -52,7 +52,7 @@ void StringCreationList::character_encoding(datatype::CharacterEncoding encoding
 {
   if(H5Pset_char_encoding(static_cast<hid_t>(*this),static_cast<H5T_cset_t>(encoding))<0)
   {
-    throw std::runtime_error("Failure setting character encoding!");
+    error::Singleton::instance().throw_with_stack("Failure setting character encoding!");
   }
 }
 

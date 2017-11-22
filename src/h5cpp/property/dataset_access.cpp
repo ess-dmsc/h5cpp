@@ -26,6 +26,7 @@
 #include <sstream>
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -112,7 +113,7 @@ void DatasetAccessList::chunk_cache_parameters(const ChunkCacheParameters &param
   if(H5Pset_chunk_cache(static_cast<hid_t>(*this),params.chunk_slots(),
                         params.chunk_cache_size(),params.preemption_policy())<0)
   {
-    std::runtime_error("Failure setting chunk cache parameters!");
+    error::Singleton::instance().throw_with_stack("Failure setting chunk cache parameters!");
   }
 
 }
@@ -124,7 +125,7 @@ ChunkCacheParameters DatasetAccessList::chunk_cache_parameters() const
   double w0 = 0.0;
   if(H5Pget_chunk_cache(static_cast<hid_t>(*this),&nslots,&nbytes,&w0)<0)
   {
-    std::runtime_error("Failure retrieving chunk cache parameters!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving chunk cache parameters!");
   }
   return ChunkCacheParameters(nslots,nbytes,w0);
 }
@@ -136,7 +137,7 @@ void DatasetAccessList::virtual_view(VirtualDataView view) const
   if(H5Pset_virtual_view(static_cast<hid_t>(*this),
                          static_cast<H5D_vds_view_t>(view))<0)
   {
-    throw std::runtime_error("Failure to set missing data strategy!");
+    error::Singleton::instance().throw_with_stack("Failure to set missing data strategy!");
   }
 }
 
@@ -145,7 +146,7 @@ VirtualDataView DatasetAccessList::virtual_view() const
   H5D_vds_view_t view;
   if(H5Pget_virtual_view(static_cast<hid_t>(*this),&view)<0)
   {
-    throw std::runtime_error("Failure to retrieve the missing data strategy!");
+    error::Singleton::instance().throw_with_stack("Failure to retrieve the missing data strategy!");
   }
 
   return static_cast<VirtualDataView>(view);

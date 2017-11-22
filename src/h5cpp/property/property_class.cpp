@@ -24,13 +24,10 @@
 //
 
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 
 #include <iterator>
-#include <string>
-#include <cctype>
-#include <iostream>
 #include <cstring>
-#include <stdexcept>
 
 
 namespace hdf5{
@@ -62,7 +59,7 @@ bool operator==(const Class &lhs,const Class &rhs)
   else if(result==0)
     return false;
   else
-    throw std::runtime_error("Could check equality of property list classes");
+    error::Singleton::instance().throw_with_stack("Could check equality of property list classes");
 
 }
 
@@ -74,7 +71,7 @@ bool operator!=(const Class &lhs,const Class &rhs)
   else if(result==0)
     return true;
   else
-    throw std::runtime_error("Could check inequality of property list classes");
+    error::Singleton::instance().throw_with_stack("Could check inequality of property list classes");
 
 }
 

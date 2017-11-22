@@ -23,10 +23,8 @@
 // Created on: Oct 09, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/property/object_copy.hpp>
-
-
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -179,7 +177,7 @@ void ObjectCopyList::flags(const CopyFlags &flags) const
 {
   if(H5Pset_copy_object(static_cast<hid_t>(*this),static_cast<unsigned>(flags))<0)
   {
-    throw std::runtime_error("Failure setting flags for object copy property list!");
+    error::Singleton::instance().throw_with_stack("Failure setting flags for object copy property list!");
   }
 }
 
@@ -193,7 +191,7 @@ CopyFlags ObjectCopyList::flags() const
   unsigned flag_buffer;
   if(H5Pget_copy_object(static_cast<hid_t>(*this),&flag_buffer)<0)
   {
-    throw std::runtime_error("Failure retrieving flags for object copy property list!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving flags for object copy property list!");
   }
   return CopyFlags(flag_buffer);
 }

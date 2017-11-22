@@ -24,6 +24,7 @@
 //
 
 #include <h5cpp/property/virtual_data_map.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -48,7 +49,7 @@ void VirtualDataMap::operator()(const property::DatasetCreationList &dcpl) const
                     static_cast<std::string>(source_dataset_).c_str(),
                     static_cast<hid_t>(source_view_))<0)
   {
-    throw std::runtime_error("Failure to apply virtual data mapping!");
+    error::Singleton::instance().throw_with_stack("Failure to apply virtual data mapping!");
   }
 }
 
