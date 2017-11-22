@@ -34,7 +34,7 @@ namespace node {
 //! matter of fact the only thing added here is a convenient constructor where
 //! the chunk shape can be passed as an additional argument.
 //!
-class ChunkedDataset : public Dataset
+class DLL_EXPORT ChunkedDataset : public Dataset
 {
   public:
     //!

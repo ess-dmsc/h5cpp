@@ -24,12 +24,32 @@
 //
 #pragma once
 
-#include "node_builder.hpp"
+#include <h5cpp/hdf5.hpp>
+#include <boost/filesystem.hpp>
 
-class SWMRBuilder : public NodeBuilder
+#include "../node_builder.hpp"
+
+class SWMREnvironment
 {
-  public:
-    SWMRBuilder() : NodeBuilder () {}
+  private:
+    hdf5::property::FileAccessList fapl_;
+    hdf5::property::FileCreationList fcpl_;
 
-    virtual void operator()(const hdf5::node::Group &parent) const;
+  public:
+    SWMREnvironment();
+
+    const hdf5::property::FileAccessList &fapl() const noexcept
+    {
+      return fapl_;
+    }
+
+    const hdf5::property::FileCreationList &fcpl() const noexcept
+    {
+      return fcpl_;
+    }
+
+    hdf5::file::File create_file(const boost::filesystem::path &file_path,
+                           const NodeBuilder &builder) const;
+    hdf5::file::File open_write_file(const boost::filesystem::path &file_path) const;
+    hdf5::file::File open_read_file(const boost::filesystem::path &file_path) const;
 };

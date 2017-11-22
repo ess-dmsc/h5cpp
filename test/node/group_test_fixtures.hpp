@@ -33,3 +33,17 @@ class NodeIterationFixture : public BasicFixture
     virtual void SetUp();
 };
 
+class RecursiveIterationFixture : public testing::Test
+{
+  private:
+    static void create_standard_test(const hdf5::node::Group &root);
+    static void create_linked_group_test(const hdf5::node::Group &root);
+  public:
+    hdf5::property::FileCreationList fcpl;
+    hdf5::property::FileAccessList fapl;
+    hdf5::file::File file;
+
+    RecursiveIterationFixture(const boost::filesystem::path &filename);
+    virtual ~RecursiveIterationFixture();
+};
+

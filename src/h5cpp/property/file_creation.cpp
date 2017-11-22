@@ -113,7 +113,7 @@ unsigned int FileCreationList::btree_rank() const
 
 void FileCreationList::btree_symbols(unsigned int lk)
 {
-  if(0 > H5Pset_sym_k(static_cast<hid_t>(*this), 0, lk))
+  if(0 > H5Pset_sym_k(static_cast<hid_t>(*this),0, lk))
   {
     throw std::runtime_error("Failure setting symbol size parameter for symbol table nodes!");
   }

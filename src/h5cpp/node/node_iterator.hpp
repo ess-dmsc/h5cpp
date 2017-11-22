@@ -26,13 +26,25 @@
 
 #include <functional>
 #include <h5cpp/core/iterator.hpp>
-#include <h5cpp/node/node_view.hpp>
+#include <h5cpp/node/group.hpp>
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace node {
 
+//!
+//! \brief bidirectional NodeIterator
+//!
+//! This iterator iterates over the direct children (nodes) of a group.
+//! It is a full random access iterator using the index access methods
+//! provided by the NodeView interface.
+//!
+//! The interface follows the C++ specification for bidirectional
+//! constant iterators. See
+//! <a href="http://en.cppreference.com/w/cpp/concept/BidirectionalIterator">
+//! C++ reference on iterators</a> for details.
+//!
 class DLL_EXPORT NodeIterator : public Iterator
 {
   public:
@@ -40,57 +52,76 @@ class DLL_EXPORT NodeIterator : public Iterator
     using pointer = value_type*;
     using reference = value_type&;
     using difference_type = ssize_t;
-    using iterator_category = std::random_access_iterator_tag;
+    using iterator_category = std::bidirectional_iterator_tag;
 
+    //!
+    //! \brief default constructor
+    //!
+    //! Not requried, thus deleted.
+    //!
     NodeIterator() = delete;
-    NodeIterator(const NodeIterator&) = default;
-    NodeIterator(const NodeView &view,ssize_t index);
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4018)
-#endif
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
-    explicit operator bool() const
-    {
-      return !(index()<0 || index()>=view_.get().size());
-    }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+    //!
+    //! \brief copy constructor
+    //!
+    //! Required. But we can use the compiler provided default implementation
+    //! here.
+    //!
+    NodeIterator(const NodeIterator&) = default;
+
+    //!
+    //! \brief get iterator to first element
+    //!
+    //! Static factory function returning an iterator to the first child
+    //! of a group.
+    //!
+    //! \param group reference to the group over which to iterate
+    //! \return instance of NodeIterator
+    //!
+    static NodeIterator begin(const Group &group);
+
+    //!
+    //! \brief get iterator to last+1 element
+    //!
+    //! Static factory function returning an iterator to the last+1 child
+    //! of the given group.
+    //!
+    //! \param group reference to the group over which to iterate
+    //! \return instance of NodeIterator
+    //!
+    static NodeIterator end(const Group &group);
+
 
     Node operator*() const;
-
     Node *operator->();
-
     NodeIterator &operator++();
     NodeIterator operator++(int);
     NodeIterator &operator--();
     NodeIterator operator--(int);
 
-    NodeIterator &operator+=(ssize_t i);
-    NodeIterator &operator-=(ssize_t i);
-
     bool operator==(const NodeIterator &a) const;
-
     bool operator!=(const NodeIterator &a) const;
 
   private:
+    //!
+    //! \brief constructor
+    //!
+    NodeIterator(const Group &group,ssize_t index);
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
-    std::reference_wrapper<const NodeView> view_;
+    Group group_;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-    Node current_node_;
+    //!
+    //! stores the current node instance. The only reason we have this
+    //! member is to be able to return an adress to the current object.
+    //! This would not be possible as there is no such thing as an
+    //! adress to an HDF5 object in memory.
+    //!
+    mutable Node current_node_;
 
 };
 

@@ -29,38 +29,38 @@
 namespace hdf5 {
 namespace node {
 
-NodeIterator::NodeIterator(const NodeView &view,ssize_t index):
+NodeIterator::NodeIterator(const Group &group,ssize_t index):
     Iterator(index),
-    view_(view),
+    group_(group),
     current_node_()
+{}
+
+
+NodeIterator NodeIterator::begin(const Group &group)
 {
-  if(*this)
-    current_node_ = view_.get()[Iterator::index()];
+  return NodeIterator(group,0);
 }
 
+NodeIterator NodeIterator::end(const Group &group)
+{
+  return NodeIterator(group,group.nodes.size());
+}
 
 Node NodeIterator::operator*() const
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
+  current_node_ = group_.nodes[index()];
   return current_node_;
 }
 
 Node *NodeIterator::operator->()
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
-
+  current_node_ = group_.nodes[index()];
   return &current_node_;
 }
 
 NodeIterator &NodeIterator::operator++()
 {
   Iterator::operator++();
-  if(*this)
-    current_node_ = view_.get()[index()];
-
   return *this;
 }
 
@@ -74,7 +74,6 @@ NodeIterator NodeIterator::operator++(int)
 NodeIterator &NodeIterator::operator--()
 {
   Iterator::operator--();
-  if(*this) current_node_ = view_.get()[index()];
   return *this;
 }
 
@@ -86,24 +85,10 @@ NodeIterator NodeIterator::operator--(int)
   return tmp;
 }
 
-NodeIterator &NodeIterator::operator+=(ssize_t i)
-{
-  Iterator::operator+=(i);
-  if(*this) current_node_ = view_.get()[index()];
-  return *this;
-}
-
-NodeIterator &NodeIterator::operator-=(ssize_t i)
-{
-  Iterator::operator-=(i);
-  if(*this) current_node_ = view_.get()[index()];
-  return *this;
-}
-
 bool NodeIterator::operator==(const NodeIterator &a) const
 {
   //check first if we iterate over the same group
-  if(view_.get().group().id()!=a.view_.get().group().id())
+  if(group_.id()!=a.group_.id())
     return false;
 
   if(index()!=a.index())
