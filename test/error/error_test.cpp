@@ -118,7 +118,7 @@ TEST_F(Error, exception_generation_print_off)
 //  EXPECT_GT(size2, 0);
 
   try {
-    error::Singleton::instance().throw_exception("some_error");
+    error::Singleton::instance().throw_with_stack("some_error");
   }
   catch (std::exception& e)
   {
@@ -136,7 +136,7 @@ TEST_F(Error, exception_generation_print_on)
   H5Iget_ref(static_cast<hid_t>(invalid_handle));
 
   try {
-    error::Singleton::instance().throw_exception("some_error");
+    error::Singleton::instance().throw_with_stack("some_error");
   }
   catch (std::exception& e)
   {

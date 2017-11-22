@@ -46,7 +46,7 @@ class DLL_EXPORT Singleton
   std::string print_stack();
   Stack extract_stack();
 
-  void throw_exception(const std::string& message);
+  void throw_with_stack(const std::string& message);
 
  private:
   Singleton() {}
