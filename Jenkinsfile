@@ -2,12 +2,12 @@ project = "h5cpp"
 
 images = [
     'centos': [
-        'name': 'essdmscdm/centos-build-node:0.8.0',
+        'name': 'essdmscdm/centos-build-node:0.9.0',
         'sh': 'sh',
         'cmake': 'cmake3'
     ],
     'centos-gcc6': [
-        'name': 'essdmscdm/centos-gcc6-build-node:0.2.0',
+        'name': 'essdmscdm/centos-gcc6-build-node:0.3.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
         'cmake': 'cmake3'
     ],
