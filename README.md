@@ -48,96 +48,87 @@ We currently support the following operating systems
 Since we are using `cmake` to build *h5cpp* and also provide a `cmake` package 
 for the library, using it should be the same on each of these platforms.  
 
-## How to build and using *h5cpp*
+## How to build *h5cpp*
 
-Here is a little example of how to use the library on Linux. In order to build the code on Linux you need 
+The minimum requirements for building the library are:
 
 * a C++ compiler, gcc>=4.8 should do well
 * the boost libraries
 * the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
-* cmake >= 3.5
-* doxygen and sphinx to build the documentation.
+* cmake >= 3.0
 
-Lets start with a top level test directory and create a source directory in it
-```bash
-mkdir h5cpp_test
-cd h5cpp_test
-mkdir src
-cd src
-```
-Now clone the *h5cpp* code from this repository in the source directory 
+Building the library is standard cmake & make fare, out of source. For example,
+in linux shell, you would do the following:
 
 ```bash
 git clone https://github.com/ess-dmsc/h5cpp.git
+cd h5cpp
+mkdir build
+cd build
+cmake ..
+make
 ```
-and create a build directory in which you call cmake
+
+To install the library to system, you would follow this up with:
 ```bash
-mkdir h5cpp_build
-cd h5cpp_build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/../../ ../h5cpp
+sudo make install
 ```
-Once the configuration is done you simply run `make` and `make run_tests` to build the code
-```bash
-make -j4
-make run_tests
-```
-Finally to install the code use 
-```bash
-make install
-```
-Our overall project directory should look now somehow like this 
-```text
-h5cpp_test/
-   include/
-   lib/
-   src/
-     h5cpp/
-     h5cpp_build/
-```
-Now lets create a small project in the source directory with 
-```bash
-    src/
-      h5test/
-        CMakeLists.txt
-        h5test.cpp
-```
-where the `CMakeLists.txt` looks like this 
+
+## How to use *h5cpp*
+
+With the library installed as above, you can bring it into your program by adding something
+like this to your `CMakeLists.txt` file: 
 ```cmake
-cmake_minimum_required(VERSION 3.5.0)
-project(h5cpp_test 
-        LANGUAGES C CXX
-        VERSION 0.0.1)
-set(CMAKE_CXX_STANDARD 11)
-
-
 find_package(h5cpp REQUIRED)
-
-add_executable(h5test h5test.cpp)
-target_link_libraries(h5test h5cpp_shared)
+.
+.
+.
+add_executable(some_target some_code.cpp)
+target_link_libraries(some_target h5cpp_shared)
 ```
-and `h5test.cpp`
+and adding the following:
 ```cpp
-#include <iostream>
 #include <h5cpp/hdf5.hpp>
+```
+to your your source file.
+Here is a small example of how to make use of the library in code:
+
+```cpp
 
 using namespace hdf5;
 
-int main()
-{
-  file::File f = file::create("h5test.h5",file::AccessFlags::TRUNCATE);
+// create a file
+file::File f = file::create("writing_vector.h5",file::AccessFlags::TRUNCATE);
 
-  return 0;
-}
+// create a group
+node::Group root_group = f.root();
+node::Group my_group = root_group.create_group("my_group");
+
+// create a dataset
+using data_type = std::vector<int>;
+data_type data{1,2,3,4};
+node::Dataset dataset = my_group.create_dataset("data",
+                                                datatype::create<data_type>(),
+                                                dataspace::create(data));
+
+// write to dataset
+dataset.write(data);
 ```
-Finally we can create a build directory for the test program and build the code
+
+## Alternate install directory
+
+If you do not wish to install *h5cpp* to your system folders you can slightly modify the
+above steps. When building the library, invoke CMake with the following option:
+
 ```bash
-mkdir h5test_buid
-cmake -DCMAKE_BUILD_TYPE=Release -Dh5cpp_DIR=$PWD/../../lib/cmake/h5cpp-0.0.1 ../h5test
-make
-./h5test
+cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
 ```
-The imporant part here is the `h5cpp_DIR` variable which should point to the directory 
-with the package files for *h5cpp*.
+and accordingly, when building the client program:
+```bash
+cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.0.1 path/to/your/source
+```
+where version number may vary.
 
-For OSX and Windows instructions see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
+For OSX and Windows instructions, as well as instructions for building tests and documentation,
+see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
 
