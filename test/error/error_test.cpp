@@ -107,12 +107,11 @@ TEST_F(Error, exception_generation_print_off)
   try {
     error::Singleton::instance().throw_exception("some_error");
   }
-  catch (std::runtime_error& e)
+  catch (std::exception& e)
   {
-    std::stringstream ss;
-    ss << e.what();
-    EXPECT_GT(ss.str().size(), 20);
-    TEST_COUT << e.what();
+    auto message = error::print_exception(e);
+    EXPECT_GT(message.size(), 20);
+    TEST_COUT << "\n" << message;
   }
 }
 
@@ -126,9 +125,11 @@ TEST_F(Error, exception_generation_print_on)
   try {
     error::Singleton::instance().throw_exception("some_error");
   }
-  catch (std::runtime_error& e)
+  catch (std::exception& e)
   {
-    EXPECT_EQ(std::string(e.what()), "some_error");
+    auto message = error::print_exception(e);
+    EXPECT_EQ(message, "some_error\n");
+//    TEST_COUT << "\n" << message;
   }
 }
 

@@ -31,8 +31,6 @@ extern "C"{
 #include <cstring>
 }
 
-#define bufsize 7000
-
 namespace hdf5 {
 namespace error {
 
@@ -102,12 +100,45 @@ std::string Singleton::print_stack()
 
 void Singleton::throw_exception(const std::string& message)
 {
-  std::string m = message;
   if (!auto_print_)
-    m += "\nHDF5 Stack trace:\n" + print_stack();
-  throw std::runtime_error(m);
+  {
+    try
+    {
+      throw_stack();
+    }
+    catch(...)
+    {
+      std::throw_with_nested( std::runtime_error(message) );
+    }
+  }
+  throw std::runtime_error(message);
 }
 
+void Singleton::throw_stack()
+{
+  auto stack_text = print_stack();
+  if (!stack_text.empty())
+    throw std::runtime_error("HDF5 error stack:\n" + stack_text);
+}
+
+// prints the explanatory string of an exception. If the exception is nested,
+// recurses to print the explanatory of the exception it holds
+std::string print_exception(const std::exception& e, int level)
+{
+  std::stringstream ss;
+  ss << std::string(level, ' ') << e.what() << '\n';
+  try
+  {
+    std::rethrow_if_nested(e);
+  }
+  catch(const std::exception& e)
+  {
+    ss << print_exception(e, level+1);
+  }
+  catch(...)
+  {}
+  return ss.str();
+}
 
 } // namespace file
 } // namespace hdf5
