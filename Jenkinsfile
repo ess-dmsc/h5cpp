@@ -3,28 +3,23 @@ project = "h5cpp"
 images = [
     'centos': [
         'name': 'essdmscdm/centos-build-node:0.9.0',
-        'sh': 'sh',
-        'cmake': 'cmake3'
+        'sh': 'sh'
     ],
     'centos-gcc6': [
         'name': 'essdmscdm/centos-gcc6-build-node:0.3.0',
-        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
-        'cmake': 'cmake3'
+        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
     ],
     'fedora': [
         'name': 'essdmscdm/fedora-build-node:0.4.1',
-        'sh': 'sh',
-        'cmake': 'cmake'
+        'sh': 'sh'
     ],
     'ubuntu1604': [
         'name': 'essdmscdm/ubuntu16.04-build-node:0.0.1',
-        'sh': 'sh',
-        'cmake': 'cmake'
+        'sh': 'sh'
     ],
     'ubuntu1710': [
         'name': 'essdmscdm/ubuntu17.10-build-node:0.0.2',
-        'sh': 'sh',
-        'cmake': 'cmake'
+        'sh': 'sh'
     ]
 ]
 
@@ -63,7 +58,7 @@ def docker_dependencies(image_key) {
 }
 
 def docker_cmake(image_key) {
-    cmake_exec = images[image_key]['cmake']
+    cmake_exec = "/home/jenkins/build/bin/cmake"
     def custom_sh = images[image_key]['sh']
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
