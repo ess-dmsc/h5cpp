@@ -101,6 +101,13 @@ Path::Path(const std::string &str):
   from_string(str);
 }
 
+Path::Path(const char *str):
+    absolute_(false),
+    link_names_()
+{
+  from_string(std::string(str));
+}
+
 Path::Path(const_iterator first_element,const_iterator last_element):
     absolute_(false),
     link_names_(first_element,last_element)
@@ -212,15 +219,6 @@ Path& Path::operator+=(const Path &other)
   return *this;
 }
 
-Path operator+(const std::string &link_name,const Path &path)
-{
-  return Path(link_name) + path;
-}
-
-Path operator+(const Path &path,const std::string &link_name)
-{
-  return path + Path(link_name);
-}
 
 Path operator+(const Path &lhs,const Path &rhs)
 {
