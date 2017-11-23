@@ -51,11 +51,33 @@ namespace attribute {
 //forward declaration
 class AttributeIterator;
 
+//!
+//! \brief provides STL interface for attributes
+//!
+//! The AttributeManager class provides an STL compliant interface to access
+//! attribute attached to a Node.
+//!
 class DLL_EXPORT AttributeManager
 {
   public:
     AttributeManager() = delete;
+
+    //!
+    //! \brief constructor
+    //!
+    //! Creates a new instance of AttributeManager which must be attached to
+    //! a Node instance.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param node reference to the parent node of the manager
+    //!
     AttributeManager(node::Node &node);
+
+    //!
+    //! \brief copy constructor
+    //!
+    //! Use the compiler provided default implementation here.
+    //!
     AttributeManager(const AttributeManager &manager) = default;
 
     //!
@@ -149,11 +171,51 @@ class DLL_EXPORT AttributeManager
                      const property::AttributeCreationList &acpl =
                            property::AttributeCreationList()) const;
 
+    //!
+    //! \brief create a new attribute of a given value
+    //!
+    //! This is a convenience method to create a new attribute with a given
+    //! value. Technically this is a create() including a subsequent call
+    //! to write.
+    //!
+    //! \code
+    //! Node n = ....;
+    //! n.attributes.create_from("date","12-03-2017");
+    //! \endcode
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param name the name of the attribute
+    //! \param value reference to the new value
+    //! \return new instance of Attribute
+    //!
+    template<typename T>
+    Attribute create_from(const std::string &name,const T &value);
+
+    //!
+    //! \brief get iterator configuration
+    //!
+    //! Use this method to get a reference to the iterator configuration for
+    //! the attributes of a  node.
+    //! \return reference to iterator configuration
+    //!
     IteratorConfig &iterator_config() noexcept;
     const IteratorConfig &iterator_config() const noexcept;
-    const node::Node &node() const;
 
+    //!
+    //! \brief get parent node
+    //!
+    //! Return a reference to the parent node of the manager instance.
+    //!
+    const node::Node &node() const noexcept;
+
+    //!
+    //! \brief get iterator to first attribute
+    //!
     AttributeIterator begin() const;
+
+    //!
+    //! \brief get iterator to last+1 attribute
+    //!
     AttributeIterator end() const;
 
   private:
@@ -183,6 +245,17 @@ Attribute AttributeManager::create(const std::string &name,
 
   return create(name,type,space,acpl);
 
+}
+
+template<typename T>
+Attribute AttributeManager::create_from(const std::string &name,const T &value)
+{
+  auto type = datatype::create<T>();
+  auto space = dataspace::create(value);
+
+  Attribute a = create(name,type,space);
+  a.write(value);
+  return a;
 }
 
 } // namespace attribute

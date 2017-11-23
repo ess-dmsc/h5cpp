@@ -174,7 +174,7 @@ const IteratorConfig &AttributeManager::iterator_config() const noexcept
   return iter_config_;
 }
 
-const node::Node &AttributeManager::node() const
+const node::Node &AttributeManager::node() const noexcept
 {
   return node_;
 }
