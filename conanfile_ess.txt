@@ -3,9 +3,11 @@ Boost/1.62.0@ess-dmsc/stable
 hdf5/1.10.1-dm1@ess-dmsc/stable
 gtest/3121b20-dm1@ess-dmsc/testing
 #zlib/1.2.8@conan/stable
+cmake_installer/1.0@conan/stable
 
 [generators]
 cmake
+virtualbuildenv
 
 [options]
 Boost:shared=True
@@ -13,7 +15,9 @@ hdf5:shared=True
 gtest:shared=True
 
 [imports]
+bin, cmake -> ./bin
 bin, *.dll -> ./bin
 lib, *.dll -> ./bin
-lib, *.so.* -> ./bin
-lib, *.so -> ./bin
+lib, *.so.* -> ./lib
+lib, *.so -> ./lib
+share, * -> ./share
