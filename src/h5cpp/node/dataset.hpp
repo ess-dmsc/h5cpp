@@ -300,7 +300,7 @@ class DLL_EXPORT Dataset : public Node
                      buffer.data())<0)
       {
         std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        ss<<"Failure to write variable length data to dataset ["<<link().path()<<"]!";
         error::Singleton::instance().throw_with_stack(ss.str());
       }
     }
@@ -321,7 +321,7 @@ class DLL_EXPORT Dataset : public Node
                   dataspace::cptr(data))<0)
       {
         std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        ss<<"Failure to write contiguous data to dataset ["<<link().path()<<"]!";
         error::Singleton::instance().throw_with_stack(ss.str());
       }
     }
@@ -405,7 +405,7 @@ class DLL_EXPORT Dataset : public Node
                  buffer.data())<0)
       {
         std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        ss<<"Failure to read variable length data from dataset ["<<link().path()<<"]!";
         error::Singleton::instance().throw_with_stack(ss.str());
       }
 
@@ -436,7 +436,7 @@ class DLL_EXPORT Dataset : public Node
                  dataspace::ptr(data))<0)
       {
         std::stringstream ss;
-        ss<<"Failure to write data to dataset ["<<link().path()<<"]!";
+        ss<<"Failure to read contiguous data from dataset ["<<link().path()<<"]!";
         error::Singleton::instance().throw_with_stack(ss.str());
       }
     }

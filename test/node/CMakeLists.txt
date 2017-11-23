@@ -23,6 +23,10 @@ set(test_sources
   ${dir}/recursive_node_iterator_test.cpp
   ${dir}/recursive_link_iterator_test.cpp
   ${dir}/symbolic_link_creation_test.cpp
+  ${dir}/is_group_test.cpp
+  ${dir}/is_dataset_test.cpp
+  ${dir}/get_group_test.cpp
+  ${dir}/get_dataset_test.cpp
   PARENT_SCOPE)
 
 set(test_headers

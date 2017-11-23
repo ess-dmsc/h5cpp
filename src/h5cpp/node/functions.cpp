@@ -335,8 +335,44 @@ Node get_node(const Group &base,const Path &node_path,const property::LinkAccess
 
   }
 
+}
 
+bool is_group(const Node &node)
+{
+  return node.type()==Type::GROUP;
+}
 
+bool is_dataset(const Node &node)
+{
+  return node.type() == Type::DATASET;
+}
+
+Group get_group(const Group &base,const Path &group_path,
+                const property::LinkAccessList &lapl)
+{
+  Node n = get_node(base,group_path,lapl);
+  if(!is_group(n))
+  {
+    std::stringstream ss;
+    ss<<"Node ["<<n.link().path()<<"] is not a group!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return n;
+}
+
+Dataset get_dataset(const Group &base,const Path &dataset_path,
+                    const property::LinkAccessList &lapl)
+{
+  Node n = get_node(base,dataset_path,lapl);
+  if(!is_dataset(n))
+  {
+    std::stringstream ss;
+    ss<<"Node ["<<n.link().path()<<"] is not a dataset!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return n;
 }
 
 } // namespace node

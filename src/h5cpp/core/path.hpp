@@ -69,7 +69,8 @@ class DLL_EXPORT Path
     //! Construct a path from a string. We use an explicit constructor here
     //! to avoid accidental conversions.
     //!
-    explicit Path(const std::string &str);
+    Path(const std::string &str);
+    Path(const char *str);
 
     Path(const_iterator first_element,const_iterator last_element);
 
@@ -268,8 +269,6 @@ DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 
 DLL_EXPORT Path operator+(const Path &lhs,const Path &rhs);
 
-DLL_EXPORT Path operator+(const std::string &link_name,const Path &path);
-DLL_EXPORT Path operator+(const Path &path,const std::string &link_name);
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Path &path);
 
