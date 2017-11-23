@@ -77,7 +77,8 @@ ObjectHandle::~ObjectHandle()
   catch (...)
   {
     // nothing clever to do here
-    // nasty hack to prevent destructor from throwing
+    // this should never happen
+    // perhaps close() should ne noexcept?
   }
 }   
 

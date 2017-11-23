@@ -104,7 +104,7 @@ class node::Group File::root(const property::GroupAccessList &gapl) const
   }
   catch(...)
   {
-    std::rethrow_if_nested(std::runtime_error("Error obtaining root group from file!"));
+    std::throw_with_nested(std::runtime_error("Error obtaining root group from file!"));
   }
 }
 
@@ -124,7 +124,7 @@ ObjectId File::id() const
   }
   catch(...)
   {
-    std::rethrow_if_nested(std::runtime_error("Cannot obtain ObjectId from an invalid file instance!"));
+    std::throw_with_nested(std::runtime_error("Cannot obtain ObjectId from an invalid file instance!"));
   }
   return ObjectId(handle_);
 }
