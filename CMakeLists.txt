@@ -11,7 +11,7 @@ list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 # setting up conan for use from within cmake
 #=============================================================================
 set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
-set(CONAN_FILE "conanfile_default.txt" CACHE PATH "The conanfile to use for the build")
+set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for the build")
 
 if (WITH_CONAN)
   
