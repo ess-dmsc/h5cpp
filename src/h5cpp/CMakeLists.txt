@@ -43,6 +43,7 @@ set_target_properties(h5cpp_shared
   VERSION ${PROJECT_VERSION}
   SO_VERSION 0
   CXX_STANDARD_REQUIRED ON
+  OUTPUT_NAME h5cpp
   )
 
 enable_coverage(h5cpp_shared)
