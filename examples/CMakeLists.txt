@@ -3,13 +3,6 @@ project(h5cpp-examples LANGUAGES CXX C)
 
 find_package(h5cpp REQUIRED)
 
-set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../cmake)
-
-include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
-include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
-
-
-
 add_executable(basic_files basic_files.cpp)
 target_link_libraries(basic_files h5cpp_shared)
 
