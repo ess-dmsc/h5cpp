@@ -35,15 +35,10 @@ void copy(const Node &source, const Group& base, const Path &rel_path,
 {
   //what if rel_path is actually absolute?
 
+  bool exists = false;
   try
   {
-    if (base.links.exists(static_cast<std::string>(rel_path)))
-    {
-      std::stringstream ss;
-      ss << "node::copy failed. "
-         << base.link() << " / " << rel_path << " already exists!";
-      throw std::runtime_error(ss.str());
-    }
+    exists = base.links.exists(static_cast<std::string>(rel_path));
   }
   catch (...)
   {
@@ -51,6 +46,14 @@ void copy(const Node &source, const Group& base, const Path &rel_path,
     ss << "node::copy failed. "
        << base.link() << " / " << rel_path << " already exists!";
     std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "node::copy failed. "
+       << base.link() << " / " << rel_path << " already exists!";
+    throw std::runtime_error(ss.str());
   }
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
@@ -74,14 +77,11 @@ void copy(const Node &source, const Group& destination,
 {
   //what if rel_path is actually absolute?
   auto name = source.link().path().name(); //this feels awkward
+  bool exists = false;
 
-  try {
-    if (destination.links.exists(name)) {
-      std::stringstream ss;
-      ss << "node::copy failed. "
-         << destination.link() << " / " << name << " already exists!";
-      throw std::runtime_error(ss.str());
-    }
+  try
+  {
+    exists = destination.links.exists(name);
   }
   catch(...)
   {
@@ -90,6 +90,15 @@ void copy(const Node &source, const Group& destination,
        << destination.link() << " / " << name << " already exists!";
     std::throw_with_nested(std::runtime_error(ss.str()));
   }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "node::copy failed. "
+       << destination.link() << " / " << name << " already exists!";
+    throw std::runtime_error(ss.str());
+  }
+
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
                   name.c_str(),                               //object name
@@ -115,13 +124,10 @@ void remove(const Node &object,
 void remove(const Group &base, const Path &rel_path,
             const property::LinkAccessList &lapl)
 {
-  try {
-    if (!base.links.exists(static_cast<std::string>(rel_path))) {
-      std::stringstream ss;
-      ss << "node::remove failed. "
-         << base.link() << " / " << rel_path << " does not exist.";
-      throw std::runtime_error(ss.str());
-    }
+  bool exists = false;
+  try
+  {
+    exists = base.links.exists(static_cast<std::string>(rel_path));
   }
   catch(...)
   {
@@ -129,6 +135,14 @@ void remove(const Group &base, const Path &rel_path,
     ss << "node::remove failed. "
        << base.link() << " / " << rel_path << " does not exist.";
     std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (!exists)
+  {
+    std::stringstream ss;
+    ss << "node::remove failed. "
+       << base.link() << " / " << rel_path << " does not exist.";
+    throw std::runtime_error(ss.str());
   }
 
   if (0 > H5Ldelete(static_cast<hid_t>(base),
@@ -161,13 +175,10 @@ void move(const Node &source,
 {
   auto name = static_cast<std::string>(destination_path);
 
-  try {
-    if (destination_base.links.exists(name)) {
-      std::stringstream ss;
-      ss << "node::move failed. "
-         << destination_base.link() << " / " << name << " already exists!";
-      throw std::runtime_error(ss.str());
-    }
+  bool exists = false;
+  try
+  {
+    exists = destination_base.links.exists(name);
   }
   catch (...)
   {
@@ -175,6 +186,14 @@ void move(const Node &source,
     ss << "node::move failed. "
        << destination_base.link() << " / " << name << " already exists!";
     std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "node::move failed. "
+       << destination_base.link() << " / " << name << " already exists!";
+    throw std::runtime_error(ss.str());
   }
 
   if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
@@ -204,13 +223,10 @@ void link(const boost::filesystem::path &target_file,
     base = link_base.link().file().root();
   auto lpath = static_cast<std::string>(link_path);
 
-  try {
-    if (link_base.links.exists(lpath)) {
-      std::stringstream ss;
-      ss << "node::link (external) failed. "
-         << base.link() << " / " << link_path << " already exists!";
-      throw std::runtime_error(ss.str());
-    }
+  bool exists = false;
+  try
+  {
+    exists = link_base.links.exists(lpath);
   }
   catch (...)
   {
@@ -218,6 +234,14 @@ void link(const boost::filesystem::path &target_file,
     ss << "node::link (external) failed. "
        << base.link() << " / " << link_path << " already exists!";
     std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "node::link (external) failed. "
+       << base.link() << " / " << link_path << " already exists!";
+    throw std::runtime_error(ss.str());
   }
 
   if (0 > H5Lcreate_external(target_file.string().c_str(),

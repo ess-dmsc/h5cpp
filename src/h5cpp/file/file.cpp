@@ -115,17 +115,21 @@ bool File::is_valid() const
 
 ObjectId File::id() const
 {
+  bool valid = false;
   try
   {
-    if(!is_valid())
-    {
-      error::Singleton::instance().throw_with_stack("Cannot obtain ObjectId from an invalid file instance!");
-    }
+    valid = is_valid();
   }
   catch(...)
   {
     std::throw_with_nested(std::runtime_error("Cannot obtain ObjectId from an invalid file instance!"));
   }
+
+  if(!valid)
+  {
+    error::Singleton::instance().throw_with_stack("Cannot obtain ObjectId from an invalid file instance!");
+  }
+
   return ObjectId(handle_);
 }
 

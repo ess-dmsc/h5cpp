@@ -111,15 +111,10 @@ Group Group::create_group(const std::string &name,
   }
 
   //check if there is already a link with this name
+  bool exists = false;
   try
   {
-    if (this->links.exists(name))
-    {
-      std::stringstream ss;
-      ss << "A link with name [" << name << "] already exists below ["
-         << link().path() << "]!";
-      throw std::runtime_error(ss.str());
-    }
+    exists = this->links.exists(name);
   }
   catch (...)
   {
@@ -127,6 +122,14 @@ Group Group::create_group(const std::string &name,
     ss << "A link with name [" << name << "] could not be created in ["
        << link().path() << "]!";
     std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "A link with name [" << name << "] already exists below ["
+       << link().path() << "]!";
+    throw std::runtime_error(ss.str());
   }
 
   return Group(*this,Path(name),lcpl,gcpl,gapl);
