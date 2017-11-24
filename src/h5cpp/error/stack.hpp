@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/error/descriptor.hpp>
-#include <exception>
+#include <stdexcept>
 #include <list>
 
 namespace hdf5 {
