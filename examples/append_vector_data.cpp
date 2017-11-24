@@ -49,7 +49,7 @@ int main()
   node::Dataset dset = root_group.create_dataset("data",type,space,lcpl,dcpl);
 
   int value=0;
-  dataspace::Hyperslab slab{{0,0},{1,1},{1,1},{1,NBINS}};
+  dataspace::Hyperslab slab{{0,0},{1,NBINS},{1,1},{1,1},};
   for(size_t index=1;index<=5;++index,++value)
   {
     std::fill(data.begin(),data.end(),value);
