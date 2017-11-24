@@ -30,13 +30,13 @@ endif ()
 # some general configuration
 #=============================================================================
 
+include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
+include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 include(${EXTRA_MODULES_DIR}/InstallConfig.cmake)
 include(${EXTRA_MODULES_DIR}/OutputDirConfig.cmake)
-include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)
 include(${EXTRA_MODULES_DIR}/PackageConfig.cmake)
 include(${EXTRA_MODULES_DIR}/BuildInfo.cmake)
-include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
 include(Sphinx)
 include(utilities)
 include(DoxygenUtilities)
