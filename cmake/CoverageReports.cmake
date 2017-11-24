@@ -61,23 +61,17 @@ if (${COV})
   else ()
     message(WARNING "Cannot enable coverage reporting. Unsupported compiler: (${CMAKE_CXX_COMPILER_ID}).")
     set(COVERAGE_ENABLED OFF)
-    return()
   endif ()
 
-  if (NOT ${COVERAGE_ENABLED})
-    return()
-  endif()
-
-  if (NOT CMAKE_BUILD_TYPE)
+  if (${COVERAGE_ENABLED})
+    if (NOT CMAKE_BUILD_TYPE)
       message(STATUS "Coverage requested but build type was not set. Using Debug mode.")
       set(CMAKE_BUILD_TYPE "Debug")
-  endif()
-
-  if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
       message(WARNING "Cannot provide coverage reporting with Release build. Disabling coverage.")
       set(COVERAGE_ENABLED OFF)
-      return()
-  endif()
+    endif ()
+  endif ()
 
 endif ()
 
