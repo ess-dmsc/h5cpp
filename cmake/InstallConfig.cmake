@@ -44,6 +44,10 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Windows)
 
     message(STATUS "==============================================================")
     message(STATUS "Installation directories for Windows: ")
+    
+elseif(CMAKE_SYSTEM_NAME MATCHES Darwin)
+    
+    # add here configuration for OSX
 
 endif()
 
