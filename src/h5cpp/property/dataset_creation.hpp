@@ -30,6 +30,8 @@
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/datatype/type_trait.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/error/error.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -237,7 +239,7 @@ void DatasetCreationList::fill_value(const T &value,const datatype::Datatype &ty
   if(H5Pset_fill_value(static_cast<hid_t>(*this),
                        static_cast<hid_t>(type),&value)<0)
   {
-    throw std::runtime_error("Failure to set fill value for dataset!");
+    error::Singleton::instance().throw_with_stack("Failure to set fill value for dataset!");
   }
 }
 
@@ -247,7 +249,7 @@ T DatasetCreationList::fill_value(const datatype::Datatype &type) const
   T value;
   if(H5Pget_fill_value(static_cast<hid_t>(*this),static_cast<hid_t>(type),&value)<0)
   {
-    throw std::runtime_error("Failure retrieving the fill value for a dataset!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the fill value for a dataset!");
   }
   return value;
 }

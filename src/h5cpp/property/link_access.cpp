@@ -24,7 +24,7 @@
 //
 
 #include <h5cpp/property/link_access.hpp>
-#include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 
 
 namespace hdf5 {
@@ -48,7 +48,7 @@ size_t LinkAccessList::maximum_link_traversals() const
   size_t buffer = 0;
   if(H5Pget_nlinks(static_cast<hid_t>(*this),&buffer)<0)
   {
-    std::runtime_error("Failure retrieving the maximum number of link traversals!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the maximum number of link traversals!");
   }
   return buffer;
 }
@@ -57,7 +57,7 @@ void LinkAccessList::maximum_link_traversals(size_t size) const
 {
   if(H5Pset_nlinks(static_cast<hid_t>(*this),size)<0)
   {
-    std::runtime_error("Failure setting the maximum number of link traversals!");
+    error::Singleton::instance().throw_with_stack("Failure setting the maximum number of link traversals!");
   }
 }
 
@@ -73,7 +73,7 @@ void LinkAccessList::external_link_prefix(const boost::filesystem::path &path)
   if(H5Pset_elink_prefix(static_cast<hid_t>(*this),elink_prefix_.c_str())<0)
   {
     elink_prefix_ = old_prefix;
-    std::runtime_error("Failure setting the external link prefix to ["+path.string()+"]");
+    error::Singleton::instance().throw_with_stack("Failure setting the external link prefix to ["+path.string()+"]");
   }
 }
 

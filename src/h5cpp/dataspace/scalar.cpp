@@ -22,8 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 24, 2017
 //
-#include <stdexcept>
 #include <h5cpp/dataspace/scalar.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -37,7 +37,7 @@ Scalar::Scalar(const Dataspace &space):
 {
   if(space.type()!=Type::SCALAR)
   {
-    throw std::runtime_error("Cannot construct a scalar dataspace from a simple one!");
+    error::Singleton::instance().throw_with_stack("Cannot construct a scalar dataspace from a simple one!");
   }
 }
 

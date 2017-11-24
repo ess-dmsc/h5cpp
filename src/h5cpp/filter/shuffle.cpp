@@ -23,9 +23,8 @@
 // Created on: Nov 6, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/filter/shuffle.hpp>
-
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace filter {
@@ -42,7 +41,7 @@ void Shuffle::operator()(const property::DatasetCreationList &dcpl,
 {
   if(H5Pset_shuffle(static_cast<hid_t>(dcpl))<0)
   {
-    throw std::runtime_error("Failure to set shuffle filter!");
+    error::Singleton::instance().throw_with_stack("Failure to set shuffle filter!");
   }
 }
 

@@ -26,7 +26,7 @@
 #include <h5cpp/core/object_handle.hpp>
 
 #include <sstream>
-#include <stdexcept>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5
 {
@@ -39,7 +39,7 @@ ObjectHandle::ObjectHandle(hid_t id,ObjectHandle::Policy policy)
   {
     std::stringstream ss;
     ss<<"Invalid object handler ("<<id<<")";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   if(policy == Policy::WITHOUT_WARD)
@@ -70,7 +70,16 @@ ObjectHandle::ObjectHandle(ObjectHandle &&o) noexcept
 //-------------------------------------------------------------------------
 ObjectHandle::~ObjectHandle()
 {
-  close();
+  try
+  {
+    close();
+  }
+  catch (...)
+  {
+    // nothing clever to do here
+    // this should never happen
+    // perhaps close() should ne noexcept?
+  }
 }   
 
 
@@ -119,7 +128,7 @@ bool ObjectHandle::is_valid() const
   {
     std::stringstream ss;
     ss<<"Could not retrieve validity status for handle ("<<handle_<<")";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   if(value)
@@ -181,7 +190,7 @@ void ObjectHandle::close()
       std::stringstream ss;
       ss<<"Could not close object of type "<<get_type()<<"with handle "
         <<"("<<handle_<<")!";
-      throw std::runtime_error(ss.str());
+      error::Singleton::instance().throw_with_stack(ss.str());
     }
   }
 
@@ -229,7 +238,7 @@ ObjectHandle::Type ObjectHandle::get_type() const
     default:
       std::stringstream ss;
       ss<<"Unkown object type ("<<type<<")";
-      throw std::runtime_error(ss.str());
+      error::Singleton::instance().throw_with_stack(ss.str());
   };
 }
 
@@ -242,8 +251,7 @@ void ObjectHandle::increment_reference_count() const
     
     //Failing to succesfully inrement the reference counter for an internal
     //object ID is a serious issue and justifies to throw an exception here.
-    throw std::runtime_error("Error incrementing the reference counter!");
-
+    error::Singleton::instance().throw_with_stack("Error incrementing the reference counter!");
   }
 }
 
@@ -254,7 +262,7 @@ void ObjectHandle::decrement_reference_count() const
   if(H5Idec_ref(handle_)<0)
   {
     //TODO: maybe we should add an entry here on the error stack
-    throw std::runtime_error("Could not decrement the reference counter");
+    error::Singleton::instance().throw_with_stack("Could not decrement the reference counter");
   }
 }
 
@@ -265,7 +273,7 @@ int ObjectHandle::get_reference_count() const
   if(ref_cnt<0)
   {
     //TODO: maybe we should add here an entry to the error stack.
-    throw std::runtime_error("Could not retrieve reference count for object!");
+    error::Singleton::instance().throw_with_stack("Could not retrieve reference count for object!");
   }
 
   return ref_cnt;

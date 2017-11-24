@@ -22,7 +22,6 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 4, 2017
 //
-#include <stdexcept>
 #include <h5cpp/attribute/attribute.hpp>
 
 namespace hdf5 {
@@ -42,7 +41,7 @@ datatype::Datatype Attribute::datatype() const
   }
   catch(const std::runtime_error &)
   {
-    throw std::runtime_error("Failure to obtain the datatype of an attribute!");
+    std::throw_with_nested(std::runtime_error("Failure to obtain the datatype of an attribute!"));
   }
   return datatype::Datatype(std::move(handle));
 
@@ -57,7 +56,7 @@ dataspace::Dataspace Attribute::dataspace() const
   }
   catch(const std::runtime_error &)
   {
-    throw std::runtime_error("Failure to obtain the dataspace of an attribute!");
+    std::throw_with_nested(std::runtime_error("Failure to obtain the dataspace of an attribute!"));
   }
 
   return dataspace::Dataspace(std::move(handle));
@@ -68,14 +67,14 @@ std::string Attribute::name() const
   ssize_t size = H5Aget_name(static_cast<hid_t>(handle_),0,NULL);
   if(size<0)
   {
-    throw std::runtime_error("Could not determine the size of the attributes name!");
+    error::Singleton::instance().throw_with_stack("Could not determine the size of the attributes name!");
   }
 
   std::string buffer(size,' ');
   char *ptr = const_cast<char*>(buffer.data());
   if(H5Aget_name(static_cast<hid_t>(handle_),size+1,ptr)<0)
   {
-    throw std::runtime_error("Failure retrieving the attributes name!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the attributes name!");
   }
 
   return buffer;
@@ -106,7 +105,7 @@ void Attribute::check_size(const dataspace::Dataspace &mem_space,
     ss<<"Size mismatch in attribute "<<operation<<": "<<mem_space.size()
       <<" elements in memory, "<<file_space.size()
       <<" on disk!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 

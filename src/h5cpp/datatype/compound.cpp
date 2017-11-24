@@ -23,10 +23,9 @@
 // Created on: Oct 5, 2017
 //
 
-#include <stdexcept>
 #include <sstream>
 #include <h5cpp/datatype/compound.hpp>
-#include <h5cpp/datatype/types.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace datatype {
@@ -42,7 +41,7 @@ Datatype Compound::operator[](size_t index) const
   {
     std::stringstream ss;
     ss<<"Failure to obtain data type for field ["<<index<<"] in compound data type!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   return Datatype(ObjectHandle(id));
 }
@@ -60,7 +59,7 @@ size_t Compound::field_index(const std::string &name) const
   {
     std::stringstream ss;
     ss<<"Failure to obtain the index for field ["<<name<<"] in compound data type!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   return index;
 }
@@ -72,7 +71,7 @@ std::string Compound::field_name(size_t index) const
   {
     std::stringstream ss;
     ss<<"Failure to obtain name of field ["<<index<<"] in compound data type!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   std::string name(buffer);
 
@@ -81,7 +80,7 @@ std::string Compound::field_name(size_t index) const
     std::stringstream ss;
     ss<<"Failure freeing memory for name buffer of field ["<<index<<"]"
       <<" in compound data type!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   return name;
 }
@@ -104,7 +103,7 @@ size_t Compound::field_offset(size_t index) const
     {
       std::stringstream ss;
       ss<<"Failure to obtain offset for field ["<<index<<"] in compound type!";
-      throw std::runtime_error(ss.str());
+      std::throw_with_nested(std::runtime_error(ss.str()));
     }
   }
 
@@ -123,7 +122,7 @@ Class Compound::field_class(size_t index) const
   {
     std::stringstream ss;
     ss<<"Failure to obtain type class for field ["<<index<<"] in compound type!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   return static_cast<Class>(value);
 }
@@ -133,7 +132,7 @@ size_t Compound::number_of_fields() const
   int n = H5Tget_nmembers(static_cast<hid_t>(*this));
   if(n<0)
   {
-    throw std::runtime_error("Could not retrieve number of fields for compound data type!");
+    error::Singleton::instance().throw_with_stack("Could not retrieve number of fields for compound data type!");
   }
   return n;
 }
@@ -145,7 +144,7 @@ void Compound::insert(const std::string &name,size_t offset,const Datatype &type
     std::stringstream ss;
     ss<<"Failure inserting field ["<<name<<"] at offset ["<<offset<<"] "
       <<"in compound data type!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -153,7 +152,7 @@ void Compound::pack() const
 {
   if(H5Tpack(static_cast<hid_t>(*this))<0)
   {
-    throw std::runtime_error("Failure packing compound data type!");
+    error::Singleton::instance().throw_with_stack("Failure packing compound data type!");
   }
 }
 

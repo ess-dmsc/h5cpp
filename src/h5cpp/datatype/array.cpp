@@ -23,8 +23,8 @@
 // Created on: Oct 23, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/datatype/array.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace datatype {
@@ -43,7 +43,7 @@ Dimensions Array::dimensions() const
 
   if(H5Tget_array_dims(static_cast<hid_t>(*this),dims.data())<0)
   {
-    throw std::runtime_error("Cannot obtain dimensions for Array datatype!");
+    error::Singleton::instance().throw_with_stack("Cannot obtain dimensions for Array datatype!");
   }
 
   return dims;
@@ -55,7 +55,7 @@ size_t Array::rank() const
   int ndims = H5Tget_array_ndims(static_cast<hid_t>(*this));
   if(ndims<0)
   {
-    throw std::runtime_error("Cannot obtain rank for array datatype!");
+    error::Singleton::instance().throw_with_stack("Cannot obtain rank for array datatype!");
   }
 
   return ndims;

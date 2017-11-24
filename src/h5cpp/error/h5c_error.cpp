@@ -19,16 +19,40 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
 
-int main(int argc, char **argv)
+#include <h5cpp/error/h5c_error.hpp>
+#include <sstream>
+
+namespace hdf5 {
+namespace error {
+
+H5CError::H5CError(const std::list<Descriptor>& H5CError)
+: std::runtime_error("")
+, contents_(H5CError)
 {
-  hdf5::error::Singleton::instance().auto_print(false);
-
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+  std::stringstream ss;
+  for (auto c : contents_)
+    ss << c << "\n";
+  what_message_ = ss.str();
 }
+
+const char* H5CError::what() const throw()
+{
+  return what_message_.c_str();
+}
+
+const std::list<Descriptor>& H5CError::contents() const
+{
+  return contents_;
+}
+
+bool H5CError::empty() const
+{
+  return contents_.empty();
+}
+
+} // namespace file
+} // namespace hdf5

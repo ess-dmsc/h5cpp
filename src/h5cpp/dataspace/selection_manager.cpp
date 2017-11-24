@@ -22,10 +22,10 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
-#include <stdexcept>
 #include <h5cpp/dataspace/selection_manager.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/selection.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -44,7 +44,7 @@ size_t SelectionManager::size() const
   hssize_t s = H5Sget_select_npoints(static_cast<hid_t>(space_));
   if(s<0)
   {
-    throw std::runtime_error("Failure retrieving selection size!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
   return s;
 }
@@ -68,7 +68,7 @@ void SelectionManager::all() const
 {
   if(H5Sselect_all(static_cast<hid_t>(space_))<0)
   {
-    throw std::runtime_error("Failure selecting all elements in the dataspace!");
+    error::Singleton::instance().throw_with_stack("Failure selecting all elements in the dataspace!");
   }
 }
 
@@ -76,7 +76,7 @@ void SelectionManager::none() const
 {
   if(H5Sselect_none(static_cast<hid_t>(space_))<0)
   {
-    throw std::runtime_error("Failure deselecting all elements in the dataspace!");
+    error::Singleton::instance().throw_with_stack("Failure deselecting all elements in the dataspace!");
   }
 }
 

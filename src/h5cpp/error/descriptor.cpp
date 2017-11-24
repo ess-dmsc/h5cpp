@@ -19,34 +19,44 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 11, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Oct 25, 2017
 //
 
-#include <h5cpp/node/group.hpp>
-#include <h5cpp/error/error.hpp>
-#include <h5cpp/node/group_view.hpp>
+#include <h5cpp/error/descriptor.hpp>
 
-
-namespace hdf5 {
-namespace node {
-
-GroupView::GroupView(Group &parent_group):
-    group_(parent_group)
-{}
-
-GroupView::~GroupView()
-{}
-
-size_t GroupView::size() const
-{
-  H5G_info_t info;
-  if(H5Gget_info(static_cast<hid_t>(group()),&info)<0)
-  {
-    error::Singleton::instance().throw_with_stack("Could not access the group info data!");
-  }
-  return info.nlinks;
+extern "C"{
+#include <cstring>
 }
 
-} // namespace node
+namespace hdf5 {
+namespace error {
+
+Descriptor::Descriptor(const H5E_error2_t& descr)
+{
+  line = descr.line;
+  file = std::string(descr.file_name, strlen(descr.file_name));
+  function = std::string(descr.func_name, strlen(descr.func_name));
+  description = std::string(descr.desc, strlen(descr.desc));
+
+  auto mesg1 = H5Eget_major(descr.maj_num);
+  major = std::string(mesg1, strlen(mesg1));
+
+  auto mesg2 = H5Eget_minor(descr.min_num);
+  minor = std::string(mesg2, strlen(mesg2));
+}
+
+std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
+{
+  stream << desc.file << ":" << desc.line
+         << " in function '" << desc.function << "': "
+         << desc.description
+         << " (maj=" << desc.major
+         << ", min=" << desc.minor
+         << ")";
+  return stream;
+}
+
+
+} // namespace file
 } // namespace hdf5

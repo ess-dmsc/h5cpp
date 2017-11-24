@@ -24,35 +24,149 @@
 //
 
 #include <h5cpp/error/error.hpp>
-#include <stdexcept>
+#include <sstream>
 
 extern "C"{
-#include <cstdio>
+#include <cstring>
 }
 
 namespace hdf5 {
 namespace error {
 
-void clear_stack()
+void Singleton::auto_print(bool enable)
 {
-  herr_t ret = H5Eclear2(H5Eget_current_stack());
+  herr_t ret = H5Eset_auto2(H5E_DEFAULT,
+                            enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
+                            enable ? stderr : NULL);
+
+  if (0 > ret)
+  {
+    throw std::runtime_error("Could not set automatic error printing");
+  }
+
+  auto_print_ = auto_print_enabled();
+}
+
+bool Singleton::auto_print() const
+{
+  return auto_print_;
+}
+
+std::string Singleton::print_stack()
+{
+  char* buf {NULL};
+  size_t size {0};
+  FILE *stream = open_memstream (&buf, &size);
+
+  herr_t err = H5Eprint2(H5E_DEFAULT, stream);
+  fflush(stream);
+  fclose(stream);
+
+  if (0 > err)
+  {
+    free(buf);
+    throw std::runtime_error("Could not print error stack");
+  }
+
+  std::string ret(buf, size);
+  free(buf);
+  clear_stack();
+  return ret;
+}
+
+H5CError Singleton::extract_stack()
+{
+  std::list<Descriptor> ret;
+  herr_t err = H5Ewalk2(H5E_DEFAULT, H5E_WALK_DOWNWARD,
+                        reinterpret_cast<H5E_walk2_t>(to_list), &ret);
+
+  if (0 > err)
+  {
+    throw std::runtime_error("Could not extract error stack");
+  }
+
+  clear_stack();
+  return H5CError(ret);
+}
+
+void Singleton::throw_with_stack(const std::string& message)
+{
+  if (!auto_print_)
+  {
+    try
+    {
+      throw_stack();
+    }
+    catch(...)
+    {
+      std::throw_with_nested( std::runtime_error(message) );
+    }
+  }
+  throw std::runtime_error(message);
+}
+
+std::string print_nested(const std::exception& exception, int level)
+{
+  std::stringstream ss;
+  ss << std::string(level, ' ') << exception.what() << '\n';
+  try
+  {
+    std::rethrow_if_nested(exception);
+  }
+  catch(const H5CError& s)
+  {
+    for (auto error : s.contents())
+      ss << std::string(++level, ' ') << error << "\n";
+  }
+  catch(const std::exception& e)
+  {
+    ss << print_nested(e, level+1);
+  }
+  catch(...)
+  {}
+  return ss.str();
+}
+
+// Helper functions, private
+
+void Singleton::throw_stack()
+{
+  auto stack = extract_stack();
+  if (!stack.empty())
+    throw stack;
+}
+
+
+void Singleton::clear_stack()
+{
+  herr_t ret = H5Eclear2(H5E_DEFAULT);
   if (0 > ret)
   {
     throw std::runtime_error("Could not toggle automatic error stack printing");
   }
 }
 
-void auto_print(bool enable)
+bool Singleton::auto_print_enabled() const
 {
-  herr_t ret = H5Eset_auto(H5E_DEFAULT,
-                           enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
-                           enable ? stderr : NULL);
+  H5E_auto2_t func = NULL;
+  herr_t ret = H5Eget_auto2(H5E_DEFAULT, &func, NULL);
 
   if (0 > ret)
   {
-    throw std::runtime_error("Could not toggle automatic error stack printing");
+    throw std::runtime_error("Could not determine automatic error printing settings");
   }
+
+  return (func != NULL);
 }
+
+herr_t Singleton::to_list(unsigned n,
+                          const H5E_error2_t *err_desc,
+                          std::list<Descriptor> *list)
+{
+  list->push_back(Descriptor(*err_desc));
+  return 0;
+}
+
 
 
 } // namespace file

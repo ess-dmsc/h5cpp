@@ -22,8 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 24, 2017
 //
-#include <stdexcept>
 #include <h5cpp/dataspace/simple.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -37,7 +37,7 @@ Simple::Simple(const Dataspace &space):
 {
   if(space.type()!=Type::SIMPLE)
   {
-    throw std::runtime_error("Failed to construct a simple dataspace from this!");
+    error::Singleton::instance().throw_with_stack("Failed to construct a simple dataspace from this!");
   }
 }
 
@@ -52,7 +52,7 @@ int Simple::rank() const
   int rank = H5Sget_simple_extent_ndims(static_cast<hid_t>(*this));
   if(rank < 0)
   {
-    throw std::runtime_error("Failure retrieving the rank of a simple dataspace!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the rank of a simple dataspace!");
   }
   return rank;
 }
@@ -67,7 +67,7 @@ void Simple::dimensions(const Dimensions &current,const Dimensions &maximum)
   if(H5Sset_extent_simple(static_cast<hid_t>(*this),current.size(),current_ptr,
                           maximum_ptr)<0)
   {
-    throw std::runtime_error("Failure setting the dimensions for a simple dataspace!");
+    error::Singleton::instance().throw_with_stack("Failure setting the dimensions for a simple dataspace!");
   }
 }
 
@@ -76,7 +76,7 @@ Dimensions Simple::current_dimensions() const
   Dimensions dims(rank());
   if(H5Sget_simple_extent_dims(static_cast<hid_t>(*this),dims.data(),NULL)<0)
   {
-    throw std::runtime_error("Failure retrieving the current dimensions!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the current dimensions!");
   }
   return dims;
 }
@@ -86,7 +86,7 @@ Dimensions Simple::maximum_dimensions() const
   Dimensions dims(rank());
   if(H5Sget_simple_extent_dims(static_cast<hid_t>(*this),NULL,dims.data())<0)
   {
-    throw std::runtime_error("Failure retrieving the maximum dimensions!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the maximum dimensions!");
   }
   return dims;
 }

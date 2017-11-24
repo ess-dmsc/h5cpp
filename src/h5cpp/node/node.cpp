@@ -24,7 +24,7 @@
 //
 #include <stdexcept>
 #include <h5cpp/node/node.hpp>
-#include <h5cpp/node/link.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -66,7 +66,7 @@ Type Node::type() const
   H5O_info_t info;
   if(H5Oget_info(static_cast<hid_t>(*this),&info)<0)
   {
-    throw std::runtime_error("Error retrieving type information for this node!");
+    error::Singleton::instance().throw_with_stack("Error retrieving type information for this node!");
   }
 
   return static_cast<Type>(info.type);

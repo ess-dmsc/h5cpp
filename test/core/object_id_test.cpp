@@ -450,9 +450,6 @@ TEST_F(ObjectIdTest,  file_external_symlink )
   EXPECT_NE(static_cast<hid_t>(group11),static_cast<hid_t>(group23));
   EXPECT_NE(static_cast<hid_t>(group23),static_cast<hid_t>(group31));
 
-  std::cout<<info11.file_name()<<std::endl;
-  std::cout<<info31.file_name()<<std::endl;
-  std::cout<<info23.file_name()<<std::endl;
   EXPECT_NE(info11.file_name(), info31.file_name());
   EXPECT_EQ(info31.file_name(), info23.file_name());
   EXPECT_NE(info11.file_name(), info23.file_name());

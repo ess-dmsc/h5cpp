@@ -23,8 +23,8 @@
 // Created on: Aug 15, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/property/property_list.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -45,7 +45,7 @@ List::List(const List &plist)
   hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy-construct property list");
+    error::Singleton::instance().throw_with_stack("could not copy-construct property list");
   }
   handle_ = ObjectHandle(ret);
 }
@@ -55,7 +55,7 @@ List& List::operator=(const List &plist)
   hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy property list");
+    error::Singleton::instance().throw_with_stack("could not copy property list");
   }
   handle_ = ObjectHandle(ret);
   return *this;

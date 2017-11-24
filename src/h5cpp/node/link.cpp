@@ -28,6 +28,7 @@
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/functions.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -84,7 +85,7 @@ H5L_info_t Link::get_link_info(const property::LinkAccessList &lapl) const
      std::stringstream ss;
      ss<<"Failure retrieving information for link ["<<name_<<"] on group"
        <<" ["<<parent_path_<<"]!";
-     throw std::runtime_error(ss.str());
+     error::Singleton::instance().throw_with_stack(ss.str());
    }
 
    return info;
@@ -104,7 +105,7 @@ std::string Link::get_link_value(const property::LinkAccessList &lapl) const
     std::stringstream ss;
     ss<<"Failure to retrieve link value for link ["<<name_<<"] below "
       <<"group ["<<parent_path_<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return value;
@@ -130,7 +131,7 @@ LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) 
     std::stringstream ss;
     ss<<"Failure decoding external link target for link ["<<name_<<"] below"
       <<" group ["<<static_cast<std::string>(parent_path_)<<"]!";
-    throw std::runtime_error(ss.str());
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return LinkTarget(Path(std::string(objectpath_buffer)),

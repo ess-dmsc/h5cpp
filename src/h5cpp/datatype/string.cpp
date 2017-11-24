@@ -23,8 +23,8 @@
 // Created on: Oct 11, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/datatype/string.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace datatype {
@@ -42,7 +42,7 @@ String String::variable()
   String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
   if(H5Tset_size(static_cast<hid_t>(ret),H5T_VARIABLE)<0)
   {
-    throw std::runtime_error("Failure to set the datatype size!");
+    error::Singleton::instance().throw_with_stack("Failure to set the datatype size!");
   }
   return ret;
 }
@@ -59,7 +59,7 @@ bool String::is_variable_length() const
   htri_t ret = H5Tis_variable_str( static_cast<hid_t>(*this) );
   if (0 > ret)
   {
-    throw std::runtime_error("String: Failure to determine if string is variable-length");
+    error::Singleton::instance().throw_with_stack("String: Failure to determine if string is variable-length");
   }
   return (0 != ret);
 }
@@ -69,7 +69,7 @@ CharacterEncoding String::encoding() const
   H5T_cset_t ret = H5Tget_cset( static_cast<hid_t>(*this) );
   if (0 > ret)
   {
-    throw std::runtime_error("String: Failure to determine character encoding");
+    error::Singleton::instance().throw_with_stack("String: Failure to determine character encoding");
   }
   return static_cast<CharacterEncoding>(ret);
 }
@@ -78,7 +78,7 @@ void String::set_encoding(CharacterEncoding cset)
 {
   if (0 > H5Tset_cset( static_cast<hid_t>(*this),
                        static_cast<H5T_cset_t>(cset) ))
-    throw std::runtime_error("String: Failure to set character encoding");
+    error::Singleton::instance().throw_with_stack("String: Failure to set character encoding");
 }
 
 StringPad String::padding() const
@@ -86,7 +86,7 @@ StringPad String::padding() const
   H5T_str_t ret = H5Tget_strpad( static_cast<hid_t>(*this) );
   if (H5T_STR_ERROR == ret)
   {
-    throw std::runtime_error("String: Failure to determine string padding");
+    error::Singleton::instance().throw_with_stack("String: Failure to determine string padding");
   }
   return static_cast<StringPad>(ret);
 }
@@ -95,7 +95,7 @@ void String::set_padding(StringPad strpad)
 {
   if (0 > H5Tset_strpad( static_cast<hid_t>(*this),
                          static_cast<H5T_str_t>(strpad) ))
-    throw std::runtime_error("String: Failure to set string padding");
+    error::Singleton::instance().throw_with_stack("String: Failure to set string padding");
 }
 
 size_t String::size() const

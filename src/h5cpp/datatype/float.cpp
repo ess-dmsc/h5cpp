@@ -25,7 +25,7 @@
 
 #include <h5cpp/datatype/float.hpp>
 #include <sstream>
-#include <stdexcept>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace datatype {
@@ -39,9 +39,7 @@ namespace datatype {
   {
     if((datatype.get_class() != Class::FLOAT))
     {
-      std::stringstream ss;
-      ss<<"Datatype is not a FLOAT type!";
-      throw std::runtime_error(ss.str());
+      error::Singleton::instance().throw_with_stack("Datatype is not a FLOAT type!");
     }
   }
 

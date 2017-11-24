@@ -33,6 +33,7 @@
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/property/dataset_access.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -300,7 +301,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to write variable length data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
     }
 
@@ -321,7 +322,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to write contiguous data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
     }
 
@@ -345,7 +346,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to write variable length string data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
     }
 
@@ -369,7 +370,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to write fixed length string data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
 
 
@@ -405,7 +406,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to read variable length data from dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
 
       VarLengthBufferTrait<T>::from_buffer(buffer,data);
@@ -415,7 +416,7 @@ class DLL_EXPORT Dataset : public Node
                          static_cast<hid_t>(dtpl),
                          buffer.data())<0)
       {
-        throw std::runtime_error("Error reclaiming variable length memory!");
+        error::Singleton::instance().throw_with_stack("Error reclaiming variable length memory!");
       }
     }
 
@@ -436,7 +437,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to read contiguous data from dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
     }
 
@@ -467,7 +468,7 @@ class DLL_EXPORT Dataset : public Node
         std::stringstream ss;
         ss<<"Failure to read variable length string data from dataset ["
           <<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
 
       Trait::from_buffer(buffer,data);
@@ -480,7 +481,7 @@ class DLL_EXPORT Dataset : public Node
         std::stringstream ss;
         ss<<"Error reclaiming memory from variable length string data in "
           <<"dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
 
 
@@ -511,7 +512,7 @@ class DLL_EXPORT Dataset : public Node
       {
         std::stringstream ss;
         ss<<"Failure to read fixed length string data to dataset ["<<link().path()<<"]!";
-        throw std::runtime_error(ss.str());
+        error::Singleton::instance().throw_with_stack(ss.str());
       }
 
       //get data out of the buffer

@@ -22,11 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
-#include <stdexcept>
 #include <h5cpp/dataspace/selection.hpp>
-#include <algorithm>
-#include <sstream>
-
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -230,7 +227,7 @@ void Hyperslab::apply(const Dataspace &space,SelectionOperation ops) const
                          start_.data(),stride_.data(),count_.data(),
                          block_.data())<0)
   {
-    throw std::runtime_error("Failure applying hyperslab selection to the "
+    error::Singleton::instance().throw_with_stack("Failure applying hyperslab selection to the "
           "dataspace");
   }
 }

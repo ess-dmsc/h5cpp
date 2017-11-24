@@ -23,8 +23,8 @@
 // Created on: Aug 17, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/property/object_creation.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -39,7 +39,7 @@ void ObjectCreationList::get_attribute_phase_change_(unsigned &max_compact,
 {
   if(H5Pget_attr_phase_change(static_cast<hid_t>(*this),&max_compact,&min_dense)<0)
   {
-    throw std::runtime_error(error_message);
+    error::Singleton::instance().throw_with_stack(error_message);
   }
 }
 
@@ -65,7 +65,7 @@ void ObjectCreationList::enable_create_intermediate_group() const
 {
   if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),1)<0)
   {
-    throw std::runtime_error("Failure to enable intermediate group creation!");
+    error::Singleton::instance().throw_with_stack("Failure to enable intermediate group creation!");
   }
 }
 
@@ -73,7 +73,7 @@ void ObjectCreationList::disable_create_intermediate_group() const
 {
   if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),-1)<0)
   {
-    throw std::runtime_error("Failure to disable intermediate group creation!");
+    error::Singleton::instance().throw_with_stack("Failure to disable intermediate group creation!");
   }
 }
 
@@ -82,7 +82,7 @@ bool ObjectCreationList::create_intermediate_group() const
   unsigned buffer=0;
   if(H5Pget_create_intermediate_group(static_cast<hid_t>(*this),&buffer)<0)
   {
-    throw std::runtime_error("Failure to retrieve intermediate group creation mode!");
+    error::Singleton::instance().throw_with_stack("Failure to retrieve intermediate group creation mode!");
   }
 
   if(buffer)
@@ -95,7 +95,7 @@ void ObjectCreationList::enable_time_tracking() const
 {
   if(H5Pset_obj_track_times(static_cast<hid_t>(*this),1)<0)
   {
-    throw std::runtime_error("Failure to enable time tracking for objects!");
+    error::Singleton::instance().throw_with_stack("Failure to enable time tracking for objects!");
   }
 }
 
@@ -103,7 +103,7 @@ void ObjectCreationList::disable_time_tracking() const
 {
   if(H5Pset_obj_track_times(static_cast<hid_t>(*this),0)<0)
   {
-    throw std::runtime_error("Failure to disable time tracking for objects!");
+    error::Singleton::instance().throw_with_stack("Failure to disable time tracking for objects!");
   }
 }
 
@@ -116,7 +116,7 @@ bool ObjectCreationList::time_tracking() const
 #endif
   if(H5Pget_obj_track_times(static_cast<hid_t>(*this),&buffer))
   {
-    throw std::runtime_error("Failure to retrieve object time tracking mode!");
+    error::Singleton::instance().throw_with_stack("Failure to retrieve object time tracking mode!");
   }
   if(buffer)
     return true;
@@ -128,7 +128,7 @@ void ObjectCreationList::attribute_creation_order(const CreationOrder &order) co
 {
   if(H5Pset_attr_creation_order(static_cast<hid_t>(*this),order)<0)
   {
-    throw std::runtime_error("Failure setting attribute creation order!");
+    error::Singleton::instance().throw_with_stack("Failure setting attribute creation order!");
   }
 }
 
@@ -137,7 +137,7 @@ CreationOrder ObjectCreationList::attribute_creation_order() const
   unsigned buffer = 0;
   if(H5Pget_attr_creation_order(static_cast<hid_t>(*this),&buffer)<0)
   {
-    throw std::runtime_error("Failure retrieving attribute creation order flags!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving attribute creation order flags!");
   }
 
   return CreationOrder(buffer);
@@ -147,7 +147,7 @@ void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact,unsig
 {
   if(H5Pset_attr_phase_change(static_cast<hid_t>(*this),max_compact,min_dense)<0)
     {
-      throw std::runtime_error("Failure setting the compact to dense attribute "
+      error::Singleton::instance().throw_with_stack("Failure setting the compact to dense attribute "
           "storage threshold!");
     }
 

@@ -23,9 +23,8 @@
 // Created on: Aug 15, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/datatype/datatype.hpp>
-
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace datatype {
@@ -43,7 +42,7 @@ Datatype::Datatype(const Datatype &type)
   hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy-construct Datatype");
+    error::Singleton::instance().throw_with_stack("could not copy-construct Datatype");
   }
   handle_ = ObjectHandle(ret);
 }
@@ -53,7 +52,7 @@ Datatype& Datatype::operator=(const Datatype &type)
   hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
   if (0 > ret)
   {
-    throw std::runtime_error("could not copy Datatype");
+    error::Singleton::instance().throw_with_stack("could not copy Datatype");
   }
   handle_ = ObjectHandle(ret);
   return *this;
@@ -69,7 +68,7 @@ Datatype Datatype::super() const
   hid_t id = H5Tget_super(static_cast<hid_t>(*this));
   if(id<0)
   {
-    throw std::runtime_error("Failure retrieving the base data type!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the base data type!");
   }
   return Datatype(ObjectHandle(id));
 }
@@ -80,7 +79,7 @@ Datatype Datatype::native_type(Direction dir) const
                                 static_cast<H5T_direction_t>(dir));
   if(id<0)
   {
-    throw std::runtime_error("Failure retrieving the native type!");
+    error::Singleton::instance().throw_with_stack("Failure retrieving the native type!");
   }
   return Datatype(ObjectHandle(id));
 }
@@ -91,7 +90,7 @@ bool Datatype::has_class(Class type_class) const
                                   static_cast<H5T_class_t>(type_class));
   if(result<0)
   {
-    throw std::runtime_error("Failure searching for type class!");
+    error::Singleton::instance().throw_with_stack("Failure searching for type class!");
   }
 
   if(result>0)
@@ -105,7 +104,7 @@ size_t Datatype::size() const
   size_t s = H5Tget_size(static_cast<hid_t>(*this));
   if(s==0)
   {
-    throw std::runtime_error("Failure to retrieve the datatype size!");
+    error::Singleton::instance().throw_with_stack("Failure to retrieve the datatype size!");
   }
   return s;
 }
@@ -114,7 +113,7 @@ void Datatype::set_size(size_t size) const
 {
   if(H5Tset_size(static_cast<hid_t>(*this),size)<0)
   {
-    throw std::runtime_error("Failure to set the datatype size!");
+    error::Singleton::instance().throw_with_stack("Failure to set the datatype size!");
   }
 }
 
@@ -128,7 +127,7 @@ bool operator==(const Datatype &lhs,const Datatype &rhs)
   htri_t ret = H5Tequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
   if (0 > ret)
   {
-    throw std::runtime_error("Failure to compare datatypes!");
+    error::Singleton::instance().throw_with_stack("Failure to compare datatypes!");
   }
   return (ret > 0);
 }

@@ -24,9 +24,9 @@
 //
 
 #include <h5cpp/core/hdf5_capi.hpp>
-#include <stdexcept>
 #include <h5cpp/file/memory_driver.hpp>
 #include <h5cpp/property/file_access.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -67,7 +67,7 @@ void MemoryDriver::operator()(const property::FileAccessList &fapl) const
 {
   if(H5Pset_fapl_core(static_cast<hid_t>(fapl),increment_,backing_store_)<0)
   {
-    throw std::runtime_error("Failure setting Core driver!");
+    error::Singleton::instance().throw_with_stack("Failure setting Core driver!");
   }
 }
 

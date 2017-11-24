@@ -23,9 +23,9 @@
 // Created on: Aug 17, 2017
 //
 
-#include <stdexcept>
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/group_creation.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -40,7 +40,7 @@ void GroupCreationList::set_estimated_link_info_(unsigned nlinks,
 {
   if(H5Pset_est_link_info(static_cast<hid_t>(*this),nlinks,name_length)<0)
   {
-    throw std::runtime_error(error_message);
+    error::Singleton::instance().throw_with_stack(error_message);
   }
 }
 
@@ -51,7 +51,7 @@ void GroupCreationList::get_estimated_link_info_(unsigned &nlinks,
 {
   if(H5Pget_est_link_info(static_cast<hid_t>(*this),&nlinks,&name_length)<0)
   {
-    throw std::runtime_error(error_message);
+    error::Singleton::instance().throw_with_stack(error_message);
   }
 }
 
@@ -62,7 +62,7 @@ void GroupCreationList::set_link_phase_change_(unsigned max_links,
 {
   if(H5Pset_link_phase_change(static_cast<hid_t>(*this),max_links,min_links)<0)
   {
-    throw std::runtime_error(error_message);
+    error::Singleton::instance().throw_with_stack(error_message);
   }
 }
 
@@ -73,7 +73,7 @@ void GroupCreationList::get_link_phase_change_(unsigned &max_links,
 {
   if(H5Pget_link_phase_change(static_cast<hid_t>(*this),&max_links,&min_links)<0)
   {
-    throw std::runtime_error(error_message);
+    error::Singleton::instance().throw_with_stack(error_message);
   }
 }
 
@@ -99,7 +99,7 @@ size_t GroupCreationList::local_heap_size_hint() const
   size_t buffer = 0;
   if(H5Pget_local_heap_size_hint(static_cast<hid_t>(*this),&buffer)<0)
   {
-    throw std::runtime_error("Failure reading local heap size hint from "
+    error::Singleton::instance().throw_with_stack("Failure reading local heap size hint from "
                              "group creation property list!");
   }
   return buffer;
@@ -110,7 +110,7 @@ void GroupCreationList::local_heap_size_hint(size_t size) const
 {
   if(H5Pset_local_heap_size_hint(static_cast<hid_t>(*this),size)<0)
   {
-    throw std::runtime_error("Failure setting local heap size hint in "
+    error::Singleton::instance().throw_with_stack("Failure setting local heap size hint in "
                              "group creation property list!");
   }
 }

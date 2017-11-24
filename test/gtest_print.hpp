@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,16 +19,38 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: Nov 22, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
 
-int main(int argc, char **argv)
+//#include <gtest/gtest.h>
+
+#pragma  once
+
+namespace testing
 {
-  hdf5::error::Singleton::instance().auto_print(false);
+namespace internal
+{
+enum GTestColor {
+  COLOR_DEFAULT,
+  COLOR_RED,
+  COLOR_GREEN,
+  COLOR_YELLOW
+};
 
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
 }
+}
+#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] "); testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__); } while(0)
+
+// C++ stream interface
+class TestCout : public std::stringstream
+{
+ public:
+  ~TestCout()
+  {
+    PRINTF("%s\n",str().c_str());
+  }
+};
+
+#define TEST_COUT  TestCout()
