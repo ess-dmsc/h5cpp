@@ -126,7 +126,7 @@ Group Group::create_group(const std::string &name,
     std::stringstream ss;
     ss << "A link with name [" << name << "] could not be created in ["
        << link().path() << "]!";
-    std::rethrow_if_nested(ss.str());
+    std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
   return Group(*this,Path(name),lcpl,gcpl,gapl);

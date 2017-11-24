@@ -50,7 +50,7 @@ void copy(const Node &source, const Group& base, const Path &rel_path,
     std::stringstream ss;
     ss << "node::copy failed. "
        << base.link() << " / " << rel_path << " already exists!";
-    std::rethrow_if_nested(std::runtime_error(ss.str()));
+    std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
@@ -88,7 +88,7 @@ void copy(const Node &source, const Group& destination,
     std::stringstream ss;
     ss << "node::copy failed. "
        << destination.link() << " / " << name << " already exists!";
-    std::rethrow_if_nested(std::runtime_error(ss.str()));
+    std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
@@ -128,7 +128,7 @@ void remove(const Group &base, const Path &rel_path,
     std::stringstream ss;
     ss << "node::remove failed. "
        << base.link() << " / " << rel_path << " does not exist.";
-    std::rethrow_if_nested(std::runtime_error(ss.str()));
+    std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Ldelete(static_cast<hid_t>(base),
@@ -174,7 +174,7 @@ void move(const Node &source,
     std::stringstream ss;
     ss << "node::move failed. "
        << destination_base.link() << " / " << name << " already exists!";
-    std::rethrow_if_nested(std::runtime_error(ss.str()));
+    std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
@@ -217,7 +217,7 @@ void link(const boost::filesystem::path &target_file,
     std::stringstream ss;
     ss << "node::link (external) failed. "
        << base.link() << " / " << link_path << " already exists!";
-    std::rethrow_if_nested(std::runtime_error(ss.str()));
+    std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
   if (0 > H5Lcreate_external(target_file.string().c_str(),
