@@ -59,6 +59,12 @@ add_subdirectory(test)
 #=============================================================================
 # create package file
 #=============================================================================
+set(WITH_SMWR OFF CACHE BOOL "enable SWMR support")
+set(WITH_VDS OFF CACHE BOOL "enable VDS support")
+if(HDF5_VERSION VERSION_GREATER 1.10.0 OR HDF5_VERSION VERSION_EQUAL 1.10.0)
+    set(WITH_SWMR ON)
+    set(WITH_VDS ON)
+endif()
 
 #
 # create and install the version file
@@ -75,7 +81,7 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
 #
 # create and install the package file
 #
-configure_file(${PACKAGE_CONFIG_FILE_NAME} ${PACKAGE_CONFIG_FILE_NAME} COPYONLY)
+configure_file(${PACKAGE_CONFIG_FILE_NAME} ${PACKAGE_CONFIG_FILE_NAME} @ONLY)
 install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)
