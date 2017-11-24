@@ -74,7 +74,7 @@ std::string Singleton::print_stack()
   return ret;
 }
 
-Stack Singleton::extract_stack()
+H5CError Singleton::extract_stack()
 {
   std::list<Descriptor> ret;
   herr_t err = H5Ewalk2(H5E_DEFAULT, H5E_WALK_DOWNWARD,
@@ -86,7 +86,7 @@ Stack Singleton::extract_stack()
   }
 
   clear_stack();
-  return Stack(ret);
+  return H5CError(ret);
 }
 
 void Singleton::throw_with_stack(const std::string& message)
@@ -113,7 +113,7 @@ std::string print_nested(const std::exception& exception, int level)
   {
     std::rethrow_if_nested(exception);
   }
-  catch(const Stack& s)
+  catch(const H5CError& s)
   {
     for (auto error : s.contents())
       ss << std::string(++level, ' ') << error << "\n";

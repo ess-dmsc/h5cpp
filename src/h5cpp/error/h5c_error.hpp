@@ -32,36 +32,36 @@ namespace hdf5 {
 namespace error {
 
 //!
-//! \brief runtime exception containing an HDF5 error stack
+//! \brief runtime exception containing an HDF5 error H5CError
 //!
 //! This is an exception class specifically for passing on an HDF5
-//! error stack. The error stack is accessible as a standard list of
+//! error H5CError. The error H5CError is accessible as a standard list of
 //! Descriptor objects. Upon construction, the object also generates
-//! a string containing the a printout of the stack.
+//! a string containing the a printout of the H5CError.
 //!
-class DLL_EXPORT Stack : public std::runtime_error
+class DLL_EXPORT H5CError : public std::runtime_error
 {
  public:
   //!
   //! \brief constructor
   //!
-  //! Constructs a runtime exception object containing an HDF5 error stack.
+  //! Constructs a runtime exception object containing an HDF5 error H5CError.
   //! Should only be used internally by the library.
   //!
-  //! \param stack a linked list of HDF5 error descriptors
+  //! \param H5CError a linked list of HDF5 error descriptors
   //!
-  Stack(const std::list<Descriptor>& stack);
+  H5CError(const std::list<Descriptor>& H5CError);
 
   //!
-  //! \brief printout of error stack
+  //! \brief printout of error H5CError
   //!
   //! Returns the pre-generated string containing a printout of the
-  //! error stack.
+  //! error H5CError.
   //!
   const char* what() const throw();
 
   //!
-  //! \brief access to error stack
+  //! \brief access to error H5CError
   //!
   //! Returns reference to list of error descriptors.
   //!

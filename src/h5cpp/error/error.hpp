@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/core/windows.hpp>
-#include <h5cpp/error/stack.hpp>
+#include <h5cpp/error/h5c_error.hpp>
 
 namespace hdf5 {
 namespace error {
@@ -83,7 +83,7 @@ class DLL_EXPORT Singleton
   //! Only works if auto_print is disabled. Returns a Stack (derived exception)
   //! as extracted from the HDF5 error stack of the most recent error condition(s).
   //!
-  Stack extract_stack();
+  H5CError extract_stack();
 
   //!
   //! \brief throws an exception, potentially nested with error stack

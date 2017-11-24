@@ -23,15 +23,15 @@
 // Created on: Oct 25, 2017
 //
 
-#include <h5cpp/error/stack.hpp>
+#include <h5cpp/error/h5c_error.hpp>
 #include <sstream>
 
 namespace hdf5 {
 namespace error {
 
-Stack::Stack(const std::list<Descriptor>& stack)
+H5CError::H5CError(const std::list<Descriptor>& H5CError)
 : std::runtime_error("")
-, contents_(stack)
+, contents_(H5CError)
 {
   std::stringstream ss;
   for (auto c : contents_)
@@ -39,17 +39,17 @@ Stack::Stack(const std::list<Descriptor>& stack)
   what_message_ = ss.str();
 }
 
-const char* Stack::what() const throw()
+const char* H5CError::what() const throw()
 {
   return what_message_.c_str();
 }
 
-const std::list<Descriptor>& Stack::contents() const
+const std::list<Descriptor>& H5CError::contents() const
 {
   return contents_;
 }
 
-bool Stack::empty() const
+bool H5CError::empty() const
 {
   return contents_.empty();
 }
