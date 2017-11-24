@@ -11,10 +11,12 @@ list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 # setting up conan for use from within cmake
 #=============================================================================
 set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
+set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for the build")
 
 if (WITH_CONAN)
+  
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
-  conan_cmake_run(CONANFILE conanfile.txt
+  conan_cmake_run(CONANFILE ${CONAN_FILE}
     BASIC_SETUP
     BUILD missing)
 endif ()
@@ -30,13 +32,13 @@ endif ()
 # some general configuration
 #=============================================================================
 
+include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
+include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 include(${EXTRA_MODULES_DIR}/InstallConfig.cmake)
 include(${EXTRA_MODULES_DIR}/OutputDirConfig.cmake)
-include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)
 include(${EXTRA_MODULES_DIR}/PackageConfig.cmake)
 include(${EXTRA_MODULES_DIR}/BuildInfo.cmake)
-include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
 include(Sphinx)
 include(utilities)
 include(DoxygenUtilities)

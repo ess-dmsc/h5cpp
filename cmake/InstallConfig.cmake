@@ -15,6 +15,17 @@ if((CMAKE_HOST_SYSTEM_NAME MATCHES Linux) AND
 
     set(CMAKE_INSTALL_DOCDIR ${CMAKE_INSTALL_DATAROOTDIR}/doc/${PROJECT_NAME}-${PROJECT_VERSION})
 
+elseif(CMAKE_SYSTEM_NAME MATCHES Darwin)
+
+  # --- if we are building on MacOSX ----
+  # on OSX we can also use GNUInstallDirs module to
+  # determine the installation paths
+  include(GNUInstallDirs)
+  message(STATUS "==============================================================")
+  message(STATUS "Installation directories for MacOSX: ")
+
+  set(CMAKE_INSTALL_DOCDIR ${CMAKE_INSTALL_DATAROOTDIR}/doc/${PROJECT_NAME}-${PROJECT_VERSION})
+
 elseif(CMAKE_SYSTEM_NAME MATCHES Windows)
 
     #if we are building for Windows the GNU installation paths do
@@ -33,6 +44,10 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Windows)
 
     message(STATUS "==============================================================")
     message(STATUS "Installation directories for Windows: ")
+    
+elseif(CMAKE_SYSTEM_NAME MATCHES Darwin)
+    
+    # add here configuration for OSX
 
 endif()
 
