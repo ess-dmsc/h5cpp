@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp-examples LANGUAGES CXX C)
+set(CMAKE_CXX_STANDARD 11)
 
 find_package(h5cpp REQUIRED)
 
@@ -46,11 +47,11 @@ add_dependencies(examples
 # build this only for new versions of HDF5
 #
 
-if (WITH_SWMR)
+if (H5CPP_SWMR_ENABLED)
   add_subdirectory(swmr)
 endif ()
 
-if (WITH_MPI)
+if (H5CPP_MPI_ENABLED)
   add_subdirectory(mpi)
 endif ()
 
