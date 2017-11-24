@@ -95,5 +95,24 @@ TEST_F(Attribute, test_multidim_construction)
 }
 
 
+TEST_F(Attribute,test_create_from_scalar_value)
+{
+  auto a = root_.attributes.create_from("test",float(23.4));
+  float buffer;
+  a.read(buffer);
+  EXPECT_EQ(buffer,23.4f);
+}
+
+TEST_F(Attribute,test_create_from_vector)
+{
+  using AttributeData = std::vector<double>;
+  AttributeData data{1,2,3,4,5};
+  auto a = root_.attributes.create_from("test",data);
+  AttributeData buffer(data.size());
+  a.read(buffer);
+  EXPECT_EQ(buffer,data);
+}
+
+
 
 
