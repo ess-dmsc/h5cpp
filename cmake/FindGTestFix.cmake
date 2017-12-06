@@ -35,10 +35,10 @@ if (NOT GTest_FOUND)
 			endif()
 
 		else ()
-			message(SEND_ERROR "GTest not found and no fix available")
+			message(WARNING "GTest not found and no fix available")
 		endif ()
 
 	else ()
-		message(SEND_ERROR "GTest not found and no fix available")
+		message(WARNING "GTest not found and no fix available")
 	endif ()
 endif ()
