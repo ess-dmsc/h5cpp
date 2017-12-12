@@ -9,5 +9,5 @@ include(CMakePackageConfigHelpers)
 #
 # This can easily be done from a very basic project configuration
 #---------------------------------------------------------------------------------
-set(PACKAGE_VERSION_FILE_NAME "${PROJECT_NAME}-config-${PROJECT_VERSION}.cmake")
+set(PACKAGE_VERSION_FILE_NAME "${PROJECT_NAME}-config-version.cmake")
 set(PACKAGE_CONFIG_FILE_NAME "${PROJECT_NAME}-config.cmake")
