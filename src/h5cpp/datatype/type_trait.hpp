@@ -267,6 +267,18 @@ class TypeTrait<std::basic_string<CharT>>
 
 };
 
+template<> class TypeTrait<bool>
+{
+  public:
+    using Type = bool;
+    using TypeClass = Integer;
+
+    static TypeClass create(const Type& = Type())
+    {
+      return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
+    }
+};
+
 
 } // namespace datatype
 } // namespace hdf5
