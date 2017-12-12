@@ -44,9 +44,10 @@ template<typename PixelType>
 class TypeTrait<FrameBuffer<PixelType>>
 {
   public:
+    using Type = FrameBuffer<PixelType>;
     using TypeClass = typename TypeTrait<PixelType>::TypeClass;
 
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeTrait<PixelType>::create();
     }

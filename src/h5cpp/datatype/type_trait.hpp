@@ -60,20 +60,15 @@ template<typename T> class TypeTrait
     //!
     //! \brief create the new type instance
     //!
-    static TypeClass create();
+    static TypeClass create(const T& = T());
 };
-
-template<typename T>
-typename TypeTrait<T>::TypeClass create(const T &)
-{
-  return TypeTrait<T>::create();
-}
 
 template<> class TypeTrait<char>
 {
   public:
+
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const char & = char())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_CHAR)));
     }
@@ -82,8 +77,9 @@ template<> class TypeTrait<char>
 template<> class TypeTrait<unsigned char>
 {
   public:
+    using Type = unsigned char;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UCHAR)));
     }
@@ -92,8 +88,9 @@ template<> class TypeTrait<unsigned char>
 template<> class TypeTrait<signed char>
 {
   public:
+    using Type = signed char;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type& = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SCHAR)));
     }
@@ -102,8 +99,9 @@ template<> class TypeTrait<signed char>
 template<> class TypeTrait<short>
 {
   public:
+    using Type = short;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SHORT)));
     }
@@ -112,8 +110,9 @@ template<> class TypeTrait<short>
 template<> class TypeTrait<unsigned short>
 {
   public:
+    using Type = unsigned short;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type&  = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_USHORT)));
     }
@@ -123,7 +122,7 @@ template<> class TypeTrait<int>
 {
   public:
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const int & = int())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
     }
@@ -132,8 +131,9 @@ template<> class TypeTrait<int>
 template<> class TypeTrait<unsigned int>
 {
   public:
+    using Type = unsigned int;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type& = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UINT)));
     }
@@ -142,8 +142,9 @@ template<> class TypeTrait<unsigned int>
 template<> class TypeTrait<long>
 {
   public:
+    using Type = long;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LONG)));
     }
@@ -152,8 +153,9 @@ template<> class TypeTrait<long>
 template<> class TypeTrait<unsigned long>
 {
   public:
+    using Type = unsigned long;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type& = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULONG)));
     }
@@ -162,8 +164,9 @@ template<> class TypeTrait<unsigned long>
 template<> class TypeTrait<long long>
 {
   public:
+    using Type = long long;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LLONG)));
     }
@@ -172,8 +175,9 @@ template<> class TypeTrait<long long>
 template<> class TypeTrait<unsigned long long>
 {
   public:
+    using Type = unsigned long long;
     using TypeClass = Integer;
-    static TypeClass create()
+    static TypeClass create(const Type& = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULLONG)));
     }
@@ -183,7 +187,7 @@ template<> class TypeTrait<float>
 {
   public:
     using TypeClass = Float;
-    static TypeClass create()
+    static TypeClass create(const float & = float())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
     }
@@ -193,7 +197,7 @@ template<> class TypeTrait<double>
 {
   public:
     using TypeClass = Float;
-    static TypeClass create()
+    static TypeClass create(const double & = double())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_DOUBLE)));
     }
@@ -202,8 +206,9 @@ template<> class TypeTrait<double>
 template<> class TypeTrait<long double>
 {
   public:
+    using Type = long double;
     using TypeClass = Float;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
     }
@@ -213,7 +218,7 @@ template<> class TypeTrait<std::string>
 {
   public:
     using TypeClass = String;
-    static TypeClass create()
+    static TypeClass create(const std::string & = std::string())
     {
       return datatype::String::variable();
     }
@@ -222,8 +227,9 @@ template<> class TypeTrait<std::string>
 template<typename T> class TypeTrait<std::vector<T>>
 {
   public:
+    using Type = std::vector<T>;
     using TypeClass = typename TypeTrait<T>::TypeClass;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeTrait<T>::create();
     }
@@ -232,8 +238,9 @@ template<typename T> class TypeTrait<std::vector<T>>
 template<typename T,size_t N> class TypeTrait<std::array<T,N>>
 {
   public:
+    using Type = std::array<T,N>;
     using TypeClass = typename TypeTrait<T>::TypeClass;
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       return TypeTrait<T>::create();
     }
@@ -245,10 +252,10 @@ class TypeTrait<std::basic_string<CharT>>
   private:
 
   public:
-
+    using Type = std::basic_string<CharT>;
     using TypeClass = String;
 
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
       static_assert(std::is_same<CharT,char>::value,"Only support 8Bit characters");
 
