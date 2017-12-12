@@ -77,9 +77,10 @@ class TypeTrait<std::complex<T>>
   private:
     using complex_type = complex_t<T>;
   public:
+    using Type = std::complex<T>;
     using TypeClass = Compound;
 
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
 
       datatype::Compound type(sizeof(complex_struct));
@@ -97,7 +98,7 @@ class TypeTrait<Pixel>
  public:
   using TypeClass = Compound;
 
-  static TypeClass create()
+  static TypeClass create(const Pixel & = Pixel())
   {
 
     datatype::Compound type(sizeof(Pixel));
