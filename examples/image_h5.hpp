@@ -35,9 +35,10 @@ template<typename PixelT>
 class TypeTrait<Image<PixelT>>
 {
   public:
+    using Type = Image<PixelT>;
     using TypeClass = typename TypeTrait<PixelT>::TypeClass;
 
-    static TypeClass create()
+    static TypeClass create(const Type& = Type())
     {
       return TypeTrait<PixelT>::create();
     }

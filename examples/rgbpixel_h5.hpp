@@ -34,9 +34,10 @@ template<>
 class TypeTrait<RGBPixel>
 {
   public:
+    using Type = RGBPixel;
     using TypeClass = Compound;
 
-    static TypeClass create()
+    static TypeClass create(const Type & = Type())
     {
 
       datatype::Compound type(sizeof(RGBPixel));

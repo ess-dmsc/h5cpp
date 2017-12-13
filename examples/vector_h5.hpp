@@ -34,9 +34,10 @@ template<typename T>
 class TypeTrait<vector<T>>
 {
   public:
+    using Type = vector<T>;
     using TypeClass = Compound;
 
-    static TypeClass create()
+    static TypeClass create(const Type& = Type())
     {
       Compound type(sizeof(vector<T>));
       type.insert("x",0,TypeTrait<T>::create());

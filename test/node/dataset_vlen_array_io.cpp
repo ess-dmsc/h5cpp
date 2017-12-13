@@ -97,7 +97,7 @@ class TypeTrait<HKLPoint>
   public:
     using TypeClass = Compound;
 
-    static TypeClass create()
+    static TypeClass create(const HKLPoint & = HKLPoint())
     {
       Compound type(sizeof(HKLPoint));
       auto base_type = TypeTrait<int>::create();
@@ -128,7 +128,7 @@ class TypeTrait<HKLPointList>
   public:
     using TypeClass = VLengthArray;
 
-    static TypeClass create()
+    static TypeClass create(const HKLPointList & = HKLPointList())
     {
       VLengthArray type(TypeTrait<HKLPoint>::create());
       return type;

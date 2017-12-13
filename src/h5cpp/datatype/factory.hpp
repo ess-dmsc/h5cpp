@@ -35,9 +35,9 @@ namespace datatype {
 //! \brief factory function for creating data types
 //!
 template<typename T>
-typename TypeTrait<T>::TypeClass create()
+typename TypeTrait<T>::TypeClass create(const T &v=T())
 {
-  return TypeTrait<T>::create();
+  return TypeTrait<T>::create(v);
 }
 
 } // namespace datatype
