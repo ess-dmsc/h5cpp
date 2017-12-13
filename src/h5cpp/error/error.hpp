@@ -70,14 +70,6 @@ class DLL_EXPORT Singleton
   bool auto_print() const;
 
   //!
-  //! \brief returns most recent error stack as string
-  //!
-  //! Only works if auto_print is disabled. Returns a printout of the HDF5
-  //! error stack resulting from the most recent error condition(s).
-  //!
-  std::string print_stack();
-
-  //!
   //! \brief returns most recent error stack as Stack
   //!
   //! Only works if auto_print is disabled. Returns a Stack (derived exception)
