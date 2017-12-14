@@ -150,6 +150,41 @@ def get_pipeline(image_key)
     }
 }
 
+def get_osx_pipeline()
+{
+    return {
+        stage("MacOSX") {
+            node ("macos") {
+            // Delete workspace when build is done
+                cleanWs()
+
+                dir("${project}/code") {
+                    try {
+                        checkout scm
+                    } catch (e) {
+                        failure_function(e, 'MacOSX / Checkout failed')
+                    }
+                }
+
+                dir("${project}/build") {
+                    try {
+                        sh "cmake ../code"
+                    } catch (e) {
+                        failure_function(e, 'MacOSX / CMake failed')
+                    }
+
+                    try {
+                        sh "make h5cpp_shared"
+                    } catch (e) {
+                        failure_function(e, 'MacOSX / build failed')
+                    }
+                }
+
+            }
+        }
+    }
+}
+
 node('docker && dmbuild03.dm.esss.dk') {
 
     // Delete workspace when build is done
@@ -170,6 +205,7 @@ node('docker && dmbuild03.dm.esss.dk') {
     builders['centos-gcc6'] = get_pipeline('centos-gcc6')
     builders['fedora'] = get_pipeline('fedora')
     builders['ubuntu1604'] = get_pipeline('ubuntu1604')
+    builders['MocOSX'] = get_osx_pipeline()
 
     /*
     for (x in images.keySet()) {
@@ -179,7 +215,6 @@ node('docker && dmbuild03.dm.esss.dk') {
     */
     parallel builders
 }
-
 
 node ("fedora") {
     // Delete workspace when build is done

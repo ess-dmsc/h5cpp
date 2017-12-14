@@ -1,17 +1,11 @@
-include_directories(${PROJECT_SOURCE_DIR}/src)
-include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
-
-if (NOT GTest_FOUND)
-  message(WARNING "GTest not found. No tests will be built.")
-  return()
-endif ()
-
 #
 # We definitely need a better solution for this!
 #
 if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
 endif ()
+
+include_directories(${PROJECT_SOURCE_DIR}/src)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 

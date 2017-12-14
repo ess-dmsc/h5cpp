@@ -54,7 +54,16 @@ include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 add_custom_target(html)
 add_subdirectory(src)
 add_subdirectory(doc)
-add_subdirectory(test)
+
+#=============================================================================
+# unit tests if GTest if present
+#=============================================================================
+include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
+if (GTest_FOUND)
+  add_subdirectory(test)
+else()
+  message(WARNING "GTest not found. No tests will be built.")
+endif()
 
 #=============================================================================
 # create package file
