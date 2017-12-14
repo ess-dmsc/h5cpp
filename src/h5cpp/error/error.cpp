@@ -52,28 +52,6 @@ bool Singleton::auto_print() const
   return auto_print_;
 }
 
-std::string Singleton::print_stack()
-{
-  char* buf {NULL};
-  size_t size {0};
-  FILE *stream = open_memstream (&buf, &size);
-
-  herr_t err = H5Eprint2(H5E_DEFAULT, stream);
-  fflush(stream);
-  fclose(stream);
-
-  if (0 > err)
-  {
-    free(buf);
-    throw std::runtime_error("Could not print error stack");
-  }
-
-  std::string ret(buf, size);
-  free(buf);
-  clear_stack();
-  return ret;
-}
-
 H5CError Singleton::extract_stack()
 {
   std::list<Descriptor> ret;
