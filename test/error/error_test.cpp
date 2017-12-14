@@ -118,6 +118,8 @@ TEST_F(Error, exception_generation_print_off)
   {
     auto message = error::print_nested(e);
     EXPECT_GT(message.size(), 20);
+#ifdef _MSC_ER
     TEST_COUT << "\n" << message;
+#endif
   }
 }
