@@ -27,8 +27,9 @@
 namespace hdf5 {
 namespace attribute {
 
-Attribute::Attribute(ObjectHandle &&handle):
-    handle_(std::move(handle))
+Attribute::Attribute(ObjectHandle &&handle,const node::Link &parent_link):
+    handle_(std::move(handle)),
+    parent_link_(parent_link)
 {
 }
 
@@ -83,6 +84,11 @@ std::string Attribute::name() const
 bool Attribute::is_valid() const
 {
   return handle_.is_valid();
+}
+
+const node::Link &Attribute::parent_link() const noexcept
+{
+  return parent_link_;
 }
 
 void Attribute::write(const char *data) const

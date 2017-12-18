@@ -3,6 +3,14 @@
   <uml:Model xmi:id="_KOXdsO6gEea2CtYIGq_4QA" name="hdf5">
     <packagedElement xmi:type="uml:Package" xmi:id="_41q9gPLGEeaaJvdMJL_JRw" name="attribute">
       <packagedElement xmi:type="uml:Class" xmi:id="_Zr9agJObEeeoI7oI9Ds2zg" name="Attribute">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_b3Y3QOPfEeeIGpsU2zOlcA" name="node" type="_VYW3UJObEeeoI7oI9Ds2zg" aggregation="composite" association="_b3SJkOPfEeeIGpsU2zOlcA">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_b3ZeUOPfEeeIGpsU2zOlcA" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_b3ZeUePfEeeIGpsU2zOlcA" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_M78rUePiEeeIGpsU2zOlcA" name="link" type="_jXRCUPhEEearHstUE6s_yg" aggregation="composite" association="_M77dMOPiEeeIGpsU2zOlcA">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M78rUuPiEeeIGpsU2zOlcA" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M78rU-PiEeeIGpsU2zOlcA" value="1"/>
+        </ownedAttribute>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_rsb4MJOtEeeoI7oI9Ds2zg" name="read" concurrency="concurrent"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_yJkTsJOtEeeoI7oI9Ds2zg" name="write"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_Qih2MJOuEeeoI7oI9Ds2zg" name="name">
@@ -68,6 +76,18 @@
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_h2JdkZbkEeeoI7oI9Ds2zg" key="nature" value="UML_Nature"/>
         </eAnnotations>
         <ownedEnd xmi:type="uml:Property" xmi:id="_h2KEoJbkEeeoI7oI9Ds2zg" name="manager" type="_1n4DEJOsEeeoI7oI9Ds2zg" association="_h2I2gJbkEeeoI7oI9Ds2zg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_b3SJkOPfEeeIGpsU2zOlcA" memberEnd="_b3Y3QOPfEeeIGpsU2zOlcA _b3aFYOPfEeeIGpsU2zOlcA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_b3YQMOPfEeeIGpsU2zOlcA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_b3YQMePfEeeIGpsU2zOlcA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_b3aFYOPfEeeIGpsU2zOlcA" name="attribute" type="_Zr9agJObEeeoI7oI9Ds2zg" association="_b3SJkOPfEeeIGpsU2zOlcA"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_M77dMOPiEeeIGpsU2zOlcA" memberEnd="_M78rUePiEeeIGpsU2zOlcA _M79SYOPiEeeIGpsU2zOlcA">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_M78EQOPiEeeIGpsU2zOlcA" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_M78rUOPiEeeIGpsU2zOlcA" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_M79SYOPiEeeIGpsU2zOlcA" name="attribute" type="_Zr9agJObEeeoI7oI9Ds2zg" association="_M77dMOPiEeeIGpsU2zOlcA"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_g4uWQP55EeaZ1-3y1hN2zw" name="dataspace">
@@ -241,6 +261,10 @@ Such an approach needs to be discussed to. </body>
       <ownedComment xmi:type="uml:Comment" xmi:id="_gISdgMB5EeeTRsWcQr6V8g" annotatedElement="_OxETAMB5EeeTRsWcQr6V8g">
         <body>We would need something like 
 this for the container adapter.</body>
+      </ownedComment>
+      <ownedComment xmi:type="uml:Comment" xmi:id="_uJk1MOPfEeeIGpsU2zOlcA" annotatedElement="_b3SJkOPfEeeIGpsU2zOlcA _M77dMOPiEeeIGpsU2zOlcA">
+        <body>In plain HDF5 attributes contain no information about their parent node. As this information is rather important we keep a copy of the parent node in the attribute. 
+</body>
       </ownedComment>
       <packagedElement xmi:type="uml:Class" xmi:id="_VYW3UJObEeeoI7oI9Ds2zg" name="Node">
         <ownedAttribute xmi:type="uml:Property" xmi:id="_GVXlEa3NEeeC8tqFVijy6A" name="link" type="_jXRCUPhEEearHstUE6s_yg" aggregation="composite" association="_GVWW8K3NEeeC8tqFVijy6A">

@@ -48,7 +48,9 @@ TEST_F(Attribute, test_scalar)
   attribute::Attribute a;
   EXPECT_NO_THROW(a = root_.attributes.create<int>("test"));
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SCALAR);
+  EXPECT_EQ(a.parent_link().path(),"/");
   dataspace::Scalar space(a.dataspace());
+
 
   EXPECT_EQ(a.datatype().get_class(),datatype::Class::INTEGER);
   EXPECT_EQ(a.name(),"test");
