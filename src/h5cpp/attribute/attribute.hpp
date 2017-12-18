@@ -32,6 +32,7 @@
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/node/link.hpp>
 #include <h5cpp/error/error.hpp>
 #include <initializer_list>
 
@@ -46,7 +47,7 @@ class DLL_EXPORT Attribute
     //!
     //! \param handle rvalue reference to the attributes handle
     //!
-    Attribute(ObjectHandle &&handle);
+    Attribute(ObjectHandle &&handle,const node::Link &parent_link);
 
     //!
     //! \brief default constructor
@@ -85,6 +86,13 @@ class DLL_EXPORT Attribute
     //! \brief check if object is valid
     //!
     bool is_valid() const;
+
+    //!
+    //! @brief get the parent ndoe
+    //!
+    //! Return a reference to the node to which the attribute is attached.
+    //!
+    const node::Link &parent_link() const noexcept;
 
     //!
     //! \brief write data to attribute
@@ -178,6 +186,7 @@ class DLL_EXPORT Attribute
 
   private:
     ObjectHandle handle_;
+    node::Link   parent_link_;
 
     template<typename T>
     void write_fixed_length_string(const T &data,
