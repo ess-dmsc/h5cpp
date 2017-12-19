@@ -50,6 +50,18 @@ TEST_F(Dataset, test_default_construction)
   EXPECT_THROW(dset.extent({10,100}),std::runtime_error);
 }
 
+TEST_F(Dataset,test_node_construction)
+{
+  node::Node &root_ref = root_;
+  EXPECT_THROW((node::Dataset(root_ref)),std::runtime_error);
+
+  node::Dataset dset(root_,Path("data"),datatype::create<int>());
+  node::Node &dset_ref = dset;
+  node::Dataset dset_copy(dset_ref);
+  EXPECT_EQ(dset_copy.link().path().name(),"data");
+
+}
+
 TEST_F(Dataset, test_scalar_dataset)
 {
   node::Dataset dset(root_,Path("data"),datatype::create<int>());

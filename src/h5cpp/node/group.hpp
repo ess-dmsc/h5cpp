@@ -65,6 +65,8 @@ class DLL_EXPORT Group : public Node
     //!
     //! Construct an instance of Group from a generic Node class.
     //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     Group(const Node &node);
 
     //!

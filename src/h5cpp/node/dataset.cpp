@@ -70,7 +70,15 @@ Node Dataset::create_dataset(const Group &base,
 //=============================================================================
 Dataset::Dataset(const Node &node):
     Node(node)
-{}
+{
+  if(node.type()!=Type::DATASET)
+  {
+    std::stringstream ss;
+    ss<<"Construction of a Dataset from a Node failed since ";
+    ss<<"Node ["<<node.link().path()<<"] is not a dataset!";
+    throw std::runtime_error(ss.str());
+  }
+}
 
 Dataset::Dataset(const Group &base,const Path &path,
                  const datatype::Datatype &type,
