@@ -65,6 +65,10 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! Construct a dataset from a node instance.
     //!
+    //! \throws std::runtime_error in case that the node is not a dataset
+    //! \param node reference to the original node from which to construct
+    //!             the dataset.
+    //!
     Dataset(const Node &node);
 
     //!
