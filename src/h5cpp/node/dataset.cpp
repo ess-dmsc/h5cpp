@@ -71,7 +71,7 @@ Node Dataset::create_dataset(const Group &base,
 Dataset::Dataset(const Node &node):
     Node(node)
 {
-  if(type()!=Type::DATASET)
+  if(node.type()!=Type::DATASET)
   {
     std::stringstream ss;
     ss<<"Construction of a Dataset from a Node failed since ";
