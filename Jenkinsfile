@@ -167,7 +167,12 @@ def get_osx_pipeline()
                 dir("${project}/build") {
                     try {
                         sh "conan install --file=../code/conanfile_ess.txt --build=missing"
-                        sh "cmake ../code"
+                    } catch (e) {
+                        failure_function(e, 'MacOSX / getting dependencies failed')
+                    }
+
+                    try {
+                        sh "cmake -DCMAKE_OSX_RPATH=ON ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
