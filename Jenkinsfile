@@ -172,7 +172,7 @@ def get_osx_pipeline()
                     }
 
                     try {
-                        sh "cmake -DCMAKE_MACOSX_RPATH=ON ../code"
+                        sh "cmake -DCMAKE_MACOSX_RPATH=OFF ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
