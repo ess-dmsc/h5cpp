@@ -173,9 +173,10 @@ def get_osx_pipeline()
                     }
 
                     try {
-                        sh "make h5cpp_shared"
+                        sh "make run_tests"
                     } catch (e) {
-                        failure_function(e, 'MacOSX / build failed')
+		        junit 'test/unit_tests_run.xml'
+                        failure_function(e, 'MacOSX / build+test failed')
                     }
                 }
 
