@@ -196,10 +196,11 @@ node {
     }
 
     def builders = [:]
-    builders['centos'] = get_pipeline('centos')
-    builders['centos-gcc6'] = get_pipeline('centos-gcc6')
-    //builders['fedora'] = get_pipeline('fedora')
+    //builders['centos'] = get_pipeline('centos')
+    //builders['centos-gcc6'] = get_pipeline('centos-gcc6')
+    builders['fedora'] = get_pipeline('fedora')
     //builders['ubuntu1604'] = get_pipeline('ubuntu1604')
+    builders['ubuntu1710'] = get_pipeline('ubuntu1710')
     //builders['MocOSX'] = get_osx_pipeline()
 
     /*
