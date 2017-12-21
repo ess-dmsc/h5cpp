@@ -46,13 +46,6 @@ def docker_dependencies(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         mkdir build
         cd build
-        conan --version
-        set +x
-        conan remote add \
-        desy-packages https://api.bintray.com/conan/eugenwintersberger/desy-packages
-        conan remote add \
-            --insert 0 \
-            ${conan_remote} ${local_conan_server}
         conan install --file=../${project}/conanfile_ess.txt --build=missing
     \""""
 }
@@ -203,8 +196,8 @@ node {
     //builders['centos'] = get_pipeline('centos')
     //builders['centos-gcc6'] = get_pipeline('centos-gcc6')
     //builders['fedora'] = get_pipeline('fedora')
-    //builders['ubuntu1604'] = get_pipeline('ubuntu1604')
-    builders['MocOSX'] = get_osx_pipeline()
+    builders['ubuntu1604'] = get_pipeline('ubuntu1604')
+    //builders['MocOSX'] = get_osx_pipeline()
 
     /*
     for (x in images.keySet()) {
@@ -218,6 +211,7 @@ node {
     cleanWs()
 }
 
+/*
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -304,5 +298,5 @@ node ("fedora") {
             }
         }
     }
-
 }
+*/
