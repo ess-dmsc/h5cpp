@@ -196,18 +196,11 @@ node {
     }
 
     def builders = [:]
-    builders['centos'] = get_pipeline('centos')
-    builders['centos-gcc6'] = get_pipeline('centos-gcc6')
-    builders['fedora'] = get_pipeline('fedora')
-    builders['ubuntu1604'] = get_pipeline('ubuntu1604')
-    //builders['ubuntu1710'] = get_pipeline('ubuntu1710')
-    builders['MocOSX'] = get_osx_pipeline()
-
-    
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
+    builders['MocOSX'] = get_osx_pipeline()
     
     parallel builders
 
@@ -215,7 +208,6 @@ node {
     cleanWs()
 }
 
-/*
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -303,4 +295,3 @@ node ("fedora") {
         }
     }
 }
-*/
