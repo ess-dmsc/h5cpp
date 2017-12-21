@@ -46,6 +46,9 @@ def docker_dependencies(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         mkdir build
         cd build
+        conan remote add \
+            --insert 0 \
+            ${conan_remote} ${local_conan_server}
         conan install --file=../${project}/conanfile_ess.txt --build=missing
     \""""
 }
