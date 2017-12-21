@@ -171,7 +171,7 @@ def get_osx_pipeline()
                 dir("${project}/build") {
                     try {
                         // sh "conan install --file=../conanfile_ess.txt --build=missing"
-                        sh "cmake -DWITH_CONAN=ON -DCONAN_FILE=../conanfile_ess.txt ../code"
+                        sh "cmake -DWITH_CONAN=ON -DCONAN_FILE=../code/conanfile_ess.txt ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
