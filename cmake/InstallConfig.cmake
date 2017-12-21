@@ -23,7 +23,6 @@ elseif(CMAKE_SYSTEM_NAME MATCHES Darwin)
   include(GNUInstallDirs)
   message(STATUS "==============================================================")
   message(STATUS "Installation directories for MacOSX: ")
-
   set(CMAKE_INSTALL_DOCDIR ${CMAKE_INSTALL_DATAROOTDIR}/doc/${PROJECT_NAME}-${PROJECT_VERSION})
 
 elseif(CMAKE_SYSTEM_NAME MATCHES Windows)

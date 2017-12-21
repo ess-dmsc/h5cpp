@@ -23,6 +23,11 @@ add_library(h5cpp_shared SHARED
   ${h5cpp_headers}
   )
 
+if(CMAKE_SYSTEM_NAME MATCHES Darwin)
+  set_target_properties(h5cpp_shared PROPERTIES INSTALL_RPATH "${INSTALL_PREFIX}/lib")
+  set_target_properties(h5cpp_shared PROPERTIES BUILD_WITH_INSTALL_RPATH ON)
+endif()
+    
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem ${MPI_CXX_LIBRARIES})
 target_include_directories(h5cpp_shared
