@@ -108,6 +108,7 @@ def Object get_container(image_key) {
 def get_pipeline(image_key)
 {
     return {
+      node('docker && dmbuild03.dm.esss.dk') {
         stage("${image_key}") {
             try {
                 def container = get_container(image_key)
@@ -147,6 +148,7 @@ def get_pipeline(image_key)
                 sh "docker rm -f ${container_name(image_key)}"
             }
         }
+      }
     }
 }
 
@@ -186,11 +188,7 @@ def get_osx_pipeline()
     }
 }
 
-node('docker && dmbuild03.dm.esss.dk') {
-
-    // Delete workspace when build is done
-    cleanWs()
-
+node {
     stage('Checkout') {
         dir("${project}/code") {
             try {
@@ -215,6 +213,9 @@ node('docker && dmbuild03.dm.esss.dk') {
     }
     */
     parallel builders
+
+    // Delete workspace when build is done
+    cleanWs()
 }
 
 node ("fedora") {
