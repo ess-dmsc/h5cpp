@@ -59,7 +59,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} -DCONAN_FILE=conanfile_ess.txt -DCMAKE_BUILD_TYPE=Release ../${project}
+        ${cmake_exec} ../${project}
     \""""
 }
 
@@ -196,19 +196,19 @@ node {
     }
 
     def builders = [:]
-    //builders['centos'] = get_pipeline('centos')
-    //builders['centos-gcc6'] = get_pipeline('centos-gcc6')
+    builders['centos'] = get_pipeline('centos')
+    builders['centos-gcc6'] = get_pipeline('centos-gcc6')
     builders['fedora'] = get_pipeline('fedora')
-    //builders['ubuntu1604'] = get_pipeline('ubuntu1604')
-    builders['ubuntu1710'] = get_pipeline('ubuntu1710')
-    //builders['MocOSX'] = get_osx_pipeline()
+    builders['ubuntu1604'] = get_pipeline('ubuntu1604')
+    //builders['ubuntu1710'] = get_pipeline('ubuntu1710')
+    builders['MocOSX'] = get_osx_pipeline()
 
-    /*
+    
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    */
+    
     parallel builders
 
     // Delete workspace when build is done
