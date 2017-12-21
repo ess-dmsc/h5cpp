@@ -168,7 +168,8 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake ../code"
+                        // sh "conan install --file=../conanfile_ess.txt --build=missing"
+                        sh "cmake -DWITH_CONAN=ON ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -201,10 +202,10 @@ node('docker && dmbuild03.dm.esss.dk') {
     }
 
     def builders = [:]
-    builders['centos'] = get_pipeline('centos')
-    builders['centos-gcc6'] = get_pipeline('centos-gcc6')
-    builders['fedora'] = get_pipeline('fedora')
-    builders['ubuntu1604'] = get_pipeline('ubuntu1604')
+    //builders['centos'] = get_pipeline('centos')
+    //builders['centos-gcc6'] = get_pipeline('centos-gcc6')
+    //builders['fedora'] = get_pipeline('fedora')
+    //builders['ubuntu1604'] = get_pipeline('ubuntu1604')
     builders['MocOSX'] = get_osx_pipeline()
 
     /*
