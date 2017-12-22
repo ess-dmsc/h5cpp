@@ -2,23 +2,23 @@ project = "h5cpp"
 
 images = [
     'centos': [
-        'name': 'essdmscdm/centos-build-node:0.9.0',
+        'name': 'essdmscdm/centos-build-node:0.9.4',
         'sh': 'sh'
     ],
     'centos-gcc6': [
-        'name': 'essdmscdm/centos-gcc6-build-node:0.3.0',
+        'name': 'essdmscdm/centos-gcc6-build-node:0.3.4',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
     ],
     'fedora': [
-        'name': 'essdmscdm/fedora-build-node:0.4.1',
+        'name': 'essdmscdm/fedora-build-node:0.4.2',
         'sh': 'sh'
     ],
     'ubuntu1604': [
-        'name': 'essdmscdm/ubuntu16.04-build-node:0.0.1',
+        'name': 'essdmscdm/ubuntu16.04-build-node:0.0.2',
         'sh': 'sh'
     ],
     'ubuntu1710': [
-        'name': 'essdmscdm/ubuntu17.10-build-node:0.0.2',
+        'name': 'essdmscdm/ubuntu17.10-build-node:0.0.3',
         'sh': 'sh'
     ]
 ]
@@ -46,10 +46,6 @@ def docker_dependencies(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         mkdir build
         cd build
-        conan --version
-        set +x
-        conan remote add \
-        desy-packages https://api.bintray.com/conan/eugenwintersberger/desy-packages
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
@@ -63,7 +59,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} -DCONAN_FILE=conanfile_ess.txt -DCMAKE_BUILD_TYPE=Release ../${project}
+        ${cmake_exec} ../${project}
     \""""
 }
 
@@ -108,6 +104,7 @@ def Object get_container(image_key) {
 def get_pipeline(image_key)
 {
     return {
+      node('docker && dmbuild03.dm.esss.dk') {
         stage("${image_key}") {
             try {
                 def container = get_container(image_key)
@@ -147,6 +144,7 @@ def get_pipeline(image_key)
                 sh "docker rm -f ${container_name(image_key)}"
             }
         }
+      }
     }
 }
 
@@ -168,15 +166,22 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
+                        sh "conan install --file=../code/conanfile_ess.txt --build=missing"
+                    } catch (e) {
+                        failure_function(e, 'MacOSX / getting dependencies failed')
+                    }
+
+                    try {
                         sh "cmake ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
 
                     try {
-                        sh "make h5cpp_shared"
+                        sh "make run_tests"
                     } catch (e) {
-                        failure_function(e, 'MacOSX / build failed')
+		                junit 'test/unit_tests_run.xml'
+                        failure_function(e, 'MacOSX / build+test failed')
                     }
                 }
 
@@ -185,11 +190,7 @@ def get_osx_pipeline()
     }
 }
 
-node('docker && dmbuild03.dm.esss.dk') {
-
-    // Delete workspace when build is done
-    cleanWs()
-
+node {
     stage('Checkout') {
         dir("${project}/code") {
             try {
@@ -201,19 +202,16 @@ node('docker && dmbuild03.dm.esss.dk') {
     }
 
     def builders = [:]
-    builders['centos'] = get_pipeline('centos')
-    builders['centos-gcc6'] = get_pipeline('centos-gcc6')
-    builders['fedora'] = get_pipeline('fedora')
-    builders['ubuntu1604'] = get_pipeline('ubuntu1604')
-    builders['MocOSX'] = get_osx_pipeline()
-
-    /*
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    */
+    builders['MocOSX'] = get_osx_pipeline()
+    
     parallel builders
+
+    // Delete workspace when build is done
+    cleanWs()
 }
 
 node ("fedora") {
@@ -302,5 +300,4 @@ node ("fedora") {
             }
         }
     }
-
 }
