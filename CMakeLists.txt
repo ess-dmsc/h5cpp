@@ -30,7 +30,7 @@ endif ()
 if (EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
   message(STATUS "Using existing conanbuildinfo.cmake file")
   include(${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup()
+  conan_basic_setup(KEEP_RPATHS)
 endif ()
 
 #=============================================================================
