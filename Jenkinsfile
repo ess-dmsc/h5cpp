@@ -172,7 +172,7 @@ def get_osx_pipeline()
                     }
 
                     try {
-                        sh "cmake -DCMAKE_MACOSX_RPATH=OFF ../code"
+                        sh "cmake ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -180,7 +180,7 @@ def get_osx_pipeline()
                     try {
                         sh "make run_tests"
                     } catch (e) {
-		        junit 'test/unit_tests_run.xml'
+		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'MacOSX / build+test failed')
                     }
                 }
@@ -202,12 +202,10 @@ node {
     }
 
     def builders = [:]
-/*
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-*/
     builders['MocOSX'] = get_osx_pipeline()
     
     parallel builders
