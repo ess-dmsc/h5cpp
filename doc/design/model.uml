@@ -109,7 +109,9 @@ spezialization of this type. </body>
       <packagedElement xmi:type="uml:Class" xmi:id="_kLJoIJOZEeeoI7oI9Ds2zg" name="Null">
         <generalization xmi:type="uml:Generalization" xmi:id="_pcdJsJOZEeeoI7oI9Ds2zg" general="_hzOugJOZEeeoI7oI9Ds2zg"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Class" xmi:id="_3qLzsJOZEeeoI7oI9Ds2zg" name="Selection"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_3qLzsJOZEeeoI7oI9Ds2zg" name="Selection">
+        <nestedClassifier xmi:type="uml:DataType" xmi:id="_Xlut8PFKEeesZZqzx-B7Xg" name="SharedPointer"/>
+      </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_4pulIJOZEeeoI7oI9Ds2zg" name="Points">
         <generalization xmi:type="uml:Generalization" xmi:id="_-wDqMJOZEeeoI7oI9Ds2zg" general="_3qLzsJOZEeeoI7oI9Ds2zg"/>
       </packagedElement>
@@ -154,6 +156,37 @@ spezialization of this type. </body>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_ugeygJPAEeeoI7oI9Ds2zg" name="create" isStatic="true">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_z-lZ8JPAEeeoI7oI9Ds2zg" name="return" type="_hzOugJOZEeeoI7oI9Ds2zg" direction="return"/>
         </ownedOperation>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_Baj7APFEEeesZZqzx-B7Xg" name="SelectionList"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_C7zrUPFEEeesZZqzx-B7Xg" name="OperationWithSelection">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_dm60UPFKEeesZZqzx-B7Xg" name="operation" type="_hsZRQJOaEeeoI7oI9Ds2zg"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_iaTq0PFKEeesZZqzx-B7Xg" name="selection" type="_Xlut8PFKEeesZZqzx-B7Xg"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_e-TFsPFEEeesZZqzx-B7Xg" name="View"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_9y8pMPFFEeesZZqzx-B7Xg" name="SelectionList"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_Yz2qwPFGEeesZZqzx-B7Xg" memberEnd="_Yz5uEPFGEeesZZqzx-B7Xg _Yz68MfFGEeesZZqzx-B7Xg" navigableOwnedEnd="_Yz5uEPFGEeesZZqzx-B7Xg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Yz5HAPFGEeesZZqzx-B7Xg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_Yz5HAfFGEeesZZqzx-B7Xg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_Yz68MfFGEeesZZqzx-B7Xg" name="view" type="_e-TFsPFEEeesZZqzx-B7Xg" association="_Yz2qwPFGEeesZZqzx-B7Xg"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_Yz5uEPFGEeesZZqzx-B7Xg" name="dataspace" type="_hzOugJOZEeeoI7oI9Ds2zg" aggregation="composite" association="_Yz2qwPFGEeesZZqzx-B7Xg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Yz6VIPFGEeesZZqzx-B7Xg" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Yz68MPFGEeesZZqzx-B7Xg" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Usage" xmi:id="_bEeCgPFGEeesZZqzx-B7Xg" name="applies selections" client="_e-TFsPFEEeesZZqzx-B7Xg" supplier="_9y8pMPFFEeesZZqzx-B7Xg"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_vQbosPFKEeesZZqzx-B7Xg" memberEnd="_vQc20fFKEeesZZqzx-B7Xg _vQn18PFKEeesZZqzx-B7Xg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vQcPwPFKEeesZZqzx-B7Xg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_vQc20PFKEeesZZqzx-B7Xg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_vQn18PFKEeesZZqzx-B7Xg" name="selectionlist" type="_9y8pMPFFEeesZZqzx-B7Xg" association="_vQbosPFKEeesZZqzx-B7Xg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_xfv_8PFKEeesZZqzx-B7Xg" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_xfzqUPFKEeesZZqzx-B7Xg" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_vQc20fFKEeesZZqzx-B7Xg" name="operationwithselection" type="_C7zrUPFEEeesZZqzx-B7Xg" aggregation="composite" association="_vQbosPFKEeesZZqzx-B7Xg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vQfTEPFKEeesZZqzx-B7Xg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vQjkgPFKEeesZZqzx-B7Xg" value="*"/>
+        </ownedEnd>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_08wsUP55EeaZ1-3y1hN2zw" name="datatype">
@@ -273,12 +306,12 @@ this for the container adapter.</body>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_YThA4JObEeeoI7oI9Ds2zg" name="Dataset">
-        <generalization xmi:type="uml:Generalization" xmi:id="_f6TzIJObEeeoI7oI9Ds2zg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
+        <generalization xmi:type="uml:Generalization" xmi:id="_lT7iUPFVEeesZZqzx-B7Xg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_tw0XgJO9EeeoI7oI9Ds2zg" name="read"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_v8FVMJO9EeeoI7oI9Ds2zg" name="write"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_aiYFIJObEeeoI7oI9Ds2zg" name="Datatype">
-        <generalization xmi:type="uml:Generalization" xmi:id="_geA9IJObEeeoI7oI9Ds2zg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
+        <generalization xmi:type="uml:Generalization" xmi:id="_lypeoPFVEeesZZqzx-B7Xg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_hTt2EJObEeeoI7oI9Ds2zg" name="NodeView">
         <generalization xmi:type="uml:Generalization" xmi:id="_9NkoIJO3EeeoI7oI9Ds2zg" general="_3rKvgJO3EeeoI7oI9Ds2zg"/>
@@ -359,7 +392,7 @@ this for the container adapter.</body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_W5TFoJObEeeoI7oI9Ds2zg" name="Group">
-        <generalization xmi:type="uml:Generalization" xmi:id="_fXKCwJObEeeoI7oI9Ds2zg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
+        <generalization xmi:type="uml:Generalization" xmi:id="_mR8CsPFVEeesZZqzx-B7Xg" general="_VYW3UJObEeeoI7oI9Ds2zg"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_yvPIYJO0EeeoI7oI9Ds2zg" name="nodes" visibility="public" type="_hTt2EJObEeeoI7oI9Ds2zg" aggregation="composite"/>
         <ownedAttribute xmi:type="uml:Property" xmi:id="_4I7J4JO0EeeoI7oI9Ds2zg" name="links" type="_iV99QJObEeeoI7oI9Ds2zg" aggregation="composite"/>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_8rHqEJOxEeeoI7oI9Ds2zg" name="create_dataset">

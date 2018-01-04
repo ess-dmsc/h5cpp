@@ -7,7 +7,8 @@ Working with files
 
 .. todo::
 
-    How do we deal with the meta-data cache?
+    For the time being, *h5cpp* provides no interface to the metadata 
+    cache. This feature might be added in future. 
     
 The first things you have to do when using HDF5 is to create a new file or 
 open an already existing one. This chapter deals with this very basic topic.
@@ -20,7 +21,7 @@ reflecetd by a simple string.
 Identifying an HDF5 file
 ========================
 
-Before opening an HDF5 file we should check whether or not the object 
+Before opening an HDF5 file we should check whether or not the filesystem object 
 referenced by :cpp:class:`boost::filesystem::path` is indeed an HDF5 file. 
 The simpliest way to achieve this goal is to use the 
 :cpp:func:`hdf5::file::is_hdf5_file` utiltiy function function.
@@ -97,7 +98,6 @@ you have to provide a custom file access property list
    file::File f = file::create("swmr_file.h5",
                                file::AccessFlags::TRUNCATE,
                                fcpl,fapl);
-  
   
 Opening an existing file
 ========================

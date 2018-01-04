@@ -2,9 +2,15 @@
 Using dataspaces with custom types
 ==================================
 
-When working with user defined types a new type trait to create a dataspace 
-must be provided if something else than a scalar dataspace should be 
-returned for this type. 
+*h5cpp* makes some default assumptions about which dataspace to use for a
+particular type
+
+* for the container templates  :cpp:class:`std::vector` and 
+  :cpp:class:`std::array` a :cpp:class:`Simple` dataspace of rank 1 is used
+* for everything else :cpp:class:`hdf5::dataspace::Scalar` is used.  
+
+However, in the case of user defined data types the user has to provide 
+a type trait to tell *h5cpp* what dataspace to use for the type. 
 
 As an example we consider here a trait for a 3x3 matrix type. The C++ class
 template for such a class could look like this 
@@ -21,9 +27,9 @@ template for such a class could look like this
         const T *data() const;
     }; 
 
-Now as a dataspace for such a type we would like to have a simple dataspace 
-of shape 3x3 and fixed size. The type trait which must be provided could 
-look like this 
+The most natural choice for a dataspace for such a type would be a simple 
+dataspace of shape 3x3 with fixed dimensions. To achive this we have to provide
+a type trait as follows
 
 .. code-block:: cpp
 
