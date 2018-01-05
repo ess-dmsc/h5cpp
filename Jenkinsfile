@@ -192,7 +192,7 @@ def get_osx_pipeline()
     }
 }
 
-node('docker && dmbuild03.dm.esss.dk') {
+node('docker') {
     stage('Checkout') {
         dir("${project}/code") {
             try {
