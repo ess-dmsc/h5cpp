@@ -104,7 +104,7 @@ def Object get_container(image_key) {
 def get_pipeline(image_key)
 {
     return {
-      node('docker && dmbuild03.dm.esss.dk') {
+      node('docker') {
         stage("${image_key}") {
             try {
                 def container = get_container(image_key)
