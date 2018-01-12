@@ -16,8 +16,9 @@ set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for th
 if (WITH_CONAN)
   
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
+  include(conan.cmake)
   conan_cmake_run(CONANFILE ${CONAN_FILE}
-    BASIC_SETUP
+    BASIC_SETUP UPDATE
     BUILD missing)
 endif ()
 
