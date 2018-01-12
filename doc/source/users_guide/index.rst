@@ -29,4 +29,5 @@ Welcome the users guide of the *h5cpp* HDF5 C++ wrapper.
    files
    dataspace
    groups
+   attributes
    

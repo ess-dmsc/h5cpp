@@ -2,66 +2,125 @@
 Working with attributes
 =======================
 
-The attributes of an object can be accessed via the public attribute 
-:cpp:member:`attributes` of a group or dataset.  
-:cpp:member:`attributes` is an instance of :cpp:type:`attribute_manager_t` 
-providing an STL compliant  interface for attributes.
+Every node can be augumented with attributes. Attributes behave a bit like 
+datasets but lack some of the features the latter provides 
 
-The general interface of :cpp:type:`attribute_manager_t` looks somewhat like 
-this 
+* there is no partial IO on attributes
+* attribute data cannot be compressed. 
+* you cannot use virtual datasets or SWMR on attributes. 
+
+Attributes can be accessed via the :cpp:class:`hdf5::attribute::Manager` interface
+exposed by the :cpp:member:`attributes` member of every :cpp:class:`hdf5::node::Node` 
+instance. :cpp:class:`hdf5::attribute::Manager` provides an STL compliant 
+container interface to attributes which is somehow similar to that of 
+:cpp:class:`hdf5::node::LinkView` or :cpp:class:`hdf5::node::NodeView`. 
+
+An attribute itself is represented by an instance of 
+:cpp:class:`hdf5::attribute::Attribute`. 
+
+Basic attribute management
+==========================
+
+Creating attributes
+-------------------
+
+Attribute creation is done via the :cpp:func:`create` member function 
+of the attribute manager interface. 
+To create a simple scalar string attribute you could use 
 
 .. code-block:: cpp
 
-    class attribute_manager_t
-    {
-        public:
-            using const_iterator = ....;
-            using value_type = attribute_t;
+   using hdf5::attribute::Attribute; 
+   hdf5::node::Dataset dataset = ...;
+   
+   Attribute attribute = dataset.attributes.create<std::string>("author"); 
+   
+A multidimensional attribute can be created using 
 
-            //
-            // create a new HDF5 attribute on the managers parent
-            //
-            // Full version with default property lists (they are included here
-            // just for the sake of completeness and later usage).
-            //!
-            attribute_t create(const string &name,
-                               const datatype_t &type,
-                               const dataspace_t &space,
-                               const attribute_create_plist_t &cpl = attribute_create_plist_t(),
-                               const attribute_access_plist_t &apl = attribute_access_plist_t());
+.. code-block:: cpp
 
-            // we should possible add some convenience functions to make
-            // attribute creation easier
+   Attribute attribute = dataset.attributes.create<float>("orientation_matrix",{3,3});
+   
+which would lead to a 3x3 matrix attribute of type :cpp:type:`float`. 
+There exists also a non template version of :cpp:func:`create` which 
+exposes all the flexibility HDF5 provides. So we could write the last 
+example also with 
+
+.. code-block:: cpp
+
+   hdf5::dataspace::Simple space{{3,3}};
+   auto type = hdf5::datatype::create<float>(); 
+   Attribute attr = dataset.attributes.create("orientation_matrix",type,space);
+   
 
 
-            //get attribute by index
-            attribute_t operator[](size_t index) const;
-            //get attribute by name
-            attribute_t operator[](const string &name) const;
-            
-            //get the number of attributes
-            size_t size() const;
+Removing attributes
+-------------------
 
-            const_iterator begin() const;
-            const_iterator end() const;
-    };
+Attributes can be removed using the :cpp:func:`remove` member functions of 
+:cpp:class:`hdf5::attribute::Manager`. This function takes either the index 
+of the name of an attribute as its key 
 
-Creating attributes
-===================
+.. code-block:: cpp
 
-.. todo::
+   hdf5::node::Dataset dataset = ... ;
+   
+   dataset.attributes.remove(1); //remove attribute with index 1
+   dataset.attributes.remove("temperature"); //remove attribute "temperature"
+   
+Both methods throw :cpp:class:`std::runtime_error` in the case of a failure. 
 
-    Still do be done - depends on the interface provided by
-    :cpp:class:`attribute_manager_t`.
+
+Attribute inquery
+-----------------
+
+If we would like to know how many attributes are attached to a node we could
+use the :cpp:func:`size` member function of the manager interface. 
+
+.. code-block:: cpp
+
+   hdf5::node::Group group = ...;
+   std::cout<<"Number of attributes: "<<group.attributes.size()<<std::endl; 
+   
+the :cpp:func:`exists` method checks for the existence of a particular 
+attribute with a given name
+
+.. code-block:: cpp
+
+   hdf5::node::Group group = ...;
+   
+   if(group.attributes.exists("NX_class"))
+   {
+    ....
+   }
+   
+
+
 
 Accessing attributes
 ====================
+
+Element wise access
+-------------------
+
+Like nodes or links, attributes can be either accessed via their name 
+or by their index. 
+
+.. code-block:: cpp
+
+   hdf5::node::Dataset dataset = ...;
+   
+   std::cout<<dataset.attributes["temperature"].name()<<std::endl;
+   std::cout<<dataset.attributes[1].name()<<std::endl; 
+
+Iteartor access
+---------------
 
 Iterating over attributes
 
 .. code-block:: cpp
     
-    h5::group_t group = ....;
+    hdf5::node::Group group = ....;
 
     for(auto attribute: group.attributes)
     {
@@ -72,23 +131,13 @@ or alternatively
 
 .. code-block:: cpp
 
-    h5::group_t group = ....;
+    hdf5::node::Group group = ....;
 
     std::for_each(group.attribtues.begin(),
                   group.attributes.end(),
-                  [](const auto &attr) { std::cout<<attr.name()<<std::endl; });
+                  [](const hdf5::attribute::Attribute &attr) 
+                  { std::cout<<attr.name()<<std::endl; });
 
-For the time being attributes will not support partial IO (as datasets do). 
-Attributes can also be accessed by index. 
-
-.. code-block:: cpp
-
-    h5::group_t group = ....;
-
-    for(size_t index=0;index<group.attributes.size();index++)
-    {
-        std::cout<<group.attributes[index].name()<<std::endl;
-    }
 
 Reading and writing data
 ========================
