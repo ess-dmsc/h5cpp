@@ -38,3 +38,4 @@ endif()
 # load targets 
 #
 include(${CMAKE_CURRENT_LIST_DIR}/h5cpp_shared_targets.cmake)
+target_include_directories(h5cpp_shared PRIVATE ${HDF5_INCLUDE_DIRS})

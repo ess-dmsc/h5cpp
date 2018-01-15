@@ -26,8 +26,8 @@ add_library(h5cpp_shared SHARED
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
 set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem ${MPI_CXX_LIBRARIES})
 target_include_directories(h5cpp_shared
-  PRIVATE ${PROJECT_SOURCE_DIR}/src
-  PUBLIC ${HDF5_INCLUDE_DIRS} ${MPI_CXX_INCLUDE_PATH}
+  PRIVATE ${PROJECT_SOURCE_DIR}/src ${HDF5_INCLUDE_DIRS}
+  PUBLIC ${MPI_CXX_INCLUDE_PATH}
   INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
 
