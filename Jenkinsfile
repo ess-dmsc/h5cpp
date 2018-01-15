@@ -210,7 +210,7 @@ node('docker') {
     }
     builders['MocOSX'] = get_osx_pipeline()
     
-    //parallel builders
+    parallel builders
 
     // Delete workspace when build is done
     cleanWs()
@@ -239,7 +239,7 @@ node ("fedora") {
             }
 
             try {
-                /*sh "make generate_coverage"
+                sh "make generate_coverage"
                 junit 'test/unit_tests_run.xml'
                 //sh "make memcheck"
                 step([
@@ -253,7 +253,7 @@ node ("fedora") {
                     onlyStable: false,
                     sourceEncoding: 'ASCII',
                     zoomCoverageChart: false
-                ])*/
+                ])
             } catch (e) {
                 failure_function(e, 'Generate docs / generate coverage failed')
                 junit 'test/unit_tests_run.xml'
