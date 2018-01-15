@@ -286,9 +286,9 @@ node ("fedora") {
                     sh "git pull"
                     sh "shopt -u dotglob && rm -rf ./*"
                     sh "mv -f ../build/doc/build/* ./"
-                    sh 'find ./ -name "CMakeFiles" -exec rm -rf {} \;'
-                    sh 'find ./ -name "Makefile" -exec rm -rf {} \;'
-                    sh 'find ./ -name "*.cmake" -exec rm -rf {} \;'
+                    sh 'find ./ -name "CMakeFiles" -exec rm -rf {} \\;'
+                    sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
+                    sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
                     sh 'rm -rf ./_sources'
                     sh "git add -A"
                     sh "git commit -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
