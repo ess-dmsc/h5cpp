@@ -220,7 +220,7 @@ node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
 
-    stage("Coverage") {
+    /*stage("Coverage") {
         dir("${project}/code") {
             try {
                 checkout scm
@@ -259,7 +259,7 @@ node ("fedora") {
                 junit 'test/unit_tests_run.xml'
             }
         }
-    }
+    }*/
 
     stage("Documentation") {
         dir("${project}/build") {
