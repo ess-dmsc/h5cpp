@@ -12,6 +12,8 @@ cmake
 Boost:shared=True
 hdf5:shared=True
 gtest:shared=True
+Boost::python=False
+zlib:shared=True
 
 [imports]
 bin, *.dll -> ./bin
