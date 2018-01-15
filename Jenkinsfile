@@ -210,7 +210,7 @@ node('docker') {
     }
     builders['MocOSX'] = get_osx_pipeline()
     
-    parallel builders
+    //parallel builders
 
     // Delete workspace when build is done
     cleanWs()
