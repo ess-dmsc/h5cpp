@@ -220,7 +220,7 @@ node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
 
-    /*stage("Coverage") {
+    stage("Coverage") {
         dir("${project}/code") {
             try {
                 checkout scm
@@ -239,7 +239,7 @@ node ("fedora") {
             }
 
             try {
-                sh "make generate_coverage"
+                /*sh "make generate_coverage"
                 junit 'test/unit_tests_run.xml'
                 //sh "make memcheck"
                 step([
@@ -253,13 +253,13 @@ node ("fedora") {
                     onlyStable: false,
                     sourceEncoding: 'ASCII',
                     zoomCoverageChart: false
-                ])
+                ])*/
             } catch (e) {
                 failure_function(e, 'Generate docs / generate coverage failed')
                 junit 'test/unit_tests_run.xml'
             }
         }
-    }*/
+    }
 
     stage("Documentation") {
         dir("${project}/build") {
