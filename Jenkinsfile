@@ -283,10 +283,15 @@ node ("fedora") {
 
                     sh "git fetch"
                     sh "git checkout gh-pages"
+                    sh "git pull"
                     sh "shopt -u dotglob && rm -rf ./*"
                     sh "mv -f ../build/doc/build/* ./"
+                    sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
+                    sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
+                    sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
+                    sh 'rm -rf ./_sources'
                     sh "git add -A"
-                    sh "git commit -a -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
+                    sh "git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
 
                     withCredentials([usernamePassword(
                         credentialsId: 'cow-bot-username',
