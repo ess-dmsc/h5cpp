@@ -1,0 +1,231 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Installing the library &#8212; h5cpp 0.4.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using the library" href="using.html" />
+    <link rel="prev" title="Users guide" href="index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="using.html" title="Using the library"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Users guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installing the library</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="installing-the-library">
+<h1>Installing the library<a class="headerlink" href="#installing-the-library" title="Permalink to this headline">¶</a></h1>
+<p>This chapter describes the installation of <em>h5cpp</em> from sources. We discuss
+here the installation on a Linux (OSX should be quite similar). Installation
+on Windows is beyond this scope of this chapter and will be described in the
+advanced topics section of this manual.</p>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>In order to build the code you need</p>
+<ul class="simple">
+<li><p>a C++ compiler with reasonable C++11 support
+(gcc&gt;=4.9,Micrsoft Developer Studio &gt;= 2015)</p></li>
+<li><p>the <a class="reference external" href="http://www.boost.org/">Boost</a> libraries or a compiler with std::filesystem or std::experimental::filesystem</p></li>
+<li><p>the <a class="reference external" href="https://support.hdfgroup.org/HDF5/">HDF5</a> C library</p></li>
+<li><p><a class="reference external" href="https://github.com/google/googletest">googletest</a> to build the unit tests</p></li>
+<li><p><a class="reference external" href="http://www.sphinx-doc.org/en/stable/">sphinx</a> (with python) and  <a class="reference external" href="http://www.stack.nl/~dimitri/doxygen/index.html">doxygen</a> for the documentation build</p></li>
+<li><p><a class="reference external" href="https://cmake.org/">cmake</a> &gt;= 3.0</p></li>
+</ul>
+</section>
+<section id="getting-the-code">
+<h2>Getting the code<a class="headerlink" href="#getting-the-code" title="Permalink to this headline">¶</a></h2>
+<p>You can either obtain one of the release tar balls from the <a class="reference external" href="https://github.com/ess-dmsc/h5cpp/releases">release site</a> of
+the project on GitHub or clone the master branch of the repository.
+In the first case you get a source tree with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ tar -xzf h5cpp-*.tar.gz
+</pre></div>
+</div>
+<p>while in the latter case you may want to use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/ess-dmsc/h5cpp.git
+</pre></div>
+</div>
+<p>In either case you end up with a directory <code class="file docutils literal notranslate"><span class="pre">h5cpp</span></code> in your current
+directory.</p>
+</section>
+<section id="building-and-testing">
+<h2>Building and testing<a class="headerlink" href="#building-and-testing" title="Permalink to this headline">¶</a></h2>
+<p><em>h5cpp</em> users <strong class="program">cmake</strong> for building, thus, after unpacking or cloning
+the sources you should create a build directory</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make h5cpp-build
+$ <span class="nb">cd</span> h5cpp-build
+</pre></div>
+</div>
+<p>and call cmake from there. In the simplest case just call</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cmake -DCMAKE_BUILD_TYPE<span class="o">=</span>Release ../h5cpp
+</pre></div>
+</div>
+<p>which should do the job provided that all dependencies are installed in
+standard locations. We strongly recommend to set the particular build
+configuration with the <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> variable.</p>
+<p>To attempt to build without Boost, additionally specify <cite>-DWITH_BOOST=OFF</cite>.
+This requires a recent compiler, for example gcc &gt;8, with filesystem in
+the std or std::experimental namespace.</p>
+<p>On a Linux system the default build system used is
+<strong class="program">make</strong>. Thus, in the build directory, just run make</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make
+</pre></div>
+</div>
+<p>and to build and run the unittests</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make run_tests
+</pre></div>
+</div>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>A subsequent</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make install
+</pre></div>
+</div>
+<p>should finally install the code. The default installation prefix is
+<code class="file docutils literal notranslate"><span class="pre">/usr/local</span></code>. If you want to change this set the
+<span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code> at the initial call to <strong class="program">cmake</strong> to the
+desired installation location.</p>
+</section>
+<section id="debian-and-ubuntu-users">
+<h2>Debian and Ubuntu users<a class="headerlink" href="#debian-and-ubuntu-users" title="Permalink to this headline">¶</a></h2>
+<p>As Debian and Ubuntu are closely related the installation is quite similar.
+The packages are provided by a special Debian repository. To work on the
+package sources you need to login as <cite>root</cite> user. Use <strong class="command">su</strong> or
+<strong class="command">sudo su</strong> on Debian and Ubuntu respectively.
+The first task is to add the GPG key of the HDRI repository to your local
+keyring</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ curl http://repos.pni-hdri.de/debian_repo.pub.gpg <span class="p">|</span> apt-key add -
+</pre></div>
+</div>
+<p>The return value of this command line should be <cite>OK</cite>.
+In a next step you have to add new package sources to your system. For this
+purpose go to <code class="file docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d</span></code> and download the sources file.
+For Debian (Buster) use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget http://repos.pni-hdri.de/buster-pni-hdri.list
+</pre></div>
+</div>
+<p>and for Ubuntu (Focal)</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget http://repos.pni-hdri.de/focal-pni-hdri.list
+</pre></div>
+</div>
+<p>Similarly, proceed for Bullseye, Buster, Stretch, Groovy, Focal or Bionic.
+Once you have downloaded the file use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ apt-get update
+</pre></div>
+</div>
+<p>to update your package list and</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ apt-get install libh5cpp0.4.1 libh5cpp0.4.1-dbg libh5cpp0.4.1-doc libh5cpp0.4.1-dev
+</pre></div>
+</div>
+<p>to install the library of v0.4.1. Dependencies will be resolved automatically so you can
+start with working right after the installation has finished.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installing the library</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#getting-the-code">Getting the code</a></li>
+<li><a class="reference internal" href="#building-and-testing">Building and testing</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#debian-and-ubuntu-users">Debian and Ubuntu users</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Users guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="using.html"
+                        title="next chapter">Using the library</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/users_guide/installing.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="using.html" title="Using the library"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Users guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installing the library</a></li> 
+      </ul>
+    </div>
+<li>generated on 2021-11-22 15:05:15 from  (4f25463)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-22 15:05:15 from  (4f25463).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+    </div>
+
+  </body>
+</html>
