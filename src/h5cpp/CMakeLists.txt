@@ -24,9 +24,21 @@ add_library(h5cpp_shared SHARED
   )
 
 target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
-set(H5CPP_LINKS ${HDF5_LIBRARIES} Boost::filesystem ${MPI_CXX_LIBRARIES})
+set(H5CPP_LINKS Boost::filesystem ${MPI_CXX_LIBRARIES})
+
+#
+# remove the absolute path from the library name
+#
+foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
+    get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
+    get_filename_component(LIB_PATH ${HDF5_LIBRARY} DIRECTORY)
+    list(APPEND  H5CPP_LINKS ${LIB_NAME})   
+endforeach()
+
+
 target_include_directories(h5cpp_shared
-  PRIVATE ${PROJECT_SOURCE_DIR}/src ${HDF5_INCLUDE_DIRS}
+  PRIVATE ${PROJECT_SOURCE_DIR}/src
+  PRIVATE ${HDF5_INCLUDE_DIRS}
   PUBLIC ${MPI_CXX_INCLUDE_PATH}
   INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
