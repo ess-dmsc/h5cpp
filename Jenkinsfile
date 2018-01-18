@@ -168,7 +168,7 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "conan install --file=../code/conanfile_ess.txt --build=missing"
+                        sh "conan install --build=missing ../code/conanfile_ess.txt"
                     } catch (e) {
                         failure_function(e, 'MacOSX / getting dependencies failed')
                     }
