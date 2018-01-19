@@ -29,10 +29,11 @@ set(H5CPP_LINKS Boost::filesystem ${MPI_CXX_LIBRARIES})
 #
 # remove the absolute path from the library name
 #
+set(H5CPP_INTERFACE_LIBS)
+set(H5CPP_PRIVATE_LIBS ${HDF5_LIBRARIES})
 foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
     get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-    get_filename_component(LIB_PATH ${HDF5_LIBRARY} DIRECTORY)
-    list(APPEND  H5CPP_LINKS ${LIB_NAME})   
+    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})  
 endforeach()
 
 
@@ -62,7 +63,8 @@ enable_coverage(h5cpp_shared)
 
 target_link_libraries(h5cpp_shared
   PUBLIC ${H5CPP_LINKS}
-  PRIVATE ${COVERAGE_LIBRARIES})
+  PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS}
+  INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
