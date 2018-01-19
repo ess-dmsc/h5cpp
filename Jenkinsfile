@@ -2,27 +2,27 @@ project = "h5cpp"
 
 images = [
     'centos': [
-        'name': 'essdmscdm/centos-build-node:0.9.4',
+        'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh'
     ],
     'centos-gcc6': [
-        'name': 'essdmscdm/centos-gcc6-build-node:0.3.4',
+        'name': 'essdmscdm/centos7-gcc6-build-node:1.0.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
     ],
     'fedora': [
-        'name': 'essdmscdm/fedora-build-node:0.4.2',
+        'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh'
     ],
     'debian': [
-        'name': 'essdmscdm/debian-build-node:0.1.1',
+        'name': 'essdmscdm/debian9-build-node:1.0.0',
         'sh': 'sh'
     ],
     'ubuntu1604': [
-        'name': 'essdmscdm/ubuntu16.04-build-node:0.0.2',
+        'name': 'essdmscdm/ubuntu16.04-build-node:2.0.0',
         'sh': 'sh'
     ],
     'ubuntu1710': [
-        'name': 'essdmscdm/ubuntu17.10-build-node:0.0.3',
+        'name': 'essdmscdm/ubuntu17.10-build-node:1.0.0',
         'sh': 'sh'
     ]
 ]
@@ -53,7 +53,7 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install --file=../${project}/conanfile_ess.txt --build=missing
+        conan install --build=missing ../${project}/conanfile_ess.txt
     \""""
 }
 
@@ -168,7 +168,7 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "conan install --file=../code/conanfile_ess.txt --build=missing"
+                        sh "conan install --build=missing ../code/conanfile_ess.txt"
                     } catch (e) {
                         failure_function(e, 'MacOSX / getting dependencies failed')
                     }
