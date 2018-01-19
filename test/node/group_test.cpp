@@ -52,6 +52,19 @@ TEST_F(GroupTest, test_default_construction)
   EXPECT_FALSE(group.is_valid());
 }
 
+TEST_F(GroupTest,test_node_construction)
+{
+  node::Dataset dset(file_.root(),"data",datatype::create<int>());
+  node::Node &dset_ref = dset;
+  EXPECT_THROW((node::Group(dset_ref)),std::runtime_error);
+
+  node::Group root = file_.root();
+  node::Node &root_ref = root;
+  node::Group g(root_ref);
+  EXPECT_EQ(g.link().path(),"/");
+
+}
+
 TEST_F(GroupTest,test_constructor_construction)
 {
   node::Group root_group = file_.root();

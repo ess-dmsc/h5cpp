@@ -7,6 +7,7 @@ set(SOURCES index.rst
             dataspace.rst
             dataspace_custom_types.rst
             dataspace_selections.rst
+            attributes.rst
         )
 
 add_sphinx_source(${SOURCES})

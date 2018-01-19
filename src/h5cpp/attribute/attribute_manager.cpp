@@ -53,7 +53,7 @@ Attribute AttributeManager::operator[](size_t index) const
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return Attribute(ObjectHandle(id));
+  return Attribute(ObjectHandle(id),node_.link());
 
 }
 
@@ -72,7 +72,7 @@ Attribute AttributeManager::operator[](const std::string &name) const
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return Attribute(ObjectHandle(id));
+  return Attribute(ObjectHandle(id),node_.link());
 }
 
 size_t AttributeManager::size() const
@@ -150,7 +150,7 @@ Attribute AttributeManager::create(const std::string &name,
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return Attribute(ObjectHandle(id));
+  return Attribute(ObjectHandle(id),node_.link());
 }
 
 void AttributeManager::rename(const std::string &old_name,const std::string &new_name) const

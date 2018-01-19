@@ -29,6 +29,15 @@ link_directories(${Boost_LIBRARY_DIRS})
 set(HDF5_PREFER_PARALLEL @WITH_MPI@)
 find_package(HDF5 @HDF5_VERSION@ EXACT REQUIRED COMPONENTS C)
 
+#
+# as the libraries are attached to the imported target we have to add the 
+# directory where to find them according to the previous find_package call
+#
+foreach(HDF5_LIB ${HDF5_LIBRARIES})
+    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+    link_directories(${LIB_PATH})
+endforeach()
+
 if(H5CPP_MPI_ENABLED AND (NOT HDF5_IS_PARALLEL))
     message(FATAL_ERROR "HDF5 library with MPI support required!")
 endif()
@@ -38,3 +47,8 @@ endif()
 # load targets 
 #
 include(${CMAKE_CURRENT_LIST_DIR}/h5cpp_shared_targets.cmake)
+
+#
+# add the include directories for the HDF5 library
+#
+include_directories(${HDF5_INCLUDE_DIRS})

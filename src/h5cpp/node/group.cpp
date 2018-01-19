@@ -52,7 +52,15 @@ Group::Group(const Node &node):
     links(*this),
     nodes(*this),
     iter_config_(IteratorConfig())
-{}
+{
+  if(node.type()!=Type::GROUP)
+  {
+    std::stringstream ss;
+    ss<<"Construction of a Group from a Node failed since ";
+    ss<<"Node ["<<node.link().path()<<"] is not a group!";
+    throw std::runtime_error(ss.str());
+  }
+}
 
 Group::Group(const Group &parent,const Path &path,
              const property::LinkCreationList &lcpl,
