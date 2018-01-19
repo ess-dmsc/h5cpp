@@ -5,7 +5,12 @@ if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
 endif ()
 
-include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/src ${HDF5_INCLUDE_DIRS})
+foreach(HDF5_LIB ${HDF5_LIBRARIES})
+    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+    link_directories(${LIB_PATH})
+endforeach()
+
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
