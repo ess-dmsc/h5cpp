@@ -20,6 +20,7 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 11, 2017
 //
 
@@ -160,9 +161,96 @@ Dataset Group::create_dataset(const std::string &name,
   return Dataset(*this,Path(name),type,space,lcpl,dcpl,dapl);
 }
 
-Node Group::operator[](const std::string &name) const
+Node Group::operator[](const Path &path) const
 {
-  return nodes[name];
+  return hdf5::node::get_node(*this, path);
+}
+
+void Group::create_link(const Path &link_path,
+                        const boost::filesystem::path &target_file,
+                        const Path &target_path,
+                        const property::LinkCreationList &lcpl,
+                        const property::LinkAccessList &lapl)
+{
+  hdf5::node::link(target_file, target_path, *this, link_path, lcpl, lapl);
+}
+
+void Group::create_link(const Path &link_path,
+                        const Node &target,
+                        const property::LinkCreationList &lcpl,
+                        const property::LinkAccessList &lapl)
+{
+  hdf5::node::link(target, *this, link_path, lcpl, lapl);
+}
+
+void Group::copy_here(const Path &link_path,
+                      const Node &target,
+                      const property::ObjectCopyList &ocpl,
+                      const property::LinkCreationList &lcpl)
+{
+  hdf5::node::copy(target, *this, link_path, ocpl, lcpl);
+}
+
+void Group::copy_here(const Node &target,
+                      const property::ObjectCopyList &ocpl,
+                      const property::LinkCreationList &lcpl)
+{
+  hdf5::node::copy(target, *this, ocpl, lcpl);
+}
+
+void Group::move_here(const Path &link_path,
+                      const Node &target,
+                      const property::LinkCreationList &lcpl,
+                      const property::LinkAccessList &lapl)
+{
+  hdf5::node::move(target, *this, link_path, lcpl, lapl);
+}
+
+void Group::move_here(const Node &target,
+                      const property::LinkCreationList &lcpl,
+                      const property::LinkAccessList &lapl)
+{
+  hdf5::node::move(target, *this, lcpl, lapl);
+}
+
+void Group::remove(const Path &path,
+                   const property::LinkAccessList &lapl)
+{
+  hdf5::node::remove(*this, path, lapl);
+}
+
+bool Group::has_group(const Path &path, const property::LinkAccessList &lapl) noexcept
+{
+  try
+  {
+    return hdf5::node::is_group(hdf5::node::get_node(*this, path, lapl));
+  }
+  catch (...)
+  {
+    return false;
+  }
+}
+
+bool Group::has_dataset(const Path &path, const property::LinkAccessList &lapl) noexcept
+{
+  try
+  {
+    return hdf5::node::is_dataset(hdf5::node::get_node(*this, path, lapl));
+  }
+  catch (...)
+  {
+    return false;
+  }
+}
+
+Group Group::get_group(const Path &path, const property::LinkAccessList &lapl)
+{
+  return hdf5::node::get_group(*this, path, lapl);
+}
+
+Dataset Group::get_dataset(const Path &path, const property::LinkAccessList &lapl)
+{
+  return hdf5::node::get_dataset(*this, path, lapl);
 }
 
 } // namespace node
