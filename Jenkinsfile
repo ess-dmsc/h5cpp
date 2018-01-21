@@ -230,7 +230,7 @@ node('docker') {
     // Delete workspace when build is done
     cleanWs()
 }
-/*
+
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -294,4 +294,4 @@ node ("fedora") {
         }
     }
 }
-*/
+
