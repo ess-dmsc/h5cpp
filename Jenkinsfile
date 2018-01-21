@@ -82,25 +82,39 @@ def docker_tests(image_key) {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd build
+                make run_tests
+            \""""
+        } catch(e) {
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            junit 'unit_tests_run.xml'
+            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+        }
+    }
+}
+
+def docker_tests_coverage(image_key) {
+    def custom_sh = images[image_key]['sh']
+    dir("${project}/tests") {
+        try {
+            sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
+                cd build
                 make generate_coverage
             \""""
-            if (image_key == "fedora") {
-                sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-                junit 'unit_tests_run.xml'
-                sh "docker cp ${container_name(image_key)}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
-                step([
-                    $class: 'CoberturaPublisher',
-                    autoUpdateHealth: true,
-                    autoUpdateStability: true,
-                    coberturaReportFile: 'coverage.xml',
-                    failUnhealthy: false,
-                    failUnstable: false,
-                    maxNumberOfBuilds: 0,
-                    onlyStable: false,
-                    sourceEncoding: 'ASCII',
-                    zoomCoverageChart: false
-                ])
-            }
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            junit 'unit_tests_run.xml'
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
+            step([
+                $class: 'CoberturaPublisher',
+                autoUpdateHealth: true,
+                autoUpdateStability: true,
+                coberturaReportFile: 'coverage.xml',
+                failUnhealthy: false,
+                failUnstable: false,
+                maxNumberOfBuilds: 0,
+                onlyStable: false,
+                sourceEncoding: 'ASCII',
+                zoomCoverageChart: false
+            ])
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
@@ -156,7 +170,11 @@ def get_pipeline(image_key)
                     failure_function(e, "Build for ${image_key} failed")
                 }
 
-                docker_tests(image_key)
+                if (image_key == "fedora") {
+                    docker_tests_coverage(image_key)
+                } else {
+                    docker_tests(image_key)
+                }
             } catch(e) {
                 failure_function(e, "Unknown build failure for ${image_key}")
             } finally {
