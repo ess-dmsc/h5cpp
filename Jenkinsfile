@@ -1,7 +1,7 @@
 project = "h5cpp"
 
 images = [
-    'centos': [
+/*    'centos': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh'
     ],
@@ -20,7 +20,7 @@ images = [
     'ubuntu1604': [
         'name': 'essdmscdm/ubuntu16.04-build-node:2.0.0',
         'sh': 'sh'
-    ],
+    ],*/
     'ubuntu1710': [
         'name': 'essdmscdm/ubuntu17.10-build-node:1.0.0',
         'sh': 'sh'
@@ -63,7 +63,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} ../${project}
+        ${cmake_exec} -DCOV=1 ../${project}
     \""""
 }
 
@@ -82,7 +82,7 @@ def docker_tests(image_key) {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd build
-                make run_tests
+                make generate_coverage
             \""""
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
@@ -215,7 +215,7 @@ node('docker') {
     // Delete workspace when build is done
     cleanWs()
 }
-
+/*
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -308,3 +308,4 @@ node ("fedora") {
         }
     }
 }
+*/
