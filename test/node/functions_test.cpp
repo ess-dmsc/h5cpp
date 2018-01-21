@@ -24,16 +24,13 @@
 
 #include "group_test_fixtures.hpp"
 
-#include <h5cpp/node/functions.hpp>
-#include <h5cpp/file/functions.hpp>
-
 using namespace hdf5;
 namespace nd = hdf5::node;
 
-class Node : public BasicFixture {
+class NodeFunctions : public BasicFixture {
 };
 
-TEST_F(Node, test_remove_node) {
+TEST_F(NodeFunctions, test_remove_node) {
   nd::Group f = file_.root();
 
   f.create_group("group");
@@ -55,7 +52,7 @@ TEST_F(Node, test_remove_node) {
   EXPECT_THROW(nd::remove(f, Path("group"), lapl), std::runtime_error);
 }
 
-TEST_F(Node, test_copy_node) {
+TEST_F(NodeFunctions, test_copy_node) {
   nd::Group f = file_.root();
   auto g1 = f.create_group("group_1");
   auto gt = g1.create_group("target");
@@ -82,7 +79,7 @@ TEST_F(Node, test_copy_node) {
   EXPECT_THROW(nd::copy(f, g2), std::runtime_error);
 }
 
-TEST_F(Node, test_move_node) {
+TEST_F(NodeFunctions, test_move_node) {
   nd::Group f = file_.root();
   auto g1 = f.create_group("group_1");
   auto gt = g1.create_group("target");
@@ -108,7 +105,7 @@ TEST_F(Node, test_move_node) {
   EXPECT_THROW(nd::move(gm, g1), std::runtime_error);
 }
 
-TEST_F(Node, test_external_link) {
+TEST_F(NodeFunctions, test_external_link) {
   auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
   file2.root().create_group("group").create_group("contents");
   file2.close();
@@ -137,7 +134,7 @@ TEST_F(Node, test_external_link) {
   EXPECT_TRUE(gg2.exists("contents"));
 }
 
-TEST_F(Node, test_soft_link) {
+TEST_F(NodeFunctions, test_soft_link) {
   nd::Group f = file_.root();
   auto g = f.create_group("group");
   auto g1 = g.create_group("group_1");

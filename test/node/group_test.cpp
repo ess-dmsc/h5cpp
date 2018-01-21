@@ -105,6 +105,7 @@ TEST_F(GroupTest, test_dataset_creation)
   EXPECT_EQ(g.nodes.size(),2ul);
   EXPECT_EQ(g.links.size(),2ul);
   EXPECT_THROW(g.create_dataset("data_2", dt, ds), std::runtime_error);
+  EXPECT_THROW(g.create_dataset("/bad/name", dt, ds), std::runtime_error);
 }
 
 TEST_F(GroupTest, test_group_linkview)

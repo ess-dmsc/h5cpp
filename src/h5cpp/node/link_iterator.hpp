@@ -49,7 +49,7 @@ class DLL_EXPORT LinkIterator : public Iterator
     static LinkIterator begin(const Group &group);
     static LinkIterator end(const Group &group);
 
-    value_type operator*() const;
+  value_type operator*() const;
     value_type *operator->();
     LinkIterator &operator++();
     LinkIterator operator++(int);
