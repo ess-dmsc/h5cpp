@@ -168,6 +168,11 @@ bool Path::is_root() const
     return false;
 }
 
+bool Path::is_name() const
+{
+  return (!absolute() && (link_names_.size() == 1));
+}
+
 Path common_base(const Path &lhs, const Path &rhs)
 {
   if (lhs.absolute() ^ rhs.absolute())

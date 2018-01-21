@@ -27,8 +27,6 @@
 #include <sstream>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/functions.hpp>
-#include "utilities.hpp"
-#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -112,7 +110,7 @@ Group Group::create_group(const std::string &name,
                           const property::GroupAccessList &gapl) const
 {
   //check if the name is a valid group name
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid child name!";
@@ -151,7 +149,7 @@ Dataset Group::create_dataset(const std::string &name,
                               const property::DatasetCreationList &dcpl,
                               const property::DatasetAccessList &dapl) const
 {
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid name for a dataset!";
