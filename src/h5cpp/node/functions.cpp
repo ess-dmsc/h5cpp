@@ -218,9 +218,14 @@ void link(const boost::filesystem::path &target_file,
           const property::LinkAccessList &lapl)
 {
   auto base = link_base;
-  if (link_path.absolute())
-    base = link_base.link().file().root();
   auto lpath = static_cast<std::string>(link_path);
+  if (link_path.absolute())
+  {
+    base = link_base.link().file().root();
+    auto path = link_path;
+    path.absolute(false);
+    lpath = static_cast<std::string>(path);
+  }
 
   bool exists = false;
   try
@@ -281,11 +286,11 @@ void link(const Node &target,
 
     //need to get the real base node for the link
     Node real_base_node = get_node(link_base,link_parent);
-    if(real_base_node.type()!=Type::GROUP)
+    if(real_base_node.type() != Type::GROUP)
     {
       std::stringstream ss;
-      ss<<"Node ["<<real_base_node.link().path()<<"] is not a group and thus,"
-        <<" cannot be used as a base for link ["<<link_name<<"]!";
+      ss << "Node [" << real_base_node.link().path() << "] is not a group and thus"
+         << " cannot be used as a base for link [" << link_name << "]!";
       throw std::runtime_error(ss.str());
     }
 

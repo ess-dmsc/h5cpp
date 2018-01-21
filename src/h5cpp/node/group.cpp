@@ -158,6 +158,28 @@ Dataset Group::create_dataset(const std::string &name,
     throw std::runtime_error(ss.str());
   }
 
+  //check if there is already a link with this name
+  bool exists = false;
+  try
+  {
+    exists = this->links.exists(name);
+  }
+  catch (...)
+  {
+    std::stringstream ss;
+    ss << "A link with name [" << name << "] could not be created in ["
+       << link().path() << "]!";
+    std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "A link with name [" << name << "] already exists below ["
+       << link().path() << "]!";
+    throw std::runtime_error(ss.str());
+  }
+
   return Dataset(*this,Path(name),type,space,lcpl,dcpl,dapl);
 }
 
@@ -221,26 +243,30 @@ void Group::remove(const Path &path,
 
 bool Group::has_group(const Path &path, const property::LinkAccessList &lapl) noexcept
 {
+  bool ret = false;
   try
   {
-    return hdf5::node::is_group(hdf5::node::get_node(*this, path, lapl));
+    ret = hdf5::node::is_group(hdf5::node::get_node(*this, path, lapl));
   }
   catch (...)
   {
     return false;
   }
+  return ret;
 }
 
 bool Group::has_dataset(const Path &path, const property::LinkAccessList &lapl) noexcept
 {
+  bool ret = false;
   try
   {
-    return hdf5::node::is_dataset(hdf5::node::get_node(*this, path, lapl));
+    ret = hdf5::node::is_dataset(hdf5::node::get_node(*this, path, lapl));
   }
   catch (...)
   {
     return false;
   }
+  return ret;
 }
 
 Group Group::get_group(const Path &path, const property::LinkAccessList &lapl)
