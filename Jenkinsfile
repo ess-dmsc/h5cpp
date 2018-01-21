@@ -84,6 +84,21 @@ def docker_tests(image_key) {
                 cd build
                 make generate_coverage
             \""""
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            junit 'unit_tests_run.xml'
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
+            step([
+                $class: 'CoberturaPublisher',
+                autoUpdateHealth: true,
+                autoUpdateStability: true,
+                coberturaReportFile: 'coverage.xml',
+                failUnhealthy: false,
+                failUnstable: false,
+                maxNumberOfBuilds: 0,
+                onlyStable: false,
+                sourceEncoding: 'ASCII',
+                zoomCoverageChart: false
+            ])
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
@@ -220,7 +235,7 @@ node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
 
-    stage("Coverage") {
+    stage("Documentation") {
         dir("${project}/code") {
             try {
                 checkout scm
@@ -233,37 +248,7 @@ node ("fedora") {
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake -DCOV=1 ../code"
-            } catch (e) {
-                failure_function(e, 'Generate docs / CMake failed')
-            }
-
-            try {
-                sh "make generate_coverage"
-                junit 'test/unit_tests_run.xml'
-                //sh "make memcheck"
-                step([
-                    $class: 'CoberturaPublisher',
-                    autoUpdateHealth: true,
-                    autoUpdateStability: true,
-                    coberturaReportFile: 'coverage/coverage.xml',
-                    failUnhealthy: false,
-                    failUnstable: false,
-                    maxNumberOfBuilds: 0,
-                    onlyStable: false,
-                    sourceEncoding: 'ASCII',
-                    zoomCoverageChart: false
-                ])
-            } catch (e) {
-                failure_function(e, 'Generate docs / generate coverage failed')
-                junit 'test/unit_tests_run.xml'
-            }
-        }
-    }
-
-    stage("Documentation") {
-        dir("${project}/build") {
-            try {
+                    cmake ../code"
                 sh "make html"
                 if (env.BRANCH_NAME != 'master') {
                     archiveArtifacts artifacts: 'doc/build/'
@@ -272,6 +257,7 @@ node ("fedora") {
                 failure_function(e, 'Generate docs / make html failed')
             }
         }
+
         dir("${project}/docs") {
             try {
                   checkout scm
