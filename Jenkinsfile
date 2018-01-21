@@ -84,21 +84,23 @@ def docker_tests(image_key) {
                 cd build
                 make generate_coverage
             \""""
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-            junit 'unit_tests_run.xml'
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
-            step([
-                $class: 'CoberturaPublisher',
-                autoUpdateHealth: true,
-                autoUpdateStability: true,
-                coberturaReportFile: 'coverage.xml',
-                failUnhealthy: false,
-                failUnstable: false,
-                maxNumberOfBuilds: 0,
-                onlyStable: false,
-                sourceEncoding: 'ASCII',
-                zoomCoverageChart: false
-            ])
+            if (image_key == "fedora") {
+                sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+                junit 'unit_tests_run.xml'
+                sh "docker cp ${container_name(image_key)}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
+                step([
+                    $class: 'CoberturaPublisher',
+                    autoUpdateHealth: true,
+                    autoUpdateStability: true,
+                    coberturaReportFile: 'coverage.xml',
+                    failUnhealthy: false,
+                    failUnstable: false,
+                    maxNumberOfBuilds: 0,
+                    onlyStable: false,
+                    sourceEncoding: 'ASCII',
+                    zoomCoverageChart: false
+                ])
+            }
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
