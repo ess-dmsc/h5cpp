@@ -50,7 +50,6 @@ TEST_F(RecursiveLinkIteratorTest,equality_operator)
 
 TEST_F(RecursiveLinkIteratorTest,test_name_increasing)
 {
-
   using hdf5::node::RecursiveLinkIterator;
   std::vector<Path> node_path{
     Path("/standard/a_group"),
@@ -86,7 +85,6 @@ TEST_F(RecursiveLinkIteratorTest,test_name_increasing)
 
 TEST_F(RecursiveLinkIteratorTest,test_name_decreasing)
 {
-
   using hdf5::node::RecursiveLinkIterator;
   std::vector<Path> node_path{
     Path("/standard/c_group"),
@@ -114,6 +112,13 @@ TEST_F(RecursiveLinkIteratorTest,test_name_decreasing)
                 [&path_iter](const node::Link &link)
                 { EXPECT_EQ(link.path(),*path_iter++);}
                 );
+
+  path_iter = node_path.begin();
+  for(auto it = RecursiveLinkIterator::begin(root);
+    it != RecursiveLinkIterator::end(root); it++)
+  {
+    EXPECT_EQ(it->path(),*path_iter++);
+  }
 }
 
 TEST_F(RecursiveLinkIteratorTest,test_linked_group)

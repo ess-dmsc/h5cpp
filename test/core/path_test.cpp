@@ -219,6 +219,9 @@ TEST(Path,test_adding_two_paths)
   EXPECT_EQ(p.size(),4ul);
   EXPECT_TRUE(p.absolute());
   EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+
+  p += Path("item");
+  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data/item");
 }
 
 TEST(Path,test_root_path)
@@ -229,37 +232,35 @@ TEST(Path,test_root_path)
   EXPECT_EQ(static_cast<string>(p),"/");
 }
 
-//TEST(Path,test_front)
-//{
-//  Path p("/hello/world");
-//  EXPECT_EQ(p.front(),"hello");
-
-//  p = Path("/");
-//  EXPECT_TRUE(p.is_root());
-//  EXPECT_EQ(p.front(),"/");
-//}
-
-//TEST(Path,test_back)
-//{
-//  Path p("hello/world");
-//  EXPECT_EQ(p.back(),"world");
-
-//  p = Path("/");
-//  EXPECT_TRUE(p.is_root());
-//  EXPECT_EQ(p.back(),"/");
-//}
+TEST(Path, test_reverse_iterators)
+{
+  Path p("/hello/world");
+  auto ri = p.rbegin();
+  EXPECT_EQ(*ri,"world");
+  ++ri;
+  EXPECT_EQ(*ri,"hello");
+  ++ri;
+  EXPECT_EQ(ri,p.rend());
+}
 
 TEST(Path,test_name)
 {
   Path p("hello/world");
   EXPECT_EQ(p.name(),"world");
+  EXPECT_FALSE(p.is_name());
 
   p = Path("/");
   EXPECT_TRUE(p.is_root());
   EXPECT_EQ(p.name(),".");
+  EXPECT_FALSE(p.is_name());
 
   p = Path("/temperature");
   EXPECT_EQ(p.name(),"temperature");
+  EXPECT_FALSE(p.is_name());
+
+  p = Path("name");
+  EXPECT_EQ(p.name(),"name");
+  EXPECT_TRUE(p.is_name());
 }
 
 TEST(Path,test_parent_path)

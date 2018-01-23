@@ -72,7 +72,13 @@ class DLL_EXPORT Path
     Path(const std::string &str);
     Path(const char *str);
 
-    Path(const_iterator first_element,const_iterator last_element);
+    //!
+    //! \brief constructor from iterators
+    //!
+    //! \warning Should not be used, as there is no automatic sanitation. May not conform
+    //! to hdf5 requirements for node names.
+    //!
+    Path(const_iterator first_element, const_iterator last_element);
 
     //!
     //! \brief copy constructor
@@ -186,6 +192,16 @@ class DLL_EXPORT Path
     //! \return true if the path references the root group, false otherwise
     //!
     bool is_root() const;
+
+    //!
+    //! \brief true if the path is a valid child name
+    //!
+    //! A path is considered to be a valid child name if list of elements equals
+    //! one and the absolute path flag is not set.
+    //!
+    //! \return true if the path is a valid child name, otherwise false
+    //!
+    bool is_name() const;
 
     //!
     //! \brief get object name from a path

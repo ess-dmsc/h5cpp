@@ -28,9 +28,6 @@
 #include <h5cpp/node/node_view.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/node_iterator.hpp>
-#include <h5cpp/error/error.hpp>
-
-#include "utilities.hpp"
 
 namespace hdf5 {
 namespace node {
@@ -71,7 +68,7 @@ Node NodeView::operator[](size_t index) const
 
 Node NodeView::operator[](const std::string &name) const
 {
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     throw std::runtime_error("["+name+"] is not a valid name for a child object!");
   }

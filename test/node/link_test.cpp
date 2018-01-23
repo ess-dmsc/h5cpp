@@ -23,15 +23,34 @@
 // Created on: Sep 25, 2017
 //
 
-#include <gtest/gtest.h>
-#include <h5cpp/node/link.hpp>
+#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-TEST(Link, test_default_construction)
+class Link : public BasicFixture {
+};
+
+TEST_F(Link, test_default_construction)
 {
   node::Link link;
   EXPECT_EQ(link.type(),node::LinkType::ERROR);
 }
 
+TEST_F(Link, test_equality)
+{
+  node::Link link1(file_, "path1", "name1");
+  node::Link link2(file_, "path1", "name1");
+  node::Link link3(file_, "path2", "name2");
+
+  EXPECT_EQ(link1, link2);
+  EXPECT_NE(link1, link3);
+}
+
+TEST_F(Link, test_validity)
+{
+  node::Link link1(file_, "path1", "name1");
+
+  EXPECT_FALSE(link1.exists());
+  EXPECT_FALSE(link1.is_resolvable());
+}
 

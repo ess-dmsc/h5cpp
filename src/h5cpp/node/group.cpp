@@ -20,14 +20,13 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 11, 2017
 //
 
 #include <sstream>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/functions.hpp>
-#include "utilities.hpp"
-#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -111,7 +110,7 @@ Group Group::create_group(const std::string &name,
                           const property::GroupAccessList &gapl) const
 {
   //check if the name is a valid group name
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid child name!";
@@ -150,19 +149,140 @@ Dataset Group::create_dataset(const std::string &name,
                               const property::DatasetCreationList &dcpl,
                               const property::DatasetAccessList &dapl) const
 {
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid name for a dataset!";
     throw std::runtime_error(ss.str());
   }
 
+  //check if there is already a link with this name
+  bool exists = false;
+  try
+  {
+    exists = this->links.exists(name);
+  }
+  catch (...)
+  {
+    std::stringstream ss;
+    ss << "A link with name [" << name << "] could not be created in ["
+       << link().path() << "]!";
+    std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  if (exists)
+  {
+    std::stringstream ss;
+    ss << "A link with name [" << name << "] already exists below ["
+       << link().path() << "]!";
+    throw std::runtime_error(ss.str());
+  }
+
   return Dataset(*this,Path(name),type,space,lcpl,dcpl,dapl);
 }
 
-Node Group::operator[](const std::string &name) const
+Node Group::operator[](const Path &path) const
 {
-  return nodes[name];
+  return hdf5::node::get_node(*this, path);
+}
+
+void Group::create_link(const Path &link_path,
+                        const boost::filesystem::path &target_file,
+                        const Path &target_path,
+                        const property::LinkCreationList &lcpl,
+                        const property::LinkAccessList &lapl)
+{
+  hdf5::node::link(target_file, target_path, *this, link_path, lcpl, lapl);
+}
+
+void Group::create_link(const Path &link_path,
+                        const Path &target_path,
+                        const property::LinkCreationList &lcpl,
+                        const property::LinkAccessList &lapl)
+{
+  hdf5::node::link(target_path, *this, link_path, lcpl, lapl);
+}
+
+void Group::create_link(const Path &link_path,
+                        const Node &target,
+                        const property::LinkCreationList &lcpl,
+                        const property::LinkAccessList &lapl)
+{
+  hdf5::node::link(target, *this, link_path, lcpl, lapl);
+}
+
+void Group::copy_here(const Path &link_path,
+                      const Node &target,
+                      const property::ObjectCopyList &ocpl,
+                      const property::LinkCreationList &lcpl)
+{
+  hdf5::node::copy(target, *this, link_path, ocpl, lcpl);
+}
+
+void Group::copy_here(const Node &target,
+                      const property::ObjectCopyList &ocpl,
+                      const property::LinkCreationList &lcpl)
+{
+  hdf5::node::copy(target, *this, ocpl, lcpl);
+}
+
+void Group::move_here(const Path &link_path,
+                      const Node &target,
+                      const property::LinkCreationList &lcpl,
+                      const property::LinkAccessList &lapl)
+{
+  hdf5::node::move(target, *this, link_path, lcpl, lapl);
+}
+
+void Group::move_here(const Node &target,
+                      const property::LinkCreationList &lcpl,
+                      const property::LinkAccessList &lapl)
+{
+  hdf5::node::move(target, *this, lcpl, lapl);
+}
+
+void Group::remove(const Path &path,
+                   const property::LinkAccessList &lapl)
+{
+  hdf5::node::remove(*this, path, lapl);
+}
+
+bool Group::has_group(const Path &path, const property::LinkAccessList &lapl) noexcept
+{
+  bool ret = false;
+  try
+  {
+    ret = hdf5::node::is_group(hdf5::node::get_node(*this, path, lapl));
+  }
+  catch (...)
+  {
+    return false;
+  }
+  return ret;
+}
+
+bool Group::has_dataset(const Path &path, const property::LinkAccessList &lapl) noexcept
+{
+  bool ret = false;
+  try
+  {
+    ret = hdf5::node::is_dataset(hdf5::node::get_node(*this, path, lapl));
+  }
+  catch (...)
+  {
+    return false;
+  }
+  return ret;
+}
+
+Group Group::get_group(const Path &path, const property::LinkAccessList &lapl)
+{
+  return hdf5::node::get_group(*this, path, lapl);
+}
+
+Dataset Group::get_dataset(const Path &path, const property::LinkAccessList &lapl)
+{
+  return hdf5::node::get_dataset(*this, path, lapl);
 }
 
 } // namespace node

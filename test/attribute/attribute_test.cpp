@@ -61,6 +61,11 @@ TEST_F(Attribute, test_scalar)
   EXPECT_EQ(a.datatype().get_class(),datatype::Class::FLOAT);
   EXPECT_EQ(a.name(),"test2");
   EXPECT_EQ(root_.attributes.size(),2ul);
+
+  //testing close function
+  EXPECT_TRUE(a.is_valid());
+  EXPECT_NO_THROW(a.close());
+  EXPECT_FALSE(a.is_valid());
 }
 
 TEST_F(Attribute, test_multidim_simple_construction)

@@ -97,7 +97,7 @@ class DLL_EXPORT LinkTarget
 //! \brief a link
 //!
 //! Class representing a link to an object within an HDF5 file. In order to store links
-//! in a container they have to be default constructible. A default constructed link has the
+//! in a container they have to be default constructable. A default constructed link has the
 //! type LinkType::ERROR.
 //! Instead of a node type only the handle to the parent is stored. Thus, the parent can
 //! also be a File which would identify the link as the link to the root group.

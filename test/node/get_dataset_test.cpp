@@ -48,6 +48,8 @@ TEST_F(GetDatasetTest, test_with_non_existing_child)
 {
   EXPECT_THROW(node::get_dataset(root_,"/data_01"),std::runtime_error);
   EXPECT_THROW(node::get_dataset(root_,"data_01"),std::runtime_error);
+  root_.create_group("group_01");
+  EXPECT_THROW(node::get_dataset(root_,"group_01"),std::runtime_error);
 }
 
 TEST_F(GetDatasetTest, test_with_direct_child)
