@@ -28,152 +28,130 @@ using namespace hdf5;
 namespace nd = hdf5::node;
 
 class NodeFunctions : public BasicFixture {
+ protected:
+  void SetUp() override
+  {
+    BasicFixture::SetUp();
+
+    group1_ = root_.create_group("group_1");
+    group2_ = root_.create_group("group_2");
+    target_ = group1_.create_group("target");
+    target_.create_group("contents");
+    root_.create_dataset("dataset", datatype::create<int>(), dataspace::Simple({0}));
+
+    file2_ = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
+    file2_target_ = file2_.root().create_group("group").create_group("contents");
+    file2_.close();
+  }
+  virtual ~NodeFunctions() {}
+
+  hdf5::node::Group group1_, group2_, target_;
+  hdf5::file::File file2_;
+  hdf5::node::Group file2_target_;
 };
 
 TEST_F(NodeFunctions, test_remove_node) {
-  nd::Group f = file_.root();
+  EXPECT_NO_THROW(nd::remove(root_, Path("group_2")));
+  EXPECT_FALSE(root_.exists("group_2"));
 
-  f.create_group("group");
-  EXPECT_TRUE(f.exists("group"));
-  EXPECT_NO_THROW(nd::remove(f, Path("group")));
-  EXPECT_FALSE(f.exists("group"));
+  EXPECT_THROW(nd::remove(root_, Path("group_2")), std::runtime_error);
 
-  EXPECT_THROW(nd::remove(f, Path("group")), std::runtime_error);
+  EXPECT_NO_THROW(nd::remove(target_));
+  EXPECT_FALSE(group1_.exists("target"));
+  EXPECT_THROW(nd::remove(target_), std::runtime_error);
 
-  auto g = f.create_group("group2");
-  EXPECT_TRUE(f.exists("group2"));
-  EXPECT_NO_THROW(nd::remove(g));
-  EXPECT_FALSE(f.exists("group2"));
-  EXPECT_THROW(nd::remove(g), std::runtime_error);
-
-  f.create_group("group");
   property::LinkAccessList lapl;
   ObjectHandle(static_cast<hid_t>(lapl)).close();
-  EXPECT_THROW(nd::remove(f, Path("group"), lapl), std::runtime_error);
+  EXPECT_THROW(nd::remove(root_, Path("group_1"), lapl), std::runtime_error);
 }
 
 TEST_F(NodeFunctions, test_copy_node) {
-  nd::Group f = file_.root();
-  auto g1 = f.create_group("group_1");
-  auto gt = g1.create_group("target");
-  auto g2 = f.create_group("group_2");
-
-  EXPECT_FALSE(g2.exists("gt"));
-  EXPECT_NO_THROW(nd::copy(gt, g2, Path("gt")));
-  EXPECT_TRUE(g2.exists("gt"));
-  EXPECT_THROW(nd::copy(gt, g2, Path("gt")), std::runtime_error);
+  EXPECT_NO_THROW(nd::copy(target_, group2_, Path("gt")));
+  EXPECT_TRUE(group2_.exists("gt"));
+  EXPECT_THROW(nd::copy(target_, group2_, Path("gt")), std::runtime_error);
 
   property::ObjectCopyList ocpl;
   ObjectHandle(static_cast<hid_t>(ocpl)).close();
-  EXPECT_THROW(nd::copy(gt, g2, Path("gt2"), ocpl), std::runtime_error);
+  EXPECT_THROW(nd::copy(target_, group2_, Path("gt2"), ocpl), std::runtime_error);
 
-  EXPECT_NO_THROW(nd::copy(gt, g2));
-  EXPECT_TRUE(g2.exists("target"));
+  EXPECT_NO_THROW(nd::copy(target_, group2_));
+  EXPECT_TRUE(group2_.exists("target"));
 
-  EXPECT_NO_THROW(nd::copy(gt, f));
-  EXPECT_TRUE(f.exists("target"));
+  EXPECT_NO_THROW(nd::copy(target_, root_));
+  EXPECT_TRUE(root_.exists("target"));
 
-  EXPECT_THROW(nd::copy(gt, f), std::runtime_error);
+  EXPECT_THROW(nd::copy(target_, root_), std::runtime_error);
 
   //copying root does not work
-  EXPECT_THROW(nd::copy(f, g2), std::runtime_error);
+  EXPECT_THROW(nd::copy(root_, group2_), std::runtime_error);
 }
 
 TEST_F(NodeFunctions, test_move_node) {
-  nd::Group f = file_.root();
-  auto g1 = f.create_group("group_1");
-  auto gt = g1.create_group("target");
-  auto g2 = f.create_group("group_2");
-
-  EXPECT_TRUE(g1.exists("target"));
-  EXPECT_FALSE(g2.exists("gt"));
-  EXPECT_NO_THROW(nd::move(gt, g2, Path("gt")));
-  EXPECT_FALSE(g1.exists("target"));
-  EXPECT_TRUE(g2.exists("gt"));
+  EXPECT_NO_THROW(nd::move(target_, group2_, Path("gt")));
+  EXPECT_FALSE(group1_.exists("target"));
+  EXPECT_TRUE(group2_.exists("gt"));
 
   property::LinkCreationList lcpl;
   ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::move(gt, g2, Path("gt2"), lcpl), std::runtime_error);
+  EXPECT_THROW(nd::move(target_, group2_, Path("gt2"), lcpl), std::runtime_error);
 
-  gt = g1.create_group("target");
-  EXPECT_THROW(nd::move(gt, g2, Path("gt")), std::runtime_error);
+  target_ = group1_.create_group("target");
+  EXPECT_THROW(nd::move(target_, group2_, Path("gt")), std::runtime_error);
 
-  nd::Group gm = g2["gt"];
-  EXPECT_NO_THROW(nd::move(gm, g1));
-  EXPECT_TRUE(g1.exists("gt"));
-  EXPECT_FALSE(g2.exists("gt"));
-  EXPECT_THROW(nd::move(gm, g1), std::runtime_error);
+  nd::Group gm = group2_["gt"];
+  EXPECT_NO_THROW(nd::move(gm, group1_));
+  EXPECT_TRUE(group1_.exists("gt"));
+  EXPECT_FALSE(group2_.exists("gt"));
+  EXPECT_THROW(nd::move(gm, group1_), std::runtime_error);
 }
 
 TEST_F(NodeFunctions, test_external_link) {
-  auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
-  file2.root().create_group("group").create_group("contents");
-  file2.close();
-
-  nd::Group f = file_.root();
-  f.create_group("group");
-
-  EXPECT_THROW(nd::link("./file2.h5", Path("group"), f, Path("group")), std::runtime_error);
-  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"), f, Path("group2")));
-
-  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"), f, Path("/group3")));
-
+  // Provoke underlying API error
   property::LinkCreationList lcpl;
   ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::link("./file2.h5", Path("group"), f, Path("group4"), lcpl), std::runtime_error);
+  EXPECT_THROW(nd::link("./file2.h5", Path("group"), root_, Path("link"), lcpl), std::runtime_error);
 
-  f.create_dataset("dataset", datatype::create<int>(), dataspace::Simple({0}));
-  EXPECT_THROW(nd::link("./file2.h5", Path("/group"), f, Path("/dataset/nonexistent")), std::runtime_error);
+  // Parent path not group
+  EXPECT_THROW(nd::link("./file2.h5", Path("group"), root_, Path("/dataset/NA")), std::runtime_error);
 
-  EXPECT_TRUE(nd::Group(f["group2"]).exists("contents"));
+  // Relative path
+  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"), root_, Path("link1")));
+  EXPECT_TRUE(nd::Group(root_["link1"]).exists("contents"));
+
+  // Absolute path
+  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"), target_, Path("/link2")));
+  EXPECT_TRUE(nd::Group(root_["link2"]).exists("contents"));
+
+  // Non-existent node
+  EXPECT_NO_THROW(nd::link("./file2.h5", Path("future_group"), root_, Path("/link3")));
+  EXPECT_TRUE(root_.links.exists("link3"));
 }
 
 TEST_F(NodeFunctions, test_soft_link) {
-  nd::Group f = file_.root();
-  auto g = f.create_group("group");
-  auto g1 = g.create_group("group_1");
-  auto gt = g1.create_group("target");
-
-  EXPECT_NO_THROW(nd::link(Path("/group/group_1"), g, Path("group_2")));
-  EXPECT_TRUE(nd::Group(g["group_2"]).exists("target"));
-
-  EXPECT_NO_THROW(nd::link(Path("/group/group_1"), gt, Path("/group_abs")));
-  EXPECT_TRUE(nd::Group(f["group_abs"]).exists("target"));
-
-  EXPECT_NO_THROW(nd::link(Path("/group/group_1"), gt, Path("/group/group_abs1")));
-  EXPECT_TRUE(nd::Group(g["group_abs1"]).exists("target"));
-
-  EXPECT_THROW(nd::link(Path("/group/group_1"), gt, Path("/group_abs")), std::runtime_error);
-
-  g.create_dataset("dataset", datatype::create<int>(), dataspace::Simple({0}));
-  EXPECT_THROW(nd::link(Path("/group/group_1"), gt, Path("/group/dataset/link")), std::runtime_error);
-
+  // Provoke underlying API error
   property::LinkCreationList lcpl;
   ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::link(Path("/group/group_1"), gt,
-                        Path("/group_bad_lcp"), lcpl), std::runtime_error);
+  EXPECT_THROW(nd::link(Path("/group_1"), target_, Path("/link"), lcpl), std::runtime_error);
+
+  // Parent path not group
+  EXPECT_THROW(nd::link(Path("/group_1"), root_, Path("/dataset/NA")), std::runtime_error);
+
+
+  //Relative path
+  EXPECT_NO_THROW(nd::link(Path("/group_1"), root_, Path("link1")));
+  EXPECT_TRUE(nd::Group(root_["link1"]).exists("target"));
+
+  //Absolute path
+  EXPECT_NO_THROW(nd::link(Path("/group_1"), target_, Path("/link2")));
+  EXPECT_TRUE(nd::Group(root_["link2"]).exists("target"));
+
+  // Non-existent node
+  EXPECT_NO_THROW(nd::link(Path("/group_1"), target_, Path("/group_2/link3")));
+  EXPECT_TRUE(nd::Group(group2_["link3"]).exists("target"));
 }
 
-TEST_F(NodeFunctions, test_link) {
-  nd::Group f = file_.root();
-  auto g = f.create_group("group");
-  auto g1 = g.create_group("group_1");
-  auto gt = g1.create_group("target");
-
-  EXPECT_NO_THROW(nd::link(g1, g, Path("group_2")));
-  EXPECT_TRUE(g.links.exists("group_2"));
-  EXPECT_TRUE(nd::Group(g["group_2"]).exists("target"));
-
-  EXPECT_NO_THROW(nd::link(g1, gt, Path("/group_abs")));
-  EXPECT_TRUE(f.links.exists("group_abs"));
-
-  EXPECT_THROW(nd::link(g1, gt, Path("/group_abs")), std::runtime_error);
-
-  property::LinkCreationList lcpl;
-  ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::link(g1, gt, Path("/group_bad_lcp"), lcpl), std::runtime_error);
-
-  auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
-  auto target = file2.root().create_group("group").create_group("contents");
-  EXPECT_NO_THROW(nd::link(target, g, Path("group_5")));
+TEST_F(NodeFunctions, test_link)
+{
+  EXPECT_NO_THROW(nd::link(target_, root_, Path("internal")));
+  EXPECT_NO_THROW(nd::link(file2_target_, root_, Path("external")));
 }

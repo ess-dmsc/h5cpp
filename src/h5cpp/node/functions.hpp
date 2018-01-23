@@ -259,6 +259,24 @@ DLL_EXPORT Node get_node(const Group &base,
                          const Path &node_path,
                          const property::LinkAccessList &lapl = property::LinkAccessList());
 
+
+//!
+//! \brief get real base of path
+//!
+//! Helper function to facilitate a number of convenience functions in the wrapper.
+//! Gets the most proximate parent Group of `path`. If `path` is absolute, `base` will only
+//! be used to obtain the root node of the file. If the parent node does not exist or is not
+//! a Group, an exception will be thrown.
+//!
+//! \throws std::runtime_error in case of a failure
+//! \param base base group for link
+//! \param path path of desired node
+//! \param lapl optional link access property list
+//! \return most recent parent Group of path
+//!
+DLL_EXPORT Group get_real_base(const Group &base, const Path &path,
+                               const property::LinkAccessList &lapl = property::LinkAccessList());
+
 //!
 //! \brief get group
 //!

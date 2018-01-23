@@ -34,27 +34,6 @@ void copy(const Node &source, const Group& base, const Path &relative_path,
 {
   //what if relative_path is actually absolute?
 
-  bool exists = false;
-  try
-  {
-    exists = base.links.exists(static_cast<std::string>(relative_path));
-  }
-  catch (...)
-  {
-    std::stringstream ss;
-    ss << "node::copy failed. "
-       << base.link() << " / " << relative_path << " already exists!";
-    std::throw_with_nested(std::runtime_error(ss.str()));
-  }
-
-  if (exists)
-  {
-    std::stringstream ss;
-    ss << "node::copy failed. "
-       << base.link() << " / " << relative_path << " already exists!";
-    throw std::runtime_error(ss.str());
-  }
-
   if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
                   source.link().path().name().c_str(),        //object name
                   static_cast<hid_t>(base),                   //destination parent
@@ -74,76 +53,12 @@ void copy(const Node &source, const Group& destination,
           const property::ObjectCopyList &ocpl,
           const property::LinkCreationList &lcpl)
 {
-  //what if rel_path is actually absolute?
-  auto name = source.link().path().name(); //this feels awkward
-  bool exists = false;
-
-  try
-  {
-    exists = destination.links.exists(name);
-  }
-  catch(...)
-  {
-    std::stringstream ss;
-    ss << "node::copy failed. "
-       << destination.link() << " / " << name << " already exists!";
-    std::throw_with_nested(std::runtime_error(ss.str()));
-  }
-
-  if (exists)
-  {
-    std::stringstream ss;
-    ss << "node::copy failed. "
-       << destination.link() << " / " << name << " already exists!";
-    throw std::runtime_error(ss.str());
-  }
-
-
-  if (0 > H5Ocopy(static_cast<hid_t>(source.link().parent()), //parent
-                  name.c_str(),                               //object name
-                  static_cast<hid_t>(destination),            //destination parent
-                  name.c_str(),                               //...same name
-                  static_cast<hid_t>(ocpl),                   //object copy property list
-                  static_cast<hid_t>(lcpl)))                  //link creation property list
-  {
-    std::stringstream ss;
-    ss << "node::copy failed. Could not copy "
-       << source.link() << " to "
-       << destination.link() << " / " << name;
-    error::Singleton::instance().throw_with_stack(ss.str());
-  }
-}
-
-void remove(const Node &object,
-            const property::LinkAccessList &lapl)
-{
-  remove(object.link().parent(), Path(object.link().path().name()), lapl);
+  copy(source, destination, source.link().path().name(), ocpl, lcpl);
 }
 
 void remove(const Group &base, const Path &object_path,
             const property::LinkAccessList &lapl)
 {
-  bool exists = false;
-  try
-  {
-    exists = base.links.exists(static_cast<std::string>(object_path));
-  }
-  catch(...)
-  {
-    std::stringstream ss;
-    ss << "node::remove failed. "
-       << base.link() << " / " << object_path << " does not exist.";
-    std::throw_with_nested(std::runtime_error(ss.str()));
-  }
-
-  if (!exists)
-  {
-    std::stringstream ss;
-    ss << "node::remove failed. "
-       << base.link() << " / " << object_path << " does not exist.";
-    throw std::runtime_error(ss.str());
-  }
-
   if (0 > H5Ldelete(static_cast<hid_t>(base),
                     static_cast<std::string>(object_path).c_str(),
                     static_cast<hid_t>(lapl)))
@@ -155,15 +70,10 @@ void remove(const Group &base, const Path &object_path,
   }
 }
 
-void move(const Node &source,
-          const Group &destination,
-          const property::LinkCreationList &lcpl,
-          const property::LinkAccessList &lapl)
+void remove(const Node &object,
+            const property::LinkAccessList &lapl)
 {
-  move(source,
-       destination,
-       Path(source.link().path().name()),
-       lcpl, lapl);
+  remove(object.link().parent(), object.link().path().name(), lapl);
 }
 
 void move(const Node &source,
@@ -173,27 +83,6 @@ void move(const Node &source,
           const property::LinkAccessList &lapl)
 {
   auto name = static_cast<std::string>(relative_path);
-
-  bool exists = false;
-  try
-  {
-    exists = base.links.exists(name);
-  }
-  catch (...)
-  {
-    std::stringstream ss;
-    ss << "node::move failed. "
-       << base.link() << " / " << name << " already exists!";
-    std::throw_with_nested(std::runtime_error(ss.str()));
-  }
-
-  if (exists)
-  {
-    std::stringstream ss;
-    ss << "node::move failed. "
-       << base.link() << " / " << name << " already exists!";
-    throw std::runtime_error(ss.str());
-  }
 
   if (0 > H5Lmove(static_cast<hid_t>(source.link().parent()),
                   source.link().path().name().c_str(),
@@ -210,6 +99,14 @@ void move(const Node &source,
   }
 }
 
+void move(const Node &source,
+          const Group &destination,
+          const property::LinkCreationList &lcpl,
+          const property::LinkAccessList &lapl)
+{
+  move(source, destination, source.link().path().name(), lcpl, lapl);
+}
+
 void link(const boost::filesystem::path &target_file,
           const Path &target_path,
           const Group &link_base,
@@ -217,23 +114,10 @@ void link(const boost::filesystem::path &target_file,
           const property::LinkCreationList &lcpl,
           const property::LinkAccessList &lapl)
 {
-  //we are in the same file - can create a symbolic link
-  auto link_parent = link_path.parent();
-  auto link_name = link_path.name();
-
-  //need to get the real base node for the link
-  Node real_base_node = get_node(link_base, link_parent);
-  if (real_base_node.type() != Type::GROUP)
-  {
-    std::stringstream ss;
-    ss << "Node [" << real_base_node.link().path() << "] is not a group and thus"
-       << " cannot be used as a base for link [" << link_name << "]!";
-    throw std::runtime_error(ss.str());
-  }
   if (0 > H5Lcreate_external(target_file.string().c_str(),
                              static_cast<std::string>(target_path).c_str(),
-                             static_cast<hid_t>(real_base_node),
-                             link_name.c_str(),
+                             static_cast<hid_t>(get_real_base(link_base, link_path, lapl)),
+                             link_path.name().c_str(),
                              static_cast<hid_t>(lcpl),
                              static_cast<hid_t>(lapl)))
   {
@@ -252,24 +136,10 @@ void link(const Path &target_path,
           const property::LinkCreationList &lcpl,
           const property::LinkAccessList &lapl)
 {
-  //we are in the same file - can create a symbolic link
-  auto link_parent = link_path.parent();
-  auto link_name = link_path.name();
-
-  //need to get the real base node for the link
-  Node real_base_node = get_node(link_base, link_parent);
-  if (real_base_node.type() != Type::GROUP)
-  {
-    std::stringstream ss;
-    ss << "Node [" << real_base_node.link().path() << "] is not a group and thus"
-       << " cannot be used as a base for link [" << link_name << "]!";
-    throw std::runtime_error(ss.str());
-  }
-
   if (0 > H5Lcreate_soft(
       static_cast<std::string>(target_path).c_str(),
-      static_cast<hid_t>(Group(real_base_node)),
-      link_name.c_str(),
+      static_cast<hid_t>(get_real_base(link_base, link_path, lapl)),
+      link_path.name().c_str(),
       static_cast<hid_t>(lcpl),
       static_cast<hid_t>(lapl)))
   {
@@ -291,8 +161,7 @@ void link(const Node &target,
   //if target and link base are in different files create an external link
   if (target.id().file_number() != link_base.id().file_number())
   {
-    link(target.id().file_name(),
-         target.link().path(),
+    link(target.id().file_name(), target.link().path(),
          link_base, link_path, lcpl, lapl);
   }
   //otherwise a local soft link
@@ -301,6 +170,22 @@ void link(const Node &target,
     link(target.link().path(),
          link_base, link_path, lcpl, lapl);
   }
+}
+
+Group get_real_base(const Group &base, const Path &path,
+                    const property::LinkAccessList &lapl)
+{
+  Node real_base_node = get_node(base, path.parent(), lapl);
+
+  if (real_base_node.type() != Type::GROUP)
+  {
+    std::stringstream ss;
+    ss << "Node [" << real_base_node.link().path() << "] is not a group and thus"
+       << " cannot be used as a base for link [" << path.name() << "]!";
+    throw std::runtime_error(ss.str());
+  }
+
+  return Group(real_base_node);
 }
 
 Node get_node(const Group &base,const Path &node_path,const property::LinkAccessList &lapl)
