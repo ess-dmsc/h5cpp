@@ -87,10 +87,10 @@ Node NodeView::operator[](const std::string &name) const
 
 }
 
-bool NodeView::exists(const std::string &name,const property::LinkAccessList &lapl) const
+bool NodeView::exists(const std::string &name, const property::LinkAccessList &lapl) const
 {
   //we first have to check whether the link exists
-  if(!group().links.exists(name))
+  if(!group().links.exists(name, lapl))
     return false;
 
   htri_t result = H5Oexists_by_name(static_cast<hid_t>(group()),

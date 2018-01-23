@@ -112,32 +112,49 @@ TEST_F(GroupTest, test_dataset_creation)
   EXPECT_THROW(g.create_dataset("/bad/name", dt, ds), std::runtime_error);
 }
 
+TEST_F(GroupTest, test_group_groupview)
+{
+  auto nodes = root_.nodes;
+  ObjectHandle(static_cast<hid_t>(root_)).close();
+  EXPECT_THROW(nodes.size(), std::runtime_error);
+}
+
 TEST_F(GroupTest, test_group_linkview)
 {
-  node::Group g = file_.root();
-  EXPECT_FALSE(g.links.exists("group_1"));
+  property::LinkAccessList lapl;
+  ObjectHandle(static_cast<hid_t>(lapl)).close();
+  EXPECT_THROW(root_.links.exists("whatever", lapl), std::runtime_error);
+  EXPECT_THROW(root_.links.exists("/absolute/path"), std::runtime_error);
+  EXPECT_THROW(root_.links[99], std::runtime_error);
 
-  node::Group g1 = g.create_group("group_1");
 
-  EXPECT_TRUE(g.links.exists("group_1"));
+  EXPECT_FALSE(root_.links.exists("group_1"));
+
+  node::Group g1 = root_.create_group("group_1");
+
+  EXPECT_TRUE(root_.links.exists("group_1"));
 
   node::Link l;
-  EXPECT_NO_THROW(l = g.links["group_1"]);
+  EXPECT_NO_THROW(l = root_.links["group_1"]);
   EXPECT_EQ(l, g1.link());
 }
 
 TEST_F(GroupTest, test_group_nodeview)
 {
-  node::Group g = file_.root();
+  EXPECT_THROW(root_.nodes.exists("/absolute/path"), std::runtime_error);
+  EXPECT_THROW(root_.nodes[99], std::runtime_error);
 
-  EXPECT_FALSE(g.nodes.exists("group_1"));
+  ObjectHandle(static_cast<hid_t>(root_.iterator_config().link_access_list())).close();
+  EXPECT_THROW(root_.nodes["path"], std::runtime_error);
+  root_.iterator_config().link_access_list(property::LinkAccessList());
 
-  node::Group g1 = g.create_group("group_1");
+  EXPECT_FALSE(root_.nodes.exists("group_1"));
 
-  EXPECT_TRUE(g.nodes.exists("group_1"));
+  node::Group g1 = root_.create_group("group_1");
 
-  node::Group n;
-  EXPECT_NO_THROW(n = g.nodes["group_1"]);
+  EXPECT_TRUE(root_.nodes.exists("group_1"));
+
+  node::Group n = root_.nodes["group_1"];
   EXPECT_EQ(n.id(), g1.id());
 }
 
