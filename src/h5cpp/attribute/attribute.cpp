@@ -115,5 +115,12 @@ void Attribute::check_size(const dataspace::Dataspace &mem_space,
   }
 }
 
+void Attribute::close()
+{
+  handle_.close();
+}
+
+
+
 } // namespace attribute
 } // namespace hdf5

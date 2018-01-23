@@ -88,6 +88,24 @@ class DLL_EXPORT Attribute
     bool is_valid() const;
 
     //!
+    //! @brief close the attribute
+    //!
+    //! This method will close the attribute and leave it in an invalid state.
+    //! A subsequent call to is_valid should return false. The parent
+    //! link remains valid though.
+    //!
+    void close();
+
+
+    //!
+    //! @brief conversion operator to hid_t
+    //!
+    operator hid_t() const
+    {
+      return static_cast<hid_t>(handle_);
+    }
+
+    //!
     //! @brief get the parent ndoe
     //!
     //! Return a reference to the node to which the attribute is attached.
