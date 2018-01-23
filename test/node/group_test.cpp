@@ -88,6 +88,10 @@ TEST_F(GroupTest, test_group_creation)
   EXPECT_EQ(g.nodes.size(),2ul);
   EXPECT_EQ(g.links.size(),2ul);
   EXPECT_THROW(g.create_group("group_2"), std::runtime_error);
+
+  property::LinkCreationList lcpl;
+  ObjectHandle(static_cast<hid_t>(lcpl)).close();
+  EXPECT_THROW(g.create_group("group_3", lcpl), std::runtime_error);
 }
 
 TEST_F(GroupTest, test_dataset_creation)

@@ -61,7 +61,7 @@ Group::Group(const Node &node):
   }
 }
 
-Group::Group(const Group &parent,const Path &path,
+Group::Group(const Group &parent, const Path &path,
              const property::LinkCreationList &lcpl,
              const property::GroupCreationList &gcpl,
              const property::GroupAccessList &gapl):
@@ -117,28 +117,6 @@ Group Group::create_group(const std::string &name,
     throw std::runtime_error(ss.str());
   }
 
-  //check if there is already a link with this name
-  bool exists = false;
-  try
-  {
-    exists = this->links.exists(name);
-  }
-  catch (...)
-  {
-    std::stringstream ss;
-    ss << "A link with name [" << name << "] could not be created in ["
-       << link().path() << "]!";
-    std::throw_with_nested(std::runtime_error(ss.str()));
-  }
-
-  if (exists)
-  {
-    std::stringstream ss;
-    ss << "A link with name [" << name << "] already exists below ["
-       << link().path() << "]!";
-    throw std::runtime_error(ss.str());
-  }
-
   return Group(*this,Path(name),lcpl,gcpl,gapl);
 }
 
@@ -152,29 +130,7 @@ Dataset Group::create_dataset(const std::string &name,
   if(!Path(name).is_name())
   {
     std::stringstream ss;
-    ss<<"["<<name<<"] is not a valid name for a dataset!";
-    throw std::runtime_error(ss.str());
-  }
-
-  //check if there is already a link with this name
-  bool exists = false;
-  try
-  {
-    exists = this->links.exists(name);
-  }
-  catch (...)
-  {
-    std::stringstream ss;
-    ss << "A link with name [" << name << "] could not be created in ["
-       << link().path() << "]!";
-    std::throw_with_nested(std::runtime_error(ss.str()));
-  }
-
-  if (exists)
-  {
-    std::stringstream ss;
-    ss << "A link with name [" << name << "] already exists below ["
-       << link().path() << "]!";
+    ss<<"["<<name<<"] is not a valid child name!";
     throw std::runtime_error(ss.str());
   }
 
