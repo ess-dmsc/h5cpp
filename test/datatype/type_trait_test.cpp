@@ -128,4 +128,11 @@ TEST(TypeTrait, test_long_double)
   EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_LDOUBLE));
 }
 
+TEST(TypeTrait,test_bool)
+{
+  auto type = ds::TypeTrait<bool>::create();
+  EXPECT_TRUE(type.get_class()==ds::Class::INTEGER);
+  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type),H5T_NATIVE_HBOOL));
+}
+
 

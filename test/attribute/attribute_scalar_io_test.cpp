@@ -74,6 +74,15 @@ TEST_F(AttributeScalarIO, test_shape_mismatch)
   EXPECT_THROW(a.read(read_data),std::runtime_error);
 }
 
+TEST_F(AttributeScalarIO,test_bool)
+{
+  attribute::Attribute a = root_.attributes.create<bool>("flag");
+  bool value=true;
+  a.write(value);
+  bool read_back = false;
+  a.read(read_back);
+  EXPECT_EQ(value,read_back);
+}
 
 
 
