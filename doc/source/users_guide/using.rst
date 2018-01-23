@@ -46,7 +46,7 @@ the following :file:`CMakeLists.txt` fiel is sufficient
    
    find_package(h5cpp REQUIRED)
    add_executable(h5cpp_test main.cpp)
-   target_link_libraries(h5cpp_test h5cpp_shared)
+   target_link_libraries(h5cpp_test h5cpp)
    
 Despite the C++ language standard all dependencies are provided by 
 the package file via the imported target. 
