@@ -192,6 +192,28 @@ class DLL_EXPORT Group : public Node
                      const property::LinkAccessList &lapl = property::LinkAccessList());
 
     //!
+    //! \brief Create a soft link
+    //!
+    //! Create a soft link to an object stored in the same file. If link_path is a
+    //! relative path the new link will be relative to the link_base group.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \param link_path absolute or relative path to the new link
+    //! \param target_file the file where the link target is stored
+    //! \param target_path absolute path to the object which we want to reference
+    //!                    in the target file
+    //! \param lcpl optional link creation property list
+    //! \param lapl optional link access property list
+    //!
+    //! \pre `target_path` must be an absolute path
+    //!
+    void create_link(const Path &link_path,
+                     const Path &target_path,
+                     const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                     const property::LinkAccessList &lapl = property::LinkAccessList());
+
+    //!
     //! \brief Create a soft or external link
     //!
     //! Create a link from `link_path` to `target` object. A soft link will be created if

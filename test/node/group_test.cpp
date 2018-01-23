@@ -235,6 +235,9 @@ TEST_F(GroupTest, test_group_convenience)
   g.create_link(Path("external"), "./file2.h5", Path("group/contents"));
   EXPECT_EQ(g.get_group(Path("external")), f2g);
 
+  g.create_link(Path("internal"), Path("/group_1"));
+  EXPECT_EQ(g.get_group(Path("internal")), g1);
+
   g.create_link(Path("soft"), g1);
   EXPECT_EQ(g.get_group(Path("soft")), g1);
 }

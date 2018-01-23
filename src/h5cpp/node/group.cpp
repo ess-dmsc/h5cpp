@@ -196,6 +196,14 @@ void Group::create_link(const Path &link_path,
 }
 
 void Group::create_link(const Path &link_path,
+                        const Path &target_path,
+                        const property::LinkCreationList &lcpl,
+                        const property::LinkAccessList &lapl)
+{
+  hdf5::node::link(target_path, *this, link_path, lcpl, lapl);
+}
+
+void Group::create_link(const Path &link_path,
                         const Node &target,
                         const property::LinkCreationList &lcpl,
                         const property::LinkAccessList &lapl)

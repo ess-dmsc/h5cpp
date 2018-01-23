@@ -178,7 +178,6 @@ DLL_EXPORT void remove(const Node &object,
 //! relative to `target_base`. If it is an absolute path, `target_base` is used
 //! to retrieve the root group of the specific file.
 //!
-//!
 //! \param target the target node (could also be path here?)
 //! \param link_base the base group for the link location
 //! \param link_path path to the new link (either relative or absolute)
@@ -191,6 +190,29 @@ DLL_EXPORT void link(const Node &target,
                      const property::LinkCreationList &lcpl = property::LinkCreationList(),
                      const property::LinkAccessList &lapl = property::LinkAccessList());
 
+
+//!
+//! \brief Create a soft link
+//!
+//! Create a link from `link_path` under `link_base` to object at `target_path`. The object
+//! at `target_path` need not already exist at this time.
+//!
+//! If the `target_path` is a relative path the target location is assumed
+//! relative to `link_base`. If absolute, the path is assumed to be on the same file as
+//! `link_base`.
+//!
+//! \param target the target node (could also be path here?)
+//! \param link_base the base group for the link location
+//! \param link_path path to the new link (either relative or absolute)
+//! \param lcpl optional link creation property list
+//! \param lapl optional link access property list
+//!
+DLL_EXPORT void link(const Path &target_path,
+                     const Group &link_base,
+                     const Path &link_path,
+                     const property::LinkCreationList &lcpl = property::LinkCreationList(),
+                     const property::LinkAccessList &lapl = property::LinkAccessList());
+
 //!
 //! \brief Create an external link
 //!
@@ -198,7 +220,7 @@ DLL_EXPORT void link(const Node &target,
 //! object is determined by the target file and an absolute path within this
 //! file. The location of the link is given by a base group and a relative or
 //! absolute path. If link_path is a relative path the new link will be
-//! relative to the link_base group. Otherwise link_base is only used to
+//! relative to `link_base`. Otherwise `link_base` is only used to
 //! determine the root group (and thus the file within which the link is
 //! placed).
 //!
