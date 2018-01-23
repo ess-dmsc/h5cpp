@@ -26,11 +26,7 @@
 #include <sstream>
 #include <h5cpp/node/link_view.hpp>
 #include <h5cpp/node/group.hpp>
-#include <h5cpp/node/link.hpp>
-#include <h5cpp/core/iterator_config.hpp>
 #include <h5cpp/node/link_iterator.hpp>
-#include "utilities.hpp"
-#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -91,7 +87,7 @@ Link LinkView::operator[](size_t index) const
 
 Link LinkView::operator[](const std::string &name) const
 {
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid link name!";
@@ -100,9 +96,9 @@ Link LinkView::operator[](const std::string &name) const
   return Link(group().link().file(),group().link().path(),name);
 }
 
-bool LinkView::exists(const std::string &name,const property::LinkAccessList &lapl) const
+bool LinkView::exists(const std::string &name, const property::LinkAccessList &lapl) const
 {
-  if(!is_valid_child_name(name))
+  if(!Path(name).is_name())
   {
     std::stringstream ss;
     ss<<"["<<name<<"] is not a valid link name!";

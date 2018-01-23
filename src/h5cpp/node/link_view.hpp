@@ -58,7 +58,6 @@ class DLL_EXPORT LinkView : public GroupView
 
     const_iterator begin() const;
     const_iterator end() const;
-
 };
 
 } // namespace node

@@ -56,6 +56,18 @@ void GetNodeFunctionTest::SetUp()
   sensors.create_group("voltage");
 }
 
+TEST_F(GetNodeFunctionTest, views_test)
+{
+  EXPECT_THROW(root_group.links["/invalid/node"], std::runtime_error);
+  EXPECT_THROW(root_group.nodes["/invalid/node"], std::runtime_error);
+
+  EXPECT_TRUE(root_group.nodes.exists("run_1"));
+  root_group.create_link("invalid", root_group.nodes["run_1"]);
+  root_group.remove("run_1");
+
+  EXPECT_FALSE(root_group.nodes.exists("invalid"));
+}
+
 TEST_F(GetNodeFunctionTest,test_empty_search_path)
 {
   node::Group base = root_group.nodes["run_1"];

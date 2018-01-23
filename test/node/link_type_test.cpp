@@ -28,7 +28,7 @@
 
 using namespace hdf5;
 
-TEST(Link, test_string_representation)
+TEST(LinkType, test_string_representation)
 {
   std::stringstream stream;
 
@@ -49,7 +49,7 @@ TEST(Link, test_string_representation)
   EXPECT_EQ(stream.str(), "SOFT");
 }
 
-TEST(Link, test_value)
+TEST(LinkType, test_value)
 {
   EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::ERROR),
                     H5L_TYPE_ERROR);

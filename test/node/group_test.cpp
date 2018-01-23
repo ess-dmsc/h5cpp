@@ -50,6 +50,8 @@ TEST_F(GroupTest, test_default_construction)
 {
   node::Group group;
   EXPECT_FALSE(group.is_valid());
+  group = group;
+  EXPECT_TRUE(group == group);
 }
 
 TEST_F(GroupTest,test_node_construction)
@@ -85,6 +87,25 @@ TEST_F(GroupTest, test_group_creation)
   EXPECT_NO_THROW(g.create_group("group_2"));
   EXPECT_EQ(g.nodes.size(),2ul);
   EXPECT_EQ(g.links.size(),2ul);
+  EXPECT_THROW(g.create_group("group_2"), std::runtime_error);
+}
+
+TEST_F(GroupTest, test_dataset_creation)
+{
+  auto dt = datatype::create<int>();
+  auto ds = dataspace::Simple({0});
+
+  node::Group g = file_.root();
+  EXPECT_EQ(g.nodes.size(),0ul);
+  EXPECT_EQ(g.links.size(),0ul);
+  EXPECT_NO_THROW(g.create_dataset("data_1", dt, ds));
+  EXPECT_EQ(g.nodes.size(),1ul);
+  EXPECT_EQ(g.links.size(),1ul);
+  EXPECT_NO_THROW(g.create_dataset("data_2", dt, ds));
+  EXPECT_EQ(g.nodes.size(),2ul);
+  EXPECT_EQ(g.links.size(),2ul);
+  EXPECT_THROW(g.create_dataset("data_2", dt, ds), std::runtime_error);
+  EXPECT_THROW(g.create_dataset("/bad/name", dt, ds), std::runtime_error);
 }
 
 TEST_F(GroupTest, test_group_linkview)
@@ -177,6 +198,48 @@ TEST_F(GroupTest, test_funky_names)
 //  EXPECT_NO_THROW(g.create_group("./g/g3"));
 
   EXPECT_THROW(g.create_group("."), std::exception);
+}
+
+TEST_F(GroupTest, test_group_convenience)
+{
+  node::Group g = file_.root();
+
+  node::Group g1 = g.create_group("group_1");
+  EXPECT_TRUE(g.has_group("group_1"));
+  EXPECT_FALSE(g.has_group("group_2"));
+  EXPECT_EQ(g1, g.get_group("group_1"));
+
+  node::Dataset d1 = g.create_dataset("data_1", datatype::create<int>(), dataspace::Simple({0}));
+  EXPECT_TRUE(g.has_dataset("data_1"));
+  EXPECT_FALSE(g.has_dataset("data_2"));
+  EXPECT_EQ(d1, g.get_dataset("data_1"));
+
+  auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
+  auto f2g = file2.root().create_group("group").create_group("contents");
+
+  g1.copy_here(d1);
+  EXPECT_TRUE(g.has_dataset(Path("group_1/data_1")));
+  f2g.copy_here(Path("d1"), d1);
+  EXPECT_TRUE(file2.root().has_dataset(Path("group/contents/d1")));
+
+  g1.remove(Path("data_1"));
+
+  g1.move_here(d1);
+  EXPECT_TRUE(g.has_dataset(Path("group_1/data_1")));
+  EXPECT_FALSE(g.has_dataset(Path("data_1")));
+
+  //Can't move across file boundaries
+  f2g.remove(Path("d1"));
+  EXPECT_THROW(f2g.move_here(Path("d1"), d1), std::runtime_error);
+
+  g.create_link(Path("external"), "./file2.h5", Path("group/contents"));
+  EXPECT_EQ(g.get_group(Path("external")), f2g);
+
+  g.create_link(Path("internal"), Path("/group_1"));
+  EXPECT_EQ(g.get_group(Path("internal")), g1);
+
+  g.create_link(Path("soft"), g1);
+  EXPECT_EQ(g.get_group(Path("soft")), g1);
 }
 
 

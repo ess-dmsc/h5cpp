@@ -125,7 +125,7 @@ TEST_F(LinkIteration, group_node_iteration)
   }
 }
 
-TEST_F(LinkIteration, group_node_foreach)
+TEST_F(LinkIteration, group_links_foreach)
 {
   EXPECT_EQ(root_.links.size(),10ul);
   //setup creation order
@@ -151,7 +151,27 @@ TEST_F(LinkIteration, group_node_foreach)
     EXPECT_EQ(static_cast<std::string>(link.path()),*name_iter++);
     EXPECT_EQ(link.type(),*type_iter++);
   }
+}
 
+TEST_F(LinkIteration, group_link_iterator_ops)
+{
+  EXPECT_EQ(root_.links.size(),10ul);
+  //setup creation order
+  root_.iterator_config().index(hdf5::IterationIndex::NAME);
+  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
+
+  std::vector<std::string> names{"/g3_soft_link","/g3",
+                                 "/g2_soft_link","/g2","/g1_soft_link","/g1","/d2_soft_link","/d2",
+                                 "/d1_soft_link","/d1"};
+  auto name_iter = names.begin();
+  auto name_riter = names.rbegin();
+
+  for(auto link = root_.links.begin(); link != root_.links.end(); link++)
+    EXPECT_EQ(static_cast<std::string>(link->path()),*name_iter++);
+
+  auto link = root_.links.end(); link--;
+  for(; link != root_.links.begin(); link--)
+    EXPECT_EQ(static_cast<std::string>(link->path()),*name_riter++);
 }
 
 

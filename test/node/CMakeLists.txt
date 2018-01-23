@@ -3,6 +3,7 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(test_sources
   ${test_sources}
   ${dir}/node_test.cpp
+  ${dir}/functions_test.cpp
   ${dir}/group_test_fixtures.cpp
   ${dir}/type_test.cpp
   ${dir}/link_type_test.cpp

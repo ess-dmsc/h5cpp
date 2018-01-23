@@ -112,4 +112,11 @@ TEST_F(RecursiveNodeIteratorTest,test_name_decreasing)
                 [&path_iter](const node::Node &node)
                 { EXPECT_EQ(node.link().path(),*path_iter++);}
                 );
+
+  path_iter = node_path.begin();
+  for(auto it = RecursiveNodeIterator::begin(base);
+      it != RecursiveNodeIterator::end(base); it++)
+  {
+    EXPECT_EQ(it->link().path(),*path_iter++);
+  }
 }

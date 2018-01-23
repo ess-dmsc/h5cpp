@@ -46,7 +46,6 @@ LinkIterator LinkIterator::end(const Group &group)
   return LinkIterator(group,group.links.size());
 }
 
-
 Link LinkIterator::operator*() const
 {
   current_link_ = group_.links[index()];

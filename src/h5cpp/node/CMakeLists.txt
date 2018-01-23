@@ -12,8 +12,6 @@ set(SOURCES
   ${dir}/node_iterator.cpp
   ${dir}/node_view.cpp
   ${dir}/types.cpp
-  ${dir}/utilities.cpp
-  ${dir}/utilities.hpp
   ${dir}/virtual_dataset.cpp
   ${dir}/chunked_dataset.cpp
   ${dir}/recursive_node_iterator.cpp
