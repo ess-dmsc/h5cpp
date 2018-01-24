@@ -37,12 +37,12 @@ add_executable(unit_tests
   EXCLUDE_FROM_ALL
   ${test_sources}
   ${test_headers})
-add_dependencies(unit_tests h5cpp_shared)
+add_dependencies(unit_tests h5cpp)
 target_include_directories(unit_tests
   PRIVATE ${GTEST_INCLUDE_DIRS}
-  PRIVATE h5cpp_shared)
+  PRIVATE h5cpp)
 target_link_libraries(unit_tests
-  h5cpp_shared
+  h5cpp
   ${GTEST_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
   ${COVERAGE_LIBRARIES})

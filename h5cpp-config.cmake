@@ -46,7 +46,7 @@ endif()
 #
 # load targets 
 #
-include(${CMAKE_CURRENT_LIST_DIR}/h5cpp_shared_targets.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/h5cpp_targets.cmake)
 
 #
 # add the include directories for the HDF5 library

@@ -18,12 +18,12 @@ add_subdirectory(property)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
-add_library(h5cpp_shared SHARED
+add_library(h5cpp SHARED
   ${h5cpp_sources}
   ${h5cpp_headers}
   )
 
-target_compile_definitions(h5cpp_shared PRIVATE DLL_BUILD)
+target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
 set(H5CPP_LINKS Boost::filesystem ${MPI_CXX_LIBRARIES})
 
 #
@@ -37,7 +37,7 @@ foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
 endforeach()
 
 
-target_include_directories(h5cpp_shared
+target_include_directories(h5cpp
   PRIVATE ${PROJECT_SOURCE_DIR}/src
   PRIVATE ${HDF5_INCLUDE_DIRS}
   PUBLIC ${MPI_CXX_INCLUDE_PATH}
@@ -48,10 +48,10 @@ target_include_directories(h5cpp_shared
 # THIS IS BAD
 # NEED TO GET RID OF THIS
 if (WITH_MPI)
-  target_compile_definitions(h5cpp_shared PUBLIC WITH_MPI)
+  target_compile_definitions(h5cpp PUBLIC WITH_MPI)
 endif ()
 
-set_target_properties(h5cpp_shared
+set_target_properties(h5cpp
   PROPERTIES
   VERSION ${PROJECT_VERSION}
   SO_VERSION 0
@@ -59,24 +59,24 @@ set_target_properties(h5cpp_shared
   OUTPUT_NAME h5cpp
   )
 
-enable_coverage(h5cpp_shared)
+enable_coverage(h5cpp)
 
-target_link_libraries(h5cpp_shared
+target_link_libraries(h5cpp
   PUBLIC ${H5CPP_LINKS}
   PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS}
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
-install(TARGETS h5cpp_shared
-  EXPORT h5cpp_shared_targets
+install(TARGETS h5cpp
+  EXPORT h5cpp_targets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   COMPONENT runtime
   )
 
-install(EXPORT h5cpp_shared_targets
+install(EXPORT h5cpp_targets
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)
 
