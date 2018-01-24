@@ -10,7 +10,7 @@ images = [
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
     ],
     'fedora': [
-        'name': 'essdmscdm/fedora25-build-node:1.0.0',
+        'name': 'essdmscdm/fedora-build-node:0.4.2',
         'sh': 'sh'
     ],
     'debian': [
