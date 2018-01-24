@@ -53,7 +53,11 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install --build=missing ../${project}/conanfile_ess.txt
+        if (image_key == "fedora") {
+            conan install --build=gtest ../${project}/conanfile_ess.txt
+        } else {
+            conan install --build=missing ../${project}/conanfile_ess.txt
+        }
     \""""
 }
 
