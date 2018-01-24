@@ -386,7 +386,7 @@
     <contents xmi:type="ecore:EPackage" xmi:id="_QHGJ4f8uEeaZaM7lOsGynA" name="cpp" nsURI="http:///schemas/cpp/_QHGJ4P8uEeaZaM7lOsGynA/3" nsPrefix="cpp">
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_QHGJ4v8uEeaZaM7lOsGynA" source="http://www.eclipse.org/uml2/4.0.0/UML" references="_sikzYP8rEeaZaM7lOsGynA"/>
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_QHJ0Qv8uEeaZaM7lOsGynA" source="PapyrusVersion">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHJ0Q_8uEeaZaM7lOsGynA" key="Version" value="0.0.4"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHJ0Q_8uEeaZaM7lOsGynA" key="Version" value="0.0.5"/>
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHJ0RP8uEeaZaM7lOsGynA" key="Comment" value=""/>
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHJ0Rf8uEeaZaM7lOsGynA" key="Copyright" value=""/>
         <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHJ0Rv8uEeaZaM7lOsGynA" key="Date" value="2017-03-02"/>
@@ -1657,7 +1657,7 @@
       </contents>
       <contents xmi:type="ecore:EPackage" xmi:id="_QHImIP8uEeaZaM7lOsGynA" name="Concepts" nsURI="http://cpp/schemas/Concepts/_QHH_EP8uEeaZaM7lOsGynA/2" nsPrefix="Concepts">
         <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_QHLCaP8uEeaZaM7lOsGynA" source="PapyrusVersion">
-          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHLCaf8uEeaZaM7lOsGynA" key="Version" value="0.0.4"/>
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHLCaf8uEeaZaM7lOsGynA" key="Version" value="0.0.5"/>
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHLCav8uEeaZaM7lOsGynA" key="Comment" value=""/>
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHLCa_8uEeaZaM7lOsGynA" key="Copyright" value=""/>
           <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_QHLCbP8uEeaZaM7lOsGynA" key="Date" value="2017-03-02"/>
