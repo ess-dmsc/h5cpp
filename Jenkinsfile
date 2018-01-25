@@ -246,7 +246,7 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
-                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote remove ${conan_remote}  '
+                        //bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote remove ${conan_remote}  '
                         def conan_remote = "ess-dmsc-local"
                         //local_conan_server=${env.local_conan_server}
                         bat "C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add --insert 0 %conan_remote% %env.local_conan_server% "
