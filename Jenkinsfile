@@ -237,28 +237,28 @@ def get_win10_pipeline()
 
                     try {
                         checkout scm
-                        sh "set PYTHONPATH=C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36"
-//                        sh "rd /s /q ../_build"
-                        sh "mkdir _build"
+                        bat "set PYTHONPATH=C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36"
+                        bat "rd /s /q ../_build"
+                        bat "mkdir _build"
                     } catch (e) {
                         failure_function(e, 'Windows10 / Checkout failed')
                     }
 
                 dir("_build") {
                     try {
-                        sh "%PYTHONPATH%\\Scripts\\conan.exe install -f..\\conanfile_default.txt --build=outdated -s compiler="Visual Studio" -s compiler.version=14"
+                        bat "%PYTHONPATH%\\Scripts\\conan.exe install -f..\\conanfile_default.txt --build=outdated -s compiler="Visual Studio" -s compiler.version=14"
                     } catch (e) {
                         failure_function(e, 'Windows10 / getting dependencies failed')
                     }
 
                     try {
-                        sh 'cmake .. -G "Visual Studio 14 2015 Win64" '
+                        bat 'cmake .. -G "Visual Studio 14 2015 Win64" '
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
                     }
 
                     try {
-                        sh "cmake --build ."
+                        bat "cmake --build ."
                     } catch (e) {
 		                //junit 'test/unit_tests_run.xml'
                         failure_function(e, 'Windows10 / build+test failed')
