@@ -53,7 +53,7 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install --build=missing ../${project}/conanfile_ess.txt
+        conan install --build=outdated ../${project}/conanfile_ess.txt
     \""""
 }
 
@@ -185,7 +185,7 @@ def get_pipeline(image_key)
     }
 }
 
-def get_osx_pipeline()
+def get_macos_pipeline()
 {
     return {
         stage("MacOSX") {
@@ -203,7 +203,7 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "conan install --build=missing ../code/conanfile_ess.txt"
+                        sh "conan install --build=outdated ../code/conanfile_ess.txt"
                     } catch (e) {
                         failure_function(e, 'MacOSX / getting dependencies failed')
                     }
@@ -227,6 +227,51 @@ def get_osx_pipeline()
     }
 }
 
+def get_win10_pipeline()
+{
+    return {
+        stage("Windows 10") {
+            node ("windows10") {
+            // Delete workspace when build is done
+                cleanWs()
+
+                dir("${project}/code") {
+                    try {
+                        checkout scm
+                        sh "set PYTHONPATH=C:\Users\dmgroup\AppData\Local\Programs\Python\Python36"
+                        sh "rd /s /q ../_build"
+                        sh "mkdir ../_build"
+                    } catch (e) {
+                        failure_function(e, 'Windows10 / Checkout failed')
+                    }
+                }
+
+                dir("${project}/_build") {
+                    try {
+                        sh "%PYTHONPATH%\Scripts\conan.exe install -f..\conanfile_default.txt --build=outdated -s compiler="Visual Studio" -s compiler.version=14"
+                    } catch (e) {
+                        failure_function(e, 'Windows10 / getting dependencies failed')
+                    }
+
+                    try {
+                        sh 'cmake .. -G "Visual Studio 14 2015 Win64" '
+                    } catch (e) {
+                        failure_function(e, 'Windows10 / CMake failed')
+                    }
+
+                    try {
+                        sh "cmake --build ."
+                    } catch (e) {
+		                //junit 'test/unit_tests_run.xml'
+                        failure_function(e, 'Windows10 / build+test failed')
+                    }
+                }
+
+            }
+        }
+    }
+}
+
 node('docker') {
     stage('Checkout') {
         dir("${project}/code") {
@@ -237,13 +282,15 @@ node('docker') {
             }
         }
     }
-
+/*
     def builders = [:]
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['MocOSX'] = get_osx_pipeline()
+    builders['macOS'] = get_macos_pipeline()
+*/
+    builders['Windows10'] = get_win10_pipeline()
     
     parallel builders
 
