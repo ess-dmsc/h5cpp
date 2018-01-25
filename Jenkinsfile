@@ -258,9 +258,9 @@ def get_win10_pipeline()
                     }
 
                     try {
-                        bat "cmake --build ."
+                        bat "cmake --build . --target run_tests"
                     } catch (e) {
-		                //junit 'test/unit_tests_run.xml'
+		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'Windows10 / build+test failed')
                     }
                 }
