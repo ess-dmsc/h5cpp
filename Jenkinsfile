@@ -238,7 +238,7 @@ def get_win10_pipeline()
                     try {
                         checkout scm
                         bat "set PYTHONPATH=C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36"
-                        bat "rd /s /q _build"
+                        //bat "rd /s /q _build"
                         bat "mkdir _build"
                     } catch (e) {
                         failure_function(e, 'Windows10 / Checkout failed')
