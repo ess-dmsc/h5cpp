@@ -245,7 +245,7 @@ def get_win10_pipeline()
                     }
 
                 dir("_build") {
-                  withEnv(['conan_remote=ess-dmsc-local', 'local_conan_server=${env.local_conan_server}']) {
+                  withEnv(["conan_remote=ess-dmsc-local", "local_conan_server=${local_conan_server}"]) {
                     try {
                         echo "remote: ${conan_remote}"
                         echo "server: ${local_conan_server}"
@@ -309,7 +309,7 @@ node('docker') {
     // Delete workspace when build is done
     cleanWs()
 }
-
+/*
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -373,4 +373,4 @@ node ("fedora") {
         }
     }
 }
-
+*/
