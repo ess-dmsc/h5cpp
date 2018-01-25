@@ -16,22 +16,22 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(test_sources
   ${dir}/main.cpp
-  ${dir}/fixture.cpp
+#  ${dir}/fixture.cpp
   )
 
-set(test_headers
-  ${dir}/fixture.hpp
-  )
+#set(test_headers
+#  ${dir}/fixture.hpp
+#  )
 
-add_subdirectory(error)
-add_subdirectory(core)
-add_subdirectory(property)
-add_subdirectory(datatype)
-add_subdirectory(dataspace)
-add_subdirectory(attribute)
-add_subdirectory(filter)
-add_subdirectory(node)
-add_subdirectory(file)
+#add_subdirectory(error)
+#add_subdirectory(core)
+#add_subdirectory(property)
+#add_subdirectory(datatype)
+#add_subdirectory(dataspace)
+#add_subdirectory(attribute)
+#add_subdirectory(filter)
+#add_subdirectory(node)
+#add_subdirectory(file)
 
 add_executable(unit_tests
   EXCLUDE_FROM_ALL
@@ -40,7 +40,8 @@ add_executable(unit_tests
 add_dependencies(unit_tests h5cpp)
 target_include_directories(unit_tests
   PRIVATE ${GTEST_INCLUDE_DIRS}
-  PRIVATE h5cpp)
+#  PRIVATE h5cpp
+    )
 target_link_libraries(unit_tests
   h5cpp
   ${GTEST_LIBRARIES}
