@@ -245,19 +245,18 @@ def get_win10_pipeline()
                     }
 
                 dir("_build") {
-                  withEnv(["conan_remote=ess-dmsc-local", "local_conan_server=${local_conan_server}"]) {
                     try {
-                        echo "remote: ${conan_remote}"
-                        echo "server: ${local_conan_server}"
+                        withEnv(["conan_remote=ess-dmsc-local", "local_conan_server=${local_conan_server}"]) {
 
-                        bat 'echo remote is %conan_remote%'
-                        bat 'echo server is %local_conan_server%'
+                            bat 'echo remote is %conan_remote%'
+                            bat 'echo server is %local_conan_server%'
 
-                        //bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote remove ${conan_remote}  '
-                        //def conan_remote = "ess-dmsc-local"
-                        //local_conan_server=${env.local_conan_server}
-                        //bat "C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add --insert 0 %conan_remote% %local_conan_server% "
-                        //bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_ess.txt'
+                            //bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote remove ${conan_remote}  '
+                            //def conan_remote = "ess-dmsc-local"
+                            //local_conan_server=${env.local_conan_server}
+                            bat "C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add --insert 0 %conan_remote% %local_conan_server% "
+                            //bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_ess.txt'
+                        }
                     } catch (e) {
                         failure_function(e, 'Windows10 / getting dependencies failed')
                     }
@@ -277,7 +276,6 @@ def get_win10_pipeline()
                         failure_function(e, 'Windows10 / build+test failed')
                     }
 */
-                  }
                 }
             }
         }
