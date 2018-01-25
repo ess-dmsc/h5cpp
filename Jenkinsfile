@@ -235,7 +235,6 @@ def get_win10_pipeline()
             // Delete workspace when build is done
                 cleanWs()
 
-                dir("${project}/code") {
                     try {
                         checkout scm
                         sh "set PYTHONPATH=C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36"
@@ -244,7 +243,6 @@ def get_win10_pipeline()
                     } catch (e) {
                         failure_function(e, 'Windows10 / Checkout failed')
                     }
-                }
 
                 dir("${project}/_build") {
                     try {
