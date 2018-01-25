@@ -238,7 +238,7 @@ def get_win10_pipeline()
                 dir("${project}/code") {
                     try {
                         checkout scm
-                        sh "set PYTHONPATH=C:\Users\dmgroup\AppData\Local\Programs\Python\Python36"
+                        sh "set PYTHONPATH=C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36"
                         sh "rd /s /q ../_build"
                         sh "mkdir ../_build"
                     } catch (e) {
@@ -248,7 +248,7 @@ def get_win10_pipeline()
 
                 dir("${project}/_build") {
                     try {
-                        sh "%PYTHONPATH%\Scripts\conan.exe install -f..\conanfile_default.txt --build=outdated -s compiler="Visual Studio" -s compiler.version=14"
+                        sh "%PYTHONPATH%\\Scripts\\conan.exe install -f..\\conanfile_default.txt --build=outdated -s compiler="Visual Studio" -s compiler.version=14"
                     } catch (e) {
                         failure_function(e, 'Windows10 / getting dependencies failed')
                     }
