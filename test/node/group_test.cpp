@@ -65,6 +65,11 @@ TEST_F(GroupTest,test_node_construction)
   node::Group g(root_ref);
   EXPECT_EQ(g.link().path(),"/");
 
+  // test the close method here
+  root.close();
+  EXPECT_FALSE(root.is_valid());
+
+
 }
 
 TEST_F(GroupTest,test_constructor_construction)

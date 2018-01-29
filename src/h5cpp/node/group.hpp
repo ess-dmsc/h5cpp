@@ -91,11 +91,6 @@ class DLL_EXPORT Group : public Node
     Group &operator=(const Group &group);
 
     //!
-    //! \brief close the group
-    //!
-    void close() const;
-
-    //!
     //! \brief flush group
     //!
     void flush() const;
