@@ -22,9 +22,11 @@ set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for th
 include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
 if(WITH_CONAN)
 	conan_cmake_run(CONANFILE ${CONAN_FILE}
-		BASIC_SETUP UPDATE
+		BASIC_SETUP KEEP_RPATHS
 		BUILD outdated)
-else()
+elseif(EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
+	message(STATUS "Using existing conanbuildinfo.cmake file")
+	include(${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
 	conan_basic_setup(KEEP_RPATHS)
 endif()
 
