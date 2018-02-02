@@ -197,7 +197,7 @@ def get_osx_pipeline()
                     }
 
                     try {
-                        sh "cmake ../code"
+                        sh "cmake -DWITH_CONAN=OFF ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
