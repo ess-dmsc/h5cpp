@@ -24,7 +24,7 @@ if (NOT GTest_FOUND)
 				set(GTEST_SOURCE_DIR /usr/src/gtest)
 			endif()
 
-			if(EXISTS ${GTEST_SOURCE_DIR} AND IS_DIRECTORY ${GTEST_SOURCE_DIR})
+			if((EXISTS ${GTEST_SOURCE_DIR}) AND (IS_DIRECTORY ${GTEST_SOURCE_DIR}))
 				#if the source directory exists and is indeed a directory we build the
 				#gtest code
 				set(GTEST_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
