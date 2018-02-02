@@ -17,11 +17,14 @@ include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
 #=============================================================================
 # setting up conan for use from within cmake
 #=============================================================================
+set(WITH_CONAN ON CACHE BOOL "Enable dependency build with conan")
 set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for the build")
-include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
-conan_cmake_run(CONANFILE ${CONAN_FILE}
-  BASIC_SETUP UPDATE
-  BUILD outdated)
+if(WITH_CONAN)
+	include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
+	conan_cmake_run(CONANFILE ${CONAN_FILE}
+		BASIC_SETUP UPDATE
+		BUILD outdated)
+endif()
 
 #=============================================================================
 # some general configuration

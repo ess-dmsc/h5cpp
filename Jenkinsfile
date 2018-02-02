@@ -53,7 +53,6 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install --build=missing ../${project}/conanfile_ess.txt
     \""""
 }
 
@@ -63,16 +62,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 ../${project}
-    \""""
-}
-
-def docker_build(image_key) {
-    def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        cd build
-        make --version
-        make unit_tests
+        ${cmake_exec} -DCONAN_FILE="conanfile_ess.txt" -DCOV=1 ../${project}
     \""""
 }
 
@@ -164,12 +154,6 @@ def get_pipeline(image_key)
                     failure_function(e, "CMake for ${image_key} failed")
                 }
 
-                try {
-                    docker_build(image_key)
-                } catch (e) {
-                    failure_function(e, "Build for ${image_key} failed")
-                }
-
                 if (image_key == "fedora") {
                     docker_tests_coverage(image_key)
                 } else {
@@ -203,13 +187,7 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "conan install --build=missing ../code/conanfile_ess.txt"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / getting dependencies failed')
-                    }
-
-                    try {
-                        sh "cmake ../code"
+                        sh "cmake -DCONAN_FILE="conanfile_ess.txt" ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -268,7 +246,7 @@ node ("fedora") {
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake ../code"
+                    cmake -DWITH_CONAN=OFF ../code"
                 sh "make html"
                 if (env.BRANCH_NAME != 'master') {
                     archiveArtifacts artifacts: 'doc/build/'
