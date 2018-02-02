@@ -53,6 +53,7 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
+        conan install --build=missing ../${project}/conanfile_ess.txt
     \""""
 }
 
@@ -62,7 +63,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} -DCONAN_FILE="conanfile_ess.txt" -DCOV=1 ../${project}
+        ${cmake_exec} -DWITH_CONAN=OFF -DCOV=1 ../${project}
     \""""
 }
 
@@ -72,6 +73,7 @@ def docker_tests(image_key) {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd build
+                make --version
                 make run_tests
             \""""
         } catch(e) {
@@ -88,6 +90,7 @@ def docker_tests_coverage(image_key) {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd build
+                make --version
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
@@ -187,7 +190,13 @@ def get_osx_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCONAN_FILE="conanfile_ess.txt" ../code"
+                        sh "conan install --build=missing ../code/conanfile_ess.txt"
+                    } catch (e) {
+                        failure_function(e, 'MacOSX / getting dependencies failed')
+                    }
+
+                    try {
+                        sh "cmake ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
