@@ -62,7 +62,6 @@ def docker_cmake(image_key) {
     def custom_sh = images[image_key]['sh']
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
-        source activate_build.sh
         ${cmake_exec} --version
         ${cmake_exec} -DWITH_CONAN=OFF -DCOV=1 ../${project}
     \""""
