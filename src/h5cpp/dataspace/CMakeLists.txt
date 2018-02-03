@@ -1,6 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SOURCES
+  ${dir}/hyperslab.cpp
   ${dir}/dataspace.cpp
   ${dir}/scalar.cpp
   ${dir}/selection.cpp
@@ -8,9 +9,11 @@ set(SOURCES
   ${dir}/simple.cpp
   ${dir}/type.cpp
   ${dir}/view.cpp
+  ${dir}/points.cpp
   )
 
 set(HEADERS
+  ${dir}/hyperslab.hpp
   ${dir}/dataspace.hpp
   ${dir}/scalar.hpp
   ${dir}/selection_manager.hpp
@@ -19,6 +22,7 @@ set(HEADERS
   ${dir}/type.hpp
   ${dir}/type_trait.hpp
   ${dir}/view.hpp
+  ${dir}/points.hpp
   )
 
 install(FILES ${HEADERS}

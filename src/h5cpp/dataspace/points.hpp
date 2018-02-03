@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -22,25 +22,25 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
+#pragma once
+
 #include <h5cpp/dataspace/selection.hpp>
-#include <h5cpp/error/error.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace dataspace {
 
-Selection::~Selection()
-{}
-
-Dataspace operator||(const Dataspace &space,const SelectionList &selections)
+class DLL_EXPORT Points : public Selection
 {
-  Dataspace new_space(space);
+  public:
+    Points();
+    Points(size_t rank);
+    ~Points();
 
-  for(auto swo: selections)
-    new_space.selection(swo.operation,*swo.selection);
+    virtual void apply(const Dataspace &space,
+                       SelectionOperation ops) const;
 
-  return new_space;
-}
-
+};
 
 } // namespace dataspace
 } // namespace hdf5

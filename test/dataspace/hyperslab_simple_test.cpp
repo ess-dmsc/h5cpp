@@ -25,7 +25,7 @@
 
 #include <gtest/gtest.h>
 #include <h5cpp/dataspace/simple.hpp>
-#include <h5cpp/dataspace/selection.hpp>
+#include <h5cpp/dataspace/hyperslab.hpp>
 
 using namespace hdf5;
 

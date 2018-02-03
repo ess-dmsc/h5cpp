@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include <h5cpp/dataspace/selection.hpp>
+#include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/core/windows.hpp>
 

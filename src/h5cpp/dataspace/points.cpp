@@ -22,25 +22,41 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Aug 25, 2017
 //
-#include <h5cpp/dataspace/selection.hpp>
+#include <h5cpp/dataspace/points.hpp>
 #include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
 
-Selection::~Selection()
+Points::Points():
+    Selection()
 {}
 
-Dataspace operator||(const Dataspace &space,const SelectionList &selections)
+Points::~Points()
+{}
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+Points::Points(size_t rank):
+    Selection()
+{}
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+void Points::apply(const Dataspace &space,
+                   SelectionOperation ops) const
 {
-  Dataspace new_space(space);
-
-  for(auto swo: selections)
-    new_space.selection(swo.operation,*swo.selection);
-
-  return new_space;
 }
-
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 } // namespace dataspace
 } // namespace hdf5
