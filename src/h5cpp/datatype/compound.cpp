@@ -21,7 +21,7 @@
 //
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
-//   Martin Shetty <martin.shetty@esss.es>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 5, 2017
 //
 
@@ -110,6 +110,9 @@ size_t Compound::field_offset(const std::string &name) const
 size_t Compound::field_offset(size_t index) const
 {
   size_t offset = H5Tget_member_offset(static_cast<hid_t>(*this), index);
+
+  // This error checking logic looks wonky ???
+
   if (offset == 0) {
     try {
       field_class(index);

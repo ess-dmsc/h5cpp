@@ -21,7 +21,7 @@
 //
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
-//   Martin Shetty <martin.shetty@esss.es>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 5, 2017
 //
 #pragma once

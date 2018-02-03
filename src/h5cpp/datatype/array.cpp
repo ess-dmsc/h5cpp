@@ -21,7 +21,7 @@
 //
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
-//   Martin Shetty <martin.shetty@esss.es>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 23, 2017
 //
 
@@ -51,7 +51,7 @@ Array Array::create(const Datatype &base_type, const Dimensions &dims)
   if (ret < 0) {
     std::stringstream ss;
     ss << "Could not create Array of base=" << base_type.get_class();
-    // include debug info on dims?
+    // print debug info on dims ???
     error::Singleton::instance().throw_with_stack(ss.str());
   }
   return Array(ObjectHandle(ret));
@@ -59,15 +59,20 @@ Array Array::create(const Datatype &base_type, const Dimensions &dims)
 
 Dimensions Array::dimensions() const
 {
-  // Nest another exception?
-  Dimensions dims(rank());
-
-  if (H5Tget_array_dims(static_cast<hid_t>(*this), dims.data()) < 0) {
-    error::Singleton::instance().throw_with_stack("Could not obtain dimensions for Array datatype!");
+  size_t my_rank;
+  try {
+    my_rank = rank();
+  }
+  catch(...)
+  {
+    std::throw_with_nested(std::runtime_error("Could not obtain dimensions for Array datatype"));
   }
 
+  Dimensions dims(my_rank);
+  if (H5Tget_array_dims(static_cast<hid_t>(*this), dims.data()) < 0) {
+    error::Singleton::instance().throw_with_stack("Could not obtain dimensions for Array datatype");
+  }
   return dims;
-
 }
 
 size_t Array::rank() const
@@ -76,7 +81,6 @@ size_t Array::rank() const
   if (ndims < 0) {
     error::Singleton::instance().throw_with_stack("Could not obtain rank for Array datatype!");
   }
-
   return ndims;
 }
 
