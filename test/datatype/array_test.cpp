@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
 // Created on: Oct 23, 2017
 //
 #include <gtest/gtest.h>
@@ -28,17 +30,24 @@
 
 using namespace hdf5;
 
-TEST(Array,DefaultConstruction)
+TEST(Array, DefaultConstruction)
 {
   datatype::Array type;
   EXPECT_FALSE(type.is_valid());
-  EXPECT_EQ(type.get_class(),datatype::Class::NONE);
+  EXPECT_EQ(type.get_class(), datatype::Class::NONE);
+}
+
+TEST(Array, Exceptions)
+{
+  auto ft = datatype::create<double>();
+  EXPECT_THROW((datatype::Array(ft)), std::runtime_error);
+  EXPECT_THROW((datatype::Array::create(datatype::Datatype(), {3, 4})), std::runtime_error);
 }
 
 TEST(Array,TensorConstruction)
 {
   auto base_type = datatype::create<int>();
-  datatype::Array type(base_type,{3,4});
+  auto type = datatype::Array::create(base_type,{3,4});
   EXPECT_TRUE(type.is_valid());
   EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
   EXPECT_EQ(type.size(),12*sizeof(int));
@@ -47,12 +56,15 @@ TEST(Array,TensorConstruction)
   Dimensions dims = type.dimensions();
   EXPECT_EQ(dims[0],3ul);
   EXPECT_EQ(dims[1],4ul);
+
+  ObjectHandle(static_cast<hid_t>(type)).close();
+  EXPECT_THROW((type.rank()), std::runtime_error);
 }
 
 TEST(Array,VectorConstruction)
 {
   auto base_type = datatype::create<double>();
-  datatype::Array type(base_type,{4});
+  auto type = datatype::Array::create(base_type,{4});
   EXPECT_TRUE(type.is_valid());
   EXPECT_EQ(type.get_class(),datatype::Class::ARRAY);
   EXPECT_EQ(type.size(),4*sizeof(double));

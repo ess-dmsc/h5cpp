@@ -130,8 +130,7 @@ class TypeTrait<HKLPointList>
 
     static TypeClass create(const HKLPointList & = HKLPointList())
     {
-      VLengthArray type(TypeTrait<HKLPoint>::create());
-      return type;
+      return VLengthArray::create(TypeTrait<HKLPoint>::create());
     }
 };
 

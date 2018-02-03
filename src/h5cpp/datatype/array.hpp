@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
 // Created on: Oct 20, 2017
 //
 #pragma once
@@ -27,7 +29,6 @@
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/core/windows.hpp>
-
 
 namespace hdf5 {
 namespace datatype {
@@ -42,29 +43,42 @@ namespace datatype {
 //!
 class DLL_EXPORT Array : public Datatype
 {
-  public:
-    Array();
-    Array(const Datatype &base_type,const Dimensions &dims);
+ public:
+  Array() = default;
 
-    //!
-    //! \brief get dimensions
-    //!
-    //! Returns an instance of Dimensions with the number of elements along
-    //! each dimension.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    Dimensions dimensions() const;
+  //!
+  //! \brief construct from handle
+  //!
+  Array(ObjectHandle &&handle);
 
-    //!
-    //! \brief get rank
-    //!
-    //! Returns the number of dimensions for an array data type
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    size_t rank() const;
+  //!
+  //! \brief cosntruct from generic datatype
+  //!
+  Array(const Datatype &type);
 
+  //!
+  //! \brief named constructor
+  //!
+  static Array create(const Datatype &base_type, const Dimensions &dims);
+
+  //!
+  //! \brief get dimensions
+  //!
+  //! Returns an instance of Dimensions with the number of elements along
+  //! each dimension.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  Dimensions dimensions() const;
+
+  //!
+  //! \brief get rank
+  //!
+  //! Returns the number of dimensions for an array data type
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  size_t rank() const;
 
 };
 
@@ -79,21 +93,32 @@ class DLL_EXPORT Array : public Datatype
 //!
 class DLL_EXPORT VLengthArray : public Datatype
 {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    //! This constructor is required for compatibility purposes
-    //! with STL containers.
-    //!
-    VLengthArray();
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  //! This constructor is required for compatibility purposes
+  //! with STL containers.
+  //!
+  VLengthArray() = default;
 
-    //!
-    //! \brief constructor
-    //!
-    //! \param base_type the base type for the variable length type
-    //!
-    VLengthArray(const Datatype &base_type);
+  //!
+  //! \brief construct from handle
+  //!
+  VLengthArray(ObjectHandle &&handle);
+
+  //!
+  //! \brief cosntruct from generic datatype
+  //!
+  VLengthArray(const Datatype &type);
+
+  //!
+  //! \brief constructor
+  //!
+  //! \param base_type the base type for the variable length type
+  //!
+  static VLengthArray create(const Datatype &base_type);
+
 };
 
 } // namespace datatype

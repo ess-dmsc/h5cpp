@@ -81,7 +81,7 @@ TEST(String, Constructor)
 
 TEST(String, Fixed)
 {
-  auto t = datatype::String::fixed(3);
+  datatype::String t = datatype::String::fixed(3);
   EXPECT_TRUE(t.get_class() == datatype::Class::STRING);
   EXPECT_FALSE(t.is_variable_length());
   EXPECT_EQ(t.size(), 3ul);

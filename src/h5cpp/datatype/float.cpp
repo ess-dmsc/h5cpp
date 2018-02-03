@@ -41,7 +41,7 @@ Float::Float(const Datatype &datatype) :
   if ((datatype.get_class() != Class::FLOAT)) {
     std::stringstream ss;
     ss << "Cannot create datatype::Float from " << get_class();
-    error::Singleton::instance().throw_with_stack(ss.str());
+    throw std::runtime_error(ss.str());
   }
 }
 

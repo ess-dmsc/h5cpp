@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
 // Created on: Oct 23, 2017
 //
 #include <gtest/gtest.h>
@@ -33,13 +35,19 @@ TEST(VLengthArray,DefaultConstruction)
   datatype::VLengthArray type;
   EXPECT_FALSE(type.is_valid());
   EXPECT_EQ(type.get_class(),datatype::Class::NONE);
+}
 
+TEST(VLengthArray, Exceptions)
+{
+  auto ft = datatype::create<double>();
+  EXPECT_THROW((datatype::VLengthArray(ft)), std::runtime_error);
+  EXPECT_THROW((datatype::VLengthArray::create(datatype::Datatype())), std::runtime_error);
 }
 
 TEST(VLengthArray,Construction)
 {
   auto base_type = datatype::create<double>();
-  datatype::VLengthArray type(base_type);
+  auto type = datatype::VLengthArray::create(base_type);
   EXPECT_TRUE(type.is_valid());
   EXPECT_EQ(type.get_class(),datatype::Class::VARLENGTH);
   EXPECT_EQ(type.super().get_class(),datatype::Class::FLOAT);

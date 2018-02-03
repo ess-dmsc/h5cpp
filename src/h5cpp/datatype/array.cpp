@@ -19,31 +19,51 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
 // Created on: Oct 23, 2017
 //
 
 #include <h5cpp/datatype/array.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace datatype {
 
-Array::Array():Datatype()
-{}
+Array::Array(ObjectHandle &&handle) :
+    Datatype(std::move(handle)) {}
 
-Array::Array(const Datatype &base_type,const Dimensions &dims):
-    Datatype(ObjectHandle(H5Tarray_create(static_cast<hid_t>(base_type),
-                                          dims.size(),dims.data())))
-{}
+Array::Array(const Datatype &type) :
+    Datatype(type)
+{
+  if (get_class() != Class::ARRAY) {
+    std::stringstream ss;
+    ss << "Cannot create Array from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
+
+Array Array::create(const Datatype &base_type, const Dimensions &dims)
+{
+  hid_t ret = H5Tarray_create(static_cast<hid_t>(base_type), dims.size(), dims.data());
+  if (ret < 0) {
+    std::stringstream ss;
+    ss << "Could not create Array of base=" << base_type.get_class();
+    // include debug info on dims?
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+  return Array(ObjectHandle(ret));
+}
 
 Dimensions Array::dimensions() const
 {
+  // Nest another exception?
   Dimensions dims(rank());
 
-  if(H5Tget_array_dims(static_cast<hid_t>(*this),dims.data())<0)
-  {
-    error::Singleton::instance().throw_with_stack("Cannot obtain dimensions for Array datatype!");
+  if (H5Tget_array_dims(static_cast<hid_t>(*this), dims.data()) < 0) {
+    error::Singleton::instance().throw_with_stack("Could not obtain dimensions for Array datatype!");
   }
 
   return dims;
@@ -53,21 +73,36 @@ Dimensions Array::dimensions() const
 size_t Array::rank() const
 {
   int ndims = H5Tget_array_ndims(static_cast<hid_t>(*this));
-  if(ndims<0)
-  {
-    error::Singleton::instance().throw_with_stack("Cannot obtain rank for array datatype!");
+  if (ndims < 0) {
+    error::Singleton::instance().throw_with_stack("Could not obtain rank for Array datatype!");
   }
 
   return ndims;
 }
 
-VLengthArray::VLengthArray():Datatype()
-{}
+VLengthArray::VLengthArray(ObjectHandle &&handle) :
+    Datatype(std::move(handle)) {}
 
-VLengthArray::VLengthArray(const Datatype &base_type):
-    Datatype(ObjectHandle(H5Tvlen_create(static_cast<hid_t>(base_type))))
-{}
+VLengthArray::VLengthArray(const Datatype &type) :
+    Datatype(type)
+{
+  if (get_class() != Class::VARLENGTH) {
+    std::stringstream ss;
+    ss << "Cannot create VLengthArray from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
 
+VLengthArray VLengthArray::create(const Datatype &base_type)
+{
+  hid_t ret = H5Tvlen_create(static_cast<hid_t>(base_type));
+  if (ret < 0) {
+    std::stringstream ss;
+    ss << "Could not create VLengthArray of base=" << base_type.get_class();
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+  return VLengthArray(ObjectHandle(ret));
+}
 
 } // namespace datatype
 } // namespace hdf5

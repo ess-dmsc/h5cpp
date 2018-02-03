@@ -41,7 +41,7 @@ Integer::Integer(const Datatype &datatype) :
   if (get_class() != Class::INTEGER) {
     std::stringstream ss;
     ss << "Cannot create datatype::Integer from " << get_class();
-    error::Singleton::instance().throw_with_stack(ss.str());
+    throw std::runtime_error(ss.str());
   }
 }
 
