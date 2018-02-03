@@ -43,6 +43,8 @@ TEST(Dataspace, from_hid)
   EXPECT_EQ(s.size(), 1);
   EXPECT_EQ(s.type(), Type::SCALAR);
   EXPECT_TRUE(s.is_valid());
+
+  EXPECT_THROW((Dataspace(ObjectHandle(H5Tcreate(H5T_COMPOUND, 1)))), std::runtime_error);
 }
 
 TEST(Dataspace, copy_construction)

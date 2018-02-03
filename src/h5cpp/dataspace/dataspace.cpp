@@ -25,6 +25,7 @@
 
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace dataspace {
@@ -34,21 +35,25 @@ Dataspace::~Dataspace()
 }
 
 Dataspace::Dataspace()
-  : selection(*this)
-  , handle_()
-{}
+    : selection(*this), handle_() {}
 
 Dataspace::Dataspace(ObjectHandle &&handle)
-  : selection(*this)
-  , handle_(std::move(handle))
-{}
+    : selection(*this), handle_(std::move(handle))
+{
+  if (handle_.is_valid() &&
+      (handle_.get_type() != ObjectHandle::Type::DATASPACE)) {
+    std::stringstream ss;
+    ss << "Could not construct Dataspace from Handle, type="
+       << handle_.get_type();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 Dataspace::Dataspace(const Dataspace &space)
-  : selection(*this)
+    : selection(*this)
 {
   hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
-  if (0 > ret)
-  {
+  if (0 > ret) {
     error::Singleton::instance().throw_with_stack("could not copy-construct Dataspace");
   }
   handle_ = ObjectHandle(ret);
@@ -57,8 +62,7 @@ Dataspace::Dataspace(const Dataspace &space)
 Dataspace &Dataspace::operator=(const Dataspace &space)
 {
   hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
-  if (0 > ret)
-  {
+  if (0 > ret) {
     error::Singleton::instance().throw_with_stack("could not copy Dataspace");
   }
   handle_ = ObjectHandle(ret);
@@ -66,15 +70,12 @@ Dataspace &Dataspace::operator=(const Dataspace &space)
 }
 
 Dataspace::Dataspace(Type type)
-  : selection(*this)
-  , handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type))))
-{}
+    : selection(*this), handle_(ObjectHandle(H5Screate(static_cast<H5S_class_t>(type)))) {}
 
 hssize_t Dataspace::size() const
 {
   hssize_t s = H5Sget_simple_extent_npoints(static_cast<hid_t>(*this));
-  if(s<0)
-  {
+  if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the number of elements in the dataspace!");
   }
   return s;
@@ -83,8 +84,7 @@ hssize_t Dataspace::size() const
 Type Dataspace::type() const
 {
   H5S_class_t ret = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
-  if(ret == H5S_NO_CLASS)
-  {
+  if (ret == H5S_NO_CLASS) {
     error::Singleton::instance().throw_with_stack("Failure to retrieve the dataspace type!");
   }
 

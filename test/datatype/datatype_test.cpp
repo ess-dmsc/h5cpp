@@ -66,6 +66,8 @@ TEST(Datatype, ConstructCopy)
   Datatype y;
   EXPECT_THROW(y=x, std::runtime_error);
   EXPECT_THROW(y=Datatype(x), std::runtime_error);
+
+  EXPECT_THROW((Datatype(ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
 }
 
 TEST(Datatype, Comparators)

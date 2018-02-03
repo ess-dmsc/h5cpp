@@ -36,8 +36,17 @@ Datatype::~Datatype()
 {
 }
 
-Datatype::Datatype(ObjectHandle &&handle) :
-    handle_(std::move(handle)) {}
+Datatype::Datatype(ObjectHandle &&handle)
+    : handle_(std::move(handle))
+{
+  if (handle_.is_valid() &&
+      (handle_.get_type() != ObjectHandle::Type::DATATYPE)) {
+    std::stringstream ss;
+    ss << "Could not construct Datatype from Handle, type="
+       << handle_.get_type();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 Datatype::Datatype(const Datatype &type)
 {

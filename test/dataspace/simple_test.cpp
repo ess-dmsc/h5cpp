@@ -36,6 +36,22 @@ TEST(Simple, test_default_construction)
   EXPECT_EQ(space.type(),dataspace::Type::SIMPLE);
   EXPECT_TRUE(space.current_dimensions().empty());
   EXPECT_TRUE(space.maximum_dimensions().empty());
+
+  dataspace::Simple space2(ObjectHandle(H5Screate(H5S_SIMPLE)));
+  EXPECT_EQ(space2.type(),dataspace::Type::SIMPLE);
+}
+
+TEST(Simple, test_exceptions)
+{
+  dataspace::Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
+  EXPECT_THROW((dataspace::Simple(s)), std::runtime_error);
+
+  dataspace::Simple s2;
+  ObjectHandle(static_cast<hid_t>(s2)).close();
+  EXPECT_THROW(s2.rank(), std::runtime_error);
+  EXPECT_THROW(s2.current_dimensions(), std::runtime_error);
+  EXPECT_THROW(s2.maximum_dimensions(), std::runtime_error);
+  EXPECT_THROW(s2.dimensions({1},{1}), std::runtime_error);
 }
 
 TEST(Simple, test_construction_only_current)

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -29,7 +31,6 @@
 #include <h5cpp/dataspace/selection_manager.hpp>
 #include <h5cpp/core/windows.hpp>
 
-
 namespace hdf5 {
 namespace dataspace {
 
@@ -38,111 +39,122 @@ namespace dataspace {
 //!
 class DLL_EXPORT Dataspace
 {
-  public:
-    //!
-    //! \brief destructor
-    //!
-    //! Has to be virtual due to inheritance
-    //!
-    virtual ~Dataspace();
+ public:
+  //!
+  //! \brief destructor
+  //!
+  //! Has to be virtual due to inheritance
+  //!
+  virtual ~Dataspace();
 
-    //!
-    //! \brief default constructor
-    //!
-    //! The default constructor will leave the dataspace as an
-    //! invalid HDF5 object. Default construction is however necessary
-    //! for using a Dataspace with certain C++ STL containers.
-    //!
-    //! \sa is_valid()
-    //!
-    Dataspace();
+  //!
+  //! \brief default constructor
+  //!
+  //! The default constructor will leave the dataspace as an
+  //! invalid HDF5 object. Default construction is however necessary
+  //! for using a Dataspace with certain C++ STL containers.
+  //!
+  //! \sa is_valid()
+  //!
+  Dataspace();
 
-    //!
-    //! \brief constructor
-    //!
-    //! Constructs a dataspace object from an rvalue reference to an
-    //! HDF5 handle. The class will take full ownership of the handle.
-    //!
-    //! \param handle rvalue reference to the handle
-    //!
-    Dataspace(ObjectHandle &&handle);
+  //!
+  //! \brief constructor
+  //!
+  //! Constructs a dataspace object from an rvalue reference to an
+  //! HDF5 handle. The class will take full ownership of the handle.
+  //!
+  //! \param handle rvalue reference to the handle
+  //!
+  Dataspace(ObjectHandle &&handle);
 
-    //!
-    //! \brief copy constructor
-    //!
-    Dataspace(const Dataspace & space);
+  //!
+  //! \brief move constructor
+  //!
+  //! Use default implementation here.
+  //!
+  Dataspace(Dataspace &&type) = default;
 
-    //!
-    //! \brief copy assignment
-    //!
-    Dataspace &operator=(const Dataspace &space);
+  //!
+  //! \brief copy constructor
+  //!
+  Dataspace(const Dataspace &space);
 
-    Dataspace &operator=(Dataspace &&type) = default;
-    Dataspace(Dataspace &&type) = default;
+  //!
+  //! \brief copy assignment
+  //!
+  Dataspace &operator=(const Dataspace &space);
 
-    //!
-    //! \brief number of elements in the dataspace
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    virtual hssize_t size() const;
+  //!
+  //! \brief move assignment
+  //!
+  //! Use default compiler implementation here.
+  //!
+  Dataspace &operator=(Dataspace &&type) = default;
 
-    //!
-    //! \brief allows explicit conversion to hid_t
-    //!
-    //! This function is mainly used by \c static_cast for explicit
-    //! conversion to \c hid_t.
-    //!
-    //! \code
-    //! Dataspace space();
-    //! hid_t id = static_cast<hid_t>(space);
-    //! \endcode
-    //!
-    explicit operator hid_t() const
-    {
-      return static_cast<hid_t>(handle_);
-    }
+  //!
+  //! \brief number of elements in the dataspace
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  virtual hssize_t size() const;
 
-    //!
-    //! \brief get the type of the dataspace
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    Type type() const;
+  //!
+  //! \brief allows explicit conversion to hid_t
+  //!
+  //! This function is mainly used by \c static_cast for explicit
+  //! conversion to \c hid_t.
+  //!
+  //! \code
+  //! Dataspace space();
+  //! hid_t id = static_cast<hid_t>(space);
+  //! \endcode
+  //!
+  explicit operator hid_t() const
+  {
+    return static_cast<hid_t>(handle_);
+  }
 
-    //!
-    //! \brief check validity of the dataspace
-    //!
-    //! Returns true if the dataspace is a valid HDF5 object. This member
-    //! function should return true in most cases. However, in cases
-    //! that the dataspace was
-    //!
-    //! \li default constructed
-    //! \li or the close() method was called before
-    //!
-    //! this function will return false.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    //! \return true if valid, false if invalid
-    //! \sa Dataspace()
-    //!
-    bool is_valid() const;
+  //!
+  //! \brief get the type of the dataspace
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  Type type() const;
 
-    //!
-    //! \brief access to selection manager
-    //!
-    //! This public member provides access to the selection manager
-    //! of the dataspace. See the SelectionManager documentation for
-    //! interface details.
-    //!
-    //! \sa SelectionManager
-    SelectionManager selection;
+  //!
+  //! \brief check validity of the dataspace
+  //!
+  //! Returns true if the dataspace is a valid HDF5 object. This member
+  //! function should return true in most cases. However, in cases
+  //! that the dataspace was
+  //!
+  //! \li default constructed
+  //! \li or the close() method was called before
+  //!
+  //! this function will return false.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return true if valid, false if invalid
+  //! \sa Dataspace()
+  //!
+  bool is_valid() const;
 
-  protected:
-    Dataspace(Type type);
-  private:
-    ObjectHandle handle_;
+  //!
+  //! \brief access to selection manager
+  //!
+  //! This public member provides access to the selection manager
+  //! of the dataspace. See the SelectionManager documentation for
+  //! interface details.
+  //!
+  //! \sa SelectionManager
+  SelectionManager selection;
+
+ protected:
+  Dataspace(Type type);
+ private:
+  ObjectHandle handle_;
 
 };
 

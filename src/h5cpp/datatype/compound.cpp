@@ -33,7 +33,8 @@ namespace hdf5 {
 namespace datatype {
 
 Compound::Compound(ObjectHandle &&handle) :
-    Datatype(std::move(handle)) {}
+    Datatype(std::move(handle))
+{}
 
 Compound::Compound(const Datatype &type) :
     Datatype(type)

@@ -31,7 +31,8 @@ namespace hdf5 {
 namespace datatype {
 
 String::String(ObjectHandle &&handle) :
-    Datatype(std::move(handle)) {}
+    Datatype(std::move(handle))
+{}
 
 String::String(const Datatype &type) :
     Datatype(type)
