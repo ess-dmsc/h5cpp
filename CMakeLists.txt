@@ -8,19 +8,12 @@ set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 
 #=============================================================================
-# ensure build type first
-#=============================================================================
-
-include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
-include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
-
-#=============================================================================
-# setting up conan for use from within cmake
+# Conan
 #=============================================================================
 option(WITH_CONAN "Enable dependency build with conan" OFF)
 set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for the build")
-include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
 if(WITH_CONAN)
+	include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
 	conan_cmake_run(CONANFILE ${CONAN_FILE}
 		BASIC_SETUP KEEP_RPATHS
 		BUILD outdated)
@@ -31,9 +24,11 @@ elseif(EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
 endif()
 
 #=============================================================================
-# some general configuration
+# General configuration
 #=============================================================================
 
+include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
+include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
 include(${EXTRA_MODULES_DIR}/InstallConfig.cmake)
 include(${EXTRA_MODULES_DIR}/OutputDirConfig.cmake)
 include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)

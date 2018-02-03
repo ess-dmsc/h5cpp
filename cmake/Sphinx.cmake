@@ -17,7 +17,7 @@ function(add_sphinx_source)
 	
 	set(SOURCES)
 	foreach(arg ${ARGV})
-		message(STATUS "Add sphinx source: ${arg}")
+#		message(STATUS "Add sphinx source: ${arg}")
 		list(APPEND SOURCES ${CMAKE_CURRENT_BINARY_DIR}/${arg})
 	endforeach()
 	
