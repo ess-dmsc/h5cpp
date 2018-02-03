@@ -59,6 +59,7 @@ def docker_dependencies(image_key) {
 }
 
 def docker_build(image_key) {
+    cmake_exec = "/home/jenkins/build/bin/cmake"
     def custom_sh = images[image_key]['sh']
     dir("${project}/tests") {
         try {
