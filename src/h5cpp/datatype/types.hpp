@@ -53,7 +53,6 @@ enum class Class : std::underlying_type<H5T_class_t>::type
   ENUM      = H5T_ENUM,
   VARLENGTH = H5T_VLEN,
   ARRAY     = H5T_ARRAY
-
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Class &c);

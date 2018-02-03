@@ -7,6 +7,7 @@ set(test_sources
   ${dir}/compound_test.cpp
   ${dir}/float_test.cpp
   ${dir}/string_test.cpp
+  ${dir}/type_test.cpp
   ${dir}/type_trait_test.cpp
   ${dir}/datatype_test.cpp
   ${dir}/array_test.cpp
