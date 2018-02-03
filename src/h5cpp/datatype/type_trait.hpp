@@ -260,7 +260,7 @@ class TypeTrait<std::basic_string<CharT>>
       static_assert(std::is_same<CharT,char>::value,"Only support 8Bit characters");
 
       String type = String::variable();
-      type.set_encoding(CharacterEncoding::UTF8);
+      type.encoding(CharacterEncoding::UTF8);
       return type;
 
     }

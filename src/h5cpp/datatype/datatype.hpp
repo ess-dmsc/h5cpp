@@ -143,7 +143,7 @@ class DLL_EXPORT Datatype
     //!
     //! \throws std::runtime_error in case of a failure
     //!
-    virtual void set_size(size_t size) const;
+    virtual void size(size_t size) const;
 
     explicit operator hid_t() const
     {

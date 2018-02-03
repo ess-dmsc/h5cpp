@@ -19,12 +19,15 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
 // Created on: Aug 15, 2017
 //
 
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace datatype {
@@ -33,26 +36,23 @@ Datatype::~Datatype()
 {
 }
 
-Datatype::Datatype(ObjectHandle &&handle):
-    handle_(std::move(handle))
-{}
+Datatype::Datatype(ObjectHandle &&handle) :
+    handle_(std::move(handle)) {}
 
 Datatype::Datatype(const Datatype &type)
 {
   hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-  if (0 > ret)
-  {
-    error::Singleton::instance().throw_with_stack("could not copy-construct Datatype");
+  if (0 > ret) {
+    error::Singleton::instance().throw_with_stack("Could not copy-construct Datatype");
   }
   handle_ = ObjectHandle(ret);
 }
 
-Datatype& Datatype::operator=(const Datatype &type)
+Datatype &Datatype::operator=(const Datatype &type)
 {
   hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-  if (0 > ret)
-  {
-    error::Singleton::instance().throw_with_stack("could not copy Datatype");
+  if (0 > ret) {
+    error::Singleton::instance().throw_with_stack("Could not copy Datatype");
   }
   handle_ = ObjectHandle(ret);
   return *this;
@@ -66,9 +66,8 @@ Class Datatype::get_class() const
 Datatype Datatype::super() const
 {
   hid_t id = H5Tget_super(static_cast<hid_t>(*this));
-  if(id<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure retrieving the base data type!");
+  if (id < 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve base data type");
   }
   return Datatype(ObjectHandle(id));
 }
@@ -77,9 +76,11 @@ Datatype Datatype::native_type(Direction dir) const
 {
   hid_t id = H5Tget_native_type(static_cast<hid_t>(*this),
                                 static_cast<H5T_direction_t>(dir));
-  if(id<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure retrieving the native type!");
+  if (id < 0) {
+    std::stringstream ss;
+    ss << "Could not retrieve native type "
+       << " (Direction=" << dir << ")";
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   return Datatype(ObjectHandle(id));
 }
@@ -88,12 +89,13 @@ bool Datatype::has_class(Class type_class) const
 {
   htri_t result = H5Tdetect_class(static_cast<hid_t>(*this),
                                   static_cast<H5T_class_t>(type_class));
-  if(result<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure searching for type class!");
+  if (result < 0) {
+    std::stringstream ss;
+    ss << "Failure searching for type class " << type_class;
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  if(result>0)
+  if (result > 0)
     return true;
   else
     return false;
@@ -102,18 +104,18 @@ bool Datatype::has_class(Class type_class) const
 size_t Datatype::size() const
 {
   size_t s = H5Tget_size(static_cast<hid_t>(*this));
-  if(s==0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to retrieve the datatype size!");
+  if (s == 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype size");
   }
   return s;
 }
 
-void Datatype::set_size(size_t size) const
+void Datatype::size(size_t size) const
 {
-  if(H5Tset_size(static_cast<hid_t>(*this),size)<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to set the datatype size!");
+  if (H5Tset_size(static_cast<hid_t>(*this), size) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype to " << size;
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -122,22 +124,23 @@ bool Datatype::is_valid() const
   return handle_.is_valid();
 }
 
-bool operator==(const Datatype &lhs,const Datatype &rhs)
+bool operator==(const Datatype &lhs, const Datatype &rhs)
 {
   htri_t ret = H5Tequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
-  if (0 > ret)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to compare datatypes!");
+  if (0 > ret) {
+    std::stringstream ss;
+    ss << "Could not compare datatypes "
+       << " LHS=" << lhs.get_class()
+       << " RHS=" << rhs.get_class();
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
   return (ret > 0);
 }
 
-bool operator!=(const Datatype &lhs,const Datatype &rhs)
+bool operator!=(const Datatype &lhs, const Datatype &rhs)
 {
-  return !operator ==(lhs, rhs);
+  return !operator==(lhs, rhs);
 }
-
-
 
 } // namespace datatype
 } // namespace hdf5

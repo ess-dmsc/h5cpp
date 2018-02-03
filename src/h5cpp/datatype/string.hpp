@@ -65,13 +65,13 @@ class DLL_EXPORT String : public Datatype
     bool is_variable_length() const;
 
     CharacterEncoding encoding() const;
-    void set_encoding(CharacterEncoding cset);
+    void encoding(CharacterEncoding cset);
 
     StringPad padding() const;
-    void set_padding(StringPad strpad);
+    void padding(StringPad strpad);
 
     size_t size() const override;
-    void set_size(size_t size) const override;
+    void size(size_t size) const override;
 
     //set order? other types?
 

@@ -89,7 +89,7 @@ TEST(Datatype, Classes)
   EXPECT_THROW(a.has_class(Class::INTEGER), std::runtime_error);
   EXPECT_THROW(a.native_type(), std::runtime_error);
   EXPECT_THROW(a.size(), std::runtime_error);
-  EXPECT_THROW(a.set_size(1);, std::runtime_error);
+  EXPECT_THROW(a.size(1);, std::runtime_error);
 
   a = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
   EXPECT_EQ(a.get_class(), Class::INTEGER);
@@ -139,6 +139,6 @@ TEST(Datatype, Size)
 {
   auto a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,2)));
   ASSERT_EQ(a.size(), 2ul);
-  a.set_size(4);
+  a.size(4);
   ASSERT_EQ(a.size(), 4ul);
 }

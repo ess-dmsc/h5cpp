@@ -74,7 +74,7 @@ CharacterEncoding String::encoding() const
   return static_cast<CharacterEncoding>(ret);
 }
 
-void String::set_encoding(CharacterEncoding cset)
+void String::encoding(CharacterEncoding cset)
 {
   if (0 > H5Tset_cset( static_cast<hid_t>(*this),
                        static_cast<H5T_cset_t>(cset) ))
@@ -91,7 +91,7 @@ StringPad String::padding() const
   return static_cast<StringPad>(ret);
 }
 
-void String::set_padding(StringPad strpad)
+void String::padding(StringPad strpad)
 {
   if (0 > H5Tset_strpad( static_cast<hid_t>(*this),
                          static_cast<H5T_str_t>(strpad) ))
@@ -108,10 +108,10 @@ size_t String::size() const
   return 0;
 }
 
-void String::set_size(size_t size) const
+void String::size(size_t size) const
 {
   if (!is_variable_length())
-    Datatype::set_size(size + 1); // padding
+    Datatype::size(size + 1); // padding
 }
 
 
