@@ -160,7 +160,6 @@ TEST(DatatypeEnum, StringPad)
   EXPECT_EQ(stream.str(), "SPACEPAD");
 }
 
-
 TEST(DatatypeEnum, Direction)
 {
   std::stringstream stream;

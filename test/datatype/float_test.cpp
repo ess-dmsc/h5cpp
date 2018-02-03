@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.es>
 // Created on: Aug 23, 2017
 //
 
@@ -29,7 +31,7 @@
 
 using namespace hdf5;
 
-template <class T>
+template<class T>
 class Float : public testing::Test
 {
  protected:
@@ -42,25 +44,34 @@ using testing::Types;
 
 // The list of types we want to test.
 typedef
-Types<float,double,long double>
-test_types;
+Types<float, double, long double>
+    test_types;
 
 TYPED_TEST_CASE(Float, test_types);
+
+TYPED_TEST(Float, Exceptions)
+{
+  datatype::Datatype dtype;
+  EXPECT_THROW((datatype::Float(dtype)), std::runtime_error);
+
+  auto ft = datatype::create<int>();
+  EXPECT_THROW((datatype::Float(ft)), std::runtime_error);
+}
 
 TYPED_TEST(Float, General)
 {
   auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t),datatype::Float>::value));
-  EXPECT_TRUE(t.get_class()==datatype::Class::FLOAT);
-  EXPECT_EQ(t.size(),sizeof(this->value_));
+  EXPECT_TRUE((std::is_same<decltype(t), datatype::Float>::value));
+  EXPECT_TRUE(t.get_class() == datatype::Class::FLOAT);
+  EXPECT_EQ(t.size(), sizeof(this->value_));
 
   //construct from Datatype reference to an existing type
   datatype::Datatype &generic_type = t;
   datatype::Float new_type(generic_type);
-  EXPECT_EQ(new_type.get_class(),datatype::Class::FLOAT);
+  EXPECT_EQ(new_type.get_class(), datatype::Class::FLOAT);
 
   //cannot construct from an invalid type
   datatype::Datatype default_constructed;
-  EXPECT_THROW((datatype::Float(default_constructed)),std::runtime_error);
+  EXPECT_THROW((datatype::Float(default_constructed)), std::runtime_error);
 }
 
