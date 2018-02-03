@@ -147,7 +147,7 @@ def get_pipeline(image_key)
                     failure_function(e, "Get dependencies for ${image_key} failed")
                 }
 
-                if (image_key == ${coverage_os}) {
+                if (image_key == coverage_os) {
                     docker_build_coverage(image_key)
                 } else {
                     docker_build(image_key)
