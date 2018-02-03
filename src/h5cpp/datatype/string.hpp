@@ -58,7 +58,7 @@ class DLL_EXPORT String : public Datatype
   static String variable();
 
   //!
-  //! \brief construct fiex-length string
+  //! \brief construct fixed-length string
   //!
   static String fixed(size_t);
 

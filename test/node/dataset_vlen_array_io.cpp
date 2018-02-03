@@ -99,12 +99,11 @@ class TypeTrait<HKLPoint>
 
     static TypeClass create(const HKLPoint & = HKLPoint())
     {
-      Compound type(sizeof(HKLPoint));
+      auto type = Compound::create(sizeof(HKLPoint));
       auto base_type = TypeTrait<int>::create();
       type.insert("h",0,base_type);
       type.insert("k",sizeof(int),base_type);
       type.insert("l",sizeof(int)*2,base_type);
-
       return type;
     }
 };
