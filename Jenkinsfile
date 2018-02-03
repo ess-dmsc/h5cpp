@@ -63,7 +63,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd build
         ${cmake_exec} --version
-        ${cmake_exec} -DWITH_CONAN=OFF -DCOV=1 ../${project}
+        ${cmake_exec} -DCOV=1 ../${project}
     \""""
 }
 
@@ -196,7 +196,7 @@ def get_osx_pipeline()
                     }
 
                     try {
-                        sh "cmake -DWITH_CONAN=OFF ../code"
+                        sh "cmake ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -255,7 +255,7 @@ node ("fedora") {
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake -DWITH_CONAN=OFF ../code"
+                    cmake ../code"
                 sh "make html"
                 if (env.BRANCH_NAME != 'master') {
                     archiveArtifacts artifacts: 'doc/build/'
