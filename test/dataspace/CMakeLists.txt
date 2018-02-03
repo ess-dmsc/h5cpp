@@ -9,4 +9,5 @@ set(test_sources
   ${dir}/type_trait_test.cpp
   ${dir}/selection_operator_set.cpp
   ${dir}/view_test.cpp
+  ${dir}/type_test.cpp
   PARENT_SCOPE)

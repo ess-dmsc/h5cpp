@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 7, 2017
 //
 
@@ -28,47 +30,40 @@
 namespace hdf5 {
 namespace dataspace {
 
-std::ostream &operator<<(std::ostream &stream,const Type &t)
+std::ostream &operator<<(std::ostream &stream, const Type &t)
 {
-  switch(t)
-  {
-    case Type::SCALAR: return stream<<"SCALAR";
-    case Type::SIMPLE: return stream<<"SIMPLE";
-    case Type::NODATA: return stream<<"NODATA";
-    default:
-      return stream;
+  switch (t) {
+    case Type::SCALAR: return stream << "SCALAR";
+    case Type::SIMPLE: return stream << "SIMPLE";
+    case Type::NODATA: return stream << "NODATA";
+    default:return stream;
   }
 }
 
-std::ostream &operator<<(std::ostream &stream,const SelectionType &t)
+std::ostream &operator<<(std::ostream &stream, const SelectionType &t)
 {
-
-  switch(t)
-  {
-    case SelectionType::NONE: return stream<<"NONE";
-    case SelectionType::POINTS: return stream<<"POINTS";
-    case SelectionType::HYPERSLAB: return stream<<"HYPERSLAB";
-    case SelectionType::ALL: return stream<<"ALL";
-    default:
-      return stream;
+  switch (t) {
+    case SelectionType::NONE: return stream << "NONE";
+    case SelectionType::POINTS: return stream << "POINTS";
+    case SelectionType::HYPERSLAB: return stream << "HYPERSLAB";
+    case SelectionType::ALL: return stream << "ALL";
+    default:return stream;
   }
 
 }
 
-std::ostream &operator<<(std::ostream &stream,const SelectionOperation &o)
+std::ostream &operator<<(std::ostream &stream, const SelectionOperation &o)
 {
-  switch(o)
-  {
-    case SelectionOperation::SET: return stream<<"SET";
-    case SelectionOperation::OR: return stream<<"OR";
-    case SelectionOperation::AND: return stream<<"AND";
-    case SelectionOperation::XOR: return stream<<"XOR";
-    case SelectionOperation::NOTB: return stream<<"NOTB";
-    case SelectionOperation::NOTA: return stream<<"NOTA";
-    case SelectionOperation::APPEND: return stream<<"APPEND";
-    case SelectionOperation::PREPEND: return stream<<"PREPEND";
-    default:
-      return stream;
+  switch (o) {
+    case SelectionOperation::SET: return stream << "SET";
+    case SelectionOperation::OR: return stream << "OR";
+    case SelectionOperation::AND: return stream << "AND";
+    case SelectionOperation::XOR: return stream << "XOR";
+    case SelectionOperation::NOTB: return stream << "NOTB";
+    case SelectionOperation::NOTA: return stream << "NOTA";
+    case SelectionOperation::APPEND: return stream << "APPEND";
+    case SelectionOperation::PREPEND: return stream << "PREPEND";
+    default:return stream;
   }
 
 }
