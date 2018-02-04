@@ -1,14 +1,14 @@
 #
 # We definitely need a better solution for this!
 #
-if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
+if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
-endif ()
+endif()
 
 include_directories(${PROJECT_SOURCE_DIR}/src ${HDF5_INCLUDE_DIRS})
 foreach(HDF5_LIB ${HDF5_LIBRARIES})
-    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
-    link_directories(${LIB_PATH})
+  get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+  link_directories(${LIB_PATH})
 endforeach()
 
 
@@ -53,9 +53,12 @@ add_custom_target(run_tests
   DEPENDS unit_tests)
 add_test(NAME "RunGoogleTests" COMMAND run_tests)
 
+if(NOT COV_SOURCE_ROOT)
+  set(COV_SOURCE_ROOT ${CMAKE_SOURCE_DIR})
+endif()
 create_coverage_targets(
   generate_coverage
   run_tests
   ${PROJECT_BINARY_DIR}
-  ../../src/h5cpp
+  ${COV_SOURCE_ROOT}/src/h5cpp
   ${PROJECT_BINARY_DIR}/coverage)

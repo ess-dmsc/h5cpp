@@ -59,11 +59,12 @@ def docker_dependencies(image_key) {
 
 def docker_cmake(image_key) {
     cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
+    abs_dir = pwd()
     def custom_sh = images[image_key]['sh']
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd ${project}/build
         ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 ..
+        ${cmake_exec} -DCOV=1 -DCOV_SOURCE_ROOT=${abs_dir}/cov/${project} ..
     \""""
 }
 
@@ -235,22 +236,18 @@ node('docker') {
             } catch (e) {
                 failure_function(e, 'Checkout failed')
             }
-
-            def abs_dir = pwd()
-            sh "mkdir ${abs_dir}/abc"
-            sh "cd abc && pwd"
         }
     }
-/*
+
     def builders = [:]
-    for (x in images.keySet()) {
-        def image_key = x
-        builders[image_key] = get_pipeline(image_key)
-    }
-    builders['MocOSX'] = get_osx_pipeline()
+//    for (x in images.keySet()) {
+//        def image_key = x
+//        builders[image_key] = get_pipeline(image_key)
+//    }
+//    builders['MocOSX'] = get_osx_pipeline()
+    builders['fedora'] = get_pipeline('fedora')
     
     parallel builders
-*/
     // Delete workspace when build is done
     cleanWs()
 }
