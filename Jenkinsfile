@@ -63,7 +63,7 @@ def docker_cmake(image_key) {
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd ${project}/build
         ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 ../${project}
+        ${cmake_exec} -DCOV=1 ..
     \""""
 }
 
@@ -84,8 +84,6 @@ def docker_tests(image_key) {
                 make run_tests
             \""""
         } catch(e) {
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-            junit 'unit_tests_run.xml'
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
 }
