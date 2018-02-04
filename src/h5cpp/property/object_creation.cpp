@@ -62,6 +62,7 @@ ObjectCreationList::ObjectCreationList(ObjectHandle &&handle) :
     List(std::move(handle))
 {
   if ((get_class() != kObjectCreate) &&
+      (get_class() != kFileCreate) &&
       (get_class() != kDatatypeCreate) &&
       (get_class() != kDatasetCreate) &&
       (get_class() != kGroupCreate)){

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 #pragma once
@@ -42,7 +44,6 @@ class DLL_EXPORT TypeCreationList : public ObjectCreationList
   //! \brief destructor
   //!
   ~TypeCreationList();
-
 
   TypeCreationList(ObjectHandle &&handle);
 };

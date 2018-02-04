@@ -33,7 +33,6 @@
 #include <h5cpp/datatype/type_trait.hpp>
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/error/error.hpp>
-#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace property {

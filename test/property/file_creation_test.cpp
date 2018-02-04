@@ -32,6 +32,13 @@ TEST(FileCreationList, test_default_construction)
 {
   pl::FileCreationList fcpl;
   EXPECT_TRUE(fcpl.get_class() == pl::kFileCreate);
+
+  auto cl = pl::kFileCreate;
+  EXPECT_NO_THROW((pl::FileCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::FileCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 TEST(FileCreationList, user_block)

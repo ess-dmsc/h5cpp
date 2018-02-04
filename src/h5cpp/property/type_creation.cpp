@@ -19,23 +19,24 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
 #include <h5cpp/property/type_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 #include <sstream>
 
 namespace hdf5 {
 namespace property {
 
-TypeCreationList::TypeCreationList():
-    ObjectCreationList(kDatatypeCreate)
-{}
+TypeCreationList::TypeCreationList() :
+    ObjectCreationList(kDatatypeCreate) {}
 
-TypeCreationList::~TypeCreationList()
-{}
+TypeCreationList::~TypeCreationList() {}
 
 TypeCreationList::TypeCreationList(ObjectHandle &&handle) :
     ObjectCreationList(std::move(handle))
@@ -46,7 +47,6 @@ TypeCreationList::TypeCreationList(ObjectHandle &&handle) :
     throw std::runtime_error(ss.str());
   }
 }
-
 
 } // namespace property
 } // namespace hdf5

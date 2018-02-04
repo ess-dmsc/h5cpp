@@ -97,7 +97,8 @@ GroupCreationList::GroupCreationList(const Class &plist_class):
 GroupCreationList::GroupCreationList(ObjectHandle &&handle) :
     ObjectCreationList(std::move(handle))
 {
-  if (get_class() != kGroupCreate) {
+  if ((get_class() != kGroupCreate) &&
+      (get_class() != kFileCreate)){
     std::stringstream ss;
     ss << "Cannot create property::GroupCreationList from " << get_class();
     throw std::runtime_error(ss.str());

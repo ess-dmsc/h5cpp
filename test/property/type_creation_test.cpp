@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
@@ -31,7 +33,7 @@ namespace pl = hdf5::property;
 TEST(TypeCreationList, test_default_construction)
 {
   pl::TypeCreationList tcpl;
-  EXPECT_TRUE(tcpl.get_class()==pl::kDatatypeCreate);
+  EXPECT_TRUE(tcpl.get_class() == pl::kDatatypeCreate);
 
   auto cl = pl::kDatatypeCreate;
   EXPECT_NO_THROW((pl::TypeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
