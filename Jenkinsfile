@@ -238,18 +238,17 @@ node('docker') {
     }
 
     def builders = [:]
-//    for (x in images.keySet()) {
-//        def image_key = x
-//        builders[image_key] = get_pipeline(image_key)
-//    }
-//    builders['MocOSX'] = get_osx_pipeline()
+    for (x in images.keySet()) {
+        def image_key = x
+        builders[image_key] = get_pipeline(image_key)
+    }
     builders['fedora'] = get_pipeline('fedora')
 
     parallel builders
     // Delete workspace when build is done
     cleanWs()
 }
-/*
+
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -313,4 +312,3 @@ node ("fedora") {
         }
     }
 }
-*/
