@@ -57,5 +57,5 @@ create_coverage_targets(
   generate_coverage
   run_tests
   ${PROJECT_BINARY_DIR}
-  ${CMAKE_SOURCE_DIR}/src/h5cpp
+  ../../src/h5cpp
   ${PROJECT_BINARY_DIR}/coverage)
