@@ -96,7 +96,8 @@ def docker_tests_coverage(image_key) {
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
-            junit '${project}/build/test/unit_tests_run.xml'
+            cd ${project}/build
+            junit "test/unit_tests_run.xml"
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project}/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
@@ -115,7 +116,7 @@ def docker_tests_coverage(image_key) {
                 maxNumberOfBuilds: 0,
                 onlyStable: false,
                 sourceEncoding: 'ASCII',
-                zoomCoverageChart: false
+                zoomCoverageChart: true
             ])
         } catch(e) {
             failure_function(e, 'Publishing coverage reports from (${container_name(image_key)}) failed')
@@ -145,7 +146,7 @@ def get_pipeline(image_key)
                 def custom_sh = images[image_key]['sh']
 
                 // Copy sources to container and change owner and group.
-                    sh "docker cp code ${container_name(image_key)}:/home/jenkins/${project}"
+                    sh "docker cp ${cmake_exec}_code ${container_name(image_key)}:/home/jenkins/${project}"
                     sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
                         chown -R jenkins.jenkins /home/jenkins/${project}
                         \""""
@@ -227,7 +228,7 @@ def get_osx_pipeline()
 
 node('docker') {
     stage('Checkout') {
-        dir("code") {
+        dir("${cmake_exec}_code") {
             try {
                 scm_vars = checkout scm
             } catch (e) {
