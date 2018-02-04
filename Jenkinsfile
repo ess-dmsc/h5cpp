@@ -105,7 +105,7 @@ def docker_tests_coverage(image_key) {
 
     dir("${project}/build") {
         junit 'test/unit_tests_run.xml'
-        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}"
+        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
         try {
             step([
                 $class: 'CoberturaPublisher',
