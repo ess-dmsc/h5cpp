@@ -59,12 +59,11 @@ def docker_dependencies(image_key) {
 
 def docker_cmake(image_key) {
     cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
-    abs_dir = pwd()
     def custom_sh = images[image_key]['sh']
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
         cd ${project}/build
         ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 -DCOV_SOURCE_ROOT=${abs_dir}/cov/${project} ..
+        ${cmake_exec} -DCOV=1 ..
     \""""
 }
 
@@ -91,7 +90,6 @@ def docker_tests(image_key) {
 
 def docker_tests_coverage(image_key) {
     def custom_sh = images[image_key]['sh']
-    dir("cov") {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
@@ -103,10 +101,9 @@ def docker_tests_coverage(image_key) {
             junit 'unit_tests_run.xml'
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
-    }
 
-    dir("cov/${project}/build") {
-        sh "pwd"
+    dir("${project}/build") {
+        abs_dir = pwd()
         junit 'test/unit_tests_run.xml'
         try {
             step([
@@ -246,7 +243,7 @@ node('docker') {
 //    }
 //    builders['MocOSX'] = get_osx_pipeline()
     builders['fedora'] = get_pipeline('fedora')
-    
+
     parallel builders
     // Delete workspace when build is done
     cleanWs()
