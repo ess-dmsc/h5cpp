@@ -228,7 +228,7 @@ def get_osx_pipeline()
 
 node('docker') {
     stage('Checkout') {
-        dir("${cmake_exec}_code") {
+        dir("${project}_code") {
             try {
                 scm_vars = checkout scm
             } catch (e) {
