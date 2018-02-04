@@ -98,8 +98,10 @@ def docker_tests_coverage(image_key) {
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
+            archiveArtifacts artifacts: "${project}/"
+            sh "ls -al"
             sh "cd ${project}/build/test"
-            archiveArtifacts artifacts: './'
+            sh "ls -al"
             junit 'unit_tests_run.xml'
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project}/build/test/unit_tests_run.xml unit_tests_run.xml"
