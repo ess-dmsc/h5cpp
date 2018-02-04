@@ -35,6 +35,8 @@ TEST(List, default_construction_impossible)
 {
   pl::Class c;
   EXPECT_THROW(List(c).get_class(), std::runtime_error);
+
+  EXPECT_THROW((List(hdf5::ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
 }
 
 TEST(List, from_class)

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
@@ -34,14 +36,12 @@ namespace property {
 ChunkCacheParameters::ChunkCacheParameters() noexcept:
     nslots_(0),
     nbytes_(0),
-    w0_(0.0)
-{}
+    w0_(0.0) {}
 
-ChunkCacheParameters::ChunkCacheParameters(size_t nslots,size_t nbytes,double preempt_policy) noexcept:
+ChunkCacheParameters::ChunkCacheParameters(size_t nslots, size_t nbytes, double preempt_policy) noexcept:
     nslots_(nslots),
     nbytes_(nbytes),
-    w0_(preempt_policy)
-{}
+    w0_(preempt_policy) {}
 
 void ChunkCacheParameters::chunk_slots(size_t nslots) noexcept
 {
@@ -72,47 +72,36 @@ double ChunkCacheParameters::preemption_policy() const noexcept
   return w0_;
 }
 
-#if H5_VERSION_GE(1,10,0)
-std::ostream &operator<<(std::ostream &stream,const VirtualDataView &view)
+#if H5_VERSION_GE(1, 10, 0)
+std::ostream &operator<<(std::ostream &stream, const VirtualDataView &view)
 {
-  switch(view)
-  {
-    case VirtualDataView::FIRST_MISSING:
-      return stream<<"FIRST_MISSING";
-    case VirtualDataView::LAST_AVAILABLE:
-      return stream<<"LAST_AVAILABLE";
-    default:
-      return stream;
+  switch (view) {
+    case VirtualDataView::FIRST_MISSING:return stream << "FIRST_MISSING";
+    case VirtualDataView::LAST_AVAILABLE:return stream << "LAST_AVAILABLE";
+    default:return stream;
   }
 }
 #endif
 
-DatasetAccessList::DatasetAccessList():
-    LinkAccessList(kDatasetAccess)
-{}
+DatasetAccessList::DatasetAccessList() :
+    LinkAccessList(kDatasetAccess) {}
 
-DatasetAccessList::~DatasetAccessList()
-{}
+DatasetAccessList::~DatasetAccessList() {}
 
-DatasetAccessList::DatasetAccessList(ObjectHandle &&handle):
-    LinkAccessList()
+DatasetAccessList::DatasetAccessList(ObjectHandle &&handle) :
+    LinkAccessList(std::move(handle))
 {
-  List l(std::move(handle));
-  if(l.get_class() != kDatasetAccess)
-  {
+  if (get_class() != kDatasetAccess) {
     std::stringstream ss;
-    ss<<"Handle does not reference a dataset access property list!";
+    ss << "Cannot create property::DatasetAccessList from " << get_class();
     throw std::runtime_error(ss.str());
   }
-
-  List::operator=(std::move(l));
 }
 
 void DatasetAccessList::chunk_cache_parameters(const ChunkCacheParameters &params) const
 {
-  if(H5Pset_chunk_cache(static_cast<hid_t>(*this),params.chunk_slots(),
-                        params.chunk_cache_size(),params.preemption_policy())<0)
-  {
+  if (H5Pset_chunk_cache(static_cast<hid_t>(*this), params.chunk_slots(),
+                         params.chunk_cache_size(), params.preemption_policy()) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting chunk cache parameters!");
   }
 
@@ -123,20 +112,18 @@ ChunkCacheParameters DatasetAccessList::chunk_cache_parameters() const
   size_t nslots = 0;
   size_t nbytes = 0;
   double w0 = 0.0;
-  if(H5Pget_chunk_cache(static_cast<hid_t>(*this),&nslots,&nbytes,&w0)<0)
-  {
+  if (H5Pget_chunk_cache(static_cast<hid_t>(*this), &nslots, &nbytes, &w0) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving chunk cache parameters!");
   }
-  return ChunkCacheParameters(nslots,nbytes,w0);
+  return ChunkCacheParameters(nslots, nbytes, w0);
 }
 
-#if H5_VERSION_GE(1,10,0)
+#if H5_VERSION_GE(1, 10, 0)
 
 void DatasetAccessList::virtual_view(VirtualDataView view) const
 {
-  if(H5Pset_virtual_view(static_cast<hid_t>(*this),
-                         static_cast<H5D_vds_view_t>(view))<0)
-  {
+  if (H5Pset_virtual_view(static_cast<hid_t>(*this),
+                          static_cast<H5D_vds_view_t>(view)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to set missing data strategy!");
   }
 }
@@ -144,8 +131,7 @@ void DatasetAccessList::virtual_view(VirtualDataView view) const
 VirtualDataView DatasetAccessList::virtual_view() const
 {
   H5D_vds_view_t view;
-  if(H5Pget_virtual_view(static_cast<hid_t>(*this),&view)<0)
-  {
+  if (H5Pget_virtual_view(static_cast<hid_t>(*this), &view) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to retrieve the missing data strategy!");
   }
 

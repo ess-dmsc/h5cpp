@@ -26,6 +26,8 @@
 #include <h5cpp/property/property_list.hpp>
 #include <h5cpp/error/error.hpp>
 
+#include <sstream>
+
 namespace hdf5 {
 namespace property {
 
@@ -37,7 +39,13 @@ List::List(const Class &plist_class):
 List::List(ObjectHandle &&handle):
     handle_(std::move(handle))
 {
-
+  if (handle_.is_valid() &&
+      (handle_.get_type() != ObjectHandle::Type::PROPERTY_LIST)) {
+    std::stringstream ss;
+    ss << "Could not construct property::List from Handle, type="
+       << handle_.get_type();
+    throw std::runtime_error(ss.str());
+  }
 }
 
 List::List(const List &plist)

@@ -29,6 +29,8 @@ namespace pl = hdf5::property;
 TEST(PropertyList, test_construction)
 {
   pl::Class c(hdf5::ObjectHandle(H5P_ATTRIBUTE_ACCESS));
+
+  EXPECT_THROW((pl::Class(hdf5::ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
 }
 
 TEST(PropertyList, test_predefined_classes)
@@ -51,10 +53,71 @@ TEST(PropertyList, test_predefined_classes)
   EXPECT_EQ(pl::kStringCreate.name(),"string create");
 }
 
+TEST(PropertyList, test_stream)
+{
+  std::stringstream stream;
+
+  stream.str(std::string());
+  stream << pl::kAttributeCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(attribute create)");
+  stream.str(std::string());
+  stream << pl::kDatasetAccess;
+  EXPECT_EQ(stream.str(), "AttributeClass(dataset access)");
+  stream.str(std::string());
+  stream << pl::kDatasetCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(dataset create)");
+  stream.str(std::string());
+  stream << pl::kDatasetXfer;
+  EXPECT_EQ(stream.str(), "AttributeClass(data transfer)");
+  stream.str(std::string());
+  stream << pl::kDatatypeAccess;
+  EXPECT_EQ(stream.str(), "AttributeClass(datatype access)");
+  stream.str(std::string());
+  stream << pl::kDatatypeCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(datatype create)");
+  stream.str(std::string());
+  stream << pl::kFileAccess;
+  EXPECT_EQ(stream.str(), "AttributeClass(file access)");
+  stream.str(std::string());
+  stream << pl::kFileCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(file create)");
+  stream.str(std::string());
+  stream << pl::kFileMount;
+  EXPECT_EQ(stream.str(), "AttributeClass(file mount)");
+  stream.str(std::string());
+  stream << pl::kGroupAccess;
+  EXPECT_EQ(stream.str(), "AttributeClass(group access)");
+  stream.str(std::string());
+  stream << pl::kGroupCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(group create)");
+  stream.str(std::string());
+  stream << pl::kLinkAccess;
+  EXPECT_EQ(stream.str(), "AttributeClass(link access)");
+  stream.str(std::string());
+  stream << pl::kLinkCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(link create)");
+  stream.str(std::string());
+  stream << pl::kObjectCopy;
+  EXPECT_EQ(stream.str(), "AttributeClass(object copy)");
+  stream.str(std::string());
+  stream << pl::kObjectCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(object create)");
+  stream.str(std::string());
+  stream << pl::kStringCreate;
+  EXPECT_EQ(stream.str(), "AttributeClass(string create)");
+
+  stream.str(std::string());
+  pl::Class cl;
+  stream << cl;
+  EXPECT_EQ(stream.str(), "AttributeClass()");
+}
+
 TEST(PropertyList, test_equality_operator)
 {
   EXPECT_TRUE(pl::kAttributeCreate == pl::kAttributeCreate);
+  EXPECT_FALSE(pl::kAttributeCreate == pl::kFileAccess);
   EXPECT_TRUE(pl::kAttributeCreate != pl::kFileAccess);
+  EXPECT_FALSE(pl::kAttributeCreate != pl::kAttributeCreate);
 
   pl::Class p2;
   EXPECT_THROW((pl::kAttributeCreate == p2), std::runtime_error);

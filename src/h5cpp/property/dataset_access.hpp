@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 #pragma once
@@ -38,26 +40,26 @@ namespace property {
 //! \sa DatasetAccessList
 class DLL_EXPORT ChunkCacheParameters
 {
-  public:
-    ChunkCacheParameters(size_t nslots,size_t nbytes,double preempt_policy) noexcept;
-    ChunkCacheParameters() noexcept;
-    ChunkCacheParameters(const ChunkCacheParameters&) = default;
+ public:
+  ChunkCacheParameters(size_t nslots, size_t nbytes, double preempt_policy) noexcept;
+  ChunkCacheParameters() noexcept;
+  ChunkCacheParameters(const ChunkCacheParameters &) = default;
 
-    void chunk_slots(size_t nslots) noexcept;
-    size_t chunk_slots() const noexcept;
+  void chunk_slots(size_t nslots) noexcept;
+  size_t chunk_slots() const noexcept;
 
-    void chunk_cache_size(size_t size) noexcept;
-    size_t chunk_cache_size() const noexcept;
+  void chunk_cache_size(size_t size) noexcept;
+  size_t chunk_cache_size() const noexcept;
 
-    void preemption_policy(double value) noexcept;
-    double preemption_policy() const noexcept;
-  private:
-    size_t nslots_;
-    size_t nbytes_;
-    double w0_;
+  void preemption_policy(double value) noexcept;
+  double preemption_policy() const noexcept;
+ private:
+  size_t nslots_;
+  size_t nbytes_;
+  double w0_;
 };
 
-#if H5_VERSION_GE(1,10,0)
+#if H5_VERSION_GE(1, 10, 0)
 enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type
 {
   FIRST_MISSING = H5D_VDS_FIRST_MISSING,
@@ -72,54 +74,54 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
 //!
 class DLL_EXPORT DatasetAccessList : public LinkAccessList
 {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    DatasetAccessList();
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  DatasetAccessList();
 
-    //!
-    //! \brief constructor
-    //!
-    //! Construct a dataset access property list from a handler instance.
-    //! This constructor will throw an exception if the handle does not
-    //! reference a dataset access property list.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param handle r-value reference to a handle instance
-    //!
-    explicit DatasetAccessList(ObjectHandle &&handle);
+  //!
+  //! \brief constructor
+  //!
+  //! Construct a dataset access property list from a handler instance.
+  //! This constructor will throw an exception if the handle does not
+  //! reference a dataset access property list.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param handle r-value reference to a handle instance
+  //!
+  explicit DatasetAccessList(ObjectHandle &&handle);
 
-    //!
-    //! \brief destructor
-    //!
-    ~DatasetAccessList();
+  //!
+  //! \brief destructor
+  //!
+  ~DatasetAccessList();
 
-    //!
-    //! \brief set the chunk cache parameters
-    //! \throws std::runtime_error in case of a failure
-    //!
-    void chunk_cache_parameters(const ChunkCacheParameters &params) const;
+  //!
+  //! \brief set the chunk cache parameters
+  //! \throws std::runtime_error in case of a failure
+  //!
+  void chunk_cache_parameters(const ChunkCacheParameters &params) const;
 
-    //!
-    //! \brief get chunk cache parameters
-    //! \throws std::runtime_error in case of a failure
-    //!
-    ChunkCacheParameters chunk_cache_parameters() const;
+  //!
+  //! \brief get chunk cache parameters
+  //! \throws std::runtime_error in case of a failure
+  //!
+  ChunkCacheParameters chunk_cache_parameters() const;
 
-#if H5_VERSION_GE(1,10,0)
-    //!
-    //! \brief missing data handling for virtual datasets
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param view set missing data strategy
-    //!
-    void virtual_view(VirtualDataView view) const;
+#if H5_VERSION_GE(1, 10, 0)
+  //!
+  //! \brief missing data handling for virtual datasets
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param view set missing data strategy
+  //!
+  void virtual_view(VirtualDataView view) const;
 
-    //!
-    //! \brief get missing data strategy for virtual datasets
-    //!
-    VirtualDataView virtual_view() const;
+  //!
+  //! \brief get missing data strategy for virtual datasets
+  //!
+  VirtualDataView virtual_view() const;
 
 #endif
 };

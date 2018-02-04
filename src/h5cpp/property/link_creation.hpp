@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -32,40 +34,39 @@ namespace property {
 
 class DLL_EXPORT LinkCreationList : public StringCreationList
 {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    LinkCreationList();
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  LinkCreationList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~LinkCreationList();
+  //!
+  //! \brief destructor
+  //!
+  ~LinkCreationList();
 
-    //!
-    //! \brief enable intermediate group creation
-    //!
-    //! With this flag set, intermediate groups in a path to an object to be
-    //! created will be created if necessary.
-    //! \sa disable_intermediate_group_creation
-    //! \sa intermediate_group_creation
-    void enable_intermediate_group_creation() const;
+  //!
+  //! \brief enable intermediate group creation
+  //!
+  //! With this flag set, intermediate groups in a path to an object to be
+  //! created will be created if necessary.
+  //! \sa disable_intermediate_group_creation
+  //! \sa intermediate_group_creation
+  void enable_intermediate_group_creation() const;
 
-    //!
-    //! \brief disable intermediate group creation
-    //! \sa enable_intermediate_group_creation
-    //! \sa intermediate_group_creation
-    void disable_intermediate_group_creation() const;
+  //!
+  //! \brief disable intermediate group creation
+  //! \sa enable_intermediate_group_creation
+  //! \sa intermediate_group_creation
+  void disable_intermediate_group_creation() const;
 
-    //!
-    //! \brief query intermediate group creation flag
-    //! @return true if intermediate group creation flag is set, false otherwise
-    //! \sa enable_intermediate_group_creation
-    //! \sa disable_intermediate_group_creation
-    bool intermediate_group_creation() const;
+  //!
+  //! \brief query intermediate group creation flag
+  //! @return true if intermediate group creation flag is set, false otherwise
+  //! \sa enable_intermediate_group_creation
+  //! \sa disable_intermediate_group_creation
+  bool intermediate_group_creation() const;
 };
-
 
 } // namespace property
 } // namespace hdf5
