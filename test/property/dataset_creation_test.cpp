@@ -120,7 +120,10 @@ TEST(DatasetCreationList, test_construction)
   EXPECT_EQ(pl.allocation_time(), prop::DatasetAllocTime::LATE);
   EXPECT_EQ(pl.fill_value_status(), prop::DatasetFillValueStatus::DEFAULT);
 
-  auto cl = prop::kGroupCreate;
+  auto cl = prop::kDatasetCreate;
+  EXPECT_NO_THROW((prop::DatasetCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = prop::kGroupCreate;
   EXPECT_THROW((prop::DatasetCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
                std::runtime_error);
 }

@@ -61,9 +61,12 @@ ObjectCreationList::ObjectCreationList() :
 ObjectCreationList::ObjectCreationList(ObjectHandle &&handle) :
     List(std::move(handle))
 {
-  if (get_class() != kObjectCreate) {
+  if ((get_class() != kObjectCreate) &&
+      (get_class() != kDatatypeCreate) &&
+      (get_class() != kDatasetCreate) &&
+      (get_class() != kGroupCreate)){
     std::stringstream ss;
-    ss << "Cannot create property::DatasetCreationList from " << get_class();
+    ss << "Cannot create property::ObjectCreationList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }

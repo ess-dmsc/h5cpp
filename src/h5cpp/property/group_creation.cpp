@@ -26,6 +26,7 @@
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/group_creation.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -91,6 +92,16 @@ GroupCreationList::~GroupCreationList()
 GroupCreationList::GroupCreationList(const Class &plist_class):
     ObjectCreationList(plist_class)
 {
+}
+
+GroupCreationList::GroupCreationList(ObjectHandle &&handle) :
+    ObjectCreationList(std::move(handle))
+{
+  if (get_class() != kGroupCreate) {
+    std::stringstream ss;
+    ss << "Cannot create property::GroupCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
 }
 
 //============================================================================

@@ -32,6 +32,13 @@ TEST(TypeCreationList, test_default_construction)
 {
   pl::TypeCreationList tcpl;
   EXPECT_TRUE(tcpl.get_class()==pl::kDatatypeCreate);
+
+  auto cl = pl::kDatatypeCreate;
+  EXPECT_NO_THROW((pl::TypeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::TypeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 

@@ -32,17 +32,19 @@ namespace property {
 
 class DLL_EXPORT TypeCreationList : public ObjectCreationList
 {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    TypeCreationList();
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  TypeCreationList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~TypeCreationList();
+  //!
+  //! \brief destructor
+  //!
+  ~TypeCreationList();
 
+
+  TypeCreationList(ObjectHandle &&handle);
 };
 
 } // namespace property

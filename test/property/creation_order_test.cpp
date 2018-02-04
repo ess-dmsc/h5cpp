@@ -52,6 +52,10 @@ TEST(LinkCreationOrder, test_set_tracked)
   o.enable_tracked();
   EXPECT_TRUE(o.tracked());
   EXPECT_FALSE(o.indexed());
+
+  o.disable_tracked();
+  EXPECT_FALSE(o.tracked());
+  EXPECT_FALSE(o.indexed());
 }
 
 TEST(LinkCreationOrder, test_set_indexed)
@@ -60,4 +64,8 @@ TEST(LinkCreationOrder, test_set_indexed)
   o.enable_indexed();
   EXPECT_TRUE(o.tracked());
   EXPECT_TRUE(o.indexed());
+
+  o.disable_indexed();
+  EXPECT_TRUE(o.tracked());
+  EXPECT_FALSE(o.indexed());
 }

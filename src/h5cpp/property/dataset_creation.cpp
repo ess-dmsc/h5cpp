@@ -84,8 +84,7 @@ DatasetCreationList::DatasetCreationList(ObjectHandle &&handle) :
 {
   if (get_class() != kDatasetCreate) {
     std::stringstream ss;
-    ss << "Failure to construct DatasetCreationList instance: ";
-    ss << "handle does not reference a dataset creation property list!";
+    ss << "Cannot create property::DatasetCreationList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }

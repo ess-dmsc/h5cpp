@@ -25,6 +25,7 @@
 
 #include <h5cpp/property/type_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -35,6 +36,17 @@ TypeCreationList::TypeCreationList():
 
 TypeCreationList::~TypeCreationList()
 {}
+
+TypeCreationList::TypeCreationList(ObjectHandle &&handle) :
+    ObjectCreationList(std::move(handle))
+{
+  if (get_class() != kDatatypeCreate) {
+    std::stringstream ss;
+    ss << "Cannot create property::TypeCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
+
 
 } // namespace property
 } // namespace hdf5

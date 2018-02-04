@@ -33,6 +33,13 @@ TEST(GroupCreationList, test_construction)
 {
   pl::GroupCreationList gcpl;
   EXPECT_TRUE(gcpl.get_class()==pl::kGroupCreate);
+
+  auto cl = pl::kGroupCreate;
+  EXPECT_NO_THROW((pl::GroupCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kDatatypeCreate;
+  EXPECT_THROW((pl::GroupCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 TEST(GroupCreationList, test_local_heap_size_hint)
@@ -43,6 +50,10 @@ TEST(GroupCreationList, test_local_heap_size_hint)
 
   EXPECT_NO_THROW(gcpl.local_heap_size_hint(512ul));
   EXPECT_EQ(gcpl.local_heap_size_hint(),512ul);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
+  EXPECT_THROW(gcpl.local_heap_size_hint(512ul), std::runtime_error);
+  EXPECT_THROW(gcpl.local_heap_size_hint(), std::runtime_error);
 }
 
 TEST(GroupCreationList, test_estimated_number_of_links)
@@ -53,6 +64,9 @@ TEST(GroupCreationList, test_estimated_number_of_links)
   EXPECT_NO_THROW(gcpl.estimated_number_of_links(33));
   EXPECT_EQ(gcpl.estimated_number_of_links(),33ul);
 
+  hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
+  EXPECT_THROW(gcpl.estimated_number_of_links(33), std::runtime_error);
+  EXPECT_THROW(gcpl.estimated_number_of_links(), std::runtime_error);
 }
 
 TEST(GroupCreationList, test_estimated_link_name_length)
@@ -63,6 +77,10 @@ TEST(GroupCreationList, test_estimated_link_name_length)
 
   EXPECT_NO_THROW(gcpl.estimated_link_name_length(64));
   EXPECT_EQ(gcpl.estimated_link_name_length(),64ul);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
+  EXPECT_THROW(gcpl.estimated_link_name_length(64), std::runtime_error);
+  EXPECT_THROW(gcpl.estimated_link_name_length(), std::runtime_error);
 }
 
 TEST(GroupCreationList, test_link_creation_order)
@@ -78,6 +96,9 @@ TEST(GroupCreationList, test_link_creation_order)
   EXPECT_TRUE(flags.tracked());
   EXPECT_FALSE(flags.indexed());
 
+  hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
+  EXPECT_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_tracked()), std::runtime_error);
+  EXPECT_THROW(gcpl.link_creation_order(), std::runtime_error);
 }
 
 TEST(GroupCreationList, test_link_storage_threshold)
@@ -88,4 +109,8 @@ TEST(GroupCreationList, test_link_storage_threshold)
   EXPECT_EQ(gcpl.link_storage_minimum_dense(),60ul);
 
   EXPECT_THROW(gcpl.link_storage_thresholds(60,100),std::runtime_error);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
+  EXPECT_THROW(gcpl.link_storage_maximum_compact(), std::runtime_error);
+  EXPECT_THROW(gcpl.link_storage_minimum_dense(), std::runtime_error);
 }
