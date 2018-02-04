@@ -236,7 +236,7 @@ node('docker') {
                 failure_function(e, 'Checkout failed')
             }
 
-            abs_dir = sh "pwd"
+            def abs_dir = pwd()
             sh "mkdir ${abs_dir}/abc"
             sh "ch abc && pwd"
         }
