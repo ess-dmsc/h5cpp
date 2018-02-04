@@ -89,6 +89,7 @@ def docker_tests(image_key) {
 }
 
 def docker_tests_coverage(image_key) {
+    abs_dir = pwd()
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
@@ -103,8 +104,8 @@ def docker_tests_coverage(image_key) {
         }
 
     dir("${project}/build") {
-        abs_dir = pwd()
         junit 'test/unit_tests_run.xml'
+        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}"
         try {
             step([
                 $class: 'CoberturaPublisher',
