@@ -146,7 +146,7 @@ def get_pipeline(image_key)
                 def custom_sh = images[image_key]['sh']
 
                 // Copy sources to container and change owner and group.
-                    sh "docker cp ${cmake_exec}_code ${container_name(image_key)}:/home/jenkins/${project}"
+                    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
                     sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
                         chown -R jenkins.jenkins /home/jenkins/${project}
                         \""""
