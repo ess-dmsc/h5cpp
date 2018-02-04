@@ -102,12 +102,12 @@ def docker_tests_coverage(image_key) {
             \""""
 
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build ./"
-            junit 'build/tests/unit_tests_run.xml'
+            junit 'tests/unit_tests_run.xml'
             step([
                 $class: 'CoberturaPublisher',
                 autoUpdateHealth: true,
                 autoUpdateStability: true,
-                coberturaReportFile: 'build/coverage/coverage.xml',
+                coberturaReportFile: 'coverage/coverage.xml',
                 failUnhealthy: false,
                 failUnstable: false,
                 maxNumberOfBuilds: 0,
@@ -117,7 +117,7 @@ def docker_tests_coverage(image_key) {
             ])
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build ./"
-            junit 'build/tests/unit_tests_run.xml'
+            junit 'tests/unit_tests_run.xml'
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
     }
