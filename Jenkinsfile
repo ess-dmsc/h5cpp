@@ -98,13 +98,13 @@ def docker_tests_coverage(image_key) {
                 cd build
                 make generate_coverage
             \""""
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build ./"
-            junit 'build/test/unit_tests_run.xml'
+            sh "docker cp ${container_name(image_key)}:/home/jenkins ./"
+            junit 'jenkins/build/test/unit_tests_run.xml'
             step([
                 $class: 'CoberturaPublisher',
                 autoUpdateHealth: true,
                 autoUpdateStability: true,
-                coberturaReportFile: 'build/coverage/coverage.xml',
+                coberturaReportFile: 'jenkins/build/coverage/coverage.xml',
                 failUnhealthy: false,
                 failUnstable: false,
                 maxNumberOfBuilds: 0,
