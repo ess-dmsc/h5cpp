@@ -238,7 +238,7 @@ node('docker') {
 
             def abs_dir = pwd()
             sh "mkdir ${abs_dir}/abc"
-            sh "ch abc && pwd"
+            sh "cd abc && pwd"
         }
     }
 /*
