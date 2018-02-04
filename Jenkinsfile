@@ -78,7 +78,6 @@ def docker_build(image_key) {
 
 def docker_tests(image_key) {
     def custom_sh = images[image_key]['sh']
-    dir("${project}/tests") {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd build
@@ -89,7 +88,6 @@ def docker_tests(image_key) {
             junit 'unit_tests_run.xml'
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
-    }
 }
 
 def docker_tests_coverage(image_key) {
@@ -100,14 +98,13 @@ def docker_tests_coverage(image_key) {
                 cd build
                 make generate_coverage
             \""""
-
             sh "docker cp ${container_name(image_key)}:/home/jenkins/build ./"
-            junit 'tests/unit_tests_run.xml'
+            junit 'build/test/unit_tests_run.xml'
             step([
                 $class: 'CoberturaPublisher',
                 autoUpdateHealth: true,
                 autoUpdateStability: true,
-                coberturaReportFile: 'coverage/coverage.xml',
+                coberturaReportFile: 'build/coverage/coverage.xml',
                 failUnhealthy: false,
                 failUnstable: false,
                 maxNumberOfBuilds: 0,
@@ -116,8 +113,8 @@ def docker_tests_coverage(image_key) {
                 zoomCoverageChart: false
             ])
         } catch(e) {
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build ./"
-            junit 'tests/unit_tests_run.xml'
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            junit 'unit_tests_run.xml'
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
     }
