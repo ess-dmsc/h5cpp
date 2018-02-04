@@ -96,8 +96,8 @@ def docker_tests_coverage(image_key) {
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
-            cd ${project}/build
-            junit "test/unit_tests_run.xml"
+            sh "cd ${project}/build"
+            junit 'test/unit_tests_run.xml'
         } catch(e) {
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project}/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
