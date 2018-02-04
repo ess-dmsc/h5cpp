@@ -100,7 +100,14 @@ def docker_tests_coverage(image_key) {
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins ./"
             junit 'jenkins/build/test/unit_tests_run.xml'
-            sh "cd jenkins/build"
+        } catch(e) {
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            junit 'unit_tests_run.xml'
+            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+        }
+    }
+    dir("${project}/jenkins/build") {
+        try {
             step([
                 $class: 'CoberturaPublisher',
                 autoUpdateHealth: true,
@@ -114,9 +121,7 @@ def docker_tests_coverage(image_key) {
                 zoomCoverageChart: false
             ])
         } catch(e) {
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-            junit 'unit_tests_run.xml'
-            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+            failure_function(e, 'Publishing coverage reports from (${container_name(image_key)}) failed')
         }
     }
 }
