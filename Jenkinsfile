@@ -1,19 +1,18 @@
 project = "h5cpp"
 
 images = [
-    /*'centos': [
+    'centos': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh'
     ],
     'centos-gcc6': [
         'name': 'essdmscdm/centos7-gcc6-build-node:1.0.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
-    ],*/
+    ],
     'fedora': [
         'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh'
-    ]
-    /*,
+    ],
     'debian': [
         'name': 'essdmscdm/debian9-build-node:1.0.0',
         'sh': 'sh'
@@ -25,7 +24,7 @@ images = [
     'ubuntu1710': [
         'name': 'essdmscdm/ubuntu17.10-build-node:1.0.0',
         'sh': 'sh'
-    ]*/
+    ]
 ]
 
 base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
@@ -218,7 +217,6 @@ def get_osx_pipeline()
                     try {
                         sh "make run_tests"
                     } catch (e) {
-		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'MacOSX / build+test failed')
                     }
                 }
@@ -244,14 +242,14 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    //builders['MocOSX'] = get_osx_pipeline()
+    builders['MocOSX'] = get_osx_pipeline()
     
     parallel builders
 
     // Delete workspace when build is done
     cleanWs()
 }
-/*
+
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -315,4 +313,3 @@ node ("fedora") {
         }
     }
 }
-*/
