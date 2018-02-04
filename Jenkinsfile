@@ -105,6 +105,7 @@ def docker_tests_coverage(image_key) {
     }
 
     dir("cov/${project}/build") {
+        sh "pwd"
         junit 'test/unit_tests_run.xml'
         try {
             step([
