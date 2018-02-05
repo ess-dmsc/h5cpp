@@ -27,6 +27,7 @@
 #include <stdexcept>
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/functions.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -58,7 +59,7 @@ Node Dataset::create_dataset(const Group &base,
     std::stringstream ss;
     ss<<"Failure to create dataset ["<<path<<"] on group ["<<base.link().path()
       <<"]!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
   H5Dclose(id);
 
@@ -97,7 +98,7 @@ dataspace::Dataspace Dataset::dataspace() const
   {
     std::stringstream ss;
     ss<<"Failure retrieving dataspace for dataset "<<link().path()<<"!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
   return dataspace::Dataspace(ObjectHandle(id));
 }
@@ -109,7 +110,7 @@ datatype::Datatype Dataset::datatype() const
   {
     std::stringstream ss;
     ss<<"Failure retrieving datatype for dataset "<<link().path()<<"!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return datatype::Datatype(ObjectHandle(id));
@@ -123,7 +124,7 @@ property::DatasetCreationList Dataset::creation_list() const
     std::stringstream ss;
     ss<<"Cannot obtain dataset creation property list for dataset ["
       <<link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return property::DatasetCreationList(ObjectHandle(id));
@@ -137,7 +138,7 @@ property::DatasetAccessList Dataset::access_list() const
     std::stringstream ss;
     ss<<"Failure obtaining dataset creation property list for dataset ["
       <<link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return property::DatasetAccessList(ObjectHandle(id));
@@ -149,7 +150,7 @@ void Dataset::extent(const Dimensions &dims) const
   {
     std::stringstream ss;
     ss<<"Failed to set extent for dataset "<<link().path()<<"!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 
@@ -204,7 +205,7 @@ void Dataset::refresh() const
   {
     std::stringstream ss;
     ss<<"Failure to refresh dataset ["<<link().path()<<"]!";
-    std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 

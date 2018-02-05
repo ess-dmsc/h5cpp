@@ -81,7 +81,7 @@ Group::Group(const Group &parent, const Path &path,
     std::stringstream ss;
     ss<<"Failure to create new group ["<<path<<"] below ["
       <<parent.link().path()<<"]!";
-    throw std::runtime_error(ss.str());
+    hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
   H5Gclose(gid);
 

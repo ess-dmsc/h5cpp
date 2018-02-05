@@ -487,8 +487,6 @@ class DLL_EXPORT Dataset : public Node
           <<"dataset ["<<link().path()<<"]!";
         error::Singleton::instance().throw_with_stack(ss.str());
       }
-
-
     }
 
     template<typename T>
