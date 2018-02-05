@@ -163,7 +163,7 @@ def get_pipeline(image_key)
     }
 }
 
-def get_osx_pipeline()
+def get_macos_pipeline()
 {
     return {
         stage("MacOSX") {
@@ -220,7 +220,7 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['fedora'] = get_pipeline('fedora')
+    builders['macOS'] = get_macos_pipeline()
 
     parallel builders
     // Delete workspace when build is done
