@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -30,13 +32,12 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT GroupAccessList : public LinkAccessList
-{
-  public:
-    GroupAccessList();
-    ~GroupAccessList();
+class DLL_EXPORT GroupAccessList : public LinkAccessList {
+ public:
+  GroupAccessList();
+  ~GroupAccessList();
 
-
+  explicit GroupAccessList(ObjectHandle &&handle);
 };
 
 } // namespace property

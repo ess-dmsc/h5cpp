@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Nov 13, 2017
 //
 #include <gtest/gtest.h>
@@ -28,33 +30,29 @@
 
 using namespace hdf5::dataspace;
 
-class SelectionOpsSetTest : public testing::Test
-{
-  public:
-    Simple space;
+class SelectionOpsSetTest : public testing::Test {
+ public:
+  Simple space;
 
-    SelectionOpsSetTest()
-    {
-      space = Simple{{1024,512}};
-    }
+  SelectionOpsSetTest() {
+    space = Simple{{1024, 512}};
+  }
 
 };
 
-TEST_F(SelectionOpsSetTest,simple_set)
-{
-  Simple new_space = space||Hyperslab{{0,0},{100,200}};
-  EXPECT_EQ(new_space.size(),space.size());
-  EXPECT_EQ(new_space.selection.size(),100ul*200ul);
+TEST_F(SelectionOpsSetTest, simple_set) {
+  Simple new_space = space || Hyperslab{{0, 0}, {100, 200}};
+  EXPECT_EQ(new_space.size(), space.size());
+  EXPECT_EQ(new_space.selection.size(), 100ul * 200ul);
 }
 
-TEST_F(SelectionOpsSetTest,set_from_list)
-{
+TEST_F(SelectionOpsSetTest, set_from_list) {
   SelectionList selections{
-    {SelectionOperation::SET,Selection::SharedPointer(new Hyperslab{{0,0},{100,200}})},
-    {SelectionOperation::OR,Selection::SharedPointer(new Hyperslab{{101,201},{100,200}})}
+      {SelectionOperation::SET, Selection::SharedPointer(new Hyperslab{{0, 0}, {100, 200}})},
+      {SelectionOperation::OR, Selection::SharedPointer(new Hyperslab{{101, 201}, {100, 200}})}
   };
 
   Simple new_space = space || selections;
-  EXPECT_EQ(new_space.size(),space.size());
-  EXPECT_EQ(new_space.selection.size(),2ul*100ul*200ul);
+  EXPECT_EQ(new_space.size(), space.size());
+  EXPECT_EQ(new_space.selection.size(), 2ul * 100ul * 200ul);
 }

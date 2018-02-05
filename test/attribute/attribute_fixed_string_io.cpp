@@ -46,8 +46,8 @@ class AttributeFixedStringIO : public testing::Test
       simple_space = dataspace::Simple{{2,3}};
       scalar_space = dataspace::Scalar();
       string_type = datatype::String::fixed(5);
-      string_type.set_encoding(datatype::CharacterEncoding::UTF8);
-      string_type.set_padding(datatype::StringPad::NULLTERM);
+      string_type.encoding(datatype::CharacterEncoding::UTF8);
+      string_type.padding(datatype::StringPad::NULLTERM);
     }
 };
 

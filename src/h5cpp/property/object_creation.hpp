@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -29,100 +31,96 @@
 #include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
-namespace property{
+namespace property {
 
-class DLL_EXPORT ObjectCreationList : public List
-{
-  public:
-    //!
-    //! \brief constructor
-    //!
-    ObjectCreationList();
+class DLL_EXPORT ObjectCreationList : public List {
+ public:
+  //!
+  //! \brief constructor
+  //!
+  ObjectCreationList();
 
-    //!
-    //! \brief destructor
-    //!
-    virtual ~ObjectCreationList();
+  //!
+  //! \brief destructor
+  //!
+  virtual ~ObjectCreationList();
 
-    void enable_create_intermediate_group() const;
-    void disable_create_intermediate_group() const;
-    bool create_intermediate_group() const;
+  explicit ObjectCreationList(ObjectHandle &&handle);
 
-    //!
-    //! \brief enable object time tracking
-    //!
-    //! Activates the time tracking feature on objects in the file.
-    //!
-    //! \sa disable_time_tracking
-    //! \sa time_tracking
-    void enable_time_tracking() const;
+  //!
+  //! \brief enable object time tracking
+  //!
+  //! Activates the time tracking feature on objects in the file.
+  //!
+  //! \sa disable_time_tracking
+  //! \sa time_tracking
+  void enable_time_tracking() const;
 
-    //!
-    //! \brief disable object time tracking
-    //! \sa enable_time_tracking
-    //! \sa time_tracking
-    void disable_time_tracking() const;
+  //!
+  //! \brief disable object time tracking
+  //! \sa enable_time_tracking
+  //! \sa time_tracking
+  void disable_time_tracking() const;
 
-    //!
-    //! \brief return time tacking status
-    //!
-    //! Queries the current status of the time tracking feature. This method
-    //! returns true if time tracking is activate and false otherwise.
-    //!
-    //! \throws std::runtime_errr in case of an error
-    //!
-    //! @return true if time tracking is active, false otherwise
-    //! \sa enable_time_tracking
-    //! \sa disable_time_tracking
-    bool time_tracking() const;
+  //!
+  //! \brief return time tacking status
+  //!
+  //! Queries the current status of the time tracking feature. This method
+  //! returns true if time tracking is activate and false otherwise.
+  //!
+  //! \throws std::runtime_errr in case of an error
+  //!
+  //! @return true if time tracking is active, false otherwise
+  //! \sa enable_time_tracking
+  //! \sa disable_time_tracking
+  bool time_tracking() const;
 
-    //!
-    //! \brief set the attribute creation order
-    //!
-    //! Set the attribute creation order flags which will be used for all
-    //! objects.
-    //!
-    //! @param order requested attribute creation order
-    //! \sa CreationOrder
-    //! \sa attribute_creation_order()
-    void attribute_creation_order(const CreationOrder &order) const;
+  //!
+  //! \brief set the attribute creation order
+  //!
+  //! Set the attribute creation order flags which will be used for all
+  //! objects.
+  //!
+  //! @param order requested attribute creation order
+  //! \sa CreationOrder
+  //! \sa attribute_creation_order()
+  void attribute_creation_order(const CreationOrder &order) const;
 
-    //!
-    //! \brief retrieve current attribute creation order
-    //!
-    //! @return current attribute creation order
-    //! \sa attribute_creation_order
-    //! \sa CreationOrder
-    CreationOrder attribute_creation_order() const;
+  //!
+  //! \brief retrieve current attribute creation order
+  //!
+  //! @return current attribute creation order
+  //! \sa attribute_creation_order
+  //! \sa CreationOrder
+  CreationOrder attribute_creation_order() const;
 
+  //!
+  //! \brief set storage layout thresholds
+  //!
+  //! @param max_compact maximum number above which dense storage will be
+  //!                    used
+  //! @param min_dense minimum number below which compact storage will be
+  //!                  used
+  //! \sa attribute_storage_maximum_compact
+  //! \sa attribute_storage_minimum_dense
+  void attribute_storage_thresholds(unsigned max_compact, unsigned min_dense) const;
 
-    //!
-    //! \brief set storage layout thresholds
-    //!
-    //! @param max_compact maximum number above which dense storage will be
-    //!                    used
-    //! @param min_dense minimum number below which compact storage will be
-    //!                  used
-    //! \sa attribute_storage_maximum_compact
-    //! \sa attribute_storage_minimum_dense
-    void attribute_storage_thresholds(unsigned max_compact,unsigned min_dense) const;
+  //!
+  //! \brief get upper threshold for compact storage
+  //!
+  //! \return
+  unsigned attribute_storage_maximum_compact() const;
 
-    //!
-    //! \brief get upper threshold for compact storage
-    //!
-    //! \return
-    unsigned attribute_storage_maximum_compact() const;
+  //!
+  //! \brief get lower threshold for dense threshold
+  unsigned attribute_storage_minimum_dense() const;
 
-    //!
-    //! \brief get lower threshold for dense threshold
-    unsigned attribute_storage_minimum_dense() const;
-
-  protected:
-    ObjectCreationList(const Class &plist_class);
-  private:
-    void get_attribute_phase_change_(unsigned &max_compact,
-                                     unsigned &min_dense,
-                                     const std::string &error_message) const;
+ protected:
+  ObjectCreationList(const Class &plist_class);
+ private:
+  void get_attribute_phase_change_(unsigned &max_compact,
+                                   unsigned &min_dense,
+                                   const std::string &error_message) const;
 };
 
 } // namespace property

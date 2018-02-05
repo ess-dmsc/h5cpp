@@ -19,29 +19,28 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 23, 2017
 //
 
 #include <h5cpp/datatype/integer.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace datatype {
 
-Integer::Integer(ObjectHandle &&handle):
-    Datatype(std::move(handle))
-{}
+Integer::Integer(ObjectHandle &&handle) :
+    Datatype(std::move(handle)) {}
 
-Integer::Integer(const Datatype &datatype):
-    Datatype(datatype)
-{
-  if(!datatype.is_valid())
-    error::Singleton::instance().throw_with_stack("Cannot construct from a default constructed type");
-
-  if(get_class()!=Class::INTEGER)
-  {
-    error::Singleton::instance().throw_with_stack("Datatype is not an INTEGER type!");
+Integer::Integer(const Datatype &datatype) :
+    Datatype(datatype) {
+  if (get_class() != Class::INTEGER) {
+    std::stringstream ss;
+    ss << "Could not create Integer from " << get_class();
+    throw std::runtime_error(ss.str());
   }
 }
 

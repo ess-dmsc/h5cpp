@@ -19,47 +19,52 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 
 #include <type_traits>
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
 
+StringCreationList::StringCreationList() :
+    List(kStringCreate) {}
 
-StringCreationList::StringCreationList():
-    List(kStringCreate)
-{}
+StringCreationList::~StringCreationList() {}
 
-StringCreationList::~StringCreationList()
-{}
-
-datatype::CharacterEncoding StringCreationList::character_encoding() const
-{
-   H5T_cset_t encoding;
-   if(H5Pget_char_encoding(static_cast<hid_t>(*this),&encoding)<0)
-   {
-     error::Singleton::instance().throw_with_stack("Failure retrieving character encoding!");
-   }
-   return static_cast<datatype::CharacterEncoding>(encoding);
+StringCreationList::StringCreationList(ObjectHandle &&handle) :
+    List(std::move(handle)) {
+  if ((get_class() != kStringCreate) &&
+      (get_class() != kLinkCreate) &&
+      (get_class() != kAttributeCreate)) {
+    std::stringstream ss;
+    ss << "Cannot create property::StringCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
 }
 
-void StringCreationList::character_encoding(datatype::CharacterEncoding encoding) const
-{
-  if(H5Pset_char_encoding(static_cast<hid_t>(*this),static_cast<H5T_cset_t>(encoding))<0)
-  {
+datatype::CharacterEncoding StringCreationList::character_encoding() const {
+  H5T_cset_t encoding;
+  if (H5Pget_char_encoding(static_cast<hid_t>(*this), &encoding) < 0) {
+    error::Singleton::instance().throw_with_stack("Failure retrieving character encoding!");
+  }
+  return static_cast<datatype::CharacterEncoding>(encoding);
+}
+
+void StringCreationList::character_encoding(datatype::CharacterEncoding encoding) const {
+  if (H5Pset_char_encoding(static_cast<hid_t>(*this), static_cast<H5T_cset_t>(encoding)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting character encoding!");
   }
 }
 
-StringCreationList::StringCreationList(const Class &plist_class):
-    List(plist_class)
-{}
-
+StringCreationList::StringCreationList(const Class &plist_class) :
+    List(plist_class) {}
 
 } // namespace property
 } // namespace hdf5

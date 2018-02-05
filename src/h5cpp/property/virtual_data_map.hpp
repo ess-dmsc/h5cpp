@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Nov 10, 2017
 //
 #pragma once
@@ -35,7 +37,6 @@
 namespace hdf5 {
 namespace property {
 
-
 //!
 //! \brief data mapping for virtual datasets
 //!
@@ -43,55 +44,52 @@ namespace property {
 //! virtual dataset and the source dataset.
 //!
 class DLL_EXPORT VirtualDataMap {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    //! Need this for STL container compliance but can rely on the compiler
-    //! provided default version.
-    //!
-    VirtualDataMap() = default;
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  //! Need this for STL container compliance but can rely on the compiler
+  //! provided default version.
+  //!
+  VirtualDataMap() = default;
 
-    //!
-    //! \brief copy constructor
-    //!
-    //! Need this for STL container compilance but can rely on the compiler
-    //! provided default version.
-    //!
-    VirtualDataMap(const VirtualDataMap &) = default;
+  //!
+  //! \brief copy constructor
+  //!
+  //! Need this for STL container compilance but can rely on the compiler
+  //! provided default version.
+  //!
+  VirtualDataMap(const VirtualDataMap &) = default;
 
-    //!
-    //! \brief constructor
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param target_space dataspace with the selection where to view the
-    //!                     source data
-    //! \param source_file path to the source file
-    //! \param source_dataset path to the source dataset
-    //! \param source_space dataspace with selection of the source dataset
-    //!
-    VirtualDataMap(const dataspace::View &target_view,
-                   const boost::filesystem::path &source_file,
-                   const hdf5::Path &source_dataset,
-                   const dataspace::View &source_view);
+  //!
+  //! \brief constructor
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param target_space dataspace with the selection where to view the
+  //!                     source data
+  //! \param source_file path to the source file
+  //! \param source_dataset path to the source dataset
+  //! \param source_space dataspace with selection of the source dataset
+  //!
+  VirtualDataMap(const dataspace::View &target_view,
+                 const boost::filesystem::path &source_file,
+                 const hdf5::Path &source_dataset,
+                 const dataspace::View &source_view);
 
+  //!
+  //! \brief apply mapping to a dataset creation list
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param dcpl reference to the dataset creation list onto which the
+  //!             mapping should be applied
+  //!
+  void operator()(const property::DatasetCreationList &dcpl) const;
 
-    //!
-    //! \brief apply mapping to a dataset creation list
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param dcpl reference to the dataset creation list onto which the
-    //!             mapping should be applied
-    //!
-    void operator()(const property::DatasetCreationList &dcpl) const;
-
-
-  private:
-    dataspace::View         target_view_;
-    boost::filesystem::path source_file_;
-    hdf5::Path              source_dataset_;
-    dataspace::View         source_view_;
-
+ private:
+  dataspace::View target_view_;
+  boost::filesystem::path source_file_;
+  hdf5::Path source_dataset_;
+  dataspace::View source_view_;
 
 };
 
@@ -102,13 +100,12 @@ class DLL_EXPORT VirtualDataMap {
 //! a convenient container for virtual data maps.
 //! The interface is exactly the same as for std::vector.
 //!
-class DLL_EXPORT VirtualDataMaps : public std::vector<VirtualDataMap>
-{
-  public:
-    //
-    // pull in std::vector constructors
-    //
-    using std::vector<VirtualDataMap>::vector;
+class DLL_EXPORT VirtualDataMaps : public std::vector<VirtualDataMap> {
+ public:
+  //
+  // pull in std::vector constructors
+  //
+  using std::vector<VirtualDataMap>::vector;
 };
 
 } // namespace property

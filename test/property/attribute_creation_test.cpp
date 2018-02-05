@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
@@ -31,20 +33,19 @@
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-TEST(AttributeCreationList, test_default_construction)
-{
+TEST(AttributeCreationList, test_default_construction) {
   pl::AttributeCreationList acpl;
   EXPECT_TRUE(acpl.get_class() == pl::kAttributeCreate);
+
+  auto cl = pl::kAttributeCreate;
+  EXPECT_NO_THROW((pl::AttributeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kStringCreate;
+  EXPECT_THROW((pl::AttributeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::AttributeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
-
-TEST(AttributeCreationList, test_character_encoding)
-{
-  pl::AttributeCreationList acpl;
-  EXPECT_NO_THROW(acpl.character_encoding(tp::CharacterEncoding::ASCII));
-  EXPECT_TRUE(acpl.character_encoding()==tp::CharacterEncoding::ASCII);
-
-  EXPECT_NO_THROW(acpl.character_encoding(tp::CharacterEncoding::UTF8));
-  EXPECT_TRUE(acpl.character_encoding()==tp::CharacterEncoding::UTF8);
-}
-
 

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 16, 2017
 //
 #pragma once
@@ -28,9 +30,8 @@
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/windows.hpp>
 
-
-namespace hdf5{
-namespace property{
+namespace hdf5 {
+namespace property {
 
 //!
 //! \brief property list class
@@ -41,41 +42,38 @@ namespace property{
 //! classes on the fly. Though this functionality is currently not implemented
 //! we are on the save side with a class implementation instead of an enumeration.
 //!
-class DLL_EXPORT Class
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    Class() = default;
+class DLL_EXPORT Class {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  Class() = default;
 
-    //!
-    //! \brief copy constructor
-    //!
-    Class(const Class &c) = default;
+  //!
+  //! \brief copy constructor
+  //!
+  Class(const Class &c) = default;
 
-    //!
-    //! \brief copy assignment
-    //!
-    Class &operator=(const Class &c) = default;
+  //!
+  //! \brief copy assignment
+  //!
+  Class &operator=(const Class &c) = default;
 
-    //!
-    //! \brief constructor
-    //!
-    Class(ObjectHandle &&handle);
+  //!
+  //! \brief constructor
+  //!
+  explicit Class(ObjectHandle &&handle);
 
+  std::string name() const;
+  Class parent() const;
 
-    std::string name() const;
-    Class parent() const;
+  explicit operator hid_t() const {
+    return static_cast<hid_t>(handle_);
+  }
 
-    explicit operator hid_t() const
-    {
-      return static_cast<hid_t>(handle_);
-    }
+ private:
+  ObjectHandle handle_;
 
-
-  private:
-    ObjectHandle handle_;
 };
 
 DLL_EXPORT bool operator==(const Class &lhs, const Class &rhs);
@@ -98,6 +96,7 @@ DLL_EXPORT extern const Class kObjectCopy;
 DLL_EXPORT extern const Class kObjectCreate;
 DLL_EXPORT extern const Class kStringCreate;
 
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Class &c);
 
 } // namespace property
 } // namespace hdf5

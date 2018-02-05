@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 #pragma once
@@ -30,19 +32,19 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT TypeCreationList : public ObjectCreationList
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    TypeCreationList();
+class DLL_EXPORT TypeCreationList : public ObjectCreationList {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  TypeCreationList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~TypeCreationList();
+  //!
+  //! \brief destructor
+  //!
+  ~TypeCreationList();
 
+  explicit TypeCreationList(ObjectHandle &&handle);
 };
 
 } // namespace property

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -35,28 +37,25 @@ namespace dataspace {
 //!
 //! Dataspace for a single value
 //!
-class DLL_EXPORT Scalar : public Dataspace
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    Scalar();
+class DLL_EXPORT Scalar : public Dataspace {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  Scalar();
 
-    //!
-    //! \brief constructor
-    //!
-    //! Construct a scalar dataspace from its base class. In this case.
-    //! If the Dataspace instance is not a scalar instance an exception
-    //! will be thrown.
-    //!
-    //! \throws std::runtime_error in case of an error
-    //!
-    //! \param space reference to a Dataspace instance
-    //!
-    Scalar(const Dataspace &space);
-
-
+  //!
+  //! \brief constructor
+  //!
+  //! Construct a scalar dataspace from its base class. In this case.
+  //! If the Dataspace instance is not a scalar instance an exception
+  //! will be thrown.
+  //!
+  //! \throws std::runtime_error in case of an error
+  //!
+  //! \param space reference to a Dataspace instance
+  //!
+  Scalar(const Dataspace &space);
 };
 
 } // namespace dataspace

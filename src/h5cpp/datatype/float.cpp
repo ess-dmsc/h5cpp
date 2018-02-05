@@ -19,29 +19,30 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 23, 2017
 //
 
 #include <h5cpp/datatype/float.hpp>
-#include <sstream>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace datatype {
 
-  Float::Float(ObjectHandle &&handle):
-		    Datatype(std::move(handle))
-  {}
+Float::Float(ObjectHandle &&handle) :
+    Datatype(std::move(handle)) {}
 
-  Float::Float(const Datatype &datatype):
-      Datatype(datatype)
-  {
-    if((datatype.get_class() != Class::FLOAT))
-    {
-      error::Singleton::instance().throw_with_stack("Datatype is not a FLOAT type!");
-    }
+Float::Float(const Datatype &datatype) :
+    Datatype(datatype) {
+  if (datatype.get_class() != Class::FLOAT) {
+    std::stringstream ss;
+    ss << "Cannot create datatype::Float from " << get_class();
+    throw std::runtime_error(ss.str());
   }
+}
 
 } // namespace datatype
 } // namespace hdf5
