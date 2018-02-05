@@ -19,12 +19,15 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
 #include <h5cpp/property/datatype_access.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -35,6 +38,17 @@ DatatypeAccessList::DatatypeAccessList():
 
 DatatypeAccessList::~DatatypeAccessList()
 {}
+
+DatatypeAccessList::DatatypeAccessList(ObjectHandle &&handle) :
+    LinkAccessList(std::move(handle))
+{
+  if (get_class() != kDatatypeAccess) {
+    std::stringstream ss;
+    ss << "Cannot create property::DatatypeAccessList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
+
 
 } // namespace property
 } // namespace hdf5

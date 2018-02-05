@@ -37,7 +37,14 @@ TEST(DatasetAccessList, test_default_construction)
   pl::DatasetAccessList dapl;
   EXPECT_TRUE(dapl.get_class() == pl::kDatasetAccess);
 
-  auto cl = pl::kGroupCreate;
+  auto cl = pl::kDatasetAccess;
+  EXPECT_NO_THROW((pl::DatasetAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupAccess;
+  EXPECT_THROW((pl::DatasetAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
+
+  cl = pl::kDatatypeCreate;
   EXPECT_THROW((pl::DatasetAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
                std::runtime_error);
 }

@@ -33,6 +33,17 @@ TEST(DatatypeAccessList, test_default_construction)
 {
   pl::DatatypeAccessList dapl;
   EXPECT_TRUE(dapl.get_class() == pl::kDatatypeAccess);
+
+  auto cl = pl::kDatatypeAccess;
+  EXPECT_NO_THROW((pl::DatatypeAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupAccess;
+  EXPECT_THROW((pl::DatatypeAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
+
+  cl = pl::kDatatypeCreate;
+  EXPECT_THROW((pl::DatatypeAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 

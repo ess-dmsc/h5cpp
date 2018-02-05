@@ -46,7 +46,7 @@ class DLL_EXPORT ObjectCreationList : public List
   //!
   virtual ~ObjectCreationList();
 
-  ObjectCreationList(ObjectHandle &&handle);
+  explicit ObjectCreationList(ObjectHandle &&handle);
 
   //!
   //! \brief enable object time tracking

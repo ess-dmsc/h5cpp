@@ -69,7 +69,7 @@ class DLL_EXPORT List
     //! \throws std::runtime_error in case of a failure
     //! \param handle r-value reference to the handle object
     //!
-    List(ObjectHandle &&handle);
+    explicit List(ObjectHandle &&handle);
 
     //!
     //! \brief copy assignment

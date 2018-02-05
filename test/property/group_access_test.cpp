@@ -33,6 +33,17 @@ TEST(GroupAccessList, test_default)
 {
   pl::GroupAccessList gapl;
   EXPECT_TRUE(gapl.get_class()==pl::kGroupAccess);
+
+  auto cl = pl::kGroupAccess;
+  EXPECT_NO_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kDatatypeAccess;
+  EXPECT_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 

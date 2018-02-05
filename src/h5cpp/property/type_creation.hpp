@@ -45,7 +45,7 @@ class DLL_EXPORT TypeCreationList : public ObjectCreationList
   //!
   ~TypeCreationList();
 
-  TypeCreationList(ObjectHandle &&handle);
+  explicit TypeCreationList(ObjectHandle &&handle);
 };
 
 } // namespace property

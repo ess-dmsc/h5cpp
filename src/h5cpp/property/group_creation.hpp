@@ -37,7 +37,7 @@ class DLL_EXPORT GroupCreationList : public ObjectCreationList
   GroupCreationList();
   virtual ~GroupCreationList();
 
-  GroupCreationList(ObjectHandle &&handle);
+  explicit GroupCreationList(ObjectHandle &&handle);
 
   size_t local_heap_size_hint() const;
   void local_heap_size_hint(size_t size) const;

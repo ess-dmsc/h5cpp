@@ -134,7 +134,7 @@ class DLL_EXPORT DatasetCreationList : public ObjectCreationList
   //! \throws std::runtime_error in case of a failure
   //! \param handle r-value reference to an HDF5 handle
   //!
-  DatasetCreationList(ObjectHandle &&handle);
+  explicit DatasetCreationList(ObjectHandle &&handle);
 
   //!
   //! \brief set dataset layout

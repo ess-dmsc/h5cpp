@@ -63,7 +63,7 @@ class DLL_EXPORT Class
   //!
   //! \brief constructor
   //!
-  Class(ObjectHandle &&handle);
+  explicit Class(ObjectHandle &&handle);
 
   std::string name() const;
   Class parent() const;
