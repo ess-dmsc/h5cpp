@@ -59,7 +59,7 @@ def docker_dependencies(image_key) {
 }
 
 def docker_build(image_key) {
-    cmake_exec = "/home/jenkins/build/bin/cmake"
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
@@ -75,7 +75,7 @@ def docker_build(image_key) {
 }
 
 def docker_build_coverage(image_key) {
-    cmake_exec = "/home/jenkins/build/bin/cmake"
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
     abs_dir = pwd()
     def custom_sh = images[image_key]['sh']
         try {
