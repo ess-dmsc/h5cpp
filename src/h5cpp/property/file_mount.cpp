@@ -27,6 +27,7 @@
 
 #include <h5cpp/property/file_mount.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 #include <sstream>
 
 namespace hdf5 {
