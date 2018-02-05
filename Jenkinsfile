@@ -65,7 +65,7 @@ def docker_build(image_key) {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
                 ${cmake_exec} --version
-                ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ../${project}
+                ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ..
                 make --version
                 make run_tests
             \""""
@@ -82,7 +82,7 @@ def docker_build_coverage(image_key) {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
                 ${cmake_exec} --version
-                ${cmake_exec} -DCMAKE_BUILD_TYPE=Debug -DCOV=1 ../${project}
+                ${cmake_exec} -DCMAKE_BUILD_TYPE=Debug -DCOV=1 ..
                 make --version
                 make generate_coverage
             \""""
