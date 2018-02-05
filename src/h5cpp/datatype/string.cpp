@@ -52,7 +52,7 @@ String String::variable() {
 String String::fixed(size_t size) {
   // We assume no H5 errors are possible here
   String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
-  H5Tset_size(static_cast<hid_t>(ret), size + 1);
+  H5Tset_size(static_cast<hid_t>(ret), size );
   return ret;
 }
 
@@ -101,10 +101,8 @@ void String::padding(StringPad strpad) {
 size_t String::size() const {
   if (is_variable_length())
     return H5T_VARIABLE;
-  auto ret = Datatype::size();
-  if (ret > 0)
-    return ret - 1; // padding
-  return 0;
+
+  return Datatype::size();
 }
 
 void String::size(size_t size) const {
@@ -115,7 +113,7 @@ void String::size(size_t size) const {
        << ") for variable-size String datatype";
     throw std::runtime_error(ss.str());
   }
-  Datatype::size(size + 1); // padding
+  Datatype::size(size); // padding
 }
 
 } // namespace datatype

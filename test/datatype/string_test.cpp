@@ -85,8 +85,7 @@ TEST(String, Fixed) {
 
   t.size(5ul);
   EXPECT_EQ(t.size(), 5ul);
-  t.size(0ul);
-  EXPECT_EQ(t.size(), 0ul);
+  EXPECT_THROW((t.size(0ul)),std::runtime_error);
 }
 
 TEST(String, Variable) {

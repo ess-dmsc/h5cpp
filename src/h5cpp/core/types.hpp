@@ -189,7 +189,7 @@ struct FixedLengthStringTrait<std::string>
 
     static DataType from_buffer(const BufferType &buffer,const datatype::String &)
     {
-      return DataType(buffer.begin(),buffer.end()-1);
+      return DataType(buffer.begin(),buffer.end());
     }
 };
 
@@ -202,13 +202,13 @@ struct FixedLengthStringTrait<std::vector<std::string>>
 
    static BufferType to_buffer(const DataType &data,const datatype::String &file_type)
    {
-     BufferType buffer(data.size()*file_type.size()+data.size()+1,'\0');
+     BufferType buffer(data.size()*file_type.size(),'\0');
      
      auto iter = buffer.begin();
      for(const auto &str: data)
      {
        iter = std::copy(str.begin(),str.end(),iter);
-	   iter++;
+	     //iter++;
      }
 
      return buffer;
@@ -223,7 +223,7 @@ struct FixedLengthStringTrait<std::vector<std::string>>
      {
        auto end = start+file_type.size();
        data.push_back(std::string(start,end));
-       start=end + 1;
+       start=end;
      }
      return data;
    }
