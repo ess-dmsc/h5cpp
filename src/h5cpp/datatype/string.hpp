@@ -31,57 +31,55 @@
 namespace hdf5 {
 namespace datatype {
 
-class DLL_EXPORT String : public Datatype
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    //! We need this for STL containers but can rely on the
-    //! default compiler implementation for now.
-    //!
-    String() = default;
+class DLL_EXPORT String : public Datatype {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  //! We need this for STL containers but can rely on the
+  //! default compiler implementation for now.
+  //!
+  String() = default;
 
-    //!
-    //! \brief construct from handle
-    //!
-    String(ObjectHandle &&handle);
+  //!
+  //! \brief construct from handle
+  //!
+  String(ObjectHandle &&handle);
 
-    //!
-    //! \brief cosntruct from generic datatype
-    //!
-    String(const Datatype &type);
+  //!
+  //! \brief cosntruct from generic datatype
+  //!
+  String(const Datatype &type);
 
-    //!
-    //! \brief construct variable-length string
-    //!
-    static String variable();
+  //!
+  //! \brief construct variable-length string
+  //!
+  static String variable();
 
-    //!
-    //! \brief construct fiex-length string
-    //!
-    static String fixed(size_t);
+  //!
+  //! \brief construct fixed-length string
+  //!
+  static String fixed(size_t);
 
-    bool is_variable_length() const;
+  bool is_variable_length() const;
 
-    CharacterEncoding encoding() const;
-    void set_encoding(CharacterEncoding cset);
+  CharacterEncoding encoding() const;
+  void encoding(CharacterEncoding cset);
 
-    StringPad padding() const;
-    void set_padding(StringPad strpad);
+  StringPad padding() const;
+  void padding(StringPad strpad);
 
-    size_t size() const override;
-    void set_size(size_t size) const override;
+  size_t size() const override;
+  void size(size_t size) const override;
 
-    //set order? other types?
+  //set order? other types?
 
-    //set precision? other types?
+  //set precision? other types?
 
-    //set offset?
-    //can only be 0 for string
+  //set offset?
+  //can only be 0 for string
 
 };
-
 
 } // namespace datatype
 } // namespace hdf5

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
@@ -28,14 +30,19 @@
 
 namespace pl = hdf5::property;
 
-TEST(FileCreationList, test_default_construction)
-{
+TEST(FileCreationList, test_default_construction) {
   pl::FileCreationList fcpl;
   EXPECT_TRUE(fcpl.get_class() == pl::kFileCreate);
+
+  auto cl = pl::kFileCreate;
+  EXPECT_NO_THROW((pl::FileCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::FileCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
-TEST(FileCreationList, user_block)
-{
+TEST(FileCreationList, user_block) {
   pl::FileCreationList fcpl;
 
   EXPECT_NO_THROW(fcpl.user_block(1024));
@@ -50,10 +57,9 @@ TEST(FileCreationList, user_block)
   EXPECT_THROW(fcpl.user_block(), std::runtime_error);
 }
 
-TEST(FileCreationList, object_offset_size)
-{
+TEST(FileCreationList, object_offset_size) {
   pl::FileCreationList fcpl;
-  EXPECT_EQ(fcpl.object_offset_size(),sizeof(hsize_t));
+  EXPECT_EQ(fcpl.object_offset_size(), sizeof(hsize_t));
 
   EXPECT_NO_THROW(fcpl.object_length_size(2));
   EXPECT_EQ(fcpl.object_length_size(), 2ul);
@@ -81,10 +87,9 @@ TEST(FileCreationList, object_offset_size)
   EXPECT_THROW(fcpl.object_offset_size(), std::runtime_error);
 }
 
-TEST(FileCreationList, object_length_size)
-{
+TEST(FileCreationList, object_length_size) {
   pl::FileCreationList fcpl;
-  EXPECT_EQ(fcpl.object_length_size(),sizeof(hsize_t));
+  EXPECT_EQ(fcpl.object_length_size(), sizeof(hsize_t));
 
   EXPECT_NO_THROW(fcpl.object_offset_size(2));
   EXPECT_EQ(fcpl.object_offset_size(), 2ul);
@@ -112,8 +117,7 @@ TEST(FileCreationList, object_length_size)
   EXPECT_THROW(fcpl.object_length_size(), std::runtime_error);
 }
 
-TEST(FileCreationList, btree_rank)
-{
+TEST(FileCreationList, btree_rank) {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.btree_rank(), 16u);
 
@@ -126,7 +130,7 @@ TEST(FileCreationList, btree_rank)
   EXPECT_NO_THROW(fcpl.btree_rank(32767));
   EXPECT_EQ(fcpl.btree_rank(), 32767u);
 
-#if H5_VERSION_GE(1,10,0)
+#if H5_VERSION_GE(1, 10, 0)
   EXPECT_THROW(fcpl.btree_rank(32768), std::runtime_error);
 #endif
 
@@ -134,8 +138,7 @@ TEST(FileCreationList, btree_rank)
   EXPECT_THROW(fcpl.btree_rank(), std::runtime_error);
 }
 
-TEST(FileCreationList, btree_symbols)
-{
+TEST(FileCreationList, btree_symbols) {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.btree_symbols(), 4u);
 
@@ -153,8 +156,7 @@ TEST(FileCreationList, btree_symbols)
   EXPECT_THROW(fcpl.btree_symbols(7), std::runtime_error);
 }
 
-TEST(FileCreationList, chunk_tree_rank)
-{
+TEST(FileCreationList, chunk_tree_rank) {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.chunk_tree_rank(), 32u);
 
@@ -168,7 +170,7 @@ TEST(FileCreationList, chunk_tree_rank)
   EXPECT_EQ(fcpl.chunk_tree_rank(), 32767u);
 
   EXPECT_THROW(fcpl.chunk_tree_rank(0), std::runtime_error);
-#if H5_VERSION_GE(1,10,0)
+#if H5_VERSION_GE(1, 10, 0)
   EXPECT_THROW(fcpl.chunk_tree_rank(32768), std::runtime_error);
 #endif
 
@@ -176,9 +178,8 @@ TEST(FileCreationList, chunk_tree_rank)
   EXPECT_THROW(fcpl.chunk_tree_rank(), std::runtime_error);
 }
 
-#if H5_VERSION_GE(1,10,1)
-TEST(FileCreationList, page_size)
-{
+#if H5_VERSION_GE(1, 10, 1)
+TEST(FileCreationList, page_size) {
   pl::FileCreationList fcpl;
   EXPECT_EQ(fcpl.page_size(), 4096lu);
 

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
@@ -31,29 +33,33 @@
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-TEST(LinkCreationList, test_default_construction)
-{
+TEST(LinkCreationList, test_default_construction) {
   pl::LinkCreationList lcpl;
   EXPECT_TRUE(lcpl.get_class() == pl::kLinkCreate);
+
+  auto cl = pl::kLinkCreate;
+  EXPECT_NO_THROW((pl::LinkCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kStringCreate;
+  EXPECT_THROW((pl::LinkCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::LinkCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
-TEST(LinkCreationList, test_intermediate_gruop_creation)
-{
+TEST(LinkCreationList, test_intermediate_gruop_creation) {
   pl::LinkCreationList lcpl;
   EXPECT_NO_THROW(lcpl.enable_intermediate_group_creation());
   EXPECT_TRUE(lcpl.intermediate_group_creation());
   EXPECT_NO_THROW(lcpl.disable_intermediate_group_creation());
+
+  // How does this make sense ???
   EXPECT_TRUE(lcpl.intermediate_group_creation());
+
+  hdf5::ObjectHandle(static_cast<hid_t>(lcpl)).close();
+  EXPECT_THROW(lcpl.enable_intermediate_group_creation(), std::runtime_error);
+  EXPECT_THROW(lcpl.disable_intermediate_group_creation(), std::runtime_error);
+  EXPECT_THROW(lcpl.intermediate_group_creation(), std::runtime_error);
 }
-
-TEST(LinkCreationList, test_character_encoding)
-{
-  pl::LinkCreationList lcpl;
-  EXPECT_NO_THROW(lcpl.character_encoding(tp::CharacterEncoding::ASCII));
-  EXPECT_TRUE(lcpl.character_encoding() == tp::CharacterEncoding::ASCII);
-
-  EXPECT_NO_THROW(lcpl.character_encoding(tp::CharacterEncoding::UTF8));
-  EXPECT_TRUE(lcpl.character_encoding() == tp::CharacterEncoding::UTF8);
-}
-
-

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 7, 2017
 //
 
@@ -28,25 +30,23 @@
 
 using namespace hdf5;
 
-TEST(TypeTrait, test_vector)
-{
+TEST(TypeTrait, test_vector) {
   std::vector<double> data(20);
   auto space = dataspace::create(data);
-  EXPECT_EQ(space.type(),dataspace::Type::SIMPLE);
+  EXPECT_EQ(space.type(), dataspace::Type::SIMPLE);
   Dimensions current_dims = space.current_dimensions(),
-             max_dims = space.maximum_dimensions();
-  EXPECT_EQ(current_dims.size(),1ul);
-  EXPECT_EQ(current_dims[0],20ul);
-  EXPECT_EQ(max_dims.size(),1ul);
-  EXPECT_EQ(max_dims[0],20ul);
+      max_dims = space.maximum_dimensions();
+  EXPECT_EQ(current_dims.size(), 1ul);
+  EXPECT_EQ(current_dims[0], 20ul);
+  EXPECT_EQ(max_dims.size(), 1ul);
+  EXPECT_EQ(max_dims[0], 20ul);
 }
 
-TEST(TypeTrait, test_scalar)
-{
-  int data=10;
+TEST(TypeTrait, test_scalar) {
+  int data = 10;
   auto space = dataspace::create(data);
-  EXPECT_EQ(space.type(),dataspace::Type::SCALAR);
-  EXPECT_EQ(space.size(),1l);
+  EXPECT_EQ(space.type(), dataspace::Type::SCALAR);
+  EXPECT_EQ(space.size(), 1l);
 }
 
 

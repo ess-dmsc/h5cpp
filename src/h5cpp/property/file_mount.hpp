@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 #pragma once
@@ -30,18 +32,19 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT FileMountList : public List
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    FileMountList();
+class DLL_EXPORT FileMountList : public List {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  FileMountList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~FileMountList();
+  //!
+  //! \brief destructor
+  //!
+  ~FileMountList();
+
+  explicit FileMountList(ObjectHandle &&handle);
 };
 
 }

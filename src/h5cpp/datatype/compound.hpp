@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 5, 2017
 //
 #pragma once
@@ -35,52 +37,59 @@ namespace datatype {
 //! A compound data type can be used for data elements of heterogeneous
 //! type like C-structures or a C++ class.
 //!
-class DLL_EXPORT Compound : public Datatype
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    Compound() = default;
+class DLL_EXPORT Compound : public Datatype {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  Compound() = default;
 
-    //!
-    //! \brief constructor
-    //!
-    Compound(size_t size);
+  //!
+  //! \brief construct from handle
+  //!
+  Compound(ObjectHandle &&handle);
 
-    //!
-    //! \brief return the datatype for index element
-    //!
-    Datatype operator[](size_t index) const;
+  //!
+  //! \brief cosntruct from generic datatype
+  //!
+  Compound(const Datatype &type);
 
-    //!
-    //! \brief return the datatype for element name
-    //!
-    Datatype operator[](const std::string &name) const;
+  //!
+  //! \brief constructor
+  //!
+  static Compound create(size_t size);
 
-    //!
-    //! \brief return the index of a type element
-    //!
-    size_t field_index(const std::string &name) const;
+  //!
+  //! \brief return the datatype for index element
+  //!
+  Datatype operator[](size_t index) const;
 
-    std::string field_name(size_t index) const;
+  //!
+  //! \brief return the datatype for element name
+  //!
+  Datatype operator[](const std::string &name) const;
 
-    size_t field_offset(const std::string &name) const;
-    size_t field_offset(size_t index) const;
+  //!
+  //! \brief return the index of a type element
+  //!
+  size_t field_index(const std::string &name) const;
 
-    Class field_class(const std::string &name) const;
-    Class field_class(size_t index) const;
+  std::string field_name(size_t index) const;
 
+  size_t field_offset(const std::string &name) const;
+  size_t field_offset(size_t index) const;
 
-    //!
-    //! \brief return the total number of elements of the type
-    //!
-    size_t number_of_fields() const;
+  Class field_class(const std::string &name) const;
+  Class field_class(size_t index) const;
 
-    void insert(const std::string &name,size_t offset,const Datatype &type) const;
+  //!
+  //! \brief return the total number of elements of the type
+  //!
+  size_t number_of_fields() const;
 
-    void pack() const;
+  void insert(const std::string &name, size_t offset, const Datatype &type) const;
 
+  void pack() const;
 
 };
 

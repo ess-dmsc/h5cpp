@@ -22,30 +22,39 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-// Created on: Aug 22, 2017
+// Created on: Aug 25, 2017
 //
-
-#include <h5cpp/property/file_mount.hpp>
-#include <h5cpp/property/property_class.hpp>
+#include <h5cpp/dataspace/points.hpp>
 #include <h5cpp/error/error.hpp>
-#include <sstream>
 
 namespace hdf5 {
-namespace property {
+namespace dataspace {
 
-FileMountList::FileMountList() :
-    List(kFileMount) {}
+Points::Points() :
+    Selection() {}
 
-FileMountList::~FileMountList() {}
+Points::~Points() {}
 
-FileMountList::FileMountList(ObjectHandle &&handle) :
-    List(std::move(handle)) {
-  if (get_class() != kFileMount) {
-    std::stringstream ss;
-    ss << "Cannot create property::FileMountList from " << get_class();
-    throw std::runtime_error(ss.str());
-  }
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+Points::Points(size_t rank) :
+    Selection() {}
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#endif
+void Points::apply(const Dataspace &space,
+                   SelectionOperation ops) const {
 }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
-}
-}
+} // namespace dataspace
+} // namespace hdf5

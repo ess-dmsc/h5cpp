@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
 #include <h5cpp/dataspace/selection_manager.hpp>
@@ -30,52 +32,38 @@
 namespace hdf5 {
 namespace dataspace {
 
-SelectionManager::SelectionManager(Dataspace &space):
-    space_(space)
-{}
+SelectionManager::SelectionManager(Dataspace &space) :
+    space_(space) {}
 
-void SelectionManager::operator()(SelectionOperation op,const Selection &selection) const
-{
-  selection.apply(space_,op);
+void SelectionManager::operator()(SelectionOperation op, const Selection &selection) const {
+  selection.apply(space_, op);
 }
 
-size_t SelectionManager::size() const
-{
+size_t SelectionManager::size() const {
   hssize_t s = H5Sget_select_npoints(static_cast<hid_t>(space_));
-  if(s<0)
-  {
+  if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
   return s;
 }
 
-SelectionType SelectionManager::type() const
-{
-  switch(H5Sget_select_type(static_cast<hid_t>(space_)))
-  {
-    case H5S_SEL_NONE:
-      return SelectionType::NONE;
-    case H5S_SEL_POINTS:
-      return SelectionType::POINTS;
-    case H5S_SEL_HYPERSLABS:
-      return SelectionType::HYPERSLAB;
-    case H5S_SEL_ALL:
-      return SelectionType::ALL;
+SelectionType SelectionManager::type() const {
+  switch (H5Sget_select_type(static_cast<hid_t>(space_))) {
+    case H5S_SEL_NONE:return SelectionType::NONE;
+    case H5S_SEL_POINTS:return SelectionType::POINTS;
+    case H5S_SEL_HYPERSLABS:return SelectionType::HYPERSLAB;
+    case H5S_SEL_ALL:return SelectionType::ALL;
   }
 }
 
-void SelectionManager::all() const
-{
-  if(H5Sselect_all(static_cast<hid_t>(space_))<0)
-  {
+void SelectionManager::all() const {
+  if (H5Sselect_all(static_cast<hid_t>(space_)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure selecting all elements in the dataspace!");
   }
 }
 
-void SelectionManager::none() const
-{
-  if(H5Sselect_none(static_cast<hid_t>(space_))<0)
-  {
+void SelectionManager::none() const {
+  if (H5Sselect_none(static_cast<hid_t>(space_)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure deselecting all elements in the dataspace!");
   }
 }

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 #pragma once
@@ -27,23 +29,22 @@
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/core/windows.hpp>
 
-
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT AttributeCreationList : public StringCreationList
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    AttributeCreationList();
+class DLL_EXPORT AttributeCreationList : public StringCreationList {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  AttributeCreationList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~AttributeCreationList();
+  //!
+  //! \brief destructor
+  //!
+  ~AttributeCreationList();
 
+  explicit AttributeCreationList(ObjectHandle &&handle);
 };
 
 } // namespace property

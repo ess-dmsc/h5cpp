@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -22,30 +22,26 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-// Created on: Aug 22, 2017
+// Created on: Aug 25, 2017
 //
+#pragma once
 
-#include <h5cpp/property/file_mount.hpp>
-#include <h5cpp/property/property_class.hpp>
-#include <h5cpp/error/error.hpp>
-#include <sstream>
+#include <h5cpp/dataspace/selection.hpp>
+#include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
-namespace property {
+namespace dataspace {
 
-FileMountList::FileMountList() :
-    List(kFileMount) {}
+class DLL_EXPORT Points : public Selection {
+ public:
+  Points();
+  Points(size_t rank);
+  ~Points();
 
-FileMountList::~FileMountList() {}
+  virtual void apply(const Dataspace &space,
+                     SelectionOperation ops) const;
 
-FileMountList::FileMountList(ObjectHandle &&handle) :
-    List(std::move(handle)) {
-  if (get_class() != kFileMount) {
-    std::stringstream ss;
-    ss << "Cannot create property::FileMountList from " << get_class();
-    throw std::runtime_error(ss.str());
-  }
-}
+};
 
-}
-}
+} // namespace dataspace
+} // namespace hdf5

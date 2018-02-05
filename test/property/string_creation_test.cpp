@@ -19,29 +19,40 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 
 #include <gtest/gtest.h>
 #include <h5cpp/property/string_creation.hpp>
 
-namespace prop = hdf5::property;
+namespace pl = hdf5::property;
 namespace type = hdf5::datatype;
 
-TEST(StringCreationList, test_default_construction)
-{
-  prop::StringCreationList scl;
-  EXPECT_TRUE(scl.get_class() == prop::kStringCreate);
+TEST(StringCreationList, test_default_construction) {
+  pl::StringCreationList scl;
+  EXPECT_TRUE(scl.get_class() == pl::kStringCreate);
+
+  auto cl = pl::kStringCreate;
+  EXPECT_NO_THROW((pl::StringCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::StringCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
-TEST(StringCreationList, test_encoding)
-{
-  prop::StringCreationList scl;
+TEST(StringCreationList, test_encoding) {
+  pl::StringCreationList scl;
   EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::ASCII));
-  EXPECT_TRUE(scl.character_encoding()==type::CharacterEncoding::ASCII);
+  EXPECT_TRUE(scl.character_encoding() == type::CharacterEncoding::ASCII);
 
   EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::UTF8));
-  EXPECT_TRUE(scl.character_encoding()==type::CharacterEncoding::UTF8);
+  EXPECT_TRUE(scl.character_encoding() == type::CharacterEncoding::UTF8);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(scl)).close();
+  EXPECT_THROW(scl.character_encoding(type::CharacterEncoding::UTF8), std::runtime_error);
+  EXPECT_THROW(scl.character_encoding(), std::runtime_error);
 }
 

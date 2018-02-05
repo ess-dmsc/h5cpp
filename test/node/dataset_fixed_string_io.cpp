@@ -42,8 +42,8 @@ struct DatasetFixedStringIO : public testing::Test
     simple_space({2,3}),
     dtpl(hdf5::property::DatasetTransferList())
   {
-    string_type.set_encoding(hdf5::datatype::CharacterEncoding::UTF8);
-    string_type.set_padding(hdf5::datatype::StringPad::NULLTERM);
+    string_type.encoding(hdf5::datatype::CharacterEncoding::UTF8);
+    string_type.padding(hdf5::datatype::StringPad::NULLTERM);
   }
 };
 

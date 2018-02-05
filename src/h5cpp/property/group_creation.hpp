@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -31,42 +33,43 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT GroupCreationList : public ObjectCreationList
-{
-  public:
-    GroupCreationList();
-    virtual ~GroupCreationList();
+class DLL_EXPORT GroupCreationList : public ObjectCreationList {
+ public:
+  GroupCreationList();
+  virtual ~GroupCreationList();
 
-    size_t local_heap_size_hint() const;
-    void local_heap_size_hint(size_t size) const;
+  explicit GroupCreationList(ObjectHandle &&handle);
 
-    unsigned estimated_number_of_links() const;
-    void estimated_number_of_links(unsigned nlinks) const;
+  size_t local_heap_size_hint() const;
+  void local_heap_size_hint(size_t size) const;
 
-    unsigned estimated_link_name_length() const;
-    void estimated_link_name_length(unsigned name_length) const;
+  unsigned estimated_number_of_links() const;
+  void estimated_number_of_links(unsigned nlinks) const;
 
-    void link_creation_order(CreationOrder order) const;
-    CreationOrder link_creation_order() const;
+  unsigned estimated_link_name_length() const;
+  void estimated_link_name_length(unsigned name_length) const;
 
-    void link_storage_thresholds(unsigned max_compact,unsigned min_dense) const;
-    unsigned link_storage_maximum_compact() const;
-    unsigned link_storage_minimum_dense() const;
+  void link_creation_order(CreationOrder order) const;
+  CreationOrder link_creation_order() const;
 
-  public:
-    GroupCreationList(const Class &plist_class);
+  void link_storage_thresholds(unsigned max_compact, unsigned min_dense) const;
+  unsigned link_storage_maximum_compact() const;
+  unsigned link_storage_minimum_dense() const;
 
-  private:
+ public:
+  GroupCreationList(const Class &plist_class);
 
-    void set_estimated_link_info_(unsigned nlinks,unsigned name_length,
-                                  const std::string &error_message) const;
-    void get_estimated_link_info_(unsigned &nlinks,unsigned &name_length,
-                                  const std::string &error_message) const;
+ private:
 
-    void set_link_phase_change_(unsigned max_links,unsigned min_links,
+  void set_estimated_link_info_(unsigned nlinks, unsigned name_length,
                                 const std::string &error_message) const;
-    void get_link_phase_change_(unsigned &max_links,unsigned &min_links,
+  void get_estimated_link_info_(unsigned &nlinks, unsigned &name_length,
                                 const std::string &error_message) const;
+
+  void set_link_phase_change_(unsigned max_links, unsigned min_links,
+                              const std::string &error_message) const;
+  void get_link_phase_change_(unsigned &max_links, unsigned &min_links,
+                              const std::string &error_message) const;
 
 };
 

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
@@ -30,27 +32,38 @@
 namespace pl = hdf5::property;
 namespace fs = boost::filesystem;
 
-TEST(LinkAccessList, test_default_construction)
-{
+TEST(LinkAccessList, test_default_construction) {
   pl::LinkAccessList lapl;
   EXPECT_TRUE(lapl.get_class() == pl::kLinkAccess);
+
+  auto cl = pl::kGroupAccess;
+  EXPECT_NO_THROW((pl::LinkAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::LinkAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
-TEST(LinkAccessList, test_maximum_link_traversal)
-{
+TEST(LinkAccessList, test_maximum_link_traversal) {
   pl::LinkAccessList lapl;
   EXPECT_NO_THROW(lapl.maximum_link_traversals(1000));
-  EXPECT_EQ(lapl.maximum_link_traversals(),1000ul);
+  EXPECT_EQ(lapl.maximum_link_traversals(), 1000ul);
 
   EXPECT_NO_THROW(lapl.maximum_link_traversals(2000));
-  EXPECT_EQ(lapl.maximum_link_traversals(),2000ul);
+  EXPECT_EQ(lapl.maximum_link_traversals(), 2000ul);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(lapl)).close();
+  EXPECT_THROW(lapl.maximum_link_traversals(2000), std::runtime_error);
+  EXPECT_THROW(lapl.maximum_link_traversals(), std::runtime_error);
 }
 
-TEST(LinkAccessList, test_external_link_prefix)
-{
+TEST(LinkAccessList, test_external_link_prefix) {
   pl::LinkAccessList lapl;
   EXPECT_NO_THROW(lapl.external_link_prefix("/home/wintersb"));
-  EXPECT_EQ(lapl.external_link_prefix().string(),"/home/wintersb");
+  EXPECT_EQ(lapl.external_link_prefix().string(), "/home/wintersb");
+
+  hdf5::ObjectHandle(static_cast<hid_t>(lapl)).close();
+  EXPECT_THROW(lapl.external_link_prefix("/home/wintersb"), std::runtime_error);
 }
 
 

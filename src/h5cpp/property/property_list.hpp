@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 15, 2017
 //
 
@@ -32,79 +34,74 @@
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/core/windows.hpp>
 
-
 namespace hdf5 {
-namespace property{
+namespace property {
 
 class Class;
-
-
 
 //!
 //! \brief base class for property lists
 //!
-class DLL_EXPORT List
-{
-  public:
-    //!
-    //! \brief constructor
-    //!
-    //! @param plist_class
-    //!
-    explicit List(const Class &plist_class);
+class DLL_EXPORT List {
+ public:
+  //!
+  //! \brief constructor
+  //!
+  //! @param plist_class
+  //!
+  explicit List(const Class &plist_class);
 
-    //!
-    //! \brief copy constructor
-    //! @param plist
-    //!
-    List(const List &plist);
+  //!
+  //! \brief copy constructor
+  //! @param plist
+  //!
+  List(const List &plist);
 
-    //!
-    //! \brief constructor
-    //!
-    //! Construct a property list from a handler object. This constructor is
-    //! particularly useful in situations where we retrieve the handler of
-    //! a property list from a C-API function.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param handle r-value reference to the handle object
-    //!
-    List(ObjectHandle &&handle);
+  //!
+  //! \brief constructor
+  //!
+  //! Construct a property list from a handler object. This constructor is
+  //! particularly useful in situations where we retrieve the handler of
+  //! a property list from a C-API function.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param handle r-value reference to the handle object
+  //!
+  explicit List(ObjectHandle &&handle);
 
-    //!
-    //! \brief copy assignment
-    //!
-    List &operator=(const List &type);
+  //!
+  //! \brief copy assignment
+  //!
+  List &operator=(const List &type);
 
-    //!
-    //! \brief destructor
-    //!
-    virtual ~List();
+  //!
+  //! \brief destructor
+  //!
+  virtual ~List();
 
-    List &operator=(List &&type) = default;
-    List(List &&type) = default;
+  List &operator=(List &&type) = default;
+  List(List &&type) = default;
 
-    //!
-    //! \brief return property list class
-    //!
-    //! Return an instance of the property list class the list belongs to.
-    //!
-    //! \return class instance
-    Class get_class() const;
+  //!
+  //! \brief return property list class
+  //!
+  //! Return an instance of the property list class the list belongs to.
+  //!
+  //! \return class instance
+  Class get_class() const;
 
-    //!
-    //! \brief conversion operator
-    //!
-    //! Use this operator to obtain the actual HDF5 handler to the list
-    //! instance.
-    //!
-    explicit operator hid_t() const
-    {
-      return static_cast<hid_t>(handle_);
-    }
+  //!
+  //! \brief conversion operator
+  //!
+  //! Use this operator to obtain the actual HDF5 handler to the list
+  //! instance.
+  //!
+  explicit operator hid_t() const {
+    return static_cast<hid_t>(handle_);
+  }
 
-  private:
-    ObjectHandle handle_;
+ private:
+  ObjectHandle handle_;
 
 };
 

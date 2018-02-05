@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Nov 10, 2017
 //
 
@@ -29,26 +31,23 @@
 namespace hdf5 {
 namespace property {
 
-#if H5_VERSION_GE(1,10,0)
+#if H5_VERSION_GE(1, 10, 0)
 
 VirtualDataMap::VirtualDataMap(const dataspace::View &target_view,
                                const boost::filesystem::path &source_file,
                                const hdf5::Path &source_dataset,
-                               const dataspace::View &source_view):
+                               const dataspace::View &source_view) :
     target_view_(target_view),
     source_file_(source_file),
     source_dataset_(source_dataset),
-    source_view_(source_view)
-{}
+    source_view_(source_view) {}
 
-void VirtualDataMap::operator()(const property::DatasetCreationList &dcpl) const
-{
-  if(H5Pset_virtual(static_cast<hid_t>(dcpl),
-                    static_cast<hid_t>(target_view_),
-                    source_file_.string().c_str(),
-                    static_cast<std::string>(source_dataset_).c_str(),
-                    static_cast<hid_t>(source_view_))<0)
-  {
+void VirtualDataMap::operator()(const property::DatasetCreationList &dcpl) const {
+  if (H5Pset_virtual(static_cast<hid_t>(dcpl),
+                     static_cast<hid_t>(target_view_),
+                     source_file_.string().c_str(),
+                     static_cast<std::string>(source_dataset_).c_str(),
+                     static_cast<hid_t>(source_view_)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to apply virtual data mapping!");
   }
 }

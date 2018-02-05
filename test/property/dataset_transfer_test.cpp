@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 28, 2017
 //
 
@@ -27,12 +29,19 @@
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/property/property_class.hpp>
 
-namespace prop = hdf5::property;
+namespace pl = hdf5::property;
 
-TEST(DatasetTransferList, test_default_construction)
-{
-  prop::DatasetTransferList pl;
-  EXPECT_TRUE(pl.get_class()==prop::kDatasetXfer);
+TEST(DatasetTransferList, test_default_construction) {
+  pl::DatasetTransferList dtpl;
+  EXPECT_TRUE(dtpl.get_class() == pl::kDatasetXfer);
+
+  auto cl = pl::kDatasetXfer;
+  EXPECT_NO_THROW((pl::DatasetTransferList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::DatasetTransferList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
+// Missing MPI-related functions tests here
 

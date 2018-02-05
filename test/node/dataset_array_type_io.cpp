@@ -68,7 +68,7 @@ class TypeTrait<Vector<T>>
     static TypeClass create()
     {
       auto base_type = TypeTrait<T>::create();
-      return Array(base_type,{3});
+      return Array::create(base_type,{3});
     }
 
     static TypeClass create(const Vector<T> &)
