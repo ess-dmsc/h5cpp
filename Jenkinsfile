@@ -63,7 +63,7 @@ def docker_build(image_key) {
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-                cd build
+                cd ${project}/build
                 ${cmake_exec} --version
                 ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ../${project}
                 make --version
