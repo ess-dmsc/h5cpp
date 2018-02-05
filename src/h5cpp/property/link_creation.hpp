@@ -32,8 +32,7 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT LinkCreationList : public StringCreationList
-{
+class DLL_EXPORT LinkCreationList : public StringCreationList {
  public:
   //!
   //! \brief default constructor

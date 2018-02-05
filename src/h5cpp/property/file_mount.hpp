@@ -32,8 +32,7 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT FileMountList : public List
-{
+class DLL_EXPORT FileMountList : public List {
  public:
   //!
   //! \brief default constructor

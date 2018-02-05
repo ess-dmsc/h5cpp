@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Martin Shetty <martin.shetty@esss.se>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 23, 2017
 //
 
@@ -31,23 +33,19 @@ using namespace hdf5::property;
 
 namespace pl = hdf5::property;
 
-TEST(List, default_construction_impossible)
-{
+TEST(List, default_construction_impossible) {
   pl::Class c;
   EXPECT_THROW(List(c).get_class(), std::runtime_error);
 
   EXPECT_THROW((List(hdf5::ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
 }
 
-TEST(List, from_class)
-{
+TEST(List, from_class) {
   pl::Class c = kDatasetAccess;
   EXPECT_EQ(List(c).get_class().name(), c.name());
 }
 
-
-TEST(List, copy_construction)
-{
+TEST(List, copy_construction) {
   List c = List(kDatasetAccess);
   ObjectHandle(static_cast<hid_t>(c)).close();
   EXPECT_THROW(List(c).get_class(), std::runtime_error);
@@ -58,8 +56,7 @@ TEST(List, copy_construction)
   EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
 }
 
-TEST(List, copy_assignment)
-{
+TEST(List, copy_assignment) {
   List c(kDatasetAccess);
   List c2(kDatasetAccess);
   ObjectHandle(static_cast<hid_t>(c)).close();

@@ -36,8 +36,7 @@ namespace property {
 //!
 //! \brief link access property list
 //!
-class DLL_EXPORT LinkAccessList : public List
-{
+class DLL_EXPORT LinkAccessList : public List {
  public:
   //!
   //! \brief default constructor

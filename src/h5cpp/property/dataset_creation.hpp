@@ -40,8 +40,7 @@ namespace property {
 //!
 //! \brief enumeration for the fill value status
 //!
-enum class DatasetFillValueStatus : std::underlying_type<H5D_fill_value_t>::type
-{
+enum class DatasetFillValueStatus : std::underlying_type<H5D_fill_value_t>::type {
   UNDEFINED = H5D_FILL_VALUE_UNDEFINED,
   DEFAULT = H5D_FILL_VALUE_DEFAULT,
   USER_DEFINED = H5D_FILL_VALUE_USER_DEFINED
@@ -52,8 +51,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetFillValue
 //!
 //! \brief enumeration for the fill time of a dataset
 //!
-enum class DatasetFillTime : std::underlying_type<H5D_fill_time_t>::type
-{
+enum class DatasetFillTime : std::underlying_type<H5D_fill_time_t>::type {
   IFSET = H5D_FILL_TIME_IFSET,
   ALLOC = H5D_FILL_TIME_ALLOC,
   NEVER = H5D_FILL_TIME_NEVER
@@ -68,8 +66,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetFillTime 
 //!
 //! \sa DatasetLayout
 //!
-enum class DatasetAllocTime : std::underlying_type<H5D_alloc_time_t>::type
-{
+enum class DatasetAllocTime : std::underlying_type<H5D_alloc_time_t>::type {
   //!
   //! \brief choose the default allocation strategy for the particular layout
   //!
@@ -96,8 +93,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetAllocTime
 //!
 //! \brief enumeration describing the layout of a dataset
 //!
-enum class DatasetLayout : std::underlying_type<H5D_layout_t>::type
-{
+enum class DatasetLayout : std::underlying_type<H5D_layout_t>::type {
   COMPACT = H5D_COMPACT,
   CONTIGUOUS = H5D_CONTIGUOUS,
   CHUNKED = H5D_CHUNKED,
@@ -111,8 +107,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetLayout &l
 //!
 //! \brief dataset creation property list
 //!
-class DLL_EXPORT DatasetCreationList : public ObjectCreationList
-{
+class DLL_EXPORT DatasetCreationList : public ObjectCreationList {
  public:
   //!
   //! \brief default constructor
@@ -232,8 +227,7 @@ class DLL_EXPORT DatasetCreationList : public ObjectCreationList
 };
 
 template<typename T>
-void DatasetCreationList::fill_value(const T &value, const datatype::Datatype &type) const
-{
+void DatasetCreationList::fill_value(const T &value, const datatype::Datatype &type) const {
   if (H5Pset_fill_value(static_cast<hid_t>(*this),
                         static_cast<hid_t>(type), &value) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to set fill value for dataset!");
@@ -241,8 +235,7 @@ void DatasetCreationList::fill_value(const T &value, const datatype::Datatype &t
 }
 
 template<typename T>
-T DatasetCreationList::fill_value(const datatype::Datatype &type) const
-{
+T DatasetCreationList::fill_value(const datatype::Datatype &type) const {
   T value;
   if (H5Pget_fill_value(static_cast<hid_t>(*this), static_cast<hid_t>(type), &value) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the fill value for a dataset!");

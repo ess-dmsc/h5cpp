@@ -30,8 +30,7 @@
 using namespace hdf5;
 using namespace hdf5::datatype;
 
-TEST(DatatypeEnum, TypeClass)
-{
+TEST(DatatypeEnum, TypeClass) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -83,8 +82,7 @@ TEST(DatatypeEnum, TypeClass)
   EXPECT_EQ(stream.str(), "ARRAY");
 }
 
-TEST(DatatypeEnum, Order)
-{
+TEST(DatatypeEnum, Order) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -96,8 +94,7 @@ TEST(DatatypeEnum, Order)
   EXPECT_EQ(stream.str(), "LE");
 }
 
-TEST(DatatypeEnum, Sign)
-{
+TEST(DatatypeEnum, Sign) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -109,8 +106,7 @@ TEST(DatatypeEnum, Sign)
   EXPECT_EQ(stream.str(), "UNSIGNED");
 }
 
-TEST(DatatypeEnum, Norm)
-{
+TEST(DatatypeEnum, Norm) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -126,8 +122,7 @@ TEST(DatatypeEnum, Norm)
   EXPECT_EQ(stream.str(), "NONE");
 }
 
-TEST(DatatypeEnum, Pad)
-{
+TEST(DatatypeEnum, Pad) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -143,8 +138,7 @@ TEST(DatatypeEnum, Pad)
   EXPECT_EQ(stream.str(), "ZERO");
 }
 
-TEST(DatatypeEnum, StringPad)
-{
+TEST(DatatypeEnum, StringPad) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -160,8 +154,7 @@ TEST(DatatypeEnum, StringPad)
   EXPECT_EQ(stream.str(), "SPACEPAD");
 }
 
-TEST(DatatypeEnum, Direction)
-{
+TEST(DatatypeEnum, Direction) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -173,8 +166,7 @@ TEST(DatatypeEnum, Direction)
   EXPECT_EQ(stream.str(), "DESCEND");
 }
 
-TEST(DatatypeEnum, CharacterEncoding)
-{
+TEST(DatatypeEnum, CharacterEncoding) {
   std::stringstream stream;
 
   stream.str(std::string());

@@ -33,15 +33,13 @@ namespace hdf5 {
 namespace property {
 
 FileCreationList::FileCreationList() :
-    GroupCreationList(kFileCreate)
-{
+    GroupCreationList(kFileCreate) {
 }
 
 FileCreationList::~FileCreationList() {}
 
 FileCreationList::FileCreationList(ObjectHandle &&handle) :
-    GroupCreationList(std::move(handle))
-{
+    GroupCreationList(std::move(handle)) {
   if (get_class() != kFileCreate) {
     std::stringstream ss;
     ss << "Cannot create property::FileCreationList from " << get_class();
@@ -49,8 +47,7 @@ FileCreationList::FileCreationList(ObjectHandle &&handle) :
   }
 }
 
-hsize_t FileCreationList::user_block() const
-{
+hsize_t FileCreationList::user_block() const {
   hsize_t buffer;
   if (0 > H5Pget_userblock(static_cast<hid_t>(*this), &buffer)) {
     error::Singleton::instance().throw_with_stack("Cannot retrieve user block size from file creation property list!");
@@ -58,22 +55,19 @@ hsize_t FileCreationList::user_block() const
   return buffer;
 }
 
-void FileCreationList::user_block(hsize_t size) const
-{
+void FileCreationList::user_block(hsize_t size) const {
   if (0 > H5Pset_userblock(static_cast<hid_t>(*this), size)) {
     error::Singleton::instance().throw_with_stack("Cannot set user block size for file creation property list!");
   }
 }
 
-void FileCreationList::object_offset_size(size_t size) const
-{
+void FileCreationList::object_offset_size(size_t size) const {
   if (0 > H5Pset_sizes(static_cast<hid_t>(*this), size, 0)) {
     error::Singleton::instance().throw_with_stack("Failure setting object offset size to file creation property list!");
   }
 }
 
-size_t FileCreationList::object_offset_size() const
-{
+size_t FileCreationList::object_offset_size() const {
   size_t offset_size{0};
   if (0 > H5Pget_sizes(static_cast<hid_t>(*this), &offset_size, NULL)) {
     error::Singleton::instance().throw_with_stack(
@@ -83,15 +77,13 @@ size_t FileCreationList::object_offset_size() const
   return offset_size;
 }
 
-void FileCreationList::object_length_size(size_t size) const
-{
+void FileCreationList::object_length_size(size_t size) const {
   if (0 > H5Pset_sizes(static_cast<hid_t>(*this), 0, size)) {
     error::Singleton::instance().throw_with_stack("Failure setting object length size in file creation property list!");
   }
 }
 
-size_t FileCreationList::object_length_size() const
-{
+size_t FileCreationList::object_length_size() const {
   size_t length_size{0};
   if (0 > H5Pget_sizes(static_cast<hid_t>(*this), NULL, &length_size)) {
     error::Singleton::instance().throw_with_stack(
@@ -100,15 +92,13 @@ size_t FileCreationList::object_length_size() const
   return length_size;
 }
 
-void FileCreationList::btree_rank(unsigned int ik)
-{
+void FileCreationList::btree_rank(unsigned int ik) {
   if (0 > H5Pset_sym_k(static_cast<hid_t>(*this), ik, 0)) {
     error::Singleton::instance().throw_with_stack("Failure setting rank parameter for symbol table nodes!");
   }
 }
 
-unsigned int FileCreationList::btree_rank() const
-{
+unsigned int FileCreationList::btree_rank() const {
   unsigned int ik{0};
   if (0 > H5Pget_sym_k(static_cast<hid_t>(*this), &ik, NULL)) {
     error::Singleton::instance().throw_with_stack("Failure retrieving rank parameter for symbol table nodes!");
@@ -116,15 +106,13 @@ unsigned int FileCreationList::btree_rank() const
   return ik;
 }
 
-void FileCreationList::btree_symbols(unsigned int lk)
-{
+void FileCreationList::btree_symbols(unsigned int lk) {
   if (0 > H5Pset_sym_k(static_cast<hid_t>(*this), 0, lk)) {
     error::Singleton::instance().throw_with_stack("Failure setting symbol size parameter for symbol table nodes!");
   }
 }
 
-unsigned int FileCreationList::btree_symbols() const
-{
+unsigned int FileCreationList::btree_symbols() const {
   unsigned int lk{0};
   if (0 > H5Pget_sym_k(static_cast<hid_t>(*this), NULL, &lk)) {
     error::Singleton::instance().throw_with_stack("Failure retrieving symbol size parameter for symbol table nodes!");
@@ -132,15 +120,13 @@ unsigned int FileCreationList::btree_symbols() const
   return lk;
 }
 
-void FileCreationList::chunk_tree_rank(unsigned int ik)
-{
+void FileCreationList::chunk_tree_rank(unsigned int ik) {
   if (0 > H5Pset_istore_k(static_cast<hid_t>(*this), ik)) {
     error::Singleton::instance().throw_with_stack("Failure setting rank parameter for symbol table nodes!");
   }
 }
 
-unsigned int FileCreationList::chunk_tree_rank() const
-{
+unsigned int FileCreationList::chunk_tree_rank() const {
   unsigned int ik{0};
   if (0 > H5Pget_istore_k(static_cast<hid_t>(*this), &ik)) {
     error::Singleton::instance().throw_with_stack("Failure retrieving rank parameter for symbol table nodes!");
@@ -149,15 +135,13 @@ unsigned int FileCreationList::chunk_tree_rank() const
 }
 
 #if H5_VERSION_GE(1, 10, 1)
-void FileCreationList::page_size(hsize_t size)
-{
+void FileCreationList::page_size(hsize_t size) {
   if (0 > H5Pset_file_space_page_size(static_cast<hid_t>(*this), size)) {
     error::Singleton::instance().throw_with_stack("Failure setting rank parameter for symbol table nodes!");
   }
 }
 
-hsize_t FileCreationList::page_size() const
-{
+hsize_t FileCreationList::page_size() const {
   hsize_t size{0};
   if (0 > H5Pget_file_space_page_size(static_cast<hid_t>(*this), &size)) {
     error::Singleton::instance().throw_with_stack("Failure retrieving rank parameter for symbol table nodes!");

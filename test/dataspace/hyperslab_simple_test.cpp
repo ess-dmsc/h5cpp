@@ -31,8 +31,7 @@
 
 using namespace hdf5;
 
-TEST(HyperslabSimple, DefaultConsructor)
-{
+TEST(HyperslabSimple, DefaultConsructor) {
   dataspace::Hyperslab h;
   EXPECT_EQ(h.rank(), 0ul);
   EXPECT_THROW(h.offset(), std::runtime_error);
@@ -47,8 +46,7 @@ TEST(HyperslabSimple, DefaultConsructor)
   EXPECT_EQ(h2.rank(), 2ul);
 }
 
-TEST(HyperslabSimple, Offset)
-{
+TEST(HyperslabSimple, Offset) {
   dataspace::Hyperslab h(2);
   EXPECT_EQ(h.rank(), 2ul);
   EXPECT_EQ(h.offset()[0], 0ul);
@@ -60,8 +58,7 @@ TEST(HyperslabSimple, Offset)
   EXPECT_THROW(h.offset({1}), std::runtime_error);
 }
 
-TEST(HyperslabSimple, Block)
-{
+TEST(HyperslabSimple, Block) {
   dataspace::Hyperslab h(2);
   EXPECT_EQ(h.rank(), 2ul);
   EXPECT_EQ(h.block()[0], 0ul);
@@ -73,8 +70,7 @@ TEST(HyperslabSimple, Block)
   EXPECT_THROW(h.block({1}), std::runtime_error);
 }
 
-TEST(HyperslabSimple, Count)
-{
+TEST(HyperslabSimple, Count) {
   dataspace::Hyperslab h(2);
   EXPECT_EQ(h.rank(), 2ul);
   EXPECT_EQ(h.count()[0], 0ul);
@@ -86,8 +82,7 @@ TEST(HyperslabSimple, Count)
   EXPECT_THROW(h.count({1}), std::runtime_error);
 }
 
-TEST(HyperslabSimple, Stride)
-{
+TEST(HyperslabSimple, Stride) {
   dataspace::Hyperslab h(2);
   EXPECT_EQ(h.rank(), 2ul);
   EXPECT_EQ(h.stride()[0], 1ul);
@@ -99,8 +94,7 @@ TEST(HyperslabSimple, Stride)
   EXPECT_THROW(h.stride({1}), std::runtime_error);
 }
 
-TEST(HyperslabSimple, ConvenienceConsructors)
-{
+TEST(HyperslabSimple, ConvenienceConsructors) {
   dataspace::Hyperslab h1({1, 2}, {3, 4}, {5, 6}, {7, 8});
   EXPECT_EQ(h1.rank(), 2ul);
   EXPECT_EQ(h1.offset()[0], 1ul);
@@ -135,8 +129,7 @@ TEST(HyperslabSimple, ConvenienceConsructors)
   EXPECT_EQ(h3.stride()[1], 1ul); //default
 }
 
-TEST(HyperslabSimple, test_case_1)
-{
+TEST(HyperslabSimple, test_case_1) {
   dataspace::Simple space({10, 20});
   EXPECT_EQ(space.rank(), 2);
   EXPECT_EQ(space.size(), 200);
@@ -149,8 +142,7 @@ TEST(HyperslabSimple, test_case_1)
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 }
 
-TEST(HyperslabSimple, test_case_2)
-{
+TEST(HyperslabSimple, test_case_2) {
   dataspace::Simple space({10, 1024, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
@@ -162,24 +154,21 @@ TEST(HyperslabSimple, test_case_2)
 
 }
 
-TEST(HyperslabSimple, test_roi_construction)
-{
+TEST(HyperslabSimple, test_roi_construction) {
   dataspace::Simple space({10, 1024});
   dataspace::Hyperslab slice{{0, 0}, {1, 1024}};
   space.selection(dataspace::SelectionOperation::SET, slice);
   EXPECT_EQ(space.selection.size(), 1024ul);
 }
 
-TEST(HyperslabSimple, test_scatter_construction)
-{
+TEST(HyperslabSimple, test_scatter_construction) {
   dataspace::Simple space{{20, 1024}};
   dataspace::Hyperslab selection{{1, 1}, {3, 10}, {2, 4}};
   space.selection(dataspace::SelectionOperation::SET, selection);
   EXPECT_EQ(space.selection.size(), 30ul);
 }
 
-TEST(HyperslabSimple, test_dataspace_copy_with_selection)
-{
+TEST(HyperslabSimple, test_dataspace_copy_with_selection) {
   dataspace::Simple space{{20, 1024}};
   dataspace::Hyperslab selection{{1, 1}, {3, 10}, {2, 4}};
   space.selection(dataspace::SelectionOperation::SET, selection);
@@ -189,8 +178,7 @@ TEST(HyperslabSimple, test_dataspace_copy_with_selection)
   EXPECT_EQ(new_space.selection.size(), 30ul);
 }
 
-TEST(HyperslabSimple, BadSelection)
-{
+TEST(HyperslabSimple, BadSelection) {
   dataspace::Simple space{{20, 1024}};
   dataspace::Hyperslab selection{{1, 1}, {3, 10}, {2, 4}};
   ObjectHandle(static_cast<hid_t>(space)).close();

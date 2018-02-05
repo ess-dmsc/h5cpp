@@ -31,8 +31,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(DatasetTransferList, test_default_construction)
-{
+TEST(DatasetTransferList, test_default_construction) {
   pl::DatasetTransferList dtpl;
   EXPECT_TRUE(dtpl.get_class() == pl::kDatasetXfer);
 

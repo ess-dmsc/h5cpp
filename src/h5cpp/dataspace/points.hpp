@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
 #pragma once
@@ -30,15 +32,14 @@
 namespace hdf5 {
 namespace dataspace {
 
-class DLL_EXPORT Points : public Selection
-{
-  public:
-    Points();
-    Points(size_t rank);
-    ~Points();
+class DLL_EXPORT Points : public Selection {
+ public:
+  Points();
+  Points(size_t rank);
+  ~Points();
 
-    virtual void apply(const Dataspace &space,
-                       SelectionOperation ops) const;
+  virtual void apply(const Dataspace &space,
+                     SelectionOperation ops) const;
 
 };
 

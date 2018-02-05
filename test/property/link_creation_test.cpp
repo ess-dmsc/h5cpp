@@ -33,8 +33,7 @@
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-TEST(LinkCreationList, test_default_construction)
-{
+TEST(LinkCreationList, test_default_construction) {
   pl::LinkCreationList lcpl;
   EXPECT_TRUE(lcpl.get_class() == pl::kLinkCreate);
 
@@ -50,8 +49,7 @@ TEST(LinkCreationList, test_default_construction)
                std::runtime_error);
 }
 
-TEST(LinkCreationList, test_intermediate_gruop_creation)
-{
+TEST(LinkCreationList, test_intermediate_gruop_creation) {
   pl::LinkCreationList lcpl;
   EXPECT_NO_THROW(lcpl.enable_intermediate_group_creation());
   EXPECT_TRUE(lcpl.intermediate_group_creation());

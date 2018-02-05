@@ -32,23 +32,19 @@
 namespace hdf5 {
 namespace property {
 
-FileMountList::FileMountList():
-    List(kFileMount)
-{}
+FileMountList::FileMountList() :
+    List(kFileMount) {}
 
-FileMountList::~FileMountList()
-{}
+FileMountList::~FileMountList() {}
 
 FileMountList::FileMountList(ObjectHandle &&handle) :
-    List(std::move(handle))
-{
+    List(std::move(handle)) {
   if (get_class() != kFileMount) {
     std::stringstream ss;
     ss << "Cannot create property::FileMountList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }
-
 
 }
 }

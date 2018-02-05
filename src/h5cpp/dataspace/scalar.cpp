@@ -35,8 +35,7 @@ Scalar::Scalar() :
     Dataspace(Type::SCALAR) {}
 
 Scalar::Scalar(const Dataspace &space)
-    : Dataspace(space)
-{
+    : Dataspace(space) {
   if (space.type() != Type::SCALAR) {
     std::stringstream ss;
     ss << "Could not construct Scalar from abstract Dataspace, type=" << space.type();

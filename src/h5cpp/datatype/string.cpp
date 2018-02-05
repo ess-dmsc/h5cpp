@@ -31,12 +31,10 @@ namespace hdf5 {
 namespace datatype {
 
 String::String(ObjectHandle &&handle) :
-    Datatype(std::move(handle))
-{}
+    Datatype(std::move(handle)) {}
 
 String::String(const Datatype &type) :
-    Datatype(type)
-{
+    Datatype(type) {
   if (get_class() != Class::STRING) {
     std::stringstream ss;
     ss << "Cannot create datatype::String from " << get_class();
@@ -44,24 +42,21 @@ String::String(const Datatype &type) :
   }
 }
 
-String String::variable()
-{
+String String::variable() {
   // We assume no H5 errors are possible here
   String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
   H5Tset_size(static_cast<hid_t>(ret), H5T_VARIABLE);
   return ret;
 }
 
-String String::fixed(size_t size)
-{
+String String::fixed(size_t size) {
   // We assume no H5 errors are possible here
   String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
   H5Tset_size(static_cast<hid_t>(ret), size + 1);
   return ret;
 }
 
-bool String::is_variable_length() const
-{
+bool String::is_variable_length() const {
   htri_t ret = H5Tis_variable_str(static_cast<hid_t>(*this));
   if (0 > ret) {
     error::Singleton::instance().throw_with_stack("Could not determine if String is variable-length");
@@ -69,8 +64,7 @@ bool String::is_variable_length() const
   return (0 != ret);
 }
 
-CharacterEncoding String::encoding() const
-{
+CharacterEncoding String::encoding() const {
   H5T_cset_t ret = H5Tget_cset(static_cast<hid_t>(*this));
   if (0 > ret) {
     error::Singleton::instance().throw_with_stack("Could not determine String character encoding");
@@ -78,8 +72,7 @@ CharacterEncoding String::encoding() const
   return static_cast<CharacterEncoding>(ret);
 }
 
-void String::encoding(CharacterEncoding cset)
-{
+void String::encoding(CharacterEncoding cset) {
   if (0 > H5Tset_cset(static_cast<hid_t>(*this),
                       static_cast<H5T_cset_t>(cset))) {
     std::stringstream ss;
@@ -88,8 +81,7 @@ void String::encoding(CharacterEncoding cset)
   }
 }
 
-StringPad String::padding() const
-{
+StringPad String::padding() const {
   H5T_str_t ret = H5Tget_strpad(static_cast<hid_t>(*this));
   if (H5T_STR_ERROR == ret) {
     error::Singleton::instance().throw_with_stack("Could not determine String padding");
@@ -97,8 +89,7 @@ StringPad String::padding() const
   return static_cast<StringPad>(ret);
 }
 
-void String::padding(StringPad strpad)
-{
+void String::padding(StringPad strpad) {
   if (0 > H5Tset_strpad(static_cast<hid_t>(*this),
                         static_cast<H5T_str_t>(strpad))) {
     std::stringstream ss;
@@ -107,8 +98,7 @@ void String::padding(StringPad strpad)
   }
 }
 
-size_t String::size() const
-{
+size_t String::size() const {
   if (is_variable_length())
     return H5T_VARIABLE;
   auto ret = Datatype::size();
@@ -117,8 +107,7 @@ size_t String::size() const
   return 0;
 }
 
-void String::size(size_t size) const
-{
+void String::size(size_t size) const {
   if (is_variable_length()) {
     std::stringstream ss;
     ss << "Could not set size ("

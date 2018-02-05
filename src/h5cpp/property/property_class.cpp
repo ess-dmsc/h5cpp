@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 16, 2017
 //
 
@@ -34,8 +36,7 @@ namespace hdf5 {
 namespace property {
 
 Class::Class(ObjectHandle &&handle) :
-    handle_(handle)
-{
+    handle_(handle) {
   if (handle_.is_valid() &&
       (handle_.get_type() != ObjectHandle::Type::PROPERTY_LIST_CLASS)) {
     std::stringstream ss;
@@ -45,8 +46,7 @@ Class::Class(ObjectHandle &&handle) :
   }
 }
 
-std::string Class::name() const
-{
+std::string Class::name() const {
   char *cptr = H5Pget_class_name(static_cast<hid_t>(handle_));
   if (!cptr) {
     return std::string();
@@ -58,8 +58,7 @@ std::string Class::name() const
 
 }
 
-bool operator==(const Class &lhs, const Class &rhs)
-{
+bool operator==(const Class &lhs, const Class &rhs) {
   htri_t result = H5Pequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
   if (result > 0)
     return true;
@@ -70,8 +69,7 @@ bool operator==(const Class &lhs, const Class &rhs)
 
 }
 
-bool operator!=(const Class &lhs, const Class &rhs)
-{
+bool operator!=(const Class &lhs, const Class &rhs) {
   htri_t result = H5Pequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
   if (result > 0)
     return false;
@@ -114,11 +112,9 @@ const Class kObjectCreate = Class(ObjectHandle(H5P_OBJECT_CREATE,
 const Class kStringCreate = Class(ObjectHandle(H5P_STRING_CREATE,
                                                ObjectHandle::Policy::WITHOUT_WARD));
 
-std::ostream &operator<<(std::ostream &stream, const Class &c)
-{
+std::ostream &operator<<(std::ostream &stream, const Class &c) {
   return stream << "AttributeClass(" << c.name() << ")";
 }
-
 
 } // namespace property_list
 } // namespace hdf5

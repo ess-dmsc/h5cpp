@@ -30,12 +30,10 @@
 using namespace hdf5;
 using namespace hdf5::datatype;
 
-
-TEST(Datatype,DefaultConstruction)
-{
+TEST(Datatype, DefaultConstruction) {
   datatype::Datatype type;
   EXPECT_FALSE(type.is_valid());
-  EXPECT_EQ(type.get_class(),Class::NONE);
+  EXPECT_EQ(type.get_class(), Class::NONE);
 
   //EXPECT_THROW(type.super(),std::runtime_error);
   //EXPECT_THROW(type.native_type(),std::runtime_error);
@@ -44,34 +42,32 @@ TEST(Datatype,DefaultConstruction)
   //EXPECT_THROW(type.set_size(1),std::runtime_error);
 }
 
-TEST(Datatype, ConstructCopy)
-{
+TEST(Datatype, ConstructCopy) {
   Datatype a(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
-  EXPECT_TRUE(a.get_class()==Class::INTEGER);
+  EXPECT_TRUE(a.get_class() == Class::INTEGER);
 
   auto b = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
-  EXPECT_TRUE(b.get_class()==Class::INTEGER);
+  EXPECT_TRUE(b.get_class() == Class::INTEGER);
 
   Datatype c = b = a;
-  EXPECT_TRUE(c.get_class()==Class::INTEGER);
+  EXPECT_TRUE(c.get_class() == Class::INTEGER);
   EXPECT_NE(static_cast<hid_t>(a), static_cast<hid_t>(b));
   EXPECT_NE(static_cast<hid_t>(b), static_cast<hid_t>(c));
   EXPECT_NE(static_cast<hid_t>(a), static_cast<hid_t>(c));
 
   Datatype d(b);
-  EXPECT_TRUE(d.get_class()==Class::INTEGER);
+  EXPECT_TRUE(d.get_class() == Class::INTEGER);
   EXPECT_NE(static_cast<hid_t>(d), static_cast<hid_t>(b));
 
   Datatype x;
   Datatype y;
-  EXPECT_THROW(y=x, std::runtime_error);
-  EXPECT_THROW(y=Datatype(x), std::runtime_error);
+  EXPECT_THROW(y = x, std::runtime_error);
+  EXPECT_THROW(y = Datatype(x), std::runtime_error);
 
   EXPECT_THROW((Datatype(ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
 }
 
-TEST(Datatype, Comparators)
-{
+TEST(Datatype, Comparators) {
   Datatype a(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
   auto b = a;
   EXPECT_NE(static_cast<hid_t>(a), static_cast<hid_t>(b));
@@ -83,10 +79,9 @@ TEST(Datatype, Comparators)
   EXPECT_THROW((a == c), std::runtime_error);
 }
 
-TEST(Datatype, Classes)
-{
+TEST(Datatype, Classes) {
   Datatype a;
-  EXPECT_TRUE(a.get_class()==Class::NONE);
+  EXPECT_TRUE(a.get_class() == Class::NONE);
   EXPECT_THROW(a.super(), std::runtime_error);
   EXPECT_THROW(a.has_class(Class::INTEGER), std::runtime_error);
   EXPECT_THROW(a.native_type(), std::runtime_error);
@@ -100,20 +95,20 @@ TEST(Datatype, Classes)
   a = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
   EXPECT_EQ(a.get_class(), Class::FLOAT);
 
-  a = Datatype(ObjectHandle(H5Tcreate(H5T_STRING,1)));
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_STRING, 1)));
   EXPECT_EQ(a.get_class(), Class::STRING);
 
-  a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,8)));
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND, 8)));
   EXPECT_EQ(a.get_class(), Class::COMPOUND);
   EXPECT_THROW(a.super(), std::runtime_error);
-  H5Tinsert(static_cast<hid_t>(a),"hello",0,H5T_NATIVE_INT);
+  H5Tinsert(static_cast<hid_t>(a), "hello", 0, H5T_NATIVE_INT);
   EXPECT_TRUE(a.has_class(Class::INTEGER));
   EXPECT_FALSE(a.has_class(Class::FLOAT));
 
-  a = Datatype(ObjectHandle(H5Tcreate(H5T_OPAQUE,1)));
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_OPAQUE, 1)));
   EXPECT_EQ(a.get_class(), Class::OPAQUE);
 
-  a = Datatype(ObjectHandle(H5Tcreate(H5T_ENUM,1)));
+  a = Datatype(ObjectHandle(H5Tcreate(H5T_ENUM, 1)));
   EXPECT_EQ(a.get_class(), Class::ENUM);
   auto b = a.super();
   EXPECT_EQ(b.get_class(), Class::INTEGER);
@@ -122,7 +117,7 @@ TEST(Datatype, Classes)
   EXPECT_EQ(a.get_class(), Class::VARLENGTH);
 
   hsize_t arrsize = 2;
-  a = Datatype(ObjectHandle(H5Tarray_create(H5T_NATIVE_INT,1,&arrsize)));
+  a = Datatype(ObjectHandle(H5Tarray_create(H5T_NATIVE_INT, 1, &arrsize)));
   EXPECT_EQ(a.get_class(), Class::ARRAY);
 
 //  a = Datatype(ObjectHandle((H5T_BITFIELD)));
@@ -137,9 +132,8 @@ TEST(Datatype, Classes)
 
 }
 
-TEST(Datatype, Size)
-{
-  auto a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND,2)));
+TEST(Datatype, Size) {
+  auto a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND, 2)));
   ASSERT_EQ(a.size(), 2ul);
   a.size(4);
   ASSERT_EQ(a.size(), 4ul);

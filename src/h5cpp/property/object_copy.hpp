@@ -33,8 +33,7 @@ namespace property {
 
 class CopyFlags;
 
-enum class CopyFlag : unsigned
-{
+enum class CopyFlag : unsigned {
   SHALLOW_HIERARCHY = H5O_COPY_SHALLOW_HIERARCHY_FLAG,
   EXPAND_SOFT_LINKS = H5O_COPY_EXPAND_SOFT_LINK_FLAG,
   EXPAND_EXTERNAL_LINKS = H5O_COPY_EXPAND_EXT_LINK_FLAG,
@@ -53,8 +52,7 @@ DLL_EXPORT CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs);
 //! This class encapsulates copy flags and provides easy access to
 //! the flags without using logical operators.
 //!
-class DLL_EXPORT CopyFlags
-{
+class DLL_EXPORT CopyFlags {
  private:
   unsigned value_;
  public:
@@ -93,8 +91,7 @@ class DLL_EXPORT CopyFlags
   //!
   //! \brief allow for explicit conversion to unsigned
   //!
-  explicit operator unsigned() const noexcept
-  {
+  explicit operator unsigned() const noexcept {
     return value_;
   }
 
@@ -175,8 +172,7 @@ DLL_EXPORT CopyFlags operator|(const CopyFlags &flags, const CopyFlag &flag) noe
 //!
 DLL_EXPORT CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noexcept;
 
-class DLL_EXPORT ObjectCopyList : public List
-{
+class DLL_EXPORT ObjectCopyList : public List {
  public:
   ObjectCopyList();
 

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -35,8 +37,7 @@ namespace dataspace {
 //!
 //! Dataspace for a single value
 //!
-class DLL_EXPORT Scalar : public Dataspace
-{
+class DLL_EXPORT Scalar : public Dataspace {
  public:
   //!
   //! \brief default constructor

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
 #include <h5cpp/dataspace/points.hpp>
@@ -28,20 +30,17 @@
 namespace hdf5 {
 namespace dataspace {
 
-Points::Points():
-    Selection()
-{}
+Points::Points() :
+    Selection() {}
 
-Points::~Points()
-{}
+Points::~Points() {}
 
 #ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
-Points::Points(size_t rank):
-    Selection()
-{}
+Points::Points(size_t rank) :
+    Selection() {}
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
@@ -51,8 +50,7 @@ Points::Points(size_t rank):
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 void Points::apply(const Dataspace &space,
-                   SelectionOperation ops) const
-{
+                   SelectionOperation ops) const {
 }
 #ifdef __GNUC__
 #pragma GCC diagnostic pop

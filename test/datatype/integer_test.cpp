@@ -32,8 +32,7 @@
 using namespace hdf5;
 
 template<class T>
-class Integer : public testing::Test
-{
+class Integer : public testing::Test {
  protected:
   Integer() {}
   virtual ~Integer() {}
@@ -54,8 +53,7 @@ Types<
 
 TYPED_TEST_CASE(Integer, test_types);
 
-TYPED_TEST(Integer, Exceptions)
-{
+TYPED_TEST(Integer, Exceptions) {
   datatype::Datatype dtype;
   EXPECT_THROW((datatype::Integer(dtype)), std::runtime_error);
 
@@ -63,8 +61,7 @@ TYPED_TEST(Integer, Exceptions)
   EXPECT_THROW((datatype::Integer(ft)), std::runtime_error);
 }
 
-TYPED_TEST(Integer, General)
-{
+TYPED_TEST(Integer, General) {
   auto t = datatype::create<decltype(this->value_)>();
   EXPECT_TRUE((std::is_same<decltype(t), datatype::Integer>::value));
   EXPECT_TRUE(t.get_class() == datatype::Class::INTEGER);

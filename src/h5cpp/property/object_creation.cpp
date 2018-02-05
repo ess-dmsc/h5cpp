@@ -38,8 +38,7 @@ namespace property {
 
 void ObjectCreationList::get_attribute_phase_change_(unsigned &max_compact,
                                                      unsigned &min_dense,
-                                                     const std::string &error_message) const
-{
+                                                     const std::string &error_message) const {
   if (H5Pget_attr_phase_change(static_cast<hid_t>(*this), &max_compact, &min_dense) < 0) {
     error::Singleton::instance().throw_with_stack(error_message);
   }
@@ -59,38 +58,33 @@ ObjectCreationList::ObjectCreationList() :
     List(kObjectCreate) {}
 
 ObjectCreationList::ObjectCreationList(ObjectHandle &&handle) :
-    List(std::move(handle))
-{
+    List(std::move(handle)) {
   if ((get_class() != kObjectCreate) &&
       (get_class() != kFileCreate) &&
       (get_class() != kDatatypeCreate) &&
       (get_class() != kDatasetCreate) &&
-      (get_class() != kGroupCreate)){
+      (get_class() != kGroupCreate)) {
     std::stringstream ss;
     ss << "Cannot create property::ObjectCreationList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }
 
-
 ObjectCreationList::~ObjectCreationList() {}
 
-void ObjectCreationList::enable_time_tracking() const
-{
+void ObjectCreationList::enable_time_tracking() const {
   if (H5Pset_obj_track_times(static_cast<hid_t>(*this), 1) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to enable time tracking for objects!");
   }
 }
 
-void ObjectCreationList::disable_time_tracking() const
-{
+void ObjectCreationList::disable_time_tracking() const {
   if (H5Pset_obj_track_times(static_cast<hid_t>(*this), 0) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to disable time tracking for objects!");
   }
 }
 
-bool ObjectCreationList::time_tracking() const
-{
+bool ObjectCreationList::time_tracking() const {
 #if H5_VERSION_GE(1, 10, 0)
   hbool_t buffer = 0;
 #else
@@ -105,15 +99,13 @@ bool ObjectCreationList::time_tracking() const
     return false;
 }
 
-void ObjectCreationList::attribute_creation_order(const CreationOrder &order) const
-{
+void ObjectCreationList::attribute_creation_order(const CreationOrder &order) const {
   if (H5Pset_attr_creation_order(static_cast<hid_t>(*this), order) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting attribute creation order!");
   }
 }
 
-CreationOrder ObjectCreationList::attribute_creation_order() const
-{
+CreationOrder ObjectCreationList::attribute_creation_order() const {
   unsigned buffer = 0;
   if (H5Pget_attr_creation_order(static_cast<hid_t>(*this), &buffer) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving attribute creation order flags!");
@@ -122,8 +114,7 @@ CreationOrder ObjectCreationList::attribute_creation_order() const
   return CreationOrder(buffer);
 }
 
-void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact, unsigned min_dense) const
-{
+void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact, unsigned min_dense) const {
   if (H5Pset_attr_phase_change(static_cast<hid_t>(*this), max_compact, min_dense) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting the compact to dense attribute "
                                                       "storage threshold!");
@@ -131,8 +122,7 @@ void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact, unsi
 
 }
 
-unsigned ObjectCreationList::attribute_storage_maximum_compact() const
-{
+unsigned ObjectCreationList::attribute_storage_maximum_compact() const {
   unsigned max_compact = 0,
       min_dense = 0;
   std::string error_message = "Failure retrieving the compact to dense attribute "
@@ -142,8 +132,7 @@ unsigned ObjectCreationList::attribute_storage_maximum_compact() const
   return max_compact;
 }
 
-unsigned ObjectCreationList::attribute_storage_minimum_dense() const
-{
+unsigned ObjectCreationList::attribute_storage_minimum_dense() const {
   unsigned max_compact = 0,
       min_dense = 0;
   std::string error_message = "Failure retrieving the dense to compact attribute "

@@ -41,8 +41,7 @@ namespace datatype {
 //! tensors and vectors. This is a fixed size data type. All instances (elements)
 //! of this type stored in an attribute or dataset are of equal size.
 //!
-class DLL_EXPORT Array : public Datatype
-{
+class DLL_EXPORT Array : public Datatype {
  public:
   Array() = default;
 
@@ -91,8 +90,7 @@ class DLL_EXPORT Array : public Datatype
 //! to much sense to think about multidimensional objects of
 //! different size stored in an attribute or dataset.
 //!
-class DLL_EXPORT VLengthArray : public Datatype
-{
+class DLL_EXPORT VLengthArray : public Datatype {
  public:
   //!
   //! \brief default constructor

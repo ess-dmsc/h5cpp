@@ -32,8 +32,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(DatasetAccessList, test_default_construction)
-{
+TEST(DatasetAccessList, test_default_construction) {
   pl::DatasetAccessList dapl;
   EXPECT_TRUE(dapl.get_class() == pl::kDatasetAccess);
 
@@ -50,8 +49,7 @@ TEST(DatasetAccessList, test_default_construction)
 }
 
 #if H5_VERSION_GE(1, 10, 0)
-TEST(DatasetAccessList, VirtualDataView)
-{
+TEST(DatasetAccessList, VirtualDataView) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -64,8 +62,7 @@ TEST(DatasetAccessList, VirtualDataView)
 }
 #endif
 
-TEST(DatasetAccessList, test_chunk_cache_parameters)
-{
+TEST(DatasetAccessList, test_chunk_cache_parameters) {
   pl::ChunkCacheParameters def;
   pl::DatasetAccessList dapl;
   pl::ChunkCacheParameters params(200, 300 * 1024 * 1024, 0.5);
@@ -93,8 +90,7 @@ TEST(DatasetAccessList, test_chunk_cache_parameters)
 }
 
 #if H5_VERSION_GE(1, 10, 0)
-TEST(DatasetAccessList, test_virtual_data_view)
-{
+TEST(DatasetAccessList, test_virtual_data_view) {
   pl::DatasetAccessList dapl;
   dapl.virtual_view(pl::VirtualDataView::FIRST_MISSING);
   EXPECT_EQ(dapl.virtual_view(), pl::VirtualDataView::FIRST_MISSING);

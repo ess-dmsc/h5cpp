@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -34,8 +36,7 @@ namespace dataspace {
 //!
 //! \brief simple multidimensional dataspace
 //!
-class DLL_EXPORT Simple : public Dataspace
-{
+class DLL_EXPORT Simple : public Dataspace {
  public:
   //!
   //! \brief dimension value for unlimited number of elements

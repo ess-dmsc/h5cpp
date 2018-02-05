@@ -40,8 +40,7 @@ namespace dataspace {
 //! This enumeration type is primarily used to identify the particular type
 //! of dataspace when given only a reference to dataspace::Dataspace.
 //!
-enum class Type : std::underlying_type<H5S_class_t>::type
-{
+enum class Type : std::underlying_type<H5S_class_t>::type {
   //!
   //! the dataspace is an instance of dataspace::Scalar
   //!
@@ -69,8 +68,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Type &t);
 //! datapsace::Type this identifies the particular type of selection
 //! when given only a reference to dataspace::Selection.
 //!
-enum class SelectionType : std::underlying_type<H5S_sel_type>::type
-{
+enum class SelectionType : std::underlying_type<H5S_sel_type>::type {
   //!
   //! nothing is selected
   //!
@@ -94,8 +92,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const SelectionType &t
 //!
 //! \brief selection operator
 //!
-enum class SelectionOperation : std::underlying_type<H5S_seloper_t>::type
-{
+enum class SelectionOperation : std::underlying_type<H5S_seloper_t>::type {
   //!
   //! replace all selections by this one
   //!

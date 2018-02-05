@@ -31,8 +31,7 @@
 namespace pl = hdf5::property;
 namespace type = hdf5::datatype;
 
-TEST(StringCreationList, test_default_construction)
-{
+TEST(StringCreationList, test_default_construction) {
   pl::StringCreationList scl;
   EXPECT_TRUE(scl.get_class() == pl::kStringCreate);
 
@@ -44,14 +43,13 @@ TEST(StringCreationList, test_default_construction)
                std::runtime_error);
 }
 
-TEST(StringCreationList, test_encoding)
-{
+TEST(StringCreationList, test_encoding) {
   pl::StringCreationList scl;
   EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::ASCII));
-  EXPECT_TRUE(scl.character_encoding()==type::CharacterEncoding::ASCII);
+  EXPECT_TRUE(scl.character_encoding() == type::CharacterEncoding::ASCII);
 
   EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::UTF8));
-  EXPECT_TRUE(scl.character_encoding()==type::CharacterEncoding::UTF8);
+  EXPECT_TRUE(scl.character_encoding() == type::CharacterEncoding::UTF8);
 
   hdf5::ObjectHandle(static_cast<hid_t>(scl)).close();
   EXPECT_THROW(scl.character_encoding(type::CharacterEncoding::UTF8), std::runtime_error);

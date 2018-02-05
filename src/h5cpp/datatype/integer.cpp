@@ -36,8 +36,7 @@ Integer::Integer(ObjectHandle &&handle) :
     Datatype(std::move(handle)) {}
 
 Integer::Integer(const Datatype &datatype) :
-    Datatype(datatype)
-{
+    Datatype(datatype) {
   if (get_class() != Class::INTEGER) {
     std::stringstream ss;
     ss << "Could not create Integer from " << get_class();

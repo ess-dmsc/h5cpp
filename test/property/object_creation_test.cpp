@@ -33,8 +33,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(ObjectCreationList, default_construction)
-{
+TEST(ObjectCreationList, default_construction) {
   pl::ObjectCreationList ocpl;
   EXPECT_TRUE(ocpl.get_class() == pl::kObjectCreate);
   EXPECT_EQ(ocpl.get_class().name(), "object create");
@@ -44,8 +43,7 @@ TEST(ObjectCreationList, default_construction)
                std::runtime_error);
 }
 
-TEST(ObjectCreationList, test_time_tracking)
-{
+TEST(ObjectCreationList, test_time_tracking) {
   pl::ObjectCreationList ocpl;
   EXPECT_NO_THROW(ocpl.enable_time_tracking());
   EXPECT_TRUE(ocpl.time_tracking());
@@ -59,8 +57,7 @@ TEST(ObjectCreationList, test_time_tracking)
   EXPECT_THROW(ocpl.time_tracking(), std::runtime_error);
 }
 
-TEST(ObjectCreationList, test_attribute_creation_order)
-{
+TEST(ObjectCreationList, test_attribute_creation_order) {
   pl::ObjectCreationList ocpl;
 
   EXPECT_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()));
@@ -76,8 +73,7 @@ TEST(ObjectCreationList, test_attribute_creation_order)
   EXPECT_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()), std::runtime_error);
 }
 
-TEST(ObjectCreationList, test_attribute_storage_threshold)
-{
+TEST(ObjectCreationList, test_attribute_storage_threshold) {
   pl::ObjectCreationList ocpl;
   EXPECT_NO_THROW(ocpl.attribute_storage_thresholds(100, 50));
   EXPECT_EQ(ocpl.attribute_storage_maximum_compact(), 100ul);

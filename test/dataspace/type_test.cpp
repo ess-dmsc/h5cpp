@@ -30,8 +30,7 @@
 using namespace hdf5;
 using namespace hdf5::dataspace;
 
-TEST(DataspaceEnum, Type)
-{
+TEST(DataspaceEnum, Type) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -47,8 +46,7 @@ TEST(DataspaceEnum, Type)
   EXPECT_EQ(stream.str(), "NODATA");
 }
 
-TEST(DataspaceEnum, SelectionType)
-{
+TEST(DataspaceEnum, SelectionType) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -68,8 +66,7 @@ TEST(DataspaceEnum, SelectionType)
   EXPECT_EQ(stream.str(), "ALL");
 }
 
-TEST(DataspaceEnum, SelectionOperation)
-{
+TEST(DataspaceEnum, SelectionOperation) {
   std::stringstream stream;
 
   stream.str(std::string());

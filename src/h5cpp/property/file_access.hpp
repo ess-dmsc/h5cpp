@@ -36,8 +36,7 @@ namespace property {
 //!
 //! \brief library version enumeration
 //!
-enum class LibVersion : std::underlying_type<H5F_libver_t>::type
-{
+enum class LibVersion : std::underlying_type<H5F_libver_t>::type {
   LATEST = H5F_LIBVER_LATEST,
   EARLIEST = H5F_LIBVER_EARLIEST
 };
@@ -51,8 +50,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const LibVersion &vers
 //!
 //! Class provides object oriented interface to the file access property list.
 //!
-class DLL_EXPORT FileAccessList : public List
-{
+class DLL_EXPORT FileAccessList : public List {
  public:
   //!
   //! \brief default constructor

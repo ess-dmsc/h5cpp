@@ -20,7 +20,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 6, 2017
 //
 
@@ -40,15 +42,13 @@
 using namespace hdf5;
 using namespace hdf5::datatype;
 
-struct complex_struct
-{
+struct complex_struct {
   double real;
   double imag;
 
 };
 
-class Pixel
-{
+class Pixel {
  public:
   Pixel() {}
   Pixel(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
@@ -63,23 +63,20 @@ namespace hdf5 {
 namespace datatype {
 
 template<typename BT>
-struct complex_t
-{
+struct complex_t {
   BT real;
   BT imag;
 };
 
 template<typename T>
-class TypeTrait<std::complex<T>>
-{
+class TypeTrait<std::complex<T>> {
  private:
   using complex_type = complex_t<T>;
  public:
   using Type = std::complex<T>;
   using TypeClass = Compound;
 
-  static TypeClass create(const Type & = Type())
-  {
+  static TypeClass create(const Type & = Type()) {
     auto type = datatype::Compound::create(sizeof(complex_struct));
     type.insert("real", HOFFSET(complex_type, real), datatype::create<T>());
     type.insert("imag", HOFFSET(complex_type, imag), datatype::create<T>());
@@ -88,13 +85,11 @@ class TypeTrait<std::complex<T>>
 };
 
 template<>
-class TypeTrait<Pixel>
-{
+class TypeTrait<Pixel> {
  public:
   using TypeClass = Compound;
 
-  static TypeClass create(const Pixel & = Pixel())
-  {
+  static TypeClass create(const Pixel & = Pixel()) {
     auto type = datatype::Compound::create(sizeof(Pixel));
     type.insert("red", 0, datatype::create<std::uint8_t>());
     type.insert("green", 1, datatype::create<std::uint8_t>());
@@ -106,12 +101,10 @@ class TypeTrait<Pixel>
 }
 }
 
-class CompoundType : public BasicFixture
-{
+class CompoundType : public BasicFixture {
 };
 
-TEST_F(CompoundType, test_default_construction)
-{
+TEST_F(CompoundType, test_default_construction) {
   datatype::Compound type;
   EXPECT_FALSE(type.is_valid());
   EXPECT_EQ(type.get_class(), datatype::Class::NONE);
@@ -119,8 +112,7 @@ TEST_F(CompoundType, test_default_construction)
   //EXPECT_THROW(type.field_index(0),std::runtime_error);
 }
 
-TEST_F(CompoundType, Exceptions)
-{
+TEST_F(CompoundType, Exceptions) {
   auto ft = datatype::create<double>();
   EXPECT_THROW((datatype::Compound(ft)), std::runtime_error);
   EXPECT_THROW((datatype::Compound::create(0)), std::runtime_error);
@@ -138,8 +130,7 @@ TEST_F(CompoundType, Exceptions)
   EXPECT_THROW((type.pack()), std::runtime_error);
 }
 
-TEST_F(CompoundType, test_complex_number)
-{
+TEST_F(CompoundType, test_complex_number) {
   auto type = Compound::create(sizeof(complex_struct));
   EXPECT_EQ(type.number_of_fields(), 0ul);
 
@@ -168,8 +159,7 @@ TEST_F(CompoundType, test_complex_number)
   EXPECT_NO_THROW(type.pack());
 }
 
-TEST_F(CompoundType, test_complex_number_io)
-{
+TEST_F(CompoundType, test_complex_number_io) {
   std::complex<double> write_value(1., 3.);
   std::complex<double> read_value(0., 0.);
   attribute::Attribute a = root_.attributes.create<std::complex<double>>("hello");
@@ -179,8 +169,7 @@ TEST_F(CompoundType, test_complex_number_io)
   EXPECT_NEAR(write_value.imag(), read_value.imag(), 0.0001);
 }
 
-TEST_F(CompoundType, test_pixel_type)
-{
+TEST_F(CompoundType, test_pixel_type) {
   Pixel write_pixel(1, 2, 3);
   Pixel read_pixel(0, 0, 0);
 

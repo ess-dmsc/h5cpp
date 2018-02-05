@@ -33,12 +33,10 @@ namespace hdf5 {
 namespace datatype {
 
 Array::Array(ObjectHandle &&handle) :
-    Datatype(std::move(handle))
-{}
+    Datatype(std::move(handle)) {}
 
 Array::Array(const Datatype &type) :
-    Datatype(type)
-{
+    Datatype(type) {
   if (get_class() != Class::ARRAY) {
     std::stringstream ss;
     ss << "Cannot create Array from " << get_class();
@@ -46,8 +44,7 @@ Array::Array(const Datatype &type) :
   }
 }
 
-Array Array::create(const Datatype &base_type, const Dimensions &dims)
-{
+Array Array::create(const Datatype &base_type, const Dimensions &dims) {
   hid_t ret = H5Tarray_create(static_cast<hid_t>(base_type), dims.size(), dims.data());
   if (ret < 0) {
     std::stringstream ss;
@@ -58,14 +55,12 @@ Array Array::create(const Datatype &base_type, const Dimensions &dims)
   return Array(ObjectHandle(ret));
 }
 
-Dimensions Array::dimensions() const
-{
+Dimensions Array::dimensions() const {
   size_t my_rank;
   try {
     my_rank = rank();
   }
-  catch(...)
-  {
+  catch (...) {
     std::throw_with_nested(std::runtime_error("Could not obtain dimensions for Array datatype"));
   }
 
@@ -76,8 +71,7 @@ Dimensions Array::dimensions() const
   return dims;
 }
 
-size_t Array::rank() const
-{
+size_t Array::rank() const {
   int ndims = H5Tget_array_ndims(static_cast<hid_t>(*this));
   if (ndims < 0) {
     error::Singleton::instance().throw_with_stack("Could not obtain rank for Array datatype!");
@@ -89,8 +83,7 @@ VLengthArray::VLengthArray(ObjectHandle &&handle) :
     Datatype(std::move(handle)) {}
 
 VLengthArray::VLengthArray(const Datatype &type) :
-    Datatype(type)
-{
+    Datatype(type) {
   if (get_class() != Class::VARLENGTH) {
     std::stringstream ss;
     ss << "Cannot create VLengthArray from " << get_class();
@@ -98,8 +91,7 @@ VLengthArray::VLengthArray(const Datatype &type) :
   }
 }
 
-VLengthArray VLengthArray::create(const Datatype &base_type)
-{
+VLengthArray VLengthArray::create(const Datatype &base_type) {
   hid_t ret = H5Tvlen_create(static_cast<hid_t>(base_type));
   if (ret < 0) {
     std::stringstream ss;

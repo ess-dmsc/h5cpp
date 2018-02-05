@@ -32,23 +32,19 @@
 namespace hdf5 {
 namespace property {
 
-DatatypeAccessList::DatatypeAccessList():
-    LinkAccessList(kDatatypeAccess)
-{}
+DatatypeAccessList::DatatypeAccessList() :
+    LinkAccessList(kDatatypeAccess) {}
 
-DatatypeAccessList::~DatatypeAccessList()
-{}
+DatatypeAccessList::~DatatypeAccessList() {}
 
 DatatypeAccessList::DatatypeAccessList(ObjectHandle &&handle) :
-    LinkAccessList(std::move(handle))
-{
+    LinkAccessList(std::move(handle)) {
   if (get_class() != kDatatypeAccess) {
     std::stringstream ss;
     ss << "Cannot create property::DatatypeAccessList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }
-
 
 } // namespace property
 } // namespace hdf5

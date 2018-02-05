@@ -39,8 +39,7 @@ TypeCreationList::TypeCreationList() :
 TypeCreationList::~TypeCreationList() {}
 
 TypeCreationList::TypeCreationList(ObjectHandle &&handle) :
-    ObjectCreationList(std::move(handle))
-{
+    ObjectCreationList(std::move(handle)) {
   if (get_class() != kDatatypeCreate) {
     std::stringstream ss;
     ss << "Cannot create property::TypeCreationList from " << get_class();

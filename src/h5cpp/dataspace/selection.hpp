@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
 #pragma once
@@ -37,61 +39,59 @@ namespace dataspace {
 //!
 //! \brief selection base class
 //!
-class DLL_EXPORT Selection
-{
-  public:
-    //!
-    //! \brief pointer for selection stacks
-    //!
-    //! As selections use virtual functions for being applied we have to
-    using UniquePointer = std::unique_ptr<Selection>;
-    using SharedPointer = std::shared_ptr<Selection>;
+class DLL_EXPORT Selection {
+ public:
+  //!
+  //! \brief pointer for selection stacks
+  //!
+  //! As selections use virtual functions for being applied we have to
+  using UniquePointer = std::unique_ptr<Selection>;
+  using SharedPointer = std::shared_ptr<Selection>;
 
-    //!
-    //! \brief default constructor
-    //!
-    //! Use the compiler provided default implementation.
-    Selection() = default;
+  //!
+  //! \brief default constructor
+  //!
+  //! Use the compiler provided default implementation.
+  Selection() = default;
 
-    //!
-    //! \brief copy constructor
-    //!
-    //! Use the compiler provided default implementation.
-    //!
-    Selection(const Selection &) = default;
+  //!
+  //! \brief copy constructor
+  //!
+  //! Use the compiler provided default implementation.
+  //!
+  Selection(const Selection &) = default;
 
-    //!
-    //! \brief destructor
-    //!
-    //! The destructor has to be virtual to inherit from this class.
-    //!
-    virtual ~Selection();
+  //!
+  //! \brief destructor
+  //!
+  //! The destructor has to be virtual to inherit from this class.
+  //!
+  virtual ~Selection();
 
-    //!
-    //! \brief apply a selection onto a dataspace
-    //!
-    //! The current selection will be applied to dataspace \c space using the
-    //! operator determined by \c ops.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    //! \param space reference to the dataspace onto which to apply the
-    //!              selection
-    //! \param ops operator for the selection
-    virtual void apply(const Dataspace &space,
-                       SelectionOperation ops) const = 0;
+  //!
+  //! \brief apply a selection onto a dataspace
+  //!
+  //! The current selection will be applied to dataspace \c space using the
+  //! operator determined by \c ops.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \param space reference to the dataspace onto which to apply the
+  //!              selection
+  //! \param ops operator for the selection
+  virtual void apply(const Dataspace &space,
+                     SelectionOperation ops) const = 0;
 };
 
-struct OperationWithSelection
-{
-    SelectionOperation operation;
-    Selection::SharedPointer selection;
+struct OperationWithSelection {
+  SelectionOperation operation;
+  Selection::SharedPointer selection;
 };
 
-using SelectionPair = std::pair<SelectionOperation,Selection::SharedPointer>;
+using SelectionPair = std::pair<SelectionOperation, Selection::SharedPointer>;
 using SelectionList = std::list<OperationWithSelection>;
 
-DLL_EXPORT Dataspace operator||(const Dataspace &space,const SelectionList &selections);
+DLL_EXPORT Dataspace operator||(const Dataspace &space, const SelectionList &selections);
 
 } // namespace dataspace
 } // namespace hdf5

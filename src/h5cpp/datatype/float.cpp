@@ -36,8 +36,7 @@ Float::Float(ObjectHandle &&handle) :
     Datatype(std::move(handle)) {}
 
 Float::Float(const Datatype &datatype) :
-    Datatype(datatype)
-{
+    Datatype(datatype) {
   if (datatype.get_class() != Class::FLOAT) {
     std::stringstream ss;
     ss << "Cannot create datatype::Float from " << get_class();

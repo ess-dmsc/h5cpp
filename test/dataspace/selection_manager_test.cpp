@@ -30,8 +30,7 @@
 
 using namespace hdf5;
 
-TEST(SelectionManager, test_nothing_and_all_selected)
-{
+TEST(SelectionManager, test_nothing_and_all_selected) {
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.size(), 10l * 1024l);
   EXPECT_EQ(space.selection.size(), 10ul * 1024ul);

@@ -32,8 +32,7 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT GroupAccessList : public LinkAccessList
-{
+class DLL_EXPORT GroupAccessList : public LinkAccessList {
  public:
   GroupAccessList();
   ~GroupAccessList();

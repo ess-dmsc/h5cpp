@@ -38,28 +38,24 @@ LinkAccessList::LinkAccessList() :
 
 LinkAccessList::LinkAccessList(const Class &plist_class) :
     List(plist_class),
-    elink_prefix_()
-{}
+    elink_prefix_() {}
 
 LinkAccessList::LinkAccessList(ObjectHandle &&handle) :
     List(std::move(handle)),
-    elink_prefix_()
-{
+    elink_prefix_() {
   if ((get_class() != kLinkAccess) &&
       (get_class() != kDatatypeAccess) &&
       (get_class() != kDatasetAccess) &&
-      (get_class() != kGroupAccess)){
+      (get_class() != kGroupAccess)) {
     std::stringstream ss;
     ss << "Cannot create property::LinkAccessList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }
 
-
 LinkAccessList::~LinkAccessList() {}
 
-size_t LinkAccessList::maximum_link_traversals() const
-{
+size_t LinkAccessList::maximum_link_traversals() const {
   size_t buffer = 0;
   if (H5Pget_nlinks(static_cast<hid_t>(*this), &buffer) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the maximum number of link traversals!");
@@ -67,20 +63,17 @@ size_t LinkAccessList::maximum_link_traversals() const
   return buffer;
 }
 
-void LinkAccessList::maximum_link_traversals(size_t size) const
-{
+void LinkAccessList::maximum_link_traversals(size_t size) const {
   if (H5Pset_nlinks(static_cast<hid_t>(*this), size) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting the maximum number of link traversals!");
   }
 }
 
-boost::filesystem::path LinkAccessList::external_link_prefix() const
-{
+boost::filesystem::path LinkAccessList::external_link_prefix() const {
   return elink_prefix_;
 }
 
-void LinkAccessList::external_link_prefix(const boost::filesystem::path &path)
-{
+void LinkAccessList::external_link_prefix(const boost::filesystem::path &path) {
   std::string old_prefix = elink_prefix_;
   elink_prefix_ = path.string();
   if (H5Pset_elink_prefix(static_cast<hid_t>(*this), elink_prefix_.c_str()) < 0) {

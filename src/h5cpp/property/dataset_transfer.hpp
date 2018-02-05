@@ -50,8 +50,7 @@ enum class MPIChunkOption : std::underlying_type<H5FD_mpio_chunk_opt_t>::type
 std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option);
 #endif
 
-class DLL_EXPORT DatasetTransferList : public List
-{
+class DLL_EXPORT DatasetTransferList : public List {
  public:
   DatasetTransferList();
   ~DatasetTransferList();

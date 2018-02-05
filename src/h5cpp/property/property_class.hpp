@@ -42,8 +42,7 @@ namespace property {
 //! classes on the fly. Though this functionality is currently not implemented
 //! we are on the save side with a class implementation instead of an enumeration.
 //!
-class DLL_EXPORT Class
-{
+class DLL_EXPORT Class {
  public:
   //!
   //! \brief default constructor
@@ -68,8 +67,7 @@ class DLL_EXPORT Class
   std::string name() const;
   Class parent() const;
 
-  explicit operator hid_t() const
-  {
+  explicit operator hid_t() const {
     return static_cast<hid_t>(handle_);
   }
 

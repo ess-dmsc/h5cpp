@@ -32,8 +32,7 @@
 namespace hdf5 {
 namespace property {
 
-std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag)
-{
+std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag) {
   switch (flag) {
     case CopyFlag::SHALLOW_HIERARCHY:return stream << "SHALLOW_HIERARCHY";
     case CopyFlag::EXPAND_SOFT_LINKS:return stream << "EXPAND_SOFT_LINKS";
@@ -45,8 +44,7 @@ std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag)
   }
 }
 
-CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs)
-{
+CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs) {
   return CopyFlags(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs));
 }
 
@@ -56,39 +54,32 @@ CopyFlags::CopyFlags() noexcept:
 CopyFlags::CopyFlags(unsigned value) noexcept:
     value_(value) {}
 
-CopyFlags operator|(const CopyFlags &flags, const CopyFlags &rhs) noexcept
-{
+CopyFlags operator|(const CopyFlags &flags, const CopyFlags &rhs) noexcept {
   return CopyFlags(static_cast<unsigned>(flags) | static_cast<unsigned>(rhs));
 }
 
-CopyFlags operator|(const CopyFlags &flags, const CopyFlag &flag) noexcept
-{
+CopyFlags operator|(const CopyFlags &flags, const CopyFlag &flag) noexcept {
   return CopyFlags(static_cast<unsigned>(flags) | static_cast<unsigned>(flag));
 }
 
-CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noexcept
-{
+CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noexcept {
   return CopyFlags(static_cast<unsigned>(flag) | static_cast<unsigned>(flags));
 }
 
-CopyFlags &CopyFlags::operator|=(const CopyFlag &flag) noexcept
-{
+CopyFlags &CopyFlags::operator|=(const CopyFlag &flag) noexcept {
   value_ |= static_cast<unsigned>(flag);
   return *this;
 }
 
-CopyFlags &CopyFlags::operator|=(const CopyFlags &flags) noexcept
-{
+CopyFlags &CopyFlags::operator|=(const CopyFlags &flags) noexcept {
   value_ |= static_cast<unsigned>(flags);
   return *this;
 }
 
-bool CopyFlags::shallow_hierarchy() const noexcept
-{
+bool CopyFlags::shallow_hierarchy() const noexcept {
   return value_ & static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
 }
-void CopyFlags::shallow_hierarchy(bool flag) noexcept
-{
+void CopyFlags::shallow_hierarchy(bool flag) noexcept {
   if (flag)
     value_ |= static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
   else
@@ -96,65 +87,55 @@ void CopyFlags::shallow_hierarchy(bool flag) noexcept
 
 }
 
-bool CopyFlags::expand_soft_links() const noexcept
-{
+bool CopyFlags::expand_soft_links() const noexcept {
   return value_ & static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
 }
 
-void CopyFlags::expand_soft_links(bool flag) noexcept
-{
+void CopyFlags::expand_soft_links(bool flag) noexcept {
   if (flag)
     value_ |= static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
   else
     value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
 }
 
-bool CopyFlags::expand_external_links() const noexcept
-{
+bool CopyFlags::expand_external_links() const noexcept {
   return value_ & static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
 }
 
-void CopyFlags::expand_external_links(bool flag) noexcept
-{
+void CopyFlags::expand_external_links(bool flag) noexcept {
   if (flag)
     value_ |= static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
   else
     value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
 }
 
-bool CopyFlags::expand_references() const noexcept
-{
+bool CopyFlags::expand_references() const noexcept {
   return value_ & static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
 }
 
-void CopyFlags::expand_references(bool flag) noexcept
-{
+void CopyFlags::expand_references(bool flag) noexcept {
   if (flag)
     value_ |= static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
   else
     value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
 }
 
-bool CopyFlags::without_attributes() const noexcept
-{
+bool CopyFlags::without_attributes() const noexcept {
   return value_ & static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
 }
 
-void CopyFlags::without_attributes(bool flag) noexcept
-{
+void CopyFlags::without_attributes(bool flag) noexcept {
   if (flag)
     value_ |= static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
   else
     value_ &= ~static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
 }
 
-bool CopyFlags::merge_committed_types() const noexcept
-{
+bool CopyFlags::merge_committed_types() const noexcept {
   return value_ & static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
 }
 
-void CopyFlags::merge_committed_types(bool flag) noexcept
-{
+void CopyFlags::merge_committed_types(bool flag) noexcept {
   if (flag)
     value_ |= static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
   else
@@ -165,8 +146,7 @@ ObjectCopyList::ObjectCopyList() :
     List(kObjectCopy) {}
 
 ObjectCopyList::ObjectCopyList(ObjectHandle &&handle) :
-    List(std::move(handle))
-{
+    List(std::move(handle)) {
   if (get_class() != kObjectCopy) {
     std::stringstream ss;
     ss << "Cannot create property::ObjectCopyList from " << get_class();
@@ -174,20 +154,17 @@ ObjectCopyList::ObjectCopyList(ObjectHandle &&handle) :
   }
 }
 
-void ObjectCopyList::flags(const CopyFlags &flags) const
-{
+void ObjectCopyList::flags(const CopyFlags &flags) const {
   if (H5Pset_copy_object(static_cast<hid_t>(*this), static_cast<unsigned>(flags)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting flags for object copy property list!");
   }
 }
 
-void ObjectCopyList::flags(const CopyFlag &flag) const
-{
+void ObjectCopyList::flags(const CopyFlag &flag) const {
   flags(CopyFlags() | flag);
 }
 
-CopyFlags ObjectCopyList::flags() const
-{
+CopyFlags ObjectCopyList::flags() const {
   unsigned flag_buffer;
   if (H5Pget_copy_object(static_cast<hid_t>(*this), &flag_buffer) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving flags for object copy property list!");

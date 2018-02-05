@@ -32,8 +32,7 @@
 using namespace hdf5;
 
 template<class T>
-class Float : public testing::Test
-{
+class Float : public testing::Test {
  protected:
   Float() {}
   virtual ~Float() {}
@@ -49,8 +48,7 @@ Types<float, double, long double>
 
 TYPED_TEST_CASE(Float, test_types);
 
-TYPED_TEST(Float, Exceptions)
-{
+TYPED_TEST(Float, Exceptions) {
   datatype::Datatype dtype;
   EXPECT_THROW((datatype::Float(dtype)), std::runtime_error);
 
@@ -58,8 +56,7 @@ TYPED_TEST(Float, Exceptions)
   EXPECT_THROW((datatype::Float(ft)), std::runtime_error);
 }
 
-TYPED_TEST(Float, General)
-{
+TYPED_TEST(Float, General) {
   auto t = datatype::create<decltype(this->value_)>();
   EXPECT_TRUE((std::is_same<decltype(t), datatype::Float>::value));
   EXPECT_TRUE(t.get_class() == datatype::Class::FLOAT);

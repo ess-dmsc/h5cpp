@@ -52,8 +52,7 @@ using namespace hdf5;
 //};
 
 template<class T>
-class String : public BasicFixture
-{
+class String : public BasicFixture {
  protected:
   T value_;
 };
@@ -70,8 +69,7 @@ Types<std::string>
 
 TYPED_TEST_CASE(String, test_types);
 
-TEST(String, Constructor)
-{
+TEST(String, Constructor) {
   datatype::Datatype dtype;
   EXPECT_THROW((datatype::String(dtype)), std::runtime_error);
 
@@ -79,8 +77,7 @@ TEST(String, Constructor)
   EXPECT_THROW((datatype::String(ft)), std::runtime_error);
 }
 
-TEST(String, Fixed)
-{
+TEST(String, Fixed) {
   datatype::String t = datatype::String::fixed(3);
   EXPECT_TRUE(t.get_class() == datatype::Class::STRING);
   EXPECT_FALSE(t.is_variable_length());
@@ -92,8 +89,7 @@ TEST(String, Fixed)
   EXPECT_EQ(t.size(), 0ul);
 }
 
-TEST(String, Variable)
-{
+TEST(String, Variable) {
   auto t = datatype::String::variable();
   EXPECT_TRUE(t.get_class() == datatype::Class::STRING);
   EXPECT_EQ(t.size(), H5T_VARIABLE);
@@ -104,8 +100,7 @@ TEST(String, Variable)
   EXPECT_THROW(t.is_variable_length(), std::runtime_error);
 }
 
-TEST(String, Encoding)
-{
+TEST(String, Encoding) {
   auto t = datatype::String::fixed(3);
   t.encoding(datatype::CharacterEncoding::ASCII);
   EXPECT_EQ(t.encoding(), datatype::CharacterEncoding::ASCII);
@@ -118,8 +113,7 @@ TEST(String, Encoding)
   EXPECT_THROW(t.encoding(datatype::CharacterEncoding::UTF8), std::runtime_error);
 }
 
-TEST(String, Padding)
-{
+TEST(String, Padding) {
   auto t = datatype::String::fixed(3);
   t.padding(datatype::StringPad::SPACEPAD);
   EXPECT_EQ(t.padding(), datatype::StringPad::SPACEPAD);

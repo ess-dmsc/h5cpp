@@ -32,28 +32,21 @@
 namespace hdf5 {
 namespace property {
 
-
-std::ostream &operator<<(std::ostream &stream,const LibVersion &version)
-{
-  switch(version)
-  {
-    case LibVersion::EARLIEST: return stream<<"EARLIEST";
-    case LibVersion::LATEST: return stream<<"LATEST";
-    default:
-      return stream;
+std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
+  switch (version) {
+    case LibVersion::EARLIEST: return stream << "EARLIEST";
+    case LibVersion::LATEST: return stream << "LATEST";
+    default:return stream;
   }
 }
 
-FileAccessList::FileAccessList():
-    List(kFileAccess)
-{}
+FileAccessList::FileAccessList() :
+    List(kFileAccess) {}
 
-FileAccessList::~FileAccessList()
-{}
+FileAccessList::~FileAccessList() {}
 
 FileAccessList::FileAccessList(ObjectHandle &&handle) :
-    List(std::move(handle))
-{
+    List(std::move(handle)) {
   if (get_class() != kFileAccess) {
     std::stringstream ss;
     ss << "Cannot create property::FileAccessList from " << get_class();
@@ -61,42 +54,35 @@ FileAccessList::FileAccessList(ObjectHandle &&handle) :
   }
 }
 
-void FileAccessList::library_version_bounds(LibVersion high,LibVersion low) const
-{
+void FileAccessList::library_version_bounds(LibVersion high, LibVersion low) const {
   if (0 > H5Pset_libver_bounds(static_cast<hid_t>(*this),
-                          static_cast<H5F_libver_t>(high),
-                          static_cast<H5F_libver_t>(low)))
-  {
+                               static_cast<H5F_libver_t>(high),
+                               static_cast<H5F_libver_t>(low))) {
     error::Singleton::instance().throw_with_stack("Failure setting the library version bounds!");
   }
 }
 
-LibVersion FileAccessList::library_version_bound_high() const
-{
-  H5F_libver_t high,low;
+LibVersion FileAccessList::library_version_bound_high() const {
+  H5F_libver_t high, low;
 
-  if (0 > H5Pget_libver_bounds(static_cast<hid_t>(*this),&low,&high))
-  {
+  if (0 > H5Pget_libver_bounds(static_cast<hid_t>(*this), &low, &high)) {
     error::Singleton::instance().throw_with_stack("Failure retrieving library version bounds!");
   }
 
   return static_cast<LibVersion>(high);
 }
 
-LibVersion FileAccessList::library_version_bound_low() const
-{
-  H5F_libver_t high,low;
+LibVersion FileAccessList::library_version_bound_low() const {
+  H5F_libver_t high, low;
 
-  if (0 > H5Pget_libver_bounds(static_cast<hid_t>(*this),&low,&high))
-  {
+  if (0 > H5Pget_libver_bounds(static_cast<hid_t>(*this), &low, &high)) {
     error::Singleton::instance().throw_with_stack("Failure retrieving library version bounds!");
   }
 
   return static_cast<LibVersion>(low);
 }
 
-void FileAccessList::driver(const file::Driver &file_driver) const
-{
+void FileAccessList::driver(const file::Driver &file_driver) const {
   file_driver(*this);
 }
 

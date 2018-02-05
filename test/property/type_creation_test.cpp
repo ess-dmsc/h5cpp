@@ -30,8 +30,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(TypeCreationList, test_default_construction)
-{
+TEST(TypeCreationList, test_default_construction) {
   pl::TypeCreationList tcpl;
   EXPECT_TRUE(tcpl.get_class() == pl::kDatatypeCreate);
 

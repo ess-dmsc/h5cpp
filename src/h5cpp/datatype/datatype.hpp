@@ -38,8 +38,7 @@ namespace datatype {
 //!
 //! \brief base class for all data types
 //!
-class DLL_EXPORT Datatype
-{
+class DLL_EXPORT Datatype {
  public:
   //!
   //! \brief destructor
@@ -144,8 +143,7 @@ class DLL_EXPORT Datatype
   //!
   virtual void size(size_t size) const;
 
-  explicit operator hid_t() const
-  {
+  explicit operator hid_t() const {
     return static_cast<hid_t>(handle_);
   }
 

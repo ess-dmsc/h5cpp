@@ -31,8 +31,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(FileAccessList, lib_version)
-{
+TEST(FileAccessList, lib_version) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -44,8 +43,7 @@ TEST(FileAccessList, lib_version)
   EXPECT_EQ(stream.str(), "LATEST");
 }
 
-TEST(FileAccessList, default_construction)
-{
+TEST(FileAccessList, default_construction) {
   pl::FileAccessList fapl;
   EXPECT_EQ(fapl.get_class(), pl::kFileAccess);
 
@@ -57,8 +55,7 @@ TEST(FileAccessList, default_construction)
                std::runtime_error);
 }
 
-TEST(FileAccessList, library_version_bounds)
-{
+TEST(FileAccessList, library_version_bounds) {
   pl::FileAccessList fapl;
 
   EXPECT_EQ(fapl.library_version_bound_low(), pl::LibVersion::EARLIEST);
@@ -83,8 +80,7 @@ TEST(FileAccessList, library_version_bounds)
   EXPECT_THROW(fapl.library_version_bound_high(), std::runtime_error);
 }
 
-TEST(FileAccessList, driver)
-{
+TEST(FileAccessList, driver) {
   pl::FileAccessList fapl;
 
   hdf5::file::MemoryDriver driver;

@@ -33,8 +33,7 @@
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-TEST(AttributeCreationList, test_default_construction)
-{
+TEST(AttributeCreationList, test_default_construction) {
   pl::AttributeCreationList acpl;
   EXPECT_TRUE(acpl.get_class() == pl::kAttributeCreate);
 

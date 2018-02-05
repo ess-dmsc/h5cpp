@@ -30,8 +30,7 @@
 namespace hdf5 {
 namespace datatype {
 
-std::ostream &operator<<(std::ostream &stream, const Class &c)
-{
+std::ostream &operator<<(std::ostream &stream, const Class &c) {
   switch (c) {
     case Class::NONE: return stream << "NONE";
     case Class::INTEGER: return stream << "INTEGER";
@@ -49,8 +48,7 @@ std::ostream &operator<<(std::ostream &stream, const Class &c)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const Order &o)
-{
+std::ostream &operator<<(std::ostream &stream, const Order &o) {
   switch (o) {
     case Order::BE: return stream << "BE";
     case Order::LE: return stream << "LE";
@@ -58,8 +56,7 @@ std::ostream &operator<<(std::ostream &stream, const Order &o)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const Sign &s)
-{
+std::ostream &operator<<(std::ostream &stream, const Sign &s) {
   switch (s) {
     case Sign::TWOS_COMPLEMENT: return stream << "TWOS COMPLEMENT";
     case Sign::UNSIGNED: return stream << "UNSIGNED";
@@ -67,8 +64,7 @@ std::ostream &operator<<(std::ostream &stream, const Sign &s)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const Norm &n)
-{
+std::ostream &operator<<(std::ostream &stream, const Norm &n) {
   switch (n) {
     case Norm::IMPLIED: return stream << "IMPLIED";
     case Norm::MSBSET: return stream << "MSBSET";
@@ -77,8 +73,7 @@ std::ostream &operator<<(std::ostream &stream, const Norm &n)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const Pad &p)
-{
+std::ostream &operator<<(std::ostream &stream, const Pad &p) {
   switch (p) {
     case Pad::BACKGROUND: return stream << "BACKGROUND";
     case Pad::ONE: return stream << "ONE";
@@ -87,8 +82,7 @@ std::ostream &operator<<(std::ostream &stream, const Pad &p)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const StringPad &pad)
-{
+std::ostream &operator<<(std::ostream &stream, const StringPad &pad) {
   switch (pad) {
     case StringPad::NULLPAD: return stream << "NULLPAD";
     case StringPad::NULLTERM: return stream << "NULLTERM";
@@ -97,8 +91,7 @@ std::ostream &operator<<(std::ostream &stream, const StringPad &pad)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const Direction &d)
-{
+std::ostream &operator<<(std::ostream &stream, const Direction &d) {
   switch (d) {
     case Direction::ASCEND: return stream << "ASCEND";
     case Direction::DESCEND: return stream << "DESCEND";
@@ -106,8 +99,7 @@ std::ostream &operator<<(std::ostream &stream, const Direction &d)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const CharacterEncoding &enc)
-{
+std::ostream &operator<<(std::ostream &stream, const CharacterEncoding &enc) {
   switch (enc) {
     case CharacterEncoding::ASCII: return stream << "ASCII";
     case CharacterEncoding::UTF8: return stream << "UTF8";

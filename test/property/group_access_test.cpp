@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
@@ -29,10 +31,9 @@
 
 namespace pl = hdf5::property;
 
-TEST(GroupAccessList, test_default)
-{
+TEST(GroupAccessList, test_default) {
   pl::GroupAccessList gapl;
-  EXPECT_TRUE(gapl.get_class()==pl::kGroupAccess);
+  EXPECT_TRUE(gapl.get_class() == pl::kGroupAccess);
 
   auto cl = pl::kGroupAccess;
   EXPECT_NO_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));

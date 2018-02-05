@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #include <h5cpp/dataspace/simple.hpp>
@@ -32,21 +34,18 @@ Simple::Simple() :
     Dataspace(Type::SIMPLE) {}
 
 Simple::Simple(const Dataspace &space) :
-    Dataspace(space)
-{
+    Dataspace(space) {
   if (space.type() != Type::SIMPLE) {
     error::Singleton::instance().throw_with_stack("Failed to construct a simple dataspace from this!");
   }
 }
 
 Simple::Simple(const Dimensions &current, const Dimensions &maximum) :
-    Dataspace(Type::SIMPLE)
-{
+    Dataspace(Type::SIMPLE) {
   dimensions(current, maximum);
 }
 
-int Simple::rank() const
-{
+int Simple::rank() const {
   int rank = H5Sget_simple_extent_ndims(static_cast<hid_t>(*this));
   if (rank < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the rank of a simple dataspace!");
@@ -54,8 +53,7 @@ int Simple::rank() const
   return rank;
 }
 
-void Simple::dimensions(const Dimensions &current, const Dimensions &maximum)
-{
+void Simple::dimensions(const Dimensions &current, const Dimensions &maximum) {
   const hsize_t *current_ptr = current.data(),
       *maximum_ptr = maximum.data();
   if (maximum.empty())
@@ -67,8 +65,7 @@ void Simple::dimensions(const Dimensions &current, const Dimensions &maximum)
   }
 }
 
-Dimensions Simple::current_dimensions() const
-{
+Dimensions Simple::current_dimensions() const {
   size_t my_rank;
   try {
     my_rank = rank();
@@ -84,8 +81,7 @@ Dimensions Simple::current_dimensions() const
   return dims;
 }
 
-Dimensions Simple::maximum_dimensions() const
-{
+Dimensions Simple::maximum_dimensions() const {
   size_t my_rank;
   try {
     my_rank = rank();

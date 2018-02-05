@@ -27,21 +27,19 @@
 
 #include <h5cpp/property/attribute_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
 #include <sstream>
 
 namespace hdf5 {
 namespace property {
 
-AttributeCreationList::AttributeCreationList():
-    StringCreationList(kAttributeCreate)
-{}
+AttributeCreationList::AttributeCreationList() :
+    StringCreationList(kAttributeCreate) {}
 
-AttributeCreationList::~AttributeCreationList()
-{}
+AttributeCreationList::~AttributeCreationList() {}
 
 AttributeCreationList::AttributeCreationList(ObjectHandle &&handle) :
-    StringCreationList(std::move(handle))
-{
+    StringCreationList(std::move(handle)) {
   if (get_class() != kAttributeCreate) {
     std::stringstream ss;
     ss << "Cannot create property::AttributeCreationList from " << get_class();

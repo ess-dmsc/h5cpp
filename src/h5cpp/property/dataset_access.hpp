@@ -38,8 +38,7 @@ namespace property {
 //!
 //! Class holding chunk cache parameters for a dataset.
 //! \sa DatasetAccessList
-class DLL_EXPORT ChunkCacheParameters
-{
+class DLL_EXPORT ChunkCacheParameters {
  public:
   ChunkCacheParameters(size_t nslots, size_t nbytes, double preempt_policy) noexcept;
   ChunkCacheParameters() noexcept;
@@ -60,8 +59,7 @@ class DLL_EXPORT ChunkCacheParameters
 };
 
 #if H5_VERSION_GE(1, 10, 0)
-enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type
-{
+enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type {
   FIRST_MISSING = H5D_VDS_FIRST_MISSING,
   LAST_AVAILABLE = H5D_VDS_LAST_AVAILABLE
 };
@@ -72,8 +70,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
 //!
 //! \brief dataset access property list
 //!
-class DLL_EXPORT DatasetAccessList : public LinkAccessList
-{
+class DLL_EXPORT DatasetAccessList : public LinkAccessList {
  public:
   //!
   //! \brief default constructor

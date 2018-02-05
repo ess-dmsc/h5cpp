@@ -29,8 +29,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(DatatypeAccessList, test_default_construction)
-{
+TEST(DatatypeAccessList, test_default_construction) {
   pl::DatatypeAccessList dapl;
   EXPECT_TRUE(dapl.get_class() == pl::kDatatypeAccess);
 

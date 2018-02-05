@@ -32,16 +32,13 @@
 namespace hdf5 {
 namespace property {
 
-LinkCreationList::LinkCreationList():
-    StringCreationList(kLinkCreate)
-{}
+LinkCreationList::LinkCreationList() :
+    StringCreationList(kLinkCreate) {}
 
-LinkCreationList::~LinkCreationList()
-{}
+LinkCreationList::~LinkCreationList() {}
 
 LinkCreationList::LinkCreationList(ObjectHandle &&handle) :
-    StringCreationList(std::move(handle))
-{
+    StringCreationList(std::move(handle)) {
   if (get_class() != kLinkCreate) {
     std::stringstream ss;
     ss << "Cannot create property::LinkCreationList from " << get_class();
@@ -49,33 +46,27 @@ LinkCreationList::LinkCreationList(ObjectHandle &&handle) :
   }
 }
 
-void LinkCreationList::enable_intermediate_group_creation() const
-{
-  if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),1)<0)
-  {
+void LinkCreationList::enable_intermediate_group_creation() const {
+  if (H5Pset_create_intermediate_group(static_cast<hid_t>(*this), 1) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting intermediate group creation "
-        "flag to link creation property list!");
+                                                      "flag to link creation property list!");
   }
 }
 
-void LinkCreationList::disable_intermediate_group_creation() const
-{
-  if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),-1)<0)
-  {
+void LinkCreationList::disable_intermediate_group_creation() const {
+  if (H5Pset_create_intermediate_group(static_cast<hid_t>(*this), -1) < 0) {
     error::Singleton::instance().throw_with_stack("Failure deleting intermediate group creation "
-        "flag on link creation property list!");
+                                                      "flag on link creation property list!");
   }
 }
 
-bool LinkCreationList::intermediate_group_creation() const
-{
+bool LinkCreationList::intermediate_group_creation() const {
   unsigned buffer = 0;
-  if(H5Pget_create_intermediate_group(static_cast<hid_t>(*this),&buffer)<0)
-  {
+  if (H5Pget_create_intermediate_group(static_cast<hid_t>(*this), &buffer) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving intermediate group creation flag "
-        "from link creation property list!");
+                                                      "from link creation property list!");
   }
-  if(buffer != 0)
+  if (buffer != 0)
     return true;
   else
     return false;

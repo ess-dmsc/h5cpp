@@ -32,8 +32,7 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT DatatypeAccessList : public LinkAccessList
-{
+class DLL_EXPORT DatatypeAccessList : public LinkAccessList {
  public:
   DatatypeAccessList();
   ~DatatypeAccessList();

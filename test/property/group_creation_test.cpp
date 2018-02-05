@@ -20,7 +20,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
 #include <gtest/gtest.h>
@@ -29,10 +31,9 @@
 
 namespace pl = hdf5::property;
 
-TEST(GroupCreationList, test_construction)
-{
+TEST(GroupCreationList, test_construction) {
   pl::GroupCreationList gcpl;
-  EXPECT_TRUE(gcpl.get_class()==pl::kGroupCreate);
+  EXPECT_TRUE(gcpl.get_class() == pl::kGroupCreate);
 
   auto cl = pl::kGroupCreate;
   EXPECT_NO_THROW((pl::GroupCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
@@ -42,49 +43,45 @@ TEST(GroupCreationList, test_construction)
                std::runtime_error);
 }
 
-TEST(GroupCreationList, test_local_heap_size_hint)
-{
+TEST(GroupCreationList, test_local_heap_size_hint) {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.local_heap_size_hint(1024));
-  EXPECT_EQ(gcpl.local_heap_size_hint(),1024ul);
+  EXPECT_EQ(gcpl.local_heap_size_hint(), 1024ul);
 
   EXPECT_NO_THROW(gcpl.local_heap_size_hint(512ul));
-  EXPECT_EQ(gcpl.local_heap_size_hint(),512ul);
+  EXPECT_EQ(gcpl.local_heap_size_hint(), 512ul);
 
   hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
   EXPECT_THROW(gcpl.local_heap_size_hint(512ul), std::runtime_error);
   EXPECT_THROW(gcpl.local_heap_size_hint(), std::runtime_error);
 }
 
-TEST(GroupCreationList, test_estimated_number_of_links)
-{
+TEST(GroupCreationList, test_estimated_number_of_links) {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.estimated_number_of_links(10));
-  EXPECT_EQ(gcpl.estimated_number_of_links(),10ul);
+  EXPECT_EQ(gcpl.estimated_number_of_links(), 10ul);
   EXPECT_NO_THROW(gcpl.estimated_number_of_links(33));
-  EXPECT_EQ(gcpl.estimated_number_of_links(),33ul);
+  EXPECT_EQ(gcpl.estimated_number_of_links(), 33ul);
 
   hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
   EXPECT_THROW(gcpl.estimated_number_of_links(33), std::runtime_error);
   EXPECT_THROW(gcpl.estimated_number_of_links(), std::runtime_error);
 }
 
-TEST(GroupCreationList, test_estimated_link_name_length)
-{
+TEST(GroupCreationList, test_estimated_link_name_length) {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.estimated_link_name_length(100));
-  EXPECT_EQ(gcpl.estimated_link_name_length(),100ul);
+  EXPECT_EQ(gcpl.estimated_link_name_length(), 100ul);
 
   EXPECT_NO_THROW(gcpl.estimated_link_name_length(64));
-  EXPECT_EQ(gcpl.estimated_link_name_length(),64ul);
+  EXPECT_EQ(gcpl.estimated_link_name_length(), 64ul);
 
   hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
   EXPECT_THROW(gcpl.estimated_link_name_length(64), std::runtime_error);
   EXPECT_THROW(gcpl.estimated_link_name_length(), std::runtime_error);
 }
 
-TEST(GroupCreationList, test_link_creation_order)
-{
+TEST(GroupCreationList, test_link_creation_order) {
   pl::GroupCreationList gcpl;
   EXPECT_NO_THROW(gcpl.link_creation_order(pl::CreationOrder().enable_indexed()));
   pl::CreationOrder flags = gcpl.link_creation_order();
@@ -101,14 +98,13 @@ TEST(GroupCreationList, test_link_creation_order)
   EXPECT_THROW(gcpl.link_creation_order(), std::runtime_error);
 }
 
-TEST(GroupCreationList, test_link_storage_threshold)
-{
+TEST(GroupCreationList, test_link_storage_threshold) {
   pl::GroupCreationList gcpl;
-  EXPECT_NO_THROW(gcpl.link_storage_thresholds(100,60));
-  EXPECT_EQ(gcpl.link_storage_maximum_compact(),100ul);
-  EXPECT_EQ(gcpl.link_storage_minimum_dense(),60ul);
+  EXPECT_NO_THROW(gcpl.link_storage_thresholds(100, 60));
+  EXPECT_EQ(gcpl.link_storage_maximum_compact(), 100ul);
+  EXPECT_EQ(gcpl.link_storage_minimum_dense(), 60ul);
 
-  EXPECT_THROW(gcpl.link_storage_thresholds(60,100),std::runtime_error);
+  EXPECT_THROW(gcpl.link_storage_thresholds(60, 100), std::runtime_error);
 
   hdf5::ObjectHandle(static_cast<hid_t>(gcpl)).close();
   EXPECT_THROW(gcpl.link_storage_maximum_compact(), std::runtime_error);

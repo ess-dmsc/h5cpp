@@ -31,8 +31,7 @@
 namespace hdf5 {
 namespace datatype {
 
-class DLL_EXPORT String : public Datatype
-{
+class DLL_EXPORT String : public Datatype {
  public:
   //!
   //! \brief default constructor

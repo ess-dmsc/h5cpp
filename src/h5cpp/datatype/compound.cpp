@@ -33,12 +33,10 @@ namespace hdf5 {
 namespace datatype {
 
 Compound::Compound(ObjectHandle &&handle) :
-    Datatype(std::move(handle))
-{}
+    Datatype(std::move(handle)) {}
 
 Compound::Compound(const Datatype &type) :
-    Datatype(type)
-{
+    Datatype(type) {
   if (get_class() != Class::COMPOUND) {
     std::stringstream ss;
     ss << "Cannot create Compound datatype from " << get_class();
@@ -46,8 +44,7 @@ Compound::Compound(const Datatype &type) :
   }
 }
 
-Compound Compound::create(size_t size)
-{
+Compound Compound::create(size_t size) {
   hid_t ret = H5Tcreate(static_cast<H5T_class_t>(Class::COMPOUND), size);
   if (ret < 0) {
     std::stringstream ss;
@@ -57,8 +54,7 @@ Compound Compound::create(size_t size)
   return Compound(ObjectHandle(ret));
 }
 
-Datatype Compound::operator[](size_t index) const
-{
+Datatype Compound::operator[](size_t index) const {
   hid_t id = H5Tget_member_type(static_cast<hid_t>(*this), index);
   if (id < 0) {
     std::stringstream ss;
@@ -68,13 +64,11 @@ Datatype Compound::operator[](size_t index) const
   return Datatype(ObjectHandle(id));
 }
 
-Datatype Compound::operator[](const std::string &name) const
-{
+Datatype Compound::operator[](const std::string &name) const {
   return Compound::operator[](field_index(name));
 }
 
-size_t Compound::field_index(const std::string &name) const
-{
+size_t Compound::field_index(const std::string &name) const {
   int index = H5Tget_member_index(static_cast<hid_t>(*this), name.c_str());
   if (index < 0) {
     std::stringstream ss;
@@ -84,8 +78,7 @@ size_t Compound::field_index(const std::string &name) const
   return index;
 }
 
-std::string Compound::field_name(size_t index) const
-{
+std::string Compound::field_name(size_t index) const {
   char *buffer = H5Tget_member_name(static_cast<hid_t>(*this), index);
   if (buffer == NULL) {
     std::stringstream ss;
@@ -103,13 +96,11 @@ std::string Compound::field_name(size_t index) const
   return name;
 }
 
-size_t Compound::field_offset(const std::string &name) const
-{
+size_t Compound::field_offset(const std::string &name) const {
   return field_offset(field_index(name));
 }
 
-size_t Compound::field_offset(size_t index) const
-{
+size_t Compound::field_offset(size_t index) const {
   size_t offset = H5Tget_member_offset(static_cast<hid_t>(*this), index);
 
   // This error checking logic looks wonky ???
@@ -128,13 +119,11 @@ size_t Compound::field_offset(size_t index) const
   return offset;
 }
 
-Class Compound::field_class(const std::string &name) const
-{
+Class Compound::field_class(const std::string &name) const {
   return field_class(field_index(name));
 }
 
-Class Compound::field_class(size_t index) const
-{
+Class Compound::field_class(size_t index) const {
   H5T_class_t value = H5Tget_member_class(static_cast<hid_t>(*this), index);
   if (value < 0) {
     std::stringstream ss;
@@ -144,8 +133,7 @@ Class Compound::field_class(size_t index) const
   return static_cast<Class>(value);
 }
 
-size_t Compound::number_of_fields() const
-{
+size_t Compound::number_of_fields() const {
   int n = H5Tget_nmembers(static_cast<hid_t>(*this));
   if (n < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve number of fields for compound data type!");
@@ -153,8 +141,7 @@ size_t Compound::number_of_fields() const
   return n;
 }
 
-void Compound::insert(const std::string &name, size_t offset, const Datatype &type) const
-{
+void Compound::insert(const std::string &name, size_t offset, const Datatype &type) const {
   if (H5Tinsert(static_cast<hid_t>(*this), name.c_str(), offset, static_cast<hid_t>(type)) < 0) {
     std::stringstream ss;
     ss << "Failure inserting field [" << name << "] at offset [" << offset << "] "
@@ -163,8 +150,7 @@ void Compound::insert(const std::string &name, size_t offset, const Datatype &ty
   }
 }
 
-void Compound::pack() const
-{
+void Compound::pack() const {
   if (H5Tpack(static_cast<hid_t>(*this)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure packing compound data type!");
   }

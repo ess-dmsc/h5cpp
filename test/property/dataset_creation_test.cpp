@@ -33,8 +33,7 @@
 namespace prop = hdf5::property;
 namespace type = hdf5::datatype;
 
-TEST(DatasetCreationList, FillSetValues)
-{
+TEST(DatasetCreationList, FillSetValues) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -50,8 +49,7 @@ TEST(DatasetCreationList, FillSetValues)
   EXPECT_EQ(stream.str(), "USER_DEFINED");
 }
 
-TEST(DatasetCreationList, FillTime)
-{
+TEST(DatasetCreationList, FillTime) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -67,8 +65,7 @@ TEST(DatasetCreationList, FillTime)
   EXPECT_EQ(stream.str(), "NEVER");
 }
 
-TEST(DatasetCreationList, AllocationTime)
-{
+TEST(DatasetCreationList, AllocationTime) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -88,8 +85,7 @@ TEST(DatasetCreationList, AllocationTime)
   EXPECT_EQ(stream.str(), "LATE");
 }
 
-TEST(DatasetCreationList, Layout)
-{
+TEST(DatasetCreationList, Layout) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -111,8 +107,7 @@ TEST(DatasetCreationList, Layout)
 #endif
 }
 
-TEST(DatasetCreationList, test_construction)
-{
+TEST(DatasetCreationList, test_construction) {
   prop::DatasetCreationList pl;
   EXPECT_TRUE(pl.get_class() == prop::kDatasetCreate);
   EXPECT_EQ(pl.layout(), prop::DatasetLayout::CONTIGUOUS);
@@ -128,8 +123,7 @@ TEST(DatasetCreationList, test_construction)
                std::runtime_error);
 }
 
-TEST(DatasetCreationList, test_layout)
-{
+TEST(DatasetCreationList, test_layout) {
   prop::DatasetCreationList pl;
   EXPECT_EQ(pl.layout(), prop::DatasetLayout::CONTIGUOUS);
   EXPECT_NO_THROW(pl.layout(prop::DatasetLayout::CHUNKED));
@@ -147,8 +141,7 @@ TEST(DatasetCreationList, test_layout)
   EXPECT_THROW(pl.layout(), std::runtime_error);
 }
 
-TEST(DatasetCreationList, test_chunk)
-{
+TEST(DatasetCreationList, test_chunk) {
   prop::DatasetCreationList pl;
   EXPECT_NO_THROW(pl.chunk({10, 100}));
 
@@ -162,8 +155,7 @@ TEST(DatasetCreationList, test_chunk)
   EXPECT_THROW(pl.chunk(), std::runtime_error);
 }
 
-TEST(DatasetCreationList, test_fill_time)
-{
+TEST(DatasetCreationList, test_fill_time) {
   prop::DatasetCreationList pl;
   EXPECT_EQ(pl.fill_time(), prop::DatasetFillTime::IFSET);
   EXPECT_NO_THROW(pl.fill_time(prop::DatasetFillTime::ALLOC));
@@ -176,8 +168,7 @@ TEST(DatasetCreationList, test_fill_time)
   EXPECT_THROW(pl.fill_time(), std::runtime_error);
 }
 
-TEST(DatasetCreationList, test_allocation_time)
-{
+TEST(DatasetCreationList, test_allocation_time) {
   prop::DatasetCreationList pl;
   EXPECT_EQ(pl.allocation_time(), prop::DatasetAllocTime::LATE);
   EXPECT_NO_THROW(pl.allocation_time(prop::DatasetAllocTime::DEFAULT));
@@ -192,8 +183,7 @@ TEST(DatasetCreationList, test_allocation_time)
   EXPECT_THROW(pl.allocation_time(), std::runtime_error);
 }
 
-TEST(DatasetCreationList, test_fill_value_default)
-{
+TEST(DatasetCreationList, test_fill_value_default) {
   prop::DatasetCreationList pl;
   EXPECT_NO_THROW(pl.fill_value(1024));
   EXPECT_EQ(pl.fill_value<int>(), 1024);
@@ -204,8 +194,7 @@ TEST(DatasetCreationList, test_fill_value_default)
   EXPECT_THROW(pl.fill_value_status(), std::runtime_error);
 }
 
-TEST(DatasetCreationList, test_fill_value_custom_type)
-{
+TEST(DatasetCreationList, test_fill_value_custom_type) {
   prop::DatasetCreationList pl;
   auto set_type = type::create<int>();
   auto get_type = type::create<float>();

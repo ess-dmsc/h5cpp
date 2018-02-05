@@ -18,7 +18,9 @@
 // along with h5cpp.  If not, see <http://www.gnu.org/licenses/>.
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 16, 2017
 //
 #include <gtest/gtest.h>
@@ -26,35 +28,32 @@
 
 namespace pl = hdf5::property;
 
-TEST(PropertyList, test_construction)
-{
+TEST(PropertyList, test_construction) {
   pl::Class c(hdf5::ObjectHandle(H5P_ATTRIBUTE_ACCESS));
 
   EXPECT_THROW((pl::Class(hdf5::ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
 }
 
-TEST(PropertyList, test_predefined_classes)
-{
-  EXPECT_EQ(pl::kAttributeCreate.name(),"attribute create");
-  EXPECT_EQ(pl::kDatasetAccess.name(),"dataset access");
-  EXPECT_EQ(pl::kDatasetCreate.name(),"dataset create");
-  EXPECT_EQ(pl::kDatasetXfer.name(),"data transfer");
-  EXPECT_EQ(pl::kDatatypeAccess.name(),"datatype access");
-  EXPECT_EQ(pl::kDatatypeCreate.name(),"datatype create");
-  EXPECT_EQ(pl::kFileAccess.name(),"file access");
-  EXPECT_EQ(pl::kFileCreate.name(),"file create");
-  EXPECT_EQ(pl::kFileMount.name(),"file mount");
-  EXPECT_EQ(pl::kGroupAccess.name(),"group access");
-  EXPECT_EQ(pl::kGroupCreate.name(),"group create");
-  EXPECT_EQ(pl::kLinkAccess.name(),"link access");
-  EXPECT_EQ(pl::kLinkCreate.name(),"link create");
-  EXPECT_EQ(pl::kObjectCopy.name(),"object copy");
-  EXPECT_EQ(pl::kObjectCreate.name(),"object create");
-  EXPECT_EQ(pl::kStringCreate.name(),"string create");
+TEST(PropertyList, test_predefined_classes) {
+  EXPECT_EQ(pl::kAttributeCreate.name(), "attribute create");
+  EXPECT_EQ(pl::kDatasetAccess.name(), "dataset access");
+  EXPECT_EQ(pl::kDatasetCreate.name(), "dataset create");
+  EXPECT_EQ(pl::kDatasetXfer.name(), "data transfer");
+  EXPECT_EQ(pl::kDatatypeAccess.name(), "datatype access");
+  EXPECT_EQ(pl::kDatatypeCreate.name(), "datatype create");
+  EXPECT_EQ(pl::kFileAccess.name(), "file access");
+  EXPECT_EQ(pl::kFileCreate.name(), "file create");
+  EXPECT_EQ(pl::kFileMount.name(), "file mount");
+  EXPECT_EQ(pl::kGroupAccess.name(), "group access");
+  EXPECT_EQ(pl::kGroupCreate.name(), "group create");
+  EXPECT_EQ(pl::kLinkAccess.name(), "link access");
+  EXPECT_EQ(pl::kLinkCreate.name(), "link create");
+  EXPECT_EQ(pl::kObjectCopy.name(), "object copy");
+  EXPECT_EQ(pl::kObjectCreate.name(), "object create");
+  EXPECT_EQ(pl::kStringCreate.name(), "string create");
 }
 
-TEST(PropertyList, test_stream)
-{
+TEST(PropertyList, test_stream) {
   std::stringstream stream;
 
   stream.str(std::string());
@@ -112,8 +111,7 @@ TEST(PropertyList, test_stream)
   EXPECT_EQ(stream.str(), "AttributeClass()");
 }
 
-TEST(PropertyList, test_equality_operator)
-{
+TEST(PropertyList, test_equality_operator) {
   EXPECT_TRUE(pl::kAttributeCreate == pl::kAttributeCreate);
   EXPECT_FALSE(pl::kAttributeCreate == pl::kFileAccess);
   EXPECT_TRUE(pl::kAttributeCreate != pl::kFileAccess);

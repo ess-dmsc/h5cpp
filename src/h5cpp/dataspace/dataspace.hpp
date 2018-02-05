@@ -37,8 +37,7 @@ namespace dataspace {
 //!
 //! \brief dataspace base class
 //!
-class DLL_EXPORT Dataspace
-{
+class DLL_EXPORT Dataspace {
  public:
   //!
   //! \brief destructor
@@ -110,8 +109,7 @@ class DLL_EXPORT Dataspace
   //! hid_t id = static_cast<hid_t>(space);
   //! \endcode
   //!
-  explicit operator hid_t() const
-  {
+  explicit operator hid_t() const {
     return static_cast<hid_t>(handle_);
   }
 

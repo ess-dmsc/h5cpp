@@ -50,8 +50,7 @@ Hyperslab::Hyperslab(size_t rank) :
     start_(rank),
     stride_(rank),
     count_(rank),
-    block_(rank)
-{
+    block_(rank) {
   std::fill(start_.begin(), start_.end(), 0);
   std::fill(stride_.begin(), stride_.end(), 1);
   std::fill(block_.begin(), block_.end(), 0);
@@ -73,8 +72,7 @@ Hyperslab::Hyperslab(const Dimensions &offset, const Dimensions &block) :
     start_(offset),
     stride_(offset.size()),
     count_(offset.size()),
-    block_(block)
-{
+    block_(block) {
   std::fill(stride_.begin(), stride_.end(), 1ul);
   std::fill(count_.begin(), count_.end(), 1ul);
 }
@@ -85,18 +83,15 @@ Hyperslab::Hyperslab(const Dimensions &offset, const Dimensions &count,
     start_(offset),
     stride_(stride),
     count_(count),
-    block_(offset.size())
-{
+    block_(offset.size()) {
   std::fill(block_.begin(), block_.end(), 1ul);
 }
 
-size_t Hyperslab::rank() const noexcept
-{
+size_t Hyperslab::rank() const noexcept {
   return start_.size();
 }
 
-void Hyperslab::offset(size_t index, size_t value)
-{
+void Hyperslab::offset(size_t index, size_t value) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start value for a default "
                                    "constructed Hyperslab!")
   check_dimension_index(index, "start");
@@ -104,8 +99,7 @@ void Hyperslab::offset(size_t index, size_t value)
   start_[index] = value;
 }
 
-void Hyperslab::offset(const Dimensions &values)
-{
+void Hyperslab::offset(const Dimensions &values) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set start values for a default "
                                    "constructed Hyperslab!")
 
@@ -113,15 +107,13 @@ void Hyperslab::offset(const Dimensions &values)
   start_ = values;
 }
 
-const Dimensions &Hyperslab::offset() const
-{
+const Dimensions &Hyperslab::offset() const {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot get start values for a default "
                                    "constructed Hyperslab!")
   return start_;
 }
 
-void Hyperslab::stride(size_t index, size_t value)
-{
+void Hyperslab::stride(size_t index, size_t value) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set stride value for a default "
                                    "constructed Hyperslab!")
   check_dimension_index(index, "stride");
@@ -129,23 +121,20 @@ void Hyperslab::stride(size_t index, size_t value)
   stride_[index] = value;
 }
 
-void Hyperslab::stride(const Dimensions &values)
-{
+void Hyperslab::stride(const Dimensions &values) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set stride values for a default "
                                    "constructed Hyperslab!")
   check_container_size(values, "stride");
   stride_ = values;
 }
 
-const Dimensions &Hyperslab::stride() const
-{
+const Dimensions &Hyperslab::stride() const {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot get stride values for a default "
                                    "constructed Hyperslab!")
   return stride_;
 }
 
-void Hyperslab::count(size_t index, size_t value)
-{
+void Hyperslab::count(size_t index, size_t value) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set count value for a default "
                                    "constructed Hyperslab!")
   check_dimension_index(index, "count");
@@ -153,31 +142,27 @@ void Hyperslab::count(size_t index, size_t value)
   count_[index] = value;
 }
 
-void Hyperslab::count(const Dimensions &values)
-{
+void Hyperslab::count(const Dimensions &values) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set count values for a default "
                                    "constructed Hyperslab!")
   check_container_size(values, "count");
   count_ = values;
 }
 
-const Dimensions &Hyperslab::count() const
-{
+const Dimensions &Hyperslab::count() const {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot get count values for a default "
                                    "constructed Hyperslab!")
   return count_;
 }
 
-void Hyperslab::block(size_t index, size_t value)
-{
+void Hyperslab::block(size_t index, size_t value) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set block value for a default "
                                    "constructed Hyperslab!")
   check_dimension_index(index, "block");
   block_[index] = value;
 }
 
-void Hyperslab::block(const Dimensions &values)
-{
+void Hyperslab::block(const Dimensions &values) {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot set block values for a default "
                                    "constructed Hyperslab!")
   check_container_size(values, "block");
@@ -185,15 +170,13 @@ void Hyperslab::block(const Dimensions &values)
 
 }
 
-const Dimensions &Hyperslab::block() const
-{
+const Dimensions &Hyperslab::block() const {
   THROW_IF_DEFAULT_CONSTRUCTED("Cannot get block values for a default "
                                    "constructed Hyperslab!")
   return block_;
 }
 
-void Hyperslab::apply(const Dataspace &space, SelectionOperation ops) const
-{
+void Hyperslab::apply(const Dataspace &space, SelectionOperation ops) const {
   if (H5Sselect_hyperslab(static_cast<hid_t>(space),
                           static_cast<H5S_seloper_t>(ops),
                           start_.data(), stride_.data(), count_.data(),
@@ -203,8 +186,7 @@ void Hyperslab::apply(const Dataspace &space, SelectionOperation ops) const
   }
 }
 
-Dataspace operator||(const Dataspace &space, const Hyperslab &selection)
-{
+Dataspace operator||(const Dataspace &space, const Hyperslab &selection) {
   Dataspace new_space(space);
 
   new_space.selection(SelectionOperation::SET, selection);
@@ -212,15 +194,13 @@ Dataspace operator||(const Dataspace &space, const Hyperslab &selection)
   return new_space;
 }
 
-SelectionList operator|(const Hyperslab &a, const Hyperslab &b)
-{
+SelectionList operator|(const Hyperslab &a, const Hyperslab &b) {
   return {{SelectionOperation::SET, Selection::SharedPointer(new Hyperslab(a))},
           {SelectionOperation::OR, Selection::SharedPointer(new Hyperslab(b))}
   };
 }
 
-SelectionList &operator|(SelectionList &selections, const Hyperslab &b)
-{
+SelectionList &operator|(SelectionList &selections, const Hyperslab &b) {
   selections.push_back({SelectionOperation::SET,
                         Selection::SharedPointer(new Hyperslab(b))});
   return selections;

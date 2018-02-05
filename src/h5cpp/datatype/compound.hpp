@@ -37,8 +37,7 @@ namespace datatype {
 //! A compound data type can be used for data elements of heterogeneous
 //! type like C-structures or a C++ class.
 //!
-class DLL_EXPORT Compound : public Datatype
-{
+class DLL_EXPORT Compound : public Datatype {
  public:
   //!
   //! \brief default constructor

@@ -31,8 +31,7 @@
 
 namespace pl = hdf5::property;
 
-TEST(FileMountList, test_default_construction)
-{
+TEST(FileMountList, test_default_construction) {
   pl::FileMountList fmpl;
   EXPECT_TRUE(fmpl.get_class() == pl::kFileMount);
 

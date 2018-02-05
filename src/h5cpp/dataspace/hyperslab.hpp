@@ -48,8 +48,7 @@ namespace dataspace {
 //!     have the same size. However, this might be an expensive procedure and
 //!     we should take performance considerations into account here.
 //!
-class DLL_EXPORT Hyperslab : public Selection
-{
+class DLL_EXPORT Hyperslab : public Selection {
  public:
   //!
   //! \brief default constructor
@@ -252,8 +251,7 @@ class DLL_EXPORT Hyperslab : public Selection
                      SelectionOperation ops) const;
 
  private:
-  inline void check_dimension_index(size_t index, const std::string &what) const
-  {
+  inline void check_dimension_index(size_t index, const std::string &what) const {
     if (index >= rank()) {
       std::stringstream ss;
       ss << "Cannot set " << what << " value at dimension " << index << " for a Hyperslab"
@@ -262,8 +260,7 @@ class DLL_EXPORT Hyperslab : public Selection
     }
   }
 
-  inline void check_container_size(const Dimensions &container, const std::string &what) const
-  {
+  inline void check_container_size(const Dimensions &container, const std::string &what) const {
     if (container.size() != rank()) {
       std::stringstream ss;
       ss << "Cannot assign " << container.size() << " " << what << " values to a Hyperslab"

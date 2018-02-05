@@ -32,8 +32,7 @@
 namespace pl = hdf5::property;
 namespace fs = boost::filesystem;
 
-TEST(LinkAccessList, test_default_construction)
-{
+TEST(LinkAccessList, test_default_construction) {
   pl::LinkAccessList lapl;
   EXPECT_TRUE(lapl.get_class() == pl::kLinkAccess);
 
@@ -45,8 +44,7 @@ TEST(LinkAccessList, test_default_construction)
                std::runtime_error);
 }
 
-TEST(LinkAccessList, test_maximum_link_traversal)
-{
+TEST(LinkAccessList, test_maximum_link_traversal) {
   pl::LinkAccessList lapl;
   EXPECT_NO_THROW(lapl.maximum_link_traversals(1000));
   EXPECT_EQ(lapl.maximum_link_traversals(), 1000ul);
@@ -59,8 +57,7 @@ TEST(LinkAccessList, test_maximum_link_traversal)
   EXPECT_THROW(lapl.maximum_link_traversals(), std::runtime_error);
 }
 
-TEST(LinkAccessList, test_external_link_prefix)
-{
+TEST(LinkAccessList, test_external_link_prefix) {
   pl::LinkAccessList lapl;
   EXPECT_NO_THROW(lapl.external_link_prefix("/home/wintersb"));
   EXPECT_EQ(lapl.external_link_prefix().string(), "/home/wintersb");

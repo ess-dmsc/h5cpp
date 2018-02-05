@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
 #include <h5cpp/dataspace/selection.hpp>
@@ -28,19 +30,16 @@
 namespace hdf5 {
 namespace dataspace {
 
-Selection::~Selection()
-{}
+Selection::~Selection() {}
 
-Dataspace operator||(const Dataspace &space,const SelectionList &selections)
-{
+Dataspace operator||(const Dataspace &space, const SelectionList &selections) {
   Dataspace new_space(space);
 
-  for(auto swo: selections)
-    new_space.selection(swo.operation,*swo.selection);
+  for (auto swo: selections)
+    new_space.selection(swo.operation, *swo.selection);
 
   return new_space;
 }
-
 
 } // namespace dataspace
 } // namespace hdf5

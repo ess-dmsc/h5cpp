@@ -32,8 +32,7 @@
 namespace hdf5 {
 namespace property {
 
-class DLL_EXPORT FileCreationList : public GroupCreationList
-{
+class DLL_EXPORT FileCreationList : public GroupCreationList {
  public:
   FileCreationList();
   ~FileCreationList();

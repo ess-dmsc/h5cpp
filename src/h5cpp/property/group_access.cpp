@@ -32,25 +32,20 @@
 namespace hdf5 {
 namespace property {
 
-GroupAccessList::GroupAccessList():
-    LinkAccessList(kGroupAccess)
-{
+GroupAccessList::GroupAccessList() :
+    LinkAccessList(kGroupAccess) {
 }
 
-GroupAccessList::~GroupAccessList()
-{}
+GroupAccessList::~GroupAccessList() {}
 
 GroupAccessList::GroupAccessList(ObjectHandle &&handle) :
-    LinkAccessList(std::move(handle))
-{
+    LinkAccessList(std::move(handle)) {
   if (get_class() != kGroupAccess) {
     std::stringstream ss;
     ss << "Cannot create property::DatatypeAccessList from " << get_class();
     throw std::runtime_error(ss.str());
   }
 }
-
-
 
 } // namespace property
 } // namespace hdf5

@@ -30,8 +30,7 @@
 namespace hdf5 {
 namespace dataspace {
 
-std::ostream &operator<<(std::ostream &stream, const Type &t)
-{
+std::ostream &operator<<(std::ostream &stream, const Type &t) {
   switch (t) {
     case Type::SCALAR: return stream << "SCALAR";
     case Type::SIMPLE: return stream << "SIMPLE";
@@ -40,8 +39,7 @@ std::ostream &operator<<(std::ostream &stream, const Type &t)
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const SelectionType &t)
-{
+std::ostream &operator<<(std::ostream &stream, const SelectionType &t) {
   switch (t) {
     case SelectionType::NONE: return stream << "NONE";
     case SelectionType::POINTS: return stream << "POINTS";
@@ -52,8 +50,7 @@ std::ostream &operator<<(std::ostream &stream, const SelectionType &t)
 
 }
 
-std::ostream &operator<<(std::ostream &stream, const SelectionOperation &o)
-{
+std::ostream &operator<<(std::ostream &stream, const SelectionOperation &o) {
   switch (o) {
     case SelectionOperation::SET: return stream << "SET";
     case SelectionOperation::OR: return stream << "OR";

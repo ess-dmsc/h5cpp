@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 15, 2017
 //
 
@@ -31,14 +33,12 @@
 namespace hdf5 {
 namespace property {
 
-List::List(const Class &plist_class):
-          handle_(H5Pcreate(static_cast<hid_t>(plist_class)))
-{
+List::List(const Class &plist_class) :
+    handle_(H5Pcreate(static_cast<hid_t>(plist_class))) {
 }
 
-List::List(ObjectHandle &&handle):
-    handle_(std::move(handle))
-{
+List::List(ObjectHandle &&handle) :
+    handle_(std::move(handle)) {
   if (handle_.is_valid() &&
       (handle_.get_type() != ObjectHandle::Type::PROPERTY_LIST)) {
     std::stringstream ss;
@@ -48,37 +48,29 @@ List::List(ObjectHandle &&handle):
   }
 }
 
-List::List(const List &plist)
-{
+List::List(const List &plist) {
   hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
+  if (0 > ret) {
     error::Singleton::instance().throw_with_stack("could not copy-construct property list");
   }
   handle_ = ObjectHandle(ret);
 }
 
-List& List::operator=(const List &plist)
-{
+List &List::operator=(const List &plist) {
   hid_t ret = H5Pcopy(static_cast<hid_t>(plist.handle_));
-  if (0 > ret)
-  {
+  if (0 > ret) {
     error::Singleton::instance().throw_with_stack("could not copy property list");
   }
   handle_ = ObjectHandle(ret);
   return *this;
 }
 
-
-List::~List()
-{
+List::~List() {
 }
 
-Class List::get_class() const
-{
+Class List::get_class() const {
   return Class(ObjectHandle(H5Pget_class(static_cast<hid_t>(handle_))));
 }
-
 
 } // namespace property_list
 } // namespace hdf5
