@@ -19,12 +19,15 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
 #include <h5cpp/property/attribute_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -35,6 +38,16 @@ AttributeCreationList::AttributeCreationList():
 
 AttributeCreationList::~AttributeCreationList()
 {}
+
+AttributeCreationList::AttributeCreationList(ObjectHandle &&handle) :
+    StringCreationList(std::move(handle))
+{
+  if (get_class() != kAttributeCreate) {
+    std::stringstream ss;
+    ss << "Cannot create property::AttributeCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 } // namespace property
 } // namespace hdf5

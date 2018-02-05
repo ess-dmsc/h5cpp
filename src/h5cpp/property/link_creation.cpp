@@ -19,12 +19,15 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -35,6 +38,16 @@ LinkCreationList::LinkCreationList():
 
 LinkCreationList::~LinkCreationList()
 {}
+
+LinkCreationList::LinkCreationList(ObjectHandle &&handle) :
+    StringCreationList(std::move(handle))
+{
+  if (get_class() != kLinkCreate) {
+    std::stringstream ss;
+    ss << "Cannot create property::LinkCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 void LinkCreationList::enable_intermediate_group_creation() const
 {
@@ -62,7 +75,7 @@ bool LinkCreationList::intermediate_group_creation() const
     error::Singleton::instance().throw_with_stack("Failure retrieving intermediate group creation flag "
         "from link creation property list!");
   }
-  if(buffer>0)
+  if(buffer != 0)
     return true;
   else
     return false;

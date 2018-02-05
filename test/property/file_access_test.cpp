@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
@@ -29,10 +31,30 @@
 
 namespace pl = hdf5::property;
 
+TEST(FileAccessList, lib_version)
+{
+  std::stringstream stream;
+
+  stream.str(std::string());
+  stream << pl::LibVersion::EARLIEST;
+  EXPECT_EQ(stream.str(), "EARLIEST");
+
+  stream.str(std::string());
+  stream << pl::LibVersion::LATEST;
+  EXPECT_EQ(stream.str(), "LATEST");
+}
+
 TEST(FileAccessList, default_construction)
 {
   pl::FileAccessList fapl;
   EXPECT_EQ(fapl.get_class(), pl::kFileAccess);
+
+  auto cl = pl::kFileAccess;
+  EXPECT_NO_THROW((pl::FileAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::FileAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 TEST(FileAccessList, library_version_bounds)

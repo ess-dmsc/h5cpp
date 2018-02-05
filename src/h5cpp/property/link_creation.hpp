@@ -45,6 +45,8 @@ class DLL_EXPORT LinkCreationList : public StringCreationList
   //!
   ~LinkCreationList();
 
+  explicit LinkCreationList(ObjectHandle &&handle);
+
   //!
   //! \brief enable intermediate group creation
   //!

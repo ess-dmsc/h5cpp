@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -42,8 +44,7 @@ enum class LibVersion : std::underlying_type<H5F_libver_t>::type
 
 using LibVersionBase = std::underlying_type<LibVersion>::type;
 
-DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const LibVersion &version);
-
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const LibVersion &version);
 
 //!
 //! \brief file access property list
@@ -52,36 +53,38 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const LibVersion &versi
 //!
 class DLL_EXPORT FileAccessList : public List
 {
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    FileAccessList();
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  FileAccessList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~FileAccessList();
+  //!
+  //! \brief destructor
+  //!
+  ~FileAccessList();
 
-    //!
-    //! \brief setting library version boundaries
-    //!
-    void library_version_bounds(LibVersion high,LibVersion low) const;
+  explicit FileAccessList(ObjectHandle &&handle);
 
-    //!
-    //! \brief get library version high bound
-    //!
-    LibVersion library_version_bound_high() const;
+  //!
+  //! \brief setting library version boundaries
+  //!
+  void library_version_bounds(LibVersion high, LibVersion low) const;
 
-    //!
-    //! \brief get library version low bound
-    //!
-    LibVersion library_version_bound_low() const;
+  //!
+  //! \brief get library version high bound
+  //!
+  LibVersion library_version_bound_high() const;
 
-    //!
-    //! \brief set the file driver
-    //!
-    void driver(const hdf5::file::Driver &file_driver) const;
+  //!
+  //! \brief get library version low bound
+  //!
+  LibVersion library_version_bound_low() const;
+
+  //!
+  //! \brief set the file driver
+  //!
+  void driver(const hdf5::file::Driver &file_driver) const;
 };
 
 } // namespace property

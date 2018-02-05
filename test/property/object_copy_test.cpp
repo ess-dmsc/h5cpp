@@ -227,3 +227,33 @@ TEST(CopyFlags, test_or_operations_1)
   EXPECT_TRUE(flags.expand_external_links());
 }
 
+
+TEST(ObjectCopy, construction)
+{
+  property::ObjectCopyList ocpl;
+  EXPECT_TRUE(ocpl.get_class() == property::kObjectCopy);
+
+  auto cl = property::kObjectCopy;
+  EXPECT_NO_THROW((property::ObjectCopyList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = property::kGroupCreate;
+  EXPECT_THROW((property::ObjectCopyList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
+}
+
+TEST(ObjectCopy, set_flags)
+{
+  property::CopyFlags flags = property::CopyFlag::EXPAND_SOFT_LINKS |
+      property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+  property::ObjectCopyList ocpl;
+  EXPECT_NO_THROW(ocpl.flags(flags));
+  EXPECT_TRUE(ocpl.flags().expand_soft_links());
+  EXPECT_NO_THROW(ocpl.flags(property::CopyFlag::EXPAND_EXTERNAL_LINKS));
+  EXPECT_TRUE(ocpl.flags().expand_external_links());
+
+  hdf5::ObjectHandle(static_cast<hid_t>(ocpl)).close();
+  EXPECT_THROW(ocpl.flags(flags), std::runtime_error);
+  EXPECT_THROW(ocpl.flags(), std::runtime_error);
+  EXPECT_THROW(ocpl.flags(property::CopyFlag::EXPAND_EXTERNAL_LINKS), std::runtime_error);
+
+}

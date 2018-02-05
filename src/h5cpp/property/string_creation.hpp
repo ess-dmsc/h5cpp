@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -28,36 +30,38 @@
 #include <h5cpp/datatype/types.hpp>
 #include <h5cpp/core/windows.hpp>
 
-namespace hdf5{
-namespace property{
+namespace hdf5 {
+namespace property {
 
 class DLL_EXPORT StringCreationList : public List
 {
-  public:
-    //!
-    //! \brief constructor
-    //!
-    StringCreationList();
+ public:
+  //!
+  //! \brief constructor
+  //!
+  StringCreationList();
 
-    //!
-    //! \brief destructor
-    //!
-    virtual ~StringCreationList();
+  //!
+  //! \brief destructor
+  //!
+  virtual ~StringCreationList();
 
-    //!
-    //! \brief get character encoding
-    //! @return current character encoding
-    //! \sa character_encoding
-    datatype::CharacterEncoding character_encoding() const;
+  explicit StringCreationList(ObjectHandle &&handle);
 
-    //!
-    //! \brief set character encoding
-    //! @param encoding the required character encoding
-    //! \sa character_encoding
-    void character_encoding(datatype::CharacterEncoding encoding) const;
+  //!
+  //! \brief get character encoding
+  //! @return current character encoding
+  //! \sa character_encoding
+  datatype::CharacterEncoding character_encoding() const;
 
-  protected:
-    StringCreationList(const Class &plist_class);
+  //!
+  //! \brief set character encoding
+  //! @param encoding the required character encoding
+  //! \sa character_encoding
+  void character_encoding(datatype::CharacterEncoding encoding) const;
+
+ protected:
+  StringCreationList(const Class &plist_class);
 };
 
 }

@@ -19,11 +19,15 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
+
 #include <h5cpp/property/file_access.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -47,6 +51,15 @@ FileAccessList::FileAccessList():
 FileAccessList::~FileAccessList()
 {}
 
+FileAccessList::FileAccessList(ObjectHandle &&handle) :
+    List(std::move(handle))
+{
+  if (get_class() != kFileAccess) {
+    std::stringstream ss;
+    ss << "Cannot create property::FileAccessList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 void FileAccessList::library_version_bounds(LibVersion high,LibVersion low) const
 {

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 28, 2017
 //
 #pragma once
@@ -50,16 +52,18 @@ std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option);
 
 class DLL_EXPORT DatasetTransferList : public List
 {
-  public:
-    DatasetTransferList();
-    ~DatasetTransferList();
+ public:
+  DatasetTransferList();
+  ~DatasetTransferList();
+
+  explicit DatasetTransferList(ObjectHandle &&handle);
 
 #ifdef WITH_MPI
-    void mpi_transfer_mode(MPITransferMode mode) const;
-    MPITransferMode mpi_transfer_mode() const;
+  void mpi_transfer_mode(MPITransferMode mode) const;
+  MPITransferMode mpi_transfer_mode() const;
 
-    void mpi_chunk_option(MPIChunkOption option) const;
-    MPIChunkOption mpi_chunk_option() const;
+  void mpi_chunk_option(MPIChunkOption option) const;
+  MPIChunkOption mpi_chunk_option() const;
 
 
 #endif

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
@@ -33,6 +35,13 @@ TEST(FileMountList, test_default_construction)
 {
   pl::FileMountList fmpl;
   EXPECT_TRUE(fmpl.get_class() == pl::kFileMount);
+
+  auto cl = pl::kFileMount;
+  EXPECT_NO_THROW((pl::FileMountList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
+
+  cl = pl::kGroupCreate;
+  EXPECT_THROW((pl::FileMountList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
+               std::runtime_error);
 }
 
 

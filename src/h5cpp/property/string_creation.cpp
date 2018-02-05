@@ -19,13 +19,16 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 
 #include <type_traits>
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -37,6 +40,19 @@ StringCreationList::StringCreationList():
 
 StringCreationList::~StringCreationList()
 {}
+
+StringCreationList::StringCreationList(ObjectHandle &&handle) :
+    List(std::move(handle))
+{
+  if ((get_class() != kStringCreate) &&
+      (get_class() != kLinkCreate) &&
+      (get_class() != kAttributeCreate)){
+    std::stringstream ss;
+    ss << "Cannot create property::StringCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
+
 
 datatype::CharacterEncoding StringCreationList::character_encoding() const
 {

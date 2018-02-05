@@ -19,23 +19,34 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 28, 2017
 //
 
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
 
-DatasetTransferList::DatasetTransferList():
-    List(kDatasetXfer)
-{}
+DatasetTransferList::DatasetTransferList() :
+    List(kDatasetXfer) {}
 
-DatasetTransferList::~DatasetTransferList()
-{}
+DatasetTransferList::~DatasetTransferList() {}
+
+DatasetTransferList::DatasetTransferList(ObjectHandle &&handle) :
+    List(std::move(handle))
+{
+  if (get_class() != kDatasetXfer) {
+    std::stringstream ss;
+    ss << "Cannot create property::DatasetTransferList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 #ifdef WITH_MPI
 
@@ -114,7 +125,6 @@ MPIChunkOption DatasetTransferList::mpi_chunk_option() const
 
 
 #endif
-
 
 } // namespace property
 } // namespace hdf5
