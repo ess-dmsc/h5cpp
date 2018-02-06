@@ -42,6 +42,10 @@ ObjectHandle::ObjectHandle(hid_t id,ObjectHandle::Policy policy)
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
+  //
+  // if we do not care about the object we have to increment its reference count
+  // in order to avoid getting it destroyed when the ID looses scope.
+  //
   if(policy == Policy::WITHOUT_WARD)
     increment_reference_count();
 }

@@ -29,6 +29,7 @@ set(test_sources
   ${dir}/get_group_test.cpp
   ${dir}/get_dataset_test.cpp
   ${dir}/dataset_bool_io.cpp
+  ${dir}/dataset_h5py_string_compat_test.cpp
   PARENT_SCOPE)
 
 set(test_headers
