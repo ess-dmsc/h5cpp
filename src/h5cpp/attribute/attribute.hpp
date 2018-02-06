@@ -257,8 +257,7 @@ class DLL_EXPORT Attribute
       using Trait = FixedLengthStringTrait<T>;
       using SpaceTrait = hdf5::dataspace::TypeTrait<T>;
 
-      typename Trait::BufferType buffer = Trait::create_buffer(mem_type,
-                                                               SpaceTrait::create(data));
+      auto buffer = Trait::BufferType::create(mem_type,SpaceTrait::create(data));
 
       if(H5Aread(static_cast<hid_t>(handle_),
                  static_cast<hid_t>(mem_type),

@@ -499,7 +499,7 @@ class DLL_EXPORT Dataset : public Node
     {
       using Trait = FixedLengthStringTrait<T>;
 
-      typename Trait::BufferType buffer = Trait::create_buffer(mem_type,mem_space);
+      auto buffer = Trait::BufferType::create(mem_type,mem_space);
 
       if(H5Dread(static_cast<hid_t>(*this),
                  static_cast<hid_t>(mem_type),

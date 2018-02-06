@@ -155,7 +155,24 @@ struct VarLengthStringTrait<std::vector<std::string>>
 
 
 template<typename CharT>
-using FixedLengthStringBuffer = std::vector<CharT>;
+class FixedLengthStringBuffer : public  std::vector<CharT>
+{
+  public:
+
+    using std::vector<CharT>::vector;
+
+    static FixedLengthStringBuffer<CharT> create(const datatype::String &datatype,
+                                                 const dataspace::Dataspace &dataspace)
+    {
+      FixedLengthStringBuffer<CharT> buffer;
+      if(dataspace.selection.type() == dataspace::SelectionType::ALL)
+        buffer =  FixedLengthStringBuffer<CharT>(datatype.size()*dataspace.size());
+      else
+        buffer = FixedLengthStringBuffer<CharT>(datatype.size()*dataspace.selection.size());
+
+      return buffer;
+    }
+};
 
 template<typename T>
 struct FixedLengthStringTrait
@@ -163,10 +180,10 @@ struct FixedLengthStringTrait
     using DataType = T;
     using BufferType = FixedLengthStringBuffer<char>;
 
-    static BufferType create_buffer(const datatype::String &,
-                                    const dataspace::Dataspace &)
+    static BufferType create_buffer(const datatype::String &datatype,
+                                    const dataspace::Dataspace &dataspace)
     {
-      return BufferType();
+      return BufferType::create(datatype,dataspace);
     }
 
     static BufferType to_buffer(const DataType &,const datatype::String &,
@@ -189,22 +206,6 @@ struct FixedLengthStringTrait<std::string>
     using BufferType = FixedLengthStringBuffer<char>;
 
     //!
-    //! @brief create a buffer for a particular dataspace and string data type
-    //!
-    //! @param datatype reference to the datatype for which to create the buffer
-    //! @param dataspace reference to the dataspace for which to create the buffer
-    //! @return buffer type of appropriate size
-    //!
-    static BufferType create_buffer(const datatype::String &datatype,
-                                    const dataspace::Dataspace &dataspace)
-    {
-      if(dataspace.selection.type() == dataspace::SelectionType::ALL)
-        return BufferType(datatype.size()*dataspace.size());
-      else
-        return BufferType(datatype.size()*dataspace.selection.size());
-    }
-
-    //!
     //! @brief create fixed length string buffer from data
     //!
     //! Returns an IO buffer for fixed length strings for data in memory.
@@ -218,7 +219,7 @@ struct FixedLengthStringTrait<std::string>
                                 const datatype::String &memory_type,
                                 const dataspace::Dataspace &memory_space)
     {
-      BufferType buffer = create_buffer(memory_type,memory_space);
+      BufferType buffer = BufferType::create(memory_type,memory_space);
 
       auto buffer_iter = buffer.begin();
       auto buffer_end  = buffer.end();
@@ -250,34 +251,17 @@ struct FixedLengthStringTrait<std::vector<std::string>>
    using DataType = std::vector<std::string>;
    using BufferType = FixedLengthStringBuffer<char>;
 
-   //!
-   //! @brief create a buffer for a particular dataspace and string data type
-   //!
-   //! @param datatype reference to the datatype for which to create the buffer
-   //! @param dataspace reference to the dataspace for which to create the buffer
-   //! @return buffer type of appropriate size
-   //!
-   static BufferType create_buffer(const datatype::String &datatype,
-                                   const dataspace::Dataspace &dataspace)
-   {
-     if(dataspace.selection.type() == dataspace::SelectionType::ALL)
-       return BufferType(datatype.size()*dataspace.size());
-     else
-       return BufferType(datatype.size()*dataspace.selection.size());
-   }
-
    static BufferType to_buffer(const DataType &data,
                                const datatype::String &memory_type,
                                const dataspace::Dataspace &memory_space)
    {
-     BufferType buffer = create_buffer(memory_type,memory_space);
+     BufferType buffer = BufferType::create(memory_type,memory_space);
      
      auto iter = buffer.begin();
      for(const auto &str: data)
      {
        std::copy(str.begin(),str.end(),iter);
        std::advance(iter,memory_type.size()); //move iterator to the next position
-	     //iter++;
      }
 
      return buffer;
