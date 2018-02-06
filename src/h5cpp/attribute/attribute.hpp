@@ -211,7 +211,8 @@ class DLL_EXPORT Attribute
                                    const datatype::Datatype &mem_type) const
     {
       using Trait = FixedLengthStringTrait<T>;
-      auto buffer = Trait::to_buffer(data,datatype::String(datatype()));
+      using SpaceTrait = hdf5::dataspace::TypeTrait<T>;
+      auto buffer = Trait::to_buffer(data,mem_type,SpaceTrait::create(data));
 
       if(H5Awrite(static_cast<hid_t>(handle_),
                   static_cast<hid_t>(mem_type),
@@ -254,8 +255,10 @@ class DLL_EXPORT Attribute
                                   const datatype::Datatype &mem_type) const
     {
       using Trait = FixedLengthStringTrait<T>;
+      using SpaceTrait = hdf5::dataspace::TypeTrait<T>;
 
-      typename Trait::BufferType buffer(dataspace().size()*datatype().size());
+      typename Trait::BufferType buffer = Trait::create_buffer(mem_type,
+                                                               SpaceTrait::create(data));
 
       if(H5Aread(static_cast<hid_t>(handle_),
                  static_cast<hid_t>(mem_type),
@@ -264,7 +267,7 @@ class DLL_EXPORT Attribute
         error::Singleton::instance().throw_with_stack("Failure to read data from attribute!");
       }
 
-      data = Trait::from_buffer(buffer,datatype::String(datatype()));
+      data = Trait::from_buffer(buffer,mem_type,SpaceTrait::create(data));
 
     }
 

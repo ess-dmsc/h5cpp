@@ -163,12 +163,20 @@ struct FixedLengthStringTrait
     using DataType = T;
     using BufferType = FixedLengthStringBuffer<char>;
 
-    static BufferType to_buffer(const DataType &,const datatype::String &)
+    static BufferType create_buffer(const datatype::String &,
+                                    const dataspace::Dataspace &)
+    {
+      return BufferType();
+    }
+
+    static BufferType to_buffer(const DataType &,const datatype::String &,
+                                const dataspace::Dataspace &)
     {
       return BufferType();    
     }
 
-    static DataType from_buffer(const BufferType &,const datatype::String &)
+    static DataType from_buffer(const BufferType &,const datatype::String &,
+                                const dataspace::Dataspace &)
     {
       return DataType();    
     }
@@ -180,14 +188,57 @@ struct FixedLengthStringTrait<std::string>
     using DataType = std::string;
     using BufferType = FixedLengthStringBuffer<char>;
 
-    static BufferType to_buffer(const DataType &data,const datatype::String &)
+    //!
+    //! @brief create a buffer for a particular dataspace and string data type
+    //!
+    //! @param datatype reference to the datatype for which to create the buffer
+    //! @param dataspace reference to the dataspace for which to create the buffer
+    //! @return buffer type of appropriate size
+    //!
+    static BufferType create_buffer(const datatype::String &datatype,
+                                    const dataspace::Dataspace &dataspace)
     {
-      BufferType buffer;
-      std::copy(data.begin(),data.end(),std::back_inserter(buffer));
+      if(dataspace.selection.type() == dataspace::SelectionType::ALL)
+        return BufferType(datatype.size()*dataspace.size());
+      else
+        return BufferType(datatype.size()*dataspace.selection.size());
+    }
+
+    //!
+    //! @brief create fixed length string buffer from data
+    //!
+    //! Returns an IO buffer for fixed length strings for data in memory.
+    //!
+    //! @param data reference to the original data
+    //! @param memory_type HDF5 data type for the data in memory
+    //! @param memory_space HDF5 dataspace for the data in memory
+    //! @return buffer instance with data
+    //!
+    static BufferType to_buffer(const DataType &data,
+                                const datatype::String &memory_type,
+                                const dataspace::Dataspace &memory_space)
+    {
+      BufferType buffer = create_buffer(memory_type,memory_space);
+
+      auto buffer_iter = buffer.begin();
+      auto buffer_end  = buffer.end();
+      auto data_iter   = data.begin();
+      auto data_end    = data.end();
+
+      for(;buffer_iter!=buffer_end && data_iter != data_end; ++buffer_iter,++data_iter)
+        *buffer_iter = *data_iter;
+
       return buffer;
     }
 
-    static DataType from_buffer(const BufferType &buffer,const datatype::String &)
+    //!
+    //! @brief store data from buffer in target memory
+    //!
+    //! @param buffer reference to the IO buffer
+    //! @return new data instance
+    static DataType from_buffer(const BufferType &buffer,
+                                const datatype::String &,
+                                const dataspace::Dataspace &)
     {
       return DataType(buffer.begin(),buffer.end());
     }
@@ -199,29 +250,49 @@ struct FixedLengthStringTrait<std::vector<std::string>>
    using DataType = std::vector<std::string>;
    using BufferType = FixedLengthStringBuffer<char>;
 
-
-   static BufferType to_buffer(const DataType &data,const datatype::String &file_type)
+   //!
+   //! @brief create a buffer for a particular dataspace and string data type
+   //!
+   //! @param datatype reference to the datatype for which to create the buffer
+   //! @param dataspace reference to the dataspace for which to create the buffer
+   //! @return buffer type of appropriate size
+   //!
+   static BufferType create_buffer(const datatype::String &datatype,
+                                   const dataspace::Dataspace &dataspace)
    {
-     BufferType buffer(data.size()*file_type.size(),'\0');
+     if(dataspace.selection.type() == dataspace::SelectionType::ALL)
+       return BufferType(datatype.size()*dataspace.size());
+     else
+       return BufferType(datatype.size()*dataspace.selection.size());
+   }
+
+   static BufferType to_buffer(const DataType &data,
+                               const datatype::String &memory_type,
+                               const dataspace::Dataspace &memory_space)
+   {
+     BufferType buffer = create_buffer(memory_type,memory_space);
      
      auto iter = buffer.begin();
      for(const auto &str: data)
      {
-       iter = std::copy(str.begin(),str.end(),iter);
+       std::copy(str.begin(),str.end(),iter);
+       std::advance(iter,memory_type.size()); //move iterator to the next position
 	     //iter++;
      }
 
      return buffer;
    }
 
-   static DataType from_buffer(const BufferType &buffer,const datatype::String &file_type)
+   static DataType from_buffer(const BufferType &buffer,
+                               const datatype::String &memory_type,
+                               const dataspace::Dataspace &)
    {
      DataType data;
 
      auto start=buffer.begin();
      while(start!=buffer.end())
      {
-       auto end = start+file_type.size();
+       auto end = start+memory_type.size();
        data.push_back(std::string(start,end));
        start=end;
      }
