@@ -46,8 +46,21 @@ TEST_F(H5pyStringCompatTest, test_read_scalar_string)
 {
   node::Dataset dataset = root_group.nodes["fix_string_scalar"];
   std::string buffer;
-  datatype::String memory_type = datatype::String::fixed(40);
+  datatype::String memory_type = datatype::String::fixed(20);
+  memory_type.padding(datatype::StringPad::SPACEPAD);
   dataspace::Scalar memory_space;
   dataset.read(buffer,memory_type,memory_space,dataset.dataspace());
-  EXPECT_EQ(buffer,"hello from h5py\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0");
+  EXPECT_EQ(buffer,"hello from h5py     ");
+}
+
+TEST_F(H5pyStringCompatTest, test_read_vector_string)
+{
+  std::vector<std::string> buffer(6);
+  node::Dataset dataset = root_group.nodes["fix_string_array"];
+
+  datatype::String memory_type = datatype::String::fixed(20);
+  memory_type.padding(datatype::StringPad::NULLTERM);
+  dataspace::Simple memory_space{{2,3}};
+  dataset.read(buffer,memory_type,memory_space,dataset.dataspace());
+  EXPECT_EQ(buffer[0],"hello");
 }
