@@ -358,12 +358,12 @@ class DLL_EXPORT Dataset : public Node
     void write_fixed_length_string_data(const T &data,
                                         const datatype::Datatype &mem_type,
                                         const dataspace::Dataspace &mem_space,
-                                        const datatype::Datatype &file_type,
+                                        const datatype::Datatype &,
                                         const dataspace::Dataspace &file_space,
                                         const property::DatasetTransferList &dtpl) const
     {
       using Trait = FixedLengthStringTrait<T>;
-      auto buffer = Trait::to_buffer(data,file_type);
+      auto buffer = Trait::to_buffer(data,mem_type,mem_space);
 
       if(H5Dwrite(static_cast<hid_t>(*this),
                   static_cast<hid_t>(mem_type),
@@ -499,11 +499,7 @@ class DLL_EXPORT Dataset : public Node
     {
       using Trait = FixedLengthStringTrait<T>;
 
-      typename Trait::BufferType buffer;
-      if(file_space.selection.type()==dataspace::SelectionType::ALL)
-        buffer = typename Trait::BufferType(file_type.size()*file_space.size());
-      else
-        buffer = typename Trait::BufferType(file_type.size()*file_space.selection.size());
+      auto buffer = Trait::BufferType::create(mem_type,mem_space);
 
       if(H5Dread(static_cast<hid_t>(*this),
                  static_cast<hid_t>(mem_type),
@@ -518,7 +514,7 @@ class DLL_EXPORT Dataset : public Node
       }
 
       //get data out of the buffer
-      data = Trait::from_buffer(buffer,file_type);
+      data = Trait::from_buffer(buffer,mem_type,mem_space);
 
     }
 };

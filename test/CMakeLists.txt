@@ -11,6 +11,8 @@ foreach(HDF5_LIB ${HDF5_LIBRARIES})
     link_directories(${LIB_PATH})
 endforeach()
 
+configure_file(h5py_test_data.h5 h5py_test_data.h5 COPYONLY)
+
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 

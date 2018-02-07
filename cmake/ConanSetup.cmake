@@ -1,3 +1,14 @@
+find_program(CONAN NAMES conan PATHS ${CONAN_PATH})
+if(CONAN MATCHES CONAN-NOTFOUND)
+    message(FATAL_ERROR "Could not find conan executable to install dependencies ${CONAN_PATH}")
+else()
+    message(STATUS "Found conan: ${CONAN}")
+    
+    #need to add the directory to the path
+    get_filename_component(CONAN_EXEC_PATH ${CONAN} DIRECTORY)
+    set(ENV{PATH} "$ENV{PATH}:${CONAN_EXEC_PATH}")
+endif()
+
 #=============================================================================
 # adding required files to the build directory (fetch everything from github)
 #=============================================================================
