@@ -82,5 +82,33 @@ TEST_F(DatasetVariableStringIO,vector_io)
   EXPECT_EQ(write,read);
 }
 
+TEST_F(DatasetVariableStringIO,read_single_values_from_vector)
+{
+  using str_vector = std::vector<std::string>;
+  str_vector write{"hello","world","this","is","an","arbitrary","text"};
+  EXPECT_NO_THROW(vector_dataset.write(write));
+
+  std::string buffer;
+  vector_dataset.read(buffer,dataspace::Hyperslab{{0},{1}});
+  EXPECT_EQ(buffer,"hello");
+  vector_dataset.read(buffer,dataspace::Hyperslab{{1},{1}});
+  EXPECT_EQ(buffer,"world");
+  vector_dataset.read(buffer,dataspace::Hyperslab{{6},{1}});
+  EXPECT_EQ(buffer,"text");
+}
+
+TEST_F(DatasetVariableStringIO,read_selection_from_vector)
+{
+  using str_vector = std::vector<std::string>;
+  str_vector write{"hello","world","this","is","an","arbitrary","text"};
+  EXPECT_NO_THROW(vector_dataset.write(write));
+
+  dataspace::Hyperslab selection{{0},{3},{2}};
+  str_vector read(3);
+  vector_dataset.read(read,selection);
+  EXPECT_EQ(read,(str_vector{"hello","this","an"}));
+
+}
+
 
 
