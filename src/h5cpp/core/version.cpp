@@ -27,7 +27,6 @@
 #include <h5cpp/error/error.hpp>
 #include <h5cpp/core/version.hpp>
 #include <sstream>
-#include <boost/lexical_cast.hpp>
 #include <stdexcept>
 
 
