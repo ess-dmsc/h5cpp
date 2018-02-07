@@ -1,4 +1,5 @@
 project = "h5cpp"
+coverage_os = "fedora"
 
 images = [
     'centos': [
@@ -57,30 +58,15 @@ def docker_dependencies(image_key) {
     \""""
 }
 
-def docker_cmake(image_key) {
-    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
-    def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        cd ${project}/build
-        ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 ..
-    \""""
-}
-
 def docker_build(image_key) {
-    def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        cd ${project}/build
-        make --version
-        make unit_tests
-    \""""
-}
-
-def docker_tests(image_key) {
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
+                ${cmake_exec} --version
+                ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ..
+                make --version
                 make run_tests
             \""""
         } catch(e) {
@@ -88,12 +74,16 @@ def docker_tests(image_key) {
         }
 }
 
-def docker_tests_coverage(image_key) {
+def docker_build_coverage(image_key) {
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
     abs_dir = pwd()
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
+                ${cmake_exec} --version
+                ${cmake_exec} -DCMAKE_BUILD_TYPE=Debug -DCOV=1 ..
+                make --version
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
@@ -158,22 +148,10 @@ def get_pipeline(image_key)
                     failure_function(e, "Get dependencies for ${image_key} failed")
                 }
 
-                try {
-                    docker_cmake(image_key)
-                } catch (e) {
-                    failure_function(e, "CMake for ${image_key} failed")
-                }
-
-                try {
-                    docker_build(image_key)
-                } catch (e) {
-                    failure_function(e, "Build for ${image_key} failed")
-                }
-
-                if (image_key == "fedora") {
-                    docker_tests_coverage(image_key)
+                if (image_key == coverage_os) {
+                    docker_build_coverage(image_key)
                 } else {
-                    docker_tests(image_key)
+                    docker_build(image_key)
                 }
             } catch(e) {
                 failure_function(e, "Unknown build failure for ${image_key}")
@@ -185,7 +163,7 @@ def get_pipeline(image_key)
     }
 }
 
-def get_osx_pipeline()
+def get_macos_pipeline()
 {
     return {
         stage("MacOSX") {
@@ -242,7 +220,7 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['fedora'] = get_pipeline('fedora')
+    builders['macOS'] = get_macos_pipeline()
 
     parallel builders
     // Delete workspace when build is done

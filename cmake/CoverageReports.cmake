@@ -53,7 +53,6 @@ function(configure_coverage_llvm)
 endfunction()
 
 if (${COV})
-
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang OR ${CMAKE_CXX_COMPILER_ID} STREQUAL AppleClang)
     configure_coverage_llvm()
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
@@ -62,17 +61,6 @@ if (${COV})
     message(WARNING "Cannot enable coverage reporting. Unsupported compiler: (${CMAKE_CXX_COMPILER_ID}).")
     set(COVERAGE_ENABLED OFF)
   endif ()
-
-  if (${COVERAGE_ENABLED})
-    if (NOT CMAKE_BUILD_TYPE)
-      message(STATUS "Coverage requested but build type was not set. Using Debug mode.")
-      set(CMAKE_BUILD_TYPE "Debug")
-    elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
-      message(WARNING "Cannot provide coverage reporting with Release build. Disabling coverage.")
-      set(COVERAGE_ENABLED OFF)
-    endif ()
-  endif ()
-
 endif ()
 
 function(enable_coverage coverage_target)
