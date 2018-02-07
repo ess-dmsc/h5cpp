@@ -35,7 +35,7 @@ class H5pyStringCompatTest : public testing::Test
 
     virtual void SetUp()
     {
-      h5py_file = file::open("./test/h5py_test_data.h5",file::AccessFlags::READONLY);
+      h5py_file = file::open("./h5py_test_data.h5",file::AccessFlags::READONLY);
       root_group = h5py_file.root();
     }
 
@@ -56,11 +56,19 @@ TEST_F(H5pyStringCompatTest, test_read_scalar_string)
 TEST_F(H5pyStringCompatTest, test_read_vector_string)
 {
   std::vector<std::string> buffer(6);
+  std::vector<std::string> ref_data{"hello               ",
+                                    "world               ",
+                                    "this                ",
+                                    "is                  ",
+                                    "a                   ",
+                                    "test                "
+  };
   node::Dataset dataset = root_group.nodes["fix_string_array"];
 
+
   datatype::String memory_type = datatype::String::fixed(20);
-  memory_type.padding(datatype::StringPad::NULLTERM);
+  memory_type.padding(datatype::StringPad::SPACEPAD);
   dataspace::Simple memory_space{{2,3}};
   dataset.read(buffer,memory_type,memory_space,dataset.dataspace());
-  EXPECT_EQ(buffer[0],"hello");
+  EXPECT_EQ(buffer,ref_data);
 }
