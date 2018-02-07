@@ -25,11 +25,11 @@ add_subdirectory(source)
 add_custom_command(OUTPUT sphinx.stamp
     COMMAND sphinx-build -bhtml source build 
     COMMAND echo "timestamp" > sphinx.stamp
-    DEPENDS ${CMAKE_SPHINX_SOURCES}
+    DEPENDS ${CMAKE_SPHINX_SOURCES} doxygen.stamp
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doc
     )
 
-add_custom_target(users_guide DEPENDS sphinx.stamp)
+add_custom_target(users_guide DEPENDS sphinx.stamp api_doc)
 add_dependencies(html users_guide)
 
 
