@@ -37,6 +37,8 @@ Selection related classes and functions
    
 .. doxygenenum:: hdf5::dataspace::SelectionType
 
+.. doxygenenum:: hdf5::dataspace::SelectionOperation
+
 :cpp:class:`Hyperslab`
 ----------------------
 
