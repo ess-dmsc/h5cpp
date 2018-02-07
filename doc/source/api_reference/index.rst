@@ -9,4 +9,5 @@ Follow this link to the Doxygen-generated `API reference <../doxygen/html/index.
    :maxdepth: 1
    
    namespace_hdf5
+   namespace_attribute
 
