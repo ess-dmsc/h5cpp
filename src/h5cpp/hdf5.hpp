@@ -32,6 +32,7 @@
 #include <h5cpp/core/object_id.hpp>
 #include <h5cpp/core/path.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/core/version.hpp>
 #include <h5cpp/core/windows.hpp>
 
 #include <h5cpp/attribute/attribute_iterator.hpp>
