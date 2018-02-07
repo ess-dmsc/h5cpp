@@ -11,4 +11,5 @@ Follow this link to the Doxygen-generated `API reference <../doxygen/html/index.
    namespace_hdf5
    namespace_attribute
    namespace_dataspace
+   namespace_datatype
 
