@@ -73,5 +73,20 @@ TEST_F(DatasetFixedStringIO,vector_no_auto_config)
   EXPECT_EQ(write,read);
 }
 
+TEST_F(DatasetFixedStringIO,single_value_read)
+{
+  node::Dataset dset(root_group,Path("data"),string_type,simple_space);
+  std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD","EEEEE","FFFFF"};
+  EXPECT_NO_THROW(dset.write(write,string_type,simple_space,simple_space,dtpl));
+
+  auto read_type = datatype::String::fixed(10);
+  read_type.padding(datatype::StringPad::NULLTERM);
+  read_type.encoding(datatype::CharacterEncoding::UTF8);
+  std::string buffer;
+  dset.read(buffer,read_type,dataspace::Scalar(),dataspace::Hyperslab{{0,0},{1,1}});
+  EXPECT_EQ(buffer,std::string("AAAAA\0\0\0\0\0"));
+
+}
+
 
 
