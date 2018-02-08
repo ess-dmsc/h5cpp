@@ -4,7 +4,8 @@ set(SOURCES index.rst
             namespace_dataspace.rst
             namespace_datatype.rst
             namespace_file.rst
-            namespace_filter.rst)
+            namespace_filter.rst
+            namespace_node.rst)
 
 add_sphinx_source(${SOURCES})
 copy_to_current_build(${SOURCES})
