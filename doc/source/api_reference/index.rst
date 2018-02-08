@@ -15,4 +15,5 @@ Follow this link to the Doxygen-generated `API reference <../doxygen/html/index.
    namespace_file
    namespace_filter
    namespace_node
+   namespace_property
 
