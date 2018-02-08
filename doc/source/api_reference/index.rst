@@ -3,7 +3,7 @@ API reference
 =============
 
 
-Follow this link to the Doxygen-generated `API reference <../doxygen/html/index.html>`_.
+Follow this link to the Doxygen-generated `API reference <./doxygen/index.html>`_.
 
 .. toctree::
    :maxdepth: 1

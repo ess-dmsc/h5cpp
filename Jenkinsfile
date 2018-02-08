@@ -258,7 +258,7 @@ node ("fedora") {
             try {
                   checkout scm
 
-                  if (env.BRANCH_NAME == 'master') {
+                  if (env.BRANCH_NAME == 'issue_121') {
                     sh "git config user.email 'dm-jenkins-integration@esss.se'"
                     sh "git config user.name 'cow-bot'"
                     sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
@@ -268,6 +268,7 @@ node ("fedora") {
                     sh "git pull"
                     sh "shopt -u dotglob && rm -rf ./*"
                     sh "mv -f ../build/doc/build/* ./"
+                    sh "mv -f ../build/doc/doxygen_html ./doxygen"
                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
                     sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
