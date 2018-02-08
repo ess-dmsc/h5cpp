@@ -10,39 +10,55 @@ Enumerations
 
 .. doxygenenum:: hdf5::datatype::Class
 
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Class &)
+
 :cpp:enum:`Order`
 -----------------
 
 .. doxygenenum:: hdf5::datatype::Order
+
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Order &)
 
 :cpp:enum:`Sign`
 ----------------
 
 .. doxygenenum:: hdf5::datatype::Sign
 
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Sign &)
+
 :cpp:enum:`Norm`
 ----------------
 
 .. doxygenenum:: hdf5::datatype::Norm
 
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Norm &)
+
 :cpp:enum:`Pad`
 ---------------
 .. doxygenenum:: hdf5::datatype::Pad
+
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Pad &)
 
 :cpp:enum:`StringPad`
 ---------------------
 
 .. doxygenenum:: hdf5::datatype::StringPad
 
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const StringPad &)
+
 :cpp:enum:`Direction`
 ---------------------
 
 .. doxygenenum:: hdf5::datatype::Direction
 
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Direction &)
+
 :cpp:enum:`CharacterEncoding`
 -----------------------------
 
 .. doxygenenum:: hdf5::datatype::CharacterEncoding
+
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const CharacterEncoding &)
 
 Classes
 =======
@@ -57,6 +73,12 @@ Classes
 ------------------
 
 .. doxygenclass:: hdf5::datatype::Array
+   :members:
+   
+:cpp:class:`VLengthArray`
+-------------------------
+
+.. doxygenclass:: hdf5::datatype::VLengthArray
    :members:
 
 :cpp:class:`Compound`
