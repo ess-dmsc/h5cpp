@@ -12,4 +12,5 @@ Follow this link to the Doxygen-generated `API reference <../doxygen/html/index.
    namespace_attribute
    namespace_dataspace
    namespace_datatype
+   namespace_file
 
