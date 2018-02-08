@@ -258,7 +258,7 @@ node ("fedora") {
             try {
                   checkout scm
 
-                  if (env.BRANCH_NAME == 'issue_121') {
+                  if (env.BRANCH_NAME == 'master') {
                     sh "git config user.email 'dm-jenkins-integration@esss.se'"
                     sh "git config user.name 'cow-bot'"
                     sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
