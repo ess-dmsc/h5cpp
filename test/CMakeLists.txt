@@ -33,6 +33,9 @@ set(test_sources
 #add_subdirectory(node)
 #add_subdirectory(file)
 
+# Prevent overriding the parent project's compiler/linker settings on Windows
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
 add_executable(unit_tests
   EXCLUDE_FROM_ALL
   ${test_sources}

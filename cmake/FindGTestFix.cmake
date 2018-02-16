@@ -1,6 +1,3 @@
-# Prevent overriding the parent project's compiler/linker settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
 find_package(Threads REQUIRED)
 find_package(GTest)
 
@@ -45,6 +42,3 @@ if(NOT GTest_FOUND)
     message(WARNING "GTest not found and no fix available")
   endif()
 endif()
-
-# Prevent overriding the parent project's compiler/linker settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
