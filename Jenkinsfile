@@ -261,7 +261,7 @@ def get_win10_pipeline()
                         failure_function(e, 'Windows10 / getting dependencies failed')
                     }
 
-/*
+
                     try {
                         bat 'cmake .. -G "Visual Studio 14 2015 Win64" '
                     } catch (e) {
@@ -275,7 +275,7 @@ def get_win10_pipeline()
 		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'Windows10 / build+test failed')
                     }
-*/
+
                 }
             }
         }
