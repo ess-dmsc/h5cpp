@@ -255,7 +255,7 @@ def get_win10_pipeline()
                             //def conan_remote = "ess-dmsc-local"
                             //local_conan_server=${env.local_conan_server}
                             //bat "C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add --insert 0 %conan_remote% %local_conan_server% "
-                            bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_ess.txt'
+                            bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_default.txt'
                         }
                     } catch (e) {
                         failure_function(e, 'Windows10 / getting dependencies failed')
