@@ -5,23 +5,23 @@
 #   add_definitions(/wd4251 /wd4275)
 # endif ()
 #
-# include_directories(${PROJECT_SOURCE_DIR}/src ${HDF5_INCLUDE_DIRS})
-# foreach(HDF5_LIB ${HDF5_LIBRARIES})
-#     get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
-#     link_directories(${LIB_PATH})
-# endforeach()
-#
-#
-# set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-#
-# set(test_sources
-#   ${dir}/main.cpp
-# #  ${dir}/fixture.cpp
-#   )
+include_directories(${PROJECT_SOURCE_DIR}/src ${HDF5_INCLUDE_DIRS})
+foreach(HDF5_LIB ${HDF5_LIBRARIES})
+  get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+  link_directories(${LIB_PATH})
+endforeach()
 
-#set(test_headers
-#  ${dir}/fixture.hpp
-#  )
+
+set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(test_sources
+    ${dir}/main.cpp
+    ${dir}/fixture.cpp
+    )
+
+set(test_headers
+    ${dir}/fixture.hpp
+    )
 
 #add_subdirectory(error)
 #add_subdirectory(core)
@@ -33,33 +33,30 @@
 #add_subdirectory(node)
 add_subdirectory(file)
 
-# Prevent overriding the parent project's compiler/linker settings on Windows
-# set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
 add_executable(unit_tests
-  EXCLUDE_FROM_ALL
-  ${test_sources}
-  ${test_headers})
+    EXCLUDE_FROM_ALL
+    ${test_sources}
+    ${test_headers})
 add_dependencies(unit_tests h5cpp)
 # target_include_directories(unit_tests
 #   PRIVATE ${GTEST_INCLUDE_DIRS}
 # #  PRIVATE h5cpp
 #     )
 target_link_libraries(unit_tests
-  h5cpp
-  gtest_main
-  ${CMAKE_THREAD_LIBS_INIT}
-  ${COVERAGE_LIBRARIES})
+    h5cpp
+    gtest_main
+    ${CMAKE_THREAD_LIBS_INIT}
+    ${COVERAGE_LIBRARIES})
 enable_coverage(unit_tests)
 
 add_custom_target(run_tests
-  COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml"
-  DEPENDS unit_tests)
+    COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml"
+    DEPENDS unit_tests)
 add_test(NAME "RunGoogleTests" COMMAND run_tests)
 
 create_coverage_targets(
-  generate_coverage
-  run_tests
-  ${PROJECT_BINARY_DIR}
-  ${CMAKE_SOURCE_DIR}/src/h5cpp
-  ${PROJECT_BINARY_DIR}/coverage)
+    generate_coverage
+    run_tests
+    ${PROJECT_BINARY_DIR}
+    ${CMAKE_SOURCE_DIR}/src/h5cpp
+    ${PROJECT_BINARY_DIR}/coverage)
