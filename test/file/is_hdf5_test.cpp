@@ -40,7 +40,7 @@ class IsHDF5 : public testing::Test
   virtual void SetUp()
   {
     std::ofstream ofile(p_txt.native());
-    ofile<<"hello world"<<std::endl;
+    ofile << std::string("hello world\n");
     ofile.close();
 
     file::create(p_h5, file::AccessFlags::TRUNCATE);
