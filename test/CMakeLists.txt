@@ -24,8 +24,8 @@ set(test_headers
     )
 
 add_subdirectory(error)
-add_subdirectory(core)
-#add_subdirectory(property)
+#add_subdirectory(core)
+add_subdirectory(property)
 #add_subdirectory(datatype)
 #add_subdirectory(dataspace)
 #add_subdirectory(attribute)
