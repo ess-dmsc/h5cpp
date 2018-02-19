@@ -7,5 +7,5 @@ set(test_sources
     ${dir}/scope_test.cpp
     ${dir}/file_creation_test.cpp
     ${dir}/file_open_test.cpp
-    #  ${dir}/is_hdf5_test.cpp
-  PARENT_SCOPE)
+    ${dir}/is_hdf5_test.cpp
+    PARENT_SCOPE)
