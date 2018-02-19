@@ -39,7 +39,7 @@ class IsHDF5 : public testing::Test
   IsHDF5() {}
   virtual void SetUp()
   {
-    std::ofstream ofile(p_txt.native().c_str());
+    std::ofstream ofile(p_txt.string());
 //    ofile << std::string("hello world\n");
     ofile.close();
 
