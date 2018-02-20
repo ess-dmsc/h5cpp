@@ -33,38 +33,75 @@
 namespace hdf5 {
 
 //!
-//! \brief iteration order
+//! @brief iteration order
+//!
+//! This enumeration is used to control how an iterator traverses an iterable
+//! with a particular index.
 //!
 enum class IterationOrder : std::underlying_type<H5_iter_order_t>::type
 {
-  INCREASING = H5_ITER_INC,
-  DECREASING = H5_ITER_DEC,
-  NATIVE     = H5_ITER_NATIVE
+  INCREASING = H5_ITER_INC,    //!< iteration in increasing index order
+  DECREASING = H5_ITER_DEC,    //!< iteration in decreasing index order
+  NATIVE     = H5_ITER_NATIVE  //!< iteration in native index order
 };
 
+//!
+//! @brief ouput stream for iteration order enumeration
+//! @relates IterationOrder
+//!
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationOrder &order);
 
 //!
-//! \brief iteration index
+//! @brief iteration index
 //!
 enum class IterationIndex : std::underlying_type<H5_index_t>::type
 {
+  //!using the name as index
   NAME = H5_INDEX_NAME,
-  CREATION_ORDER = H5_INDEX_CRT_ORDER
+  CREATION_ORDER = H5_INDEX_CRT_ORDER  //!< using creation time as index
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationIndex &index);
 
+//!
+//! @brief iterator configuration
+//!
+//! This class encapsulates the iteration configuration for nodes, attributes and
+//! links.
+//!
 class DLL_EXPORT IteratorConfig
 {
   public:
+    //!
+    //! @brief default constructor
+    //!
     IteratorConfig();
+
+    //!
+    //! @brief copy constructor
+    //!
+    //! We use the compiler provided default implementation here.
+    //!
     IteratorConfig(const IteratorConfig &) = default;
 
+    //!
+    //! @brief get the current iteration order
+    //!
     IterationOrder order() const noexcept;
+
+    //!
+    //! @brief set the iteration order
+    //!
     void order(IterationOrder o) noexcept;
 
+    //!
+    //! @brief get the current iteration index
+    //!
     IterationIndex index() const noexcept;
+
+    //!
+    //! @brief set the current iteration index
+    //!
     void index(IterationIndex i) noexcept;
 
     const property::LinkAccessList &link_access_list() const noexcept;

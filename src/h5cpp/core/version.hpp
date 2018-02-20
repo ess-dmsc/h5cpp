@@ -168,6 +168,7 @@ DLL_EXPORT bool operator>(const Version &lhs,const Version &rhs);
 
 //!
 //! @brief returns the current version of the HDF5 library
+//! @relates Version
 //!
 //! @throws std::runtime_error in case of a failure
 //! @return instance of Version with the current HDF5 version

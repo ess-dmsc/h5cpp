@@ -36,114 +36,116 @@ namespace hdf5 {
 namespace datatype {
 
 //!
-//! \brief base class for all data types
+//! @brief base class for all data types
 //!
-class DLL_EXPORT Datatype {
+class DLL_EXPORT Datatype
+{
  public:
   //!
-  //! \brief destructor
+  //! @brief destructor
   //!
   //! Must be virtual for inheritance.
   //!
   virtual ~Datatype();
 
   //!
-  //! \brief default constructor
+  //! @brief default constructor
   //!
   //! Use default compiler implementation here. This will leave
   //! datatype as an invalid HDF5 object. For a default constructed
   //! datatype the class is NONE.
   //!
-  //! \sa is_valid()
+  //! @sa is_valid()
   //!
   Datatype() = default;
 
   //!
-  //! \brief constructor
+  //! @brief constructor
   //!
   //! Construct a datatype from an HDF5 object handle.
-  //! \throws std::runtime_error in case of a failure
-  //! \param handle rvalue reference to the original handle
+  //! @throws std::runtime_error in case of a failure
+  //! @param handle rvalue reference to the original handle
   //!
   Datatype(ObjectHandle &&handle);
 
   //!
-  //! \brief move constructor
+  //! @brief move constructor
   //!
   //! Use default implementation here.
   //!
   Datatype(Datatype &&type) = default;
 
   //!
-  //! \brief copy constructor
+  //! @brief copy constructor
   //!
   //! Use default compiler implementation.
   //!
   Datatype(const Datatype &type);
 
   //!
-  //! \brief copy assignment
+  //! @brief copy assignment
   //!
   //! Use default compiler implementation here.
   //!
   Datatype &operator=(const Datatype &type);
 
   //!
-  //! \brief move assignment
+  //! @brief move assignment
   //!
   //! Use default compiler implementation here.
   //!
   Datatype &operator=(Datatype &&type) = default;
 
   //!
-  //! \brief returns the datatypes class
+  //! @brief returns the datatypes class
   //!
-  //! \throw std::runtime_error in case of a failure
+  //! @throw std::runtime_error in case of a failure
   //!
   Class get_class() const;
 
   //!
-  //! \brief get the base type
+  //! @brief get the base type
   //!
   //! For an array type this will return the base type of the
   //! elements of the array. For an enumeration type it will return
   //! the underlying integer type.
   //!
-  //! \throws std::runtime_error in case of a failure
+  //! @throws std::runtime_error in case of a failure
   //!
   Datatype super() const;
 
   //!
-  //! \brief get native type
+  //! @brief get native type
   //!
   //! Returns the native type associated with a particular datat type.
   //!
-  //! \throws std::runtime_error in case of a failure
+  //! @throws std::runtime_error in case of a failure
   //!
   Datatype native_type(Direction dir = Direction::ASCEND) const;
 
   //!
-  //! \brief search for a type class
+  //! @brief search for a type class
   //!
   //! Checks if a type contains a particular type class.
   //!
   bool has_class(Class type_class) const;
 
   //!
-  //! \brief get size of type in bytes
+  //! @brief get size of type in bytes
   //!
-  //! \throws std::runtime_error in case of a failure
+  //! @throws std::runtime_error in case of a failure
   //!
   virtual size_t size() const;
 
   //!
-  //! \brief set the size of a type in bytes
+  //! @brief set the size of a type in bytes
   //!
-  //! \throws std::runtime_error in case of a failure
+  //! @throws std::runtime_error in case of a failure
   //!
   virtual void size(size_t size) const;
 
-  explicit operator hid_t() const {
+  explicit operator hid_t() const
+  {
     return static_cast<hid_t>(handle_);
   }
 
@@ -161,7 +163,29 @@ class DLL_EXPORT Datatype {
 
 };
 
+//!
+//! @brief equality check for datatypes
+//! @relates Datatype
+//!
+//! Returns if two datatypes are equal. Datatypes are considered equal if
+//! they represent the same type.
+//!
+//! @param lhs reference to the left handside Datatype instance
+//! @param rhs reference to the right handside Datatype instance
+//! @return true if instances are considered equal, false otherwise
+//!
 DLL_EXPORT bool operator==(const Datatype &lhs, const Datatype &rhs);
+
+//!
+//! @brief inequality check for datatypes
+//! @relates Datatype
+//!
+//! Returns true if both datatypes do not represent the same types.
+//!
+//! @param lhs reference to the left hand-side Datatype instance
+//! @param rhs reference to the right hand-side Datatype instance
+//! @return true if datatypes are not equal, false otherwise
+//!
 DLL_EXPORT bool operator!=(const Datatype &lhs, const Datatype &rhs);
 
 } // namespace datatype

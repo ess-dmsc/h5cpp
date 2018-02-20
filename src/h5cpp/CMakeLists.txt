@@ -23,6 +23,8 @@ add_library(h5cpp SHARED
   ${h5cpp_headers}
   )
 
+add_doxygen_source_deps(${h5cpp_headers})
+
 target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
 set(H5CPP_LINKS Boost::filesystem ${MPI_CXX_LIBRARIES})
 
