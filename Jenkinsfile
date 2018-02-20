@@ -268,6 +268,7 @@ node ("fedora") {
                     sh "git pull"
                     sh "shopt -u dotglob && rm -rf ./*"
                     sh "mv -f ../build/doc/build/* ./"
+                    sh "mv -f ../build/doc/doxygen_html ./doxygen"
                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
                     sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
