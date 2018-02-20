@@ -34,14 +34,17 @@ TEST(SelectionManager, test_nothing_and_all_selected) {
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.size(), 10l * 1024l);
   EXPECT_EQ(space.selection.size(), 10ul * 1024ul);
+  EXPECT_EQ(space.selection.type(),dataspace::SelectionType::ALL);
 
   space.selection.none();
   EXPECT_EQ(space.size(), 10l * 1024l);
   EXPECT_EQ(space.selection.size(), 0ul);
+  EXPECT_EQ(space.selection.type(),dataspace::SelectionType::NONE);
 
   space.selection.all();
   EXPECT_EQ(space.size(), 10l * 1024l);
   EXPECT_EQ(space.selection.size(), 10ul * 1024ul);
+  EXPECT_EQ(space.selection.type(),dataspace::SelectionType::ALL);
 
   ObjectHandle(static_cast<hid_t>(space)).close();
   EXPECT_THROW(space.selection.size(), std::runtime_error);
