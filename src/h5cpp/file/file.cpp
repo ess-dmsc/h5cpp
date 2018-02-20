@@ -73,7 +73,22 @@ void File::close()
 
 boost::filesystem::path File::path() const
 {
-    return boost::filesystem::path();
+  ssize_t size = H5Fget_name(static_cast<hid_t>(*this),NULL,0);
+
+  if(size<0)
+  {
+    error::Singleton::instance().throw_with_stack("Failure to determine file name length!");
+  }
+
+  std::vector<char> buffer(size);
+  if(H5Fget_name(static_cast<hid_t>(*this),buffer.data(),size+1)<0)
+  {
+    std::stringstream ss;
+    ss<<"Error retrieving file name of size "<<size<<" for HDF5 file!";
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+
+  return boost::filesystem::path(std::string(buffer.begin(),buffer.end()));
 }
 
 size_t File::count_open_objects(SearchFlagsBase flags) const
