@@ -352,6 +352,7 @@ TEST_F(ObjectIdTest,  file_copy2 )
   EXPECT_EQ(info1.object_address(), info1.object_address());
 }
 
+#ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal
 //   file_name is not equal
@@ -380,6 +381,7 @@ TEST_F(ObjectIdTest,  symlink_id )
 
   EXPECT_EQ(fs::canonical(kFilePath_1),fs::canonical(kFilePath_2));
 }
+#endif
 
 // If external link is made file2/group3 -> File1/group1
 // All three parameters are equal
@@ -412,6 +414,7 @@ TEST_F(ObjectIdTest,  file_external_group )
   EXPECT_EQ(info11.object_address(), info23.object_address());
 }
 
+#ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE3 -> FILE1
 // External link is made file2/group3 -> File3/group1
 //   only file_number and object_address are equal
@@ -462,6 +465,7 @@ TEST_F(ObjectIdTest,  file_external_symlink )
   EXPECT_EQ(info11.object_address(), info23.object_address());
   EXPECT_EQ(info31.object_address(), info23.object_address());
 }
+#endif
 
 // If the same file is opened repeatedly:
 //   file_name and object_address are equal
