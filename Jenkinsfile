@@ -263,7 +263,7 @@ def get_win10_pipeline()
 
 
                     try {
-                        bat 'cmake .. -G "Visual Studio 14 2015 Win64" '
+                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 14 2015 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
                     }
