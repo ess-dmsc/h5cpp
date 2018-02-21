@@ -2,28 +2,28 @@ project = "h5cpp"
 coverage_os = "fedora"
 
 images = [
-    'centos': [
+    'centos7': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh'
     ],
-    'centos-gcc6': [
-        'name': 'essdmscdm/centos7-gcc6-build-node:1.0.0',
+    'centos7-gcc6': [
+        'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
     ],
-    'fedora': [
+    'fedora25': [
         'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh'
     ],
-    'debian': [
+    'debian9': [
         'name': 'essdmscdm/debian9-build-node:1.0.0',
         'sh': 'sh'
     ],
     'ubuntu1604': [
-        'name': 'essdmscdm/ubuntu16.04-build-node:2.0.0',
+        'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
         'sh': 'sh'
     ],
     'ubuntu1710': [
-        'name': 'essdmscdm/ubuntu17.10-build-node:1.0.0',
+        'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
         'sh': 'sh'
     ]
 ]

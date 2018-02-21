@@ -41,7 +41,7 @@ class H5pyStringCompatTest : public testing::Test
 
 };
 
-
+#ifndef _MSC_VER
 TEST_F(H5pyStringCompatTest, test_read_scalar_string)
 {
   node::Dataset dataset = root_group.nodes["fix_string_scalar"];
@@ -72,3 +72,4 @@ TEST_F(H5pyStringCompatTest, test_read_vector_string)
   dataset.read(buffer,memory_type,memory_space,dataset.dataspace());
   EXPECT_EQ(buffer,ref_data);
 }
+#endif
