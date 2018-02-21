@@ -280,13 +280,11 @@ node('docker') {
         }
     }
     def builders = [:]
-/*
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
     builders['macOS'] = get_macos_pipeline()
-*/
     builders['Windows10'] = get_win10_pipeline()
     
     parallel builders
@@ -294,7 +292,7 @@ node('docker') {
     // Delete workspace when build is done
     cleanWs()
 }
-/*
+
 node ("fedora") {
     // Delete workspace when build is done
     cleanWs()
@@ -358,4 +356,3 @@ node ("fedora") {
         }
     }
 }
-*/
