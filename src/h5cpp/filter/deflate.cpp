@@ -61,7 +61,7 @@ unsigned int Deflate::level() const noexcept
 
 void Deflate::level(unsigned int value)
 {
-  if(value>0)
+  if(value>9)
   {
     std::stringstream ss;
     ss<<"Cannot set the compression level to "<<value<<" for a deflate filter"

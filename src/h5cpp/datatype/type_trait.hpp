@@ -49,236 +49,215 @@ namespace datatype {
 //! \list \c double
 //!
 //! \tparam T type for which to create a new HDF5 data type
-template<typename T> class TypeTrait
-{
-  public:
-    //!
-    //! \brief subtype of Datatype which will be used
-    //!
-    using TypeClass = Datatype;
+template<typename T>
+class TypeTrait {
+ public:
+  //!
+  //! \brief subtype of Datatype which will be used
+  //!
+  using TypeClass = Datatype;
 
-    //!
-    //! \brief create the new type instance
-    //!
-    static TypeClass create(const T& = T());
+  //!
+  //! \brief create the new type instance
+  //!
+  static TypeClass create(const T & = T());
 };
 
-template<> class TypeTrait<char>
-{
-  public:
+template<>
+class TypeTrait<char> {
+ public:
 
-    using TypeClass = Integer;
-    static TypeClass create(const char & = char())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_CHAR)));
-    }
+  using TypeClass = Integer;
+  static TypeClass create(const char & = char()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_CHAR)));
+  }
 };
 
-template<> class TypeTrait<unsigned char>
-{
-  public:
-    using Type = unsigned char;
-    using TypeClass = Integer;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UCHAR)));
-    }
+template<>
+class TypeTrait<unsigned char> {
+ public:
+  using Type = unsigned char;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UCHAR)));
+  }
 };
 
-template<> class TypeTrait<signed char>
-{
-  public:
-    using Type = signed char;
-    using TypeClass = Integer;
-    static TypeClass create(const Type& = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SCHAR)));
-    }
+template<>
+class TypeTrait<signed char> {
+ public:
+  using Type = signed char;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SCHAR)));
+  }
 };
 
-template<> class TypeTrait<short>
-{
-  public:
-    using Type = short;
-    using TypeClass = Integer;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SHORT)));
-    }
+template<>
+class TypeTrait<short> {
+ public:
+  using Type = short;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SHORT)));
+  }
 };
 
-template<> class TypeTrait<unsigned short>
-{
-  public:
-    using Type = unsigned short;
-    using TypeClass = Integer;
-    static TypeClass create(const Type&  = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_USHORT)));
-    }
+template<>
+class TypeTrait<unsigned short> {
+ public:
+  using Type = unsigned short;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_USHORT)));
+  }
 };
 
-template<> class TypeTrait<int>
-{
-  public:
-    using TypeClass = Integer;
-    static TypeClass create(const int & = int())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
-    }
+template<>
+class TypeTrait<int> {
+ public:
+  using TypeClass = Integer;
+  static TypeClass create(const int & = int()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
+  }
 };
 
-template<> class TypeTrait<unsigned int>
-{
-  public:
-    using Type = unsigned int;
-    using TypeClass = Integer;
-    static TypeClass create(const Type& = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UINT)));
-    }
+template<>
+class TypeTrait<unsigned int> {
+ public:
+  using Type = unsigned int;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UINT)));
+  }
 };
 
-template<> class TypeTrait<long>
-{
-  public:
-    using Type = long;
-    using TypeClass = Integer;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LONG)));
-    }
+template<>
+class TypeTrait<long> {
+ public:
+  using Type = long;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LONG)));
+  }
 };
 
-template<> class TypeTrait<unsigned long>
-{
-  public:
-    using Type = unsigned long;
-    using TypeClass = Integer;
-    static TypeClass create(const Type& = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULONG)));
-    }
+template<>
+class TypeTrait<unsigned long> {
+ public:
+  using Type = unsigned long;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULONG)));
+  }
 };
 
-template<> class TypeTrait<long long>
-{
-  public:
-    using Type = long long;
-    using TypeClass = Integer;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LLONG)));
-    }
+template<>
+class TypeTrait<long long> {
+ public:
+  using Type = long long;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LLONG)));
+  }
 };
 
-template<> class TypeTrait<unsigned long long>
-{
-  public:
-    using Type = unsigned long long;
-    using TypeClass = Integer;
-    static TypeClass create(const Type& = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULLONG)));
-    }
+template<>
+class TypeTrait<unsigned long long> {
+ public:
+  using Type = unsigned long long;
+  using TypeClass = Integer;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULLONG)));
+  }
 };
 
-template<> class TypeTrait<float>
-{
-  public:
-    using TypeClass = Float;
-    static TypeClass create(const float & = float())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
-    }
+template<>
+class TypeTrait<float> {
+ public:
+  using TypeClass = Float;
+  static TypeClass create(const float & = float()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+  }
 };
 
-template<> class TypeTrait<double>
-{
-  public:
-    using TypeClass = Float;
-    static TypeClass create(const double & = double())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_DOUBLE)));
-    }
+template<>
+class TypeTrait<double> {
+ public:
+  using TypeClass = Float;
+  static TypeClass create(const double & = double()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_DOUBLE)));
+  }
 };
 
-template<> class TypeTrait<long double>
-{
-  public:
-    using Type = long double;
-    using TypeClass = Float;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
-    }
+template<>
+class TypeTrait<long double> {
+ public:
+  using Type = long double;
+  using TypeClass = Float;
+  static TypeClass create(const Type & = Type()) {
+    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
+  }
 };
 
-template<> class TypeTrait<std::string>
-{
-  public:
-    using TypeClass = String;
-    static TypeClass create(const std::string & = std::string())
-    {
-      return datatype::String::variable();
-    }
+template<>
+class TypeTrait<std::string> {
+ public:
+  using TypeClass = String;
+  static TypeClass create(const std::string & = std::string()) {
+    return datatype::String::variable();
+  }
 };
 
-template<typename T> class TypeTrait<std::vector<T>>
-{
-  public:
-    using Type = std::vector<T>;
-    using TypeClass = typename TypeTrait<T>::TypeClass;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeTrait<T>::create();
-    }
+template<typename T>
+class TypeTrait<std::vector<T>> {
+ public:
+  using Type = std::vector<T>;
+  using TypeClass = typename TypeTrait<T>::TypeClass;
+  static TypeClass create(const Type & = Type()) {
+    return TypeTrait<T>::create();
+  }
 };
 
-template<typename T,size_t N> class TypeTrait<std::array<T,N>>
-{
-  public:
-    using Type = std::array<T,N>;
-    using TypeClass = typename TypeTrait<T>::TypeClass;
-    static TypeClass create(const Type & = Type())
-    {
-      return TypeTrait<T>::create();
-    }
+template<typename T, size_t N>
+class TypeTrait<std::array<T, N>> {
+ public:
+  using Type = std::array<T, N>;
+  using TypeClass = typename TypeTrait<T>::TypeClass;
+  static TypeClass create(const Type & = Type()) {
+    return TypeTrait<T>::create();
+  }
 };
 
 template<typename CharT>
-class TypeTrait<std::basic_string<CharT>>
-{
-  private:
+class TypeTrait<std::basic_string<CharT>> {
+ private:
 
-  public:
-    using Type = std::basic_string<CharT>;
-    using TypeClass = String;
+ public:
+  using Type = std::basic_string<CharT>;
+  using TypeClass = String;
 
-    static TypeClass create(const Type & = Type())
-    {
-      static_assert(std::is_same<CharT,char>::value,"Only support 8Bit characters");
+  static TypeClass create(const Type & = Type()) {
+    static_assert(std::is_same<CharT, char>::value, "Only support 8Bit characters");
 
-      String type = String::variable();
-      type.set_encoding(CharacterEncoding::UTF8);
-      return type;
+    String type = String::variable();
+    type.encoding(CharacterEncoding::UTF8);
+    return type;
 
-    }
+  }
 
 };
 
-template<> class TypeTrait<bool>
-{
-  public:
-    using Type = bool;
-    using TypeClass = Integer;
+template<>
+class TypeTrait<bool> {
+ public:
+  using Type = bool;
+  using TypeClass = Integer;
 
-    static TypeClass create(const Type& = Type())
-    {
-      return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
-    }
+  static TypeClass create(const Type & = Type()) {
+    return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
+  }
 };
-
 
 } // namespace datatype
 } // namespace hdf5

@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -34,54 +36,53 @@ namespace property {
 //!
 //! \brief library version enumeration
 //!
-enum class LibVersion : std::underlying_type<H5F_libver_t>::type
-{
+enum class LibVersion : std::underlying_type<H5F_libver_t>::type {
   LATEST = H5F_LIBVER_LATEST,
   EARLIEST = H5F_LIBVER_EARLIEST
 };
 
 using LibVersionBase = std::underlying_type<LibVersion>::type;
 
-DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const LibVersion &version);
-
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const LibVersion &version);
 
 //!
 //! \brief file access property list
 //!
 //! Class provides object oriented interface to the file access property list.
 //!
-class DLL_EXPORT FileAccessList : public List
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    FileAccessList();
+class DLL_EXPORT FileAccessList : public List {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  FileAccessList();
 
-    //!
-    //! \brief destructor
-    //!
-    ~FileAccessList();
+  //!
+  //! \brief destructor
+  //!
+  ~FileAccessList();
 
-    //!
-    //! \brief setting library version boundaries
-    //!
-    void library_version_bounds(LibVersion high,LibVersion low) const;
+  explicit FileAccessList(ObjectHandle &&handle);
 
-    //!
-    //! \brief get library version high bound
-    //!
-    LibVersion library_version_bound_high() const;
+  //!
+  //! \brief setting library version boundaries
+  //!
+  void library_version_bounds(LibVersion high, LibVersion low) const;
 
-    //!
-    //! \brief get library version low bound
-    //!
-    LibVersion library_version_bound_low() const;
+  //!
+  //! \brief get library version high bound
+  //!
+  LibVersion library_version_bound_high() const;
 
-    //!
-    //! \brief set the file driver
-    //!
-    void driver(const hdf5::file::Driver &file_driver) const;
+  //!
+  //! \brief get library version low bound
+  //!
+  LibVersion library_version_bound_low() const;
+
+  //!
+  //! \brief set the file driver
+  //!
+  void driver(const hdf5::file::Driver &file_driver) const;
 };
 
 } // namespace property

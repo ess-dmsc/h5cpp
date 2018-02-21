@@ -34,8 +34,7 @@
 #include <h5cpp/dataspace/scalar.hpp>
 #include "../fixture.hpp"
 
-namespace type = hdf5::datatype;
-namespace attr = hdf5::attribute;
+using namespace hdf5;
 
 //template <class T>
 //class String : public testing::Test
@@ -52,11 +51,10 @@ namespace attr = hdf5::attribute;
 //  hdf5::node::Group root_group_;
 //};
 
-template <class T>
-class String : public BasicFixture
-{
-  protected:
-    T value_;
+template<class T>
+class String : public BasicFixture {
+ protected:
+  T value_;
 };
 
 using testing::Types;
@@ -67,25 +65,67 @@ Types<std::string>
 //std::wstring,
 //std::u16string,
 //std::u32string>
-test_types;
+    test_types;
 
 TYPED_TEST_CASE(String, test_types);
 
-TEST(String, Constructors)
-{
-  auto t = type::String::fixed(3);
-  EXPECT_TRUE(t.get_class()==type::Class::STRING);
-  EXPECT_EQ(t.size(),3ul);
-  EXPECT_FALSE(t.is_variable_length());
+TEST(String, Constructor) {
+  datatype::Datatype dtype;
+  EXPECT_THROW((datatype::String(dtype)), std::runtime_error);
 
-  auto t2 = type::String::variable();
-  EXPECT_TRUE(t2.get_class()==type::Class::STRING);
-  EXPECT_EQ(t2.size(),H5T_VARIABLE);
-  EXPECT_TRUE(t2.is_variable_length());
+  auto ft = datatype::create<double>();
+  EXPECT_THROW((datatype::String(ft)), std::runtime_error);
 }
 
+TEST(String, Fixed) {
+  datatype::String t = datatype::String::fixed(3);
+  EXPECT_TRUE(t.get_class() == datatype::Class::STRING);
+  EXPECT_FALSE(t.is_variable_length());
+  EXPECT_EQ(t.size(), 3ul);
 
+  t.size(5ul);
+  EXPECT_EQ(t.size(), 5ul);
+  EXPECT_THROW((t.size(0ul)),std::runtime_error);
+  EXPECT_THROW((datatype::String::fixed(0ul)),std::runtime_error);
+}
 
+TEST(String, Variable) {
+  auto t = datatype::String::variable();
+  EXPECT_TRUE(t.get_class() == datatype::Class::STRING);
+  EXPECT_EQ(t.size(), H5T_VARIABLE);
+  EXPECT_TRUE(t.is_variable_length());
 
+  EXPECT_THROW(t.size(5ul), std::runtime_error);
+  ObjectHandle(static_cast<hid_t>(t)).close();
+  EXPECT_THROW(t.is_variable_length(), std::runtime_error);
+}
 
+TEST(String, Encoding) {
+  auto t = datatype::String::fixed(3);
+  t.encoding(datatype::CharacterEncoding::ASCII);
+  EXPECT_EQ(t.encoding(), datatype::CharacterEncoding::ASCII);
+
+  t.encoding(datatype::CharacterEncoding::UTF8);
+  EXPECT_EQ(t.encoding(), datatype::CharacterEncoding::UTF8);
+
+  ObjectHandle(static_cast<hid_t>(t)).close();
+  EXPECT_THROW(t.encoding(), std::runtime_error);
+  EXPECT_THROW(t.encoding(datatype::CharacterEncoding::UTF8), std::runtime_error);
+}
+
+TEST(String, Padding) {
+  auto t = datatype::String::fixed(3);
+  t.padding(datatype::StringPad::SPACEPAD);
+  EXPECT_EQ(t.padding(), datatype::StringPad::SPACEPAD);
+
+  t.padding(datatype::StringPad::NULLTERM);
+  EXPECT_EQ(t.padding(), datatype::StringPad::NULLTERM);
+
+  t.padding(datatype::StringPad::NULLPAD);
+  EXPECT_EQ(t.padding(), datatype::StringPad::NULLPAD);
+
+  ObjectHandle(static_cast<hid_t>(t)).close();
+  EXPECT_THROW(t.padding(), std::runtime_error);
+  EXPECT_THROW(t.padding(datatype::StringPad::NULLPAD), std::runtime_error);
+}
 

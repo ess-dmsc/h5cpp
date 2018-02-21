@@ -19,12 +19,14 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Nov 13, 2017
 //
 #pragma once
 
-#include <h5cpp/dataspace/selection.hpp>
+#include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/core/windows.hpp>
 
@@ -37,107 +39,103 @@ namespace dataspace {
 //! The View class applies selections on a dataspace. Since a copy of the
 //! original dataspace is created the former one remains unchanged.
 //!
-class DLL_EXPORT View
-{
-  public:
-    //!
-    //! \brief default constructor
-    //!
-    //! Need this for STL container compatibility. Can rely on default
-    //! implementation provided by the compiler.
-    //!
-    View() = default;
+class DLL_EXPORT View {
+ public:
+  //!
+  //! \brief default constructor
+  //!
+  //! Need this for STL container compatibility. Can rely on default
+  //! implementation provided by the compiler.
+  //!
+  View() = default;
 
-    //!
-    //! \brief copy constructor
-    //!
-    //! Need this for STL container compatibility. Use the default
-    //! implementation provided by the compiler.
-    //!
-    View(const View &) = default;
+  //!
+  //! \brief copy constructor
+  //!
+  //! Need this for STL container compatibility. Use the default
+  //! implementation provided by the compiler.
+  //!
+  View(const View &) = default;
 
-    //!
-    //! \brief constructor
-    //!
-    //! This constructor applies now selection but selects all elements in the
-    //! dataspace.
-    //!
-    //! \throws std::runtime_error in the case of a failure
-    //! \param space reference to the original dataspace
-    //!
-    explicit View(const Dataspace &space);
+  //!
+  //! \brief constructor
+  //!
+  //! This constructor applies now selection but selects all elements in the
+  //! dataspace.
+  //!
+  //! \throws std::runtime_error in the case of a failure
+  //! \param space reference to the original dataspace
+  //!
+  explicit View(const Dataspace &space);
 
-    //!
-    //! \brief constructor
-    //!
-    //! Creates a copy of the dataspace and applies all selections provieed
-    //! by th selection list to this copy.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param space reference to the original dataspace
-    //! \param selectins reference to the list of selections to apply
-    //!
-    View(const Dataspace &space,const SelectionList &selections);
+  //!
+  //! \brief constructor
+  //!
+  //! Creates a copy of the dataspace and applies all selections provieed
+  //! by th selection list to this copy.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param space reference to the original dataspace
+  //! \param selectins reference to the list of selections to apply
+  //!
+  View(const Dataspace &space, const SelectionList &selections);
 
-    //!
-    //! \brief constructor
-    //!
-    //! Creates a copy of the dataspace and applies a single hyperslab on it.
-    //! This is a conveniance constructor in the case that we need only a
-    //! single hyperslab.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param space reference to the original dataspace
-    //! \param selection reference to the original hyperslab
-    //!
-    View(const Dataspace &space,const Hyperslab &selection);
+  //!
+  //! \brief constructor
+  //!
+  //! Creates a copy of the dataspace and applies a single hyperslab on it.
+  //! This is a conveniance constructor in the case that we need only a
+  //! single hyperslab.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param space reference to the original dataspace
+  //! \param selection reference to the original hyperslab
+  //!
+  View(const Dataspace &space, const Hyperslab &selection);
 
-    //!
-    //! \brief apply a new set of selections
-    //!
-    //! Calling this operator will erase all current selections and replace
-    //! them by the new set of selections provided by the \c selections
-    //! argument.
-    //!
-    //! \throws std::runtime_error
-    void operator()(const SelectionList &selections) const;
+  //!
+  //! \brief apply a new set of selections
+  //!
+  //! Calling this operator will erase all current selections and replace
+  //! them by the new set of selections provided by the \c selections
+  //! argument.
+  //!
+  //! \throws std::runtime_error
+  void operator()(const SelectionList &selections) const;
 
-    //!
-    //! \brief set a single hyperslab
-    //!
-    //! This is a mere convienance function for situations where a single
-    //! Hyperslab should be selected. This even might be the most common
-    //! case at all.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param slab reference to the hyperslab
-    //!
-    void operator()(const Hyperslab &slab) const;
+  //!
+  //! \brief set a single hyperslab
+  //!
+  //! This is a mere convienance function for situations where a single
+  //! Hyperslab should be selected. This even might be the most common
+  //! case at all.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param slab reference to the hyperslab
+  //!
+  void operator()(const Hyperslab &slab) const;
 
-    //!
-    //! \brief get number of elements in the view
-    //!
-    size_t size() const;
+  //!
+  //! \brief get number of elements in the view
+  //!
+  size_t size() const;
 
+  explicit operator hid_t() const {
+    return static_cast<hid_t>(space_);
+  }
 
+ private:
+  Dataspace space_;
 
-    explicit operator hid_t() const
-    {
-      return static_cast<hid_t>(space_);
-    }
+  //!
+  //! \brief delete all selections
+  //!
+  void clear() const;
 
-  private:
-    Dataspace space_;
-
-    //!
-    //! \brief delete all selections
-    //!
-    void clear() const;
-
-    //!
-    //! \brief apply a selection list
-    //!
-    void apply(const SelectionList &selections) const;
+  //!
+  //! \brief apply a selection list
+  //!
+  void apply(const SelectionList &selections) const;
 };
 
 } // namespace dataspace

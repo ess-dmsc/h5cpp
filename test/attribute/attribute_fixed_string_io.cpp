@@ -46,8 +46,8 @@ class AttributeFixedStringIO : public testing::Test
       simple_space = dataspace::Simple{{2,3}};
       scalar_space = dataspace::Scalar();
       string_type = datatype::String::fixed(5);
-      string_type.set_encoding(datatype::CharacterEncoding::UTF8);
-      string_type.set_padding(datatype::StringPad::NULLTERM);
+      string_type.encoding(datatype::CharacterEncoding::UTF8);
+      string_type.padding(datatype::StringPad::NULLTERM);
     }
 };
 
@@ -63,6 +63,26 @@ TEST_F(AttributeFixedStringIO,scalar_io)
   EXPECT_EQ(write,read);
 }
 
+TEST_F(AttributeFixedStringIO,scalar_io_custom_read_type)
+{
+  std::string write = "hello";
+
+  EXPECT_TRUE(root_group.is_valid());
+  attribute::Attribute a = root_group.attributes.create("strattr",string_type,scalar_space);
+  a.write(write,string_type);
+
+  auto read_type = datatype::String::fixed(20);
+  read_type.encoding(datatype::CharacterEncoding::UTF8);
+  read_type.padding(datatype::StringPad::NULLPAD);
+
+  std::string read;
+  a.read(read,read_type);
+  // need to remove trailing \0 from the string
+  read.erase(std::remove(read.begin(),read.end(),'\0'),read.end());
+
+  EXPECT_EQ(write,read);
+}
+
 TEST_F(AttributeFixedStringIO,vector_io)
 {
   std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD",
@@ -73,5 +93,4 @@ TEST_F(AttributeFixedStringIO,vector_io)
   a.write(write,string_type);
   a.read(read,string_type);
   EXPECT_EQ(write,read);
-
 }

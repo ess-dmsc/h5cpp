@@ -70,6 +70,7 @@ TEST_F(FileCreation, test_no_truncate)
 {
   file::File f = file::create(fs::path("./test1.h5"));
   EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
+  EXPECT_EQ(f.path().string(),"./test1.h5");
   f.close();
 
   //cannot create another file

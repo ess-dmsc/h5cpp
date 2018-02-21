@@ -29,26 +29,25 @@
 using namespace hdf5;
 using namespace hdf5::dataspace;
 
-TEST(Dataspace, default_construction)
-{
+TEST(Dataspace, default_construction) {
   Dataspace s;
   EXPECT_THROW(s.size(), std::runtime_error);
   EXPECT_THROW(s.type(), std::runtime_error);
   EXPECT_FALSE(s.is_valid());
 }
 
-TEST(Dataspace, from_hid)
-{
+TEST(Dataspace, from_hid) {
   Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
   EXPECT_EQ(s.size(), 1);
   EXPECT_EQ(s.type(), Type::SCALAR);
   EXPECT_TRUE(s.is_valid());
+
+  EXPECT_THROW((Dataspace(ObjectHandle(H5Tcreate(H5T_COMPOUND, 1)))), std::runtime_error);
 }
 
-TEST(Dataspace, copy_construction)
-{
+TEST(Dataspace, copy_construction) {
   Dataspace s;
-  const Dataspace& ss = s;
+  const Dataspace &ss = s;
   EXPECT_THROW(Dataspace(ss).is_valid(), std::runtime_error);
 
   s = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
@@ -57,8 +56,7 @@ TEST(Dataspace, copy_construction)
   EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
 }
 
-TEST(Dataspace, copy_assignment)
-{
+TEST(Dataspace, copy_assignment) {
   Dataspace s, s2;
   EXPECT_THROW((s2 = s), std::runtime_error);
 

@@ -1,4 +1,5 @@
 project = "h5cpp"
+coverage_os = "fedora"
 
 images = [
     'centos': [
@@ -48,8 +49,8 @@ def docker_dependencies(image_key) {
     def conan_remote = "ess-dmsc-local"
     def custom_sh = images[image_key]['sh']
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        mkdir build
-        cd build
+        mkdir ${project}/build
+        cd ${project}/build
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
@@ -57,68 +58,59 @@ def docker_dependencies(image_key) {
     \""""
 }
 
-def docker_cmake(image_key) {
-    cmake_exec = "/home/jenkins/build/bin/cmake"
-    def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        cd build
-        ${cmake_exec} --version
-        ${cmake_exec} -DCOV=1 ../${project}
-    \""""
-}
-
 def docker_build(image_key) {
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
     def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        cd build
-        make --version
-        make unit_tests
-    \""""
-}
-
-def docker_tests(image_key) {
-    def custom_sh = images[image_key]['sh']
-    dir("${project}/tests") {
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-                cd build
+                cd ${project}/build
+                ${cmake_exec} --version
+                ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ..
+                make --version
                 make run_tests
             \""""
         } catch(e) {
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
+            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+        }
+}
+
+def docker_build_coverage(image_key) {
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
+    abs_dir = pwd()
+    def custom_sh = images[image_key]['sh']
+        try {
+            sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
+                cd ${project}/build
+                ${cmake_exec} --version
+                ${cmake_exec} -DCMAKE_BUILD_TYPE=Debug -DCOV=1 ..
+                make --version
+                make generate_coverage
+            \""""
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
+        } catch(e) {
+            sh "docker cp ${container_name(image_key)}:/home/jenkins/${project}/build/test/unit_tests_run.xml unit_tests_run.xml"
             junit 'unit_tests_run.xml'
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
-    }
-}
 
-def docker_tests_coverage(image_key) {
-    def custom_sh = images[image_key]['sh']
-    dir("${project}/tests") {
+    dir("${project}/build") {
+        junit 'test/unit_tests_run.xml'
+        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
         try {
-            sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-                cd build
-                make generate_coverage
-            \""""
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-            junit 'unit_tests_run.xml'
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/coverage/coverage.xml coverage.xml"
             step([
                 $class: 'CoberturaPublisher',
                 autoUpdateHealth: true,
                 autoUpdateStability: true,
-                coberturaReportFile: 'coverage.xml',
+                coberturaReportFile: 'coverage/coverage.xml',
                 failUnhealthy: false,
                 failUnstable: false,
                 maxNumberOfBuilds: 0,
                 onlyStable: false,
                 sourceEncoding: 'ASCII',
-                zoomCoverageChart: false
+                zoomCoverageChart: true
             ])
         } catch(e) {
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/build/test/unit_tests_run.xml unit_tests_run.xml"
-            junit 'unit_tests_run.xml'
-            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+            failure_function(e, 'Publishing coverage reports from (${container_name(image_key)}) failed')
         }
     }
 }
@@ -145,12 +137,10 @@ def get_pipeline(image_key)
                 def custom_sh = images[image_key]['sh']
 
                 // Copy sources to container and change owner and group.
-                dir("${project}") {
-                    sh "docker cp code ${container_name(image_key)}:/home/jenkins/${project}"
+                    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
                     sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
                         chown -R jenkins.jenkins /home/jenkins/${project}
                         \""""
-                }
 
                 try {
                     docker_dependencies(image_key)
@@ -158,22 +148,10 @@ def get_pipeline(image_key)
                     failure_function(e, "Get dependencies for ${image_key} failed")
                 }
 
-                try {
-                    docker_cmake(image_key)
-                } catch (e) {
-                    failure_function(e, "CMake for ${image_key} failed")
-                }
-
-                try {
-                    docker_build(image_key)
-                } catch (e) {
-                    failure_function(e, "Build for ${image_key} failed")
-                }
-
-                if (image_key == "fedora") {
-                    docker_tests_coverage(image_key)
+                if (image_key == coverage_os) {
+                    docker_build_coverage(image_key)
                 } else {
-                    docker_tests(image_key)
+                    docker_build(image_key)
                 }
             } catch(e) {
                 failure_function(e, "Unknown build failure for ${image_key}")
@@ -217,7 +195,6 @@ def get_macos_pipeline()
                     try {
                         sh "make run_tests"
                     } catch (e) {
-		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'MacOSX / build+test failed')
                     }
                 }
@@ -271,7 +248,7 @@ def get_win10_pipeline()
 
 node('docker') {
     stage('Checkout') {
-        dir("${project}/code") {
+        dir("${project}_code") {
             try {
                 scm_vars = checkout scm
             } catch (e) {
@@ -287,8 +264,8 @@ node('docker') {
     builders['macOS'] = get_macos_pipeline()
     builders['Windows10'] = get_win10_pipeline()
     
-    parallel builders
 
+    parallel builders
     // Delete workspace when build is done
     cleanWs()
 }
@@ -334,6 +311,7 @@ node ("fedora") {
                     sh "git pull"
                     sh "shopt -u dotglob && rm -rf ./*"
                     sh "mv -f ../build/doc/build/* ./"
+                    sh "mv -f ../build/doc/doxygen_html ./doxygen"
                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
                     sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'

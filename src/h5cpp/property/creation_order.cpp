@@ -19,67 +19,60 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
 
 #include <h5cpp/property/creation_order.hpp>
 
 namespace hdf5 {
-namespace property{
+namespace property {
 
-CreationOrder::CreationOrder():
-  tracked_(0),
-  indexed_(0),
-  reserved_(0)
-{
+CreationOrder::CreationOrder() :
+    tracked_(0),
+    indexed_(0),
+    reserved_(0) {
 
 }
 
-CreationOrder::CreationOrder(unsigned value):
-  tracked_(0),
-  indexed_(0),
-  reserved_(0)
-{
+CreationOrder::CreationOrder(unsigned value) :
+    tracked_(0),
+    indexed_(0),
+    reserved_(0) {
   tracked_ = value & H5P_CRT_ORDER_TRACKED;
   indexed_ = (value & H5P_CRT_ORDER_INDEXED) >> 1;
 }
 
-CreationOrder &CreationOrder::enable_tracked()
-{
-  tracked_=1;
+CreationOrder &CreationOrder::enable_tracked() {
+  tracked_ = 1;
   return *this;
 }
 
-CreationOrder &CreationOrder::disable_tracked()
-{
-  tracked_=0;
+CreationOrder &CreationOrder::disable_tracked() {
+  tracked_ = 0;
   return *this;
 }
 
-CreationOrder &CreationOrder::enable_indexed()
-{
-  tracked_=1;
-  indexed_=1;
+CreationOrder &CreationOrder::enable_indexed() {
+  tracked_ = 1;
+  indexed_ = 1;
   return *this;
 }
 
-CreationOrder &CreationOrder::disable_indexed()
-{
-  indexed_=0;
+CreationOrder &CreationOrder::disable_indexed() {
+  indexed_ = 0;
   return *this;
 }
 
-bool CreationOrder::tracked() const
-{
+bool CreationOrder::tracked() const {
   return tracked_;
 }
 
-bool CreationOrder::indexed() const
-{
+bool CreationOrder::indexed() const {
   return indexed_;
 }
-
 
 } // namespace property_list
 } // namespace hdf5

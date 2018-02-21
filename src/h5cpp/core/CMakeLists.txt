@@ -6,6 +6,7 @@ set(SOURCES
   ${dir}/object_handle.cpp
   ${dir}/object_id.cpp
   ${dir}/path.cpp
+  ${dir}/version.cpp
   )
 
 set(HEADERS
@@ -17,6 +18,7 @@ set(HEADERS
   ${dir}/iterator.hpp
   ${dir}/object_id.hpp
   ${dir}/hdf5_capi.hpp
+  ${dir}/version.hpp
   )
 
 install(FILES ${HEADERS}

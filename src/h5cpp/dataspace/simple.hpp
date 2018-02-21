@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #pragma once
@@ -34,81 +36,80 @@ namespace dataspace {
 //!
 //! \brief simple multidimensional dataspace
 //!
-class DLL_EXPORT Simple : public Dataspace
-{
-  public:
-    //!
-    //! \brief dimension value for unlimited number of elements
-    //!
-    static const hsize_t UNLIMITED = H5S_UNLIMITED;
+class DLL_EXPORT Simple : public Dataspace {
+ public:
+  //!
+  //! \brief dimension value for unlimited number of elements
+  //!
+  static const hsize_t UNLIMITED = H5S_UNLIMITED;
 
-    //!
-    //! \brief default constructor
-    //!
-    Simple();
+  //!
+  //! \brief default constructor
+  //!
+  Simple();
 
-    //!
-    //! \brief constructor
-    //!
-    //! Construct a simple dataspace from a reference to its base
-    //! instance. If space does not refer to a simple dataspace an
-    //! exception will be thrown.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //! \param space reference to a dataspace instance
-    //!
-    Simple(const Dataspace &space);
+  //!
+  //! \brief constructor
+  //!
+  //! Construct a simple dataspace from a reference to its base
+  //! instance. If space does not refer to a simple dataspace an
+  //! exception will be thrown.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param space reference to a dataspace instance
+  //!
+  Simple(const Dataspace &space);
 
-    //!
-    //! \brief copy constructor
-    //!
-    //! Use default implementation of the copy constructor
-    //!
-    Simple(const Simple &) = default;
+  //!
+  //! \brief copy constructor
+  //!
+  //! Use default implementation of the copy constructor
+  //!
+  Simple(const Simple &) = default;
 
-    //!
-    //! \brief constructor
-    //!
-    //! If the maximum dimensions is not provided it will be set to the
-    //! current number of elements along each dimension.
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    //! \param current current number of elements along each dimension
-    //! \param maximum maximum number of elements along each dimension
-    //! \sa dimensions
-    //!
-    Simple(const Dimensions &current,
-           const Dimensions &maximum=Dimensions());
+  //!
+  //! \brief constructor
+  //!
+  //! If the maximum dimensions is not provided it will be set to the
+  //! current number of elements along each dimension.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \param current current number of elements along each dimension
+  //! \param maximum maximum number of elements along each dimension
+  //! \sa dimensions
+  //!
+  Simple(const Dimensions &current,
+         const Dimensions &maximum = Dimensions());
 
-    //!
-    //! \brief get number of dimensions
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    int rank() const;
+  //!
+  //! \brief get number of dimensions
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  int rank() const;
 
-    //!
-    //! \brief set number of elements along each dimension
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    void dimensions(const Dimensions &current,
-                    const Dimensions &maximum=Dimensions());
+  //!
+  //! \brief set number of elements along each dimension
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  void dimensions(const Dimensions &current,
+                  const Dimensions &maximum = Dimensions());
 
-    //!
-    //! \brief get current dimensions
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    Dimensions current_dimensions() const;
+  //!
+  //! \brief get current dimensions
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  Dimensions current_dimensions() const;
 
-    //!
-    //! \brief get maximum dimensions
-    //!
-    //! \throws std::runtime_error in case of a failure
-    //!
-    Dimensions maximum_dimensions() const;
+  //!
+  //! \brief get maximum dimensions
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  Dimensions maximum_dimensions() const;
 };
 
 } // namespace dataspace

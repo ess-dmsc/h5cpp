@@ -19,29 +19,29 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace dataspace {
 
-Scalar::Scalar():
-    Dataspace(Type::SCALAR)
-{}
+Scalar::Scalar() :
+    Dataspace(Type::SCALAR) {}
 
-Scalar::Scalar(const Dataspace &space):
-    Dataspace(space)
-{
-  if(space.type()!=Type::SCALAR)
-  {
-    error::Singleton::instance().throw_with_stack("Cannot construct a scalar dataspace from a simple one!");
+Scalar::Scalar(const Dataspace &space)
+    : Dataspace(space) {
+  if (space.type() != Type::SCALAR) {
+    std::stringstream ss;
+    ss << "Could not construct Scalar from abstract Dataspace, type=" << space.type();
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
-
-
 
 } // namespace dataspace
 } // namespace hdf5

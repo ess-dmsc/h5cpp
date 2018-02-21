@@ -20,7 +20,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
 
@@ -29,14 +31,12 @@
 
 namespace pl = hdf5::property;
 
-TEST(LinkCreationOrder, test_default_construction)
-{
+TEST(LinkCreationOrder, test_default_construction) {
   pl::CreationOrder order;
-  EXPECT_EQ(order,0x0000ul);
+  EXPECT_EQ(order, 0x0000ul);
 }
 
-TEST(LinkCreationOrder, test_conversion_construction)
-{
+TEST(LinkCreationOrder, test_conversion_construction) {
   pl::CreationOrder o1(H5P_CRT_ORDER_TRACKED);
   EXPECT_TRUE(o1.tracked());
   EXPECT_FALSE(o1.indexed());
@@ -46,18 +46,24 @@ TEST(LinkCreationOrder, test_conversion_construction)
   EXPECT_TRUE(o1.indexed());
 }
 
-TEST(LinkCreationOrder, test_set_tracked)
-{
+TEST(LinkCreationOrder, test_set_tracked) {
   pl::CreationOrder o;
   o.enable_tracked();
   EXPECT_TRUE(o.tracked());
   EXPECT_FALSE(o.indexed());
+
+  o.disable_tracked();
+  EXPECT_FALSE(o.tracked());
+  EXPECT_FALSE(o.indexed());
 }
 
-TEST(LinkCreationOrder, test_set_indexed)
-{
+TEST(LinkCreationOrder, test_set_indexed) {
   pl::CreationOrder o;
   o.enable_indexed();
   EXPECT_TRUE(o.tracked());
   EXPECT_TRUE(o.indexed());
+
+  o.disable_indexed();
+  EXPECT_TRUE(o.tracked());
+  EXPECT_FALSE(o.indexed());
 }

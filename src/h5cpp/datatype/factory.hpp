@@ -19,24 +19,23 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 28, 2017
 //
 #pragma once
 
 #include <h5cpp/datatype/type_trait.hpp>
 
-
 namespace hdf5 {
 namespace datatype {
-
 
 //!
 //! \brief factory function for creating data types
 //!
 template<typename T>
-typename TypeTrait<T>::TypeClass create(const T &v=T())
-{
+typename TypeTrait<T>::TypeClass create(const T &v = T()) {
   return TypeTrait<T>::create(v);
 }
 

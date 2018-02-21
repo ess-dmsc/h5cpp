@@ -33,7 +33,11 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
+    'breathe'
 ]
+
+breathe_projects = {"h5cpp":"@CMAKE_CURRENT_BINARY_DIR@/../doxygen_xml"}
+breathe_default_project = "h5cpp"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

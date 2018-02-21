@@ -256,6 +256,9 @@ class DLL_EXPORT Dataset : public Node
     //! \brief reading data from a selection
     //!
     //! Reading data to an instance of T from a selection of a dataset.
+    //! This template method tries to deduce the memory type and memory space
+    //! for the target type (where to write the data to) automatically using
+    //! the appropriate type traits.
     //!
     //! \throws std::runtime_error in case of a failure
     //! \tparam T type of the destination object
@@ -267,6 +270,24 @@ class DLL_EXPORT Dataset : public Node
     void read(T &data,const dataspace::Selection &selection,
               const property::DatasetTransferList &dtpl =
                   property::DatasetTransferList()) const;
+
+    //!
+    //! @brief reading data from a dataset
+    //!
+    //! @throws std::runtime_error in case of a failure
+    //! @param data reference to the target to which to read the data
+    //! @param memory_type reference to the memory data type of the target
+    //! @param memory_space reference to the memory data space of the target
+    //! @param file_selection reference to the selection for the file dataspace
+    //! @param dtpl optional reference to a dataset transfer property list
+    //!
+    template<typename T>
+    void read(T &data,
+              const datatype::Datatype &memory_type,
+              const dataspace::Dataspace &memory_space,
+              const dataspace::Selection &file_selection,
+              const property::DatasetTransferList &dtpl = property::DatasetTransferList()) const;
+
 
   private:
     //!
@@ -358,12 +379,12 @@ class DLL_EXPORT Dataset : public Node
     void write_fixed_length_string_data(const T &data,
                                         const datatype::Datatype &mem_type,
                                         const dataspace::Dataspace &mem_space,
-                                        const datatype::Datatype &file_type,
+                                        const datatype::Datatype &,
                                         const dataspace::Dataspace &file_space,
                                         const property::DatasetTransferList &dtpl) const
     {
       using Trait = FixedLengthStringTrait<T>;
-      auto buffer = Trait::to_buffer(data,file_type);
+      auto buffer = Trait::to_buffer(data,mem_type,mem_space);
 
       if(H5Dwrite(static_cast<hid_t>(*this),
                   static_cast<hid_t>(mem_type),
@@ -449,17 +470,13 @@ class DLL_EXPORT Dataset : public Node
     void read_variable_length_string_data(T &data,
                                           const datatype::Datatype &mem_type,
                                           const dataspace::Dataspace &mem_space,
-                                          const datatype::Datatype &file_type,
+                                          const datatype::Datatype &,
                                           const dataspace::Dataspace &file_space,
                                           const property::DatasetTransferList &dtpl) const
     {
       using Trait = VarLengthStringTrait<T>;
 
-      typename Trait::BufferType buffer;
-      if(file_space.selection.type() == dataspace::SelectionType::ALL)
-        buffer = typename Trait::BufferType(file_space.size());
-      else
-        buffer = typename Trait::BufferType(file_space.selection.size());
+      typename Trait::BufferType buffer(mem_space.size());
 
 
       if(H5Dread(static_cast<hid_t>(*this),
@@ -477,8 +494,8 @@ class DLL_EXPORT Dataset : public Node
 
       Trait::from_buffer(buffer,data);
 
-      if(H5Dvlen_reclaim(static_cast<hid_t>(file_type),
-                         static_cast<hid_t>(file_space),
+      if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
+                         static_cast<hid_t>(mem_space),
                          static_cast<hid_t>(dtpl),
                          buffer.data())<0)
       {
@@ -487,25 +504,19 @@ class DLL_EXPORT Dataset : public Node
           <<"dataset ["<<link().path()<<"]!";
         error::Singleton::instance().throw_with_stack(ss.str());
       }
-
-
     }
 
     template<typename T>
     void read_fixed_length_string_data(T &data,
                                        const datatype::Datatype &mem_type,
                                        const dataspace::Dataspace &mem_space,
-                                       const datatype::Datatype &file_type,
+                                       const datatype::Datatype &,
                                        const dataspace::Dataspace &file_space,
                                        const property::DatasetTransferList &dtpl) const
     {
       using Trait = FixedLengthStringTrait<T>;
 
-      typename Trait::BufferType buffer;
-      if(file_space.selection.type()==dataspace::SelectionType::ALL)
-        buffer = typename Trait::BufferType(file_type.size()*file_space.size());
-      else
-        buffer = typename Trait::BufferType(file_type.size()*file_space.selection.size());
+      auto buffer = Trait::BufferType::create(mem_type,mem_space);
 
       if(H5Dread(static_cast<hid_t>(*this),
                  static_cast<hid_t>(mem_type),
@@ -520,7 +531,7 @@ class DLL_EXPORT Dataset : public Node
       }
 
       //get data out of the buffer
-      data = Trait::from_buffer(buffer,file_type);
+      data = Trait::from_buffer(buffer,mem_type,mem_space);
 
     }
 };
@@ -613,6 +624,18 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
 }
 
 template<typename T>
+void Dataset::read(T &data,
+                   const datatype::Datatype &memory_type,
+                   const dataspace::Dataspace &memory_space,
+                   const dataspace::Selection &file_selection,
+                   const property::DatasetTransferList &dtpl) const
+{
+  dataspace::Dataspace file_space = dataspace();
+  file_space.selection(dataspace::SelectionOperation::SET,file_selection);
+  read(data,memory_type,memory_space,file_space,dtpl);
+}
+
+template<typename T>
 void Dataset::write(const T &data,const dataspace::Selection &selection,
                     const property::DatasetTransferList &dtpl) const
 {
@@ -623,6 +646,8 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
   file_space.selection(dataspace::SelectionOperation::SET,selection);
   write(data,memory_type,memory_space,file_space,dtpl);
 }
+
+
 
 template<typename T>
 void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const

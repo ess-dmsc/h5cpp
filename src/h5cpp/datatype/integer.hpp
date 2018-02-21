@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 23, 2017
 //
 #pragma once
@@ -34,48 +36,46 @@ namespace datatype {
 //!
 //! \brief HDF5 integer datatype
 //!
-class DLL_EXPORT Integer : public Datatype
-{
-  public:
-    //!
-    //! \brief Default constructor
-    //!
-    //! We need this for compatability with STL containers. However, we
-    //! can use the compiler provided default version.
-    //!
-    Integer() = default;
+class DLL_EXPORT Integer : public Datatype {
+ public:
+  //!
+  //! \brief Default constructor
+  //!
+  //! We need this for compatability with STL containers. However, we
+  //! can use the compiler provided default version.
+  //!
+  Integer() = default;
 
-    //!
-    //! \brief Construct from object handle
-    //!
-    //! Construct a type from an object handle. The datatype takes full
-    //! ownership of the handle whose lifetime is thus bound to the lifetime
-    //! of the type.
-    //!
-    //! \param handle rvalue reference to a new object handle.
-    //!
-    Integer(ObjectHandle &&handle);
+  //!
+  //! \brief Construct from object handle
+  //!
+  //! Construct a type from an object handle. The datatype takes full
+  //! ownership of the handle whose lifetime is thus bound to the lifetime
+  //! of the type.
+  //!
+  //! \param handle rvalue reference to a new object handle.
+  //!
+  Integer(ObjectHandle &&handle);
 
-    //!
-    //! \brief Copy construction from a Datatype instance
-    //!
-    //! This copy constructor creates an integer type from an instance of
-    //! Datatype. The datatype has to satisfy two conditions
-    //!
-    //! \li it must be a valid object (is_valid() shoudld return true)
-    //! \li it must reference an integer datatype.
-    //!
-    //! Failure to satify one of the above conditions will cause an
-    //! exception.
-    //!
-    //! \throws std::runtime_error in case of any failure
-    //!
-    //! \param datatype reference to a Datatype instance
-    //!
-    Integer(const Datatype &datatype);
+  //!
+  //! \brief Copy construction from a Datatype instance
+  //!
+  //! This copy constructor creates an integer type from an instance of
+  //! Datatype. The datatype has to satisfy two conditions
+  //!
+  //! \li it must be a valid object (is_valid() shoudld return true)
+  //! \li it must reference an integer datatype.
+  //!
+  //! Failure to satify one of the above conditions will cause an
+  //! exception.
+  //!
+  //! \throws std::runtime_error in case of any failure
+  //!
+  //! \param datatype reference to a Datatype instance
+  //!
+  Integer(const Datatype &datatype);
 
 };
-
 
 } // namespace datatype
 } // namespace hdf5

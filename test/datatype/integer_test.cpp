@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 23, 2017
 //
 
@@ -29,9 +31,8 @@
 
 using namespace hdf5;
 
-template <class T>
-class Integer : public testing::Test
-{
+template<class T>
+class Integer : public testing::Test {
  protected:
   Integer() {}
   virtual ~Integer() {}
@@ -43,28 +44,35 @@ using testing::Types;
 // The list of types we want to test.
 typedef
 Types<
-char,unsigned char,signed char,
-short,unsigned short,
-int, unsigned int,
-long, unsigned long,
-long long, unsigned long long>
-test_types;
+    char, unsigned char, signed char,
+    short, unsigned short,
+    int, unsigned int,
+    long, unsigned long,
+    long long, unsigned long long>
+    test_types;
 
 TYPED_TEST_CASE(Integer, test_types);
 
-TYPED_TEST(Integer, General)
-{
+TYPED_TEST(Integer, Exceptions) {
+  datatype::Datatype dtype;
+  EXPECT_THROW((datatype::Integer(dtype)), std::runtime_error);
+
+  auto ft = datatype::create<double>();
+  EXPECT_THROW((datatype::Integer(ft)), std::runtime_error);
+}
+
+TYPED_TEST(Integer, General) {
   auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t),datatype::Integer>::value));
-  EXPECT_TRUE(t.get_class()==datatype::Class::INTEGER);
-  EXPECT_EQ(t.size(),sizeof(this->value_));
+  EXPECT_TRUE((std::is_same<decltype(t), datatype::Integer>::value));
+  EXPECT_TRUE(t.get_class() == datatype::Class::INTEGER);
+  EXPECT_EQ(t.size(), sizeof(this->value_));
 
   datatype::Datatype &generic = t;
   datatype::Integer new_type(generic);
-  EXPECT_EQ(new_type.get_class(),datatype::Class::INTEGER);
+  EXPECT_EQ(new_type.get_class(), datatype::Class::INTEGER);
 
   datatype::Datatype default_constructed;
   EXPECT_FALSE(default_constructed.is_valid());
-  EXPECT_THROW((datatype::Integer(default_constructed)),std::runtime_error);
+  EXPECT_THROW((datatype::Integer(default_constructed)), std::runtime_error);
 }
 

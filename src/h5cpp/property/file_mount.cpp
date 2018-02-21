@@ -19,22 +19,33 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
 #include <h5cpp/property/file_mount.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
 
-FileMountList::FileMountList():
-    List(kFileMount)
-{}
+FileMountList::FileMountList() :
+    List(kFileMount) {}
 
-FileMountList::~FileMountList()
-{}
+FileMountList::~FileMountList() {}
+
+FileMountList::FileMountList(ObjectHandle &&handle) :
+    List(std::move(handle)) {
+  if (get_class() != kFileMount) {
+    std::stringstream ss;
+    ss << "Cannot create property::FileMountList from " << get_class();
+    throw std::runtime_error(ss.str());
+  }
+}
 
 }
 }

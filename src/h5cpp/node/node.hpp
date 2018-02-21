@@ -111,6 +111,13 @@ class DLL_EXPORT Node
     bool is_valid() const;
 
     //!
+    //! @brief close the node
+    //!
+    //! Closes the node object and renders the node instance as invalid.
+    //!
+    void close();
+
+    //!
     //! \brief return link to object
     //!
     //! This returns the link which was used to access the node.

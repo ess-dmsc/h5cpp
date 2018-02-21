@@ -18,6 +18,7 @@ set(test_sources
   ${dir}/iterator_test.cpp
   ${dir}/object_id_test.cpp
   ${dir}/path_test.cpp
+  ${dir}/version_test.cpp
   PARENT_SCOPE)
 
 set(test_headers

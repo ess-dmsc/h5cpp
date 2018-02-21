@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Nov 13, 2017
 //
 
@@ -29,47 +31,39 @@
 namespace hdf5 {
 namespace dataspace {
 
-void View::clear() const
-{
-  if(H5Sselect_all(static_cast<hid_t>(space_))<0)
-  {
+void View::clear() const {
+  if (H5Sselect_all(static_cast<hid_t>(space_)) < 0) {
     error::Singleton::instance().throw_with_stack("Failure selecting all elements in the dataspace!");
   }
 }
 
-void View::apply(const SelectionList &selections) const
-{
-  for(auto swo: selections)
-    swo.selection->apply(space_,swo.operation);
+void View::apply(const SelectionList &selections) const {
+  for (auto swo: selections)
+    swo.selection->apply(space_, swo.operation);
 }
 
-View::View(const Dataspace &space):
-    space_(space)
-{}
+View::View(const Dataspace &space) :
+    space_(space) {}
 
-View::View(const Dataspace &space,const SelectionList &selections):
-    space_(space)
-{
+View::View(const Dataspace &space, const SelectionList &selections) :
+    space_(space) {
   apply(selections);
 }
 
-View::View(const Dataspace &space,const Hyperslab &selection):
-    space_(space)
-{
+View::View(const Dataspace &space, const Hyperslab &selection) :
+    space_(space) {
   SelectionList selections{{SelectionOperation::SET,
                             Selection::SharedPointer(new Hyperslab(selection))}};
 
   apply(selections);
 }
 
-void View::operator()(const SelectionList &selections) const
-{
+void View::operator()(const SelectionList &selections) const {
   clear();
   apply(selections);
 }
 
-void View::operator()(const Hyperslab &slab) const
-{
+void View::operator()(const Hyperslab &slab) const {
   clear();
   SelectionList selections{{SelectionOperation::SET,
                             Selection::SharedPointer(new Hyperslab(slab))}};
@@ -77,16 +71,13 @@ void View::operator()(const Hyperslab &slab) const
   apply(selections);
 }
 
-size_t View::size() const
-{
+size_t View::size() const {
   hssize_t s = H5Sget_select_npoints(static_cast<hid_t>(space_));
-  if(s<0)
-  {
+  if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
   return s;
 }
-
 
 } // namespace dataspace
 } // namespace hdf5

@@ -61,6 +61,12 @@ Node &Node::operator=(const Node &node)
 Node::~Node()
 {}
 
+void Node::close()
+{
+  handle_.close();
+  link_ = Link();
+}
+
 Type Node::type() const
 {
   H5O_info_t info;

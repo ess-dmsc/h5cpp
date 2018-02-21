@@ -8,36 +8,27 @@ set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 
 #=============================================================================
-# ensure build type first
+# Conan
 #=============================================================================
-
-include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
-include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
-
-#=============================================================================
-# setting up conan for use from within cmake
-#=============================================================================
-set(WITH_CONAN OFF CACHE BOOL "Enable dependency build with conan")
+option(WITH_CONAN "Enable dependency build with conan" OFF)
 set(CONAN_FILE "conanfile_default.txt" CACHE STRING "The conanfile to use for the build")
-
-if (WITH_CONAN)
-  include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
-  include(conan.cmake)
-  conan_cmake_run(CONANFILE ${CONAN_FILE}
-    BASIC_SETUP UPDATE
-    BUILD missing)
-endif ()
-
-if (EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
-  message(STATUS "Using existing conanbuildinfo.cmake file")
-  include(${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
-  conan_basic_setup(KEEP_RPATHS)
-endif ()
+if(WITH_CONAN)
+	include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
+	conan_cmake_run(CONANFILE ${CONAN_FILE}
+		BASIC_SETUP KEEP_RPATHS
+		BUILD outdated)
+elseif(EXISTS ${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
+	message(STATUS "Using existing conanbuildinfo.cmake file")
+	include(${PROJECT_BINARY_DIR}/conanbuildinfo.cmake)
+	conan_basic_setup(KEEP_RPATHS)
+endif()
 
 #=============================================================================
-# some general configuration
+# General configuration
 #=============================================================================
 
+include(${EXTRA_MODULES_DIR}/EnsureBuildType.cmake)
+include(${EXTRA_MODULES_DIR}/CoverageReports.cmake)
 include(${EXTRA_MODULES_DIR}/InstallConfig.cmake)
 include(${EXTRA_MODULES_DIR}/OutputDirConfig.cmake)
 include(${EXTRA_MODULES_DIR}/WindowsUtils.cmake)
@@ -94,7 +85,7 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
 #
 # create and install the package file
 #
-configure_file(${PACKAGE_CONFIG_FILE_NAME} ${PACKAGE_CONFIG_FILE_NAME} @ONLY)
+configure_file("${PACKAGE_CONFIG_FILE_NAME}.in" ${PACKAGE_CONFIG_FILE_NAME} @ONLY)
 install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)

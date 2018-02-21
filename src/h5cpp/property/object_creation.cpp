@@ -19,12 +19,15 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
 
 #include <h5cpp/property/object_creation.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace property {
@@ -34,11 +37,9 @@ namespace property {
 //============================================================================
 
 void ObjectCreationList::get_attribute_phase_change_(unsigned &max_compact,
-                                                 unsigned &min_dense,
-                                                 const std::string &error_message) const
-{
-  if(H5Pget_attr_phase_change(static_cast<hid_t>(*this),&max_compact,&min_dense)<0)
-  {
+                                                     unsigned &min_dense,
+                                                     const std::string &error_message) const {
+  if (H5Pget_attr_phase_change(static_cast<hid_t>(*this), &max_compact, &min_dense) < 0) {
     error::Singleton::instance().throw_with_stack(error_message);
   }
 }
@@ -47,134 +48,99 @@ void ObjectCreationList::get_attribute_phase_change_(unsigned &max_compact,
 // implementation of protected member functions
 //============================================================================
 
-ObjectCreationList::ObjectCreationList(const Class &plist_class):
-    List(plist_class)
-{}
+ObjectCreationList::ObjectCreationList(const Class &plist_class) :
+    List(plist_class) {}
 
 //============================================================================
 // implementation of public member functions
 //============================================================================
-ObjectCreationList::ObjectCreationList():
-    List(kObjectCreate)
-{}
+ObjectCreationList::ObjectCreationList() :
+    List(kObjectCreate) {}
 
-ObjectCreationList::~ObjectCreationList()
-{}
-
-void ObjectCreationList::enable_create_intermediate_group() const
-{
-  if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),1)<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to enable intermediate group creation!");
+ObjectCreationList::ObjectCreationList(ObjectHandle &&handle) :
+    List(std::move(handle)) {
+  if ((get_class() != kObjectCreate) &&
+      (get_class() != kFileCreate) &&
+      (get_class() != kDatatypeCreate) &&
+      (get_class() != kDatasetCreate) &&
+      (get_class() != kGroupCreate)) {
+    std::stringstream ss;
+    ss << "Cannot create property::ObjectCreationList from " << get_class();
+    throw std::runtime_error(ss.str());
   }
 }
 
-void ObjectCreationList::disable_create_intermediate_group() const
-{
-  if(H5Pset_create_intermediate_group(static_cast<hid_t>(*this),-1)<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to disable intermediate group creation!");
-  }
-}
+ObjectCreationList::~ObjectCreationList() {}
 
-bool ObjectCreationList::create_intermediate_group() const
-{
-  unsigned buffer=0;
-  if(H5Pget_create_intermediate_group(static_cast<hid_t>(*this),&buffer)<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to retrieve intermediate group creation mode!");
-  }
-
-  if(buffer)
-    return true;
-  else
-    return false;
-}
-
-void ObjectCreationList::enable_time_tracking() const
-{
-  if(H5Pset_obj_track_times(static_cast<hid_t>(*this),1)<0)
-  {
+void ObjectCreationList::enable_time_tracking() const {
+  if (H5Pset_obj_track_times(static_cast<hid_t>(*this), 1) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to enable time tracking for objects!");
   }
 }
 
-void ObjectCreationList::disable_time_tracking() const
-{
-  if(H5Pset_obj_track_times(static_cast<hid_t>(*this),0)<0)
-  {
+void ObjectCreationList::disable_time_tracking() const {
+  if (H5Pset_obj_track_times(static_cast<hid_t>(*this), 0) < 0) {
     error::Singleton::instance().throw_with_stack("Failure to disable time tracking for objects!");
   }
 }
 
-bool ObjectCreationList::time_tracking() const
-{
-#if H5_VERSION_GE(1,10,0)
+bool ObjectCreationList::time_tracking() const {
+#if H5_VERSION_GE(1, 10, 0)
   hbool_t buffer = 0;
 #else
   unsigned buffer = 0;
 #endif
-  if(H5Pget_obj_track_times(static_cast<hid_t>(*this),&buffer))
-  {
+  if (H5Pget_obj_track_times(static_cast<hid_t>(*this), &buffer)) {
     error::Singleton::instance().throw_with_stack("Failure to retrieve object time tracking mode!");
   }
-  if(buffer)
+  if (buffer)
     return true;
   else
     return false;
 }
 
-void ObjectCreationList::attribute_creation_order(const CreationOrder &order) const
-{
-  if(H5Pset_attr_creation_order(static_cast<hid_t>(*this),order)<0)
-  {
+void ObjectCreationList::attribute_creation_order(const CreationOrder &order) const {
+  if (H5Pset_attr_creation_order(static_cast<hid_t>(*this), order) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting attribute creation order!");
   }
 }
 
-CreationOrder ObjectCreationList::attribute_creation_order() const
-{
+CreationOrder ObjectCreationList::attribute_creation_order() const {
   unsigned buffer = 0;
-  if(H5Pget_attr_creation_order(static_cast<hid_t>(*this),&buffer)<0)
-  {
+  if (H5Pget_attr_creation_order(static_cast<hid_t>(*this), &buffer) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving attribute creation order flags!");
   }
 
   return CreationOrder(buffer);
 }
 
-void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact,unsigned min_dense) const
-{
-  if(H5Pset_attr_phase_change(static_cast<hid_t>(*this),max_compact,min_dense)<0)
-    {
-      error::Singleton::instance().throw_with_stack("Failure setting the compact to dense attribute "
-          "storage threshold!");
-    }
+void ObjectCreationList::attribute_storage_thresholds(unsigned max_compact, unsigned min_dense) const {
+  if (H5Pset_attr_phase_change(static_cast<hid_t>(*this), max_compact, min_dense) < 0) {
+    error::Singleton::instance().throw_with_stack("Failure setting the compact to dense attribute "
+                                                      "storage threshold!");
+  }
 
 }
 
-unsigned ObjectCreationList::attribute_storage_maximum_compact() const
-{
+unsigned ObjectCreationList::attribute_storage_maximum_compact() const {
   unsigned max_compact = 0,
-           min_dense = 0;
+      min_dense = 0;
   std::string error_message = "Failure retrieving the compact to dense attribute "
       "storage threshold!";
-  get_attribute_phase_change_(max_compact,min_dense,error_message);
+  get_attribute_phase_change_(max_compact, min_dense, error_message);
 
   return max_compact;
 }
 
-unsigned ObjectCreationList::attribute_storage_minimum_dense() const
-{
+unsigned ObjectCreationList::attribute_storage_minimum_dense() const {
   unsigned max_compact = 0,
-           min_dense = 0;
+      min_dense = 0;
   std::string error_message = "Failure retrieving the dense to compact attribute "
       "storage threshold!";
-  get_attribute_phase_change_(max_compact,min_dense,error_message);
+  get_attribute_phase_change_(max_compact, min_dense, error_message);
 
   return min_dense;
 }
-
 
 } // namespace property
 } // namespace hdf5
