@@ -97,7 +97,6 @@ TEST_F(FileCreation, test_same_file_ro)
   EXPECT_TRUE(f1.id()==f2.id());
 }
 
-#ifndef _MSC_VER
 TEST_F(FileCreation, test_same_file_with_symbolic_link)
 {
   file::create("test1.h5",file::AccessFlags::TRUNCATE);
@@ -109,7 +108,8 @@ TEST_F(FileCreation, test_same_file_with_symbolic_link)
   EXPECT_TRUE(f1.id()==f2.id());
   boost::filesystem::remove("test1_link.h5");
 }
-#endif
+
+
 
 
 
