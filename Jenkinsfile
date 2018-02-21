@@ -54,7 +54,7 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install --build=outdated ../${project}/conanfile_ess.txt
+        conan install --build=outdated ../conanfile_ess.txt
     \""""
 }
 
