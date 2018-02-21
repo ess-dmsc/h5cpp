@@ -23,17 +23,11 @@
 // Created on: Aug 24, 2017
 //
 #include <gtest/gtest.h>
-//#include <h5cpp/error/error.hpp>
-
-TEST(DummyTest,  trivial)
-{
-EXPECT_EQ(2+2, 4);
-}
-
+#include <h5cpp/error/error.hpp>
 
 int main(int argc, char **argv)
 {
-//  hdf5::error::Singleton::instance().auto_print(false);
+  hdf5::error::Singleton::instance().auto_print(false);
 
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
