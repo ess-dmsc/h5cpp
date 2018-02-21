@@ -246,21 +246,10 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
-                        withEnv(["conan_remote=ess-dmsc-local", "local_conan_server=${local_conan_server}"]) {
-
-                            bat 'echo remote is %conan_remote%'
-                            bat 'echo server is %local_conan_server%'
-
-                            //bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote remove ${conan_remote}  '
-                            //def conan_remote = "ess-dmsc-local"
-                            //local_conan_server=${env.local_conan_server}
-                            //bat "C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add --insert 0 %conan_remote% %local_conan_server% "
-                            bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_default.txt'
-                        }
+                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_default.txt'
                     } catch (e) {
                         failure_function(e, 'Windows10 / getting dependencies failed')
                     }
-
 
                     try {
                         bat 'cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 14 2015 Win64" ..'
@@ -269,7 +258,7 @@ def get_win10_pipeline()
                     }
 
                     try {
-                        bat "cmake --build . --target unit_tests"
+                        bat "cmake --build . --config Release --target unit_tests"
                         bat "bin\\unit_tests.exe"
                     } catch (e) {
 		                junit 'test/unit_tests_run.xml'
