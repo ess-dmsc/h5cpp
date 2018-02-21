@@ -25,12 +25,6 @@
 #include <gtest/gtest.h>
 #include <h5cpp/error/error.hpp>
 
-TEST(DummyTest,  trivial)
-{
-EXPECT_EQ(2+2, 4);
-}
-
-
 int main(int argc, char **argv)
 {
   hdf5::error::Singleton::instance().auto_print(false);
