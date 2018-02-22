@@ -122,6 +122,7 @@ TEST_P(ObjHandleFixture, Types)
   test_->test_copy_construction();
   test_->test_move_construction();
   test_->test_close_pathology();
+  test_->test_equality();
 }
 
 INSTANTIATE_TEST_CASE_P(ObjHandleTest, ObjHandleFixture,

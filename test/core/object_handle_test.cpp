@@ -93,3 +93,16 @@ void ObjectHandleTest::test_close_pathology()
   EXPECT_NO_THROW(h2->close());
   EXPECT_NO_THROW((delete h2));
 }
+
+void ObjectHandleTest::test_equality()
+{
+  hdf5::ObjectHandle handle(create_object());
+  hdf5::ObjectHandle handle2 = handle;
+  hdf5::ObjectHandle handle3;
+
+  EXPECT_TRUE(handle == handle2);
+  EXPECT_TRUE(handle != handle3);
+
+  EXPECT_FALSE(handle != handle2);
+  EXPECT_FALSE(handle == handle3);
+}

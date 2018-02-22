@@ -37,7 +37,7 @@ ObjectHandle::ObjectHandle(hid_t id, ObjectHandle::Policy policy)
   if (handle_ < 0)
   {
     std::stringstream ss;
-    ss << "Invalid object handler (" << id << ")";
+    ss << "ObjectHandle: constructor failed, invalid hid=" << id;
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
@@ -97,14 +97,33 @@ ObjectHandle &ObjectHandle::operator=(const ObjectHandle &o)
   if (this == &o) return *this;
 
   //close the current object
-  if (is_valid())
-    close();
+  try
+  {
+    if (is_valid())
+      close();
+  }
+  catch (...)
+  {
+    std::stringstream ss;
+    ss << "ObjectHandle: failed to close hid=" << handle_ << " while copying hid=" << o.handle_;
+    std::throw_with_nested(std::runtime_error(ss.str()));
+  }
+
+  //if the original object is valid we have to increment
+  //the reference counter for this id
+  try
+  {
+    if (o.is_valid())
+      o.increment_reference_count();
+  }
+  catch (...)
+  {
+    std::stringstream ss;
+    ss << "ObjectHandle: failed to copy hid=" << o.handle_;
+    std::throw_with_nested(std::runtime_error(ss.str()));
+  }
 
   handle_ = o.handle_;
-
-  //if the original object is valid we have to increment 
-  //the reference counter for this id
-  if (is_valid()) increment_reference_count();
 
   return *this;
 }
@@ -146,17 +165,11 @@ bool ObjectHandle::is_valid() const
   if (value < 0)
   {
     std::stringstream ss;
-    ss << "Could not retrieve validity status for handle (" << handle_ << ")";
+    ss << "ObjectHandle: could not retrieve validity for hid=" << handle_;
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  if (value)
-  {
-    return true;
-  } else
-  {
-    return false;
-  }
+  return (0 != value);
 }
 
 //----------------------------------------------------------------------------
@@ -174,7 +187,7 @@ void ObjectHandle::close()
   catch (...)
   {
     std::stringstream ss;
-    ss << "Could not close object handle (" << handle_ << ")!";
+    ss << "ObjectHandle: could not close hid=" << handle_;
     std::throw_with_nested(std::runtime_error(ss.str()));
   }
 
@@ -215,8 +228,7 @@ void ObjectHandle::close()
   if (error_code < 0)
   {
     std::stringstream ss;
-    ss << "Could not close object of type " << oht << "with handle "
-       << "(" << handle_ << ")!";
+    ss << "ObjectHandle: could not close hid= " << handle_ << " type=" << oht;
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
@@ -263,7 +275,7 @@ ObjectHandle::Type ObjectHandle::get_type() const
       return ObjectHandle::Type::ERROR_STACK;
     default:
       std::stringstream ss;
-      ss << "Unkown object type (" << type << ")";
+      ss << "ObjectHandle: unknown object type=" << type;
       error::Singleton::instance().throw_with_stack(ss.str());
   };
 }
@@ -275,7 +287,7 @@ void ObjectHandle::increment_reference_count() const
   {
     //Failing to succesfully inrement the reference counter for an internal
     //object ID is a serious issue and justifies to throw an exception here.
-    error::Singleton::instance().throw_with_stack("Error incrementing the reference counter!");
+    error::Singleton::instance().throw_with_stack("ObjectHandle: could not increment reference counter");
   }
 }
 
@@ -284,7 +296,7 @@ void ObjectHandle::decrement_reference_count() const
 {
   if (H5Idec_ref(handle_) < 0)
   {
-    error::Singleton::instance().throw_with_stack("Could not decrement the reference counter");
+    error::Singleton::instance().throw_with_stack("ObjectHandle: could not decrement reference counter");
   }
 }
 
@@ -294,7 +306,7 @@ int ObjectHandle::get_reference_count() const
   int ref_cnt = H5Iget_ref(handle_);
   if (ref_cnt < 0)
   {
-    error::Singleton::instance().throw_with_stack("Could not retrieve reference count for object!");
+    error::Singleton::instance().throw_with_stack("ObjectHandle: could not get reference counter");
   }
 
   return ref_cnt;
