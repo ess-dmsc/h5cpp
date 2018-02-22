@@ -63,7 +63,7 @@ endif()
 #=============================================================================
 # create package file
 #=============================================================================
-set(WITH_SMWR OFF CACHE BOOL "enable SWMR support")
+set(WITH_SWMR OFF CACHE BOOL "enable SWMR support")
 set(WITH_VDS OFF CACHE BOOL "enable VDS support")
 if(HDF5_VERSION VERSION_GREATER 1.10.0 OR HDF5_VERSION VERSION_EQUAL 1.10.0)
     set(WITH_SWMR ON)
