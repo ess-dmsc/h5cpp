@@ -178,8 +178,7 @@ class DLL_EXPORT ObjectHandle
     //-----------------------------------------------------------------
     //!
     //! \brief destructor
-    //! 
-    //! \throws std::runtime_error in case of errors
+    //!
     ~ObjectHandle() noexcept;
 
     //================assignment operators=============================

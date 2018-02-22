@@ -63,7 +63,7 @@ TEST_F(FileCreation, test_default)
   EXPECT_THROW(f.flush(file::Scope::LOCAL),std::runtime_error);
   EXPECT_THROW(f.count_open_objects(file::SearchFlags::ALL),std::runtime_error);
   EXPECT_THROW(f.root(), std::runtime_error);
-  EXPECT_NO_THROW(f.close());
+  EXPECT_THROW(f.close(), std::runtime_error);
 }
 
 TEST_F(FileCreation, test_no_truncate)

@@ -58,11 +58,11 @@ class ObjectHandleTest
 
     virtual void test_move_assignment();
 
-    hdf5::ObjectHandle::Type get_type() const;
+    virtual void test_close_pathology();
+
+  hdf5::ObjectHandle::Type get_type() const { return type_; }
 
 };
-
-std::string string_from_type(hdf5::ObjectHandle::Type type);
 
 class FileObjectHandleTest : public ObjectHandleTest
 {

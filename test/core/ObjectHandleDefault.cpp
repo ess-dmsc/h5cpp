@@ -46,7 +46,10 @@ class ObjHandleFixture : public TestWithParam<hdf5::ObjectHandle::Type>
 
     virtual void SetUp()
     {
-      name_ = string_from_type(GetParam());
+      std::stringstream ss;
+      ss << GetParam();
+      name_ = ss.str();
+
       switch(GetParam())
       {
       case hdf5::ObjectHandle::Type::FILE:
@@ -106,7 +109,7 @@ TEST(ObjHandleTest, DefaultConstruction)
   EXPECT_FALSE(handle.is_valid());
   EXPECT_EQ(handle.get_type(),hdf5::ObjectHandle::Type::BADOBJECT);
   EXPECT_THROW(handle.get_reference_count(),std::runtime_error);
-  EXPECT_NO_THROW(handle.close());
+  EXPECT_THROW(handle.close(),std::runtime_error);
 }
 
 TEST_P(ObjHandleFixture, Types)
@@ -118,6 +121,7 @@ TEST_P(ObjHandleFixture, Types)
   test_->test_move_assignment();
   test_->test_copy_construction();
   test_->test_move_construction();
+  test_->test_close_pathology();
 }
 
 INSTANTIATE_TEST_CASE_P(ObjHandleTest, ObjHandleFixture,
