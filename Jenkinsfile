@@ -1,5 +1,5 @@
 project = "h5cpp"
-coverage_os = "fedora"
+coverage_os = "fedora25"
 
 images = [
     'centos7': [
