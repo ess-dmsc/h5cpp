@@ -2,28 +2,28 @@ project = "h5cpp"
 coverage_os = "fedora"
 
 images = [
-    'centos': [
+    'centos7': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh'
     ],
-    'centos-gcc6': [
-        'name': 'essdmscdm/centos7-gcc6-build-node:1.0.0',
+    'centos7-gcc6': [
+        'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
     ],
-    'fedora': [
+    'fedora25': [
         'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh'
     ],
-    'debian': [
+    'debian9': [
         'name': 'essdmscdm/debian9-build-node:1.0.0',
         'sh': 'sh'
     ],
     'ubuntu1604': [
-        'name': 'essdmscdm/ubuntu16.04-build-node:2.0.0',
+        'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
         'sh': 'sh'
     ],
     'ubuntu1710': [
-        'name': 'essdmscdm/ubuntu17.10-build-node:1.0.0',
+        'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
         'sh': 'sh'
     ]
 ]
@@ -54,7 +54,7 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        conan install --build=missing ../conanfile_ess.txt
+        conan install --build=outdated ../conanfile_ess.txt
     \""""
 }
 
@@ -181,7 +181,7 @@ def get_macos_pipeline()
 
                 dir("${project}/build") {
                     try {
-                        sh "conan install --build=missing ../code/conanfile_ess.txt"
+                        sh "conan install --build=outdated ../code/conanfile_ess.txt"
                     } catch (e) {
                         failure_function(e, 'MacOSX / getting dependencies failed')
                     }
@@ -204,6 +204,48 @@ def get_macos_pipeline()
     }
 }
 
+def get_win10_pipeline()
+{
+    return {
+        stage("Windows 10") {
+            node ("windows10") {
+            // Delete workspace when build is done
+                cleanWs()
+
+                try {
+                    checkout scm
+                    bat "mkdir _build"
+                } catch (e) {
+                    failure_function(e, 'Windows10 / Checkout failed')
+                }
+
+                dir("_build") {
+                    try {
+                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_default.txt'
+                    } catch (e) {
+                        failure_function(e, 'Windows10 / getting dependencies failed')
+                    }
+
+                    try {
+                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 14 2015 Win64" ..'
+                    } catch (e) {
+                        failure_function(e, 'Windows10 / CMake failed')
+                    }
+
+                    try {
+                        bat "cmake --build . --config Release --target unit_tests"
+                        bat "bin\\unit_tests.exe"
+                    } catch (e) {
+		                junit 'test/unit_tests_run.xml'
+                        failure_function(e, 'Windows10 / build+test failed')
+                    }
+
+                }
+            }
+        }
+    }
+}
+
 node('docker') {
     stage('Checkout') {
         dir("${project}_code") {
@@ -214,13 +256,14 @@ node('docker') {
             }
         }
     }
-
     def builders = [:]
     for (x in images.keySet()) {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
     builders['macOS'] = get_macos_pipeline()
+    builders['Windows10'] = get_win10_pipeline()
+    
 
     parallel builders
     // Delete workspace when build is done
