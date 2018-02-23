@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 14, 2017
 //
 
@@ -82,16 +84,27 @@ void ObjectHandleTest::test_move_assignment()
   EXPECT_EQ(handle2.get_reference_count(),1);
 }
 
-
-hdf5::ObjectHandle::Type ObjectHandleTest::get_type() const
+void ObjectHandleTest::test_close_pathology()
 {
-  return type_;
+  hdf5::ObjectHandle handle(create_object());
+  EXPECT_NO_THROW(handle.close());
+  EXPECT_THROW(handle.close(), std::runtime_error);
+
+  hdf5::ObjectHandle* h2 = new hdf5::ObjectHandle(create_object());
+  EXPECT_TRUE(h2->is_valid());
+  EXPECT_NO_THROW(h2->close());
+  EXPECT_NO_THROW((delete h2));
 }
 
-std::string string_from_type(hdf5::ObjectHandle::Type type)
+void ObjectHandleTest::test_equality()
 {
-  std::stringstream ss;
-  ss<<type;
-  return ss.str();
-}
+  hdf5::ObjectHandle handle(create_object());
+  hdf5::ObjectHandle handle2 = handle;
+  hdf5::ObjectHandle handle3;
 
+  EXPECT_TRUE(handle == handle2);
+  EXPECT_TRUE(handle != handle3);
+
+  EXPECT_FALSE(handle != handle2);
+  EXPECT_FALSE(handle == handle3);
+}

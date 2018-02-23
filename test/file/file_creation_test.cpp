@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 10, 2017
 //
 
@@ -63,7 +65,7 @@ TEST_F(FileCreation, test_default)
   EXPECT_THROW(f.flush(file::Scope::LOCAL),std::runtime_error);
   EXPECT_THROW(f.count_open_objects(file::SearchFlags::ALL),std::runtime_error);
   EXPECT_THROW(f.root(), std::runtime_error);
-  EXPECT_NO_THROW(f.close());
+  EXPECT_THROW(f.close(), std::runtime_error);
 }
 
 TEST_F(FileCreation, test_no_truncate)
