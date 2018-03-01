@@ -38,23 +38,23 @@ Version::Version() noexcept:
     patch_(0)
 {}
 
-Version::Version(NumberType major,NumberType minor,NumberType patch) noexcept:
-    major_(major),
-    minor_(minor),
+Version::Version(NumberType major_number,NumberType minor_number,NumberType patch) noexcept:
+    major_(major_number),
+    minor_(minor_number),
     patch_(patch)
 {}
 
-Version::NumberType Version::major() const noexcept
+Version::NumberType Version::major_number() const noexcept
 {
   return major_;
 }
 
-Version::NumberType Version::minor() const noexcept
+Version::NumberType Version::minor_number() const noexcept
 {
   return minor_;
 }
 
-Version::NumberType Version::patch() const noexcept
+Version::NumberType Version::patch_number() const noexcept
 {
   return patch_;
 }
@@ -62,15 +62,15 @@ Version::NumberType Version::patch() const noexcept
 std::string Version::to_string(const Version &version)
 {
   std::stringstream ss;
-  ss<<version.major()<<"."<<version.minor()<<"."<<version.patch();
+  ss<<version.major_number()<<"."<<version.minor_number()<<"."<<version.patch_number();
   return ss.str();
 }
 
 bool operator==(const Version &lhs,const Version &rhs)
 {
-  return (lhs.major() == rhs.major()) &&
-         (lhs.minor() == rhs.minor()) &&
-         (lhs.patch() == rhs.patch());
+  return (lhs.major_number() == rhs.major_number()) &&
+         (lhs.minor_number() == rhs.minor_number()) &&
+         (lhs.patch_number() == rhs.patch_number());
 }
 
 bool operator!=(const Version &lhs,const Version &rhs)
@@ -85,13 +85,13 @@ bool operator<=(const Version &lhs,const Version &rhs)
 
 bool operator<(const Version &lhs,const Version &rhs)
 {
-  if(lhs.major()<rhs.major())
+  if(lhs.major_number()<rhs.major_number())
     return true;
 
-  if(lhs.minor() < rhs.minor())
+  if(lhs.minor_number() < rhs.minor_number())
     return true;
 
-  if(lhs.patch() < rhs.patch())
+  if(lhs.patch_number() < rhs.patch_number())
     return true;
 
   return false;
@@ -104,13 +104,13 @@ bool operator>=(const Version &lhs,const Version &rhs)
 
 bool operator>(const Version &lhs,const Version &rhs)
 {
-  if(lhs.major() > rhs.major())
+  if(lhs.major_number() > rhs.major_number())
     return true;
 
-  if(lhs.minor() > rhs.minor())
+  if(lhs.minor_number() > rhs.minor_number())
     return true;
 
-  if(lhs.patch() > rhs.patch())
+  if(lhs.patch_number() > rhs.patch_number())
     return true;
 
   return false;
@@ -123,15 +123,15 @@ std::ostream &operator<<(std::ostream &stream,const Version &v)
 
 Version current_library_version()
 {
-  unsigned int major=0,minor=0,release=0;
-  if(H5get_libversion(&major,&minor,&release)<0)
+  unsigned int major_number=0,minor_number=0,release=0;
+  if(H5get_libversion(&major_number,&minor_number,&release)<0)
   {
     std::stringstream ss;
     ss<<"Cannot determine library version!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return Version(major,minor,release);
+  return Version(major_number,minor_number,release);
 }
 
 } // namespace hdf5
