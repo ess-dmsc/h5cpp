@@ -34,6 +34,7 @@ TEST_F(Link, test_default_construction)
 {
   node::Link link;
   EXPECT_EQ(link.type(),node::LinkType::ERROR);
+  EXPECT_THROW(link.target(),std::runtime_error);
 }
 
 TEST_F(Link, test_equality)
@@ -44,6 +45,23 @@ TEST_F(Link, test_equality)
 
   EXPECT_EQ(link1, link2);
   EXPECT_NE(link1, link3);
+}
+
+TEST_F(Link,test_copy_construction)
+{
+	node::Link link1(file_,"path1","name1");
+	node::Link link2(link1);
+
+	EXPECT_EQ(link1,link2);
+}
+
+TEST_F(Link,test_copy_assignment)
+{
+	node::Link link1(file_,"path1","name1");
+	node::Link link2;
+
+	link2 = link1;
+	EXPECT_EQ(link1,link2);
 }
 
 TEST_F(Link, test_validity)
@@ -63,8 +81,8 @@ TEST_F(Link,test_invalid_external_link)
   hdf5::node::Link link = file_.root().links["external_data"];
 
   EXPECT_TRUE(link.exists());
+  EXPECT_EQ(link.type(),hdf5::node::LinkType::EXTERNAL);
   EXPECT_FALSE(link.is_resolvable());
-
 }
 
 TEST_F(Link,test_valid_soft_link)

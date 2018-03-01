@@ -30,6 +30,7 @@ set(test_sources
   ${dir}/get_dataset_test.cpp
   ${dir}/dataset_bool_io.cpp
   ${dir}/dataset_h5py_string_compat_test.cpp
+  ${dir}/link_target_test.cpp
   PARENT_SCOPE)
 
 set(test_headers
