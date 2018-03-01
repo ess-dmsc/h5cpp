@@ -121,11 +121,12 @@ LinkTarget Link::get_soft_link_target(const property::LinkAccessList &lapl ) con
 LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) const
 {
   std::string value = get_link_value(lapl);
+  std::cout<<"LINK VALUE: "<<value<<std::endl;
 
   const char *filename_buffer,
              *objectpath_buffer;
 
-  if(H5Lunpack_elink_val(value.data(),value.size(),0,
+  if(H5Lunpack_elink_val(value.c_str(),value.size()+1,0,
                          &filename_buffer,&objectpath_buffer)<0)
   {
     std::stringstream ss;
@@ -213,8 +214,15 @@ bool Link::is_resolvable() const
 {
   if(exists())
   {
-    Group parent = this->parent();
-    return parent.nodes.exists(name_);
+    try
+    {
+      *(*this);
+      return true;
+    }
+    catch(...)
+    {
+      return false;
+    }
   }
   else
     return false;
