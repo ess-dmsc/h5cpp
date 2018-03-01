@@ -27,7 +27,8 @@
 
 using namespace hdf5;
 
-class Link : public BasicFixture {
+class Link : public BasicFixture
+{
 };
 
 TEST_F(Link, test_default_construction)
@@ -35,6 +36,12 @@ TEST_F(Link, test_default_construction)
   node::Link link;
   EXPECT_EQ(link.type(),node::LinkType::ERROR);
   EXPECT_THROW(link.target(),std::runtime_error);
+}
+
+TEST_F(Link,test_false_construction)
+{
+  node::Link link(file_,"/","name1");
+  EXPECT_THROW(link.type(),std::runtime_error);
 }
 
 TEST_F(Link, test_equality)

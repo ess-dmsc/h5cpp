@@ -76,6 +76,17 @@ TEST_F(LinkTargetTest,external_target_construction)
 	EXPECT_EQ(target.file_path(),file_path);
 }
 
+TEST_F(LinkTargetTest,hard_link_target)
+{
+  hdf5::node::Link link = root_group.links["original"];
+  EXPECT_TRUE(link.is_resolvable());
+  EXPECT_EQ(link.type(),hdf5::node::LinkType::HARD);
+
+  hdf5::node::LinkTarget target = link.target();
+  EXPECT_EQ(target.object_path(),"/original");
+  EXPECT_EQ(target.file_path().size(),0);
+}
+
 TEST_F(LinkTargetTest,internal_link_target)
 {
   hdf5::node::Link link = root_group.links["internal_link"];
