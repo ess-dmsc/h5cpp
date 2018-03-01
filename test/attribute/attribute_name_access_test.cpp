@@ -148,6 +148,95 @@ TEST_F(AttributeName, test_iterator_access_name_order_decreasing)
   }
 }
 
+TEST_F(AttributeName, test_iterator_postincrement)
+{
+  root_.attributes.iterator_config().index(IterationIndex::NAME);
+  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+  auto iter = root_.attributes.begin();
+  EXPECT_EQ((iter++)->name(),"index");
+  EXPECT_EQ(iter->name(),"elasticity");
+}
+
+TEST_F(AttributeName, test_iterator_preincrement)
+{
+  root_.attributes.iterator_config().index(IterationIndex::NAME);
+  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+  auto iter = root_.attributes.begin();
+  EXPECT_EQ((++iter)->name(),"elasticity");
+}
+
+TEST_F(AttributeName, test_iterator_postdecrement)
+{
+  root_.attributes.iterator_config().index(IterationIndex::NAME);
+  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+  auto iter = root_.attributes.begin();
+  std::advance(iter,2);
+  EXPECT_EQ((iter--)->name(),"counter");
+  EXPECT_EQ(iter->name(),"elasticity");
+}
+
+TEST_F(AttributeName, test_iterator_predecrement)
+{
+  root_.attributes.iterator_config().index(IterationIndex::NAME);
+  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+  auto iter = root_.attributes.begin();
+  std::advance(iter,2);
+  EXPECT_EQ((--iter)->name(),"elasticity");
+}
+
+TEST_F(AttributeName, test_invalid_iterator)
+{
+  auto iter = root_.attributes.end();
+
+  EXPECT_THROW((*iter),std::runtime_error);
+  EXPECT_FALSE(static_cast<bool>(iter));
+}
+
+TEST_F(AttributeName, test_unary_arithmetics)
+{
+  root_.attributes.iterator_config().index(IterationIndex::NAME);
+  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+  auto iter = root_.attributes.begin();
+  std::advance(iter,2);
+  EXPECT_EQ(iter->name(),"counter");
+  iter-=2;
+  EXPECT_EQ(iter->name(),"index");
+
+}
+
+TEST_F(AttributeName, test_iterator_comparison)
+{
+  hdf5::node::Group group(root_,"entry");
+  group.attributes.create("names",hdf5::datatype::create<std::string>(),
+                          hdf5::dataspace::Scalar());
+
+  EXPECT_NE(group.attributes.begin(),root_.attributes.begin());
+
+
+}
+
+TEST_F(AttributeName, test_iterator_random_access)
+{
+  root_.attributes.iterator_config().index(IterationIndex::NAME);
+  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+  std::vector<std::string> ref_names{"index","elasticity","counter"};
+  auto ref_iter = ref_names.begin();
+
+
+  auto iter     = root_.attributes.begin();
+  auto iter_end = root_.attributes.end();
+  std::advance(iter,1);
+  EXPECT_EQ(iter->name(),"elasticity");
+  EXPECT_NO_THROW(iter--);
+  EXPECT_EQ(iter->name(),"index");
+}
+
 TEST_F(AttributeName, test_access_failure)
 {
   EXPECT_THROW(root_.attributes[3],std::runtime_error);
