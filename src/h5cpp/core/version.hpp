@@ -60,7 +60,7 @@ class DLL_EXPORT Version
     //! @param minor the minor version number
     //! @param patch the patch version number
     //!
-    Version(NumberType major, NumberType minor, NumberType patch) noexcept;
+    Version(NumberType major_number, NumberType minor_number, NumberType patch) noexcept;
 
     //!
     //! @brief copy constructor
@@ -73,17 +73,17 @@ class DLL_EXPORT Version
     //!
     //! @brief return the major version number
     //!
-    NumberType major() const noexcept;
+    NumberType major_number() const noexcept;
 
     //!
     //! @brief return the minor version number
     //!
-    NumberType minor() const noexcept;
+    NumberType minor_number() const noexcept;
 
     //!
     //! @brief return the patch version number
     //!
-    NumberType patch() const noexcept;
+    NumberType patch_number() const noexcept;
 
     //!
     //! @brief convert a Version to a string

@@ -34,26 +34,26 @@ class VersionTest : public testing::Test
 TEST(VersionTest,default_construction)
 {
   hdf5::Version v;
-  EXPECT_EQ(v.major(),hdf5::Version::NumberType(0));
-  EXPECT_EQ(v.minor(),hdf5::Version::NumberType(0));
-  EXPECT_EQ(v.patch(),hdf5::Version::NumberType(0));
+  EXPECT_EQ(v.major_number(),hdf5::Version::NumberType(0));
+  EXPECT_EQ(v.minor_number(),hdf5::Version::NumberType(0));
+  EXPECT_EQ(v.patch_number(),hdf5::Version::NumberType(0));
 }
 
 TEST(VersionTest,construction)
 {
   hdf5::Version v(10,0,2);
-  EXPECT_EQ(v.major(),hdf5::Version::NumberType(10));
-  EXPECT_EQ(v.minor(),hdf5::Version::NumberType(0));
-  EXPECT_EQ(v.patch(),hdf5::Version::NumberType(2));
+  EXPECT_EQ(v.major_number(),hdf5::Version::NumberType(10));
+  EXPECT_EQ(v.minor_number(),hdf5::Version::NumberType(0));
+  EXPECT_EQ(v.patch_number(),hdf5::Version::NumberType(2));
 }
 
 TEST(VersionTest,copy_construction)
 {
   hdf5::Version v1(3,0,12);
   hdf5::Version v2(v1);
-  EXPECT_EQ(v1.major(),v2.major());
-  EXPECT_EQ(v1.minor(),v2.minor());
-  EXPECT_EQ(v1.patch(),v2.patch());
+  EXPECT_EQ(v1.major_number(),v2.major_number());
+  EXPECT_EQ(v1.minor_number(),v2.minor_number());
+  EXPECT_EQ(v1.patch_number(),v2.patch_number());
 }
 
 TEST(VersionTest,copy_assignment)
@@ -62,9 +62,9 @@ TEST(VersionTest,copy_assignment)
   hdf5::Version v2;
   v2 = v1;
 
-  EXPECT_EQ(v1.major(),v2.major());
-  EXPECT_EQ(v1.minor(),v2.minor());
-  EXPECT_EQ(v1.patch(),v2.patch());
+  EXPECT_EQ(v1.major_number(),v2.major_number());
+  EXPECT_EQ(v1.minor_number(),v2.minor_number());
+  EXPECT_EQ(v1.patch_number(),v2.patch_number());
 }
 
 TEST(VersionTest,to_string)
@@ -118,9 +118,9 @@ TEST(VersionTest,less_than)
 TEST(VersionTest,current_library_version)
 {
   hdf5::Version current = hdf5::current_library_version();
-  EXPECT_EQ(current.major(),hdf5::Version::NumberType(H5_VERS_MAJOR));
-  EXPECT_EQ(current.minor(),hdf5::Version::NumberType(H5_VERS_MINOR));
-  EXPECT_EQ(current.patch(),hdf5::Version::NumberType(H5_VERS_RELEASE));
+  EXPECT_EQ(current.major_number(),hdf5::Version::NumberType(H5_VERS_MAJOR));
+  EXPECT_EQ(current.minor_number(),hdf5::Version::NumberType(H5_VERS_MINOR));
+  EXPECT_EQ(current.patch_number(),hdf5::Version::NumberType(H5_VERS_RELEASE));
 
 
 }
