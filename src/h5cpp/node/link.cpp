@@ -213,8 +213,15 @@ bool Link::is_resolvable() const
 {
   if(exists())
   {
-    Group parent = this->parent();
-    return parent.nodes.exists(name_);
+    try
+    {
+      *(*this);
+      return true;
+    }
+    catch(...)
+    {
+      return false;
+    }
   }
   else
     return false;

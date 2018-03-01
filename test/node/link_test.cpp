@@ -54,3 +54,37 @@ TEST_F(Link, test_validity)
   EXPECT_FALSE(link1.is_resolvable());
 }
 
+TEST_F(Link,test_invalid_external_link)
+{
+  boost::filesystem::path file_path("external_data.h5");
+  hdf5::Path data_path("/data");
+
+  hdf5::node::link(file_path,data_path,file_.root(),hdf5::Path("external_data"));
+  hdf5::node::Link link = file_.root().links["external_data"];
+
+  EXPECT_TRUE(link.exists());
+  EXPECT_FALSE(link.is_resolvable());
+
+}
+
+TEST_F(Link,test_valid_soft_link)
+{
+  hdf5::node::Group(file_.root(),hdf5::Path("original_group"));
+  hdf5::node::link(hdf5::Path("/original_group"),file_.root(),"linked_group");
+
+  hdf5::node::Link link = file_.root().links["linked_group"];
+  EXPECT_TRUE(link.exists());
+  EXPECT_EQ(link.type(),hdf5::node::LinkType::SOFT);
+  EXPECT_TRUE(link.is_resolvable());
+}
+
+TEST_F(Link,test_invalid_soft_link)
+{
+  hdf5::node::link(hdf5::Path("/original/data"),file_.root(),hdf5::Path("linked_data"));
+  hdf5::node::Link link = file_.root().links["linked_data"];
+
+  EXPECT_EQ(link.type(),hdf5::node::LinkType::SOFT);
+  EXPECT_TRUE(link.exists());
+  EXPECT_FALSE(link.is_resolvable());
+}
+
