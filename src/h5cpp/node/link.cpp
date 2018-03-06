@@ -121,7 +121,6 @@ LinkTarget Link::get_soft_link_target(const property::LinkAccessList &lapl ) con
 LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) const
 {
   std::string value = get_link_value(lapl);
-  std::cout<<"LINK VALUE: "<<value<<std::endl;
 
   const char *filename_buffer,
              *objectpath_buffer;
