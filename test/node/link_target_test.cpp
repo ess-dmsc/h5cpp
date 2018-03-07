@@ -23,7 +23,19 @@
 // Created on: Mar 1, 2018
 //
 
+#include <boost/version.hpp>
+#include <iterator>
 #include "group_test_fixtures.hpp"
+
+
+size_t get_path_size(const boost::filesystem::path &path)
+{
+#if BOOST_VERSION < 106000
+  return std::distance(path.begin(),path.end());
+#else
+  return path.size();
+#endif
+}
 
 using namespace hdf5;
 
@@ -55,7 +67,7 @@ TEST_F(LinkTargetTest,default_construction)
 	node::LinkTarget target;
 
 	EXPECT_EQ(target.object_path().size(),0);
-	EXPECT_EQ(target.file_path().size(),0);
+	EXPECT_EQ(get_path_size(target.file_path()),0);
 
 }
 
@@ -63,7 +75,7 @@ TEST_F(LinkTargetTest,internal_target_construction)
 {
 	node::LinkTarget target(hdf5::Path("/data"));
 	EXPECT_EQ(target.object_path(),hdf5::Path("/data"));
-	EXPECT_EQ(target.file_path().size(),0);
+	EXPECT_EQ(get_path_size(target.file_path()),0);
 }
 
 TEST_F(LinkTargetTest,external_target_construction)
@@ -84,7 +96,7 @@ TEST_F(LinkTargetTest,hard_link_target)
 
   hdf5::node::LinkTarget target = link.target();
   EXPECT_EQ(target.object_path(),"/original");
-  EXPECT_EQ(target.file_path().size(),0);
+  EXPECT_EQ(get_path_size(target.file_path()),0);
 }
 
 TEST_F(LinkTargetTest,internal_link_target)
@@ -94,7 +106,7 @@ TEST_F(LinkTargetTest,internal_link_target)
 
   hdf5::node::LinkTarget target = link.target();
   EXPECT_EQ(target.object_path(),"/original");
-  EXPECT_EQ(target.file_path().size(),0);
+  EXPECT_EQ(get_path_size(target.file_path()),0);
 }
 
 TEST_F(LinkTargetTest,external_link_target)
