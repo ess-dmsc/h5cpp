@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp
   LANGUAGES CXX C
-  VERSION 0.0.6
+  VERSION 0.0.7
   )
 
 set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
