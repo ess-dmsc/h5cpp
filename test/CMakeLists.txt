@@ -47,6 +47,7 @@ target_link_libraries(unit_tests
   h5cpp
   ${GTEST_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
+  ${Boost_LIBRARIES}
   ${COVERAGE_LIBRARIES})
 enable_coverage(unit_tests)
 
