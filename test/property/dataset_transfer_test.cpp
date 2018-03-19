@@ -31,7 +31,13 @@
 
 namespace pl = hdf5::property;
 
-TEST(DatasetTransferList, test_default_construction) {
+void test_function(const  pl::DatasetTransferList &dtpl = pl::DatasetTransferList())
+{
+  std::cout<<dtpl.get_class()<<std::endl;
+}
+
+TEST(DatasetTransferList, test_default_construction)
+{
   pl::DatasetTransferList dtpl;
   EXPECT_TRUE(dtpl.get_class() == pl::kDatasetXfer);
 
@@ -41,6 +47,11 @@ TEST(DatasetTransferList, test_default_construction) {
   cl = pl::kGroupCreate;
   EXPECT_THROW((pl::DatasetTransferList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
                std::runtime_error);
+}
+
+TEST(DatasetTransferList,test_as_default_argument)
+{
+  EXPECT_NO_THROW(test_function());
 }
 
 // Missing MPI-related functions tests here
