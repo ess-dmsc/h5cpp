@@ -174,8 +174,19 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void write(const T &data,const datatype::Datatype &mem_type,
                const dataspace::Dataspace &mem_space,
-               const dataspace::Dataspace &file_space =
-                   dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),
+               const dataspace::Dataspace &file_space,
+               const property::DatasetTransferList &dtpl =
+                   property::DatasetTransferList()) const;
+
+    //!
+    //! @brief write data to the dataset
+    //!
+    //! This function allows specification of the memory dataspace and dataspace
+    //! and optionally the dataset transfer property list.
+    //!
+    template<typename T>
+    void write(const T &data,const datatype::Datatype &mem_type,
+               const dataspace::Dataspace &mem_space,
                const property::DatasetTransferList &dtpl =
                    property::DatasetTransferList()) const;
 
@@ -199,8 +210,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void read(T &data,const datatype::Datatype &mem_type,
               const dataspace::Dataspace &mem_space,
-              const dataspace::Dataspace &file_space =
-                  dataspace::Dataspace(ObjectHandle(H5S_ALL,ObjectHandle::Policy::WITHOUT_WARD)),
+              const dataspace::Dataspace &file_space,
               const property::DatasetTransferList &dtpl =
                   property::DatasetTransferList()) const;
 
@@ -564,6 +574,19 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
   {
     write_contiguous_data(data,mem_type,mem_space,file_type,file_space,dtpl);
   }
+
+}
+
+template<typename T>
+void Dataset::write(const T &data,
+                    const datatype::Datatype &mem_type,
+                    const dataspace::Dataspace &mem_space,
+                    const property::DatasetTransferList &dtpl) const
+{
+  auto file_space = dataspace();
+  file_space.selection.all();
+
+  write(data,mem_type,mem_space,file_space,dtpl);
 
 }
 
