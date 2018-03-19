@@ -62,6 +62,13 @@ TEST_F(DatasetFixedStringIO,scalar_auto_config)
 
 }
 
+TEST_F(DatasetFixedStringIO,scalar_with_explicit_memory_configuration)
+{
+  node::Dataset dset(root_group,Path("data"),string_type,scalar_space);
+  std::string write = "hello";
+  dset.write(write,string_type,scalar_space,scalar_space);
+}
+
 TEST_F(DatasetFixedStringIO,vector_no_auto_config)
 {
   node::Dataset dset(root_group,Path("data"),string_type,simple_space);
