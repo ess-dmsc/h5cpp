@@ -51,6 +51,7 @@ class FileCreation : public testing::Test
 };
 
 const std::vector<std::string> FileCreation::files_ = {
+    "./test1_with_a_much_longer_file_name.h5",
     "./test1.h5",
     "./test2.h5"
 };
@@ -70,13 +71,13 @@ TEST_F(FileCreation, test_default)
 
 TEST_F(FileCreation, test_no_truncate)
 {
-  file::File f = file::create(fs::path("./test1.h5"));
+  file::File f = file::create(fs::path("./test1_with_a_much_longer_file_name.h5"));
   EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.path().string(),"./test1.h5");
+  EXPECT_EQ(f.path().string(),"./test1_with_a_much_longer_file_name.h5");
   f.close();
 
   //cannot create another file
-  EXPECT_THROW(file::create("./test1.h5"),std::runtime_error);
+  EXPECT_THROW(file::create("./test1_with_a_much_longer_file_name.h5"),std::runtime_error);
 }
 
 TEST_F(FileCreation, test_truncation)

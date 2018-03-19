@@ -80,7 +80,7 @@ boost::filesystem::path File::path() const
     error::Singleton::instance().throw_with_stack("Failure to determine file name length!");
   }
 
-  std::vector<char> buffer(size);
+  std::vector<char> buffer(size+1);
   if(H5Fget_name(static_cast<hid_t>(*this),buffer.data(),size+1)<0)
   {
     std::stringstream ss;
@@ -88,7 +88,7 @@ boost::filesystem::path File::path() const
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return boost::filesystem::path(std::string(buffer.begin(),buffer.end()));
+  return boost::filesystem::path(std::string(buffer.begin(),--buffer.end()));
 }
 
 size_t File::count_open_objects(SearchFlagsBase flags) const
