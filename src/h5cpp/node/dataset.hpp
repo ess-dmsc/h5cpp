@@ -214,6 +214,13 @@ class DLL_EXPORT Dataset : public Node
               const property::DatasetTransferList &dtpl =
                   property::DatasetTransferList()) const;
 
+    template<typename T>
+    void read(T &data,
+              const datatype::Datatype &mem_type,
+              const dataspace::Dataspace &mem_space,
+              const property::DatasetTransferList &dtpl =
+                  property::DatasetTransferList()) const;
+
 
     //!
     //! \brief write entire dataset
@@ -655,6 +662,17 @@ void Dataset::read(T &data,
 {
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,file_selection);
+  read(data,memory_type,memory_space,file_space,dtpl);
+}
+
+template<typename T>
+void Dataset::read(T &data,
+                   const datatype::Datatype &memory_type,
+                   const dataspace::Dataspace &memory_space,
+                   const property::DatasetTransferList &dtpl) const
+{
+  dataspace::Dataspace file_space = dataspace();
+  file_space.selection.all();
   read(data,memory_type,memory_space,file_space,dtpl);
 }
 
