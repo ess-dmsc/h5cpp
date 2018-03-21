@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -45,6 +45,8 @@ Simple::Simple(const Dimensions &current, const Dimensions &maximum) :
   dimensions(current, maximum);
 }
 
+// TODO consider using size_t ? or other unsigned type?
+
 int Simple::rank() const {
   int rank = H5Sget_simple_extent_ndims(static_cast<hid_t>(*this));
   if (rank < 0) {
@@ -68,6 +70,7 @@ void Simple::dimensions(const Dimensions &current, const Dimensions &maximum) {
 Dimensions Simple::current_dimensions() const {
   size_t my_rank;
   try {
+    // Fixed above (make rank return size_t)
     my_rank = rank();
   }
   catch (...) {

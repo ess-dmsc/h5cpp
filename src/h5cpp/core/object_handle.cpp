@@ -9,7 +9,7 @@
 // (at your option) any later version.
 //
 // This library is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty ofMERCHANTABILITY
+// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
 // License for more details.
 //
@@ -32,7 +32,7 @@
 
 namespace hdf5 {
 
-//=================constrcutors and destructors============================
+//=================constructors and destructors============================
 ObjectHandle::ObjectHandle(hid_t id, ObjectHandle::Policy policy)
     : handle_(id)
 {
@@ -45,7 +45,7 @@ ObjectHandle::ObjectHandle(hid_t id, ObjectHandle::Policy policy)
 
   //
   // if we do not care about the object we have to increment its reference count
-  // in order to avoid getting it destroyed when the ID looses scope.
+  // in order to avoid getting it destroyed when the ID loses scope.
   //
   if (policy == Policy::WITHOUT_WARD)
     increment_reference_count();
@@ -58,7 +58,7 @@ ObjectHandle::ObjectHandle() noexcept : handle_(0) {}
 ObjectHandle::ObjectHandle(const ObjectHandle &o)
     : handle_(o.handle_)
 {
-  //need to increment the reference 
+  //need to increment the reference
   //counter for this object as we do copy construction
   if (is_valid()) increment_reference_count();
 }
@@ -152,7 +152,7 @@ ObjectHandle &ObjectHandle::operator=(ObjectHandle &&o) noexcept
   o.handle_ = 0;
 
   //As this is a move operation we do not need to care
-  //about the IDs reference. 
+  //about the IDs reference.
 
   return *this;
 }

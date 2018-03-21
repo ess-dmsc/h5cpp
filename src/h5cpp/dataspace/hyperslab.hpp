@@ -54,13 +54,13 @@ class DLL_EXPORT Hyperslab : public Selection {
   //! \brief default constructor
   //!
   //! The default constructor is present to allow Hyperslabs in STL
-  //! containers. It must be noted that any attempt to an internal value
+  //! containers. It must be noted that any attempt to change an internal value
   //! will result in a std::runtime_error exception.
   //! The rank of a default constructed Hyperslab would be 0. As a
   //! Hyperslab of rank 0 would not make any sense one could use this
   //! to identify a default constructed Hyperslab.
   //!
-  //! \post all internall buffers remain unallocated
+  //! \post all internal buffers remain unallocated
   //!
   Hyperslab();
 

@@ -103,8 +103,8 @@ size_t Compound::field_offset(const std::string &name) const {
 size_t Compound::field_offset(size_t index) const {
   size_t offset = H5Tget_member_offset(static_cast<hid_t>(*this), index);
 
-  // This error checking logic looks wonky ???
-
+  // TODO: This error checking logic looks wonky ???
+  // Documentation to explain what offset == 0 means
   if (offset == 0) {
     try {
       field_class(index);

@@ -58,6 +58,7 @@ File open(const boost::filesystem::path &path, AccessFlags flags,
   return open(path, static_cast<AccessFlagsBase>(flags), fapl);
 }
 
+//TODO: error handling?
 File open(const boost::filesystem::path &path, AccessFlagsBase flags,
           const property::FileAccessList &fapl)
 {
@@ -87,7 +88,3 @@ bool is_hdf5_file(const boost::filesystem::path &path)
 
 } // namespace file
 } // namespace hdf5
-
-
-
-
