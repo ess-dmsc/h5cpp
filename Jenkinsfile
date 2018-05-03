@@ -205,7 +205,7 @@ def get_macos_pipeline()
                     }
 
                     try {
-                        sh "make -j4"
+                        sh "make -j4 unit_tests"
                         sh "make run_tests"
                     } catch (e) {
                         failure_function(e, 'MacOSX / build+test failed')
