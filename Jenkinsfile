@@ -19,17 +19,17 @@ images = [
     ],
     'debian9': [
         'name': 'essdmscdm/debian9-build-node:1.0.0',
-        'sh': 'sh'
+        'sh': 'sh',
         'cmake_flags': ''
     ],
     'ubuntu1604': [
         'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
-        'sh': 'sh'
+        'sh': 'sh',
         'cmake_flags': ''
     ],
     'ubuntu1710': [
         'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
-        'sh': 'sh'
+        'sh': 'sh',
         'cmake_flags': ''
     ]
 ]
