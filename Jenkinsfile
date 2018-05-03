@@ -5,32 +5,63 @@ images = [
     'centos7': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh',
-        'cmake_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'centos7-gcc6': [
         'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
-        'cmake_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'fedora25': [
         'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh',
-        'cmake_flags': '-DCOV=ON'
+        'cmake_flags': '-DCOV=ON -DCMAKE_BUILD_TYPE=Release'
     ],
     'debian9': [
         'name': 'essdmscdm/debian9-build-node:1.0.0',
         'sh': 'sh',
-        'cmake_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'ubuntu1604': [
         'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
         'sh': 'sh',
-        'cmake_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'ubuntu1710': [
         'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
         'sh': 'sh',
-        'cmake_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
+    ],
+
+    'centos7-debug': [
+            'name': 'essdmscdm/centos7-build-node:1.0.1',
+            'sh': 'sh',
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
+    ],
+    'centos7-gcc6-debug': [
+            'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
+            'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
+    ],
+    'fedora25-debug': [
+            'name': 'essdmscdm/fedora25-build-node:1.0.0',
+            'sh': 'sh',
+            'cmake_flags': '-DCOV=ON -DCMAKE_BUILD_TYPE=Debug'
+    ],
+    'debian9-debug': [
+            'name': 'essdmscdm/debian9-build-node:1.0.0',
+            'sh': 'sh',
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
+    ],
+    'ubuntu1604-debug': [
+            'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
+            'sh': 'sh',
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
+    ],
+    'ubuntu1710-debug': [
+            'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
+            'sh': 'sh',
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ]
 ]
 
@@ -93,7 +124,7 @@ def docker_build(image_key, xtra_flags) {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
                 ${cmake_exec} --version
-                ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ${xtra_flags} ..
+                ${cmake_exec} ${xtra_flags} ..
                 make --version
                 make -j4 unit_tests
             \""""
