@@ -9,7 +9,7 @@ images = [
     ],
     'centos7-gcc6': [
         'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
-        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash'
+        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
         'cmake_flags': ''
     ],
     'fedora25': [
