@@ -45,6 +45,28 @@ def Object container_name(image_key) {
     return "${base_container_name}-${image_key}"
 }
 
+def Object get_container(image_key) {
+    def image = docker.image(images[image_key]['name'])
+    def container = image.run("\
+            --name ${container_name(image_key)} \
+        --tty \
+        --network=host \
+        --env http_proxy=${env.http_proxy} \
+        --env https_proxy=${env.https_proxy} \
+        --env local_conan_server=${env.local_conan_server} \
+        ")
+    return container
+}
+
+def docker_clone(image_key) {
+    def custom_sh = images[image_key]['sh']
+    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
+        git clone \
+            --branch ${env.BRANCH_NAME} \
+            https://github.com/ess-dmsc/h5cpp.git /home/jenkins/${project}
+    \""""
+}
+
 def docker_dependencies(image_key) {
     def conan_remote = "ess-dmsc-local"
     def custom_sh = images[image_key]['sh']
@@ -115,49 +137,37 @@ def docker_build_coverage(image_key) {
     }
 }
 
-def Object get_container(image_key) {
-    def image = docker.image(images[image_key]['name'])
-    def container = image.run("\
-        --name ${container_name(image_key)} \
-        --tty \
-        --network=host \
-        --env http_proxy=${env.http_proxy} \
-        --env https_proxy=${env.https_proxy} \
-        --env local_conan_server=${env.local_conan_server} \
-        ")
-    return container
-}
-
 def get_pipeline(image_key)
 {
     return {
         stage("${image_key}") {
-            try {
-                def container = get_container(image_key)
-                def custom_sh = images[image_key]['sh']
-
-                // Copy sources to container and change owner and group.
-                    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
-                    sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
-                        chown -R jenkins.jenkins /home/jenkins/${project}
-                        \""""
-
+            node("docker") {
                 try {
-                    docker_dependencies(image_key)
-                } catch (e) {
-                    failure_function(e, "Get dependencies for ${image_key} failed")
-                }
+                    def container = get_container(image_key)
 
-                if (image_key == coverage_os) {
-                    docker_build_coverage(image_key)
-                } else {
-                    docker_build(image_key)
+                    docker_clone(image_key)
+
+//                def custom_sh = images[image_key]['sh']
+//
+//                // Copy sources to container and change owner and group.
+//                    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
+//                    sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
+//                        chown -R jenkins.jenkins /home/jenkins/${project}
+//                        \""""
+
+                    docker_dependencies(image_key)
+
+                    if (image_key == coverage_os) {
+                        docker_build_coverage(image_key)
+                    } else {
+                        docker_build(image_key)
+                    }
+                } catch (e) {
+                    failure_function(e, "Unknown build failure for ${image_key}")
+                } finally {
+                    sh "docker stop ${container_name(image_key)}"
+                    sh "docker rm -f ${container_name(image_key)}"
                 }
-            } catch(e) {
-                failure_function(e, "Unknown build failure for ${image_key}")
-            } finally {
-                sh "docker stop ${container_name(image_key)}"
-                sh "docker rm -f ${container_name(image_key)}"
             }
         }
     }
@@ -166,7 +176,7 @@ def get_pipeline(image_key)
 def get_macos_pipeline()
 {
     return {
-        stage("MacOSX") {
+        stage("macOS") {
             node ("macos") {
             // Delete workspace when build is done
                 cleanWs()
