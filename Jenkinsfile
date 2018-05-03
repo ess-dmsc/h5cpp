@@ -1,5 +1,5 @@
 project = "h5cpp"
-coverage_os = "fedora25"
+coverage_os = "fedora25-release"
 
 images = [
     'centos7-release': [
@@ -46,7 +46,7 @@ images = [
     'fedora25-debug': [
             'name': 'essdmscdm/fedora25-build-node:1.0.0',
             'sh': 'sh',
-            'cmake_flags': '-DCOV=ON -DCMAKE_BUILD_TYPE=Debug'
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ],
     'debian9-debug': [
             'name': 'essdmscdm/debian9-build-node:1.0.0',
@@ -212,10 +212,10 @@ def get_pipeline(image_key)
     }
 }
 
-def get_macos_pipeline(xtra_flags)
+def get_macos_pipeline(build_type)
 {
     return {
-        stage("macOS-${xtra_flags}") {
+        stage("macOS-${build_type}") {
             node ("macos") {
             // Delete workspace when build is done
                 cleanWs()
@@ -236,7 +236,7 @@ def get_macos_pipeline(xtra_flags)
                     }
 
                     try {
-                        sh "cmake ${xtra_flags} ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -312,8 +312,8 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['macOS-release'] = get_macos_pipeline('-DCMAKE_BUILD_TYPE=Release')
-    builders['macOS-debug'] = get_macos_pipeline('-DCMAKE_BUILD_TYPE=Debug')
+    builders['macOS-release'] = get_macos_pipeline('Release')
+    builders['macOS-debug'] = get_macos_pipeline('Debug')
 //    builders['Windows10'] = get_win10_pipeline()
     
 
