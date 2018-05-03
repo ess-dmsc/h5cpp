@@ -44,6 +44,7 @@ TEST_F(GroupTest, test_root_group)
   EXPECT_EQ(root.links.size(),0ul);
   EXPECT_EQ(root.nodes.size(),0ul);
   EXPECT_EQ(static_cast<std::string>(root.link().path()),"/");
+  EXPECT_EQ(root.link().file().path(),"test_file.h5");
 }
 
 TEST_F(GroupTest, test_default_construction)

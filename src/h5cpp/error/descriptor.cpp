@@ -24,6 +24,8 @@
 //
 
 #include <h5cpp/error/descriptor.hpp>
+#include <stdexcept>
+#include <vector>
 
 extern "C"{
 #include <cstring>
@@ -39,11 +41,38 @@ Descriptor::Descriptor(const H5E_error2_t& descr)
   function = std::string(descr.func_name, strlen(descr.func_name));
   description = std::string(descr.desc, strlen(descr.desc));
 
-  auto mesg1 = H5Eget_major(descr.maj_num);
-  major = std::string(mesg1, strlen(mesg1));
+  H5E_type_t message_type;
+  ssize_t    message_size = 0;
 
-  auto mesg2 = H5Eget_minor(descr.min_num);
-  minor = std::string(mesg2, strlen(mesg2));
+  //
+  // retrieve the major error message
+  //
+  message_size = H5Eget_msg(descr.maj_num,&message_type,NULL,0);
+  if(message_size<0)
+  {
+    throw std::runtime_error("Failure to obtain major error message!");
+  }
+  if(message_size > 0 && message_type == H5E_MAJOR)
+  {
+    std::vector<char> message_buffer(message_size+1);
+    H5Eget_msg(descr.maj_num,&message_type,message_buffer.data(),message_size+1);
+    major = std::string(message_buffer.begin(),--message_buffer.end());
+  }
+
+  //
+  // retrieve the minor error message
+  //
+  message_size = H5Eget_msg(descr.min_num,&message_type,NULL,0);
+  if(message_size < 0)
+  {
+    throw std::runtime_error("Failure to obtain minor error message!");
+  }
+  if(message_size > 0 && message_type == H5E_MINOR)
+  {
+    std::vector<char> message_buffer(message_size+1);
+    H5Eget_msg(descr.min_num,&message_type,message_buffer.data(),message_size+1);
+    minor = std::string(message_buffer.begin(),--message_buffer.end());
+  }
 }
 
 std::ostream &operator<<(std::ostream &stream, const Descriptor &desc)
