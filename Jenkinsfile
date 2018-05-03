@@ -89,25 +89,33 @@ def docker_build(image_key) {
                 ${cmake_exec} --version
                 ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ..
                 make --version
-                make -j4
-                make run_tests
+                make -j4 unit_tests
             \""""
         } catch(e) {
             failure_function(e, 'Run tests (${container_name(image_key)}) failed')
         }
 }
 
-def docker_build_coverage(image_key) {
+def docker_test(image_key) {
+    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
+    def custom_sh = images[image_key]['sh']
+    try {
+        sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
+                cd ${project}/build
+                make run_tests
+            \""""
+    } catch(e) {
+        failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+    }
+}
+
+def docker_coverage(image_key) {
     cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
     abs_dir = pwd()
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
-                ${cmake_exec} --version
-                ${cmake_exec} -DCMAKE_BUILD_TYPE=Debug -DCOV=1 ..
-                make --version
-                make -j4
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
@@ -148,21 +156,13 @@ def get_pipeline(image_key)
                     def container = get_container(image_key)
 
                     docker_clone(image_key)
-
-//                def custom_sh = images[image_key]['sh']
-//
-//                // Copy sources to container and change owner and group.
-//                    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
-//                    sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
-//                        chown -R jenkins.jenkins /home/jenkins/${project}
-//                        \""""
-
                     docker_dependencies(image_key)
+                    docker_build(image_key)
 
                     if (image_key == coverage_os) {
-                        docker_build_coverage(image_key)
+                        docker_coverage(image_key)
                     } else {
-                        docker_build(image_key)
+                        docker_test(image_key)
                     }
                 } catch (e) {
                     failure_function(e, "Unknown build failure for ${image_key}")
