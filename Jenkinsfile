@@ -89,6 +89,7 @@ def docker_build(image_key) {
                 ${cmake_exec} --version
                 ${cmake_exec} -DCMAKE_BUILD_TYPE=Release ..
                 make --version
+                make -j4
                 make run_tests
             \""""
         } catch(e) {
@@ -106,6 +107,7 @@ def docker_build_coverage(image_key) {
                 ${cmake_exec} --version
                 ${cmake_exec} -DCMAKE_BUILD_TYPE=Debug -DCOV=1 ..
                 make --version
+                make -j4
                 make generate_coverage
             \""""
             sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
@@ -203,6 +205,7 @@ def get_macos_pipeline()
                     }
 
                     try {
+                        sh "make -j4"
                         sh "make run_tests"
                     } catch (e) {
                         failure_function(e, 'MacOSX / build+test failed')
@@ -268,12 +271,12 @@ node('docker') {
         }
     }
     def builders = [:]
-//    for (x in images.keySet()) {
-//        def image_key = x
-//        builders[image_key] = get_pipeline(image_key)
-//    }
-//    builders['macOS'] = get_macos_pipeline()
-    builders['Windows10'] = get_win10_pipeline()
+    for (x in images.keySet()) {
+        def image_key = x
+        builders[image_key] = get_pipeline(image_key)
+    }
+    builders['macOS'] = get_macos_pipeline()
+//    builders['Windows10'] = get_win10_pipeline()
     
 
     parallel builders
