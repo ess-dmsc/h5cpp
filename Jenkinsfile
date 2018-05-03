@@ -231,6 +231,7 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
+                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add desy-packages https://api.bintray.com/conan/eugenwintersberger/desy-packages'
                         bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_default.txt'
                     } catch (e) {
                         failure_function(e, 'Windows10 / getting dependencies failed')
@@ -243,7 +244,6 @@ def get_win10_pipeline()
                     }
 
                     try {
-                        bat "conan remote add desy-packages https://api.bintray.com/conan/eugenwintersberger/desy-packages"
                         bat "cmake --build . --config Release --target unit_tests"
                         bat "bin\\unit_tests.exe"
                     } catch (e) {
@@ -268,11 +268,11 @@ node('docker') {
         }
     }
     def builders = [:]
-    for (x in images.keySet()) {
-        def image_key = x
-        builders[image_key] = get_pipeline(image_key)
-    }
-    builders['macOS'] = get_macos_pipeline()
+//    for (x in images.keySet()) {
+//        def image_key = x
+//        builders[image_key] = get_pipeline(image_key)
+//    }
+//    builders['macOS'] = get_macos_pipeline()
     builders['Windows10'] = get_win10_pipeline()
     
 
