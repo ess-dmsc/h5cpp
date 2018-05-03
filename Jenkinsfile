@@ -243,6 +243,7 @@ def get_win10_pipeline()
                     }
 
                     try {
+                        bat "conan remote add desy-packages https://api.bintray.com/conan/eugenwintersberger/desy-packages"
                         bat "cmake --build . --config Release --target unit_tests"
                         bat "bin\\unit_tests.exe"
                     } catch (e) {
