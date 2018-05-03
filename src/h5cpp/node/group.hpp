@@ -325,7 +325,7 @@ class DLL_EXPORT Group : public Node
     //! \return true if the group has a group, false otherwise
     //!
     bool has_group(const Path &path,
-                   const property::LinkAccessList &lapl = property::LinkAccessList()) noexcept;
+                   const property::LinkAccessList &lapl = property::LinkAccessList()) const noexcept;
 
     //!
     //! \brief reports if group has a link to a valid dataset at specified `path`
@@ -335,7 +335,7 @@ class DLL_EXPORT Group : public Node
     //! \return true if the group has a dataset, false otherwise
     //!
     bool has_dataset(const Path &path,
-                     const property::LinkAccessList &lapl = property::LinkAccessList()) noexcept;
+                     const property::LinkAccessList &lapl = property::LinkAccessList()) const noexcept;
 
 
     //!
