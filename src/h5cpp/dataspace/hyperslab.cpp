@@ -188,9 +188,7 @@ void Hyperslab::apply(const Dataspace &space, SelectionOperation ops) const {
 
 Dataspace operator||(const Dataspace &space, const Hyperslab &selection) {
   Dataspace new_space(space);
-
   new_space.selection(SelectionOperation::SET, selection);
-  std::cout << new_space.selection.size() << std::endl;
   return new_space;
 }
 
