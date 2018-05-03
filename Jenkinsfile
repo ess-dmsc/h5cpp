@@ -2,32 +2,32 @@ project = "h5cpp"
 coverage_os = "fedora25"
 
 images = [
-    'centos7': [
+    'centos7-release': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
-    'centos7-gcc6': [
+    'centos7-gcc6-release': [
         'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
-    'fedora25': [
+    'fedora25-release': [
         'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh',
         'cmake_flags': '-DCOV=ON -DCMAKE_BUILD_TYPE=Release'
     ],
-    'debian9': [
+    'debian9-release': [
         'name': 'essdmscdm/debian9-build-node:1.0.0',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
-    'ubuntu1604': [
+    'ubuntu1604-release': [
         'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
-    'ubuntu1710': [
+    'ubuntu1710-release': [
         'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
@@ -212,10 +212,10 @@ def get_pipeline(image_key)
     }
 }
 
-def get_macos_pipeline()
+def get_macos_pipeline(xtra_flags)
 {
     return {
-        stage("macOS") {
+        stage("macOS-${xtra_flags}") {
             node ("macos") {
             // Delete workspace when build is done
                 cleanWs()
@@ -236,7 +236,7 @@ def get_macos_pipeline()
                     }
 
                     try {
-                        sh "cmake ../code"
+                        sh "cmake ${xtra_flags} ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -312,7 +312,8 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['macOS'] = get_macos_pipeline()
+    builders['macOS-release'] = get_macos_pipeline('-DCMAKE_BUILD_TYPE=Release')
+    builders['macOS-debug'] = get_macos_pipeline('-DCMAKE_BUILD_TYPE=Debug')
 //    builders['Windows10'] = get_win10_pipeline()
     
 
