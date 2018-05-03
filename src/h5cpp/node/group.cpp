@@ -203,7 +203,7 @@ void Group::remove(const Path &path,
   hdf5::node::remove(*this, path, lapl);
 }
 
-bool Group::has_group(const Path &path, const property::LinkAccessList &lapl) noexcept
+bool Group::has_group(const Path &path, const property::LinkAccessList &lapl) const noexcept
 {
   bool ret = false;
   try
@@ -217,7 +217,7 @@ bool Group::has_group(const Path &path, const property::LinkAccessList &lapl) no
   return ret;
 }
 
-bool Group::has_dataset(const Path &path, const property::LinkAccessList &lapl) noexcept
+bool Group::has_dataset(const Path &path, const property::LinkAccessList &lapl) const noexcept
 {
   bool ret = false;
   try
