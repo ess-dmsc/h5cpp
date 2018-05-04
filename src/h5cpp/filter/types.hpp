@@ -24,9 +24,7 @@
 //
 #pragma once
 
-extern "C" {
-#include <hdf5.h>
-}
+#include <h5cpp/core/hdf5_capi.hpp>
 
 namespace hdf5 {
 namespace filter {
