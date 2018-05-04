@@ -148,7 +148,7 @@ def docker_build(image_key, xtra_flags) {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
                 ${cmake_exec} --version
-                ${cmake_exec} ${xtra_flags} ..
+                ${images[image_key]['conan_pre']} ${cmake_exec} ${xtra_flags} ..
                 make --version
                 make -j4 unit_tests
             \""""
