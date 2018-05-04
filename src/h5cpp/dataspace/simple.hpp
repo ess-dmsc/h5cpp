@@ -87,7 +87,7 @@ class DLL_EXPORT Simple : public Dataspace {
   //!
   //! \throws std::runtime_error in case of a failure
   //!
-  int rank() const;
+  size_t rank() const;
 
   //!
   //! \brief set number of elements along each dimension

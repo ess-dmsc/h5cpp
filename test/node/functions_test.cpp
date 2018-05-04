@@ -2,7 +2,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // h5cpp is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

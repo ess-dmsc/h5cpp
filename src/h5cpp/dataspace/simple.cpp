@@ -45,14 +45,12 @@ Simple::Simple(const Dimensions &current, const Dimensions &maximum) :
   dimensions(current, maximum);
 }
 
-// TODO consider using size_t ? or other unsigned type?
-
-int Simple::rank() const {
+size_t Simple::rank() const {
   int rank = H5Sget_simple_extent_ndims(static_cast<hid_t>(*this));
   if (rank < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the rank of a simple dataspace!");
   }
-  return rank;
+  return static_cast<size_t>(rank);
 }
 
 void Simple::dimensions(const Dimensions &current, const Dimensions &maximum) {
@@ -70,7 +68,6 @@ void Simple::dimensions(const Dimensions &current, const Dimensions &maximum) {
 Dimensions Simple::current_dimensions() const {
   size_t my_rank;
   try {
-    // Fixed above (make rank return size_t)
     my_rank = rank();
   }
   catch (...) {

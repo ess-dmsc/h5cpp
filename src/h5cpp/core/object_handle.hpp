@@ -120,7 +120,7 @@ class DLL_EXPORT ObjectHandle
     //! This constructor can be used to construct an instance of
     //! h5object from an HDF5 ID.
     //! h5object takes full control over the constructed object. Thus
-    //! the constructor has move semantics TODO and does not allow to use
+    //! the constructor has move semantics and does not allow to use
     //! const & or & to the hid_t argument.
     //! A typical usage example would look like this
     /*!
@@ -128,18 +128,6 @@ class DLL_EXPORT ObjectHandle
     .....
     hdf5::ObjectHandle handle(H5Gopen(fid,"data",H5P_DEFAULT));
     ...
-    \endcode
-    */
-
-    // Issue #258
-
-    // TODO: can be removed?
-    //! Due to move semantics the following construction would cause a
-    //! compile time error
-    /*!
-    \code
-    hid_t type = H5Tcopy(H5T_NATIVE_FLOAT);
-    h5object o(type);
     \endcode
     */
     //! An exception is thrown if the ID passed is negative.

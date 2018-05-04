@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -141,6 +141,7 @@ herr_t Singleton::to_list(unsigned n,
                           const H5E_error2_t *err_desc,
                           std::list<Descriptor> *list)
 {
+  (void)n;
   list->push_back(Descriptor(*err_desc));
   return 0;
 }
