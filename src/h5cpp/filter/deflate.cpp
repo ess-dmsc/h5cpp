@@ -23,12 +23,10 @@
 // Created on: Nov 6, 2017
 //
 
-extern "C" {
-#include <hdf5.h>
-}
-#include <sstream>
+#include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/filter/deflate.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
 namespace hdf5 {
 namespace filter {
