@@ -10,7 +10,6 @@ virtualbuildenv
 [options]
 Boost:shared=True
 hdf5:shared=True
-hdf5:parallel=True
 hdf5:cxx=False
 gtest:shared=True
 
