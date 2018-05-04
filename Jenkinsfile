@@ -1,11 +1,11 @@
 project = "h5cpp"
-coverage_os = "fedora25-release"
+coverage_os = "centos7-release"
 
 images = [
     'centos7-release': [
         'name': 'essdmscdm/centos7-build-node:1.0.1',
         'sh': 'sh',
-        'cmake_flags': '-DWITH_MPI=1 -DCMAKE_BUILD_TYPE=Release',
+        'cmake_flags': '-DCOV=ON -DWITH_MPI=1 -DCMAKE_BUILD_TYPE=Release',
         'conan_pre': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx ',
         'conan_flags': '-o hdf5:parallel=True'
     ],
@@ -19,7 +19,7 @@ images = [
     'fedora25-release': [
         'name': 'essdmscdm/fedora25-build-node:1.0.0',
         'sh': 'sh',
-        'cmake_flags': '-DCOV=ON -DCMAKE_BUILD_TYPE=Release',
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
         'conan_pre': '',
         'conan_flags': ''
     ],
