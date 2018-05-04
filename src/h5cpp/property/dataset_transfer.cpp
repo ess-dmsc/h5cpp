@@ -1,4 +1,4 @@
-//
+
 // (c) Copyright 2017 DESY,ESS
 //
 // This file is part of h5cpp.
@@ -117,9 +117,10 @@ void DatasetTransferList::mpi_chunk_option(MPIChunkOption option) const
   }
 }
 
+// TODO implement this properly
 MPIChunkOption DatasetTransferList::mpi_chunk_option() const
 {
-
+  throw std::runtime_error("DatasetTransferList::mpi_chunk_option() is not implemented in h5cpp!");
 }
 
 

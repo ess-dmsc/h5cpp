@@ -27,6 +27,10 @@
 
 int main(int argc, char **argv)
 {
+#ifdef WITH_MPI
+  MPI_Init(&argc,&argv);
+#endif
+
   hdf5::error::Singleton::instance().auto_print(false);
 
   ::testing::InitGoogleTest(&argc, argv);

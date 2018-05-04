@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 8, 2017
 //
 
@@ -31,7 +32,7 @@
 namespace hdf5 {
 namespace file {
 
-File::File(ObjectHandle &&handle):
+File::File(ObjectHandle &&handle) :
     handle_(std::move(handle))
 {
 
@@ -40,7 +41,7 @@ File::File(ObjectHandle &&handle):
 AccessFlags File::intent() const
 {
   AccessFlagsBase value;
-  if(H5Fget_intent(static_cast<hid_t>(*this),&value)<0)
+  if (H5Fget_intent(static_cast<hid_t>(*this), &value) < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure retrieving the file intent!");
   }
@@ -51,7 +52,7 @@ AccessFlags File::intent() const
 size_t File::size() const
 {
   hsize_t s;
-  if(H5Fget_filesize(static_cast<hid_t>(*this),&s)<0)
+  if (H5Fget_filesize(static_cast<hid_t>(*this), &s) < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure retrieving the file size!");
   }
@@ -60,7 +61,7 @@ size_t File::size() const
 
 void File::flush(Scope scope) const
 {
-  if(H5Fflush(static_cast<hid_t>(*this),static_cast<H5F_scope_t>(scope))<0)
+  if (H5Fflush(static_cast<hid_t>(*this), static_cast<H5F_scope_t>(scope)) < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure to flush the file!");
   }
@@ -73,29 +74,29 @@ void File::close()
 
 boost::filesystem::path File::path() const
 {
-  ssize_t size = H5Fget_name(static_cast<hid_t>(*this),NULL,0);
+  ssize_t size = H5Fget_name(static_cast<hid_t>(*this), NULL, 0);
 
-  if(size<0)
+  if (size < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure to determine file name length!");
   }
 
-  std::vector<char> buffer(size+1);
-  if(H5Fget_name(static_cast<hid_t>(*this),buffer.data(),size+1)<0)
+  std::vector<char> buffer(size + 1);
+  if (H5Fget_name(static_cast<hid_t>(*this), buffer.data(), size + 1) < 0)
   {
     std::stringstream ss;
-    ss<<"Error retrieving file name of size "<<size<<" for HDF5 file!";
+    ss << "Error retrieving file name of size " << size << " for HDF5 file!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return boost::filesystem::path(std::string(buffer.begin(),--buffer.end()));
+  return boost::filesystem::path(std::string(buffer.begin(), --buffer.end()));
 }
 
 size_t File::count_open_objects(SearchFlagsBase flags) const
 {
   ssize_t nobjects = 0;
-  nobjects=  H5Fget_obj_count(static_cast<hid_t>(*this),flags);
-  if(nobjects<0)
+  nobjects = H5Fget_obj_count(static_cast<hid_t>(*this), flags);
+  if (nobjects < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure retrieving the open object count for this file!");
   }
@@ -112,12 +113,12 @@ class node::Group File::root(const property::GroupAccessList &gapl) const
 {
   try
   {
-    ObjectHandle handle(H5Gopen(static_cast<hid_t>(*this),"/",static_cast<hid_t>(gapl)));
-    node::Link root_link(*this,Path("/"),"/");
+    ObjectHandle handle(H5Gopen(static_cast<hid_t>(*this), "/", static_cast<hid_t>(gapl)));
+    node::Link root_link(*this, Path("/"), "/");
 
-    return node::Group(node::Node(std::move(handle),root_link));
+    return node::Group(node::Node(std::move(handle), root_link));
   }
-  catch(...)
+  catch (...)
   {
     std::throw_with_nested(std::runtime_error("Error obtaining root group from file!"));
   }
@@ -135,12 +136,12 @@ ObjectId File::id() const
   {
     valid = is_valid();
   }
-  catch(...)
+  catch (...)
   {
     std::throw_with_nested(std::runtime_error("Cannot obtain ObjectId from an invalid file instance!"));
   }
 
-  if(!valid)
+  if (!valid)
   {
     error::Singleton::instance().throw_with_stack("Cannot obtain ObjectId from an invalid file instance!");
   }

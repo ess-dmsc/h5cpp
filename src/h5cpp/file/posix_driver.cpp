@@ -30,12 +30,11 @@
 namespace hdf5 {
 namespace file {
 
-PosixDriver::PosixDriver()
-{}
+PosixDriver::PosixDriver() {}
 
 void PosixDriver::operator()(const property::FileAccessList &fapl) const
 {
-  if(H5Pset_fapl_sec2(static_cast<hid_t>(fapl))<0)
+  if (H5Pset_fapl_sec2(static_cast<hid_t>(fapl)) < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure setting up POSIX driver!");
   }
