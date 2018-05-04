@@ -117,7 +117,7 @@ class DLL_EXPORT Datatype
   //!
   //! @brief get native type
   //!
-  //! Returns the native type associated with a particular datat type.
+  //! Returns the native type associated with a particular data type.
   //!
   //! @throws std::runtime_error in case of a failure
   //!

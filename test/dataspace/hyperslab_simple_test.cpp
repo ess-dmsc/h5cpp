@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -184,4 +184,3 @@ TEST(HyperslabSimple, BadSelection) {
   ObjectHandle(static_cast<hid_t>(space)).close();
   EXPECT_THROW(selection.apply(space, dataspace::SelectionOperation::SET), std::runtime_error);
 }
-

@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -102,10 +102,8 @@ size_t Compound::field_offset(const std::string &name) const {
 
 size_t Compound::field_offset(size_t index) const {
   size_t offset = H5Tget_member_offset(static_cast<hid_t>(*this), index);
-
-  // This error checking logic looks wonky ???
-
   if (offset == 0) {
+    // if offset == 0, there could be a field at 0, or there could be nothing
     try {
       field_class(index);
     }

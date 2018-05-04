@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -45,12 +45,12 @@ Simple::Simple(const Dimensions &current, const Dimensions &maximum) :
   dimensions(current, maximum);
 }
 
-int Simple::rank() const {
+size_t Simple::rank() const {
   int rank = H5Sget_simple_extent_ndims(static_cast<hid_t>(*this));
   if (rank < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the rank of a simple dataspace!");
   }
-  return rank;
+  return static_cast<size_t>(rank);
 }
 
 void Simple::dimensions(const Dimensions &current, const Dimensions &maximum) {

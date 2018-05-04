@@ -35,38 +35,38 @@
 namespace hdf5
 {
 
-//! 
+//!
 //! \brief Wrapper for hid_t object identifiers
 //!
 //! Objects in HDf5 are referenced using an handle of type hid_t. Though
 //! the name of the type and the API reference of the HDF5 C-API suggest
-//! this value is an ID it should be rather considered a handle which is 
-//! used to reference a particular object. 
+//! this value is an ID it should be rather considered a handle which is
+//! used to reference a particular object.
 //!
 //!
 //! The aim of this class is to encapsulate an HDF5 handler and control
 //! the reference counting for that handler for copy and move construction
 //! and assignment.
-//! 
+//!
 //! * copy construction and assignment increments the reference count of an
 //!   handler
 //! * move construction and assignment leaves the reference count unchanged
-//! * closing an object decrements the reference count 
-//! * in addition, the reference count is decreased if the destructor of 
+//! * closing an object decrements the reference count
+//! * in addition, the reference count is decreased if the destructor of
 //!   an instance of ObjectHandle is called
 //!
 //! From that point of view ObjectHandle could also be considered as a
-//! guard object for a handle which ensures that an object gets closed 
-//! once it looses scope. 
+//! guard object for a handle which ensures that an object gets closed
+//! once it looses scope.
 //!
 //! The class also comprises a set of static member functions which provide
 //! operations on the handler.
-//! 
+//!
 //!
 class DLL_EXPORT ObjectHandle
 {
   public:
-    enum class Type 
+    enum class Type
     {
       UNINITIALIZED,
       BADOBJECT,
@@ -114,13 +114,13 @@ class DLL_EXPORT ObjectHandle
     void decrement_reference_count() const;
   public:
     //================constructors and destructors=====================
-    //! 
+    //!
     //! \brief construct from HDF5 ID
     //!
-    //! This constructor can be used to construct an instance of 
-    //! h5object from an HDF5 ID. 
+    //! This constructor can be used to construct an instance of
+    //! h5object from an HDF5 ID.
     //! h5object takes full control over the constructed object. Thus
-    //! the constructor has move semantics and does not allow to use 
+    //! the constructor has move semantics and does not allow to use
     //! const & or & to the hid_t argument.
     //! A typical usage example would look like this
     /*!
@@ -130,48 +130,40 @@ class DLL_EXPORT ObjectHandle
     ...
     \endcode
     */
-    //! Due to move semantics the following construction would cause a 
-    //! compile time error
-    /*!
-    \code
-    hid_t type = H5Tcopy(H5T_NATIVE_FLOAT);
-    h5object o(type);
-    \endcode
-    */
     //! An exception is thrown if the ID passed is negative.
     //!
     //! \throws std::runtime_error if the passed id is invalid (<0)
     //!
     //! \param id HDF5 object ID.
-    explicit ObjectHandle(hid_t id,Policy policy=Policy::WITH_WARD);
+    explicit ObjectHandle(hid_t id, Policy policy=Policy::WITH_WARD);
 
     //-----------------------------------------------------------------
-    //! 
+    //!
     //! \brief default constructor
-    //! 
-    //! The default constructor does not throw. However, after default 
-    //! construction the object will be in an invalid state. 
+    //!
+    //! The default constructor does not throw. However, after default
+    //! construction the object will be in an invalid state.
     //!
     explicit ObjectHandle() noexcept;
 
     //-----------------------------------------------------------------
-    //! 
+    //!
     //! \brief copy constructor
     //!
-    //! Copies the ID of the o and increments its reference counter if 
+    //! Copies the ID of the o and increments its reference counter if
     //! the object is valid.
     //!
     //! \throws std::runtime_error in case of errors
-    //! 
+    //!
     //! \param o object which to cpy
     ObjectHandle(const ObjectHandle &o);
 
     //-----------------------------------------------------------------
-    //! 
+    //!
     //! \brief move constructor
     //!
-    //! Copies the ID of the original object and sets the ID of the 
-    //! original object to 0. As this is a move process the reference 
+    //! Copies the ID of the original object and sets the ID of the
+    //! original object to 0. As this is a move process the reference
     //! counter of the ID will not be incremented.
     //!
     //! \param o object to move
@@ -186,11 +178,11 @@ class DLL_EXPORT ObjectHandle
     //================assignment operators=============================
     //!
     //! \brief copy assignment operator
-    //! 
-    //! Just like for the copy constructor the reference counter for 
+    //!
+    //! Just like for the copy constructor the reference counter for
     //! the original ID is incremented.
     //!
-    //! \throws std::runtime_error in case of errors 
+    //! \throws std::runtime_error in case of errors
     //!
     //! \param o object to assign
     //! \return refence to object
@@ -203,7 +195,7 @@ class DLL_EXPORT ObjectHandle
     //! Like the move constructor this operator has no influence on the
     //! value of the IDs reference counter.
     //!
-    //! \throws std::runtime_error in case of errors 
+    //! \throws std::runtime_error in case of errors
     //!
     //! \param o object form which to move data
     //! \return reference to object
@@ -212,33 +204,33 @@ class DLL_EXPORT ObjectHandle
 
     //!
     //! \brief conversion operator
-    //! 
+    //!
     explicit operator hid_t() const
     {
       return handle_;
     }
-        
+
     //=====================static member functions ====================
-    //! 
+    //!
     //! \brief close the object
-    //! 
+    //!
     //! This will decrement the reference counter of the ID held by this
-    //! object or close it if the reference counter approaches 0. 
-    //! The close method runs an object introspection by means of the 
-    //! HDF5 library and calls the appropriate close function. 
-    //! 
+    //! object or close it if the reference counter approaches 0.
+    //! The close method runs an object introspection by means of the
+    //! HDF5 library and calls the appropriate close function.
+    //!
     //! \throws std::runtime_error if the close operation fails
     void close();
-    
+
     //------------------------------------------------------------------
-    //! 
-    //! \brief check validity 
+    //!
+    //! \brief check validity
     //!
     //! This method returns true of the object refers to a valid HDF5
     //! object. In other words this means that the object is valid and
-    //! available. For a file object this would mean that the file is 
+    //! available. For a file object this would mean that the file is
     //! open.
-    //! 
+    //!
     //! \throws std::runtime_error if object status retrieval fails
     //! \returns true if valid HDF5 object
     bool is_valid() const;
@@ -252,13 +244,13 @@ class DLL_EXPORT ObjectHandle
     ObjectHandle::Type get_type() const;
 
 
-    
+
     //------------------------------------------------------------------------
     //!
     //! \brief return reference counter value
     //!
     //! \throws std::runtime_error if retrieval of the reference count fails
-    //! 
+    //!
     //! \return the actual reference count
     int get_reference_count() const;
 
@@ -274,16 +266,16 @@ class DLL_EXPORT ObjectHandle
 
 //!
 //! \brief equality operator
-//! 
+//!
 //! Two instances of ObjectHandle are considered equal when their internal
 //! representation have equal value. This is not a sufficient criteria for
 //! object equality!
-//! 
+//!
 DLL_EXPORT bool operator==(const ObjectHandle &lhs,const ObjectHandle &rhs);
 
 //!
 //! \brief not equal to operator
-//! 
+//!
 //! Simply the inverse of the == operator.
 //!
 DLL_EXPORT bool operator!=(const ObjectHandle &lhs,const ObjectHandle &rhs);
@@ -300,4 +292,4 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
 DLL_EXPORT std::istream &operator>>(std::istream &stream,
                                     ObjectHandle::Type &type);
 
-} // namespace hdf5 
+} // namespace hdf5

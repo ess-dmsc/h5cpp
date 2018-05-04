@@ -79,11 +79,12 @@ TEST(Simple, test_construction_current_and_max) {
   EXPECT_EQ(m, max);
 }
 
+//TODO: better name for test case
+// test_setting_dimensions_changes_rank_correctly
+// test_given_a_dataspace_of_rank_one_when_setting....
 TEST(Simple, test_change_rank) {
   dataspace::Simple space(Dimensions{100});
   EXPECT_EQ(space.rank(), 1);
   space.dimensions(Dimensions{2, 3}, Dimensions{2, 3});
   EXPECT_EQ(space.rank(), 2);
 }
-
-

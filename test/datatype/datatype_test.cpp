@@ -19,7 +19,7 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: 
+// Author:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 20, 2017
@@ -120,6 +120,7 @@ TEST(Datatype, Classes) {
   a = Datatype(ObjectHandle(H5Tarray_create(H5T_NATIVE_INT, 1, &arrsize)));
   EXPECT_EQ(a.get_class(), Class::ARRAY);
 
+//TODO: reenable tests when relevant library functionality is implemented
 //  a = Datatype(ObjectHandle((H5T_BITFIELD)));
 //  a = Datatype(ObjectHandle(H5Tcopy(H5T_BITFIELD)));
 //  EXPECT_TRUE(a.native_type().get_class()==Class::BITFIELD);

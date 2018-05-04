@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -58,6 +58,7 @@ File open(const boost::filesystem::path &path, AccessFlags flags,
   return open(path, static_cast<AccessFlagsBase>(flags), fapl);
 }
 
+//TODO: needs better error handling, throw something
 File open(const boost::filesystem::path &path, AccessFlagsBase flags,
           const property::FileAccessList &fapl)
 {
@@ -87,7 +88,3 @@ bool is_hdf5_file(const boost::filesystem::path &path)
 
 } // namespace file
 } // namespace hdf5
-
-
-
-
