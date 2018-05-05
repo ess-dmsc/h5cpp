@@ -123,8 +123,8 @@ Group Group::create_group(const std::string &name,
 Dataset Group::create_dataset(const std::string &name,
                               const datatype::Datatype &type,
                               const dataspace::Dataspace &space,
-                              const property::LinkCreationList &lcpl,
                               const property::DatasetCreationList &dcpl,
+                              const property::LinkCreationList &lcpl,
                               const property::DatasetAccessList &dapl) const
 {
   if(!Path(name).is_name())
