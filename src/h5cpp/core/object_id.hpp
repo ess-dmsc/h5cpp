@@ -54,14 +54,14 @@ class DLL_EXPORT ObjectId
     //! We need the default constructor for compliance with STL containers as
     //! we may want to store IDs in one.
     //!
-    ObjectId();
+    ObjectId() {}
 
     //!
     //! \brief constructor
     //!
     //! Construct an ID from a handler instance. If the handler is default
-    //! constructed and thus invalid a default constructed Id instance will 
-	//! be returned. 
+    //! constructed and thus invalid a default constructed Id instance will
+	//! be returned.
     //!
     //! \param handle reference to an object handler
     //!
@@ -112,7 +112,7 @@ class DLL_EXPORT ObjectId
     //!
     //! \return object address within its file
     //!
-    haddr_t       object_address() const noexcept;
+    haddr_t object_address() const noexcept;
 
     //!
     //! \brief Get file name
@@ -122,19 +122,25 @@ class DLL_EXPORT ObjectId
     //!
     //! \return path to the objects parent file
     //!
-    boost::filesystem::path   file_name() const noexcept;
-
-  private:
-    unsigned long file_num_ {0};
-    haddr_t       obj_addr_ {0};
-    boost::filesystem::path   file_name_;
+    boost::filesystem::path file_name() const noexcept;
 
     //!
     //! \brief get the name of the file
     //!
-    //! Private utility function to obtain the name of the file where the
-    //! object is stored in.
+    //! Obtains the name of the file where the object is stored in.
     static std::string get_file_name(const ObjectHandle &handle);
+
+    //!
+    //! \brief get object info
+    //!
+    //! Gets object info.
+    static H5O_info_t get_info(const ObjectHandle &handle);
+
+
+ private:
+    unsigned long file_num_ {0};
+    haddr_t       obj_addr_ {0};
+    boost::filesystem::path   file_name_;
 };
 
 

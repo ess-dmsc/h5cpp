@@ -49,26 +49,34 @@ std::string ObjectId::get_file_name(const ObjectHandle &handle)
   return fname;
 }
 
-ObjectId::ObjectId():
-    file_num_{0},
-    obj_addr_{0},
-    file_name_{}
-{}
-
-ObjectId::ObjectId(const ObjectHandle &handle):
-	file_num_{ 0 },
-	obj_addr_{0},
-	file_name_{}
+H5O_info_t ObjectId::get_info(const ObjectHandle &handle)
 {
-	if (handle.is_valid())
-	{
-		H5O_info_t info;
-		H5Oget_info(static_cast<hid_t>(handle), &info);
-		file_num_ = info.fileno;
-		obj_addr_ = info.addr;
+  H5O_info_t info;
+  if (0 > H5Oget_info(static_cast<hid_t>(handle), &info))
+  {
+    error::Singleton::instance().throw_with_stack("Could not get Object info.");
+  }
+  return info;
+}
 
-		file_name_ = boost::filesystem::path(get_file_name(handle));
-	}
+ObjectId::ObjectId(const ObjectHandle &handle)
+{
+  if (handle.is_valid())
+  {
+    try
+    {
+      auto info = get_info(handle);
+      file_num_ = info.fileno;
+      obj_addr_ = info.addr;
+      file_name_ = boost::filesystem::path(get_file_name(handle));
+    }
+    catch (...)
+    {
+      std::stringstream ss;
+      ss << "ObjectID: construct from handle = " << static_cast<hid_t>(handle);
+      std::throw_with_nested(std::runtime_error(ss.str()));
+    }
+  }
 }
 
 std::ostream & operator<<(std::ostream &os, const ObjectId& p)
