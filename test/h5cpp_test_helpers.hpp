@@ -20,37 +20,24 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
-// Created on: Nov 22, 2017
+// Created on: May 5, 2018
 //
 
 #pragma  once
 
-#include <gtest/gtest.h>
+#include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/error/error.hpp>
 
-namespace testing
-{
-namespace internal
-{
-enum GTestColor {
-  COLOR_DEFAULT,
-  COLOR_RED,
-  COLOR_GREEN,
-  COLOR_YELLOW
-};
+#define INVALIDATE_HID(OBJ) hdf5::ObjectHandle(static_cast<hid_t>(OBJ)).close()
 
-extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
+inline void provoke_h5_error()
+{
+  hdf5::ObjectHandle invalid_handle;
+  H5Iget_ref(static_cast<hid_t>(invalid_handle));
 }
-}
-#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] "); testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__); } while(0)
 
-// C++ stream interface
-class TestCout : public std::stringstream
+inline void provoke_h5cpp_exception()
 {
- public:
-  ~TestCout()
-  {
-    PRINTF("%s\n",str().c_str());
-  }
-};
-
-#define TEST_COUT  TestCout()
+  hdf5::ObjectHandle invalid_handle;
+  invalid_handle.get_reference_count();
+}

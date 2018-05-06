@@ -16,15 +16,17 @@ configure_file(h5py_test_data.h5 h5py_test_data.h5 COPYONLY)
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(test_sources ${dir}/main.cpp)
+set(test_headers ${dir}/h5cpp_test_helpers.hpp)
+
 set(test_sources
-  ${dir}/main.cpp
-  ${dir}/fixture.cpp
-  )
+    ${test_sources}
+    ${dir}/fixture.cpp)
 
 set(test_headers
-  ${dir}/fixture.hpp
-  )
-
+    ${test_headers}
+    ${dir}/fixture.hpp
+    )
 add_subdirectory(error)
 add_subdirectory(core)
 add_subdirectory(property)

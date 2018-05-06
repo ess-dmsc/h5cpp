@@ -24,8 +24,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
-#include <h5cpp/core/object_handle.hpp>
+#include "../h5cpp_test_helpers.hpp"
 #include "../gtest_print.hpp"
 
 #include <cstring>
@@ -36,83 +35,111 @@ using namespace hdf5;
 
 class Error : public testing::Test
 {
-  protected:
-    virtual void SetUp()
-    {
-      fflush(stderr);
-      std::memset(buf, 0, bufsize);
-      setbuf(stderr, buf);
-    }
+ protected:
+  virtual void SetUp()
+  {
+    // redirect stderr into buf
+    fflush(stderr);
+    std::memset(buf, 0, bufsize);
+    setbuf(stderr, buf);
+  }
 
-    std::string extract_string()
-    {
-      ss.str(std::string());
-      ss << buf;
-      return ss.str();
-    }
+  std::string extract_string()
+  {
+    // extract redirected stderr text
+    ss.str(std::string());
+    ss << buf;
+    return ss.str();
+  }
 
-    virtual void TearDown()
-    {
-      setbuf(stderr, NULL);
-    }
+  virtual void TearDown()
+  {
+    // return stderr to normal function
+    setbuf(stderr, NULL);
+  }
 
-    hdf5::ObjectHandle invalid_handle;
-    std::stringstream ss;
-    char buf[bufsize];
+  std::stringstream ss;
+  char buf[bufsize];
 };
 
 TEST_F(Error, auto_on)
 {
   error::Singleton::instance().auto_print(true);
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
-  EXPECT_FALSE(extract_string().empty());
   EXPECT_TRUE(error::Singleton::instance().auto_print());
+  provoke_h5_error();
+  EXPECT_FALSE(extract_string().empty());
+  EXPECT_THROW(provoke_h5cpp_exception(), std::runtime_error);
 }
 
 TEST_F(Error, auto_off)
 {
   error::Singleton::instance().auto_print(false);
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
-  EXPECT_TRUE(extract_string().empty()) << "post buffer contents:\n" << ss.str();
   EXPECT_FALSE(error::Singleton::instance().auto_print());
+  provoke_h5_error();
+  EXPECT_TRUE(extract_string().empty());
+  EXPECT_THROW(provoke_h5cpp_exception(), std::runtime_error);
 }
 
 TEST_F(Error, extract_stack)
 {
   error::Singleton::instance().auto_print(false);
 
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
+  provoke_h5_error();
   auto stack = error::Singleton::instance().extract_stack();
   EXPECT_EQ(stack.contents().size(), 2);
+}
+
+TEST_F(Error, clear_stack)
+{
+  error::Singleton::instance().auto_print(false);
+
+  provoke_h5_error();
+  error::Singleton::instance().clear_stack();
+  auto stack = error::Singleton::instance().extract_stack();
+  EXPECT_TRUE(stack.empty());
+
+  error::Singleton::instance().clear_stack();
+  error::Singleton::instance().clear_stack();
+}
+
+TEST_F(Error, sequential)
+{
+  error::Singleton::instance().auto_print(false);
+
+  provoke_h5_error();
+  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2);
+  EXPECT_TRUE(error::Singleton::instance().extract_stack().empty());
+
+  provoke_h5_error();
+  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2);
+  EXPECT_TRUE(error::Singleton::instance().extract_stack().empty());
+
+  provoke_h5_error();
+  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2);
+  EXPECT_TRUE(error::Singleton::instance().extract_stack().empty());
 }
 
 
 TEST_F(Error, exception_generation_print_on)
 {
   error::Singleton::instance().auto_print(true);
-  EXPECT_TRUE(error::Singleton::instance().auto_print());
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
-
-  try {
-    error::Singleton::instance().throw_with_stack("some_error");
+  try
+  {
+    provoke_h5cpp_exception();
   }
   catch (std::exception& e)
   {
     auto message = error::print_nested(e);
-    EXPECT_EQ(message, "some_error\n");
+    EXPECT_EQ(message, "ObjectHandle: could not get reference counter\n");
   }
 }
-
 
 TEST_F(Error, exception_generation_print_off)
 {
   error::Singleton::instance().auto_print(false);
-  EXPECT_FALSE(error::Singleton::instance().auto_print());
-  H5Iget_ref(static_cast<hid_t>(invalid_handle));
-
-
-  try {
-    error::Singleton::instance().throw_with_stack("some_error");
+  try
+  {
+    provoke_h5cpp_exception();
   }
   catch (std::exception& e)
   {

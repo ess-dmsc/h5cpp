@@ -89,6 +89,11 @@ class DLL_EXPORT Singleton
   //!
   void throw_with_stack(const std::string& message);
 
+  //!
+  //! \brief clears HDF5 error stack
+  //!
+  void clear_stack();
+
  private:
 
   // Singleton assurance
@@ -101,16 +106,13 @@ class DLL_EXPORT Singleton
  private:
   // Helper functions, used internally only
 
-  // determines if automatic printing is anebled
+  // determines if automatic printing is enabled
   // should never be used when extracting error information,
   // as it will overwirte existing error stack contents
   bool auto_print_enabled() const;
 
-  // extracts error stack and throws it as Stcak
+  // extracts error stack and throws it as H5CError
   void throw_stack();
-
-  // clears error stack
-  void clear_stack();
 
   // functor for H5EWalk
   static herr_t to_list(unsigned n,
