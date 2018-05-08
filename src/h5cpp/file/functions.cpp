@@ -19,7 +19,7 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Author: Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 9, 2017
 //
@@ -41,16 +41,15 @@ File create(const boost::filesystem::path &path, AccessFlagsBase flags,
 {
   hid_t fid = H5Fcreate(path.string().c_str(), flags,
                         static_cast<hid_t>(fcpl), static_cast<hid_t>(fapl));
-  if(fid<0)
+  if (fid < 0)
   {
     std::stringstream ss;
-    ss<<"Failure creating file ["<<path<<"]";
+    ss << "Failure creating file [" << path << "]";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
   return File(hdf5::ObjectHandle(fid));
 }
-
 
 File open(const boost::filesystem::path &path, AccessFlags flags,
           const property::FileAccessList &fapl)
@@ -58,32 +57,29 @@ File open(const boost::filesystem::path &path, AccessFlags flags,
   return open(path, static_cast<AccessFlagsBase>(flags), fapl);
 }
 
-//TODO: needs better error handling, throw something
 File open(const boost::filesystem::path &path, AccessFlagsBase flags,
           const property::FileAccessList &fapl)
 {
-  return File(ObjectHandle(
-      H5Fopen(path.string().c_str(), flags, static_cast<hid_t>(fapl))
-  ));
+  hid_t fid = H5Fopen(path.string().c_str(), flags, static_cast<hid_t>(fapl));
+  if (fid < 0)
+  {
+    std::stringstream ss;
+    ss << "Failure opening file [" << path << "]";
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+  return File(ObjectHandle(fid));
 }
 
 bool is_hdf5_file(const boost::filesystem::path &path)
 {
   htri_t result = H5Fis_hdf5(path.string().c_str());
-  if(result>0)
-  {
-    return true;
-  }
-  else if(result==0)
-  {
-    return false;
-  }
-  else
+  if (result < 0)
   {
     std::stringstream ss;
-    ss<<"Failure to determine whether "<<path.string()<<"is an HDF5 file or not!";
+    ss << "Failure to determine whether " << path.string() << "is an HDF5 file or not!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
+  return (result != 0);
 }
 
 } // namespace file

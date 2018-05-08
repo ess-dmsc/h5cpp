@@ -28,6 +28,7 @@
 #include <gtest/gtest.h>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <sstream>
 
 namespace pl = hdf5::property;
 
@@ -54,5 +55,51 @@ TEST(DatasetTransferList,test_as_default_argument)
   EXPECT_NO_THROW(test_function());
 }
 
-// Missing MPI-related functions tests here
+#ifdef WITH_MPI
 
+TEST(DatasetTransferList, flags)
+{
+  std::stringstream stream;
+
+  stream << pl::MPITransferMode::INDEPENDENT;
+  EXPECT_EQ(stream.str(), "INDEPENDENT");
+
+  stream.str(std::string());
+  stream << pl::MPITransferMode::COLLECTIVE;
+  EXPECT_EQ(stream.str(), "COLLECTIVE");
+
+  stream.str(std::string());
+  stream << pl::MPIChunkOption::ONE_LINK_CHUNKED;
+  EXPECT_EQ(stream.str(), "ONE_LINK_CHUNKED");
+
+  stream.str(std::string());
+  stream << pl::MPIChunkOption::MULTI_CHUNK;
+  EXPECT_EQ(stream.str(), "MULTI_CHUNK");
+}
+
+TEST(DatasetTransferList, transfer_mode)
+{
+  pl::DatasetTransferList dtpl;
+  dtpl.mpi_transfer_mode(pl::MPITransferMode::INDEPENDENT);
+  EXPECT_EQ(dtpl.mpi_transfer_mode(), pl::MPITransferMode::INDEPENDENT);
+
+  dtpl.mpi_transfer_mode(pl::MPITransferMode::COLLECTIVE);
+  EXPECT_EQ(dtpl.mpi_transfer_mode(), pl::MPITransferMode::COLLECTIVE);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(dtpl)).close();
+  EXPECT_THROW(dtpl.mpi_transfer_mode(pl::MPITransferMode::COLLECTIVE), std::runtime_error);
+  EXPECT_THROW(dtpl.mpi_transfer_mode(), std::runtime_error);
+}
+
+TEST(DatasetTransferList, chunk_option)
+{
+  pl::DatasetTransferList dtpl;
+  dtpl.mpi_chunk_option(pl::MPIChunkOption::ONE_LINK_CHUNKED);
+  dtpl.mpi_chunk_option(pl::MPIChunkOption::MULTI_CHUNK);
+
+  EXPECT_THROW(dtpl.mpi_chunk_option(), std::runtime_error);
+  hdf5::ObjectHandle(static_cast<hid_t>(dtpl)).close();
+  EXPECT_THROW(dtpl.mpi_chunk_option(pl::MPIChunkOption::MULTI_CHUNK), std::runtime_error);
+}
+
+#endif

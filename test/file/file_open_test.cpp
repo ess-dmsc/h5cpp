@@ -31,50 +31,53 @@ namespace fs = boost::filesystem;
 
 class FileOpen : public testing::Test
 {
-  protected:
-    virtual void SetUp()
-    {
-#if H5_VERSION_GE(1,10,0)
-      property::FileCreationList fcpl;
-      property::FileAccessList fapl;
-      fapl.library_version_bounds(property::LibVersion::LATEST,
-                                  property::LibVersion::LATEST);
-      file::create("file_open.h5", file::AccessFlags::TRUNCATE,fcpl,fapl);
+ protected:
+  virtual void SetUp()
+  {
+#if H5_VERSION_GE(1, 10, 0)
+    property::FileCreationList fcpl;
+    property::FileAccessList fapl;
+    fapl.library_version_bounds(property::LibVersion::LATEST,
+                                property::LibVersion::LATEST);
+    file::create("file_open.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
 #else
-      file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+    file::create("file_open.h5", file::AccessFlags::TRUNCATE);
 #endif
-    }
+  }
 };
-
 
 TEST_F(FileOpen, test_open_default)
 {
   file::File f = file::open("file_open.h5");
-  EXPECT_EQ(f.intent(),file::AccessFlags::READONLY);
+  EXPECT_EQ(f.intent(), file::AccessFlags::READONLY);
 }
 
 TEST_F(FileOpen, test_open_readwrite)
 {
-  file::File f = file::open("file_open.h5",file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
+  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
+  EXPECT_EQ(f.intent(), file::AccessFlags::READWRITE);
 }
 
-#if H5_VERSION_GE(1,10,0)
+TEST_F(FileOpen, test_open_nonexistent)
+{
+  EXPECT_THROW(file::open("nonexistent.qqq", file::AccessFlags::READWRITE), std::runtime_error);
+}
+
+#if H5_VERSION_GE(1, 10, 0)
 
 TEST_F(FileOpen, test_open_swmr_read)
 {
-  file::File f = file::open("file_open.h5",file::AccessFlags::SWMR_READ);
-  EXPECT_EQ(f.intent(),file::AccessFlags::SWMR_READ);
+  file::File f = file::open("file_open.h5", file::AccessFlags::SWMR_READ);
+  EXPECT_EQ(f.intent(), file::AccessFlags::SWMR_READ);
 }
 
 TEST_F(FileOpen, test_open_swmr_write)
 {
   file::File f = file::open("file_open.h5",
-                             file::AccessFlags::READWRITE | file::AccessFlags::SWMR_WRITE);
-
+                            file::AccessFlags::READWRITE | file::AccessFlags::SWMR_WRITE);
 
   EXPECT_EQ(static_cast<file::AccessFlagsBase>(f.intent()),
-                    file::AccessFlags::SWMR_WRITE|file::AccessFlags::READWRITE  );
+            file::AccessFlags::SWMR_WRITE | file::AccessFlags::READWRITE);
 
 }
 
