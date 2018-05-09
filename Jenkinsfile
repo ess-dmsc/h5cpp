@@ -47,7 +47,7 @@ images = [
     ],
     'centos7-gcc6-debug': [
             'name': 'essdmscdm/centos7-gcc6-build-node:2.2.0',
-            'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/ cmake3',
+            'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
             'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
             'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
     ],
