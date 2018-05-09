@@ -394,41 +394,4 @@ std::ostream &operator<<(std::ostream &stream, const ObjectHandle::Type &type)
   return stream;
 }
 
-std::istream &operator>>(std::istream &stream, ObjectHandle::Type &type)
-{
-  std::string buffer;
-
-  //TODO: maybe we should add here a to-upper conversion to allow mixed case strings
-  stream >> buffer;
-
-  if (buffer == "FILE")
-    type = ObjectHandle::Type::FILE;
-  else if (buffer == "GROUP")
-    type = ObjectHandle::Type::GROUP;
-  else if (buffer == "DATATYPE")
-    type = ObjectHandle::Type::DATATYPE;
-  else if (buffer == "DATASPACE")
-    type = ObjectHandle::Type::DATASPACE;
-  else if (buffer == "DATASET")
-    type = ObjectHandle::Type::DATASET;
-  else if (buffer == "ATTRIBUTE")
-    type = ObjectHandle::Type::ATTRIBUTE;
-  else if (buffer == "PROPERTY_LIST")
-    type = ObjectHandle::Type::PROPERTY_LIST;
-  else if (buffer == "REFERENCE")
-    type = ObjectHandle::Type::REFERENCE;
-  else if (buffer == "PROPERTY_LIST_CLASS")
-    type = ObjectHandle::Type::PROPERTY_LIST_CLASS;
-  else if (buffer == "ERROR_CLASS")
-    type = ObjectHandle::Type::ERROR_CLASS;
-  else if (buffer == "ERROR_MESSAGE")
-    type = ObjectHandle::Type::ERROR_MESSAGE;
-  else if (buffer == "ERROR_STACK")
-    type = ObjectHandle::Type::ERROR_STACK;
-  else
-    type = ObjectHandle::Type::BADOBJECT;
-
-  return stream;
-}
-
 } // namespace hdf5

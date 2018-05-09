@@ -253,14 +253,6 @@ class DLL_EXPORT ObjectHandle
     //!
     //! \return the actual reference count
     int get_reference_count() const;
-
-    //!
-    //! \brief return file handle
-    //!
-    //! Returns a handle to the file this instance belongs to.
-    //! \return instance of ObjectHandle to the file
-    //!
-    ObjectHandle get_file() const;
 };
 
 
@@ -285,11 +277,5 @@ DLL_EXPORT bool operator!=(const ObjectHandle &lhs,const ObjectHandle &rhs);
 //!
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
                                     const ObjectHandle::Type &type);
-
-//!
-//! \brief input operator for object types
-//!
-DLL_EXPORT std::istream &operator>>(std::istream &stream,
-                                    ObjectHandle::Type &type);
 
 } // namespace hdf5

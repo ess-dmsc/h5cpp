@@ -114,6 +114,11 @@ TEST(ObjHandleTest, DefaultConstruction)
   EXPECT_THROW(handle.close(),std::runtime_error);
 }
 
+TEST(ObjHandleTest, InvalidConstruction)
+{
+  EXPECT_THROW(hdf5::ObjectHandle handle(-1), std::runtime_error);
+}
+
 TEST_P(ObjHandleFixture, Types)
 {
   //This line does not help with output :(
