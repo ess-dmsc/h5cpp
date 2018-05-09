@@ -3,7 +3,7 @@ coverage_os = "centos7-release"
 
 images = [
     'centos7-release': [
-        'cmake' = 'cmake3',
+        'cmake': 'cmake3',
         'name': 'essdmscdm/centos7-build-node:1.1.0',
         'sh': 'sh',
         'cmake_flags': '-DCOV=ON -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release',
@@ -11,7 +11,7 @@ images = [
         'conan_flags': '-o hdf5:parallel=True'
     ],
     'centos7-gcc6-release': [
-        'cmake' = 'cmake3',
+        'cmake': 'cmake3',
         'name': 'essdmscdm/centos7-gcc6-build-node:2.2.0',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
         'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release',
@@ -19,7 +19,7 @@ images = [
         'conan_flags': '-o hdf5:parallel=True'
     ],
     'fedora25-release': [
-        'cmake' = 'cmake',
+        'cmake': 'cmake',
         'name': 'essdmscdm/fedora25-build-node:1.1.0',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
@@ -27,7 +27,7 @@ images = [
         'conan_flags': ''
     ],
     'debian9-release': [
-        'cmake' = 'cmake',
+        'cmake': 'cmake',
         'name': 'essdmscdm/debian9-build-node:1.1.0',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
@@ -35,7 +35,7 @@ images = [
         'conan_flags': ''
     ],
     'ubuntu1604-release': [
-        'cmake' = 'cmake',
+        'cmake': 'cmake',
         'name': 'essdmscdm/ubuntu16.04-build-node:2.4.0',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
@@ -43,7 +43,7 @@ images = [
         'conan_flags': ''
     ],
     'ubuntu1710-release': [
-        'cmake' = 'cmake',
+        'cmake': 'cmake',
         'name': 'essdmscdm/ubuntu17.10-build-node:2.1.1',
         'sh': 'sh',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
@@ -52,7 +52,7 @@ images = [
     ],
 
     'centos7-debug': [
-            'cmake' = 'cmake3',
+            'cmake': 'cmake3',
             'name': 'essdmscdm/centos7-build-node:1.1.0',
             'sh': 'sh',
             'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug',
@@ -60,7 +60,7 @@ images = [
             'conan_flags': '-o hdf5:parallel=True'
     ],
     'centos7-gcc6-debug': [
-            'cmake' = 'cmake3',
+            'cmake': 'cmake3',
             'name': 'essdmscdm/centos7-gcc6-build-node:2.2.0',
             'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
             'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug',
@@ -68,7 +68,7 @@ images = [
             'conan_flags': '-o hdf5:parallel=True'
     ],
     'fedora25-debug': [
-            'cmake' = 'cmake',
+            'cmake': 'cmake',
             'name': 'essdmscdm/fedora25-build-node:1.1.0',
             'sh': 'sh',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
@@ -76,7 +76,7 @@ images = [
             'conan_flags': ''
     ],
     'debian9-debug': [
-            'cmake' = 'cmake',
+            'cmake': 'cmake',
             'name': 'essdmscdm/debian9-build-node:1.1.0',
             'sh': 'sh',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
@@ -84,7 +84,7 @@ images = [
             'conan_flags': ''
     ],
     'ubuntu1604-debug': [
-            'cmake' = 'cmake',
+            'cmake': 'cmake',
             'name': 'essdmscdm/ubuntu16.04-build-node:2.4.0',
             'sh': 'sh',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
@@ -92,7 +92,7 @@ images = [
             'conan_flags': ''
     ],
     'ubuntu1710-debug': [
-            'cmake' = 'cmake',
+            'cmake': 'cmake',
             'name': 'essdmscdm/ubuntu17.10-build-node:2.1.1',
             'sh': 'sh',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
