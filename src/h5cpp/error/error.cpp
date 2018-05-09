@@ -63,7 +63,6 @@ H5CError Singleton::extract_stack()
     throw std::runtime_error("Could not extract error stack");
   }
 
-  clear_stack();
   return H5CError(ret);
 }
 
@@ -120,7 +119,7 @@ void Singleton::clear_stack()
   herr_t ret = H5Eclear2(H5E_DEFAULT);
   if (0 > ret)
   {
-    throw std::runtime_error("Could not toggle automatic error stack printing");
+    throw std::runtime_error("Could not clear HDF5 error stack");
   }
 }
 

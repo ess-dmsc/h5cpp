@@ -34,8 +34,11 @@ H5CError::H5CError(const std::list<Descriptor>& H5CError)
 , contents_(H5CError)
 {
   std::stringstream ss;
-  for (auto c : contents_)
+  for (auto& c : contents_)
+  {
+    c.extract_strings();
     ss << c << "\n";
+  }
   what_message_ = ss.str();
 }
 

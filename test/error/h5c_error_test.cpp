@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY, ESS
+// (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,37 +20,42 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
-// Created on: Nov 22, 2017
+// Created on: May 5, 2018
 //
 
-#pragma  once
-
 #include <gtest/gtest.h>
+#include "../h5cpp_test_helpers.hpp"
 
-namespace testing
-{
-namespace internal
-{
-enum GTestColor {
-  COLOR_DEFAULT,
-  COLOR_RED,
-  COLOR_GREEN,
-  COLOR_YELLOW
-};
+using namespace hdf5;
 
-extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
+TEST(H5CError, empty)
+{
+  auto stack = error::Singleton::instance().extract_stack();
+  EXPECT_TRUE(stack.empty());
 }
-}
-#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::COLOR_GREEN, "[          ] "); testing::internal::ColoredPrintf(testing::internal::COLOR_YELLOW, __VA_ARGS__); } while(0)
 
-// C++ stream interface
-class TestCout : public std::stringstream
+TEST(H5CError, extract_stack)
 {
- public:
-  ~TestCout()
+  provoke_h5_error();
+  auto stack = error::Singleton::instance().extract_stack();
+  EXPECT_EQ(stack.contents().size(), 2);
+  for (auto d : stack.contents())
   {
-    PRINTF("%s\n",str().c_str());
+    EXPECT_GT(d.description.size(), 2);
+    EXPECT_NE(d.function.find("H5"), std::string::npos) << d;
   }
-};
+}
 
-#define TEST_COUT  TestCout()
+TEST(H5CError, what)
+{
+  provoke_h5_error();
+  auto stack = error::Singleton::instance().extract_stack();
+  std::stringstream ss;
+  ss << stack.what();
+  for (auto d : stack.contents())
+  {
+    std::stringstream ss2;
+    ss2 << d;
+    EXPECT_NE(ss.str().find(ss2.str()), std::string::npos);
+  }
+}
