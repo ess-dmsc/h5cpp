@@ -350,7 +350,7 @@ node ("fedora") {
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake ../code"
+                    cmake -DCONAN=DISABLE ../code"
                 sh "make html"
                 if (env.BRANCH_NAME != 'master') {
                     archiveArtifacts artifacts: 'doc/build/'
