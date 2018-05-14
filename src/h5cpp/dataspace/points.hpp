@@ -36,12 +36,15 @@ class DLL_EXPORT Points : public Selection {
  public:
   Points();
   Points(size_t rank);
+  Points(const std::vector<std::vector<hsize_t>>& coord_set);
   ~Points();
 
   size_t rank() const;
   size_t points() const;
 
   void add(const std::vector<hsize_t>& coords);
+
+  void add_set(const std::vector<std::vector<hsize_t>>& coord_set);
 
   virtual void apply(const Dataspace &space,
                      SelectionOperation ops) const;

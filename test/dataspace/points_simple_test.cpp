@@ -105,3 +105,38 @@ TEST(PointsSimple, BadSelection) {
 
   EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points), std::runtime_error);
 }
+
+TEST(PointsSimple, AddSet) {
+  dataspace::Simple space({10, 1024});
+  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
+
+  dataspace::Points points(2);
+  points.add_set({{1, 1}, {2, 2}});
+
+  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points), std::runtime_error);
+}
+
+TEST(PointsSimple, AddSetError) {
+  dataspace::Simple space({10, 1024});
+  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
+
+  dataspace::Points points(2);
+  EXPECT_THROW(points.add_set({{1, 1}, {2, 2, 3}}), std::runtime_error);
+}
+
+TEST(PointsSimple, ConvenienceConstructor) {
+  dataspace::Simple space({10, 1024});
+  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
+
+  dataspace::Points points({{1, 1}, {2, 2}});
+
+  EXPECT_EQ(points.rank(), 2);
+  EXPECT_EQ(points.points(), 2);
+}
+
+TEST(PointsSimple, ConvenienceConstructorError) {
+  dataspace::Simple space({10, 1024});
+  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
+
+  EXPECT_THROW(dataspace::Points({{1, 1}, {2, 2, 3}}), std::runtime_error);
+}

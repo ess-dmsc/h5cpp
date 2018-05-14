@@ -68,26 +68,16 @@ TEST_F(PartialIO, test_read_write_hyperslab)
 
 TEST_F(PartialIO, test_read_write_points)
 {
-  dataspace::Simple space{{10,10}};
+  dataspace::Simple space{{10}};
   auto type = datatype::create<int>();
 
   node::Dataset dset(root_,Path("data"),type,space);
 
-  dataspace::Points pts{2};
-  pts.add({1,1});
-  pts.add({2,2});
-  pts.add({3,3});
-  pts.add({4,4});
-  pts.add({5,5});
   std::vector<int> write {1,2,3,4,5};
-  dset.write(write, pts);
+  dset.write(write, dataspace::Points({{1}, {2}, {3}, {4}, {5}}));
 
-  dataspace::Points pts2{2};
-  pts2.add({1,1});
-  pts2.add({3,3});
-  pts2.add({5,5});
   std::vector<int> read(3);
-  dset.read(read, pts2);
+  dset.read(read, dataspace::Points({{1}, {3}, {5}}));
 
   EXPECT_EQ(read, std::vector<int>({1,3,5}));
 }

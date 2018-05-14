@@ -42,6 +42,14 @@ Points::Points(size_t rank)
     : Selection()
       , rank_(rank) {}
 
+
+Points::Points(const std::vector<std::vector<hsize_t>>& coord_set)
+{
+  if (!coord_set.empty())
+    rank_ = coord_set.front().size();
+  add_set(coord_set);
+}
+
 size_t Points::rank() const
 {
   return rank_;
@@ -53,6 +61,13 @@ size_t Points::points() const
     return coordinates_.size() / rank_;
   return 0;
 }
+
+void Points::add_set(const std::vector<std::vector<hsize_t>>& coord_set)
+{
+  for (const auto& coords : coord_set)
+    add(coords);
+}
+
 
 void Points::add(const std::vector<hsize_t>& coords)
 {
