@@ -61,9 +61,16 @@ class DLL_EXPORT Enum : public Datatype
   Enum(const Datatype& type);
 
   //!
-  //! \brief named constructor
+  //! \brief named constructor (with underlying type deduction)
   //!
-  static Enum create(const Datatype& base_type);
+  template<typename T>
+  static Enum create(const T&);
+
+  //!
+  //! \brief insert enum value definition (with underlying type deduction)
+  //!
+  template<typename T>
+  void insert(const std::string& name, const T& data) const;
 
   //!
   //! \brief return the total number of enum values
@@ -71,41 +78,49 @@ class DLL_EXPORT Enum : public Datatype
   size_t number_of_values() const;
 
   //!
-  //! \brief insert enum value definition
-  //!
-  template<typename T>
-  void insert(const std::string& name, const T& data) const;
-
-  //!
   //! \brief get value name
   //!
   std::string name(size_t index) const;
 
-  //!
-  //! \brief get value at index
-  //!
-  template<typename T>
-  void value(size_t index, T& data) const;
+  // TODO: Cannot get name from value
+  // TODO: Discuss H5Tenum_nameof with HDF group, no way of obtaining string size
 
   //!
-  //! \brief get value at index
+  //! \brief get value at index (with underlying type deduction)
   //!
   template<typename T>
   T value(size_t index) const;
 
   //!
-  //! \brief get value by name
-  //!
-  template<typename T>
-  void value(const std::string& name, T& data) const;
-
-  //!
-  //! \brief get value by name
+  //! \brief get value by name (with underlying type deduction)
   //!
   template<typename T>
   T value(const std::string& name) const;
 
-  // TODO: Discuss H5Tenum_nameof with HDF group, no way of obtaining string size
+  // The following functions are low level
+
+  //!
+  //! \brief insert enum value definition
+  //!
+  template<typename T>
+  void insert_underlying(const std::string& name, const T& data) const;
+
+  //!
+  //! \brief named constructor from underlying datatype
+  //!
+  static Enum create_underlying(const Datatype& base_type);
+
+  //!
+  //! \brief get value at index
+  //!
+  template<typename T>
+  void underlying_value(size_t index, T& data) const;
+
+  //!
+  //! \brief get value by name
+  //!
+  template<typename T>
+  void underlying_value(const std::string& name, T& data) const;
 
  private:
   template<typename T>
@@ -116,7 +131,7 @@ class DLL_EXPORT Enum : public Datatype
 template<typename T>
 void Enum::check_type(const T& data) const
 {
-  auto mem_type = datatype::create<T>(data);
+  auto mem_type = datatype::create<T>();
   if (mem_type != super())
   {
     std::stringstream ss;
@@ -126,7 +141,14 @@ void Enum::check_type(const T& data) const
 }
 
 template<typename T>
-void Enum::insert(const std::string& name, const T& data) const
+Enum Enum::create(const T&)
+{
+  return create_underlying(datatype::create<typename std::underlying_type<T>::type>());
+}
+
+
+template<typename T>
+void Enum::insert_underlying(const std::string& name, const T& data) const
 {
   check_type(data);
 
@@ -139,7 +161,14 @@ void Enum::insert(const std::string& name, const T& data) const
 }
 
 template<typename T>
-void Enum::value(size_t index, T& data) const
+void Enum::insert(const std::string& name, const T& data) const
+{
+  auto data2 = static_cast<typename std::underlying_type<T>::type>(data);
+  insert_underlying(name, data2);
+}
+
+template<typename T>
+void Enum::underlying_value(size_t index, T& data) const
 {
   check_type(data);
 
@@ -152,7 +181,7 @@ void Enum::value(size_t index, T& data) const
 }
 
 template<typename T>
-void Enum::value(const std::string& name, T& data) const
+void Enum::underlying_value(const std::string& name, T& data) const
 {
   check_type(data);
 
@@ -167,17 +196,17 @@ void Enum::value(const std::string& name, T& data) const
 template<typename T>
 T Enum::value(size_t index) const
 {
-  T t;
-  value(index, t);
-  return t;
+  typename std::underlying_type<T>::type t;
+  underlying_value(index, t);
+  return static_cast<T>(t);
 }
 
 template<typename T>
 T Enum::value(const std::string& name) const
 {
-  T t;
-  value(name, t);
-  return t;
+  typename std::underlying_type<T>::type t;
+  underlying_value(name, t);
+  return static_cast<T>(t);
 }
 
 

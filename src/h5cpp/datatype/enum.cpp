@@ -48,7 +48,7 @@ Enum::Enum(const Datatype& type) :
   }
 }
 
-Enum Enum::create(const Datatype& base_type)
+Enum Enum::create_underlying(const Datatype& base_type)
 {
   hid_t ret = H5Tenum_create(static_cast<hid_t>(base_type));
   if (ret < 0)
