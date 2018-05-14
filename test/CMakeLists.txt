@@ -27,6 +27,7 @@ set(test_headers
     ${test_headers}
     ${dir}/fixture.hpp
     )
+
 add_subdirectory(error)
 add_subdirectory(core)
 add_subdirectory(property)

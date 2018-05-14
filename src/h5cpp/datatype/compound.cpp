@@ -78,6 +78,7 @@ size_t Compound::field_index(const std::string &name) const {
   return index;
 }
 
+// implementation same as for Enum
 std::string Compound::field_name(size_t index) const {
   char *buffer = H5Tget_member_name(static_cast<hid_t>(*this), index);
   if (buffer == NULL) {
@@ -131,12 +132,13 @@ Class Compound::field_class(size_t index) const {
   return static_cast<Class>(value);
 }
 
+// implementation same as for Enum
 size_t Compound::number_of_fields() const {
   int n = H5Tget_nmembers(static_cast<hid_t>(*this));
   if (n < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve number of fields for compound data type!");
   }
-  return n;
+  return static_cast<size_t>(n);
 }
 
 void Compound::insert(const std::string &name, size_t offset, const Datatype &type) const {

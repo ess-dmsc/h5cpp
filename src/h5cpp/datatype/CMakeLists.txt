@@ -8,6 +8,7 @@ set(SOURCES
     ${dir}/integer.cpp
     ${dir}/string.cpp
     ${dir}/types.cpp
+    ${dir}/enum.cpp
     )
 
 set(HEADERS
@@ -20,6 +21,7 @@ set(HEADERS
     ${dir}/compound.hpp
     ${dir}/string.hpp
     ${dir}/array.hpp
+    ${dir}/enum.hpp
     )
 
 install(FILES ${HEADERS}
