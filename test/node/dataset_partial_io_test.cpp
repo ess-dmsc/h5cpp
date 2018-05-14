@@ -24,6 +24,7 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/dataspace/points.hpp>
 #include "group_test_fixtures.hpp"
 
 using namespace hdf5;
@@ -42,7 +43,7 @@ class PartialIO : public BasicFixture
 
 };
 
-TEST_F(PartialIO, test_read_write_scalar_int)
+TEST_F(PartialIO, test_read_write_hyperslab)
 {
   dataspace::Simple space{{0},{dataspace::Simple::UNLIMITED}};
   auto type = datatype::create<int>();
@@ -64,6 +65,32 @@ TEST_F(PartialIO, test_read_write_scalar_int)
   }
 }
 
+
+TEST_F(PartialIO, test_read_write_points)
+{
+  dataspace::Simple space{{10,10}};
+  auto type = datatype::create<int>();
+
+  node::Dataset dset(root_,Path("data"),type,space);
+
+  dataspace::Points pts{2};
+  pts.add({1,1});
+  pts.add({2,2});
+  pts.add({3,3});
+  pts.add({4,4});
+  pts.add({5,5});
+  std::vector<int> write {1,2,3,4,5};
+  dset.write(write, pts);
+
+  dataspace::Points pts2{2};
+  pts2.add({1,1});
+  pts2.add({3,3});
+  pts2.add({5,5});
+  std::vector<int> read(3);
+  dset.read(read, pts2);
+
+  EXPECT_EQ(read, std::vector<int>({1,3,5}));
+}
 
 
 

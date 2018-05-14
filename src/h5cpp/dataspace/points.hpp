@@ -38,9 +38,17 @@ class DLL_EXPORT Points : public Selection {
   Points(size_t rank);
   ~Points();
 
+  size_t rank() const;
+  size_t points() const;
+
+  void add(const std::vector<hsize_t>& coords);
+
   virtual void apply(const Dataspace &space,
                      SelectionOperation ops) const;
 
+ private:
+  size_t rank_{0};
+  std::vector<hsize_t> coordinates_;
 };
 
 } // namespace dataspace
