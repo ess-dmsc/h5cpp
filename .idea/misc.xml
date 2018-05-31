@@ -4,6 +4,7 @@
   <component name="CidrRootsConfiguration">
     <excludeRoots>
       <file path="$PROJECT_DIR$/build" />
+      <file path="$PROJECT_DIR$/cmake-build-debug" />
     </excludeRoots>
   </component>
   <component name="JavaScriptSettings">

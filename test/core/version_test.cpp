@@ -26,6 +26,7 @@
 #include <gtest/gtest.h>
 #include <h5cpp/core/version.hpp>
 #include <h5cpp/core/hdf5_capi.hpp>
+#include <sstream>
 
 class VersionTest : public testing::Test
 {};
@@ -98,6 +99,9 @@ TEST(VersionTest,greater_than)
   EXPECT_GT(hdf5::Version(10,12,1),hdf5::Version(10,12,0));
   EXPECT_GT(hdf5::Version(10,12,1),hdf5::Version(10,11,0));
   EXPECT_GT(hdf5::Version(10,12,1),hdf5::Version(9,111,2));
+  EXPECT_FALSE(hdf5::Version(10,12,1) > hdf5::Version(10,12,2));
+  EXPECT_FALSE(hdf5::Version(10,12,1) > hdf5::Version(10,13,2));
+  EXPECT_FALSE(hdf5::Version(10,12,1) > hdf5::Version(11,12,2));
 }
 
 TEST(VersionTest,less_equal_than)
@@ -113,6 +117,9 @@ TEST(VersionTest,less_than)
   EXPECT_LT(hdf5::Version(10,12,0),hdf5::Version(10,12,1));
   EXPECT_LT(hdf5::Version(10,11,0),hdf5::Version(10,12,1));
   EXPECT_LT(hdf5::Version(9,111,2),hdf5::Version(10,12,1));
+  EXPECT_FALSE(hdf5::Version(10,12,1) < hdf5::Version(10,12,0));
+  EXPECT_FALSE(hdf5::Version(10,12,1) < hdf5::Version(10,11,1));
+  EXPECT_FALSE(hdf5::Version(10,12,1) < hdf5::Version(9,12,1));
 }
 
 TEST(VersionTest,current_library_version)
@@ -121,7 +128,13 @@ TEST(VersionTest,current_library_version)
   EXPECT_EQ(current.major_number(),hdf5::Version::NumberType(H5_VERS_MAJOR));
   EXPECT_EQ(current.minor_number(),hdf5::Version::NumberType(H5_VERS_MINOR));
   EXPECT_EQ(current.patch_number(),hdf5::Version::NumberType(H5_VERS_RELEASE));
+}
 
-
+TEST(VersionTest, stream)
+{
+  hdf5::Version v(21,0,2);
+  std::stringstream ss;
+  ss << v;
+  EXPECT_EQ(ss.str(), hdf5::Version::to_string(v));
 }
 

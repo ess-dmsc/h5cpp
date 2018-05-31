@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,20 +19,25 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: May 5, 2018
 //
-#include <gtest/gtest.h>
+
+#pragma  once
+
+#include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/error/error.hpp>
 
-int main(int argc, char **argv)
+#define INVALIDATE_HID(OBJ) hdf5::ObjectHandle(static_cast<hid_t>(OBJ)).close()
+
+inline void provoke_h5_error()
 {
-#ifdef WITH_MPI
-  MPI_Init(&argc,&argv);
-#endif
+  hdf5::ObjectHandle invalid_handle;
+  H5Iget_ref(static_cast<hid_t>(invalid_handle));
+}
 
-  hdf5::error::Singleton::instance().auto_print(false);
-
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+inline void provoke_h5cpp_exception()
+{
+  hdf5::ObjectHandle invalid_handle;
+  invalid_handle.get_reference_count();
 }

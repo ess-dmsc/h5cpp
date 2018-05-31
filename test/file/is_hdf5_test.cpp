@@ -32,25 +32,24 @@ namespace fs = boost::filesystem;
 
 class IsHDF5 : public testing::Test
 {
-  protected:
-    IsHDF5() {}
-    virtual void SetUp()
-    {
-      std::ofstream ofile("test.txt");
-      ofile<<"hello world"<<std::endl;
-      ofile.close();
+ protected:
+  IsHDF5() {}
+  virtual void SetUp()
+  {
+    std::ofstream ofile("test.txt");
+    ofile << "hello world" << std::endl;
+    ofile.close();
 
-      file::create("test.h5", file::AccessFlags::TRUNCATE);
-    }
+    file::create("test.h5", file::AccessFlags::TRUNCATE);
+  }
 
-    virtual void TearDown()
-    {
-      fs::remove("test.txt");
-      fs::remove("test.h5");
-    }
-    virtual ~IsHDF5() {}
+  virtual void TearDown()
+  {
+    fs::remove("test.txt");
+    fs::remove("test.h5");
+  }
+  virtual ~IsHDF5() {}
 };
-
 
 TEST_F(IsHDF5, test_hdf5_file)
 {
@@ -62,6 +61,10 @@ TEST_F(IsHDF5, test_no_hdf5_file)
   EXPECT_FALSE(file::is_hdf5_file("test.txt"));
 }
 
+TEST_F(IsHDF5, test_failure)
+{
+  EXPECT_THROW(file::is_hdf5_file("nonexistent.qqq"), std::runtime_error);
+}
 
 
 

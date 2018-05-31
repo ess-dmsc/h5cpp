@@ -1,91 +1,79 @@
 project = "h5cpp"
-coverage_os = "fedora25-release"
+coverage_os = "centos7-release"
 
 images = [
     'centos7-release': [
-        'name': 'essdmscdm/centos7-build-node:1.0.1',
+        'name': 'essdmscdm/centos7-build-node:1.1.0',
+        'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
         'sh': 'sh',
-        'cmake_flags': '-DWITH_MPI=1 -DCMAKE_BUILD_TYPE=Release',
-        'conan_pre': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx ',
-        'conan_flags': '-o hdf5:parallel=True'
+        'cmake_flags': '-DCOV=ON -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
     ],
     'centos7-gcc6-release': [
-        'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
+        'name': 'essdmscdm/centos7-gcc6-build-node:2.2.0',
+        'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
-        'cmake_flags': '-DWITH_MPI=1 -DCMAKE_BUILD_TYPE=Release',
-        'conan_pre': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx ',
-        'conan_flags': '-o hdf5:parallel=True'
+        'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
     ],
     'fedora25-release': [
-        'name': 'essdmscdm/fedora25-build-node:1.0.0',
+        'name': 'essdmscdm/fedora25-build-node:1.1.0',
+        'cmake': 'cmake',
         'sh': 'sh',
-        'cmake_flags': '-DCOV=ON -DCMAKE_BUILD_TYPE=Release',
-        'conan_pre': '',
-        'conan_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'debian9-release': [
-        'name': 'essdmscdm/debian9-build-node:1.0.0',
+        'name': 'essdmscdm/debian9-build-node:1.1.0',
+        'cmake': 'cmake',
         'sh': 'sh',
-        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
-        'conan_pre': '',
-        'conan_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'ubuntu1604-release': [
-        'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
+        'name': 'essdmscdm/ubuntu16.04-build-node:2.4.0',
+        'cmake': 'cmake',
         'sh': 'sh',
-        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
-        'conan_pre': '',
-        'conan_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'ubuntu1710-release': [
-        'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
+        'name': 'essdmscdm/ubuntu17.10-build-node:2.1.1',
+        'cmake': 'cmake',
         'sh': 'sh',
-        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release',
-        'conan_pre': '',
-        'conan_flags': ''
+        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
 
     'centos7-debug': [
-            'name': 'essdmscdm/centos7-build-node:1.0.1',
+            'name': 'essdmscdm/centos7-build-node:1.1.0',
+            'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
             'sh': 'sh',
-            'cmake_flags': '-DWITH_MPI=1 -DCMAKE_BUILD_TYPE=Debug',
-            'conan_pre': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx ',
-            'conan_flags': '-o hdf5:parallel=True'
+            'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
     ],
     'centos7-gcc6-debug': [
-            'name': 'essdmscdm/centos7-gcc6-build-node:2.1.0',
+            'name': 'essdmscdm/centos7-gcc6-build-node:2.2.0',
+            'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
             'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
-            'cmake_flags': '-DWITH_MPI=1 -DCMAKE_BUILD_TYPE=Debug',
-            'conan_pre': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx ',
-            'conan_flags': '-o hdf5:parallel=True'
+            'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
     ],
     'fedora25-debug': [
-            'name': 'essdmscdm/fedora25-build-node:1.0.0',
+            'name': 'essdmscdm/fedora25-build-node:1.1.0',
+            'cmake': 'cmake',
             'sh': 'sh',
-            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
-            'conan_pre': '',
-            'conan_flags': ''
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ],
     'debian9-debug': [
-            'name': 'essdmscdm/debian9-build-node:1.0.0',
+            'name': 'essdmscdm/debian9-build-node:1.1.0',
+            'cmake': 'cmake',
             'sh': 'sh',
-            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
-            'conan_pre': '',
-            'conan_flags': ''
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ],
     'ubuntu1604-debug': [
-            'name': 'essdmscdm/ubuntu16.04-build-node:2.1.0',
+            'name': 'essdmscdm/ubuntu16.04-build-node:2.4.0',
+            'cmake': 'cmake',
             'sh': 'sh',
-            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
-            'conan_pre': '',
-            'conan_flags': ''
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ],
     'ubuntu1710-debug': [
-            'name': 'essdmscdm/ubuntu17.10-build-node:2.0.0',
+            'name': 'essdmscdm/ubuntu17.10-build-node:2.1.1',
+            'cmake': 'cmake',
             'sh': 'sh',
-            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug',
-            'conan_pre': '',
-            'conan_flags': ''
+            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ]
 ]
 
@@ -137,18 +125,17 @@ def docker_dependencies(image_key) {
         conan remote add \
             --insert 0 \
             ${conan_remote} ${local_conan_server}
-        ${images[image_key]['conan_pre']} conan install ${images[image_key]['conan_flags']} --build=outdated ../conanfile_ess.txt
     \""""
 }
 
 def docker_build(image_key, xtra_flags) {
-    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
+    cmake_exec = images[image_key]['cmake']
     def custom_sh = images[image_key]['sh']
         try {
             sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
                 cd ${project}/build
                 ${cmake_exec} --version
-                ${images[image_key]['conan_pre']} ${cmake_exec} ${xtra_flags} ..
+                ${cmake_exec} ${xtra_flags} ..
                 make --version
                 make -j4 unit_tests
             \""""
@@ -363,7 +350,7 @@ node ("fedora") {
             try {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake ../code"
+                    cmake -DCONAN=DISABLE ../code"
                 sh "make html"
                 if (env.BRANCH_NAME != 'master') {
                     archiveArtifacts artifacts: 'doc/build/'

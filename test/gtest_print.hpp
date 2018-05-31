@@ -23,9 +23,9 @@
 // Created on: Nov 22, 2017
 //
 
-//#include <gtest/gtest.h>
-
 #pragma  once
+
+#include <gtest/gtest.h>
 
 namespace testing
 {

@@ -139,14 +139,14 @@ class DLL_EXPORT Group : public Node
     //!
     //! \brief create a new dataset
     //!
-    //! Like for groups the
     Dataset create_dataset(const std::string &name,
                            const datatype::Datatype &type,
                            const dataspace::Dataspace &space,
-                           const property::LinkCreationList &lcpl = property::LinkCreationList(),
                            const property::DatasetCreationList &dcpl = property::DatasetCreationList(),
+                           const property::LinkCreationList &lcpl = property::LinkCreationList(),
                            const property::DatasetAccessList &dapl = property::DatasetAccessList()
                            ) const;
+
 
     //!
     //! \brief get node

@@ -183,9 +183,26 @@ TEST_F(ObjectIdTest, construction_from_invalid_handler)
 {
   ObjectHandle handle;
   ObjectId id(handle);
-  EXPECT_EQ(id.file_number(), 0ul);
-  EXPECT_EQ(id.object_address(), 0ul);
-  EXPECT_TRUE(id.file_name().empty());
+  ObjectId id2;
+  EXPECT_EQ(id, id2);
+}
+
+TEST_F(ObjectIdTest, get_file_name)
+{
+  FileGuard file1(kFilePath_1);
+  EXPECT_EQ(ObjectId::get_file_name(file1.group1_handle), kFilePath_1);
+
+  ObjectHandle handle;
+  EXPECT_THROW(ObjectId::get_file_name(handle), std::runtime_error);
+}
+
+TEST_F(ObjectIdTest, get_info)
+{
+  FileGuard file1(kFilePath_1);
+  EXPECT_NO_THROW(ObjectId::get_info(file1.group1_handle));
+
+  ObjectHandle handle;
+  EXPECT_THROW(ObjectId::get_info(handle), std::runtime_error);
 }
 
 TEST_F(ObjectIdTest,construction)

@@ -19,20 +19,43 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Martin Shetty <martin.shetty@esss.se>
+// Created on: May 5, 2018
 //
+
 #include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
+#include "../h5cpp_test_helpers.hpp"
 
-int main(int argc, char **argv)
+using namespace hdf5;
+
+TEST(H5CError, empty)
 {
-#ifdef WITH_MPI
-  MPI_Init(&argc,&argv);
-#endif
+  auto stack = error::Singleton::instance().extract_stack();
+  EXPECT_TRUE(stack.empty());
+}
 
-  hdf5::error::Singleton::instance().auto_print(false);
+TEST(H5CError, extract_stack)
+{
+  provoke_h5_error();
+  auto stack = error::Singleton::instance().extract_stack();
+  EXPECT_EQ(stack.contents().size(), 2);
+  for (auto d : stack.contents())
+  {
+    EXPECT_GT(d.description.size(), 2);
+    EXPECT_NE(d.function.find("H5"), std::string::npos) << d;
+  }
+}
 
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+TEST(H5CError, what)
+{
+  provoke_h5_error();
+  auto stack = error::Singleton::instance().extract_stack();
+  std::stringstream ss;
+  ss << stack.what();
+  for (auto d : stack.contents())
+  {
+    std::stringstream ss2;
+    ss2 << d;
+    EXPECT_NE(ss.str().find(ss2.str()), std::string::npos);
+  }
 }

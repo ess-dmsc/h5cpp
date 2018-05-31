@@ -1,0 +1,23 @@
+[requires]
+Boost/1.62.0@ess-dmsc/stable
+hdf5/1.10.2-dm2@ess-dmsc/stable
+gtest/3121b20-dm3@ess-dmsc/stable
+
+[generators]
+cmake
+virtualbuildenv
+
+[options]
+Boost:shared=True
+hdf5:shared=True
+hdf5:cxx=False
+hdf5:parallel=True
+gtest:shared=True
+
+[imports]
+bin, cmake -> ./bin
+bin, *.dll -> ./bin
+lib, *.dll -> ./bin
+lib, *.so.* -> ./lib
+lib, *.so -> ./lib
+share, * -> ./share

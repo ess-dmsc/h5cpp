@@ -32,21 +32,17 @@ namespace hdf5 {
 namespace file {
 
 MemoryDriver::MemoryDriver() noexcept:
-    increment_(1024*1024),
-    backing_store_(false)
-{}
+    increment_(1024 * 1024),
+    backing_store_(false) {}
 
-
-MemoryDriver::MemoryDriver(size_t increment,bool backing_store) noexcept:
+MemoryDriver::MemoryDriver(size_t increment, bool backing_store) noexcept:
     increment_(increment),
-    backing_store_(backing_store)
-{}
+    backing_store_(backing_store) {}
 
 bool MemoryDriver::backing_store() const noexcept
 {
   return backing_store_;
 }
-
 
 void MemoryDriver::backing_store(bool value) noexcept
 {
@@ -65,7 +61,7 @@ void MemoryDriver::increment(size_t value)
 
 void MemoryDriver::operator()(const property::FileAccessList &fapl) const
 {
-  if(H5Pset_fapl_core(static_cast<hid_t>(fapl),increment_,backing_store_)<0)
+  if (H5Pset_fapl_core(static_cast<hid_t>(fapl), increment_, backing_store_) < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure setting Core driver!");
   }
@@ -75,7 +71,6 @@ DriverID MemoryDriver::id() const noexcept
 {
   return DriverID::MEMORY;
 }
-
 
 }
 }

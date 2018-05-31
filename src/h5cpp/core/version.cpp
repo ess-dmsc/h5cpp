@@ -38,7 +38,7 @@ Version::Version() noexcept:
     patch_(0)
 {}
 
-Version::Version(NumberType major_number,NumberType minor_number,NumberType patch) noexcept:
+Version::Version(NumberType major_number, NumberType minor_number, NumberType patch) noexcept:
     major_(major_number),
     minor_(minor_number),
     patch_(patch)
@@ -62,7 +62,7 @@ Version::NumberType Version::patch_number() const noexcept
 std::string Version::to_string(const Version &version)
 {
   std::stringstream ss;
-  ss<<version.major_number()<<"."<<version.minor_number()<<"."<<version.patch_number();
+  ss << version.major_number() << "." << version.minor_number() << "." << version.patch_number();
   return ss.str();
 }
 
@@ -118,20 +118,19 @@ bool operator>(const Version &lhs,const Version &rhs)
 
 std::ostream &operator<<(std::ostream &stream,const Version &v)
 {
-  return stream<<Version::to_string(v);
+  return stream << Version::to_string(v);
 }
 
 Version current_library_version()
 {
-  unsigned int major_number=0,minor_number=0,release=0;
-  if(H5get_libversion(&major_number,&minor_number,&release)<0)
+  unsigned int major_number = 0, minor_number = 0, release = 0;
+  if (H5get_libversion(&major_number, &minor_number, &release) < 0)
   {
     std::stringstream ss;
-    ss<<"Cannot determine library version!";
+    ss << "Cannot determine library version!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
-
-  return Version(major_number,minor_number,release);
+  return Version(major_number, minor_number, release);
 }
 
 } // namespace hdf5

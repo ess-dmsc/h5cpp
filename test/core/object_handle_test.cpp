@@ -71,6 +71,12 @@ void ObjectHandleTest::test_copy_assignment()
   EXPECT_TRUE(handle2.is_valid());
   EXPECT_EQ(handle.get_reference_count(),2);
   EXPECT_EQ(handle2.get_reference_count(),2);
+
+  handle = handle2;
+  EXPECT_TRUE(handle.is_valid());
+  EXPECT_TRUE(handle2.is_valid());
+  EXPECT_EQ(handle.get_reference_count(),2);
+  EXPECT_EQ(handle2.get_reference_count(),2);
 }
 
 void ObjectHandleTest::test_move_assignment()
@@ -79,7 +85,13 @@ void ObjectHandleTest::test_move_assignment()
   hdf5::ObjectHandle handle2;
 
   handle2 = std::move(handle);
-  EXPECT_TRUE(!handle.is_valid());
+  EXPECT_FALSE(handle.is_valid());
+  EXPECT_TRUE(handle2.is_valid());
+  EXPECT_EQ(handle2.get_reference_count(),1);
+
+  hdf5::ObjectHandle handle3 = handle2;
+  handle2 = std::move(handle3);
+  EXPECT_FALSE(handle3.is_valid());
   EXPECT_TRUE(handle2.is_valid());
   EXPECT_EQ(handle2.get_reference_count(),1);
 }
