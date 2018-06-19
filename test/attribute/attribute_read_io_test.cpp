@@ -116,7 +116,7 @@ TEST_F(AttributeReadIO, read_string_array_simple_20)
 			   file::AccessFlags::TRUNCATE);
   auto r = file.root();
   std::string data = "hello";
-
+  std::vector<std::string> vec_data = {"hello", "hello1", "hello2", "hello33"};
   datatype::String fixed_type = datatype::String::fixed(20);
 
   auto a5 = r.attributes.create("simple20x", fixed_type, hdf5::dataspace::Simple({4}));
@@ -137,6 +137,7 @@ TEST_F(AttributeReadIO, read_float_array)
   auto file = file::create("AttributeReadIO.h5",
 			   file::AccessFlags::TRUNCATE);
   auto r = file.root();
+  std::vector<float> fvec_data = {1.2,-0.23,34.4,5.5};
   auto floattype = hdf5::datatype::create<float>();
   auto f6 = r.attributes.create("float", floattype, hdf5::dataspace::Simple({4}));
   f6.write(fvec_data, floattype);
