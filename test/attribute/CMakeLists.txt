@@ -9,6 +9,7 @@ set(test_sources
   ${dir}/attribute_scalar_io_test.cpp
   ${dir}/attribute_multidim_io_test.cpp
   ${dir}/attribute_complex_io_test.cpp
+  ${dir}/attribute_read_io_test.cpp
   ${dir}/attribute_fixed_string_io.cpp
   ${dir}/attribute_variable_string_io.cpp
   PARENT_SCOPE)
