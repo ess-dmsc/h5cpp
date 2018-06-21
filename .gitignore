@@ -2,6 +2,7 @@
 /cmake-build-*/
 *.user
 .idea/workspace.xml
+.idea/usage.statistics.xml
 
 *.swp
 /file_open.h5

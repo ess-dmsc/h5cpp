@@ -1,5 +1,5 @@
 [requires]
-Boost/1.62.0@ess-dmsc/stable
+Boost/1.62.0-dm1@ess-dmsc/stable
 hdf5/1.10.2-dm2@ess-dmsc/stable
 gtest/3121b20-dm3@ess-dmsc/stable
 
