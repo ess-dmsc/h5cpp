@@ -144,6 +144,20 @@ class DLL_EXPORT Datatype
   //!
   virtual void size(size_t size) const;
 
+  //!
+  //! @brief get sign of type in bytes
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual bool sign() const;
+
+  //!
+  //! @brief set the sign of a type in bytes
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void sign(bool sign) const;
+
   explicit operator hid_t() const
   {
     return static_cast<hid_t>(handle_);

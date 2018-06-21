@@ -118,6 +118,23 @@ void Datatype::size(size_t size) const {
   }
 }
 
+bool Datatype::sign() const {
+  auto s = H5Tget_sign(static_cast<hid_t>(*this));
+  if (s < 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype sign");
+    return false;
+  }
+  return bool(s);
+}
+
+void Datatype::sign(bool sign) const {
+  if (H5Tset_sign(static_cast<hid_t>(*this), (sign ? H5T_SGN_2 : H5T_SGN_NONE)) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype sign to " << sign;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+}
+
 bool Datatype::is_valid() const {
   return handle_.is_valid();
 }
