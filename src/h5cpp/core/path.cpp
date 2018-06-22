@@ -71,6 +71,7 @@ std::list<std::string> split_string(const std::string &to_split,
   std::string item;
   std::list<std::string> elems;
   while (std::getline(ss, item, delim)) {
+    // Don't create empty elements when the delimiter is repeated
     if (!item.empty())
       elems.push_back(std::move(item));
   }

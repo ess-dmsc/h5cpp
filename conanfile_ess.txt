@@ -9,7 +9,7 @@ cmake
 virtualbuildenv
 
 [options]
-Boost:shared=True
+boost_filesystem:shared=True
 hdf5:shared=True
 hdf5:cxx=False
 gtest:shared=True
