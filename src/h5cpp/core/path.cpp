@@ -26,7 +26,7 @@
 //
 
 #include <h5cpp/core/path.hpp>
-#include <boost/algorithm/string.hpp>
+#include <sstream>
 
 namespace hdf5 {
 
@@ -50,6 +50,33 @@ bool absolute_path_string(const std::string &str)
     return false;
 }
 
+std::string join_string(const std::list<std::string> &to_join,
+                        const std::string &separator)
+{
+  std::ostringstream ss;
+  for (const auto &string_item : to_join)
+  {
+    ss << string_item << separator;
+  }
+  std::string result = ss.str();
+  if (!result.empty())
+    result.pop_back();  // remove trailing separator
+  return result;
+}
+
+std::list<std::string> split_string(const std::string &to_split,
+                                    char delim)
+{
+  std::stringstream ss(to_split);
+  std::string item;
+  std::list<std::string> elems;
+  while (std::getline(ss, item, delim)) {
+    if (!item.empty())
+      elems.push_back(std::move(item));
+  }
+  return elems;
+}
+
 std::list<std::string> str_to_list(const std::string &str)
 {
   std::list<std::string> result;
@@ -66,8 +93,7 @@ std::list<std::string> str_to_list(const std::string &str)
   if(str.back()=='/') string_end--;
 
   std::string buffer(string_start,string_end);
-  boost::split(result,buffer,
-               boost::is_any_of("/"),boost::token_compress_on);
+  result = split_string(buffer, '/');
   return result;
 }
 
@@ -86,7 +112,7 @@ std::string Path::to_string() const
   if (!absolute() && link_names_.empty())
     return ".";
   return (absolute() ? "/" : "")
-      + boost::algorithm::join(link_names_, "/");
+      + join_string(link_names_, "/");
 }
 
 Path::Path():
