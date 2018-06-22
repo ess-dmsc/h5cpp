@@ -1,5 +1,6 @@
 [requires]
-Boost/1.62.0-dm1@ess-dmsc/stable
+cmake_findboost_modular/1.66.0@bincrafters/stable
+boost_filesystem/1.66.0@bincrafters/stable
 hdf5/1.10.2-dm2@ess-dmsc/stable
 gtest/3121b20-dm3@ess-dmsc/stable
 
@@ -8,7 +9,7 @@ cmake
 virtualbuildenv
 
 [options]
-Boost:shared=True
+boost_filesystem:shared=True
 hdf5:shared=True
 hdf5:cxx=False
 gtest:shared=True
