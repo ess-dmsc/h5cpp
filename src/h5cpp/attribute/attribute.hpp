@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 14, 2017
 //
 #pragma once
@@ -355,8 +357,7 @@ void Attribute::write(const T &data) const
 template<typename T>
 void Attribute::read(T &data) const
 {
-  // auto mem_type = datatype();
-  auto mem_type = datatype::create<T>(data);
+  auto mem_type = datatype();
   read(data,mem_type);
 }
 
