@@ -246,12 +246,6 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
-                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_ess.txt'
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / getting dependencies failed')
-                    }
-
-                    try {
                         bat 'cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 14 2015 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
