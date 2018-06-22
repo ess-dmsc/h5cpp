@@ -129,4 +129,3 @@ TEST_F(AttributeVariableStringIO, simple_vector_read)
   EXPECT_NO_THROW(a.read(read));
   EXPECT_EQ(write, read);
 }
-
