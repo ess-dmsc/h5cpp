@@ -362,7 +362,7 @@ class DLL_EXPORT Group : public Node
     //! \sa get_dataset
     //!
     Group get_group(const Path &path,
-                    const property::LinkAccessList &lapl = property::LinkAccessList());
+                    const property::LinkAccessList &lapl = property::LinkAccessList()) const;
 
     //!
     //! \brief get dataset
@@ -385,7 +385,7 @@ class DLL_EXPORT Group : public Node
     //! \sa get_dataset
     //!
     Dataset get_dataset(const Path &path,
-                        const property::LinkAccessList &lapl = property::LinkAccessList());
+                        const property::LinkAccessList &lapl = property::LinkAccessList()) const;
 
 
  private:
