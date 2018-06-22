@@ -355,6 +355,7 @@ void Attribute::write(const T &data) const
 template<typename T>
 void Attribute::read(T &data) const
 {
+  // auto mem_type = datatype();
   auto mem_type = datatype::create<T>(data);
   read(data,mem_type);
 }
