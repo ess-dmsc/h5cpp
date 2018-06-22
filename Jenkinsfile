@@ -289,7 +289,7 @@ node('docker') {
     }
     builders['macOS-release'] = get_macos_pipeline('Release')
     builders['macOS-debug'] = get_macos_pipeline('Debug')
-//    builders['Windows10'] = get_win10_pipeline()
+    builders['Windows10'] = get_win10_pipeline()
     
 
     parallel builders
