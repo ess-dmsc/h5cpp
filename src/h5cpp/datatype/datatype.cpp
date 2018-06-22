@@ -22,7 +22,6 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 15, 2017
 //
 
@@ -115,23 +114,6 @@ void Datatype::size(size_t size) const {
   if (H5Tset_size(static_cast<hid_t>(*this), size) < 0) {
     std::stringstream ss;
     ss << "Could not set datatype to " << size;
-    error::Singleton::instance().throw_with_stack(ss.str());
-  }
-}
-
-bool Datatype::sign() const {
-  auto s = H5Tget_sign(static_cast<hid_t>(*this));
-  if (s < 0) {
-    error::Singleton::instance().throw_with_stack("Could not retrieve datatype sign");
-    return false;
-  }
-  return bool(s);
-}
-
-void Datatype::sign(bool sign) const {
-  if (H5Tset_sign(static_cast<hid_t>(*this), (sign ? H5T_SGN_2 : H5T_SGN_NONE)) < 0) {
-    std::stringstream ss;
-    ss << "Could not set datatype sign to " << sign;
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 }

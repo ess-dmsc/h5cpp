@@ -39,6 +39,12 @@ class Integer : public testing::Test {
   T value_;
 };
 
+template <class T>
+class SignedInteger : public Integer<T> { };
+
+template <class T>
+class UnsignedInteger : public Integer<T> { };
+
 using testing::Types;
 
 // The list of types we want to test.
@@ -51,7 +57,24 @@ Types<
     long long, unsigned long long>
     test_types;
 
+// The list of unsigned types we want to test.
+typedef
+Types<
+    unsigned char,
+    unsigned short,
+    unsigned int,
+    unsigned long,
+    unsigned long long>
+    test_unsigned_types;
+
+// The list of signed types we want to test.
+typedef
+Types<char, signed char, short, int, long, long long>
+    test_signed_types;
+
 TYPED_TEST_CASE(Integer, test_types);
+TYPED_TEST_CASE(SignedInteger, test_signed_types);
+TYPED_TEST_CASE(UnsignedInteger, test_unsigned_types);
 
 TYPED_TEST(Integer, Exceptions) {
   datatype::Datatype dtype;
@@ -74,5 +97,25 @@ TYPED_TEST(Integer, General) {
   datatype::Datatype default_constructed;
   EXPECT_FALSE(default_constructed.is_valid());
   EXPECT_THROW((datatype::Integer(default_constructed)), std::runtime_error);
+}
+
+TYPED_TEST(SignedInteger, Signed) {
+  auto t = datatype::create<decltype(this->value_)>();
+  
+  ASSERT_EQ(t.is_signed(), true);
+  t.make_signed(true);
+  ASSERT_EQ(t.is_signed(), true);
+  t.make_signed(false);
+  ASSERT_EQ(t.is_signed(), false);
+}
+
+TYPED_TEST(UnsignedInteger, Signed) {
+  auto t = datatype::create<decltype(this->value_)>();
+  
+  ASSERT_EQ(t.is_signed(), false);
+  t.make_signed(true);
+  ASSERT_EQ(t.is_signed(), true);
+  t.make_signed(false);
+  ASSERT_EQ(t.is_signed(), false);
 }
 

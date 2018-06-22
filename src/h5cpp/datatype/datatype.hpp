@@ -22,7 +22,6 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 15, 2017
 //
 #pragma once
@@ -144,20 +143,6 @@ class DLL_EXPORT Datatype
   //! @throws std::runtime_error in case of a failure
   //!
   virtual void size(size_t size) const;
-
-  //!
-  //! @brief get sign of type in bytes
-  //!
-  //! @throws std::runtime_error in case of a failure
-  //!
-  virtual bool sign() const;
-
-  //!
-  //! @brief set the sign of a type in bytes
-  //!
-  //! @throws std::runtime_error in case of a failure
-  //!
-  virtual void sign(bool sign) const;
 
   explicit operator hid_t() const
   {

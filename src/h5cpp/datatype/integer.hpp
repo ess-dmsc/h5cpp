@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 #pragma once
@@ -74,6 +75,21 @@ class DLL_EXPORT Integer : public Datatype {
   //! \param datatype reference to a Datatype instance
   //!
   Integer(const Datatype &datatype);
+
+  //!
+  //! @brief Retrieves the sign type for an integer type.
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual bool is_signed() const;
+
+  //!
+  //! @brief Sets the sign property for an integer type.
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void make_signed(bool sign) const;
+
 
 };
 

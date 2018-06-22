@@ -39,7 +39,6 @@ TEST(Datatype, DefaultConstruction) {
   //EXPECT_THROW(type.native_type(),std::runtime_error);
   //EXPECT_THROW(type.has_class(datatype::Class::INTEGER),std::runtime_error);
   //EXPECT_THROW(type.size(),std::runtime_error);
-  //EXPECT_THROW(type.sign(),std::runtime_error);
   //EXPECT_THROW(type.set_size(1),std::runtime_error);
 }
 
@@ -88,9 +87,6 @@ TEST(Datatype, Classes) {
   EXPECT_THROW(a.native_type(), std::runtime_error);
   EXPECT_THROW(a.size(), std::runtime_error);
   EXPECT_THROW(a.size(1);, std::runtime_error);
-  EXPECT_THROW(a.sign(), std::runtime_error);
-  EXPECT_THROW(a.sign(true);, std::runtime_error);
-  EXPECT_THROW(a.sign(false);, std::runtime_error);
 
   a = Datatype(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
   EXPECT_EQ(a.get_class(), Class::INTEGER);
@@ -142,13 +138,4 @@ TEST(Datatype, Size) {
   ASSERT_EQ(a.size(), 2ul);
   a.size(4);
   ASSERT_EQ(a.size(), 4ul);
-}
-
-TEST(Datatype, Sign) {
-  auto a = Datatype(ObjectHandle(H5Tenum_create(H5T_NATIVE_USHORT)));
-  ASSERT_EQ(a.sign(), false);
-  a.sign(true);
-  ASSERT_EQ(a.sign(), true);
-  a.sign(false);
-  ASSERT_EQ(a.sign(), false);
 }
