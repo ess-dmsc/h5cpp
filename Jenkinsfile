@@ -253,7 +253,8 @@ def get_win10_pipeline()
 
                     try {
                         bat "cmake --build . --config Release --target unit_tests"
-                        bat """call activate_run.bat
+                        abs_dir = pwd()
+                        bat """set PATH=%PATH%;${abs_dir}
     	                       .\\bin\\Release\\unit_tests.exe
     	                    """
                     } catch (e) {
