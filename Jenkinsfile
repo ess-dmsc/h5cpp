@@ -253,6 +253,7 @@ def get_win10_pipeline()
 
                     try {
                         bat "cmake --build . --config Release --target unit_tests"
+                        bat "activate_run.bat"
                         bat "bin\\Release\\unit_tests.exe"
                     } catch (e) {
                         failure_function(e, 'Windows10 / build+test failed')
@@ -282,7 +283,7 @@ node('docker') {
     builders['macOS-release'] = get_macos_pipeline('Release')
     builders['macOS-debug'] = get_macos_pipeline('Debug')
     builders['Windows10'] = get_win10_pipeline()
-    
+
 
     parallel builders
     // Delete workspace when build is done
