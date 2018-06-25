@@ -255,7 +255,6 @@ def get_win10_pipeline()
                         bat "cmake --build . --config Release --target unit_tests"
                         bat "bin\\Release\\unit_tests.exe"
                     } catch (e) {
-		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'Windows10 / build+test failed')
                     }
 
