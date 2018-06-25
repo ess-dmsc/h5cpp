@@ -49,7 +49,7 @@ def failure_function(exception_obj, failureMessage) {
         recipientProviders: toEmails,
         subject: '${DEFAULT_SUBJECT}'
     slackSend color: 'danger',
-        message: "@afonso.mukai ${project}-${env.BRANCH_NAME}: " + failureMessage
+        message: "${project}-${env.BRANCH_NAME}: " + failureMessage
 
     throw exception_obj
 }
