@@ -253,7 +253,9 @@ def get_win10_pipeline()
 
                     try {
                         bat "cmake --build . --config Release --target unit_tests"
-                        bat "activate_run.bat && bin\\Release\\unit_tests.exe"
+                        bat """call activate_run.bat
+    	                       .\\bin\\Release\\unit_tests.exe
+    	                    """
                     } catch (e) {
                         failure_function(e, 'Windows10 / build+test failed')
                     }
