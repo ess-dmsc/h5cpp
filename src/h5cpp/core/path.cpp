@@ -27,6 +27,8 @@
 
 #include <h5cpp/core/path.hpp>
 #include <sstream>
+#include <stdexcept>
+
 
 namespace hdf5 {
 
