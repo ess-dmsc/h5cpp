@@ -55,7 +55,7 @@ for the library, using it should be the same on each of these platforms.
 
 The minimum requirements for building the library are:
 
-* a C++ compiler, gcc>=4.8 should do well
+* a C++ compiler, gcc>=4.8.1 should do well
 * the boost libraries
 * the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
 * cmake >= 3.0
