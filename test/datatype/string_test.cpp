@@ -24,7 +24,6 @@
 //
 
 #include <gtest/gtest.h>
-#include <boost/mpl/list.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/string.hpp>
 #include <h5cpp/attribute/attribute.hpp>

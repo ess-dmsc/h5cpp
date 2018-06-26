@@ -1,5 +1,6 @@
 [requires]
-Boost/1.62.0@lasote/stable
+cmake_findboost_modular/1.66.0@bincrafters/stable
+boost_filesystem/1.66.0@bincrafters/stable
 hdf5/1.10.1@eugenwintersberger/testing
 gtest/1.8.0@conan/stable
 zlib/1.2.8@conan/stable
@@ -9,10 +10,9 @@ bzip2/1.0.6@conan/stable
 cmake
 
 [options]
-Boost:shared=True
+boost_filesystem:shared=True
 hdf5:shared=True
 gtest:shared=True
-Boost:python=False
 zlib:shared=True
 
 [imports]

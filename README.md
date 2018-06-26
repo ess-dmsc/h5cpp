@@ -1,5 +1,8 @@
 # C++ wrapper for the HDF5 C-library
 
+[![DOI](https://zenodo.org/badge/99373936.svg)](https://zenodo.org/badge/latestdoi/99373936)
+
+
 *h5cpp* is a new C++ wrapper for HDF5s C-API. 
 
 ## Motivation
