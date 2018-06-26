@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 17, 2017
 //
 
@@ -36,6 +37,16 @@ std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
   switch (version) {
     case LibVersion::EARLIEST: return stream << "EARLIEST";
     case LibVersion::LATEST: return stream << "LATEST";
+    default:return stream;
+  }
+}
+
+std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
+  switch (version) {
+    case CloseDegree::WEAK: return stream << "WEAK";
+    case CloseDegree::SEMI: return stream << "SEMI";
+    case CloseDegree::STRONG: return stream << "STRONG";
+    case CloseDegree::DEFAULT: return stream << "DEFAULT";
     default:return stream;
   }
 }
@@ -80,6 +91,23 @@ LibVersion FileAccessList::library_version_bound_low() const {
   }
 
   return static_cast<LibVersion>(low);
+}
+
+void FileAccessList::close_degree(CloseDegree degree) const {
+  if (0 > H5Pset_fclose_degree(static_cast<hid_t>(*this),
+                               static_cast<H5F_close_degree_t>(degree))) {
+    error::Singleton::instance().throw_with_stack("Failure setting the file close degree!");
+  }
+}
+
+CloseDegree FileAccessList::close_degree() const {
+  H5F_close_degree_t degree;
+
+  if (0 > H5Pget_fclose_degree(static_cast<hid_t>(*this), &degree)) {
+    error::Singleton::instance().throw_with_stack("Failure retrieving the file close degree!");
+  }
+
+  return static_cast<CloseDegree>(degree);
 }
 
 void FileAccessList::driver(const file::Driver &file_driver) const {
