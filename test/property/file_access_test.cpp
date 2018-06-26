@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 21, 2017
 //
 
@@ -43,6 +44,27 @@ TEST(FileAccessList, lib_version) {
   EXPECT_EQ(stream.str(), "LATEST");
 }
 
+TEST(FileAccessList, close_degree_enum) {
+  std::stringstream stream;
+
+  stream.str(std::string());
+  stream << pl::CloseDegree::WEAK;
+  EXPECT_EQ(stream.str(), "WEAK");
+
+  stream.str(std::string());
+  stream << pl::CloseDegree::STRONG;
+  EXPECT_EQ(stream.str(), "STRONG");
+
+  stream.str(std::string());
+  stream << pl::CloseDegree::SEMI;
+  EXPECT_EQ(stream.str(), "SEMI");
+
+  stream.str(std::string());
+  stream << pl::CloseDegree::DEFAULT;
+  EXPECT_EQ(stream.str(), "DEFAULT");
+
+}
+
 TEST(FileAccessList, default_construction) {
   pl::FileAccessList fapl;
   EXPECT_EQ(fapl.get_class(), pl::kFileAccess);
@@ -54,6 +76,7 @@ TEST(FileAccessList, default_construction) {
   EXPECT_THROW((pl::FileAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
                std::runtime_error);
 }
+
 
 TEST(FileAccessList, library_version_bounds) {
   pl::FileAccessList fapl;
@@ -78,6 +101,29 @@ TEST(FileAccessList, library_version_bounds) {
   hdf5::ObjectHandle(static_cast<hid_t>(fapl)).close();
   EXPECT_THROW(fapl.library_version_bound_low(), std::runtime_error);
   EXPECT_THROW(fapl.library_version_bound_high(), std::runtime_error);
+}
+
+TEST(FileAccessList, close_degree) {
+  pl::FileAccessList fapl;
+
+  EXPECT_EQ(fapl.close_degree(), pl::CloseDegree::DEFAULT);
+
+  EXPECT_NO_THROW(fapl.close_degree(pl::CloseDegree::STRONG));
+  EXPECT_EQ(fapl.close_degree(), pl::CloseDegree::STRONG);
+
+  EXPECT_NO_THROW(fapl.close_degree(pl::CloseDegree::WEAK));
+  EXPECT_EQ(fapl.close_degree(), pl::CloseDegree::WEAK);
+
+  EXPECT_NO_THROW(fapl.close_degree(pl::CloseDegree::SEMI));
+  EXPECT_EQ(fapl.close_degree(), pl::CloseDegree::SEMI);
+
+  EXPECT_NO_THROW(fapl.close_degree(pl::CloseDegree::DEFAULT));
+  EXPECT_EQ(fapl.close_degree(), pl::CloseDegree::DEFAULT);
+
+  hdf5::ObjectHandle(static_cast<hid_t>(fapl)).close();
+  EXPECT_THROW(fapl.close_degree(), std::runtime_error);
+
+  EXPECT_THROW(fapl.close_degree(pl::CloseDegree::STRONG), std::runtime_error);
 }
 
 TEST(FileAccessList, driver) {
