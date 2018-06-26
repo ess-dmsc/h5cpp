@@ -240,9 +240,8 @@ Path Path::relative_to(const Path &base) const
 
 void Path::append(const Path& p)
 {
-  std::copy(p.link_names_.begin(),
-            p.link_names_.end(),
-            std::back_inserter(link_names_));
+  for (const auto& pp : p.link_names_)
+    link_names_.emplace_back(pp);
 }
 
 Path& Path::operator+=(const Path &other)
