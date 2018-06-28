@@ -34,13 +34,25 @@ namespace dataspace {
 
 class DLL_EXPORT Points : public Selection {
  public:
-  Points();
-  Points(size_t rank);
-  ~Points();
+  Points() = default;
+  ~Points() = default;
 
-  virtual void apply(const Dataspace &space,
-                     SelectionOperation ops) const;
+  explicit Points(size_t rank);
+  explicit Points(const std::vector<std::vector<hsize_t>>& coord_set);
 
+  size_t rank() const;
+  size_t points() const;
+
+  void add(const std::vector<hsize_t>& coords);
+
+  void add_set(const std::vector<std::vector<hsize_t>>& coord_set);
+
+  void apply(const Dataspace &space,
+             SelectionOperation ops) const override;
+
+ private:
+  size_t rank_{0};
+  std::vector<hsize_t> coordinates_;
 };
 
 } // namespace dataspace
