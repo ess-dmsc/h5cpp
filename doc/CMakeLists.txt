@@ -40,9 +40,11 @@ set(CLEANFILES doxygen.stamp sphinx.stamp html latex build)
 set_directory_properties(PROPERTIES
     ADDITIONAL_MAKE_CLEAN_FILES ${CLEANFILES})
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/capi_coverage)
-add_custom_target(
-		capi_coverage
-		COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/capi_coverage/tally.sh ${CMAKE_SOURCE_DIR}/src
-		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/capi_coverage
-)
+if(NOT WIN32)
+		file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/capi_coverage)
+		add_custom_target(
+				capi_coverage
+				COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/capi_coverage/tally.sh ${CMAKE_SOURCE_DIR}/src
+				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/capi_coverage
+		)
+endif(NOT WIN32)
