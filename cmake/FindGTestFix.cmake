@@ -20,7 +20,7 @@ if(NOT GTest_FOUND)
 
       if(LSB_CODENAME MATCHES stretch)
         set(GTEST_SOURCE_DIR /usr/src/googletest/googletest)
-      elseif(LSB_CODENAME MATCHES jessie OR LSB_CODENAME MATCHES xenial)
+      elseif(LSB_CODENAME MATCHES jessie OR LSB_CODENAME MATCHES xenial OR LSB_CODENAME MATCHES bionic)
         set(GTEST_SOURCE_DIR /usr/src/gtest)
       endif()
 
