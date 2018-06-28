@@ -33,11 +33,6 @@ namespace hdf5
 namespace dataspace
 {
 
-Points::Points() :
-    Selection() {}
-
-Points::~Points() {}
-
 Points::Points(size_t rank)
     : Selection()
       , rank_(rank) {}
