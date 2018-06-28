@@ -23,7 +23,6 @@
 // Created on: Sep 12, 2017
 //
 
-#include <boost/test/floating_point_comparison.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/property/dataset_access.hpp>

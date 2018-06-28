@@ -26,7 +26,6 @@
 //
 
 #include <gtest/gtest.h>
-#include <boost/test/output_test_stream.hpp>
 #include <h5cpp/property/object_copy.hpp>
 
 using namespace hdf5;

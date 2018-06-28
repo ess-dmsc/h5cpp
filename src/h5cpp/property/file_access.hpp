@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 18, 2017
 //
 #pragma once
@@ -41,9 +42,23 @@ enum class LibVersion : std::underlying_type<H5F_libver_t>::type {
   EARLIEST = H5F_LIBVER_EARLIEST
 };
 
+//!
+//! \brief close degree enumeration
+//!
+enum class CloseDegree : std::underlying_type<H5F_close_degree_t>::type {
+  WEAK = H5F_CLOSE_WEAK,
+  SEMI = H5F_CLOSE_SEMI,
+  STRONG = H5F_CLOSE_STRONG,
+  DEFAULT = H5F_CLOSE_DEFAULT
+};
+
 using LibVersionBase = std::underlying_type<LibVersion>::type;
 
+using CloseDegreeBase = std::underlying_type<CloseDegree>::type;
+
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const LibVersion &version);
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const CloseDegree &version);
 
 //!
 //! \brief file access property list
@@ -78,6 +93,16 @@ class DLL_EXPORT FileAccessList : public List {
   //! \brief get library version low bound
   //!
   LibVersion library_version_bound_low() const;
+
+  //!
+  //! \brief set file close degree
+  //!
+  void close_degree(CloseDegree degree) const;
+
+  //!
+  //! \brief get lfile close degree
+  //!
+  CloseDegree close_degree() const;
 
   //!
   //! \brief set the file driver
