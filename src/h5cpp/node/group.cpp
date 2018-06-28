@@ -231,12 +231,12 @@ bool Group::has_dataset(const Path &path, const property::LinkAccessList &lapl) 
   return ret;
 }
 
-Group Group::get_group(const Path &path, const property::LinkAccessList &lapl)
+Group Group::get_group(const Path &path, const property::LinkAccessList &lapl) const
 {
   return hdf5::node::get_group(*this, path, lapl);
 }
 
-Dataset Group::get_dataset(const Path &path, const property::LinkAccessList &lapl)
+Dataset Group::get_dataset(const Path &path, const property::LinkAccessList &lapl) const
 {
   return hdf5::node::get_dataset(*this, path, lapl);
 }

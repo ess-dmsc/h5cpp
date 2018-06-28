@@ -1,5 +1,8 @@
 # C++ wrapper for the HDF5 C-library
 
+[![DOI](https://zenodo.org/badge/99373936.svg)](https://zenodo.org/badge/latestdoi/99373936)
+
+
 *h5cpp* is a new C++ wrapper for HDF5s C-API. 
 
 ## Motivation
@@ -52,10 +55,23 @@ for the library, using it should be the same on each of these platforms.
 
 The minimum requirements for building the library are:
 
-* a C++ compiler, gcc>=4.8 should do well
+* a C++ compiler, gcc>=4.8.1 should do well
 * the boost libraries
 * the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
 * cmake >= 3.0
+
+The external library dependencies can be acquired and built using [Conan](https://conan.io/). Conan can be installed with PyPI: 
+```
+pip install conan
+```
+Then run the following to configure required Conan repositories:
+```
+conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
+conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+```
+and that's it, CMake will handle the rest!
+
+Alternatively you can manually install the dependencies to typical system locations. In this case please disable Conan by using the `-DCONAN=DISABLE` option when you run CMake. 
 
 Building the library is standard cmake & make fare, out of source. For example,
 in linux shell, you would do the following:
@@ -125,7 +141,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
 ```
 and accordingly, when building the client program:
 ```bash
-cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.0.8 path/to/your/source
+cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.0.9 path/to/your/source
 ```
 where version number may vary.
 
