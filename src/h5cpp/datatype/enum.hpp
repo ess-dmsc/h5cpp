@@ -53,12 +53,12 @@ class DLL_EXPORT Enum : public Datatype
   //!
   //! \brief construct from handle
   //!
-  Enum(ObjectHandle&& handle);
+  explicit Enum(ObjectHandle&& handle);
 
   //!
   //! \brief construct from generic datatype
   //!
-  Enum(const Datatype& type);
+  explicit Enum(const Datatype& type);
 
   //!
   //! \brief named constructor (with underlying type deduction)
@@ -81,9 +81,6 @@ class DLL_EXPORT Enum : public Datatype
   //! \brief get value name
   //!
   std::string name(size_t index) const;
-
-  // TODO: Cannot get name from value
-  // TODO: Discuss H5Tenum_nameof with HDF group, no way of obtaining string size
 
   //!
   //! \brief get value at index (with underlying type deduction)
@@ -172,7 +169,7 @@ void Enum::underlying_value(size_t index, T& data) const
 {
   check_type(data);
 
-  if (0 > H5Tget_member_value(static_cast<hid_t>(*this), index, &data))
+  if (0 > H5Tget_member_value(static_cast<hid_t>(*this), static_cast<uint32_t>(index), &data))
   {
     std::stringstream ss;
     ss << "Could not retrieve Enum value at idx=" << index;

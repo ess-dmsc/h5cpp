@@ -74,8 +74,8 @@ size_t Enum::number_of_values() const
 // implementation same as for Compound
 std::string Enum::name(size_t index) const
 {
-  char *buffer = H5Tget_member_name(static_cast<hid_t>(*this), index);
-  if (buffer == NULL) {
+  char *buffer = H5Tget_member_name(static_cast<hid_t>(*this), static_cast<uint32_t>(index));
+  if (buffer == nullptr) {
     std::stringstream ss;
     ss << "Failure to obtain name of value [" << index << "] in enum data type!";
     error::Singleton::instance().throw_with_stack(ss.str());
