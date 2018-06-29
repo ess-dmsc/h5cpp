@@ -23,6 +23,7 @@
 // Created on: Oct 4, 2017
 //
 #include <h5cpp/attribute/attribute.hpp>
+#include <h5cpp/node/link.hpp>
 
 namespace hdf5 {
 namespace attribute {
@@ -118,6 +119,7 @@ void Attribute::check_size(const dataspace::Dataspace &mem_space,
 void Attribute::close()
 {
   handle_.close();
+  parent_link_ = hdf5::node::Link();
 }
 
 
