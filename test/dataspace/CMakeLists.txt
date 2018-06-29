@@ -6,6 +6,7 @@ set(test_sources
     ${dir}/scalar_test.cpp
     ${dir}/simple_test.cpp
     ${dir}/hyperslab_simple_test.cpp
+    ${dir}/points_simple_test.cpp
     ${dir}/type_trait_test.cpp
     ${dir}/selection_operator_set.cpp
     ${dir}/selection_manager_test.cpp

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 
@@ -41,6 +42,23 @@ Integer::Integer(const Datatype &datatype) :
     std::stringstream ss;
     ss << "Could not create Integer from " << get_class();
     throw std::runtime_error(ss.str());
+  }
+}
+
+bool Integer::is_signed() const {
+  auto s = H5Tget_sign(static_cast<hid_t>(*this));
+  if (s < 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype sign");
+    return false;
+  }
+  return bool(s);
+}
+
+void Integer::make_signed(bool sign) const {
+  if (H5Tset_sign(static_cast<hid_t>(*this), (sign ? H5T_SGN_2 : H5T_SGN_NONE)) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype sign to " << sign;
+    error::Singleton::instance().throw_with_stack(ss.str());
   }
 }
 

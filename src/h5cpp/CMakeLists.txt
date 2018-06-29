@@ -26,7 +26,7 @@ add_library(h5cpp SHARED
 add_doxygen_source_deps(${h5cpp_headers})
 
 target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
-set(H5CPP_LINKS Boost::filesystem ${MPI_CXX_LIBRARIES})
+set(H5CPP_LINKS Boost::filesystem Boost::system ${MPI_CXX_LIBRARIES})
 
 #
 # remove the absolute path from the library name
