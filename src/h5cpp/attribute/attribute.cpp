@@ -119,7 +119,7 @@ void Attribute::check_size(const dataspace::Dataspace &mem_space,
 void Attribute::close()
 {
   handle_.close();
-  // parent_link_ = hdf5::node::Link();
+  parent_link_ = hdf5::node::Link();
 }
 
 
