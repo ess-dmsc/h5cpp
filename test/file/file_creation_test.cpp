@@ -30,6 +30,7 @@
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 #include <boost/filesystem.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
@@ -128,7 +129,6 @@ TEST_F(FileCreation, test_closeattr_close)
   auto r1 = nexus_file.root();
   r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
 
-  // without this line works
   r1.close();
 
   nexus_file.close();
@@ -150,9 +150,10 @@ TEST_F(FileCreation, test_closeattr_close)
 TEST_F(FileCreation, test_closeattr_withoutclose_strong)
 {
   hdf5::property::FileAccessList fapl;
+  // fapl.driver(file::PosixDriver());
   fapl.close_degree(hdf5::property::CloseDegree::STRONG);
   hdf5::property::FileCreationList fcpl;
-
+  EXPECT_EQ(fapl.close_degree(), hdf5::property::CloseDegree::STRONG);
   auto nexus_file = file::create("testclose.h5",
 				 file::AccessFlags::TRUNCATE, fcpl, fapl);
   std::string hdf5_version =  "1.0.0";
@@ -163,17 +164,22 @@ TEST_F(FileCreation, test_closeattr_withoutclose_strong)
   r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
 
   r1.close();
+  EXPECT_EQ(nexus_file.count_open_objects(file::SearchFlags::ALL), 1);
   nexus_file.close();
-
+  
   hdf5::property::FileAccessList fapl2;
   fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
+  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::STRONG);
   auto file2 = hdf5::file::open("testclose.h5",
 				hdf5::file::AccessFlags::READONLY, fapl2);
   auto r2 = file2.root();
 
   auto attr = r2.attributes[0];
+  // attr.close(); with this works
+  EXPECT_EQ(file2.count_open_objects(file::SearchFlags::ALL), 3);
 
   r2.close();
+  EXPECT_EQ(file2.count_open_objects(file::SearchFlags::ALL), 2);
   file2.close();
 
 
