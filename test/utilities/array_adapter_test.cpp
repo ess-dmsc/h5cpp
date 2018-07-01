@@ -33,7 +33,7 @@
 
 using namespace hdf5;
 
-#define bufsize 7000
+#define bufsize 7
 
 class ArrayAdapterTest : public testing::Test
 {
@@ -44,6 +44,8 @@ class ArrayAdapterTest : public testing::Test
   {
     // redirect stderr into buf
     integer_data = new int[bufsize];
+    for(size_t index=0;index<bufsize;index++)
+      integer_data[index] = index;
   }
 
   virtual void TearDown()
@@ -70,4 +72,48 @@ TEST_F(ArrayAdapterTest, constructor_construction)
   Dimensions dimensions = get_dimensions(adapter);
   EXPECT_EQ(dimensions.size(),1);
   EXPECT_EQ(dimensions[0],bufsize);
+}
+
+TEST_F(ArrayAdapterTest, copy_construction)
+{
+  ArrayAdapter<int> a1(integer_data,bufsize);
+  ArrayAdapter<int> a2(a1);
+
+  EXPECT_EQ(a1.data(),integer_data);
+  EXPECT_EQ(a1.size(),a2.size());
+  EXPECT_EQ(a1.data(),a2.data());
+}
+
+TEST_F(ArrayAdapterTest, move_construction)
+{
+  ArrayAdapter<int> a1(integer_data,bufsize);
+  ArrayAdapter<int> a2(std::move(a1));
+
+  EXPECT_EQ(a1.data(),nullptr);
+  EXPECT_EQ(a1.size(),0);
+
+  EXPECT_EQ(a2.data(),integer_data);
+  EXPECT_EQ(a2.size(),bufsize);
+}
+
+TEST_F(ArrayAdapterTest, copy_assignment)
+{
+  ArrayAdapter<int> a1(integer_data,bufsize);
+  ArrayAdapter<int> a2;
+
+  a2 = a1;
+  EXPECT_EQ(a1.data(),a2.data());
+  EXPECT_EQ(a1.size(),a2.size());
+}
+
+TEST_F(ArrayAdapterTest, move_assignment)
+{
+  ArrayAdapter<int> a1(integer_data,bufsize);
+  ArrayAdapter<int> a2;
+
+  a2 = std::move(a1);
+  EXPECT_EQ(a1.data(),nullptr);
+  EXPECT_EQ(a1.size(),0);
+  EXPECT_EQ(a2.data(),integer_data);
+  EXPECT_EQ(a2.size(),bufsize);
 }
