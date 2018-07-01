@@ -32,32 +32,61 @@ using namespace hdf5;
 using Bins = std::vector<int>;
 #define NBINS 6
 
+node::Dataset create_dataset(const node::Group parent_group,const Bins bins)
+{
+  property::LinkCreationList lcpl;
+  property::DatasetCreationList dcpl;
+  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.chunk({100,bins.size()});
+
+  dataspace::Simple space{{0,bins.size()},{dataspace::Simple::UNLIMITED,NBINS}};
+  auto type = datatype::create(bins);
+
+  return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
+}
+
+void print_data(const std::string &prefix,const Bins &bins)
+{
+  std::cout<<prefix;
+  std::for_each(bins.begin(),bins.end(),
+                 [](int value) { std::cout<<value<<"  "; });
+  std::cout<<std::endl;
+}
+
 int main()
 {
   file::File f = file::create("append_vector_data.h5",
                               file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
-  property::LinkCreationList lcpl;
-  property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
-  dcpl.chunk({100,NBINS});
-
   Bins data(NBINS);
-  dataspace::Simple space{{0,NBINS},{dataspace::Simple::UNLIMITED,NBINS}};
-  auto type = datatype::create(data);
+  node::Dataset dataset = create_dataset(root_group,data);
 
-  node::Dataset dset(root_group,"data",type,space,lcpl,dcpl);
-
-  int value=0;
-  dataspace::Hyperslab slab{{0,0},{1,NBINS},{1,1},{1,1},};
-  for(size_t index=1;index<=5;++index,++value)
+  //
+  // writing the data to disk
+  //
+  dataspace::Hyperslab selection{{0,0},{1,data.size()},{1,1},{1,1},};
+  for(size_t index=1;index<=5;++index)
   {
-    std::fill(data.begin(),data.end(),value);
-    dset.extent(0,1);
-    dset.write(data,slab);
-    slab.offset(0,index);
-
+    std::fill(data.begin(),data.end(),index); //create data
+    dataset.extent(0,1);            // extend dataset in order to store the new
+                                    // data
+    dataset.write(data,selection);  // write data
+    selection.offset(0,index);      // update the selection offset
+    print_data("writing: ",data);
   }
+  std::cout<<std::endl;
+
+  //
+  // reading the data back from disk
+  //
+  for(size_t index=0;index<=4;index++)
+  {
+    selection.offset(0,index);
+    dataset.read(data,selection);
+    print_data("reading: ",data);
+  }
+
+
 }
 
 
