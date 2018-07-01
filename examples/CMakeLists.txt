@@ -10,8 +10,8 @@ target_link_libraries(basic_files h5cpp)
 add_executable(selecting_datasets selecting_datasets.cpp)
 target_link_libraries(selecting_datasets h5cpp)
 
-add_executable(writing_vector writing_vector.cpp)
-target_link_libraries(writing_vector h5cpp)
+add_executable(std_vector_io std_vector_io.cpp)
+target_link_libraries(std_vector_io h5cpp)
 
 add_executable(writing_complex writing_complex.cpp)
 target_link_libraries(writing_complex h5cpp)
@@ -36,7 +36,7 @@ add_custom_target(examples)
 add_dependencies(examples
   basic_files
   selecting_datasets
-  writing_vector
+  std_vector_io
   writing_complex
   writing_image
   append_scalar_data
