@@ -41,8 +41,7 @@ int main()
   dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
   auto type = datatype::create<int>();
 
-  node::Dataset dset = root_group.create_dataset("data",type,space,
-                                                 lcpl,dcpl);
+  node::Dataset dset(root_group,"data",type,space,lcpl,dcpl);
 
   dataspace::Hyperslab slab{{0},{1},{1},{1}};
   int data=0;
