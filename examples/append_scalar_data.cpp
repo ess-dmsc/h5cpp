@@ -27,30 +27,63 @@
 
 using namespace hdf5;
 
+node::Dataset create_dataset(const node::Group parent_group)
+{
+  property::LinkCreationList lcpl;
+  property::DatasetCreationList dcpl;
+
+  // in order to append data we have to use a chunked layout of the dataset
+  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.chunk(Dimensions{1024});
+
+  // create dataspace (infinitely extensible) and datatype
+  dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
+  auto type = datatype::create<int>();
+
+  // finally create the dataset
+  return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
+}
+
 int main()
 {
   file::File f = file::create("append_scalar_data.h5",
                               file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
-  property::LinkCreationList lcpl;
-  property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
-  dcpl.chunk(Dimensions{1024});
 
+  //
+  // create the dataset to which we want to write data
+  //
+  node::Dataset dataset = create_dataset(root_group);
 
-  dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
-  auto type = datatype::create<int>();
-
-  node::Dataset dset(root_group,"data",type,space,lcpl,dcpl);
-
-  dataspace::Hyperslab slab{{0},{1},{1},{1}};
+  //
+  // write individual elements to the dataset using a Hyperslab selection
+  //
+  std::cout<<"writing: ";
+  dataspace::Hyperslab selection{{0},{1},{1},{1}};
   int data=0;
   for(size_t index=1;index<=25;++index,++data)
   {
-    dset.extent(0,1);      //grow dataset
-    dset.write(data,slab); //write data
-    slab.offset(0,index);   //update selection
+    dataset.extent(0,1);           //grow dataset
+    dataset.write(data,selection); //write data
+    selection.offset(0,index);  //update selection
+    std::cout<<data<<"  ";
   }
+  std::cout<<std::endl;
+
+  //
+  // reading individual data elements from the dataset
+  //
+  std::cout<<"reading: ";
+  for(size_t index=0;index<=24;++index)
+  {
+    selection.offset(0,index);
+    int value;
+    dataset.read(value,selection);
+    std::cout<<value<<"  ";
+  }
+  std::cout<<std::endl;
+
+  return 0;
 }
 
 
