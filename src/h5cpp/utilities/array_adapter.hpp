@@ -28,6 +28,8 @@
 #include <vector>
 
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/datatype/type_trait.hpp>
 
 namespace hdf5 {
 
@@ -180,6 +182,66 @@ template<typename T>
 Dimensions get_dimensions(const ArrayAdapter<T> adapter)
 {
   return Dimensions{adapter.size()};
+}
+
+
+namespace datatype {
+
+//!
+//! \brief datatype type trait for array adapters
+//!
+//! Specizlization of the datatype type trait for ArrayAdapter types.
+//!
+//! \tparam T type of elements of the array reference by the array adapter
+//!
+template<typename T>
+class TypeTrait<ArrayAdapter<T>>
+{
+  public:
+    using TypeClass = typename TypeTrait<T>::TypeClass;
+
+    static TypeClass create(const ArrayAdapter<T> & = ArrayAdapter<T>())
+    {
+      return TypeTrait<T>::create();
+    }
+
+};
+
+}
+
+namespace dataspace {
+
+//!
+//! \brief dataspace type trait for adapters
+//!
+//! Specializiation of the dataspace type trait for ArrayAdpater types.
+//!
+//! \tparam T type of elements of the array referenced by the array adapter
+//!
+template<typename T>
+class TypeTrait<ArrayAdapter<T>>
+{
+  public:
+    using DataspaceType = Simple;
+
+    static DataspaceType create(const ArrayAdapter<T> &adapter)
+    {
+      Dimensions adapter_dimensions = get_dimensions(adapter);
+      return Simple(adapter_dimensions,adapter_dimensions);
+    }
+
+    static void* ptr(ArrayAdapter<T> &adapter)
+    {
+      return reinterpret_cast<void*>(adapter.data());
+    }
+
+    static const void *cptr(const ArrayAdapter<T> &adapter)
+    {
+      return reinterpret_cast<const void*>(adapter.data());
+    }
+
+};
+
 }
 
 }

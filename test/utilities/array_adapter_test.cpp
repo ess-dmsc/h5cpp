@@ -24,7 +24,7 @@
 //
 
 #include <h5cpp/utilities/array_adapter.hpp>
-#include <h5cpp/core/types.hpp>
+#include <h5cpp/hdf5.hpp>
 #include <gtest/gtest.h>
 #include "../h5cpp_test_helpers.hpp"
 #include "../gtest_print.hpp"
@@ -34,6 +34,9 @@
 using namespace hdf5;
 
 #define bufsize 7
+
+using IntegerArrayAdapter = ArrayAdapter<int>;
+using DoubleArrayAdapter = ArrayAdapter<double>;
 
 class ArrayAdapterTest : public testing::Test
 {
@@ -117,3 +120,39 @@ TEST_F(ArrayAdapterTest, move_assignment)
   EXPECT_EQ(a2.data(),integer_data);
   EXPECT_EQ(a2.size(),bufsize);
 }
+
+TEST_F(ArrayAdapterTest, datatype_type_trait)
+{
+  datatype::Datatype itype = datatype::TypeTrait<IntegerArrayAdapter>::create();
+  EXPECT_EQ(itype.get_class(),datatype::Class::INTEGER);
+  datatype::Integer it(itype);
+  EXPECT_EQ(it.size(),4);
+
+
+  datatype::Datatype dtype = datatype::TypeTrait<DoubleArrayAdapter>::create();
+  EXPECT_EQ(dtype.get_class(),datatype::Class::FLOAT);
+  datatype::Float dt(dtype);
+  EXPECT_EQ(dt.size(),8);
+}
+
+TEST_F(ArrayAdapterTest, dataset_io)
+{
+  file::File file = file::create("ArrayAdapterTest.h5",file::AccessFlags::TRUNCATE);
+  node::Group root = file.root();
+  node::Dataset dataset(root,"data",datatype::create<int>(),dataspace::Simple(Dimensions{bufsize}));
+
+  dataset.write(IntegerArrayAdapter(integer_data,bufsize));
+
+  int read_data[bufsize];
+  IntegerArrayAdapter adapter(read_data,bufsize);
+  dataset.read(adapter);
+  EXPECT_EQ(read_data[0],0);
+  EXPECT_EQ(read_data[1],1);
+  EXPECT_EQ(read_data[2],2);
+  EXPECT_EQ(read_data[3],3);
+  EXPECT_EQ(read_data[4],4);
+  EXPECT_EQ(read_data[5],5);
+  EXPECT_EQ(read_data[6],6);
+
+}
+
