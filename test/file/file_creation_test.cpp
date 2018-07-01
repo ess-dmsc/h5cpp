@@ -147,40 +147,6 @@ TEST_F(FileCreation, test_closeattr_close)
 				   hdf5::file::AccessFlags::READWRITE));
 }
 
-TEST_F(FileCreation, test_closeattr_withoutclose_strong)
-{
-  hdf5::property::FileAccessList fapl;
-  fapl.close_degree(hdf5::property::CloseDegree::STRONG);
-  hdf5::property::FileCreationList fcpl;
-
-  auto nexus_file = file::create("testclose.h5",
-				 file::AccessFlags::TRUNCATE, fcpl, fapl);
-  std::string hdf5_version =  "1.0.0";
-  auto type = datatype::create<std::string>();
-  dataspace::Scalar space;
-
-  auto r1 = nexus_file.root();
-  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
-
-  r1.close();
-  nexus_file.close();
-
-  hdf5::property::FileAccessList fapl2;
-  fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
-  auto file2 = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto r2 = file2.root();
-
-  auto attr = r2.attributes[0];
-
-  r2.close();
-  file2.close();
-
-
-  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
-				   hdf5::file::AccessFlags::READWRITE));
-}
-
 TEST_F(FileCreation, test_closeattr_bracket)
 {
   auto nexus_file = file::create("testclose.h5",
