@@ -48,6 +48,8 @@ add_dependencies(examples
 # build this only for new versions of HDF5
 #
 
+add_subdirectory(attributes)
+
 if (H5CPP_SWMR_ENABLED)
   add_subdirectory(swmr)
 endif ()
