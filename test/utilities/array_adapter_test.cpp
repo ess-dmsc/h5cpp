@@ -156,3 +156,23 @@ TEST_F(ArrayAdapterTest, dataset_io)
 
 }
 
+TEST_F(ArrayAdapterTest, attribute_io)
+{
+  file::File file = file::create("ArrayAdapterTest.h5",file::AccessFlags::TRUNCATE);
+  node::Group root = file.root();
+  attribute::Attribute attribute = root.attributes.create("iattr",datatype::create<int>(),
+                                                        dataspace::Simple(Dimensions{bufsize}));
+  attribute.write(IntegerArrayAdapter(integer_data,bufsize));
+
+  int read_data[bufsize];
+  IntegerArrayAdapter adapter(read_data,bufsize);
+  attribute.read(adapter);
+  EXPECT_EQ(read_data[0],0);
+  EXPECT_EQ(read_data[1],1);
+  EXPECT_EQ(read_data[2],2);
+  EXPECT_EQ(read_data[3],3);
+  EXPECT_EQ(read_data[4],4);
+  EXPECT_EQ(read_data[5],5);
+  EXPECT_EQ(read_data[6],6);
+}
+
