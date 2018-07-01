@@ -29,25 +29,26 @@
 
 using namespace hdf5;
 
-using vector_type = vector<double>;
+using DoubleVector = Vector<double>;
 
 
 int main()
 {
-  vector_type p,v;
-  v = {30.2,-2.3,20.3};
-  p = {203.33,203.21,1233.0};
-  vector_type x = {1,2,3};
+  DoubleVector position,velocity;
+  velocity = {30.2,-2.3,20.3};
+  position = {203.33,203.21,1233.0};
 
   file::File f = file::create("write_single_vector.h5",file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
-  auto type = datatype::create<vector_type>();
+  auto type = datatype::create<DoubleVector>();
   dataspace::Scalar space;
-  node::Dataset position = root_group.create_dataset("position",type,space);
-  node::Dataset velocity = root_group.create_dataset("velocity",type,space);
+  node::Dataset position_dataset(root_group,"position",type,space);
+  node::Dataset velocity_dataset(root_group,"velocity",type,space);
 
-  position.write(p);
-  velocity.write(v);
+  std::cout<<"writing position: "<<position<<std::endl;
+  std::cout<<"writing velocity: "<<velocity<<std::endl;
+  position_dataset.write(position);
+  velocity_dataset.write(velocity);
 
 
 }

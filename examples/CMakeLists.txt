@@ -13,21 +13,22 @@ target_link_libraries(selecting_datasets h5cpp)
 add_executable(std_vector_io std_vector_io.cpp)
 target_link_libraries(std_vector_io h5cpp)
 
-add_executable(writing_complex writing_complex.cpp)
-target_link_libraries(writing_complex h5cpp)
+add_executable(complex_io complex_io.cpp)
+target_link_libraries(complex_io h5cpp)
 
 add_executable(writing_image writing_image.cpp
   rgbpixel.cpp)
 target_link_libraries(writing_image h5cpp)
 
-#add_executable(write_single_vector write_single_vector.cpp)
-#target_link_libraries(write_single_vector h5cpp)
+add_executable(write_single_vector write_single_vector.cpp)
+target_link_libraries(write_single_vector h5cpp)
 
 add_executable(append_scalar_data append_scalar_data.cpp)
 target_link_libraries(append_scalar_data h5cpp)
 
-#add_executable(write_vector_list write_vector_list.cpp)
-#target_link_libraries(write_vector_list h5cpp)
+add_executable(write_vector_list write_vector_list.cpp)
+target_link_libraries(write_vector_list h5cpp)
+
 add_executable(append_vector_data append_vector_data.cpp)
 target_link_libraries(append_vector_data h5cpp)
 
@@ -37,7 +38,7 @@ add_dependencies(examples
   basic_files
   selecting_datasets
   std_vector_io
-  writing_complex
+  complex_io
   writing_image
   append_scalar_data
   append_vector_data

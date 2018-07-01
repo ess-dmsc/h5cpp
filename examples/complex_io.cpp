@@ -29,17 +29,29 @@
 
 using namespace hdf5;
 
-using data_type = std::complex<double>;
+using ComplexDouble = std::complex<double>;
 
 int main()
 {
   file::File f = file::create("writing_complex.h5",file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
-
-  data_type data(1.2,-3.4231);
-  node::Dataset dataset = root_group.create_dataset("data",datatype::create<data_type>(),
+  node::Dataset dataset(root_group,"data",datatype::create<ComplexDouble>(),
                                                     dataspace::Scalar());
-  dataset.write(data);
+
+  //
+  // writing a complex number
+  //
+  ComplexDouble write(1.2,-3.4231);
+  std::cout<<"writing: "<<write<<std::endl;
+  dataset.write(write);
+
+  //
+  // reading a complex number
+  //
+  ComplexDouble read(0,0);
+  dataset.read(read);
+
+  std::cout<<"reading: "<<read<<std::endl;
 
   return 0;
 }
