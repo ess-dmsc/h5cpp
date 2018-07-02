@@ -15,3 +15,6 @@ a subsequent *make* should build the examples
 ```bash
 $ make
 ```
+
+| Examples         | source files
+
