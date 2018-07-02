@@ -38,7 +38,7 @@ void SWMRBuilder::operator()(const node::Group &parent) const
   auto type = datatype::create<double>();
   dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
 
-  parent.create_dataset("data",type,space,lcpl,dcpl);
+  node::Dataset(parent,"data",type,space,lcpl,dcpl);
 
 }
 

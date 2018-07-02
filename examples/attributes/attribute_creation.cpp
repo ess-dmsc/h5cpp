@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2018 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,37 +20,27 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 10, 2017
+// Created on: Jul 2, 2018
 //
 
 #include <h5cpp/hdf5.hpp>
-#include "vector.hpp"
-#include "vector_h5.hpp"
 
 using namespace hdf5;
 
-using DoubleVector = Vector<double>;
-
-
 int main()
 {
-  DoubleVector position,velocity;
-  velocity = {30.2,-2.3,20.3};
-  position = {203.33,203.21,1233.0};
+  file::File file = file::create("attribute_creation.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = file.root();
 
-  file::File f = file::create("write_single_vector.h5",file::AccessFlags::TRUNCATE);
-  node::Group root_group = f.root();
-  auto type = datatype::create<DoubleVector>();
-  dataspace::Scalar space;
-  node::Dataset position_dataset(root_group,"position",type,space);
-  node::Dataset velocity_dataset(root_group,"velocity",type,space);
+  auto author = root_group.attributes.create<std::string>("author");
+  author.write("Eugen Wintersberger");
 
-  std::cout<<"writing position: "<<position<<std::endl;
-  std::cout<<"writing velocity: "<<velocity<<std::endl;
-  position_dataset.write(position);
-  velocity_dataset.write(velocity);
+  root_group.attributes.create<int>("index");
+
+  auto tensor_type = datatype::create<double>();
+  auto tensor_space = dataspace::Simple(Dimensions{6,6});
+  root_group.attributes.create("elasticity",tensor_type,tensor_space);
 
 
+  return 0;
 }
-
-

@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2018 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,37 +20,33 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 10, 2017
+// Created on: Jul 2, 2018
 //
 
 #include <h5cpp/hdf5.hpp>
-#include "vector.hpp"
-#include "vector_h5.hpp"
 
 using namespace hdf5;
 
-using DoubleVector = Vector<double>;
 
-
+//
+// the attribute manager attached to each node object follows the standard
+// STL iterable interface and thus can be used along with any STL algorithm.
+//
 int main()
 {
-  DoubleVector position,velocity;
-  velocity = {30.2,-2.3,20.3};
-  position = {203.33,203.21,1233.0};
+  file::File file = file::create("attribute_iteration.h5",file::AccessFlags::TRUNCATE);
+  node::Group root_group = file.root();
 
-  file::File f = file::create("write_single_vector.h5",file::AccessFlags::TRUNCATE);
-  node::Group root_group = f.root();
-  auto type = datatype::create<DoubleVector>();
-  dataspace::Scalar space;
-  node::Dataset position_dataset(root_group,"position",type,space);
-  node::Dataset velocity_dataset(root_group,"velocity",type,space);
+  root_group.attributes.create<int>("index");
+  root_group.attributes.create<std::string>("author");
+  root_group.attributes.create<double>("temperature");
 
-  std::cout<<"writing position: "<<position<<std::endl;
-  std::cout<<"writing velocity: "<<velocity<<std::endl;
-  position_dataset.write(position);
-  velocity_dataset.write(velocity);
+  for(auto attribute: root_group.attributes)
+    std::cout<<"attribute: "<<attribute.name()<<std::endl;
 
+  std::for_each(root_group.attributes.begin(),root_group.attributes.end(),
+                [](const attribute::Attribute &attribute)
+                { std::cout<<"datatype: "<<attribute.datatype().get_class()<<std::endl;});
 
+  return 0;
 }
-
-
