@@ -69,8 +69,7 @@ Types<
 
 // The list of signed types we want to test.
 typedef
-Types<char, signed char, short, int, long, long long>
-    test_signed_types;
+Types<signed char, short, int, long, long long> test_signed_types;
 
 TYPED_TEST_CASE(Integer, test_types);
 TYPED_TEST_CASE(SignedInteger, test_signed_types);

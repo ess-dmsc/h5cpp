@@ -8,6 +8,7 @@ gtest/3121b20-dm3@ess-dmsc/stable
 [generators]
 cmake
 virtualbuildenv
+virtualrunenv
 
 [options]
 boost_filesystem:shared=True

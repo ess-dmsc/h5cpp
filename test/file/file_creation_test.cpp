@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 10, 2017
 //
 
@@ -53,7 +54,8 @@ class FileCreation : public testing::Test
 const std::vector<std::string> FileCreation::files_ = {
     "./test1_with_a_much_longer_file_name.h5",
     "./test1.h5",
-    "./test2.h5"
+    "./test2.h5",
+    "./testclose.h5"
 };
 
 
@@ -115,6 +117,96 @@ TEST_F(FileCreation, test_same_file_with_symbolic_link)
 }
 #endif
 
+TEST_F(FileCreation, test_closeattr_close)
+{
+  auto nexus_file = file::create("testclose.h5",
+				 file::AccessFlags::TRUNCATE);
+  std::string hdf5_version =  "1.0.0";
+  auto type = datatype::create<std::string>();
+  dataspace::Scalar space;
+
+  auto r1 = nexus_file.root();
+  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+
+  // without this line works
+  r1.close();
+
+  nexus_file.close();
+
+  auto file2 = hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READONLY);
+  auto r2 = file2.root();
+
+  auto attr = r2.attributes[0];
+  attr.close();
+
+  r2.close();
+  file2.close();
+
+  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
+				   hdf5::file::AccessFlags::READWRITE));
+}
+
+TEST_F(FileCreation, test_closeattr_bracket)
+{
+  auto nexus_file = file::create("testclose.h5",
+				       file::AccessFlags::TRUNCATE);
+  std::string hdf5_version =  "1.0.0";
+  auto type = datatype::create<std::string>();
+  dataspace::Scalar space;
+
+  auto r1 = nexus_file.root();
+  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+  r1.close();
+  nexus_file.close();
+
+  auto file2 = hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READONLY);
+  auto r2 = file2.root();
+
+  {
+    auto attr = r2.attributes[0];
+  }
+
+  r2.close();
+  file2.close();
+
+  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
+				   hdf5::file::AccessFlags::READWRITE));
+}
+
+
+TEST_F(FileCreation, test_closeattr_bracketclose)
+{
+  {
+    auto nexus_file = file::create("testclose.h5",
+				   file::AccessFlags::TRUNCATE);
+    std::string hdf5_version =  "1.0.0";
+    auto type = datatype::create<std::string>();
+    dataspace::Scalar space;
+
+
+    auto r1 = nexus_file.root();
+    r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+
+    nexus_file.close();
+  }
+
+
+  auto file2 = hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READONLY);
+  auto r2 = file2.root();
+
+  auto attr = r2.attributes[0];
+  attr.close();
+
+  r2.close();
+  file2.close();
+
+  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
+				   hdf5::file::AccessFlags::READWRITE));
+
+}
 
 
 

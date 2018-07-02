@@ -48,7 +48,7 @@ class TypeTrait<std::complex<T>>
     static TypeClass create(const Type & = Type())
     {
 
-      datatype::Compound type(sizeof(complex_type));
+      datatype::Compound type = datatype::Compound::create(sizeof(complex_type));
       type.insert("real",HOFFSET(complex_type,real),datatype::create<T>());
       type.insert("imag",HOFFSET(complex_type,imag),datatype::create<T>());
 

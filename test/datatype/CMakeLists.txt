@@ -12,4 +12,5 @@ set(test_sources
     ${dir}/datatype_test.cpp
     ${dir}/array_test.cpp
     ${dir}/vlen_array_test.cpp
+    ${dir}/enum_test.cpp
     PARENT_SCOPE)

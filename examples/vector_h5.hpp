@@ -30,16 +30,19 @@
 namespace hdf5 {
 namespace datatype {
 
+//!
+//! \brief datatype trait for a 3D vector
+//!
 template<typename T>
-class TypeTrait<vector<T>>
+class TypeTrait<Vector<T>>
 {
   public:
-    using Type = vector<T>;
+    using Type = Vector<T>;
     using TypeClass = Compound;
 
     static TypeClass create(const Type& = Type())
     {
-      Compound type(sizeof(vector<T>));
+      Compound type = Compound::create(sizeof(Vector<T>));
       type.insert("x",0,TypeTrait<T>::create());
       type.insert("y",sizeof(T),TypeTrait<T>::create());
       type.insert("z",sizeof(T)*2,TypeTrait<T>::create());

@@ -5,38 +5,38 @@ images = [
     'centos7-release': [
         'name': 'essdmscdm/centos7-build-node:3.0.0',
         'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
-        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
+        'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash -e',
         'cmake_flags': '-DCOV=1 -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
     ],
     'debian9-release': [
         'name': 'essdmscdm/debian9-build-node:2.0.0',
         'cmake': 'cmake',
-        'sh': 'sh',
+        'sh': 'bash -e',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'ubuntu1804-release': [
         'name': 'essdmscdm/ubuntu18.04-build-node:1.1.0',
         'cmake': 'cmake',
-        'sh': 'sh',
+        'sh': 'bash -e',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
 
     'centos7-debug': [
             'name': 'essdmscdm/centos7-build-node:3.0.0',
             'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
-            'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash',
+            'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash -e',
             'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
     ],
     'debian9-debug': [
             'name': 'essdmscdm/debian9-build-node:2.0.0',
             'cmake': 'cmake',
-            'sh': 'sh',
+            'sh': 'bash -e',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ],
     'ubuntu1804-debug': [
             'name': 'essdmscdm/ubuntu18.04-build-node:1.1.0',
             'cmake': 'cmake',
-            'sh': 'sh',
+            'sh': 'bash -e',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ]
 ]
@@ -49,7 +49,7 @@ def failure_function(exception_obj, failureMessage) {
         recipientProviders: toEmails,
         subject: '${DEFAULT_SUBJECT}'
     slackSend color: 'danger',
-        message: "@afonso.mukai ${project}-${env.BRANCH_NAME}: " + failureMessage
+        message: "${project}-${env.BRANCH_NAME}: " + failureMessage
 
     throw exception_obj
 }
@@ -246,13 +246,6 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
-                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe remote add desy-packages https://api.bintray.com/conan/eugenwintersberger/desy-packages'
-                        bat 'C:\\Users\\dmgroup\\AppData\\Local\\Programs\\Python\\Python36\\Scripts\\conan.exe install --build=outdated -s compiler="Visual Studio" -s compiler.version=14 ..\\conanfile_default.txt'
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / getting dependencies failed')
-                    }
-
-                    try {
                         bat 'cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 14 2015 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
@@ -260,9 +253,10 @@ def get_win10_pipeline()
 
                     try {
                         bat "cmake --build . --config Release --target unit_tests"
-                        bat "bin\\unit_tests.exe"
+                        bat """call activate_run.bat
+    	                       .\\bin\\Release\\unit_tests.exe
+    	                    """
                     } catch (e) {
-		                junit 'test/unit_tests_run.xml'
                         failure_function(e, 'Windows10 / build+test failed')
                     }
 
@@ -289,8 +283,8 @@ node('docker') {
     }
     builders['macOS-release'] = get_macos_pipeline('Release')
     builders['macOS-debug'] = get_macos_pipeline('Debug')
-//    builders['Windows10'] = get_win10_pipeline()
-    
+    builders['Windows10'] = get_win10_pipeline()
+
 
     parallel builders
     // Delete workspace when build is done
