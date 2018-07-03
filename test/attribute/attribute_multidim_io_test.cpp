@@ -67,7 +67,7 @@ TEST_F(AttributeMultidimIO,test_init_list)
 
 TEST_F(AttributeMultidimIO, test_read_float)
 {
-  std::vector<float> fvec_data = {1.2, -0.23, 34.4, 5.5};
+  std::vector<float> fvec_data = {1.2f, -0.23f, 34.4f, 5.5f};
   std::vector<float> fbuffer(4);
   auto floattype = hdf5::datatype::create<float>();
   auto a = root_.attributes.create("float",
