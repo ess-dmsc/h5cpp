@@ -62,6 +62,12 @@ add_subdirectory(src)
 add_subdirectory(doc)
 
 #=============================================================================
+# install the examples directory to the documentation directory
+#=============================================================================
+install(DIRECTORY examples
+        DESTINATION ${CMAKE_INSTALL_DOCDIR})
+
+#=============================================================================
 # unit tests if GTest if present
 #=============================================================================
 include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)

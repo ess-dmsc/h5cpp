@@ -20,37 +20,40 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 10, 2017
+// Created on: Oct 07, 2017
 //
-
 #include <h5cpp/hdf5.hpp>
-#include "vector.hpp"
-#include "vector_h5.hpp"
+#include <iostream>
+#include <complex>
+#include "complex.hpp"
 
 using namespace hdf5;
 
-using DoubleVector = Vector<double>;
-
+using ComplexDouble = std::complex<double>;
 
 int main()
 {
-  DoubleVector position,velocity;
-  velocity = {30.2,-2.3,20.3};
-  position = {203.33,203.21,1233.0};
-
-  file::File f = file::create("write_single_vector.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("writing_complex.h5",file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
-  auto type = datatype::create<DoubleVector>();
-  dataspace::Scalar space;
-  node::Dataset position_dataset(root_group,"position",type,space);
-  node::Dataset velocity_dataset(root_group,"velocity",type,space);
+  node::Dataset dataset(root_group,"data",datatype::create<ComplexDouble>(),
+                                                    dataspace::Scalar());
 
-  std::cout<<"writing position: "<<position<<std::endl;
-  std::cout<<"writing velocity: "<<velocity<<std::endl;
-  position_dataset.write(position);
-  velocity_dataset.write(velocity);
+  //
+  // writing a complex number
+  //
+  ComplexDouble write(1.2,-3.4231);
+  std::cout<<"writing: "<<write<<std::endl;
+  dataset.write(write);
 
+  //
+  // reading a complex number
+  //
+  ComplexDouble read(0,0);
+  dataset.read(read);
 
+  std::cout<<"reading: "<<read<<std::endl;
+
+  return 0;
 }
 
 
