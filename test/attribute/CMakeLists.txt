@@ -11,6 +11,8 @@ set(test_sources
     ${dir}/attribute_complex_io_test.cpp
     ${dir}/attribute_fixed_string_io.cpp
     ${dir}/attribute_variable_string_io.cpp
+    ${dir}/attribute_h5py_bool_test.cpp
+    ${dir}/attribute_pniio_bool_test.cpp
     PARENT_SCOPE)
 
 set(test_headers
