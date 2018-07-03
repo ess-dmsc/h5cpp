@@ -19,9 +19,7 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
-//   Jan Kotanski <jan.kotanski@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
 #include <cstdint>
@@ -84,19 +82,6 @@ TEST_F(AttributeScalarIO,test_bool)
   bool read_back = false;
   a.read(read_back);
   EXPECT_EQ(value,read_back);
-}
-
-TEST_F(AttributeScalarIO, test_int_overflow)
-{
-  unsigned int uintmax= 4294967295;
-  attribute::Attribute a = root_.attributes.create<unsigned int>("uintmax");
-  a.write(uintmax);
-  int int_read_back;
-  unsigned int uint_read_back;
-  a.read(uint_read_back);
-  EXPECT_EQ(uintmax, uint_read_back);
-  a.read(int_read_back);
-  EXPECT_EQ(uintmax, static_cast<unsigned int>(int_read_back));
 }
 
 

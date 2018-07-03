@@ -209,6 +209,9 @@ class DLL_EXPORT Attribute
     node::Link   parent_link_;
 
     template<typename T>
+    void read(T &data,const datatype::Datatype &mem_type, const datatype::Datatype &file_type) const;
+
+    template<typename T>
     void write_fixed_length_string(const T &data,
                                    const datatype::Datatype &mem_type) const
     {
@@ -357,15 +360,28 @@ void Attribute::write(const T &data) const
 template<typename T>
 void Attribute::read(T &data) const
 {
-  auto mem_type = datatype();
-  read(data,mem_type);
+  auto file_type = datatype();
+  if(file_type.get_class() == datatype::Class::STRING)
+  {
+    read(data, file_type);
+  }
+  else
+  {
+    auto mem_type = datatype::create<T>(data);
+    read(data, mem_type, file_type);
+  }
 }
 
 template<typename T>
 void Attribute::read(T &data,const datatype::Datatype &mem_type) const
 {
   datatype::Datatype file_type = datatype();
+  read(data, mem_type, file_type);
+}
 
+template<typename T>
+void Attribute::read(T &data, const datatype::Datatype &mem_type, const datatype::Datatype &file_type) const
+{
   check_size(dataspace::create(data),dataspace(),"read");
 
   if(file_type.get_class()==datatype::Class::STRING)
