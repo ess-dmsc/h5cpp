@@ -147,7 +147,7 @@ TEST_F(FileCreation, test_closeattr_close)
 				   hdf5::file::AccessFlags::READWRITE));
 }
 
-TEST_F(FileCreation, test_closeattr_withoutclose_strong)
+TEST_F(FileCreation, test_closeattr_withoutclose_strong_attr)
 {
   hdf5::property::FileAccessList fapl;
   // fapl.driver(file::PosixDriver());
@@ -166,7 +166,7 @@ TEST_F(FileCreation, test_closeattr_withoutclose_strong)
   r1.close();
   EXPECT_EQ(nexus_file.count_open_objects(file::SearchFlags::ALL), 1);
   nexus_file.close();
-  
+
   hdf5::property::FileAccessList fapl2;
   fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
   EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::STRONG);
@@ -175,16 +175,107 @@ TEST_F(FileCreation, test_closeattr_withoutclose_strong)
   auto r2 = file2.root();
 
   auto attr = r2.attributes[0];
-  // attr.close(); with this works
   EXPECT_EQ(file2.count_open_objects(file::SearchFlags::ALL), 3);
 
-  r2.close();
-  EXPECT_EQ(file2.count_open_objects(file::SearchFlags::ALL), 2);
   file2.close();
-
 
   EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
 				   hdf5::file::AccessFlags::READWRITE));
+}
+
+TEST_F(FileCreation, test_closeattr_withoutclose_strong_root)
+{
+  hdf5::property::FileAccessList fapl;
+  fapl.close_degree(hdf5::property::CloseDegree::STRONG);
+  hdf5::property::FileCreationList fcpl;
+  EXPECT_EQ(fapl.close_degree(), hdf5::property::CloseDegree::STRONG);
+  auto nexus_file = file::create("testclose.h5",
+				 file::AccessFlags::TRUNCATE, fcpl, fapl);
+  std::string hdf5_version =  "1.0.0";
+  auto type = datatype::create<std::string>();
+  dataspace::Scalar space;
+
+  auto r1 = nexus_file.root();
+  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+
+  r1.close();
+  EXPECT_EQ(nexus_file.count_open_objects(file::SearchFlags::ALL), 1);
+  nexus_file.close();
+
+  hdf5::property::FileAccessList fapl2;
+  fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
+  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::STRONG);
+  auto file2 = hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READONLY, fapl2);
+  auto r2 = file2.root();
+
+  file2.close();
+
+  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
+				   hdf5::file::AccessFlags::READWRITE));
+}
+TEST_F(FileCreation, test_closeattr_withoutclose_attr)
+{
+  hdf5::property::FileAccessList fapl;
+  hdf5::property::FileCreationList fcpl;
+  auto nexus_file = file::create("testclose.h5",
+				 file::AccessFlags::TRUNCATE, fcpl, fapl);
+  std::string hdf5_version =  "1.0.0";
+  auto type = datatype::create<std::string>();
+  dataspace::Scalar space;
+
+  auto r1 = nexus_file.root();
+  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+
+  r1.close();
+  nexus_file.close();
+
+  hdf5::property::FileAccessList fapl2;
+  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::DEFAULT);
+  auto file2 = hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READONLY, fapl2);
+  auto r2 = file2.root();
+
+  auto attr = r2.attributes[0];
+  EXPECT_EQ(file2.count_open_objects(file::SearchFlags::ALL), 3);
+
+  file2.close();
+
+
+  EXPECT_THROW(hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READWRITE),
+	       std::runtime_error);
+}
+
+TEST_F(FileCreation, test_closeattr_withoutclose_root)
+{
+  hdf5::property::FileAccessList fapl;
+  hdf5::property::FileCreationList fcpl;
+  auto nexus_file = file::create("testclose.h5",
+				 file::AccessFlags::TRUNCATE, fcpl, fapl);
+  std::string hdf5_version =  "1.0.0";
+  auto type = datatype::create<std::string>();
+  dataspace::Scalar space;
+
+  auto r1 = nexus_file.root();
+  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+
+  r1.close();
+  EXPECT_EQ(nexus_file.count_open_objects(file::SearchFlags::ALL), 1);
+  nexus_file.close();
+
+  hdf5::property::FileAccessList fapl2;
+  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::DEFAULT);
+  auto file2 = hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READONLY, fapl2);
+  auto r2 = file2.root();
+
+  file2.close();
+
+
+  EXPECT_THROW(hdf5::file::open("testclose.h5",
+				hdf5::file::AccessFlags::READWRITE),
+	       std::runtime_error);
 }
 
 TEST_F(FileCreation, test_closeattr_bracket)

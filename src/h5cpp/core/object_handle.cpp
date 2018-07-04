@@ -199,6 +199,9 @@ void ObjectHandle::close()
     case ObjectHandle::Type::DATASPACE:
       error_code = H5Sclose(handle_);
       break;
+    case ObjectHandle::Type::GROUP:
+      error_code = H5Gclose(handle_);
+      break;
     case ObjectHandle::Type::DATATYPE:
       error_code = H5Tclose(handle_);
       break;

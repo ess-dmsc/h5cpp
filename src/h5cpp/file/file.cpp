@@ -28,6 +28,7 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/property/file_access.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -67,9 +68,23 @@ void File::flush(Scope scope) const
   }
 }
 
+
 void File::close()
 {
-  handle_.close();
+  hdf5::property::FileAccessList fapl = hdf5::property::FileAccessList(ObjectHandle(H5Fget_access_plist(static_cast<hid_t>(*this))));
+  if(fapl.close_degree() == hdf5::property::CloseDegree::STRONG)
+  {
+    hid_t mid= static_cast<hid_t>(*this);
+    handle_.close();
+    while(H5Iget_type(mid) > 0)
+    {
+      H5Fclose(mid);
+    }
+  }
+  else
+  {
+    handle_.close();
+  }
 }
 
 boost::filesystem::path File::path() const
