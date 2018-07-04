@@ -19,8 +19,10 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Author: Martin Shetty <martin.shetty@esss.se>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 
