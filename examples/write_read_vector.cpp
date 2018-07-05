@@ -28,18 +28,29 @@
 
 using namespace hdf5;
 
-using data_type = std::vector<int>;
-
 int main()
 {
-  file::File f = file::create("writing_vector.h5",file::AccessFlags::TRUNCATE);
-  node::Group root_group = f.root();
+  std::string file_name{"write_read_vector.h5"};
+  {
+    file::File f = file::create(file_name,file::AccessFlags::TRUNCATE);
+    node::Group root_group = f.root();
 
-  data_type data{1,2,3,4};
-  node::Dataset dataset = root_group.create_dataset("data",datatype::create<data_type>(),
+  std::vector<int> data{1,2,3,4,5,6,7};
+    node::Dataset dataset = root_group.create_dataset("data",datatype::create<int>(),
                                                     dataspace::create(data));
-  dataset.write(data);
-
+    dataset.write(data);
+  } //File is closed here
+  
+  {
+    file::File f = file::open(file_name);
+    node::Group root_group = f.root();
+    node::Dataset dataset = root_group.get_dataset("data");
+    std::vector<int> input_vector(dataset.dataspace().size());
+    dataset.read(input_vector);
+    for (auto &element : input_vector) {
+      std::cout << element << std::endl;
+    }
+  }
   return 0;
 }
 

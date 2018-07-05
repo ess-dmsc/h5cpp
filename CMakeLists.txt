@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp
     LANGUAGES CXX C
-    VERSION 0.0.8
+    VERSION 0.0.9
     )
 
 #=============================================================================
@@ -60,6 +60,12 @@ include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 add_custom_target(html)
 add_subdirectory(src)
 add_subdirectory(doc)
+
+#=============================================================================
+# install the examples directory to the documentation directory
+#=============================================================================
+install(DIRECTORY examples
+        DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 #=============================================================================
 # unit tests if GTest if present

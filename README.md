@@ -1,6 +1,6 @@
 # C++ wrapper for the HDF5 C-library
 
-[![DOI](https://zenodo.org/badge/99373936.svg)](https://zenodo.org/badge/latestdoi/99373936)
+[![docs](https://img.shields.io/badge/Documentation-webpages-ADD8E6.svg)](https://ess-dmsc.github.io/h5cpp/index.html) [![DOI](https://zenodo.org/badge/99373936.svg)](https://zenodo.org/badge/latestdoi/99373936)
 
 
 *h5cpp* is a new C++ wrapper for HDF5s C-API. 
@@ -141,7 +141,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
 ```
 and accordingly, when building the client program:
 ```bash
-cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.0.8 path/to/your/source
+cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.0.9 path/to/your/source
 ```
 where version number may vary.
 

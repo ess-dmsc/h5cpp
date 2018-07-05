@@ -33,5 +33,5 @@ int main()
   file::File f = file::create("basic_files.h5",file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
 
-
+  return 0;
 }

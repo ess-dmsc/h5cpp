@@ -24,22 +24,42 @@
 //
 #include <h5cpp/hdf5.hpp>
 #include <iostream>
-#include <complex>
-#include "complex.hpp"
+#include <vector>
 
 using namespace hdf5;
 
-using data_type = std::complex<double>;
+//
+// h5cpp has native support for std::vector IO. This example shows how to do it.
+//
+
+using DataType = std::vector<int>;
 
 int main()
 {
-  file::File f = file::create("writing_complex.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("std_vector_io.h5",file::AccessFlags::TRUNCATE);
   node::Group root_group = f.root();
 
-  data_type data(1.2,-3.4231);
-  node::Dataset dataset = root_group.create_dataset("data",datatype::create<data_type>(),
-                                                    dataspace::Scalar());
-  dataset.write(data);
+  //
+  // writing data to a dataset in the file
+  //
+  DataType write_data{1,2,3,4};
+  node::Dataset dataset(root_group,"data",datatype::create<DataType>(),
+                                          dataspace::create(write_data));
+  dataset.write(write_data);
+
+  //
+  // retrieving the data back from disk
+  //
+  DataType read_data(dataset.dataspace().size()); //allocate enough memory
+  dataset.read(read_data);
+
+  //
+  // print the data
+  //
+  std::for_each(read_data.begin(),read_data.end(),
+                [](int value) { std::cout<<value<<"\t"; });
+  std::cout<<std::endl;
+
 
   return 0;
 }

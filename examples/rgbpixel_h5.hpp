@@ -40,7 +40,7 @@ class TypeTrait<RGBPixel>
     static TypeClass create(const Type & = Type())
     {
 
-      datatype::Compound type(sizeof(RGBPixel));
+      datatype::Compound type = datatype::Compound::create(sizeof(RGBPixel));
       type.insert("red",0,datatype::create<std::uint8_t>());
       type.insert("green",1,datatype::create<std::uint8_t>());
       type.insert("blue",2,datatype::create<std::uint8_t>());

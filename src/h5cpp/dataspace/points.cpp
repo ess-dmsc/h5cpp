@@ -26,35 +26,67 @@
 //
 #include <h5cpp/dataspace/points.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
-namespace hdf5 {
-namespace dataspace {
+namespace hdf5
+{
+namespace dataspace
+{
 
-Points::Points() :
-    Selection() {}
+Points::Points(size_t rank)
+    : Selection()
+      , rank_(rank) {}
 
-Points::~Points() {}
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
-Points::Points(size_t rank) :
-    Selection() {}
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
-void Points::apply(const Dataspace &space,
-                   SelectionOperation ops) const {
+Points::Points(const std::vector<std::vector<hsize_t>>& coord_set)
+{
+  if (!coord_set.empty())
+    rank_ = coord_set.front().size();
+  add_set(coord_set);
 }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+
+size_t Points::rank() const
+{
+  return rank_;
+}
+
+size_t Points::points() const
+{
+  if (rank_)
+    return coordinates_.size() / rank_;
+  return 0;
+}
+
+void Points::add_set(const std::vector<std::vector<hsize_t>>& coord_set)
+{
+  for (const auto& coords : coord_set)
+    add(coords);
+}
+
+
+void Points::add(const std::vector<hsize_t>& coords)
+{
+  if (coords.size() != rank_)
+  {
+    std::stringstream ss;
+    ss << "Adding coordinate of rank=" << coords.size()
+       << " to point selection of rank=" << rank_;
+    throw (std::runtime_error(ss.str()));
+  }
+  coordinates_.insert(coordinates_.end(), coords.begin(), coords.end());
+}
+
+void Points::apply(const Dataspace& space,
+                   SelectionOperation ops) const
+{
+  if (0 > H5Sselect_elements(static_cast<hid_t>(space),
+                             static_cast<H5S_seloper_t>(ops),
+                             points(), coordinates_.data()))
+  {
+    error::Singleton::instance().throw_with_stack("Could not apply point selection to dataspace");
+  }
+
+}
 
 } // namespace dataspace
 } // namespace hdf5
