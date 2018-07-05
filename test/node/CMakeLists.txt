@@ -32,6 +32,8 @@ set(test_sources
     ${dir}/dataset_h5py_string_compat_test.cpp
     ${dir}/link_target_test.cpp
     ${dir}/node_exists_test.cpp
+    ${dir}/dataset_h5py_bool_test.cpp
+    ${dir}/dataset_pniio_bool_test.cpp
     PARENT_SCOPE)
 
 set(test_headers
