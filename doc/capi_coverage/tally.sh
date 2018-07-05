@@ -1,6 +1,7 @@
 #!/bin/bash
 
 SOURCE_PATH=$1
+RST_PATH=$2
 
 OUTPUT_DIR=$PWD/
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -9,6 +10,20 @@ LISTS_PATH=$DIR/functions/*
 
 tot_found=0
 tot_not_found=0
+
+rstfile=${RST_PATH}/capi.rst
+
+text=$(printf '===============\nC API Coverage\n===============\n')
+echo "${text}" > $rstfile
+
+text=$(printf '\n')
+echo "${text}" >> $rstfile
+
+text=$(printf '.. csv-table:: Wrapped C API functions\n   :header: "API", "wrapped", "total", "percent"\n   :widths: 20, 20, 20, 20\n')
+echo "${text}" >> $rstfile
+
+text=$(printf '\n')
+echo "${text}" >> $rstfile
 
 for filename in ${LISTS_PATH}; do
   basename=$(basename $filename)
@@ -33,16 +48,17 @@ for filename in ${LISTS_PATH}; do
 
   percent=$(awk "BEGIN { pc=100*${found}/${total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
 
-  text=$(printf '%s:\t %s\t / %s\t = %s\n' "$basename" "$found" "$total" "$percent%" | expand -t 7)
+  text=$(printf '   "%s", "%s", "%s", "%s"\n' "$basename" "$found" "$total" "$percent%" | expand -t 7)
 
   echo "" >> $outfile
   echo "${text}" >> $outfile
+  echo "${text}" >> $rstfile
 
-
-  echo "${text}"
 done
 
 ((tot_total=tot_found+tot_not_found))
 percent=$(awk "BEGIN { pc=100*${tot_found}/${tot_total}; i=int(pc); print (pc-i<0.5)?i:i+1 }")
-text=$(printf '%s:\t %s\t / %s\t = %s\n' "TOTAL" "$tot_found" "$tot_total" "$percent%" | expand -t 7)
-echo "${text}"
+text=$(printf '   "%s", "%s", "%s", "%s"\n' "Total" "$tot_found" "$tot_total" "$percent%" | expand -t 7)
+
+echo "${text}" >> $rstfile
+
