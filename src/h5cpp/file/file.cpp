@@ -73,11 +73,13 @@ void File::flush(Scope scope) const
 
 void File::close()
 {
-  hdf5::property::FileAccessList fapl = hdf5::property::FileAccessList(ObjectHandle(H5Fget_access_plist(static_cast<hid_t>(*this))));
-  if(fapl.close_degree() == hdf5::property::CloseDegree::STRONG)
+  property::FileAccessList fapl = property::FileAccessList(ObjectHandle(H5Fget_access_plist(static_cast<hid_t>(*this))));
+
+  if(fapl.close_degree() == property::CloseDegree::STRONG)
   {
     hid_t mid= static_cast<hid_t>(*this);
     handle_.close();
+    // closes all copies of file hid_t's created with Node::link_.parent_file_
     while(H5Iget_type(mid) > 0)
     {
       H5Fclose(mid);
