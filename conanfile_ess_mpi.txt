@@ -1,6 +1,6 @@
 [requires]
-cmake_findboost_modular/1.66.0@bincrafters/stable
-boost_filesystem/1.66.0@bincrafters/stable
+cmake_findboost_modular/1.65.1@bincrafters/stable
+boost_filesystem/1.65.1@bincrafters/stable
 hdf5/1.10.2-dm2@ess-dmsc/stable
 gtest/3121b20-dm3@ess-dmsc/stable
 
@@ -11,6 +11,7 @@ virtualrunenv
 
 [options]
 boost_filesystem:shared=True
+boost_system:shared=True
 hdf5:shared=True
 hdf5:cxx=False
 hdf5:parallel=True
