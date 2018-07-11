@@ -13,3 +13,4 @@ of *h5cpp*.
    :maxdepth: 1
    
    cpp_datastructures
+   c_arrays
