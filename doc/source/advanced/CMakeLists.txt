@@ -3,6 +3,7 @@ set(SOURCES index.rst
             io.rst
             cpp_datastructures.rst
             hdf5_handlers.rst
+            c_arrays.rst
         )
 
 add_sphinx_source(${SOURCES})

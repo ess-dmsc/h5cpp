@@ -1,0 +1,13 @@
+H5allocate_memory
+H5check_version
+H5close
+H5dont_atexit
+H5free_memory
+H5garbage_collect
+H5get_libversion
+H5is_library_threadsafe
+H5open
+H5resize_memory
+H5set_free_list_limits
+H5_VERSION_GE
+H5_VERSION_LE

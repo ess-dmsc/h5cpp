@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 25, 2017
 //
 #include <gtest/gtest.h>
@@ -84,4 +86,46 @@ TEST_F(AttributeVariableStringIO,vector_io)
   vector_attr.read(read);
   EXPECT_EQ(write,read);
 
+}
+
+TEST_F(AttributeVariableStringIO, simple_read)
+{
+
+  auto a = root_group.attributes.create(
+					"simple5",
+					string_type, dataspace::Simple({1}));
+  std::string write = "hell";
+  std::string read;
+  a.write(write, string_type);
+  EXPECT_NO_THROW(a.read(read, a.datatype()));
+  EXPECT_EQ(write, read);
+  EXPECT_NO_THROW(a.read(read));
+  EXPECT_EQ(write, read);
+}
+
+TEST_F(AttributeVariableStringIO, scalar_read)
+{
+
+  auto a = root_group.attributes.create("scalar5", string_type, scalar_space);
+  std::string write = "hell";
+  std::string read;
+  a.write(write, string_type);
+  EXPECT_NO_THROW(a.read(read, a.datatype()));
+  EXPECT_EQ(write, read);
+  EXPECT_NO_THROW(a.read(read));
+  EXPECT_EQ(write, read);
+}
+
+TEST_F(AttributeVariableStringIO, simple_vector_read)
+{
+
+  auto a = root_group.attributes.create("simple20x",
+      string_type, hdf5::dataspace::Simple({4}));
+  std::vector<std::string> write = {"hllo", "ho1", "h", "ho33"};
+  std::vector<std::string> read(4);
+  a.write(write, string_type);
+  EXPECT_NO_THROW(a.read(read, a.datatype()));
+  EXPECT_EQ(write, read);
+  EXPECT_NO_THROW(a.read(read));
+  EXPECT_EQ(write, read);
 }
