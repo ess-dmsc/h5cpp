@@ -90,3 +90,45 @@ TEST_F(PartialIO, test_read_write_points)
 
   EXPECT_EQ(read, std::vector<int>({6, 8, 10}));
 }
+
+TEST_F(PartialIO, test_read_write_empty_int)
+{
+  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
+  auto type = datatype::create<int>();
+  std::vector<int> read_value;
+  std::vector<int> write_value;
+  dcpl.chunk({1});
+
+  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
+
+  EXPECT_NO_THROW(dset.read(read_value));
+  EXPECT_EQ(write_value, read_value);
+}
+
+TEST_F(PartialIO, test_read_write_empty_string)
+{
+  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
+  auto type = datatype::create<std::string>();
+  std::vector<std::string> read_value;
+  std::vector<std::string> write_value;
+  dcpl.chunk({1});
+
+  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
+
+  EXPECT_NO_THROW(dset.read(read_value));
+  EXPECT_EQ(write_value, read_value);
+}
+
+TEST_F(PartialIO, test_read_write_empty_double)
+{
+  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
+  auto type = datatype::create<double>();
+  std::vector<double> read_value;
+  std::vector<double> write_value;
+  dcpl.chunk({1});
+
+  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
+
+  EXPECT_NO_THROW(dset.read(read_value));
+  EXPECT_EQ(write_value, read_value);
+}

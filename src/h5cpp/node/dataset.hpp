@@ -511,15 +511,18 @@ class DLL_EXPORT Dataset : public Node
 
       Trait::from_buffer(buffer,data);
 
-      if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
+      if(buffer.size() > 0)
+      {
+	if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
                          static_cast<hid_t>(mem_space),
                          static_cast<hid_t>(dtpl),
                          buffer.data())<0)
-      {
-        std::stringstream ss;
-        ss<<"Error reclaiming memory from variable length string data in "
-          <<"dataset ["<<link().path()<<"]!";
-        error::Singleton::instance().throw_with_stack(ss.str());
+	{
+	  std::stringstream ss;
+	  ss<<"Error reclaiming memory from variable length string data in "
+	    <<"dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
       }
     }
 
