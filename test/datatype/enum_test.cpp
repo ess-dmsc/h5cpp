@@ -230,3 +230,19 @@ TEST_F(Enum, test_ebool_false) {
   EXPECT_EQ(false, read_ebool);
 }
 
+TEST_F(Enum, test_ebool_array)
+{
+  auto a = root_.attributes.create<datatype::EBool>("bool_array", {4});
+  std::vector<datatype::EBool> buffer(4);
+  std::vector<datatype::EBool> ref  = {datatype::EBool::FALSE,
+				       datatype::EBool::TRUE,
+				       datatype::EBool::TRUE,
+				       datatype::EBool::FALSE};
+  EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(a.datatype().size(), 1);
+  a.write(ref);
+  a.read(buffer, a.datatype());
+  EXPECT_EQ(buffer, ref);
+  a.read(buffer);
+  EXPECT_EQ(buffer, ref);
+}
