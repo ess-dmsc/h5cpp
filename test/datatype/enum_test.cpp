@@ -35,6 +35,7 @@ struct Enum : public BasicFixture
 
 enum WeakFruit : uint16_t { Apple = 0, Pear = 1, Orange = 2};
 enum class StrongFruit : uint16_t { Pineapple = 0, Jackfruit = 1, Durian = 2};
+enum FakeBool : int8_t { TRUE = 0, FALSE = 1};
 
 namespace hdf5 {
 namespace datatype {
@@ -67,6 +68,18 @@ class TypeTrait<StrongFruit> {
   }
 };
 
+template<>
+class TypeTrait<FakeBool> {
+ public:
+  using TypeClass = Enum;
+
+  static TypeClass create(const FakeBool & = FakeBool()) {
+    auto type = datatype::Enum::create(FakeBool());
+    type.insert("TRUE", FakeBool::TRUE);
+    type.insert("FALSE", FakeBool::FALSE);
+    return type;
+  }
+};
 
 }
 }
@@ -167,6 +180,8 @@ TEST_F(Enum, test_weak_enum) {
   WeakFruit read_fruit = WeakFruit::Orange;
 
   auto a = root_.attributes.create<WeakFruit>("fruit");
+  auto edt = datatype::Enum(a.datatype());
+  EXPECT_EQ(edt.is_bool(), false);
   a.write(write_fruit);
   a.read(read_fruit);
 
@@ -186,6 +201,8 @@ TEST_F(Enum, test_strong_enum) {
   auto read_fruit = StrongFruit::Durian;
 
   auto a = root_.attributes.create<StrongFruit>("fruit");
+  auto edt = datatype::Enum(a.datatype());
+  EXPECT_EQ(edt.is_bool(), false);
   a.write(write_fruit);
   a.read(read_fruit);
 
@@ -203,6 +220,8 @@ TEST_F(Enum, test_ebool_true) {
   datatype::EBool read_ebool = datatype::EBool::FALSE;
 
   auto a = root_.attributes.create<datatype::EBool>("TRUE");
+  auto edt = datatype::Enum(a.datatype());
+  EXPECT_EQ(edt.is_bool(), true);
   a.write(write_ebool);
   a.read(read_ebool);
 
@@ -222,6 +241,8 @@ TEST_F(Enum, test_ebool_false) {
   datatype::EBool read_ebool = datatype::EBool::TRUE;
 
   auto a = root_.attributes.create<datatype::EBool>("FALSE");
+  auto edt = datatype::Enum(a.datatype());
+  EXPECT_EQ(edt.is_bool(), true);
   a.write(write_ebool);
   a.read(read_ebool);
 
@@ -245,6 +266,8 @@ TEST_F(Enum, test_ebool_array)
 
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
   EXPECT_EQ(a.datatype().size(), 1);
+  auto edt = datatype::Enum(a.datatype());
+  EXPECT_EQ(edt.is_bool(), true);
   a.write(ref);
 
   a.read(buffer, a.datatype());
@@ -255,4 +278,14 @@ TEST_F(Enum, test_ebool_array)
 
   a.read(buffer_int);
   EXPECT_EQ(buffer_int, ref_int);
+}
+
+TEST_F(Enum, test_fake_bool) {
+  auto type = datatype::create<FakeBool>();
+  EXPECT_EQ(type.name(1), "FALSE");
+  EXPECT_EQ(type.value<FakeBool>(1), FakeBool::FALSE);
+  EXPECT_EQ(type.name(0), "TRUE");
+  EXPECT_EQ(type.value<FakeBool>(0), FakeBool::TRUE);
+
+  EXPECT_EQ(type.is_bool(), false);
 }
