@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//       Eugen Wintersberger <eugen.wintersberger@desy.de>
+//       Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 5, 2017
 //
 #include "../fixture.hpp"
@@ -63,7 +65,18 @@ TEST_F(AttributeMultidimIO,test_init_list)
   EXPECT_EQ((std::vector<int>{1,2,3,4}),read);
 }
 
-
-
-
+TEST_F(AttributeMultidimIO, test_read_float)
+{
+  std::vector<float> fvec_data = {1.2f, -0.23f, 34.4f, 5.5f};
+  std::vector<float> fbuffer(4);
+  auto floattype = hdf5::datatype::create<float>();
+  auto a = root_.attributes.create("float",
+				   floattype,
+				   hdf5::dataspace::Simple({4}));
+  a.write(fvec_data, floattype);
+  a.read(fbuffer);
+  EXPECT_EQ(fbuffer, fvec_data);
+  a.read(fbuffer, a.datatype());
+  EXPECT_EQ(fbuffer, fvec_data);
+}
 

@@ -1,0 +1,7 @@
+H5Rcreate
+H5Rdereference
+H5Rdereference2
+H5Rget_name
+H5Rget_obj_type
+H5Rget_obj_type2
+H5Rget_region

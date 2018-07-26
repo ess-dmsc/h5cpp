@@ -1,0 +1,21 @@
+set(SOURCES
+    H5.rst
+    H5A.rst
+    H5D.rst
+    H5E.rst
+    H5F.rst
+    H5G.rst
+    H5I.rst
+    H5L.rst
+    H5O.rst
+    H5P.rst
+    H5PL.rst
+    H5R.rst
+    H5S.rst
+    H5T.rst
+    H5Z.rst
+    index.rst
+    )
+
+add_sphinx_source(${SOURCES})
+copy_to_current_build(${SOURCES})

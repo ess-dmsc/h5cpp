@@ -15,6 +15,7 @@ add_subdirectory(file)
 add_subdirectory(filter)
 add_subdirectory(node)
 add_subdirectory(property)
+add_subdirectory(utilities)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
