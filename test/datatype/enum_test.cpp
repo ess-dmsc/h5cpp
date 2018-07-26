@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: May 14, 2018
 //
 #include <gtest/gtest.h>
@@ -190,3 +191,42 @@ TEST_F(Enum, test_strong_enum) {
 
   EXPECT_EQ(write_fruit, read_fruit);
 }
+
+TEST_F(Enum, test_ebool_true) {
+  auto type = datatype::create<datatype::EBool>();
+  EXPECT_EQ(type.name(0), "FALSE");
+  EXPECT_EQ(type.value<datatype::EBool>(0), datatype::EBool::FALSE);
+  EXPECT_EQ(type.name(1), "TRUE");
+  EXPECT_EQ(type.value<datatype::EBool>(1), datatype::EBool::TRUE);
+
+  datatype::EBool write_ebool = datatype::EBool::TRUE;
+  datatype::EBool read_ebool = datatype::EBool::FALSE;
+
+  auto a = root_.attributes.create<datatype::EBool>("TRUE");
+  a.write(write_ebool);
+  a.read(read_ebool);
+
+  EXPECT_EQ(write_ebool, read_ebool);
+  EXPECT_EQ(1, read_ebool);
+  EXPECT_EQ(true, read_ebool);
+}
+
+TEST_F(Enum, test_ebool_false) {
+  auto type = datatype::create<datatype::EBool>();
+  EXPECT_EQ(type.name(0), "FALSE");
+  EXPECT_EQ(type.value<datatype::EBool>(0), datatype::EBool::FALSE);
+  EXPECT_EQ(type.name(1), "TRUE");
+  EXPECT_EQ(type.value<datatype::EBool>(1), datatype::EBool::TRUE);
+
+  datatype::EBool write_ebool = datatype::EBool::FALSE;
+  datatype::EBool read_ebool = datatype::EBool::TRUE;
+
+  auto a = root_.attributes.create<datatype::EBool>("FALSE");
+  a.write(write_ebool);
+  a.read(read_ebool);
+
+  EXPECT_EQ(write_ebool, read_ebool);
+  EXPECT_EQ(0, read_ebool);
+  EXPECT_EQ(false, read_ebool);
+}
+

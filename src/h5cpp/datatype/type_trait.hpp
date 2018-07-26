@@ -28,6 +28,7 @@
 #include <h5cpp/datatype/integer.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/string.hpp>
+// #include <h5cpp/datatype/enum.hpp>
 
 #include <vector>
 #include <array>
@@ -258,6 +259,7 @@ class TypeTrait<bool> {
     return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
   }
 };
+
 
 } // namespace datatype
 } // namespace hdf5
