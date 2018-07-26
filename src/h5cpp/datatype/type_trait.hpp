@@ -259,6 +259,5 @@ class TypeTrait<bool> {
   }
 };
 
-
 } // namespace datatype
 } // namespace hdf5
