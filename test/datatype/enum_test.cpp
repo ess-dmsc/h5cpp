@@ -234,15 +234,25 @@ TEST_F(Enum, test_ebool_array)
 {
   auto a = root_.attributes.create<datatype::EBool>("bool_array", {4});
   std::vector<datatype::EBool> buffer(4);
+  std::vector<datatype::EBool> buffer2(4);
+  std::vector<int> buffer_int(4);
+
   std::vector<datatype::EBool> ref  = {datatype::EBool::FALSE,
 				       datatype::EBool::TRUE,
 				       datatype::EBool::TRUE,
 				       datatype::EBool::FALSE};
+  std::vector<int> ref_int  = {0, 1, 1, 0};
+
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
   EXPECT_EQ(a.datatype().size(), 1);
   a.write(ref);
+
   a.read(buffer, a.datatype());
   EXPECT_EQ(buffer, ref);
-  a.read(buffer);
-  EXPECT_EQ(buffer, ref);
+
+  a.read(buffer2);
+  EXPECT_EQ(buffer2, ref);
+
+  a.read(buffer_int);
+  EXPECT_EQ(buffer_int, ref_int);
 }

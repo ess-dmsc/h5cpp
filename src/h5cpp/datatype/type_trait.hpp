@@ -28,7 +28,6 @@
 #include <h5cpp/datatype/integer.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/string.hpp>
-// #include <h5cpp/datatype/enum.hpp>
 
 #include <vector>
 #include <array>
