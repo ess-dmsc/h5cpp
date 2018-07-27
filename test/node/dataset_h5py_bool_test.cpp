@@ -69,15 +69,62 @@ TEST_F(DatasetH5pyBoolTest, test_read_simple_bool)
 TEST_F(DatasetH5pyBoolTest, test_read_vector_bool)
 {
   auto ds = node::get_dataset(root_group,"ds_bool_array");
-  std::vector<bool> buffer(4);
+  // missing implementation for std:vector<bool>
+  // std::vector<bool> buffer(4);
+  // std::vector<bool> ref  = {false, true, true, false};
+  // ds.read(buffer);
+  // EXPECT_EQ(buffer, ref);
   std::vector<unsigned char> buffer2(4);
-  std::vector<bool> ref  = {false, true, true, false};
   std::vector<unsigned char> ref2  = {0, 1, 1, 0};
   EXPECT_EQ(ds.datatype().get_class(), datatype::Class::ENUM);
   EXPECT_EQ(ds.datatype().size(), 1);
-  // ds.read(buffer);
-  // EXPECT_EQ(buffer, ref);
   ds.read(buffer2);
   EXPECT_EQ(buffer2, ref2);
+}
+
+TEST_F(DatasetH5pyBoolTest, test_read_scalar_ebool)
+{
+  auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
+  datatype::EBool buffer;
+  dstrue.read(buffer);
+  EXPECT_EQ(buffer, true);
+  EXPECT_EQ(buffer, 1);
+  EXPECT_EQ(buffer, datatype::EBool::TRUE);
+  datatype::EBool buffer2;
+  auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
+  dsfalse.read(buffer2);
+  EXPECT_EQ(buffer2, false);
+  EXPECT_EQ(buffer2, 0);
+  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
+}
+
+TEST_F(DatasetH5pyBoolTest, test_read_simple_ebool)
+{
+  auto dstrue = node::get_dataset(root_group,"ds_bool_simple_true");
+  datatype::EBool buffer;
+  dstrue.read(buffer);
+  EXPECT_EQ(buffer, true);
+  EXPECT_EQ(buffer, 1);
+  EXPECT_EQ(buffer, datatype::EBool::TRUE);
+  datatype::EBool buffer2;
+  auto dsfalse = node::get_dataset(root_group,"ds_bool_simple_false");
+  dsfalse.read(buffer2);
+  EXPECT_EQ(buffer2, false);
+  EXPECT_EQ(buffer2, 0);
+  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
+}
+
+TEST_F(DatasetH5pyBoolTest, test_read_vector_ebool)
+{
+  auto ds = node::get_dataset(root_group,"ds_bool_array");
+  std::vector<datatype::EBool> buffer(4);
+  std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
+					datatype::EBool::TRUE,
+				        datatype::EBool::TRUE,
+				        datatype::EBool::FALSE};
+  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(ds.datatype().size(), 1);
+  ds.read(buffer);
+  EXPECT_EQ(buffer, eref);
 }
 #endif

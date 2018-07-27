@@ -57,15 +57,48 @@ TEST_F(DatasetPNIIOBoolTest, test_read_simple_bool)
 TEST_F(DatasetPNIIOBoolTest, test_read_vector_bool)
 {
   auto ds = node::get_dataset(root_group,"ds_bool_array");
-  std::vector<bool> buffer(4);
+  // missing implementation for std:vector<bool>
+  // std::vector<bool> buffer(4);
+  // std::vector<bool> ref  = {false, true, true, false};
+  // ds.read(buffer);
+  // EXPECT_EQ(buffer, ref);
   std::vector<unsigned char> buffer2(4);
-  std::vector<bool> ref  = {false, true, true, false};
   std::vector<unsigned char> ref2  = {0, 1, 1, 0};
   EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
   EXPECT_EQ(ds.datatype().size(), 1);
-  // ds.read(buffer);
-  //  EXPECT_EQ(buffer, ref);
   ds.read(buffer2);
   EXPECT_EQ(buffer2, ref2);
+}
+
+TEST_F(DatasetPNIIOBoolTest, test_read_simple_ebool)
+{
+  auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
+  datatype::EBool buffer;
+  // does not work because of a bug similar to #309, #329
+  // dstrue.read(buffer);
+  dstrue.read(buffer, dstrue.datatype(), dataspace::Simple{{1}} ,dstrue.dataspace());
+  EXPECT_EQ(buffer, true);
+  datatype::EBool buffer2;
+  auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
+  // does not work because of a bug similar to #309, #329
+  // dsfalse.read(buffer2);
+  dsfalse.read(buffer2, dsfalse.datatype(), dataspace::Simple{{1}} ,dsfalse.dataspace());
+  EXPECT_EQ(buffer2, false);
+}
+
+TEST_F(DatasetPNIIOBoolTest, test_read_vector_ebool)
+{
+  auto ds = node::get_dataset(root_group,"ds_bool_array");
+  std::vector<datatype::EBool> buffer(4);
+  std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
+  					datatype::EBool::TRUE,
+  				        datatype::EBool::TRUE,
+  				        datatype::EBool::FALSE};
+  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
+  EXPECT_EQ(ds.datatype().size(), 1);
+  // does not work because of a bug similar to #309, #329
+  // ds.read(buffer);
+  ds.read(buffer, ds.datatype(), dataspace::Simple{{4}} ,ds.dataspace());
+  EXPECT_EQ(buffer, eref);
 }
 #endif
