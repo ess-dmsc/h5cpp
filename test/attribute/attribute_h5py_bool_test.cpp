@@ -24,6 +24,7 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/datatype/enum.hpp>
 
 using namespace hdf5;
 
@@ -86,12 +87,16 @@ TEST_F(H5pyBoolTest, test_read_scalar_ebool)
 {
   auto attrue =  root_group.attributes["bool_scalar_true"];
   datatype::EBool buffer;
+  EXPECT_EQ(attrue.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(attrue.datatype())), true);
   attrue.read(buffer);
   EXPECT_EQ(buffer, true);
   EXPECT_EQ(buffer, 1);
   EXPECT_EQ(buffer, datatype::EBool::TRUE);
   datatype::EBool buffer2;
   auto atfalse =  root_group.attributes["bool_scalar_false"];
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(atfalse.datatype())), true);
+  EXPECT_EQ(atfalse.datatype().get_class(), datatype::Class::ENUM);
   atfalse.read(buffer2);
   EXPECT_EQ(buffer2, false);
   EXPECT_EQ(buffer2, 0);
@@ -102,6 +107,8 @@ TEST_F(H5pyBoolTest, test_read_simple_ebool)
 {
   auto attrue =  root_group.attributes["bool_simple_true"];
   datatype::EBool buffer;
+  EXPECT_EQ(attrue.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(attrue.datatype())), true);
   attrue.read(buffer);
   EXPECT_EQ(buffer, true);
   EXPECT_EQ(buffer, 1);
@@ -109,6 +116,8 @@ TEST_F(H5pyBoolTest, test_read_simple_ebool)
   datatype::EBool buffer2;
   auto atfalse =  root_group.attributes["bool_simple_false"];
   atfalse.read(buffer2);
+  EXPECT_EQ(atfalse.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(atfalse.datatype())), true);
   EXPECT_EQ(buffer2, false);
   EXPECT_EQ(buffer2, 0);
   EXPECT_EQ(buffer2, datatype::EBool::FALSE);
@@ -117,12 +126,13 @@ TEST_F(H5pyBoolTest, test_read_simple_ebool)
 TEST_F(H5pyBoolTest, test_read_vector_ebool)
 {
   auto a =  root_group.attributes["bool_array"];
+  EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(a.datatype())), true);
   std::vector<datatype::EBool> buffer(4);
   std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
 					datatype::EBool::TRUE,
 				        datatype::EBool::TRUE,
 				        datatype::EBool::FALSE};
-  EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
   EXPECT_EQ(a.datatype().size(), 1);
   a.read(buffer);
   EXPECT_EQ(buffer, eref);

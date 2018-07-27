@@ -24,6 +24,7 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/datatype/enum.hpp>
 
 using namespace hdf5;
 
@@ -86,6 +87,8 @@ TEST_F(DatasetH5pyBoolTest, test_read_scalar_ebool)
 {
   auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
   datatype::EBool buffer;
+  EXPECT_EQ(dstrue.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(dstrue.datatype())), true);
   dstrue.read(buffer);
   EXPECT_EQ(buffer, true);
   EXPECT_EQ(buffer, 1);
@@ -93,6 +96,8 @@ TEST_F(DatasetH5pyBoolTest, test_read_scalar_ebool)
   datatype::EBool buffer2;
   auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
   dsfalse.read(buffer2);
+  EXPECT_EQ(dsfalse.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(dsfalse.datatype())), true);
   EXPECT_EQ(buffer2, false);
   EXPECT_EQ(buffer2, 0);
   EXPECT_EQ(buffer2, datatype::EBool::FALSE);
@@ -102,6 +107,8 @@ TEST_F(DatasetH5pyBoolTest, test_read_simple_ebool)
 {
   auto dstrue = node::get_dataset(root_group,"ds_bool_simple_true");
   datatype::EBool buffer;
+  EXPECT_EQ(dstrue.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(dstrue.datatype())), true);
   dstrue.read(buffer);
   EXPECT_EQ(buffer, true);
   EXPECT_EQ(buffer, 1);
@@ -109,6 +116,8 @@ TEST_F(DatasetH5pyBoolTest, test_read_simple_ebool)
   datatype::EBool buffer2;
   auto dsfalse = node::get_dataset(root_group,"ds_bool_simple_false");
   dsfalse.read(buffer2);
+  EXPECT_EQ(dsfalse.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(dsfalse.datatype())), true);
   EXPECT_EQ(buffer2, false);
   EXPECT_EQ(buffer2, 0);
   EXPECT_EQ(buffer2, datatype::EBool::FALSE);
@@ -117,6 +126,8 @@ TEST_F(DatasetH5pyBoolTest, test_read_simple_ebool)
 TEST_F(DatasetH5pyBoolTest, test_read_vector_ebool)
 {
   auto ds = node::get_dataset(root_group,"ds_bool_array");
+  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::ENUM);
+  EXPECT_EQ(datatype::is_bool(datatype::Enum(ds.datatype())), true);
   std::vector<datatype::EBool> buffer(4);
   std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
 					datatype::EBool::TRUE,

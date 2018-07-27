@@ -221,5 +221,14 @@ class TypeTrait<datatype::EBool> {
   }
 };
 
+
+//!
+//! @brief check if Enum is EBool
+//!
+//! @param Enum object
+//! @return if Enum is EBool flag
+//!
+DLL_EXPORT bool is_bool(const Enum & etype);
+
 } // namespace datatype
 } // namespace hdf5
