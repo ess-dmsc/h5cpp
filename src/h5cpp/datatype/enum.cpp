@@ -22,7 +22,6 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: May 14, 2018
 //
 
@@ -90,24 +89,6 @@ std::string Enum::name(size_t index) const
     error::Singleton::instance().throw_with_stack(ss.str());
   }
   return name;
-}
-
-bool Enum::is_bool() const {
-  int s = H5Tget_nmembers(static_cast<hid_t>(*this));
-  if (s < 0) {
-    error::Singleton::instance().throw_with_stack("Could not retrieve datatype");
-    return false;
-  }
-  if(s != 2){
-    return false;
-  }
-  if(name(0) != "FALSE"){
-    return false;
-  }
-  if(name(1) != "TRUE"){
-    return false;
-  }
-  return true;
 }
 
 

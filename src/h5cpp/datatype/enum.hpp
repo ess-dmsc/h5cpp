@@ -120,13 +120,6 @@ class DLL_EXPORT Enum : public Datatype
   template<typename T>
   void underlying_value(const std::string& name, T& data) const;
 
-  //!
-  //! @brief Retrieves the bool type for an enum type.
-  //!
-  //! @throws std::runtime_error in case of a failure
-  //!
-  virtual bool is_bool() const;
-  
  private:
   template<typename T>
   void check_type(const T& data) const;
