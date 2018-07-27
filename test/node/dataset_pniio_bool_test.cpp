@@ -74,13 +74,13 @@ TEST_F(DatasetPNIIOBoolTest, test_read_simple_ebool)
 {
   auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
   datatype::EBool buffer;
-  // does not work because of a bug similar to #309, #329
+  // does not work because of a bug similar to #309, #347
   // dstrue.read(buffer);
   dstrue.read(buffer, dstrue.datatype(), dataspace::Simple{{1}} ,dstrue.dataspace());
   EXPECT_EQ(buffer, true);
   datatype::EBool buffer2;
   auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
-  // does not work because of a bug similar to #309, #329
+  // does not work because of a bug similar to #309, #347
   // dsfalse.read(buffer2);
   dsfalse.read(buffer2, dsfalse.datatype(), dataspace::Simple{{1}} ,dsfalse.dataspace());
   EXPECT_EQ(buffer2, false);
@@ -96,7 +96,7 @@ TEST_F(DatasetPNIIOBoolTest, test_read_vector_ebool)
   				        datatype::EBool::FALSE};
   EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
   EXPECT_EQ(ds.datatype().size(), 1);
-  // does not work because of a bug similar to #309, #329
+  // does not work because of a bug similar to #309, #347
   // ds.read(buffer);
   ds.read(buffer, ds.datatype(), dataspace::Simple{{4}} ,ds.dataspace());
   EXPECT_EQ(buffer, eref);

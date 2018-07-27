@@ -74,7 +74,7 @@ TEST_F(PNIIOBoolTest, test_read_scalar_ebool)
 {
   auto attrue =  root_group.attributes["bool_true"];
   datatype::EBool buffer;
-  // does not work because of #309, #329
+  // does not work because of #309, #347
   // attrue.read(buffer);
   attrue.read(buffer, attrue.datatype());
   EXPECT_EQ(buffer, true);
@@ -82,7 +82,7 @@ TEST_F(PNIIOBoolTest, test_read_scalar_ebool)
   EXPECT_EQ(buffer, datatype::EBool::TRUE);
   datatype::EBool buffer2;
   auto atfalse =  root_group.attributes["bool_false"];
-  // does not work because of #309, #329
+  // does not work because of #309, #347
   // atfalse.read(buffer2);
   atfalse.read(buffer2, atfalse.datatype());
   EXPECT_EQ(buffer2, false);
@@ -101,7 +101,7 @@ TEST_F(PNIIOBoolTest, test_read_vector_ebool)
   				        datatype::EBool::FALSE};
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::INTEGER);
   EXPECT_EQ(a.datatype().size(), 1);
-  // does not work because of #309, #329
+  // does not work because of #309, #347
   // a.read(buffer);
   a.read(buffer, a.datatype());
   EXPECT_EQ(buffer, eref);
