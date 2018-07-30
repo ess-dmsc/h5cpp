@@ -93,10 +93,6 @@ std::string Enum::name(size_t index) const
 
 bool is_bool(const Enum & etype){
   int s = etype.number_of_values();
-  if (s < 0) {
-    error::Singleton::instance().throw_with_stack("Could not retrieve datatype");
-    return false;
-  }
   if(s != 2){
     return false;
   }
