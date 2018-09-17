@@ -23,6 +23,9 @@ target_link_libraries(writing_image h5cpp)
 add_executable(write_single_vector write_single_vector.cpp)
 target_link_libraries(write_single_vector h5cpp)
 
+add_executable(read_dataset read_dataset.cpp)
+target_link_libraries(read_dataset h5cpp)
+
 add_executable(append_scalar_data append_scalar_data.cpp)
 target_link_libraries(append_scalar_data h5cpp)
 
