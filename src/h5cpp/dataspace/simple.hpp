@@ -41,7 +41,7 @@ class DLL_EXPORT Simple : public Dataspace {
   //!
   //! \brief dimension value for unlimited number of elements
   //!
-  static const hsize_t UNLIMITED = H5S_UNLIMITED;
+  static const hsize_t UNLIMITED;
 
   //!
   //! \brief default constructor
