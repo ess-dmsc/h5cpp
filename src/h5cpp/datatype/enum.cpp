@@ -91,20 +91,6 @@ std::string Enum::name(size_t index) const
   return name;
 }
 
-bool is_bool(const Enum & etype){
-  int s = etype.number_of_values();
-  if(s != 2){
-    return false;
-  }
-  if(etype.name(0) != "FALSE"){
-    return false;
-  }
-  if(etype.name(1) != "TRUE"){
-    return false;
-  }
-  return true;
-}
-
 
 } // namespace datatype
 } // namespace hdf5

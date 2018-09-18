@@ -22,7 +22,6 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: May 14, 2018
 //
 #pragma once
@@ -207,28 +206,6 @@ T Enum::value(const std::string& name) const
   return static_cast<T>(t);
 }
 
-template<>
-class TypeTrait<datatype::EBool> {
- public:
-  using TypeClass = datatype::Enum;
-  using Type = datatype::EBool;
-
-  static TypeClass create(const Type & = Type()) {
-    auto type = TypeClass::create(Type());
-    type.insert("FALSE", Type::FALSE);
-    type.insert("TRUE", Type::TRUE);
-    return type;
-  }
-};
-
-
-//!
-//! @brief check if Enum is EBool
-//!
-//! @param Enum object
-//! @return if Enum is EBool flag
-//!
-DLL_EXPORT bool is_bool(const Enum & etype);
 
 } // namespace datatype
 } // namespace hdf5

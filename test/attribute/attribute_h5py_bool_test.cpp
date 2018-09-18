@@ -24,7 +24,7 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/hdf5.hpp>
-#include <h5cpp/datatype/enum.hpp>
+#include <h5cpp/datatype/ebool.hpp>
 
 using namespace hdf5;
 

@@ -22,7 +22,6 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
-//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 #pragma once
@@ -93,15 +92,6 @@ enum class Sign : std::underlying_type<H5T_sign_t>::type
 {
   TWOS_COMPLEMENT = H5T_SGN_2, //!< indicates a signed type
   UNSIGNED = H5T_SGN_NONE      //!< indicates an unsigned type
-};
-
-//!
-//! \brief enumeration bool type
-//!
-enum EBool : int8_t
-{
-  FALSE = 0, //!< indicates a false value
-  TRUE = 1   //!< indicates a true value
 };
 
 //!

@@ -27,6 +27,7 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/datatype/enum.hpp>
+#include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include "../fixture.hpp"
 
