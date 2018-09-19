@@ -144,10 +144,31 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \throws std::runtime_error in case of a failure
     //! \param dims vector with new number of elements along each dimension
+    //! \deprecated this method is deprecated - use resize instead
     //!
     void extent(const Dimensions &dims) const;
 
+
+
     void extent(size_t dim,ssize_t delta_elements) const;
+
+
+    //!
+    //! \brief resize the dataset
+    //!
+    //! Allows to change the shape (number of elements along each dimensions)
+    //! of a dataset. It is important to note that in such a case a previously
+    //! requested dataspace though remaining a valid object does no longer
+    //! describe the datasets layout correctly. The number of elements can be
+    //! increased or decreased within the limits of the dataspace originally
+    //! used to create the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param dims vector with new number of elements along each dimension
+    //!
+    void resize(const Dimensions &dims) const;
+
+
 
 #if H5_VERSION_GE(1,10,0)
     void refresh() const;
@@ -701,6 +722,12 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
   read(data,memory_type,memory_space,file_space,dtpl);
 
 }
+
+
+//!
+//! \brief resize a dataset by a particular offset
+//!
+void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta);
 
 
 
