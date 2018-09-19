@@ -727,6 +727,15 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 //!
 //! \brief resize a dataset by a particular offset
 //!
+//! Resizes a dataset along the dimension determined by dimension_index
+//! by delta elements. As delta is a signed integer one can either
+//! enlarge or shrink the dataset.
+//!
+//! \param dataset reference to the dataset to resize
+//! \param dimension_index the index of the dimension to resize
+//! \param delta the number of elements about which the dataset should be resized
+//! \throws std::runtime_error in case of any failure
+//!
 DLL_EXPORT void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta);
 
 
