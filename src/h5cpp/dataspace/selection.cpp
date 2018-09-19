@@ -30,13 +30,16 @@
 namespace hdf5 {
 namespace dataspace {
 
-Selection::~Selection() {}
+Selection::~Selection ()
+{
+}
 
-Dataspace operator||(const Dataspace &space, const SelectionList &selections) {
-  Dataspace new_space(space);
+Dataspace operator|| (const Dataspace &space, const SelectionList &selections)
+{
+  Dataspace new_space (space);
 
-  for (auto swo: selections)
-    new_space.selection(swo.operation, *swo.selection);
+  for (auto swo : selections)
+    new_space.selection (swo.operation, *swo.selection);
 
   return new_space;
 }

@@ -39,53 +39,63 @@ namespace dataspace {
 //!
 //! \brief selection base class
 //!
-class DLL_EXPORT Selection {
- public:
-  //!
-  //! \brief pointer for selection stacks
-  //!
-  //! As selections use virtual functions for being applied we have to
-  using UniquePointer = std::unique_ptr<Selection>;
-  using SharedPointer = std::shared_ptr<Selection>;
+class DLL_EXPORT Selection
+{
+  public:
+    //!
+    //! \brief pointer for selection stacks
+    //!
+    //! As selections use virtual functions for being applied we have to
+    using UniquePointer = std::unique_ptr<Selection>;
+    using SharedPointer = std::shared_ptr<Selection>;
 
-  //!
-  //! \brief default constructor
-  //!
-  //! Use the compiler provided default implementation.
-  Selection() = default;
+    //!
+    //! \brief default constructor
+    //!
+    //! Use the compiler provided default implementation.
+    Selection () = default;
 
-  //!
-  //! \brief copy constructor
-  //!
-  //! Use the compiler provided default implementation.
-  //!
-  Selection(const Selection &) = default;
+    //!
+    //! \brief copy constructor
+    //!
+    //! Use the compiler provided default implementation.
+    //!
+    Selection (const Selection &) = default;
 
-  //!
-  //! \brief destructor
-  //!
-  //! The destructor has to be virtual to inherit from this class.
-  //!
-  virtual ~Selection();
+    //!
+    //! \brief destructor
+    //!
+    //! The destructor has to be virtual to inherit from this class.
+    //!
+    virtual
+    ~Selection ();
 
-  //!
-  //! \brief apply a selection onto a dataspace
-  //!
-  //! The current selection will be applied to dataspace \c space using the
-  //! operator determined by \c ops.
-  //!
-  //! \throws std::runtime_error in case of a failure
-  //!
-  //! \param space reference to the dataspace onto which to apply the
-  //!              selection
-  //! \param ops operator for the selection
-  virtual void apply(const Dataspace &space,
-                     SelectionOperation ops) const = 0;
+    //!
+    //! \brief apply a selection onto a dataspace
+    //!
+    //! The current selection will be applied to dataspace \c space using the
+    //! operator determined by \c ops.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \param space reference to the dataspace onto which to apply the
+    //!              selection
+    //! \param ops operator for the selection
+    virtual void
+    apply (const Dataspace &space, SelectionOperation ops) const = 0;
 };
 
-struct OperationWithSelection {
-  SelectionOperation operation;
-  Selection::SharedPointer selection;
+//!
+//! @brief specialized pair storing a selection with an operation
+//!
+//! This pair is the building block for all operations concerning
+//! selections. The operation determines how a particlar selection will be
+//! compbined with the previously applied selections.
+//!
+struct OperationWithSelection
+{
+    SelectionOperation operation;
+    Selection::SharedPointer selection;
 };
 
 using SelectionPair = std::pair<SelectionOperation, Selection::SharedPointer>;
