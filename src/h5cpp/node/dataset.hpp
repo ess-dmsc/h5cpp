@@ -727,7 +727,7 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 //!
 //! \brief resize a dataset by a particular offset
 //!
-void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta);
+DLL_EXPORT void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta);
 
 
 
