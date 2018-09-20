@@ -73,7 +73,7 @@ def Object get_container(image_key) {
 
 def docker_copy_code(image_key) {
     def custom_sh = images[image_key]['sh']
-    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
+    sh "docker cp ${project} ${container_name(image_key)}:/home/jenkins/${project}"
     sh """docker exec --user root ${container_name} ${custom_sh} -c \"
                         chown -R jenkins.jenkins /home/jenkins/${project}
                         \""""
@@ -267,7 +267,7 @@ def get_win10_pipeline()
 
 node('docker') {
     stage('Checkout') {
-        dir("${project}_code") {
+        dir("${project}") {
             try {
                 scm_vars = checkout scm
             } catch (e) {
