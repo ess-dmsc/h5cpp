@@ -71,13 +71,12 @@ def Object get_container(image_key) {
     return container
 }
 
-def docker_clone(image_key) {
+def docker_copy_code(image_key, container_name) {
     def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        git clone \
-            --branch ${env.BRANCH_NAME} \
-            https://github.com/ess-dmsc/h5cpp.git /home/jenkins/${project}
-    \""""
+    sh "docker cp ${project}_code ${container_name(image_key)}:/home/jenkins/${project}"
+    sh """docker exec --user root ${container_name} ${custom_sh} -c \"
+                        chown -R jenkins.jenkins /home/jenkins/${project}
+                        \""""
 }
 
 def docker_dependencies(image_key) {
@@ -167,7 +166,7 @@ def get_pipeline(image_key)
                 try {
                     def container = get_container(image_key)
 
-                    docker_clone(image_key)
+                    docker_copy_code(image_key)
                     docker_dependencies(image_key)
                     docker_build(image_key, images[image_key]['cmake_flags'])
 
