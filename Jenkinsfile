@@ -3,13 +3,13 @@ coverage_os = "centos7-release"
 
 images = [
     'centos7-release': [
-        'name': 'essdmscdm/centos7-build-node:3.0.0',
+        'name': 'essdmscdm/centos7-build-node:3.1.0',
         'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash -e',
         'cmake_flags': '-DCOV=1 -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
     ],
     'debian9-release': [
-        'name': 'essdmscdm/debian9-build-node:2.0.0',
+        'name': 'essdmscdm/debian9-build-node:2.1.0',
         'cmake': 'cmake',
         'sh': 'bash -e',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
@@ -22,13 +22,13 @@ images = [
     ],
 
     'centos7-debug': [
-            'name': 'essdmscdm/centos7-build-node:3.0.0',
+            'name': 'essdmscdm/centos7-build-node:3.1.0',
             'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
             'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash -e',
             'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
     ],
     'debian9-debug': [
-            'name': 'essdmscdm/debian9-build-node:2.0.0',
+            'name': 'essdmscdm/debian9-build-node:2.1.0',
             'cmake': 'cmake',
             'sh': 'bash -e',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
