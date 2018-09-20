@@ -15,6 +15,7 @@ set(test_sources
     ${dir}/dataset_extent_test.cpp
     ${dir}/dataset_partial_io_test.cpp
     ${dir}/dataset_array_type_io.cpp
+    ${dir}/dataset_const_data.cpp
     ${dir}/dataset_vlen_array_io.cpp
     ${dir}/dataset_fixed_string_io.cpp
     ${dir}/dataset_variable_string_io.cpp
