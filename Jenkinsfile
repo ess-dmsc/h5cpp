@@ -3,13 +3,13 @@ coverage_os = "centos7-release"
 
 images = [
     'centos7-release': [
-        'name': 'essdmscdm/centos7-build-node:3.0.0',
+        'name': 'essdmscdm/centos7-build-node:3.1.0',
         'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
         'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash -e',
         'cmake_flags': '-DCOV=1 -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
     ],
     'debian9-release': [
-        'name': 'essdmscdm/debian9-build-node:2.0.0',
+        'name': 'essdmscdm/debian9-build-node:2.1.0',
         'cmake': 'cmake',
         'sh': 'bash -e',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
@@ -22,13 +22,13 @@ images = [
     ],
 
     'centos7-debug': [
-            'name': 'essdmscdm/centos7-build-node:3.0.0',
+            'name': 'essdmscdm/centos7-build-node:3.1.0',
             'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
             'sh': '/usr/bin/scl enable rh-python35 devtoolset-6 -- /bin/bash -e',
             'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
     ],
     'debian9-debug': [
-            'name': 'essdmscdm/debian9-build-node:2.0.0',
+            'name': 'essdmscdm/debian9-build-node:2.1.0',
             'cmake': 'cmake',
             'sh': 'bash -e',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
@@ -71,13 +71,12 @@ def Object get_container(image_key) {
     return container
 }
 
-def docker_clone(image_key) {
+def docker_copy_code(image_key) {
     def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        git clone \
-            --branch ${env.BRANCH_NAME} \
-            https://github.com/ess-dmsc/h5cpp.git /home/jenkins/${project}
-    \""""
+    sh "docker cp ${project} ${container_name(image_key)}:/home/jenkins/${project}"
+    sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
+                        chown -R jenkins.jenkins /home/jenkins/${project}
+                        \""""
 }
 
 def docker_dependencies(image_key) {
@@ -163,25 +162,23 @@ def get_pipeline(image_key)
 {
     return {
         stage("${image_key}") {
-            node("docker") {
-                try {
-                    def container = get_container(image_key)
+            try {
+                def container = get_container(image_key)
 
-                    docker_clone(image_key)
-                    docker_dependencies(image_key)
-                    docker_build(image_key, images[image_key]['cmake_flags'])
+                docker_copy_code(image_key)
+                docker_dependencies(image_key)
+                docker_build(image_key, images[image_key]['cmake_flags'])
 
-                    if (image_key == coverage_os) {
-                        docker_coverage(image_key)
-                    } else {
-                        docker_test(image_key)
-                    }
-                } catch (e) {
-                    failure_function(e, "Unknown build failure for ${image_key}")
-                } finally {
-                    sh "docker stop ${container_name(image_key)}"
-                    sh "docker rm -f ${container_name(image_key)}"
+                if (image_key == coverage_os) {
+                    docker_coverage(image_key)
+                } else {
+                    docker_test(image_key)
                 }
+            } catch (e) {
+                failure_function(e, "Unknown build failure for ${image_key}")
+            } finally {
+                sh "docker stop ${container_name(image_key)}"
+                sh "docker rm -f ${container_name(image_key)}"
             }
         }
     }
@@ -268,7 +265,7 @@ def get_win10_pipeline()
 
 node('docker') {
     stage('Checkout') {
-        dir("${project}_code") {
+        dir("${project}") {
             try {
                 scm_vars = checkout scm
             } catch (e) {
