@@ -162,25 +162,23 @@ def get_pipeline(image_key)
 {
     return {
         stage("${image_key}") {
-            node("docker") {
-                try {
-                    def container = get_container(image_key)
+            try {
+                def container = get_container(image_key)
 
-                    docker_copy_code(image_key)
-                    docker_dependencies(image_key)
-                    docker_build(image_key, images[image_key]['cmake_flags'])
+                docker_copy_code(image_key)
+                docker_dependencies(image_key)
+                docker_build(image_key, images[image_key]['cmake_flags'])
 
-                    if (image_key == coverage_os) {
-                        docker_coverage(image_key)
-                    } else {
-                        docker_test(image_key)
-                    }
-                } catch (e) {
-                    failure_function(e, "Unknown build failure for ${image_key}")
-                } finally {
-                    sh "docker stop ${container_name(image_key)}"
-                    sh "docker rm -f ${container_name(image_key)}"
+                if (image_key == coverage_os) {
+                    docker_coverage(image_key)
+                } else {
+                    docker_test(image_key)
                 }
+            } catch (e) {
+                failure_function(e, "Unknown build failure for ${image_key}")
+            } finally {
+                sh "docker stop ${container_name(image_key)}"
+                sh "docker rm -f ${container_name(image_key)}"
             }
         }
     }
