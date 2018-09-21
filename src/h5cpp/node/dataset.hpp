@@ -19,7 +19,10 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
+//
 // Created on: Sep 7, 2017
 //
 #pragma once
@@ -532,15 +535,18 @@ class DLL_EXPORT Dataset : public Node
 
       Trait::from_buffer(buffer,data);
 
-      if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
+      if(buffer.size() > 0)
+      {
+	if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
                          static_cast<hid_t>(mem_space),
                          static_cast<hid_t>(dtpl),
                          buffer.data())<0)
-      {
-        std::stringstream ss;
-        ss<<"Error reclaiming memory from variable length string data in "
-          <<"dataset ["<<link().path()<<"]!";
-        error::Singleton::instance().throw_with_stack(ss.str());
+	{
+	  std::stringstream ss;
+	  ss<<"Error reclaiming memory from variable length string data in "
+	    <<"dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
       }
     }
 
@@ -556,21 +562,23 @@ class DLL_EXPORT Dataset : public Node
 
       auto buffer = Trait::BufferType::create(mem_type,mem_space);
 
-      if(H5Dread(static_cast<hid_t>(*this),
-                 static_cast<hid_t>(mem_type),
-                 static_cast<hid_t>(mem_space),
-                 static_cast<hid_t>(file_space),
-                 static_cast<hid_t>(dtpl),
-                 buffer.data())<0)
+      if(file_space.size() > 0)
       {
-        std::stringstream ss;
-        ss<<"Failure to read fixed length string data to dataset ["<<link().path()<<"]!";
-        error::Singleton::instance().throw_with_stack(ss.str());
+	if(H5Dread(static_cast<hid_t>(*this),
+		   static_cast<hid_t>(mem_type),
+		   static_cast<hid_t>(mem_space),
+		   static_cast<hid_t>(file_space),
+		   static_cast<hid_t>(dtpl),
+		   buffer.data())<0)
+	  {
+	    std::stringstream ss;
+	    ss<<"Failure to read fixed length string data to dataset ["<<link().path()<<"]!";
+	    error::Singleton::instance().throw_with_stack(ss.str());
+	  }
+
+	//get data out of the buffer
+	data = Trait::from_buffer(buffer,mem_type,mem_space);
       }
-
-      //get data out of the buffer
-      data = Trait::from_buffer(buffer,mem_type,mem_space);
-
     }
 };
 
