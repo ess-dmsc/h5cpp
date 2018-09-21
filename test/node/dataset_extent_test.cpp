@@ -66,6 +66,16 @@ TEST_F(Extent, test_infinite_extent_absolut)
   EXPECT_EQ(sspace.current_dimensions()[0],1000ul);
 }
 
+TEST_F(Extent,test_infinite_resize_absolute)
+{
+  sspace = inf_data.dataspace();
+  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
+  EXPECT_NO_THROW(inf_data.resize({1000}));
+  EXPECT_NO_THROW(sspace = inf_data.dataspace());
+  sspace = inf_data.dataspace();
+  EXPECT_EQ(sspace.current_dimensions()[0],1000ul);
+}
+
 TEST_F(Extent, test_infinite_extent_relative)
 {
   sspace = inf_data.dataspace();
@@ -78,6 +88,18 @@ TEST_F(Extent, test_infinite_extent_relative)
   EXPECT_THROW(inf_data.extent(1,100),std::runtime_error);
 }
 
+TEST_F(Extent, test_infinite_resize_by)
+{
+  sspace = inf_data.dataspace();
+  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
+  EXPECT_NO_THROW(resize_by(inf_data,0,123));
+  sspace = inf_data.dataspace();
+  EXPECT_EQ(sspace.current_dimensions()[0],123ul);
+
+  EXPECT_THROW(resize_by(inf_data,0,-1000),std::runtime_error);
+  EXPECT_THROW(resize_by(inf_data,1,100),std::runtime_error);
+}
+
 TEST_F(Extent, test_finite_extent_absolute)
 {
   EXPECT_NO_THROW(fin_data.extent({100}));
@@ -86,6 +108,16 @@ TEST_F(Extent, test_finite_extent_absolute)
 
   EXPECT_THROW(fin_data.extent({100000}),std::runtime_error);
 }
+
+TEST_F(Extent, test_finite_resize_absolute)
+{
+  EXPECT_NO_THROW(fin_data.extent({100}));
+  sspace = fin_data.dataspace();
+  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
+
+  EXPECT_THROW(fin_data.resize({100000}),std::runtime_error);
+}
+
 
 TEST_F(Extent, test_finite_extent_relative)
 {
@@ -98,7 +130,16 @@ TEST_F(Extent, test_finite_extent_relative)
   EXPECT_THROW(fin_data.extent(0,100000),std::runtime_error);
 }
 
+TEST_F(Extent, test_finite_resize_by)
+{
+  EXPECT_NO_THROW(resize_by(fin_data,0,100));
+  sspace = fin_data.dataspace();
+  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
 
+  EXPECT_THROW(resize_by(fin_data,0,-1000000),std::runtime_error);
+  EXPECT_THROW(resize_by(fin_data,1,100),std::runtime_error);
+  EXPECT_THROW(resize_by(fin_data,0,100000),std::runtime_error);
+}
 
 
 
