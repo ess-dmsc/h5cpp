@@ -1,8 +1,7 @@
 /build*/
 /cmake-build-*/
 *.user
-.idea/workspace.xml
-.idea/usage.statistics.xml
+.idea/
 
 *.swp
 /file_open.h5
