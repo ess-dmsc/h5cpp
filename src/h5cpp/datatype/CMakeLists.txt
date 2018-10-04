@@ -9,6 +9,7 @@ set(SOURCES
     ${dir}/string.cpp
     ${dir}/types.cpp
     ${dir}/enum.cpp
+    ${dir}/ebool.cpp
     )
 
 set(HEADERS
