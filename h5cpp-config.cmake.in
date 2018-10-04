@@ -15,6 +15,10 @@ if(NOT TARGET Boost::filesystem)
 	list(APPEND BOOST_COMPONENTS filesystem)
 endif()
 
+if(NOT TARGET Boost::system)
+	list(APPEND BOOST_COMPONENTS system)
+endif()
+
 find_package(Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@ EXACT REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 if(NOT Boost_FOUND)
 	message(FATAL_ERROR "Could not find Boost filesystem library - cannot load h5cpp targets")
@@ -30,7 +34,7 @@ set(HDF5_PREFER_PARALLEL @WITH_MPI@)
 find_package(HDF5 @HDF5_VERSION@ EXACT REQUIRED COMPONENTS C)
 
 #
-# as the libraries are attached to the imported target we have to add the 
+# as the libraries are attached to the imported target we have to add the
 # directory where to find them according to the previous find_package call
 #
 foreach(HDF5_LIB ${HDF5_LIBRARIES})
@@ -41,10 +45,10 @@ endforeach()
 if(H5CPP_MPI_ENABLED AND (NOT HDF5_IS_PARALLEL))
     message(FATAL_ERROR "HDF5 library with MPI support required!")
 endif()
-    
+
 
 #
-# load targets 
+# load targets
 #
 include(${CMAKE_CURRENT_LIST_DIR}/h5cpp_targets.cmake)
 
