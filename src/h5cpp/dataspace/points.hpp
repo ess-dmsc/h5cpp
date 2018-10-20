@@ -29,30 +29,92 @@
 #include <h5cpp/dataspace/selection.hpp>
 #include <h5cpp/core/windows.hpp>
 
-namespace hdf5 {
-namespace dataspace {
+namespace hdf5
+{
+namespace dataspace
+{
 
-class DLL_EXPORT Points : public Selection {
- public:
-  Points() = default;
-  ~Points() = default;
+//!
+//! \brief point selection implementation
+//!
+//!
+class DLL_EXPORT Points : public Selection
+{
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    //! We use the compiler provided default implementation.
+    Points () = default;
 
-  explicit Points(size_t rank);
-  explicit Points(const std::vector<std::vector<hsize_t>>& coord_set);
+    //!
+    //! \brief destructor
+    //!
+    //! Use the compiler provided default implementation.
+    ~Points () = default;
 
-  size_t rank() const;
-  size_t points() const;
+    //!
+    //! \brief constructor
+    //!
+    //! Create a new point selection or a given rank
+    //!
+    //! \param rank the number of dimensions of the selection
+    //!
+    explicit Points (size_t rank);
 
-  void add(const std::vector<hsize_t>& coords);
+    //!
+    //! \brief constructor
+    //!
+    //! Create a point selection from a set of selection coordinates. The
+    //! number of dimensions of the first coordinates determines the rank
+    //! of the selection.
+    //!
+    //! \param coord_set set of selection coordinates
+    //!
+    explicit Points (const std::vector<std::vector<hsize_t>>& coord_set);
 
-  void add_set(const std::vector<std::vector<hsize_t>>& coord_set);
+    //!
+    //! \brief get the number of dimensions
+    //!
+    //! \return number of dimensions of the selection.
+    //!
+    size_t rank () const;
 
-  void apply(const Dataspace &space,
-             SelectionOperation ops) const override;
+    //!
+    //! \brief get the number of points in the selection
+    //!
+    //! \return number of points as unsigned integer
+    //!
+    size_t points () const;
 
- private:
-  size_t rank_{0};
-  std::vector<hsize_t> coordinates_;
+    //!
+    //! \brief add a new point to the selection
+    //!
+    //! \param coords index coordinates of the point
+    //! \throws runtime_error in the case of a failure
+    //!
+    void add (const std::vector<hsize_t>& coords);
+
+    //!
+    //! \brief add point set to the selection
+    //!
+    //! \param coord_set coordinate set
+    //! \throws runtime_error in the case of a failure
+    //!
+    void add_set (const std::vector<std::vector<hsize_t>>& coord_set);
+
+    //!
+    //! \brief apply the selection to a dataspace
+    //!
+    //! \param space reference to the dataspace onto which the selection should
+    //!              be applied
+    //! \param ops opertion used to apply the selection
+    //!
+    void apply (const Dataspace &space, SelectionOperation ops) const override;
+
+  private:
+    size_t rank_{ 0 };
+    std::vector<hsize_t> coordinates_;
 };
 
 } // namespace dataspace
