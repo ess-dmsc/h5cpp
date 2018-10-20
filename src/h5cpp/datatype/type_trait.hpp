@@ -72,15 +72,15 @@ class TypeTrait<char> {
   }
 };
 
-template<>
-class TypeTrait<std::int8_t const> {
-public:
-  using Type = std::int8_t;
-  using TypeClass = Integer;
-  static TypeClass create(const Type & = Type()) {
-    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT8)));
-  }
-};
+//template<>
+//class TypeTrait<std::int8_t const> {
+//public:
+//  using Type = std::int8_t;
+//  using TypeClass = Integer;
+//  static TypeClass create(const Type & = Type()) {
+//    return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT8)));
+//  }
+//};
 
 template<>
 class TypeTrait<std::uint8_t const> {
@@ -324,7 +324,7 @@ class TypeTrait<std::vector<T>> {
   using Type = std::vector<T>;
   using TypeClass = typename TypeTrait<T>::TypeClass;
   static TypeClass create(const Type & = Type()) {
-    return TypeTrait<T>::create();
+    return TypeTrait<typename std::remove_const<T>::type>::create();
   }
 };
 
@@ -334,7 +334,7 @@ class TypeTrait<std::array<T, N>> {
   using Type = std::array<T, N>;
   using TypeClass = typename TypeTrait<T>::TypeClass;
   static TypeClass create(const Type & = Type()) {
-    return TypeTrait<T>::create();
+    return TypeTrait<typename std::remove_const<T>::type>::create();
   }
 };
 
