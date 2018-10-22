@@ -83,6 +83,7 @@ def docker_dependencies(image_key) {
     def conan_remote = "ess-dmsc-local"
     def custom_sh = images[image_key]['sh']
     sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
+        rm -rf ${project}/build
         mkdir ${project}/build
         cd ${project}/build
         conan remote add \
