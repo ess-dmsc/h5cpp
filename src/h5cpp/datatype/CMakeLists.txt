@@ -23,6 +23,7 @@ set(HEADERS
     ${dir}/string.hpp
     ${dir}/array.hpp
     ${dir}/enum.hpp
+    ${dir}/ebool.hpp
     )
 
 install(FILES ${HEADERS}
