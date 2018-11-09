@@ -672,14 +672,19 @@ template<typename T>
 void Dataset::read(T &data,const dataspace::Selection &selection,
                    const property::DatasetTransferList &dtpl) const
 {
-  auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-
+  auto memory_space = hdf5::dataspace::create(data);
+  
   dataspace::Dataspace file_space = dataspace();
+  std::cerr << "FS:  " << file_space.size() << std::endl;
+  std::cerr << "MS:  " << memory_space.size() << std::endl;
   file_space.selection(dataspace::SelectionOperation::SET,selection);
-
-  read(data,memory_type,memory_space,file_space,dtpl);
-
+  if (file_space.size() == memory_space.size()){
+    read(data,memory_type,file_space,file_space,dtpl);
+  }
+  else{
+    read(data,memory_type,memory_space,file_space,dtpl);
+  }
 }
 
 template<typename T>
@@ -727,7 +732,12 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
   auto file_space = dataspace();
   file_space.selection.all();
 
-  read(data,memory_type,memory_space,file_space,dtpl);
+  if (file_space.size() == memory_space.size()){
+    read(data,memory_type,file_space,file_space,dtpl);
+  }
+  else{
+    read(data,memory_type,memory_space,file_space,dtpl);
+  }
 
 }
 
