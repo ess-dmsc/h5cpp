@@ -27,7 +27,9 @@
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/dataspace/hyperslab.hpp>
+#ifndef _MSC_VER
 #include <sys/time.h>
+#endif
 
 using namespace hdf5;
 namespace fs = boost::filesystem;
