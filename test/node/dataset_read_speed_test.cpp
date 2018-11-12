@@ -74,7 +74,7 @@ class DatasetReadSpeedTest : public testing::Test
   }
 };
 
-
+#ifndef _MSC_VER
 TEST_F(DatasetReadSpeedTest, read)
 {
   struct timeval stime1;
@@ -115,8 +115,8 @@ TEST_F(DatasetReadSpeedTest, read)
   double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
     + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
 
-  EXPECT_GT(2*time1, time0);
-  EXPECT_GT(2*time0, time1);
+  EXPECT_GT(8*time1, time0);
+  EXPECT_GT(8*time0, time1);
 }
 
 TEST_F(DatasetReadSpeedTest, read_hyperslab)
@@ -160,6 +160,7 @@ TEST_F(DatasetReadSpeedTest, read_hyperslab)
   double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
     + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
 
-  EXPECT_GT(2*time1, time0);
-  EXPECT_GT(2*time0, time1);
+  EXPECT_GT(8*time1, time0);
+  EXPECT_GT(8*time0, time1);
 }
+#endif
