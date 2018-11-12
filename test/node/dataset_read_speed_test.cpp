@@ -27,6 +27,7 @@
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/dataspace/hyperslab.hpp>
+#include <boost/filesystem.hpp>
 #ifndef _MSC_VER
 #include <sys/time.h>
 #endif
@@ -73,6 +74,10 @@ class DatasetReadSpeedTest : public testing::Test
       data.write(frame, framespace);
 
     }
+
+    virtual void TearDown() {
+      fs::remove("dataset_read_speed.h5");
+    }
   }
 };
 
@@ -117,8 +122,8 @@ TEST_F(DatasetReadSpeedTest, read)
   double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
     + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
 
-  EXPECT_GT(8*time1, time0);
-  EXPECT_GT(8*time0, time1);
+  EXPECT_GT(14 * time1, time0);
+  EXPECT_GT(14 * time0, time1);
 }
 
 TEST_F(DatasetReadSpeedTest, read_hyperslab)
@@ -162,7 +167,7 @@ TEST_F(DatasetReadSpeedTest, read_hyperslab)
   double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
     + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
 
-  EXPECT_GT(8*time1, time0);
-  EXPECT_GT(8*time0, time1);
+  EXPECT_GT(14 * time1, time0);
+  EXPECT_GT(14 * time0, time1);
 }
 #endif
