@@ -29,6 +29,7 @@
 
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/types.hpp>
@@ -677,9 +678,22 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
 
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
+  try{
+    const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
+      auto dims = hyper.block();
+      auto count = hyper.count();
+      for(Dimensions::size_type i = 0; i != dims.size(); i++)
+	dims[i] *= count[i];
 
-  read(data,memory_type,memory_space,file_space,dtpl);
-
+      dataspace::Simple selected_space(dims);
+      if (selected_space.size() == memory_space.size())
+	read(data,memory_type,selected_space,file_space,dtpl);
+      else
+	read(data,memory_type,memory_space,file_space,dtpl);
+  }
+  catch(const std::bad_cast&){
+    read(data,memory_type,memory_space,file_space,dtpl);
+  }
 }
 
 template<typename T>
@@ -727,7 +741,12 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
   auto file_space = dataspace();
   file_space.selection.all();
 
-  read(data,memory_type,memory_space,file_space,dtpl);
+  if (file_space.size() == memory_space.size()){
+    read(data,memory_type,file_space,file_space,dtpl);
+  }
+  else{
+    read(data,memory_type,memory_space,file_space,dtpl);
+  }
 
 }
 
