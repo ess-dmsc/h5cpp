@@ -85,48 +85,83 @@ TEST_F(DatasetReadSpeedTest, read)
   struct timeval stime0;
   struct timeval etime0;
 
-  file::File f = file::open("dataset_read_speed.h5",
+  file::File f0 = file::open("dataset_read_speed.h5",
 			    file::AccessFlags::READONLY);
-  auto root = f.root();
-  auto dataset = root.get_dataset("/data");
-  hdf5::dataspace::Simple dataspace(dataset.dataspace());
+  auto root0 = f0.root();
+  auto dataset0 = root0.get_dataset("/data");
+  hdf5::dataspace::Simple dataspace(dataset0.dataspace());
   const auto dims = dataspace.current_dimensions();
   std::vector<unsigned short int> buffer(dims[0]*dims[1]*dims[2]);
-  auto datatype = dataset.datatype();
+  auto datatype = dataset0.datatype();
 
   hdf5::Dimensions frameoffset{0, 0, 0};
   hdf5::Dimensions frameblock{dims[0], dims[1], dims[2]};
   hdf5::dataspace::Hyperslab selected_frames{frameoffset, frameblock};
-
+  // time0
   gettimeofday(&stime0, NULL);
-  dataset.read(buffer, datatype, dataspace, selected_frames);
+  dataset0.read(buffer, datatype, dataspace, selected_frames);
   gettimeofday(&etime0, NULL);
-
-  double time0 = (double)(etime0.tv_sec - stime0.tv_sec)
-    + (double)(etime0.tv_usec - stime0.tv_usec)*0.000001;
-  std::cerr<< "time0 = " << time0 << std::endl;
-  f.close();
+  f0.close();
 
   file::File f1 = file::open("dataset_read_speed.h5",
 			    file::AccessFlags::READONLY);
   auto root1 = f1.root();
   auto dataset1 = root1.get_dataset("/data");
+  // time1
   gettimeofday(&stime1, NULL);
   dataset1.read(buffer);
   gettimeofday(&etime1, NULL);
+  f1.close();
 
+  double time0 = (double)(etime0.tv_sec - stime0.tv_sec)
+    + (double)(etime0.tv_usec - stime0.tv_usec)*0.000001;
   double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
     + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
-  std::cerr<< "time1 = " << time1 << std::endl;
 
   EXPECT_GT(2*time1, time0);
   EXPECT_GT(2*time0, time1);
-  f1.close();
 }
 
 TEST_F(DatasetReadSpeedTest, read_hyperslab)
 {
-  file::File f = file::open("dataset_read_speed.h5",
+  struct timeval stime1;
+  struct timeval etime1;
+  struct timeval stime0;
+  struct timeval etime0;
+
+  file::File f0 = file::open("dataset_read_speed.h5",
 			    file::AccessFlags::READONLY);
-  f.close();
+  auto root0 = f0.root();
+  auto dataset0 = root0.get_dataset("/data");
+  hdf5::dataspace::Simple dataspace(dataset0.dataspace());
+  const auto dims = dataspace.current_dimensions();
+  std::vector<unsigned short int> buffer(dims[0]*dims[1]*dims[2]);
+  auto datatype = dataset0.datatype();
+
+  hdf5::Dimensions frameoffset{10, 0, 0};
+  hdf5::Dimensions frameblock{11, dims[1], dims[2]};
+  hdf5::dataspace::Hyperslab selected_frames{frameoffset, frameblock};
+  // time0
+  gettimeofday(&stime0, NULL);
+  dataset0.read(buffer, datatype, dataspace, selected_frames);
+  gettimeofday(&etime0, NULL);
+  f0.close();
+
+  file::File f1 = file::open("dataset_read_speed.h5",
+			    file::AccessFlags::READONLY);
+  auto root1 = f1.root();
+  auto dataset1 = root1.get_dataset("/data");
+  // time1
+  gettimeofday(&stime1, NULL);
+  dataset1.read(buffer, selected_frames);
+  gettimeofday(&etime1, NULL);
+  f1.close();
+
+  double time0 = (double)(etime0.tv_sec - stime0.tv_sec)
+    + (double)(etime0.tv_usec - stime0.tv_usec)*0.000001;
+  double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
+    + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
+
+  EXPECT_GT(2*time1, time0);
+  EXPECT_GT(2*time0, time1);
 }
