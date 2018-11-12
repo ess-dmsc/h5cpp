@@ -50,9 +50,6 @@ class DatasetReadSpeedTest : public testing::Test
     file::File f = file::create("dataset_read_speed.h5", file::AccessFlags::TRUNCATE);
 #endif
     node::Group root = f.root();
-    // int xdim = 2672;
-    // int ydim = 4008;
-    // int nframe = 33;
     long long unsigned int xdim = 867;
     long long unsigned int ydim = 700;
     long long unsigned int nframe = 33;
@@ -135,20 +132,21 @@ TEST_F(DatasetReadSpeedTest, read_hyperslab)
   auto dataset0 = root0.get_dataset("/data");
   hdf5::dataspace::Simple dataspace(dataset0.dataspace());
   const auto dims = dataspace.current_dimensions();
-  std::vector<unsigned short int> buffer(dims[0]*dims[1]*dims[2]);
+  std::vector<unsigned short int> buffer(11*dims[1]*dims[2]);
   auto datatype = dataset0.datatype();
 
   hdf5::Dimensions frameoffset{10, 0, 0};
   hdf5::Dimensions frameblock{11, dims[1], dims[2]};
   hdf5::dataspace::Hyperslab selected_frames{frameoffset, frameblock};
+  dataspace::Simple dataspace0(Dimensions({11, dims[1], dims[2]}));
   // time0
   gettimeofday(&stime0, NULL);
-  dataset0.read(buffer, datatype, dataspace, selected_frames);
+  dataset0.read(buffer, datatype, dataspace0, selected_frames);
   gettimeofday(&etime0, NULL);
   f0.close();
 
   file::File f1 = file::open("dataset_read_speed.h5",
-			    file::AccessFlags::READONLY);
+  			    file::AccessFlags::READONLY);
   auto root1 = f1.root();
   auto dataset1 = root1.get_dataset("/data");
   // time1
