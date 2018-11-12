@@ -35,6 +35,7 @@ set(test_sources
     ${dir}/node_exists_test.cpp
     ${dir}/dataset_h5py_bool_test.cpp
     ${dir}/dataset_pniio_bool_test.cpp
+    ${dir}/dataset_read_speed_test.cpp
     PARENT_SCOPE)
 
 set(test_headers
