@@ -74,10 +74,9 @@ class DatasetReadSpeedTest : public testing::Test
       data.write(frame, framespace);
 
     }
-
-    virtual void TearDown() {
-      fs::remove("dataset_read_speed.h5");
-    }
+  }
+  virtual void TearDown() {
+    fs::remove("dataset_read_speed.h5");
   }
 };
 
