@@ -18,7 +18,7 @@ if(NOT GTest_FOUND)
           OUTPUT_VARIABLE LSB_CODENAME
           OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-      if(LSB_CODENAME MATCHES stretch)
+      if(LSB_CODENAME MATCHES stretch OR LSB_CODENAME MATCHES buster)
         set(GTEST_SOURCE_DIR /usr/src/googletest/googletest)
       elseif(LSB_CODENAME MATCHES jessie OR LSB_CODENAME MATCHES xenial OR LSB_CODENAME MATCHES bionic)
         set(GTEST_SOURCE_DIR /usr/src/gtest)
