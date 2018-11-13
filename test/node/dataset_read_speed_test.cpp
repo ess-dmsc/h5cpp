@@ -43,15 +43,15 @@ class DatasetReadSpeedTest : public testing::Test
 #if H5_VERSION_GE(1, 10, 0)
     property::FileCreationList fcpl;
     property::FileAccessList fapl;
-    property::DatasetCreationList dcpl;
-    property::LinkCreationList lcpl;
-    property::DatasetAccessList dapl;
     fapl.library_version_bounds(property::LibVersion::LATEST,
                                 property::LibVersion::LATEST);
     file::File f = file::create("dataset_read_speed.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
 #else
     file::File f = file::create("dataset_read_speed.h5", file::AccessFlags::TRUNCATE);
 #endif
+    property::DatasetCreationList dcpl;
+    property::LinkCreationList lcpl;
+    property::DatasetAccessList dapl;
     node::Group root = f.root();
     long long unsigned int xdim = 867;
     long long unsigned int ydim = 700;
