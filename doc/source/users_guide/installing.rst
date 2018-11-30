@@ -98,3 +98,49 @@ should finally install the code. The default installation prefix is
 :envvar:`CMAKE_INSTALL_PREFIX` at the initial call to :program:`cmake` to the 
 desired installation location. 
 
+Debian and Ubuntu users
+-----------------------
+
+As Debian and Ubuntu are closely related the installation is quite similar.
+The packages are provided by a special Debian repository. To work on the
+package sources you need to login as `root` user. Use :command:`su` or
+:command:`sudo su` on Debian and Ubuntu respectively.
+The first task is to add the GPG key of the HDRI repository to your local
+keyring
+
+.. code-block:: bash
+
+   $ curl http://repos.pni-hdri.de/debian_repo.pub.gpg | apt-key add -
+
+
+The return value of this command line should be `OK`.
+In a next step you have to add new package sources to your system. For this
+purpose go to :file:`/etc/apt/sources.list.d` and download the sources file.
+For Debian (Stretch) use
+
+.. code-block:: bash
+
+   $ wget http://repos.pni-hdri.de/stretch-pni-hdri.list
+
+and for Ubuntu (Bionic)
+
+.. code-block:: bash
+
+   $ wget http://repos.pni-hdri.de/bionic-pni-hdri.list
+
+Similarly, proceed for Buster, Jessie, Cosmic or Xenial.
+Once you have downloaded the file use
+
+.. code-block:: bash
+
+   $ apt-get update
+
+
+to update your package list and
+
+.. code-block:: bash
+
+   $ apt-get install libh5cpp0.1.0 libh5cpp0.1.0-dbg libh5cpp0.1.0-doc libh5cpp0.1.0-dev
+
+to install the library of v0.1.0. Dependencies will be resolved automatically so you can
+start with working right after the installation has finished.
