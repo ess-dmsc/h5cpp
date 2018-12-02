@@ -82,6 +82,50 @@ install(TARGETS h5cpp
 install(EXPORT h5cpp_targets
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)
+ 
+# 
+# Build the pkg-config file 
+# 
+function(GET_LIBRARY_NAME LIB)
+	
+	if(TARGET "${LIB}")
+		get_target_property(LIBNAME "${LIB}" LOCATION)
+		get_filename_component(LIBNAME "${LIBNAME}" NAME_WE)
+		get_filename_component(LIBPATH "${LIBNAME}" DIRECTORY)
+		set(LIBPATH "${LIBPATH}" PARENT_SCOPE)
+	else()
+		set(LIBNAME "${LIB}")		
+	endif()
+
+	string(REPLACE "${CMAKE_SHARED_LIBRARY_PREFIX}" "" LIBNAME "${LIBNAME}")
+	string(REPLACE "${CMAKE_SHARED_LIBRARY_SUFFIX}" "" LIBNAME "${LIBNAME}") 
+	set(LIBNAME "${LIBNAME}" PARENT_SCOPE)
+	
+endfunction(GET_LIBRARY_NAME)
+	
+set(PKGCONFIG_LIBS)
+set(PKGCONFIG_LIBPATHS)
+foreach(LIB ${H5CPP_LINKS})
+	GET_LIBRARY_NAME("${LIB}")
+	set(PKGCONFIG_LIBS "${PKGCONFIG_LIBS} -l${LIBNAME}")
+	set(PKGCONFIG_LIBPATHS "${PKGCONFIG_LIBPATHS} -L${LIBPATH}")
+endforeach()
+
+foreach(LIB ${H5CPP_INTERFACE_LIBS})
+	GET_LIBRARY_NAME("${LIB}")
+	set(PKGCONFIG_LIBPATHS "${PKGCONFIG_LIBPATHS} -L${LIBPATH}")
+	set(PKGCONFIG_LIBS "${PKGCONFIG_LIBS} -l${LIBNAME}")	
+endforeach()
+
+message("Linke libraries: ${PKGCONFIG_LIBS}")
+message("Library paths: ${PKGCONFIG_LIBPATHS}")m
+
+ 
+configure_file(h5cpp.pc.in h5cpp.pc @ONLY)
+install(FILES h5cpp.pc
+	    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+	    COMPONENT development)
+
 
 
 
