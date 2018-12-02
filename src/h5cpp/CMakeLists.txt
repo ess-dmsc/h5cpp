@@ -89,41 +89,76 @@ install(EXPORT h5cpp_targets
 function(GET_LIBRARY_NAME LIB)
 	
 	if(TARGET "${LIB}")
-		get_target_property(LIBNAME "${LIB}" LOCATION)
-		get_filename_component(LIBNAME "${LIBNAME}" NAME_WE)
-		get_filename_component(LIBPATH "${LIBNAME}" DIRECTORY)
-		set(LIBPATH "${LIBPATH}" PARENT_SCOPE)
+		get_target_property(LIBTMP "${LIB}" LOCATION)
 	else()
-		set(LIBNAME "${LIB}")		
+		set(LIBTMP "${LIB}")		
 	endif()
+
+	get_filename_component(LIBNAME "${LIBTMP}" NAME_WE)
+	get_filename_component(LIBPATH "${LIBTMP}" DIRECTORY)
 
 	string(REPLACE "${CMAKE_SHARED_LIBRARY_PREFIX}" "" LIBNAME "${LIBNAME}")
 	string(REPLACE "${CMAKE_SHARED_LIBRARY_SUFFIX}" "" LIBNAME "${LIBNAME}") 
-	set(LIBNAME "${LIBNAME}" PARENT_SCOPE)
+	message("Found: ${LIBNAME} in ${LIBPATH}")
+	
+	if(DEFINED PKG_CONFIG_LIBS)
+		list(APPEND PKG_CONFIG_LIBS "${LIBNAME}")
+		set(PKG_CONFIG_LIBS ${PKG_CONFIG_LIBS} PARENT_SCOPE)
+	else()
+		set(PKG_CONFIG_LIBS "${LIBNAME}" PARENT_SCOPE)
+	endif()
+
+	if(DEFINED PKG_CONFIG_LIBDIRS)
+		list(APPEND PKG_CONFIG_LIBDIRS "${LIBPATH}")
+		set(PKG_CONFIG_LIBDIRS ${PKG_CONFIG_LIBDIRS} PARENT_SCOPE)
+	else()
+		set(PKG_CONFIG_LIBDIRS "${LIBPATH}" PARENT_SCOPE)
+	endif()
 	
 endfunction(GET_LIBRARY_NAME)
+
+get_target_property(LIBRARIES h5cpp INTERFACE_LINK_LIBRARIES)
+get_target_property(DEFINITIONS h5cpp INTERFACE_COMPILE_DEFINITIONS)
+get_target_property(INCLUDE_DIRS h5cpp INTERFACE_INCLUDE_DIRECTORIES)
 	
-set(PKGCONFIG_LIBS)
-set(PKGCONFIG_LIBPATHS)
-foreach(LIB ${H5CPP_LINKS})
+foreach(LIB ${LIBRARIES})
 	GET_LIBRARY_NAME("${LIB}")
-	set(PKGCONFIG_LIBS "${PKGCONFIG_LIBS} -l${LIBNAME}")
-	set(PKGCONFIG_LIBPATHS "${PKGCONFIG_LIBPATHS} -L${LIBPATH}")
 endforeach()
 
-foreach(LIB ${H5CPP_INTERFACE_LIBS})
+foreach(LIB ${HDF5_LIBRARIES})
 	GET_LIBRARY_NAME("${LIB}")
-	set(PKGCONFIG_LIBPATHS "${PKGCONFIG_LIBPATHS} -L${LIBPATH}")
-	set(PKGCONFIG_LIBS "${PKGCONFIG_LIBS} -l${LIBNAME}")	
 endforeach()
 
-message("Linke libraries: ${PKGCONFIG_LIBS}")
-message("Library paths: ${PKGCONFIG_LIBPATHS}")m
+list(REMOVE_DUPLICATES PKG_CONFIG_LIBS)
+list(REMOVE_DUPLICATES PKG_CONFIG_LIBDIRS)
+
+set(PKG_CONFIG_LINKFLAGS)
+foreach(DIR ${PKG_CONFIG_LIBDIRS})
+	set(PKG_CONFIG_LINKFLAGS "${PKG_CONFIG_LINKFLAGS} -L${DIR}")
+endforeach()
+foreach(LIB ${PKG_CONFIG_LIBS})
+	set(PKG_CONFIG_LINKFLAGS "${PKG_CONFIG_LINKFLAGS} -l${LIB}")
+endforeach()
+
+set(PKG_CONFIG_CFLAGS)
+
+foreach(DEF ${DEFINITIONS})
+	set(PKG_CONFIG_CFLAGS "${PKG_CONFIG_CFLAGS} -D${DEF}")
+endforeach()
+foreach(INCDIR ${INCLUDE_DIRS})
+	if(NOT (INCDIR MATCHES "\\$<.*"))
+		set(PKG_CONFIG_CFLAGS "${PKG_CONFIG_CFLAGS} -I${INCDIR}")
+	endif()
+endforeach()
+
+
+message("Linke libraries: ${PKG_CONFIG_LIBS}")
+message("Library paths: ${PKG_CONFIG_LINKFLAGS}")
 
  
 configure_file(h5cpp.pc.in h5cpp.pc @ONLY)
-install(FILES h5cpp.pc
-	    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/h5cpp.pc
+	    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 	    COMPONENT development)
 
 
