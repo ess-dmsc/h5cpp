@@ -88,8 +88,10 @@ install(EXPORT h5cpp_targets
 # 
 function(GET_LIBRARY_NAME LIB)
 	
+	message(STATUS "Dealing with library ${LIB}")
 	if(TARGET "${LIB}")
-		get_target_property(LIBTMP "${LIB}" IMPORTED_LOCATION)
+	    #set(LIBTMP $<TARGET_FILE:LIB>)
+		get_property(LIBTMP TARGET ${LIB} PROPERTY IMPORTED_LOCATION)
 	else()
 		set(LIBTMP "${LIB}")		
 	endif()
