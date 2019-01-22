@@ -179,7 +179,6 @@ def get_pipeline(image_key)
             } finally {
                 sh "docker stop ${container_name(image_key)}"
                 sh "docker rm -f ${container_name(image_key)}"
-                cleanWs()
             }
         }
     }
@@ -233,7 +232,7 @@ def get_win10_pipeline()
         stage("Windows 10") {
             node ("windows10") {
             // Delete workspace when build is done
-                cleanWs()
+            cleanWs()
 
                 try {
                     checkout scm
