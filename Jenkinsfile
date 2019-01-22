@@ -190,6 +190,7 @@ def get_macos_pipeline(build_type)
         stage("macOS-${build_type}") {
             node ("macos") {
             // Delete workspace when build is done
+                cleanWs()
 
                 dir("${project}/code") {
                     try {
@@ -289,6 +290,7 @@ node('docker') {
 
 node ("fedora") {
     // Delete workspace when build is done
+    cleanWs()
 
     stage("Documentation") {
         dir("${project}/code") {
