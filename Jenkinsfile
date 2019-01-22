@@ -179,7 +179,6 @@ def get_pipeline(image_key)
             } finally {
                 sh "docker stop ${container_name(image_key)}"
                 sh "docker rm -f ${container_name(image_key)}"
-                cleanWs()
             }
         }
     }
@@ -191,7 +190,6 @@ def get_macos_pipeline(build_type)
         stage("macOS-${build_type}") {
             node ("macos") {
             // Delete workspace when build is done
-                cleanWs()
 
                 dir("${project}/code") {
                     try {
@@ -233,7 +231,6 @@ def get_win10_pipeline()
         stage("Windows 10") {
             node ("windows10") {
             // Delete workspace when build is done
-                cleanWs()
 
                 try {
                     checkout scm
@@ -291,7 +288,6 @@ node('docker') {
 
 node ("fedora") {
     // Delete workspace when build is done
-    cleanWs()
 
     stage("Documentation") {
         dir("${project}/code") {
