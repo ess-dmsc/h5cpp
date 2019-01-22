@@ -231,6 +231,7 @@ def get_win10_pipeline()
         stage("Windows 10") {
             node ("windows10") {
             // Delete workspace when build is done
+            cleanWs()
 
                 try {
                     checkout scm
