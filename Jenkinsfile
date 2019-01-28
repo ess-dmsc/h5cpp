@@ -48,9 +48,6 @@ def failure_function(exception_obj, failureMessage) {
     emailext body: '${DEFAULT_CONTENT}\n\"' + failureMessage +'\"\n\nCheck console output at $BUILD_URL to view the results.',
         recipientProviders: toEmails,
         subject: '${DEFAULT_SUBJECT}'
-    slackSend color: 'danger',
-        message: "${project}-${env.BRANCH_NAME}: " + failureMessage
-
     throw exception_obj
 }
 
