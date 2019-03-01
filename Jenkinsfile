@@ -280,9 +280,15 @@ node('docker') {
     builders['Windows10'] = get_win10_pipeline()
 
 
-    parallel builders
-    // Delete workspace when build is done
-    cleanWs()
+    try {
+        parallel builders
+    } catch (e) {
+        failure_function(e, 'Job failed')
+        throw e
+    } finally {
+        // Delete workspace when build is done
+        cleanWs()
+    }
 }
 
 node ("fedora") {
@@ -295,6 +301,9 @@ node ("fedora") {
                 checkout scm
             } catch (e) {
                 failure_function(e, 'Generate docs / Checkout failed')
+            } finally {
+                // Delete workspace when build is done
+                cleanWs()
             }
         }
 
@@ -309,6 +318,9 @@ node ("fedora") {
                 }
             } catch (e) {
                 failure_function(e, 'Generate docs / make html failed')
+            } finally {
+                // Delete workspace when build is done
+                cleanWs()
             }
         }
 
@@ -345,6 +357,9 @@ node ("fedora") {
                 }
             } catch (e) {
                 failure_function(e, 'Generate docs / Publish docs failed')
+            } finally {
+                // Delete workspace when build is done
+                cleanWs()
             }
         }
     }
