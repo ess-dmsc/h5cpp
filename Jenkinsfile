@@ -292,23 +292,14 @@ node('docker') {
 }
 
 node ("fedora") {
-    // Delete workspace when build is done
-    cleanWs()
-
     stage("Documentation") {
-        dir("${project}/code") {
-            try {
-                checkout scm
-            } catch (e) {
-                failure_function(e, 'Generate docs / Checkout failed')
-            } finally {
-                // Delete workspace when build is done
-                cleanWs()
-            }
-        }
 
-        dir("${project}/build") {
-            try {
+        try {
+            dir("${project}/code") {
+                checkout scm
+            }
+
+            dir("${project}/build") {
                 sh "HDF5_ROOT=$HDF5_ROOT \
                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
                     cmake -DCONAN=DISABLE ../code"
@@ -316,19 +307,12 @@ node ("fedora") {
                 if (env.BRANCH_NAME != 'master') {
                     archiveArtifacts artifacts: 'doc/build/'
                 }
-            } catch (e) {
-                failure_function(e, 'Generate docs / make html failed')
-            } finally {
-                // Delete workspace when build is done
-                cleanWs()
             }
-        }
 
-        dir("${project}/docs") {
-            try {
-                  checkout scm
+            dir("${project}/docs") {
+                checkout scm
 
-                  if (env.BRANCH_NAME == 'master') {
+                if (env.BRANCH_NAME == 'master') {
                     sh "git config user.email 'dm-jenkins-integration@esss.se'"
                     sh "git config user.name 'cow-bot'"
                     sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
@@ -353,14 +337,14 @@ node ("fedora") {
                     )]) {
                         sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
                     }
-
                 }
-            } catch (e) {
-                failure_function(e, 'Generate docs / Publish docs failed')
-            } finally {
-                // Delete workspace when build is done
-                cleanWs()
             }
+
+        } catch (e) {
+            failure_function(e, 'Generate docs / Publish docs failed')
+        } finally {
+            // Delete workspace when build is done
+            cleanWs()
         }
     }
 }

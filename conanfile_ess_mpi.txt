@@ -1,7 +1,6 @@
 [requires]
 cmake_findboost_modular/1.69.0@bincrafters/stable
 boost_filesystem/1.69.0@bincrafters/stable
-boost_system/1.69.0@bincrafters/stable
 hdf5/1.10.2-dm2@ess-dmsc/stable
 gtest/3121b20-dm3@ess-dmsc/stable
 
