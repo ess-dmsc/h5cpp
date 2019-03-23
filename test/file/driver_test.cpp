@@ -34,14 +34,14 @@ namespace fs = boost::filesystem;
 TEST(MemoryDriver, create_default)
 {
   file::MemoryDriver m;
-  EXPECT_EQ(m.id(), file::DriverID::MEMORY);
+  EXPECT_EQ(m.id(), file::DriverID::eMemory);
 }
 
 TEST(MemoryDriver, create_custom)
 {
   file::MemoryDriver m(7000, true);
   EXPECT_TRUE(m.backing_store());
-  EXPECT_EQ(m.increment(), 7000);
+  EXPECT_EQ(m.increment(), 7000ul);
 }
 
 TEST(MemoryDriver, backing_store)
@@ -55,9 +55,9 @@ TEST(MemoryDriver, backing_store)
 TEST(MemoryDriver, increment)
 {
   file::MemoryDriver m;
-  EXPECT_EQ(m.increment(), 1024 * 1024);
+  EXPECT_EQ(m.increment(), 1024ul * 1024ul);
   m.increment(5000);
-  EXPECT_EQ(m.increment(), 5000);
+  EXPECT_EQ(m.increment(), 5000ul);
 }
 
 TEST(MemoryDriver, apply)
@@ -76,7 +76,7 @@ TEST(MemoryDriver, apply)
 TEST(PosixDriver, create_default)
 {
   file::PosixDriver m;
-  EXPECT_EQ(m.id(), file::DriverID::POSIX);
+  EXPECT_EQ(m.id(), file::DriverID::ePosix);
 }
 
 TEST(PosixDriver, apply)
@@ -96,7 +96,7 @@ TEST(PosixDriver, apply)
 TEST(MPIDriver, create_default)
 {
   file::MPIDriver m(MPI_COMM_WORLD,MPI_INFO_NULL);
-  EXPECT_EQ(m.id(), file::DriverID::MPI);
+  EXPECT_EQ(m.id(), file::DriverID::eMPI);
 }
 
 TEST(MPIDriver, apply)

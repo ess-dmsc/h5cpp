@@ -42,7 +42,7 @@ void PosixDriver::operator()(const property::FileAccessList &fapl) const
 
 DriverID PosixDriver::id() const noexcept
 {
-  return DriverID::ePOSIX;
+  return DriverID::ePosix;
 }
 
 } // namespace file

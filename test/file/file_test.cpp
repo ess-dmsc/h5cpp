@@ -72,7 +72,7 @@ TEST_F(File, intent)
 TEST_F(File, size)
 {
   file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_GE(f.size(), 0);
+  EXPECT_GE(f.size(), 0ul);
 
   f.close();
   EXPECT_THROW(f.size(), std::runtime_error);
@@ -109,7 +109,7 @@ TEST_F(File, count_open_objects)
 {
   file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
   auto r = f.root();
-  EXPECT_EQ(f.count_open_objects(file::SearchFlags::GROUP), 1);
+  EXPECT_EQ(f.count_open_objects(file::SearchFlags::GROUP), 1ul);
 
   f.close();
   EXPECT_THROW(f.count_open_objects(file::SearchFlags::ALL), std::runtime_error);

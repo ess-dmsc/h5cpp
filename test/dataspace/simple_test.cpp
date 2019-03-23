@@ -33,7 +33,7 @@ using namespace hdf5;
 TEST(Simple, test_default_construction) {
   dataspace::Simple space;
   EXPECT_EQ(space.size(), 0);
-  EXPECT_EQ(space.rank(), 0);
+  EXPECT_EQ(space.rank(), 0u);
   EXPECT_EQ(space.type(), dataspace::Type::SIMPLE);
   EXPECT_TRUE(space.current_dimensions().empty());
   EXPECT_TRUE(space.maximum_dimensions().empty());
@@ -58,7 +58,7 @@ TEST(Simple, test_construction_only_current) {
   Dimensions s = {10, 20, 30};
   dataspace::Simple space(s);
   EXPECT_EQ(space.size(), 10 * 20 * 30);
-  EXPECT_EQ(space.rank(), 3);
+  EXPECT_EQ(space.rank(), 3u);
 
   Dimensions c = space.current_dimensions();
   Dimensions m = space.maximum_dimensions();
@@ -69,7 +69,7 @@ TEST(Simple, test_construction_only_current) {
 TEST(Simple, test_construction_current_and_max) {
   Dimensions s = {30, 20, 10}, m = {100, 200, dataspace::Simple::UNLIMITED};
   dataspace::Simple space(s, m);
-  EXPECT_EQ(space.rank(), 3);
+  EXPECT_EQ(space.rank(), 3u);
   EXPECT_EQ(space.size(), 10 * 20 * 30);
 
   Dimensions c = space.current_dimensions();
@@ -84,7 +84,7 @@ TEST(Simple, test_construction_current_and_max) {
 // test_given_a_dataspace_of_rank_one_when_setting....
 TEST(Simple, test_change_rank) {
   dataspace::Simple space(Dimensions{100});
-  EXPECT_EQ(space.rank(), 1);
+  EXPECT_EQ(space.rank(), 1u);
   space.dimensions(Dimensions{2, 3}, Dimensions{2, 3});
-  EXPECT_EQ(space.rank(), 2);
+  EXPECT_EQ(space.rank(), 2u);
 }

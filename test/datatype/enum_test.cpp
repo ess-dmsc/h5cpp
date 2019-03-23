@@ -105,7 +105,7 @@ TEST_F(Enum, IntConstruction) {
   auto type = datatype::Enum::create_underlying(base_type);
   EXPECT_TRUE(type.is_valid());
   EXPECT_EQ(type.get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(type.number_of_values(), 0);
+  EXPECT_EQ(type.number_of_values(), 0u);
 
   ObjectHandle(static_cast<hid_t>(type)).close();
   EXPECT_THROW((type.number_of_values()), std::runtime_error);
@@ -116,7 +116,7 @@ TEST_F(Enum, Insert) {
 
   int val1 = 1;
   type.insert_underlying("val1", val1);
-  EXPECT_EQ(type.number_of_values(), 1);
+  EXPECT_EQ(type.number_of_values(), 1u);
 
   // duplicate value
   EXPECT_THROW((type.insert_underlying("val2", val1)), std::runtime_error);
@@ -266,7 +266,7 @@ TEST_F(Enum, test_ebool_array)
   std::vector<int> ref_int  = {0, 1, 1, 0};
 
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(a.datatype().size(), 1);
+  EXPECT_EQ(a.datatype().size(), 1ul);
   auto edt = datatype::Enum(a.datatype());
   EXPECT_EQ(datatype::is_bool(edt), true);
   a.write(ref);

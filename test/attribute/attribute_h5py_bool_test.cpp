@@ -78,7 +78,7 @@ TEST_F(H5pyBoolTest, test_read_vector_bool)
   std::vector<unsigned char> buffer2(4);
   std::vector<unsigned char> ref2  = {0, 1, 1, 0};
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(a.datatype().size(), 1);
+  EXPECT_EQ(a.datatype().size(), 1ul);
   a.read(buffer2);
   EXPECT_EQ(buffer2, ref2);
 }
@@ -133,7 +133,7 @@ TEST_F(H5pyBoolTest, test_read_vector_ebool)
 					datatype::EBool::TRUE,
 				        datatype::EBool::TRUE,
 				        datatype::EBool::FALSE};
-  EXPECT_EQ(a.datatype().size(), 1);
+  EXPECT_EQ(a.datatype().size(), 1ul);
   a.read(buffer);
   EXPECT_EQ(buffer, eref);
 }

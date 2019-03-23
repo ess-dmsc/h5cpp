@@ -226,8 +226,6 @@ TEST_F(AttributeName, test_iterator_random_access)
   root_.attributes.iterator_config().order(IterationOrder::DECREASING);
 
   std::vector<std::string> ref_names{"index","elasticity","counter"};
-  auto ref_iter = ref_names.begin();
-
 
   auto iter     = root_.attributes.begin();
   auto iter_end = root_.attributes.end();

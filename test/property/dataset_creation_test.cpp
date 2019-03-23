@@ -199,7 +199,7 @@ TEST(DatasetCreationList, test_fill_value_custom_type) {
   auto get_type = type::create<float>();
 
   EXPECT_NO_THROW(pl.fill_value(1024, set_type));
-  float buffer;
+  float buffer {0};
   EXPECT_NO_THROW(buffer = pl.fill_value<float>(get_type));
   EXPECT_NEAR(buffer, float(1024), 0.0001);
 }

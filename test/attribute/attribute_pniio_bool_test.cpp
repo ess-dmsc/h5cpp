@@ -31,50 +31,51 @@ using namespace hdf5;
 
 class PNIIOBoolTest : public testing::Test
 {
-  protected:
-    file::File pniio_file;
-    node::Group root_group;
+ protected:
+  file::File pniio_file;
+  node::Group root_group;
 
-    virtual void SetUp()
-    {
-      pniio_file = file::open("./pniio_test_boolattr.h5",file::AccessFlags::READONLY);
-      root_group = pniio_file.root();
-    }
+  virtual void SetUp()
+  {
+    pniio_file = file::open("./pniio_test_boolattr.h5", file::AccessFlags::READONLY);
+    root_group = pniio_file.root();
+  }
 
 };
 
 #ifndef _MSC_VER
+
 TEST_F(PNIIOBoolTest, test_read_simple_bool)
 {
-  auto attrue =  root_group.attributes["bool_true"];
+  auto attrue = root_group.attributes["bool_true"];
   bool buffer;
   attrue.read(buffer);
   EXPECT_EQ(buffer, true);
   bool buffer2;
-  auto atfalse =  root_group.attributes["bool_false"];
+  auto atfalse = root_group.attributes["bool_false"];
   atfalse.read(buffer2);
   EXPECT_EQ(buffer2, false);
 }
 
 TEST_F(PNIIOBoolTest, test_read_vector_bool)
 {
-  auto a =  root_group.attributes["bool_array"];
+  auto a = root_group.attributes["bool_array"];
   // missing iterator which points to separate bits
   // std::vector<bool> buffer(4);
   // std::vector<bool> ref  = {false, true, true, false};
   // a.read(buffer);
   // EXPECT_EQ(buffer, ref);
   std::vector<unsigned char> buffer2(4);
-  std::vector<unsigned char> ref2  = {0, 1, 1, 0};
+  std::vector<unsigned char> ref2 = {0, 1, 1, 0};
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(a.datatype().size(), 1);
+  EXPECT_EQ(a.datatype().size(), 1ul);
   a.read(buffer2);
   EXPECT_EQ(buffer2, ref2);
 }
 
 TEST_F(PNIIOBoolTest, test_read_scalar_ebool)
 {
-  auto attrue =  root_group.attributes["bool_true"];
+  auto attrue = root_group.attributes["bool_true"];
   datatype::EBool buffer;
   // does not work because of #309, #347
   // attrue.read(buffer);
@@ -83,7 +84,7 @@ TEST_F(PNIIOBoolTest, test_read_scalar_ebool)
   EXPECT_EQ(buffer, 1);
   EXPECT_EQ(buffer, datatype::EBool::TRUE);
   datatype::EBool buffer2;
-  auto atfalse =  root_group.attributes["bool_false"];
+  auto atfalse = root_group.attributes["bool_false"];
   // does not work because of #309, #347
   // atfalse.read(buffer2);
   atfalse.read(buffer2, atfalse.datatype());
@@ -92,20 +93,20 @@ TEST_F(PNIIOBoolTest, test_read_scalar_ebool)
   EXPECT_EQ(buffer2, datatype::EBool::FALSE);
 }
 
-
 TEST_F(PNIIOBoolTest, test_read_vector_ebool)
 {
-  auto a =  root_group.attributes["bool_array"];
+  auto a = root_group.attributes["bool_array"];
   std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
-					datatype::EBool::TRUE,
-  				        datatype::EBool::TRUE,
-  				        datatype::EBool::FALSE};
+  std::vector<datatype::EBool> eref = {datatype::EBool::FALSE,
+                                       datatype::EBool::TRUE,
+                                       datatype::EBool::TRUE,
+                                       datatype::EBool::FALSE};
   EXPECT_EQ(a.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(a.datatype().size(), 1);
+  EXPECT_EQ(a.datatype().size(), 1ul);
   // does not work because of #309, #347
   // a.read(buffer);
   a.read(buffer, a.datatype());
   EXPECT_EQ(buffer, eref);
 }
+
 #endif

@@ -30,25 +30,28 @@
 //
 // Forward declaration of property lists
 //
-namespace hdf5 {
-namespace property {
+namespace hdf5
+{
+namespace property
+{
 class FileAccessList;
-}
-}
+} // namespace property
+} // namespace hdf5
 
-
-namespace hdf5 {
-namespace file {
+namespace hdf5
+{
+namespace file
+{
 
 //!
 //! \brief enumeration to determine the file driver
 //!
-enum class DriverID : unsigned {
-
-  ePOSIX = 1,
-  eDIRECT = 2,
-  eMEMORY = 3,
-  eMPI    = 4
+enum class DriverID : unsigned
+{
+  ePosix = 1,
+  eDirect = 2,
+  eMemory = 3,
+  eMPI = 4
 };
 
 //!
@@ -61,27 +64,28 @@ enum class DriverID : unsigned {
 //!
 class DLL_EXPORT Driver
 {
-  public:
-    //!
-    //! \brief unique pointer type
-    //!
-    using UniquePointer = std::unique_ptr<Driver>;
+ public:
+  //!
+  //! \brief unique pointer type
+  //!
+  using UniquePointer = std::unique_ptr<Driver>;
 
-    virtual ~Driver(){}
+  virtual ~Driver()
+  {}
 
-    //!
-    //! \brief set a driver
-    //!
-    //! Sets a driver to a particular file access property list.
-    //!
-    virtual void operator()(const hdf5::property::FileAccessList &fapl) const = 0;
+  //!
+  //! \brief set a driver
+  //!
+  //! Sets a driver to a particular file access property list.
+  //!
+  virtual void operator()(const hdf5::property::FileAccessList& fapl) const = 0;
 
-    //!
-    //! \brief get driver ID
-    //!
-    //! Return the ID of a particular driver.
-    //1
-    virtual DriverID id() const noexcept = 0;
+  //!
+  //! \brief get driver ID
+  //!
+  //! Return the ID of a particular driver.
+  //1
+  virtual DriverID id() const noexcept = 0;
 };
 
 } // namespace file

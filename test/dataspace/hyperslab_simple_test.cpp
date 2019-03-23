@@ -131,7 +131,7 @@ TEST(HyperslabSimple, ConvenienceConsructors) {
 
 TEST(HyperslabSimple, test_case_1) {
   dataspace::Simple space({10, 20});
-  EXPECT_EQ(space.rank(), 2);
+  EXPECT_EQ(space.rank(), 2ul);
   EXPECT_EQ(space.size(), 200);
   dataspace::Hyperslab slab({1, 1}, {5, 5}, {1, 1}, {1, 1});
   space.selection(dataspace::SelectionOperation::SET, slab);
