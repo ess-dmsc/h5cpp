@@ -87,6 +87,11 @@ Type Dataspace::type() const {
   return static_cast<Type>(ret);
 }
 
+hdf5::Dimensions Dataspace::current_dimensions() const
+{
+  return Dimensions();
+}
+
 bool Dataspace::is_valid() const {
   return handle_.is_valid();
 }

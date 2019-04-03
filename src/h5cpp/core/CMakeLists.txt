@@ -19,6 +19,8 @@ set(HEADERS
   ${dir}/object_id.hpp
   ${dir}/hdf5_capi.hpp
   ${dir}/version.hpp
+  ${dir}/variable_length_string.hpp
+  ${dir}/fixed_length_string.hpp
   )
 
 install(FILES ${HEADERS}

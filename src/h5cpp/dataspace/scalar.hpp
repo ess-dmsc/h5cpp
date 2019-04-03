@@ -56,6 +56,7 @@ class DLL_EXPORT Scalar : public Dataspace {
   //! \param space reference to a Dataspace instance
   //!
   Scalar(const Dataspace &space);
+
 };
 
 } // namespace dataspace

@@ -80,7 +80,7 @@ class DLL_EXPORT Simple : public Dataspace {
   //! \sa dimensions
   //!
   Simple(const Dimensions &current,
-         const Dimensions &maximum = Dimensions());
+         const Dimensions &maximum = hdf5::Dimensions());
 
   //!
   //! \brief get number of dimensions

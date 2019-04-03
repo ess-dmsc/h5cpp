@@ -28,6 +28,7 @@
 
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/types.hpp>
 #include <h5cpp/dataspace/selection_manager.hpp>
 #include <h5cpp/core/windows.hpp>
 
@@ -97,6 +98,13 @@ class DLL_EXPORT Dataspace {
   //! \throws std::runtime_error in case of a failure
   //!
   virtual hssize_t size() const;
+
+  //!
+  //! \brief current dimensions of a dataspace
+  //!
+  //! Return the current dimensions of a dataspace.
+  //!
+  hdf5::Dimensions current_dimensions() const;
 
   //!
   //! \brief allows explicit conversion to hid_t
