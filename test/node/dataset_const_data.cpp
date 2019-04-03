@@ -1,7 +1,7 @@
 //
 // (c) Copyright 2017 DESY,ESS
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,30 +20,32 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 6, 2017
+// Created on: Oct 23, 2017
 //
-#include <h5cpp/core/hdf5_capi.hpp>
-#include <h5cpp/file/posix_driver.hpp>
-#include <h5cpp/property/file_access.hpp>
-#include <h5cpp/error/error.hpp>
+#include <gtest/gtest.h>
+#include <h5cpp/hdf5.hpp>
+#include <array>
+#include <cstdint>
 
-namespace hdf5 {
-namespace file {
+using namespace hdf5;
 
-PosixDriver::PosixDriver() {}
-
-void PosixDriver::operator()(const property::FileAccessList &fapl) const
-{
-  if (H5Pset_fapl_sec2(static_cast<hid_t>(fapl)) < 0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure setting up POSIX driver!");
-  }
+template<class Type>
+void constData() {
+  std::array<const Type,1> SomeData{0};
+  node::Dataset dset;
+  dset.write(SomeData);
 }
 
-DriverID PosixDriver::id() const noexcept
-{
-  return DriverID::ePosix;
+void DoNotRun() {
+  constData<std::int8_t>();
+  constData<std::uint8_t>();
+  constData<std::int16_t>();
+  constData<std::uint16_t>();
+  constData<std::int32_t>();
+  constData<std::uint32_t>();
+  constData<std::int64_t>();
+  constData<std::uint64_t>();
+  constData<double>();
+  constData<float>();
+  constData<char>();
 }
-
-} // namespace file
-} // namespace hdf5

@@ -48,7 +48,7 @@ void MPIDriver::operator()(const property::FileAccessList &fapl) const
 
 DriverID MPIDriver::id() const noexcept
 {
-  return DriverID::MPI;
+  return DriverID::eMPI;
 }
 
 #endif

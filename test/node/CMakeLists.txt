@@ -15,6 +15,7 @@ set(test_sources
     ${dir}/dataset_extent_test.cpp
     ${dir}/dataset_partial_io_test.cpp
     ${dir}/dataset_array_type_io.cpp
+    ${dir}/dataset_const_data.cpp
     ${dir}/dataset_vlen_array_io.cpp
     ${dir}/dataset_fixed_string_io.cpp
     ${dir}/dataset_variable_string_io.cpp
@@ -32,6 +33,9 @@ set(test_sources
     ${dir}/dataset_h5py_string_compat_test.cpp
     ${dir}/link_target_test.cpp
     ${dir}/node_exists_test.cpp
+    ${dir}/dataset_h5py_bool_test.cpp
+    ${dir}/dataset_pniio_bool_test.cpp
+    ${dir}/dataset_read_speed_test.cpp
     PARENT_SCOPE)
 
 set(test_headers

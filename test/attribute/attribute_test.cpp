@@ -76,13 +76,13 @@ TEST_F(Attribute, test_multidim_simple_construction)
   EXPECT_EQ(a.name(),"test");
   EXPECT_EQ(a.dataspace().type(),dataspace::Type::SIMPLE);
   dataspace::Simple space(a.dataspace());
-  EXPECT_EQ(space.rank(),1);
+  EXPECT_EQ(space.rank(),1u);
   EXPECT_EQ(space.current_dimensions()[0],1ul);
 
   EXPECT_NO_THROW(a = root_.attributes.create<int>("matrix",{3,4}));
   EXPECT_EQ(a.name(),"matrix");
   space = dataspace::Simple(a.dataspace());
-  EXPECT_EQ(space.rank(),2);
+  EXPECT_EQ(space.rank(),2u);
   EXPECT_EQ(space.current_dimensions()[0],3ul);
   EXPECT_EQ(space.current_dimensions()[1],4ul);
 

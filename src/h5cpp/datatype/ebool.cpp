@@ -19,31 +19,35 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 6, 2017
+// Authors:
+//   Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Sep 18, 2018
 //
-#include <h5cpp/core/hdf5_capi.hpp>
-#include <h5cpp/file/posix_driver.hpp>
-#include <h5cpp/property/file_access.hpp>
+
+#include <sstream>
+#include <h5cpp/datatype/enum.hpp>
+#include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/error/error.hpp>
 
-namespace hdf5 {
-namespace file {
-
-PosixDriver::PosixDriver() {}
-
-void PosixDriver::operator()(const property::FileAccessList &fapl) const
+namespace hdf5
 {
-  if (H5Pset_fapl_sec2(static_cast<hid_t>(fapl)) < 0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure setting up POSIX driver!");
+namespace datatype
+{
+
+bool is_bool(const Enum & etype){
+  int s = etype.number_of_values();
+  if(s != 2){
+    return false;
   }
+  if(etype.name(0) != "FALSE"){
+    return false;
+  }
+  if(etype.name(1) != "TRUE"){
+    return false;
+  }
+  return true;
 }
 
-DriverID PosixDriver::id() const noexcept
-{
-  return DriverID::ePosix;
-}
 
-} // namespace file
+} // namespace datatype
 } // namespace hdf5

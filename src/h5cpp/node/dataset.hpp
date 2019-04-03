@@ -19,13 +19,17 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
+//
 // Created on: Sep 7, 2017
 //
 #pragma once
 
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/types.hpp>
@@ -144,10 +148,31 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \throws std::runtime_error in case of a failure
     //! \param dims vector with new number of elements along each dimension
+    //! \deprecated this method is deprecated - use resize instead
     //!
     void extent(const Dimensions &dims) const;
 
+
+
     void extent(size_t dim,ssize_t delta_elements) const;
+
+
+    //!
+    //! \brief resize the dataset
+    //!
+    //! Allows to change the shape (number of elements along each dimensions)
+    //! of a dataset. It is important to note that in such a case a previously
+    //! requested dataspace though remaining a valid object does no longer
+    //! describe the datasets layout correctly. The number of elements can be
+    //! increased or decreased within the limits of the dataspace originally
+    //! used to create the dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param dims vector with new number of elements along each dimension
+    //!
+    void resize(const Dimensions &dims) const;
+
+
 
 #if H5_VERSION_GE(1,10,0)
     void refresh() const;
@@ -511,15 +536,18 @@ class DLL_EXPORT Dataset : public Node
 
       Trait::from_buffer(buffer,data);
 
-      if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
+      if(buffer.size() > 0)
+      {
+	if(H5Dvlen_reclaim(static_cast<hid_t>(mem_type),
                          static_cast<hid_t>(mem_space),
                          static_cast<hid_t>(dtpl),
                          buffer.data())<0)
-      {
-        std::stringstream ss;
-        ss<<"Error reclaiming memory from variable length string data in "
-          <<"dataset ["<<link().path()<<"]!";
-        error::Singleton::instance().throw_with_stack(ss.str());
+	{
+	  std::stringstream ss;
+	  ss<<"Error reclaiming memory from variable length string data in "
+	    <<"dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
       }
     }
 
@@ -535,21 +563,23 @@ class DLL_EXPORT Dataset : public Node
 
       auto buffer = Trait::BufferType::create(mem_type,mem_space);
 
-      if(H5Dread(static_cast<hid_t>(*this),
-                 static_cast<hid_t>(mem_type),
-                 static_cast<hid_t>(mem_space),
-                 static_cast<hid_t>(file_space),
-                 static_cast<hid_t>(dtpl),
-                 buffer.data())<0)
+      if(file_space.size() > 0)
       {
-        std::stringstream ss;
-        ss<<"Failure to read fixed length string data to dataset ["<<link().path()<<"]!";
-        error::Singleton::instance().throw_with_stack(ss.str());
+	if(H5Dread(static_cast<hid_t>(*this),
+		   static_cast<hid_t>(mem_type),
+		   static_cast<hid_t>(mem_space),
+		   static_cast<hid_t>(file_space),
+		   static_cast<hid_t>(dtpl),
+		   buffer.data())<0)
+	  {
+	    std::stringstream ss;
+	    ss<<"Failure to read fixed length string data to dataset ["<<link().path()<<"]!";
+	    error::Singleton::instance().throw_with_stack(ss.str());
+	  }
+
+	//get data out of the buffer
+	data = Trait::from_buffer(buffer,mem_type,mem_space);
       }
-
-      //get data out of the buffer
-      data = Trait::from_buffer(buffer,mem_type,mem_space);
-
     }
 };
 
@@ -648,9 +678,22 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
 
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
+  try{
+    const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
+      auto dims = hyper.block();
+      auto count = hyper.count();
+      for(Dimensions::size_type i = 0; i != dims.size(); i++)
+	dims[i] *= count[i];
 
-  read(data,memory_type,memory_space,file_space,dtpl);
-
+      dataspace::Simple selected_space(dims);
+      if (selected_space.size() == memory_space.size())
+	read(data,memory_type,selected_space,file_space,dtpl);
+      else
+	read(data,memory_type,memory_space,file_space,dtpl);
+  }
+  catch(const std::bad_cast&){
+    read(data,memory_type,memory_space,file_space,dtpl);
+  }
 }
 
 template<typename T>
@@ -698,9 +741,29 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
   auto file_space = dataspace();
   file_space.selection.all();
 
-  read(data,memory_type,memory_space,file_space,dtpl);
+  if (file_space.size() == memory_space.size()){
+    read(data,memory_type,file_space,file_space,dtpl);
+  }
+  else{
+    read(data,memory_type,memory_space,file_space,dtpl);
+  }
 
 }
+
+
+//!
+//! \brief resize a dataset by a particular offset
+//!
+//! Resizes a dataset along the dimension determined by dimension_index
+//! by delta elements. As delta is a signed integer one can either
+//! enlarge or shrink the dataset.
+//!
+//! \param dataset reference to the dataset to resize
+//! \param dimension_index the index of the dimension to resize
+//! \param delta the number of elements about which the dataset should be resized
+//! \throws std::runtime_error in case of any failure
+//!
+DLL_EXPORT void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta);
 
 
 

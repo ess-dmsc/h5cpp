@@ -9,6 +9,7 @@ set(SOURCES
     ${dir}/string.cpp
     ${dir}/types.cpp
     ${dir}/enum.cpp
+    ${dir}/ebool.cpp
     )
 
 set(HEADERS
@@ -22,6 +23,7 @@ set(HEADERS
     ${dir}/string.hpp
     ${dir}/array.hpp
     ${dir}/enum.hpp
+    ${dir}/ebool.hpp
     )
 
 install(FILES ${HEADERS}

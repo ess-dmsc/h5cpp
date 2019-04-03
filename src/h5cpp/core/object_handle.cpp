@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 07, 2017
 //
 
@@ -198,6 +199,9 @@ void ObjectHandle::close()
   {
     case ObjectHandle::Type::DATASPACE:
       error_code = H5Sclose(handle_);
+      break;
+    case ObjectHandle::Type::GROUP:
+      error_code = H5Gclose(handle_);
       break;
     case ObjectHandle::Type::DATATYPE:
       error_code = H5Tclose(handle_);

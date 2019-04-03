@@ -86,7 +86,7 @@ TEST_F(Error, extract_stack)
 
   provoke_h5_error();
   auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_EQ(stack.contents().size(), 2);
+  EXPECT_EQ(stack.contents().size(), 2u);
 }
 
 TEST_F(Error, clear_stack)
@@ -107,15 +107,15 @@ TEST_F(Error, sequential)
   error::Singleton::instance().auto_print(false);
 
   provoke_h5_error();
-  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2);
+  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2ul);
   EXPECT_TRUE(error::Singleton::instance().extract_stack().empty());
 
   provoke_h5_error();
-  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2);
+  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2ul);
   EXPECT_TRUE(error::Singleton::instance().extract_stack().empty());
 
   provoke_h5_error();
-  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2);
+  EXPECT_EQ(error::Singleton::instance().extract_stack().contents().size(), 2ul);
   EXPECT_TRUE(error::Singleton::instance().extract_stack().empty());
 }
 
@@ -144,7 +144,7 @@ TEST_F(Error, exception_generation_print_off)
   catch (std::exception& e)
   {
     auto message = error::print_nested(e);
-    EXPECT_GT(message.size(), 20);
+    EXPECT_GT(message.size(), 20ul);
 #ifdef _MSC_ER
     TEST_COUT << "\n" << message;
 #endif

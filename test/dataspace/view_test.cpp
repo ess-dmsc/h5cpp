@@ -72,7 +72,7 @@ TEST_F(DataspaceViewTest, test_list_construction) {
 
 TEST_F(DataspaceViewTest, test_reseting_selections) {
   dataspace::View view(space);
-  EXPECT_EQ(view.size(), space.size());
+  EXPECT_EQ(static_cast<hssize_t>(view.size()), space.size());
 
   EXPECT_NO_THROW(view(slab));
   EXPECT_EQ(view.size(), 100ul * 100ul);

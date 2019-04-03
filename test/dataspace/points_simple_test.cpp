@@ -31,7 +31,8 @@
 
 using namespace hdf5;
 
-TEST(PointsSimple, DefaultConsructor) {
+TEST(PointsSimple, DefaultConsructor)
+{
   dataspace::Points h;
   EXPECT_EQ(h.rank(), 0ul);
 
@@ -42,36 +43,53 @@ TEST(PointsSimple, DefaultConsructor) {
   EXPECT_EQ(h2.rank(), 2ul);
 }
 
-TEST(PointsSimple, Add) {
+//
+// adding points to a selection
+//
+TEST(PointsSimple, Add)
+{
   dataspace::Points h(1);
-  EXPECT_EQ(h.points(), 0);
+  EXPECT_EQ(h.points(), 0u);
   h.add({2});
-  EXPECT_EQ(h.points(), 1);
+  EXPECT_EQ(h.points(), 1u);
   h.add({7});
-  EXPECT_EQ(h.points(), 2);
+  EXPECT_EQ(h.points(), 2u);
 }
 
-TEST(PointsSimple, FailAdd) {
+//
+// this must fail due to a rank mismatch between the constructed selection
+// and the point coordinate added
+//
+TEST(PointsSimple, FailAdd)
+{
   dataspace::Points h(1);
-  EXPECT_THROW(h.add({2,3}), std::runtime_error);
+  EXPECT_THROW(h.add({2, 3}), std::runtime_error);
 }
 
-TEST(PointsSimple, test_case_1) {
+TEST(PointsSimple, test_case_1)
+{
+  // create the dataspace
   dataspace::Simple space({10, 20});
-  EXPECT_EQ(space.rank(), 2);
+  EXPECT_EQ(space.rank(), 2u);
   EXPECT_EQ(space.size(), 200);
+
+  //create the point selection
   dataspace::Points points(2);
   points.add({1, 1});
   points.add({5, 5});
+
+  //apply the selection to the dataspace
   space.selection(dataspace::SelectionOperation::SET, points);
   EXPECT_EQ(space.selection.size(), 2ul);
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::POINTS);
 
+  //remove the selection
   EXPECT_NO_THROW(space.selection.all());
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 }
 
-TEST(PointsSimple, test_case_2) {
+TEST(PointsSimple, test_case_2)
+{
   dataspace::Simple space({10, 1024, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
@@ -95,7 +113,8 @@ TEST(PointsSimple, test_case_2) {
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::POINTS);
 }
 
-TEST(PointsSimple, BadSelection) {
+TEST(PointsSimple, BadSelection)
+{
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
@@ -103,40 +122,48 @@ TEST(PointsSimple, BadSelection) {
   points.add({1, 1});
   points.add({2, 2});
 
-  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points), std::runtime_error);
+  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points),
+               std::runtime_error);
 }
 
-TEST(PointsSimple, AddSet) {
+TEST(PointsSimple, AddSet)
+{
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
   dataspace::Points points(2);
   points.add_set({{1, 1}, {2, 2}});
 
-  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points), std::runtime_error);
+  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points),
+               std::runtime_error);
 }
 
-TEST(PointsSimple, AddSetError) {
+TEST(PointsSimple, AddSetError)
+{
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
   dataspace::Points points(2);
-  EXPECT_THROW(points.add_set({{1, 1}, {2, 2, 3}}), std::runtime_error);
+  EXPECT_THROW(points.add_set({{1, 1}, {2, 2, 3}}),
+               std::runtime_error);
 }
 
-TEST(PointsSimple, ConvenienceConstructor) {
+TEST(PointsSimple, ConvenienceConstructor)
+{
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
   dataspace::Points points({{1, 1}, {2, 2}});
 
-  EXPECT_EQ(points.rank(), 2);
-  EXPECT_EQ(points.points(), 2);
+  EXPECT_EQ(points.rank(), 2u);
+  EXPECT_EQ(points.points(), 2u);
 }
 
-TEST(PointsSimple, ConvenienceConstructorError) {
+TEST(PointsSimple, ConvenienceConstructorError)
+{
   dataspace::Simple space({10, 1024});
   EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
-  EXPECT_THROW(dataspace::Points({{1, 1}, {2, 2, 3}}), std::runtime_error);
+  EXPECT_THROW(dataspace::Points({{1, 1}, {2, 2, 3}}),
+               std::runtime_error);
 }

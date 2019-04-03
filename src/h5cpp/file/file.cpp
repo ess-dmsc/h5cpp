@@ -19,8 +19,10 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Author: Martin Shetty <martin.shetty@esss.se>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 
@@ -28,6 +30,7 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/property/file_access.hpp>
 
 namespace hdf5 {
 namespace file {
@@ -67,9 +70,25 @@ void File::flush(Scope scope) const
   }
 }
 
+
 void File::close()
 {
-  handle_.close();
+  property::FileAccessList fapl = property::FileAccessList(ObjectHandle(H5Fget_access_plist(static_cast<hid_t>(*this))));
+
+  if(fapl.close_degree() == property::CloseDegree::STRONG)
+  {
+    hid_t mid= static_cast<hid_t>(*this);
+    handle_.close();
+    // closes all copies of file hid_t's created with Node::link_.parent_file_
+    while(H5Iget_type(mid) > 0)
+    {
+      H5Fclose(mid);
+    }
+  }
+  else
+  {
+    handle_.close();
+  }
 }
 
 boost::filesystem::path File::path() const

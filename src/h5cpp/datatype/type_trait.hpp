@@ -66,7 +66,6 @@ class TypeTrait {
 template<>
 class TypeTrait<char> {
  public:
-
   using TypeClass = Integer;
   static TypeClass create(const char & = char()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_CHAR)));
@@ -215,7 +214,7 @@ class TypeTrait<std::vector<T>> {
   using Type = std::vector<T>;
   using TypeClass = typename TypeTrait<T>::TypeClass;
   static TypeClass create(const Type & = Type()) {
-    return TypeTrait<T>::create();
+    return TypeTrait<typename std::remove_const<T>::type>::create();
   }
 };
 
@@ -225,7 +224,7 @@ class TypeTrait<std::array<T, N>> {
   using Type = std::array<T, N>;
   using TypeClass = typename TypeTrait<T>::TypeClass;
   static TypeClass create(const Type & = Type()) {
-    return TypeTrait<T>::create();
+    return TypeTrait<typename std::remove_const<T>::type>::create();
   }
 };
 

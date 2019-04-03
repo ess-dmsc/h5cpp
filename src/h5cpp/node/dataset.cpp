@@ -146,6 +146,11 @@ property::DatasetAccessList Dataset::access_list() const
 
 void Dataset::extent(const Dimensions &dims) const
 {
+  resize(dims);
+}
+
+void Dataset::resize(const Dimensions &dims) const
+{
   if(H5Dset_extent(static_cast<hid_t>(*this),dims.data())<0)
   {
     std::stringstream ss;
@@ -156,46 +161,7 @@ void Dataset::extent(const Dimensions &dims) const
 
 void Dataset::extent(size_t dim,ssize_t delta_elements) const
 {
-  dataspace::Dataspace space = dataspace();
-  if(space.type()!=dataspace::Type::SIMPLE)
-  {
-    std::stringstream ss;
-    ss<<"Dataset ["<<link().path()<<"] does not use a simple dataspace"
-      <<" and thus cannot be extended!";
-    throw std::runtime_error(ss.str());
-  }
-  dataspace::Simple simple_space(space);
-
-  Dimensions current_dims = simple_space.current_dimensions();
-  //check current dimensions
-  if(dim>=current_dims.size())
-  {
-    std::stringstream ss;
-    ss<<"Dataset ["<<link().path()<<"] has rank "<<current_dims.size()
-      <<" however you requested to change dimension "<<dim
-      <<" this would not work!";
-    throw std::runtime_error(ss.str());
-  }
-
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
-  if((delta_elements<0) && (current_dims[dim]<abs(delta_elements)))
-  {
-    std::stringstream ss;
-    ss<<"Extent of dataset ["<<link().path()<<"] cannot be changed "
-      <<" by "<<delta_elements<<" along dimensions "<<dim
-      <<" (currently "<<current_dims[dim]<<") as the resulting size"
-      <<" would be negative";
-    throw std::runtime_error(ss.str());
-  }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-  current_dims[dim] += delta_elements;
-  extent(current_dims);
+  resize_by(*this,dim,delta_elements);
 }
 
 #if H5_VERSION_GE(1,10,0)
@@ -217,6 +183,49 @@ void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) 
   write(std::string(data),dtpl);
 }
 
+void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
+{
+  dataspace::Dataspace space = dataset.dataspace();
+  if(space.type()!=dataspace::Type::SIMPLE)
+  {
+    std::stringstream ss;
+    ss<<"Dataset ["<<dataset.link().path()<<"] does not use a simple dataspace"
+      <<" and thus cannot be extended!";
+    throw std::runtime_error(ss.str());
+  }
+  dataspace::Simple simple_space(space);
+
+  Dimensions current_dims = simple_space.current_dimensions();
+  //check current dimensions
+  if(dimension_index>=current_dims.size())
+  {
+    std::stringstream ss;
+    ss<<"Dataset ["<<dataset.link().path()<<"] has rank "<<current_dims.size()
+      <<" however you requested to change dimension "<<dimension_index
+      <<" this would not work!";
+    throw std::runtime_error(ss.str());
+  }
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#endif
+  if((delta<0) && (current_dims[dimension_index]<abs(delta)))
+  {
+    std::stringstream ss;
+    ss<<"Extent of dataset ["<<dataset.link().path()<<"] cannot be changed "
+      <<" by "<<delta<<" along dimensions "<<dimension_index
+      <<" (currently "<<current_dims[dimension_index]<<") as the resulting size"
+      <<" would be negative";
+    throw std::runtime_error(ss.str());
+  }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
+  current_dims[dimension_index] += delta;
+  dataset.resize(current_dims);
+}
 
 } // namespace node
 } // namespace hdf5

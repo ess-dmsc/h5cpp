@@ -19,31 +19,54 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 6, 2017
+// Authors:
+//   Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Sep 18, 2018
 //
-#include <h5cpp/core/hdf5_capi.hpp>
-#include <h5cpp/file/posix_driver.hpp>
-#include <h5cpp/property/file_access.hpp>
+#pragma once
+
+#include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/datatype/factory.hpp>
+#include <h5cpp/datatype/enum.hpp>
 #include <h5cpp/error/error.hpp>
+#include <sstream>
 
-namespace hdf5 {
-namespace file {
-
-PosixDriver::PosixDriver() {}
-
-void PosixDriver::operator()(const property::FileAccessList &fapl) const
+namespace hdf5
 {
-  if (H5Pset_fapl_sec2(static_cast<hid_t>(fapl)) < 0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure setting up POSIX driver!");
+namespace datatype
+{
+//!
+//! \brief enumeration bool type
+//!
+enum EBool : int8_t
+{
+  FALSE = 0, //!< indicates a false value
+  TRUE = 1   //!< indicates a true value
+};
+
+
+template<>
+class TypeTrait<datatype::EBool> {
+ public:
+  using TypeClass = datatype::Enum;
+  using Type = datatype::EBool;
+
+  static TypeClass create(const Type & = Type()) {
+    auto type = TypeClass::create(Type());
+    type.insert("FALSE", Type::FALSE);
+    type.insert("TRUE", Type::TRUE);
+    return type;
   }
-}
+};
 
-DriverID PosixDriver::id() const noexcept
-{
-  return DriverID::ePosix;
-}
 
-} // namespace file
+//!
+//! @brief check if Enum is EBool
+//!
+//! @param Enum object
+//! @return if Enum is EBool flag
+//!
+DLL_EXPORT bool is_bool(const Enum & etype);
+
+} // namespace datatype
 } // namespace hdf5

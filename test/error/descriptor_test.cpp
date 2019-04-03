@@ -32,10 +32,10 @@ TEST(Descriptor, extract_data)
 {
   provoke_h5_error();
   auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_GT(stack.contents().size(), 0);
+  EXPECT_GT(stack.contents().size(), 0u);
   auto d = stack.contents().front();
 
-  EXPECT_GT(d.line, 10);
+  EXPECT_GT(d.line, 10u);
   EXPECT_EQ(d.function, "H5Iget_ref");
   EXPECT_NE(d.file.find("H5I.c"), std::string::npos);
   EXPECT_EQ(d.description, "can't get ID ref count");
@@ -45,7 +45,7 @@ TEST(Descriptor, extract_strings)
 {
   provoke_h5_error();
   auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_GT(stack.contents().size(), 0);
+  EXPECT_GT(stack.contents().size(), 0u);
   auto d = stack.contents().front();
 
   d.extract_strings();
