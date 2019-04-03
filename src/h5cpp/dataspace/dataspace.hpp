@@ -28,13 +28,12 @@
 
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/types.hpp>
 #include <h5cpp/dataspace/selection_manager.hpp>
 #include <h5cpp/core/windows.hpp>
 
 namespace hdf5 {
 namespace dataspace {
-
-class Dimensions;
 
 //!
 //! \brief dataspace base class
@@ -105,7 +104,7 @@ class DLL_EXPORT Dataspace {
   //!
   //! Return the current dimensions of a dataspace.
   //!
-  virtual Dimensions current_dimensions() const = 0;
+  hdf5::Dimensions current_dimensions() const;
 
   //!
   //! \brief allows explicit conversion to hid_t
