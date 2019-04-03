@@ -56,6 +56,19 @@ class DLL_EXPORT Scalar : public Dataspace {
   //! \param space reference to a Dataspace instance
   //!
   Scalar(const Dataspace &space);
+
+  //!
+  //! \brief get current dimensions
+  //!
+  //! In the case of a scalar dataset this method returns an empty Dimensions
+  //! instance.
+  //!
+  virtual Dimensions current_dimensions() const;
+
+  //!
+  //! \brief get the current dimensions
+  //!
+  //! In the case of a scalar dataset this method returns an empty
 };
 
 } // namespace dataspace

@@ -34,6 +34,8 @@
 namespace hdf5 {
 namespace dataspace {
 
+class Dimensions;
+
 //!
 //! \brief dataspace base class
 //!
@@ -97,6 +99,13 @@ class DLL_EXPORT Dataspace {
   //! \throws std::runtime_error in case of a failure
   //!
   virtual hssize_t size() const;
+
+  //!
+  //! \brief current dimensions of a dataspace
+  //!
+  //! Return the current dimensions of a dataspace.
+  //!
+  virtual Dimensions current_dimensions() const = 0;
 
   //!
   //! \brief allows explicit conversion to hid_t
