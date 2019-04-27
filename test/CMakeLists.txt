@@ -57,7 +57,7 @@ target_link_libraries(unit_tests
 enable_coverage(unit_tests)
 
 add_custom_target(run_tests
-  COMMAND unit_tests "--gtest_output=xml:unit_tests_run.xml"
+  COMMAND ${PROJECT_BINARY_DIR}/bin/unit_tests "--gtest_output=xml:unit_tests_run.xml"
   DEPENDS unit_tests)
 add_test(NAME "RunGoogleTests" COMMAND run_tests)
 
