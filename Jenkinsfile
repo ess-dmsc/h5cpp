@@ -277,7 +277,7 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['macOS-release'] = get_macos_pipeline('Release')
+    // builders['macOS-release'] = get_macos_pipeline('Release')
     // builders['macOS-debug'] = get_macos_pipeline('Debug')
     builders['Windows10'] = get_win10_pipeline()
 
