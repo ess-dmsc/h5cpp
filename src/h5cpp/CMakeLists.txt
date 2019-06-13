@@ -42,7 +42,7 @@ endforeach()
 
 target_include_directories(h5cpp
   PRIVATE ${PROJECT_SOURCE_DIR}/src
-  PRIVATE ${HDF5_INCLUDE_DIRS}
+  PUBLIC ${HDF5_INCLUDE_DIRS}
   PUBLIC ${MPI_CXX_INCLUDE_PATH}
   INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
@@ -83,9 +83,12 @@ install(EXPORT h5cpp_targets
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
   COMPONENT development)
  
-# 
+# =============================================================================
 # Build the pkg-config file 
 # 
+# basically the target provides all the information required to link against
+# it via all the INTERFACE properties.
+# =============================================================================
 function(GET_LIBRARY_NAME LIB)
 	
 	message(STATUS "Dealing with library ${LIB}")
