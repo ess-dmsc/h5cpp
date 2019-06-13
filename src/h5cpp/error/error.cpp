@@ -27,7 +27,11 @@
 #include <sstream>
 
 extern "C"{
+#ifdef __clang__
+#include <string.h>
+#else
 #include <cstring>
+#endif
 }
 
 namespace hdf5 {

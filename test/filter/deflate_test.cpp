@@ -28,36 +28,36 @@
 
 using namespace hdf5;
 
-TEST(DeflateFilter,default_construction)
+TEST(DeflateFilter, default_construction)
 {
   filter::Deflate filter;
-  EXPECT_EQ(filter.id(),H5Z_FILTER_DEFLATE);
-  EXPECT_EQ(filter.level(),0u);
+  EXPECT_EQ(filter.id(), H5Z_FILTER_DEFLATE);
+  EXPECT_EQ(filter.level(), 0u);
 }
 
-TEST(DeflateFilter,level_construction)
+TEST(DeflateFilter, level_construction)
 {
   filter::Deflate filter(7u);
-  EXPECT_EQ(filter.level(),7u);
-  EXPECT_EQ(filter.id(),H5Z_FILTER_DEFLATE);
+  EXPECT_EQ(filter.level(), 7u);
+  EXPECT_EQ(filter.id(), H5Z_FILTER_DEFLATE);
 }
 
-TEST(DeflateFilter,application)
+TEST(DeflateFilter, application)
 {
   property::DatasetCreationList dcpl;
   filter::Deflate filter(8u);
 
   filter(dcpl);
-  EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)),1u);
+  EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
 }
 
-TEST(DeflateFilter,construct_with_invalid_level)
+TEST(DeflateFilter, construct_with_invalid_level)
 {
-  EXPECT_THROW(filter::Deflate(10),std::runtime_error);
+  EXPECT_THROW(filter::Deflate(10), std::runtime_error);
 }
 
-TEST(DeflateFilter,set_invalid_level)
+TEST(DeflateFilter, set_invalid_level)
 {
   filter::Deflate filter;
-  EXPECT_THROW(filter.level(20),std::runtime_error);
+  EXPECT_THROW(filter.level(20), std::runtime_error);
 }

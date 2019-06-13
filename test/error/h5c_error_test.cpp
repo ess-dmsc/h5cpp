@@ -38,10 +38,10 @@ TEST(H5CError, extract_stack)
 {
   provoke_h5_error();
   auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_EQ(stack.contents().size(), 2);
+  EXPECT_EQ(stack.contents().size(), 2u);
   for (auto d : stack.contents())
   {
-    EXPECT_GT(d.description.size(), 2);
+    EXPECT_GT(d.description.size(), 2u);
     EXPECT_NE(d.function.find("H5"), std::string::npos) << d;
   }
 }

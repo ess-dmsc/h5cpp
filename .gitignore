@@ -1,6 +1,7 @@
 /build*/
 /cmake-build-*/
 *.user
+.idea
 .idea/
 
 *.swp

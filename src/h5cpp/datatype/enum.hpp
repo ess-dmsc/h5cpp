@@ -128,6 +128,7 @@ class DLL_EXPORT Enum : public Datatype
 template<typename T>
 void Enum::check_type(const T& data) const
 {
+  (void) data; //  < var unused, only for type inference
   auto mem_type = datatype::create<T>();
   if (mem_type != super())
   {

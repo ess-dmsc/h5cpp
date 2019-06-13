@@ -50,10 +50,10 @@ class FileClose : public testing::Test
       std::string hdf5_version =  "1.0.0";
       auto type = datatype::create<std::string>();
       dataspace::Scalar space;
-      
+
       auto r1 = nexus_file.root();
       r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
-      
+
       r1.close();
       nexus_file.close();
     }
@@ -78,7 +78,7 @@ TEST_F(FileClose, test_strong_withopen_root_attr)
   auto root_group = file.root();
 
   auto attr = root_group.attributes[0];
-  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 3);
+  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 3u);
 
   // with CloseDegree::STRONG it closes also root_group and attr
   EXPECT_NO_THROW(file.close());
@@ -139,7 +139,7 @@ TEST_F(FileClose, test_withopen_attr_root)
   auto root_group = file.root();
 
   auto attr = root_group.attributes[0];
-  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 3);
+  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 3ul);
 
   // without CloseDegree::STRONG root_group and attr are still open
   EXPECT_NO_THROW(file.close());
@@ -162,8 +162,8 @@ TEST_F(FileClose, test_withopen_attr)
 
   auto attr = root_group.attributes[0];
   root_group.close();
-  
-  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 2);
+
+  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 2ul);
 
   // without CloseDegree::STRONG root_group and attr are still open
   EXPECT_NO_THROW(file.close());

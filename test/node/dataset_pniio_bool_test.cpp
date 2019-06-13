@@ -30,76 +30,78 @@ using namespace hdf5;
 
 class DatasetPNIIOBoolTest : public testing::Test
 {
-  protected:
-    file::File pniio_file;
-    node::Group root_group;
+ protected:
+  file::File pniio_file;
+  node::Group root_group;
 
-    virtual void SetUp()
-    {
-      pniio_file = file::open("./pniio_test_boolattr.h5",file::AccessFlags::READONLY);
-      root_group = pniio_file.root();
-    }
+  virtual void SetUp()
+  {
+    pniio_file = file::open("./pniio_test_boolattr.h5", file::AccessFlags::READONLY);
+    root_group = pniio_file.root();
+  }
 
 };
 
 #ifndef _MSC_VER
+
 TEST_F(DatasetPNIIOBoolTest, test_read_simple_bool)
 {
-  auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
+  auto dstrue = node::get_dataset(root_group, "ds_bool_scalar_true");
   bool buffer;
   dstrue.read(buffer);
   EXPECT_EQ(buffer, true);
   bool buffer2;
-  auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
+  auto dsfalse = node::get_dataset(root_group, "ds_bool_scalar_false");
   dsfalse.read(buffer2);
   EXPECT_EQ(buffer2, false);
 }
 
 TEST_F(DatasetPNIIOBoolTest, test_read_vector_bool)
 {
-  auto ds = node::get_dataset(root_group,"ds_bool_array");
+  auto ds = node::get_dataset(root_group, "ds_bool_array");
   // missing implementation for std:vector<bool>
   // std::vector<bool> buffer(4);
   // std::vector<bool> ref  = {false, true, true, false};
   // ds.read(buffer);
   // EXPECT_EQ(buffer, ref);
   std::vector<unsigned char> buffer2(4);
-  std::vector<unsigned char> ref2  = {0, 1, 1, 0};
+  std::vector<unsigned char> ref2 = {0, 1, 1, 0};
   EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(ds.datatype().size(), 1);
+  EXPECT_EQ(ds.datatype().size(), 1ul);
   ds.read(buffer2);
   EXPECT_EQ(buffer2, ref2);
 }
 
 TEST_F(DatasetPNIIOBoolTest, test_read_simple_ebool)
 {
-  auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
+  auto dstrue = node::get_dataset(root_group, "ds_bool_scalar_true");
   datatype::EBool buffer;
   // does not work because of a bug similar to #309, #347
   // dstrue.read(buffer);
-  dstrue.read(buffer, dstrue.datatype(), dataspace::Simple{{1}} ,dstrue.dataspace());
+  dstrue.read(buffer, dstrue.datatype(), dataspace::Simple{{1}}, dstrue.dataspace());
   EXPECT_EQ(buffer, true);
   datatype::EBool buffer2;
-  auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
+  auto dsfalse = node::get_dataset(root_group, "ds_bool_scalar_false");
   // does not work because of a bug similar to #309, #347
   // dsfalse.read(buffer2);
-  dsfalse.read(buffer2, dsfalse.datatype(), dataspace::Simple{{1}} ,dsfalse.dataspace());
+  dsfalse.read(buffer2, dsfalse.datatype(), dataspace::Simple{{1}}, dsfalse.dataspace());
   EXPECT_EQ(buffer2, false);
 }
 
 TEST_F(DatasetPNIIOBoolTest, test_read_vector_ebool)
 {
-  auto ds = node::get_dataset(root_group,"ds_bool_array");
+  auto ds = node::get_dataset(root_group, "ds_bool_array");
   std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
-  					datatype::EBool::TRUE,
-  				        datatype::EBool::TRUE,
-  				        datatype::EBool::FALSE};
+  std::vector<datatype::EBool> eref = {datatype::EBool::FALSE,
+                                       datatype::EBool::TRUE,
+                                       datatype::EBool::TRUE,
+                                       datatype::EBool::FALSE};
   EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(ds.datatype().size(), 1);
+  EXPECT_EQ(ds.datatype().size(), 1ul);
   // does not work because of a bug similar to #309, #347
   // ds.read(buffer);
-  ds.read(buffer, ds.datatype(), dataspace::Simple{{4}} ,ds.dataspace());
+  ds.read(buffer, ds.datatype(), dataspace::Simple{{4}}, ds.dataspace());
   EXPECT_EQ(buffer, eref);
 }
+
 #endif
