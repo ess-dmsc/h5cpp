@@ -21,6 +21,7 @@ images = [
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
 
+/*
     'centos7-debug': [
             'name': 'essdmscdm/centos7-build-node:4.0.0',
             'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
@@ -39,6 +40,7 @@ images = [
             'sh': 'bash -e',
             'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
     ]
+    */
 ]
 
 base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
@@ -275,8 +277,8 @@ node('docker') {
         def image_key = x
         builders[image_key] = get_pipeline(image_key)
     }
-    builders['macOS-release'] = get_macos_pipeline('Release')
-    builders['macOS-debug'] = get_macos_pipeline('Debug')
+    // builders['macOS-release'] = get_macos_pipeline('Release')
+    // builders['macOS-debug'] = get_macos_pipeline('Debug')
     builders['Windows10'] = get_win10_pipeline()
 
 
