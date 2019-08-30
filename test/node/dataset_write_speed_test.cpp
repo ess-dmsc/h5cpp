@@ -82,7 +82,7 @@ protected:
     }
 
   virtual void TearDown() {
-    //    fs::remove("dataset_write_speed.h5");
+    fs::remove("dataset_write_speed.h5");
   }
 };
 
