@@ -727,7 +727,7 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-  
+
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
   try{
@@ -744,7 +744,7 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
       write(data,memory_type,selected_space,file_space,dtpl);
     else
       write(data,memory_type,memory_space,file_space,dtpl);
-      
+
   }
   catch(const std::bad_cast&){
     write(data,memory_type,memory_space,file_space,dtpl);
