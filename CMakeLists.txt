@@ -60,6 +60,7 @@ include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 add_custom_target(html)
 add_subdirectory(src)
 add_subdirectory(doc)
+add_subdirectory(test/issue_confirmations)
 
 #=============================================================================
 # install the examples directory to the documentation directory

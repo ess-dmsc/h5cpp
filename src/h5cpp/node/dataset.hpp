@@ -672,31 +672,34 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
 }
 
 template<typename T>
-void Dataset::read(T &data,const dataspace::Selection &selection,
-                   const property::DatasetTransferList &dtpl) const
-{
-  auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+void Dataset::read (T &data, const dataspace::Selection &selection,
+                 const property::DatasetTransferList &dtpl) const
+  {
+    auto memory_space = hdf5::dataspace::create (data);
+    auto memory_type = hdf5::datatype::create (data);
 
-  dataspace::Dataspace file_space = dataspace();
-  file_space.selection(dataspace::SelectionOperation::SET,selection);
-  try{
-    const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
-      auto dims = hyper.block();
-      auto count = hyper.count();
-      for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	dims[i] *= count[i];
+    dataspace::Dataspace file_space = dataspace ();
+    file_space.selection (dataspace::SelectionOperation::SET, selection);
+    try
+    {
+      const dataspace::Hyperslab &hyper =
+          dynamic_cast<const dataspace::Hyperslab&> (selection);
+      auto dims = hyper.block ();
+      auto count = hyper.count ();
+      for (Dimensions::size_type i = 0; i != dims.size (); i++)
+        dims[i] *= count[i];
 
-      dataspace::Simple selected_space(dims);
-      if (selected_space.size() == memory_space.size())
-	read(data,memory_type,selected_space,file_space,dtpl);
+      dataspace::Simple selected_space (dims);
+      if(selected_space.size () == memory_space.size ())
+        read (data, memory_type, selected_space, file_space, dtpl);
       else
-	read(data,memory_type,memory_space,file_space,dtpl);
+        read (data, memory_type, memory_space, file_space, dtpl);
+    }
+    catch (const std::bad_cast&)
+    {
+      read (data, memory_type, memory_space, file_space, dtpl);
+    }
   }
-  catch(const std::bad_cast&){
-    read(data,memory_type,memory_space,file_space,dtpl);
-  }
-}
 
 template<typename T>
 void Dataset::read(T &data,
