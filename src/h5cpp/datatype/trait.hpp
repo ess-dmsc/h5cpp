@@ -50,18 +50,19 @@ namespace datatype {
 //!
 //! \tparam T type for which to create a new HDF5 data type
 template<typename T>
-class Trait {
- public:
-  //!
-  //! \brief subtype of Datatype which will be used
-  //!
-  using TypeClass = Datatype;
+  class Trait
+  {
+    public:
+      //!
+      //! \brief subtype of Datatype which will be used
+      //!
+      using TypeClass = Datatype;
 
-  //!
-  //! \brief create the new type instance
-  //!
-  static TypeClass create(const T & = T());
-};
+      //!
+      //! \brief create the new type instance
+      //!
+      static TypeClass create (const T& = T ());
+  };
 
 template<>
 class Trait<char> {

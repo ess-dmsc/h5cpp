@@ -65,8 +65,8 @@ TYPED_TEST(IntegerMemoryAdapterTest, test_construction_from_none_const)
 TYPED_TEST(IntegerMemoryAdapterTest, test_construction_from_const)
 {
   const TypeParam value = TypeParam();
-  auto adapter = memory::make_adapter(value);
-  ::testing::StaticAssertTypeEq<memory::MemoryAdapter<const TypeParam>,
+  const auto adapter = memory::make_adapter(value);
+  ::testing::StaticAssertTypeEq<const memory::MemoryAdapter<TypeParam>,
                                 decltype(adapter)>();
   ::testing::StaticAssertTypeEq<dataspace::Scalar,
                                 typename decltype(adapter)::DataspaceType>();

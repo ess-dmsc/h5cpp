@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2019 DESY,ESS
+// (c) Copyright 2019 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,42 +19,28 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 1, 2019
 //
-#pragma once
 
-#include <h5cpp/memory/memory_adapter.hpp>
+#include <h5cpp/hdf5.hpp>
+#include <h5cpp/stl.hpp>
+#include <gtest/gtest.h>
 
-namespace hdf5 {
-namespace memory {
+using namespace hdf5;
+using test_types = ::testing::Types<float, double, long double>;
 
-
-//template<>
-//class MemoryAdapter<int>
-//{
-//  public:
-//    using DataspaceType = dataspace::Scalar;
-//    using DatatypeType = datatype::Integer;
-//
-//
-//    static int create(const datatype::Datatype & = datatype::Datatype(),
-//                      const dataspace::Dataspace & = dataspace::Dataspace())
-//    {
-//      return int();
-//    }
-//
-//    DataspaceType dataspace() const
-//    {
-//      return dataspace::Scalar();
-//    }
-//
-//    DatatypeType datatype() const
-//    {
-//      return datatype::Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_INT32)));
-//    }
-//};
+template<typename T>
+class ComplexDatatypeTraitTest : public ::testing::Test { };
 
 
-}
+TYPED_TEST_CASE(ComplexDatatypeTraitTest, test_types);
+
+TYPED_TEST(ComplexDatatypeTraitTest, test)
+{
+  auto datatype = datatype::Trait<std::complex<TypeParam>>::create();
+  EXPECT_EQ(sizeof(std::complex<TypeParam>), datatype.size());
+  EXPECT_EQ(2, datatype.number_of_fields());
+  EXPECT_EQ("real", datatype.field_name(0));
+  EXPECT_EQ("imag", datatype.field_name(1));
 }

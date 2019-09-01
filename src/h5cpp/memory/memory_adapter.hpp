@@ -59,10 +59,9 @@ class MemoryAdapter
   private:
     T &_reference;
   public:
-    using BaseType = typename std::remove_cv<T>::type;
+    using BaseType = T;
     using DataspaceType = typename dataspace::TypeTrait<BaseType>::DataspaceType;
     using DatatypeType = typename datatype::TypeTrait<BaseType>::TypeClass;
-    using VoidPtrType = typename VoidType<std::is_const<T>::value>::type*;
 
     explicit MemoryAdapter(T &instance):
       _reference(instance)
@@ -71,15 +70,15 @@ class MemoryAdapter
     MemoryAdapter(const MemoryAdapter<T> &) = delete;
     MemoryAdapter(MemoryAdapter<T> &&) = default;
 
-    VoidPtrType pointer()
+    void* pointer()
     {
-      return reinterpret_cast<VoidPtrType>(&_reference);
+      return reinterpret_cast<void*>(&_reference);
     }
 
-//    VoidPtrType pointer() const
-//    {
-//      return reinterpret_cast<VoidPtrType>(&_reference);
-//    }
+    const void* pointer() const
+    {
+      return reinterpret_cast<const void*>(&_reference);
+    }
 
 
     DataspaceType dataspace() const
@@ -103,10 +102,14 @@ class MemoryAdapter
 
 
 template<typename T>
-MemoryAdapter<T> make_adapter(T &instance)
+MemoryAdapter<typename std::remove_const<T>::type> make_adapter(T &instance)
 {
-  return MemoryAdapter<T>(instance);
+  using AdapterType = typename std::remove_const<T>::type;
+  return MemoryAdapter<AdapterType>(const_cast<AdapterType&>(instance));
 }
+
+
+
 
 
 } // end of namespace memory

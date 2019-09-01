@@ -1,6 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(HEADERS ${dir}/hdf5.hpp)
+set(HEADERS ${dir}/hdf5.hpp
+            ${dir}/stl.hpp)
 install(FILES ${HEADERS}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp)
 
@@ -18,6 +19,7 @@ add_subdirectory(property)
 add_subdirectory(utilities)
 add_subdirectory(type)
 add_subdirectory(memory)
+add_subdirectory(stl)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
