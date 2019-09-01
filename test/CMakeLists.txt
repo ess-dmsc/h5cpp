@@ -40,6 +40,7 @@ add_subdirectory(node)
 add_subdirectory(file)
 add_subdirectory(utilities)
 add_subdirectory(type)
+add_subdirectory(memory)
 
 add_executable(unit_tests
   EXCLUDE_FROM_ALL

@@ -80,6 +80,9 @@
 
 #include <h5cpp/type/trait.hpp>
 
+#include <h5cpp/memory/memory_adapter.hpp>
+#include <h5cpp/memory/integer_adapter.hpp>
+
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/group_view.hpp>
 #include <h5cpp/node/group.hpp>
