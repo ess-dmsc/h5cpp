@@ -32,6 +32,16 @@ namespace hdf5 {
 namespace type {
 
 
+//!
+//! \brief default trait for types
+//!
+//! The trait provides three basic functionalities
+//!
+//! - create a new instance of this type from a datatype and a dataspace
+//!   instance
+//! - provide access to a read/write pointer of the data
+//! - provide access to a read-only pointer of the data
+//!
 template<typename T>
 class Trait
 {
