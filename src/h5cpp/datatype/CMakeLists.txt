@@ -24,6 +24,7 @@ set(HEADERS
     ${dir}/array.hpp
     ${dir}/enum.hpp
     ${dir}/ebool.hpp
+    ${dir}/trait.hpp
     )
 
 install(FILES ${HEADERS}

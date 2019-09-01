@@ -25,6 +25,8 @@
 #pragma once
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/datatype/datatype.hpp>
+#include <vector>
+#include <array>
 
 namespace hdf5 {
 namespace type {
@@ -51,6 +53,54 @@ class Trait
       return reinterpret_cast<const void*>(&value);
     }
 };
+
+
+template<typename T>
+class Trait<std::vector<T>>
+{
+  public:
+    using Type = std::vector<T>;
+    static Type create(const datatype::Datatype & = datatype::Datatype(),
+                       const dataspace::Dataspace &dataspace =
+                           dataspace::Dataspace())
+    {
+      return std::vector<T>(dataspace.size());
+    }
+
+    static void *pointer(std::vector<T> &value)
+    {
+      return reinterpret_cast<void*>(value.data());
+    }
+
+    static const void *pointer(const std::vector<T> &value)
+    {
+      return reinterpret_cast<const void *>(value.data());
+    }
+};
+
+template<typename T, size_t N>
+class Trait<std::array<T, N>>
+{
+  public:
+    using Type = std::array<T, N>;
+    static Type create(const datatype::Datatype & = datatype::Datatype())
+    {
+      return std::array<T,N>();
+    }
+
+
+    static void *pointer(Type &value)
+    {
+      return reinterpret_cast<void*>(value.data());
+    }
+
+    static const void *pointer(const Type &value)
+    {
+      return reinterpret_cast<const void*>(value.data());
+    }
+
+};
+
 
 
 

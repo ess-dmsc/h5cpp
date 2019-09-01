@@ -52,6 +52,7 @@
 #include <h5cpp/datatype/types.hpp>
 #include <h5cpp/datatype/string.hpp>
 #include <h5cpp/datatype/array.hpp>
+#include <h5cpp/datatype/trait.hpp>
 
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
@@ -76,6 +77,8 @@
 #include <h5cpp/filter/deflate.hpp>
 #include <h5cpp/filter/fletcher32.hpp>
 #include <h5cpp/filter/shuffle.hpp>
+
+#include <h5cpp/type/trait.hpp>
 
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/group_view.hpp>
