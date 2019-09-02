@@ -50,7 +50,7 @@ struct DatasetWriteSpeedTest : public testing::Test
   property::DatasetAccessList dapl;
   std::vector<unsigned short int> frame;
   std::vector<unsigned short int> allframes;
-  
+
   dataspace::Hyperslab framespace;
   property::DatasetTransferList dtpl;
 
@@ -198,8 +198,8 @@ TEST_F(DatasetWriteSpeedTest, write)
     data3.extent(0, 1);
     framespace.offset({i, 0, 0});
     data3.read(read_value, framespace);
-    auto first = allframes.begin() + i*xdim * ydim;
-    auto last = allframes.begin() + (i + 1)*xdim * ydim;
+    auto first = allframes.begin() + i * xdim * ydim;
+    auto last = allframes.begin() + (i + 1) * xdim * ydim;
     std::vector<unsigned short int> buffer(first, last);
     EXPECT_EQ(buffer, read_value);
   }
