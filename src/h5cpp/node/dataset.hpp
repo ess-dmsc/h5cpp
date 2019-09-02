@@ -637,6 +637,16 @@ void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) con
   auto file_space  = dataspace();
   file_space.selection.all();
 
+  if (file_space.size() == memory_space.size() &&
+      memory_space.type() == dataspace::Type::SIMPLE &&
+      file_space.type() == dataspace::Type::SIMPLE){
+    const dataspace::Simple & mem_space = dataspace::Simple(memory_space);
+    const dataspace::Simple & fl_space = dataspace::Simple(file_space);
+    if(fl_space.rank() > 1 && mem_space.rank() == 1){
+      write(data,memory_type,file_space,file_space,dtpl);
+      return;
+    }
+  }
   write(data,memory_type,memory_space,file_space,dtpl);
 }
 
@@ -730,7 +740,7 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
 
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
-  if (memory_space.type() == dataspace::Type::SCALAR) {
+  if (memory_space.type() != dataspace::Type::SIMPLE) {
     write(data,memory_type,memory_space,file_space,dtpl);
   }
   else{

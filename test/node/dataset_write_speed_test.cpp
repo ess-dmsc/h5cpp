@@ -43,11 +43,14 @@ struct DatasetWriteSpeedTest : public testing::Test
   hdf5::file::File f;
   hdf5::node::Group root;
   hdf5::dataspace::Simple space;
+  hdf5::dataspace::Simple fullspace;
   hdf5::dataspace::Simple memspace;
   property::DatasetCreationList dcpl;
+  property::DatasetCreationList dcpl2;
   property::LinkCreationList lcpl;
   property::DatasetAccessList dapl;
   std::vector<unsigned short int> frame;
+  std::vector<unsigned short int> allframes;
   dataspace::Hyperslab framespace;
   property::DatasetTransferList dtpl;
 
@@ -66,13 +69,19 @@ struct DatasetWriteSpeedTest : public testing::Test
     space =  {{0, xdim, ydim}, {dataspace::Simple::UNLIMITED,
 				dataspace::Simple::UNLIMITED,
 				dataspace::Simple::UNLIMITED}};
+    fullspace =  {{nframe, xdim, ydim}, {dataspace::Simple::UNLIMITED,
+				dataspace::Simple::UNLIMITED,
+				dataspace::Simple::UNLIMITED}};
     memspace = {{xdim, ydim}, {dataspace::Simple::UNLIMITED,
 			       dataspace::Simple::UNLIMITED}};
 
     dcpl.layout(property::DatasetLayout::CHUNKED);
     dcpl.chunk({1, xdim, ydim});
-    frame = std::vector<unsigned short int>(xdim*ydim);
+    frame = std::vector<unsigned short int>(xdim * ydim);
     framespace = dataspace::Hyperslab({{0, 0, 0}, {1, xdim, ydim}});
+    dcpl2.layout(property::DatasetLayout::CHUNKED);
+    dcpl2.chunk({nframe, xdim, ydim});
+    allframes = std::vector<unsigned short int>(nframe * xdim * ydim);
 
   }
 
@@ -87,7 +96,7 @@ protected:
 };
 
 #ifndef _MSC_VER
-TEST_F(DatasetWriteSpeedTest, write)
+TEST_F(DatasetWriteSpeedTest, write_hyperslab)
 {
   struct timeval stime1;
   struct timeval etime1;
@@ -127,8 +136,50 @@ TEST_F(DatasetWriteSpeedTest, write)
   double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
     + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
 
-  std::cerr << time0 <<  std::endl;
-  std::cerr << time1 <<  std::endl;
+  // std::cerr << time0 <<  std::endl;
+  // std::cerr << time1 <<  std::endl;
+  EXPECT_GT(14 * time1, time0);
+  EXPECT_GT(14 * time0, time1);
+}
+
+
+TEST_F(DatasetWriteSpeedTest, write)
+{
+  struct timeval stime1;
+  struct timeval etime1;
+  struct timeval stime0;
+  struct timeval etime0;
+
+  auto dtype = datatype::create<unsigned short int>();
+  node::Dataset data0 = node::Dataset(root, "data2", dtype, space, lcpl, dcpl, dapl);
+  gettimeofday(&stime0, NULL);
+  for(long long unsigned int i = 0; i != nframe; i++){
+    data0.extent(0, 1);
+    framespace.offset({i, 0, 0});
+    dataspace::Dataspace file_space = data0.dataspace();
+    file_space.selection(dataspace::SelectionOperation::SET, framespace);
+    data0.write(frame, dtype, memspace, file_space, dtpl);
+  }
+  gettimeofday(&etime0, NULL);
+
+  node::Dataset data1 = node::Dataset(root,
+				      "data3",
+				      datatype::create<unsigned short int>(),
+				      fullspace, lcpl, dcpl, dapl);
+
+
+  gettimeofday(&stime1, NULL);
+
+  data1.write(allframes);
+  gettimeofday(&etime1, NULL);
+
+  double time0 = (double)(etime0.tv_sec - stime0.tv_sec)
+    + (double)(etime0.tv_usec - stime0.tv_usec)*0.000001;
+  double time1 = (double)(etime1.tv_sec - stime1.tv_sec)
+    + (double)(etime1.tv_usec - stime1.tv_usec)*0.000001;
+
+  // std::cerr << time0 <<  std::endl;
+  // std::cerr << time1 <<  std::endl;
   EXPECT_GT(14 * time1, time0);
   EXPECT_GT(14 * time0, time1);
 }
