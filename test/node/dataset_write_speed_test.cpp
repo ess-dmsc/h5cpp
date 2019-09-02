@@ -46,7 +46,6 @@ struct DatasetWriteSpeedTest : public testing::Test
   hdf5::dataspace::Simple fullspace;
   hdf5::dataspace::Simple memspace;
   property::DatasetCreationList dcpl;
-  property::DatasetCreationList dcpl2;
   property::LinkCreationList lcpl;
   property::DatasetAccessList dapl;
   std::vector<unsigned short int> frame;
@@ -79,8 +78,6 @@ struct DatasetWriteSpeedTest : public testing::Test
     dcpl.chunk({1, xdim, ydim});
     frame = std::vector<unsigned short int>(xdim * ydim);
     framespace = dataspace::Hyperslab({{0, 0, 0}, {1, xdim, ydim}});
-    dcpl2.layout(property::DatasetLayout::CHUNKED);
-    dcpl2.chunk({nframe, xdim, ydim});
     allframes = std::vector<unsigned short int>(nframe * xdim * ydim);
 
   }
