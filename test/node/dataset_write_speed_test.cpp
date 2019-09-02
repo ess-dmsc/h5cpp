@@ -50,6 +50,7 @@ struct DatasetWriteSpeedTest : public testing::Test
   property::DatasetAccessList dapl;
   std::vector<unsigned short int> frame;
   std::vector<unsigned short int> allframes;
+  
   dataspace::Hyperslab framespace;
   property::DatasetTransferList dtpl;
 
@@ -77,9 +78,11 @@ struct DatasetWriteSpeedTest : public testing::Test
     dcpl.layout(property::DatasetLayout::CHUNKED);
     dcpl.chunk({1, xdim, ydim});
     frame = std::vector<unsigned short int>(xdim * ydim);
+    std::generate(frame.begin(), frame.end(), std::rand);
     framespace = dataspace::Hyperslab({{0, 0, 0}, {1, xdim, ydim}});
-    allframes = std::vector<unsigned short int>(nframe * xdim * ydim);
 
+    allframes = std::vector<unsigned short int>(nframe * xdim * ydim);
+    std::generate(allframes.begin(), allframes.end(), std::rand);
   }
 
 protected:
@@ -137,6 +140,16 @@ TEST_F(DatasetWriteSpeedTest, write_hyperslab)
   // std::cerr << time1 <<  std::endl;
   EXPECT_GT(14 * time1, time0);
   EXPECT_GT(14 * time0, time1);
+
+  std::vector<unsigned short int> read_value(xdim * ydim);
+
+  for(long long unsigned int i = 0; i != nframe; i++){
+    data1.extent(0, 1);
+    framespace.offset({i, 0, 0});
+    data1.read(read_value, framespace);
+    EXPECT_EQ(frame, read_value);
+  }
+
 }
 
 
@@ -148,26 +161,25 @@ TEST_F(DatasetWriteSpeedTest, write)
   struct timeval etime0;
 
   auto dtype = datatype::create<unsigned short int>();
-  node::Dataset data0 = node::Dataset(root, "data2", dtype, space, lcpl, dcpl, dapl);
+  node::Dataset data2 = node::Dataset(root, "data2", dtype, space, lcpl, dcpl, dapl);
   gettimeofday(&stime0, NULL);
   for(long long unsigned int i = 0; i != nframe; i++){
-    data0.extent(0, 1);
+    data2.extent(0, 1);
     framespace.offset({i, 0, 0});
-    dataspace::Dataspace file_space = data0.dataspace();
+    dataspace::Dataspace file_space = data2.dataspace();
     file_space.selection(dataspace::SelectionOperation::SET, framespace);
-    data0.write(frame, dtype, memspace, file_space, dtpl);
+    data2.write(frame, dtype, memspace, file_space, dtpl);
   }
   gettimeofday(&etime0, NULL);
 
-  node::Dataset data1 = node::Dataset(root,
+  node::Dataset data3 = node::Dataset(root,
 				      "data3",
 				      datatype::create<unsigned short int>(),
 				      fullspace, lcpl, dcpl, dapl);
 
-
   gettimeofday(&stime1, NULL);
 
-  data1.write(allframes);
+  data3.write(allframes);
   gettimeofday(&etime1, NULL);
 
   double time0 = (double)(etime0.tv_sec - stime0.tv_sec)
@@ -179,6 +191,19 @@ TEST_F(DatasetWriteSpeedTest, write)
   // std::cerr << time1 <<  std::endl;
   EXPECT_GT(14 * time1, time0);
   EXPECT_GT(14 * time0, time1);
+
+  std::vector<unsigned short int> read_value(xdim * ydim);
+
+  for(long long unsigned int i = 0; i != nframe; i++){
+    data3.extent(0, 1);
+    framespace.offset({i, 0, 0});
+    data3.read(read_value, framespace);
+    auto first = allframes.begin() + i*xdim * ydim;
+    auto last = allframes.begin() + (i + 1)*xdim * ydim;
+    std::vector<unsigned short int> buffer(first, last);
+    EXPECT_EQ(buffer, read_value);
+  }
+  
 }
 
 #endif
