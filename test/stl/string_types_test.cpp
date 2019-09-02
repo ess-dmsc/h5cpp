@@ -83,11 +83,13 @@ TYPED_TEST(BaseStringTest, test_copy_assignment)
 {
   TypeParam new_string;
   new_string = this->original_string;
+  EXPECT_EQ(this->original_string, new_string);
 }
 
 TYPED_TEST(BaseStringTest, test_move_assignment)
 {
   TypeParam new_string;
-  new_string = std::move(this->original_string);
+  new_string = std::move(this->temp_string);
+  EXPECT_EQ(this->original_string, new_string);
 }
 
