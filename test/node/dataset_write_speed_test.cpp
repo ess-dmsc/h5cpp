@@ -203,7 +203,7 @@ TEST_F(DatasetWriteSpeedTest, write)
     std::vector<unsigned short int> buffer(first, last);
     EXPECT_EQ(buffer, read_value);
   }
-  
+
 }
 
 #endif
