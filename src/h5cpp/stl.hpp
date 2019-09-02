@@ -28,3 +28,4 @@
 #include <h5cpp/stl/vector_memory_adapter.hpp>
 #include <h5cpp/stl/complex_memory_adapter.hpp>
 #include <h5cpp/stl/complex_datatype_trait.hpp>
+#include <h5cpp/stl/string_types.hpp>

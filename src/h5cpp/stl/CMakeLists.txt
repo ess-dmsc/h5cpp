@@ -5,6 +5,8 @@ set(SOURCES )
 set(HEADERS
   ${dir}/vector_memory_adapter.hpp
   ${dir}/complex_memory_adapter.hpp
+  ${dir}/string_types.hpp
+  ${dir}/complex_datatype_trait.hpp
   )
 
 install(FILES ${HEADERS}
