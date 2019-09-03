@@ -31,6 +31,17 @@ using FilterID = H5Z_filter_t;
 namespace hdf5 {
 namespace filter {
 
+//!
+//! \brief is filter available
+//!
+//! Checks if external filter is installed
+//!
+//! \param id the ID of the filter
+//! \return status flag if the filter available
+//!
+DLL_EXPORT bool is_filter_available(FilterID id);
+
+
 class DLL_EXPORT ExternalFilter : public Filter
 {
   public:

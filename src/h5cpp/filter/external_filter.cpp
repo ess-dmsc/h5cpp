@@ -35,6 +35,11 @@ using FilterID = H5Z_filter_t;
 namespace hdf5 {
 namespace filter {
 
+bool is_filter_available(FilterID id){
+  return H5Zfilter_avail(id);
+}
+
+
 ExternalFilter::ExternalFilter(FilterID id, const std::vector<unsigned int> cd_values):
     Filter(id),
     cd_values_(cd_values)

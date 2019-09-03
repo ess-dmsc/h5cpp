@@ -30,7 +30,6 @@ using namespace hdf5;
 
 TEST(ExternalFilterTest, lz4_construction)
 {
-
   const unsigned int FILTER_LZ4 = 32004;
   filter::ExternalFilter filter(FILTER_LZ4, {0u, 0u});
   EXPECT_EQ(filter.id(), FILTER_LZ4);
@@ -40,11 +39,18 @@ TEST(ExternalFilterTest, lz4_construction)
 
 TEST(ExternalFilterTest, bitshufflelz4_construction)
 {
+  property::DatasetCreationList dcpl;
   const unsigned int FILTER_BITSHUFFLE = 32008;
-  filter::ExternalFilter filter(FILTER_BITSHUFFLE, {0u, 2u});
   std::vector<unsigned int> cdvalues({0u, 2u});
-  EXPECT_EQ(filter.cd_values(), cdvalues);
-  EXPECT_EQ(filter.id(), FILTER_BITSHUFFLE);
+  filter::ExternalFilter bfilter(FILTER_BITSHUFFLE, {0u, 2u});
+
+  EXPECT_EQ(bfilter.cd_values(), cdvalues);
+  EXPECT_EQ(bfilter.id(), FILTER_BITSHUFFLE);
+  if(filter::is_filter_available(FILTER_BITSHUFFLE))
+    EXPECT_NO_THROW(bfilter(dcpl));
+  else{
+    EXPECT_THROW(bfilter(dcpl), std::runtime_error);
+  }
 }
 
 TEST(ExternalFilterTest, deflate_application)
