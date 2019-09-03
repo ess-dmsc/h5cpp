@@ -53,10 +53,13 @@ ExternalFilter::~ExternalFilter()
 void ExternalFilter::operator()(const property::DatasetCreationList &dcpl,
                          Availability flag) const
 {
+  if(! is_filter_available(id())){
+    throw std::runtime_error("External filter not available!");
+  }
   if(H5Pset_filter(static_cast<hid_t>(dcpl), id(), static_cast<hid_t>(flag),
 		   cd_values_.size(), cd_values_.data()) < 0)
     {
-      throw std::runtime_error("Could not apply external filter!");
+      error::Singleton::instance().throw_with_stack("Could not apply external filter!");
     }
 }
 
