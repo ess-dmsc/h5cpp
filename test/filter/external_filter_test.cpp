@@ -34,7 +34,7 @@ TEST(ExternalFilterTest, lz4_construction)
   const unsigned int FILTER_LZ4 = 32004;
   filter::ExternalFilter filter(FILTER_LZ4, {0u, 0u});
   EXPECT_EQ(filter.id(), FILTER_LZ4);
-  std::vector<unsigned int> cdvalues({0u, 0u}); 
+  std::vector<unsigned int> cdvalues({0u, 0u});
   EXPECT_EQ(filter.cd_values(), cdvalues);
 }
 
@@ -42,7 +42,7 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
 {
   const unsigned int FILTER_BITSHUFFLE = 32008;
   filter::ExternalFilter filter(FILTER_BITSHUFFLE, {0u, 2u});
-  std::vector<unsigned int> cdvalues({0u, 2u}); 
+  std::vector<unsigned int> cdvalues({0u, 2u});
   EXPECT_EQ(filter.cd_values(), cdvalues);
   EXPECT_EQ(filter.id(), FILTER_BITSHUFFLE);
 }
@@ -55,4 +55,3 @@ TEST(ExternalFilterTest, deflate_application)
   filter(dcpl);
   EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
 }
-

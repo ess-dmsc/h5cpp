@@ -54,12 +54,12 @@ void ExternalFilter::operator()(const property::DatasetCreationList &dcpl,
       error::Singleton::instance().throw_with_stack("Could not apply external filter!");
     }
 }
-  
+
 const std::vector<unsigned int> ExternalFilter::cd_values() const noexcept
 {
   return cd_values_;
 }
-  
- 
+
+
 } // namespace filter
 } // namespace hdf5

@@ -58,7 +58,7 @@ class DLL_EXPORT ExternalFilter : public Filter
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
                             Availability flag=Availability::MANDATORY) const;
-    
+
     //!
     //! \brief compression options
     //!
@@ -67,7 +67,7 @@ class DLL_EXPORT ExternalFilter : public Filter
     //! \return compression options
     //!
     const std::vector<unsigned int> cd_values() const noexcept;
-    
+
   private:
     const std::vector<unsigned int> cd_values_;
 };
