@@ -56,7 +56,7 @@ void ExternalFilter::operator()(const property::DatasetCreationList &dcpl,
   if(H5Pset_filter(static_cast<hid_t>(dcpl), id(), static_cast<hid_t>(flag),
 		   cd_values_.size(), cd_values_.data()) < 0)
     {
-      error::Singleton::instance().throw_with_stack("Could not apply external filter!");
+      throw std::runtime_error("Could not apply external filter!");
     }
 }
 
