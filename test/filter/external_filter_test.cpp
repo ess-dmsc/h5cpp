@@ -49,9 +49,6 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
   if(filter::is_filter_available(FILTER_BITSHUFFLE)){
     EXPECT_NO_THROW(bfilter(dcpl));
   }
-  else{
-    EXPECT_THROW(bfilter(dcpl), std::runtime_error);
-  }
 }
 
 TEST(ExternalFilterTest, deflate_application)
