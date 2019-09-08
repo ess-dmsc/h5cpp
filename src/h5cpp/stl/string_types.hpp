@@ -37,6 +37,7 @@ class FixedUTF8String : public std::string
 {
   public:
     using std::string::string;
+    FixedUTF8String() : std::string() {}
     FixedUTF8String(const std::string &string) : std::string(string) {}
     FixedUTF8String(std::string &&string) : std::string(std::move(string)) {}
 };
@@ -59,6 +60,7 @@ class VariableUTF8String : public std::string
 {
   public:
     using std::string::string;
+    VariableUTF8String() : std::string() {}
     VariableUTF8String(const std::string &string) : std::string(string) {}
     VariableUTF8String(std::string &&string) : std::string(std::move(string)) {}
 };
@@ -71,6 +73,7 @@ class VariableASCIIString : public std::string
 {
   public:
     using std::string::string;
+    VariableASCIIString() : std::string() {}
     VariableASCIIString(const std::string &string) : std::string(string) {}
     VariableASCIIString(std::string &&string) : std::string(std::move(string)) {}
 };
