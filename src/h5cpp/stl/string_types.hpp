@@ -49,6 +49,7 @@ class FixedASCIIString : public std::string
 {
   public:
     using std::string::string;
+    FixedASCIIString() : std::string() {}
     FixedASCIIString(const std::string &string) : std::string(string) {}
     FixedASCIIString(std::string &&string) : std::string(std::move(string)) {}
 };
@@ -94,6 +95,14 @@ class Trait<type::FixedUTF8String>
     using Type = type::FixedUTF8String;
     using TypeClass = datatype::String;
 
+    /**
+     * @brief construct an HDF5 datatype from a string instance
+     *
+     * For a string of fixed length an instance of an original string is
+     * required.
+     *
+     * @param value the actual string instance for which to construct the type
+     */
     static datatype::String create(const Type &value)
     {
       datatype::String type = String::fixed(value.size());
