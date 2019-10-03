@@ -74,7 +74,7 @@ ObjectHandle::ObjectHandle(ObjectHandle &&o) noexcept
 }
 
 //-------------------------------------------------------------------------
-ObjectHandle::~ObjectHandle()
+ObjectHandle::~ObjectHandle() noexcept
 {
   try
   {
@@ -284,6 +284,7 @@ ObjectHandle::Type ObjectHandle::get_type() const
       ss << "ObjectHandle: unknown object type=" << type;
       error::Singleton::instance().throw_with_stack(ss.str());
   };
+  return {};
 }
 
 //----------------------------------------------------------------------------
@@ -291,7 +292,7 @@ void ObjectHandle::increment_reference_count() const
 {
   if (H5Iinc_ref(handle_) < 0)
   {
-    //Failing to succesfully inrement the reference counter for an internal
+    //Failing to succesfully increment the reference counter for an internal
     //object ID is a serious issue and justifies to throw an exception here.
     error::Singleton::instance().throw_with_stack("ObjectHandle: could not increment reference counter");
   }

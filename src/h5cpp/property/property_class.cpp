@@ -66,7 +66,7 @@ bool operator==(const Class &lhs, const Class &rhs) {
     return false;
   else
     error::Singleton::instance().throw_with_stack("Could check equality of property list classes");
-
+  return {};
 }
 
 bool operator!=(const Class &lhs, const Class &rhs) {
@@ -77,6 +77,7 @@ bool operator!=(const Class &lhs, const Class &rhs) {
     return true;
   else
     error::Singleton::instance().throw_with_stack("Could check inequality of property list classes");
+  return {};
 }
 
 const Class kAttributeCreate = Class(ObjectHandle(H5P_ATTRIBUTE_CREATE,
