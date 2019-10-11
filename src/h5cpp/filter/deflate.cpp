@@ -70,7 +70,7 @@ void Deflate::level(unsigned int value)
 }
 
 void Deflate::operator()(const property::DatasetCreationList &dcpl,
-                         Availability flag) const
+                         Availability) const
 {
   if(H5Pset_deflate(static_cast<hid_t>(dcpl),level_)<0)
   {

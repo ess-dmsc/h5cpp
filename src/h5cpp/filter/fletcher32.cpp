@@ -37,7 +37,7 @@ Fletcher32::~Fletcher32()
 {}
 
 void Fletcher32::operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag) const
+                            Availability) const
 {
   if(H5Pset_fletcher32(static_cast<hid_t>(dcpl))<0)
   {

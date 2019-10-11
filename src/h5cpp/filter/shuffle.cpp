@@ -37,7 +37,7 @@ Shuffle::~Shuffle()
 {}
 
 void Shuffle::operator()(const property::DatasetCreationList &dcpl,
-                         Availability flag) const
+                         Availability) const
 {
   if(H5Pset_shuffle(static_cast<hid_t>(dcpl))<0)
   {
