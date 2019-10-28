@@ -114,10 +114,10 @@ class DLL_EXPORT CreationOrder {
  private:
   unsigned tracked_:1;
   unsigned indexed_:1;
-#ifdef WIN32
-  unsigned reserved_:sizeof(unsigned) - 2;
-#else
+#ifdef __clang__
   __attribute__((unused)) unsigned reserved_:sizeof(unsigned) - 2;
+#else
+  unsigned reserved_:sizeof(unsigned) - 2;
 #endif
 };
 
