@@ -20,28 +20,15 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
-// Created on: Sep 1, 2019
+// Created on: Sep 8, 2019
 //
 #pragma once
 
-#include <type_traits>
-#include <h5cpp/dataspace/type_trait.hpp>
-#include <h5cpp/datatype/trait.hpp>
+#include <h5cpp/memory/memory_adapter.hpp>
+#include <h5cpp/stl/string_types.hpp>
 
 namespace hdf5 {
 namespace memory {
-
-
-template<bool is_const_type>
-struct VoidType {
-    using type = void;
-};
-
-template<> struct VoidType<true>
-{
-    using type = const void;
-};
-
 
 //! \brief the basic memory adapter template
 //!
@@ -54,22 +41,24 @@ template<> struct VoidType<true>
 //!
 //! \tparam T the type parameters
 //!
-template<typename T>
-class MemoryAdapter
+template<>
+class MemoryAdapter<type::VariableUTF8String>
 {
   private:
-    T &_reference;
+    type::VariableUTF8String &_reference;
+    std::vector<char*> _buffer;
   public:
-    using BaseType = T;
-    using DataspaceType = typename dataspace::TypeTrait<BaseType>::DataspaceType;
-    using DatatypeType = typename datatype::TypeTrait<BaseType>::TypeClass;
+    using InstanceType = type::VariableUTF8String;
+    using DataspaceType = typename dataspace::TypeTrait<InstanceType>::DataspaceType;
+    using DatatypeType = typename datatype::TypeTrait<InstanceType>::TypeClass;
 
-    explicit MemoryAdapter(T &instance):
-      _reference(instance)
+    explicit MemoryAdapter(InstanceType &instance):
+      _reference(instance),
+      _buffer(1)
     {}
 
-    MemoryAdapter(const MemoryAdapter<T> &) = delete;
-    MemoryAdapter(MemoryAdapter<T> &&) = default;
+    MemoryAdapter(const MemoryAdapter<type::VariableUTF8String> &) = delete;
+    MemoryAdapter(MemoryAdapter<type::VariableUTF8String> &&) = default;
 
     void* pointer()
     {
@@ -84,19 +73,19 @@ class MemoryAdapter
 
     DataspaceType dataspace() const
     {
-      return dataspace::TypeTrait<BaseType>::create(_reference);
+      return dataspace::TypeTrait<InstanceType>::create(_reference);
     }
 
     DatatypeType datatype() const
     {
-      return datatype::TypeTrait<BaseType>::create(_reference);
+      return datatype::TypeTrait<InstanceType>::create(_reference);
     }
 
 
-    static BaseType create(const datatype::Datatype& = datatype::Datatype(),
-                    const dataspace::Dataspace & = dataspace::Dataspace())
+    static InstanceType create(const datatype::Datatype& = datatype::Datatype(),
+                               const dataspace::Dataspace & = dataspace::Dataspace())
     {
-      return BaseType();
+      return InstanceType();
     }
 
     /**
@@ -110,22 +99,6 @@ class MemoryAdapter
     void update() {}
 
 };
-
-/**
- * @brief construct a memory adapter from a given instance of arbitrary type
- *
- * @param instance reference to the instance for which to construct the adapter
- * @return new instance of a memory adapter
- */
-template<typename T>
-MemoryAdapter<typename std::remove_const<T>::type> make_adapter(T &instance)
-{
-  using AdapterType = typename std::remove_const<T>::type;
-  return MemoryAdapter<AdapterType>(const_cast<AdapterType&>(instance));
-}
-
-
-
 
 
 } // end of namespace memory

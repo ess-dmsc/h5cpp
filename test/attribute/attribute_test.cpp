@@ -26,7 +26,7 @@
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/datatype/types.hpp>
-
+#include <h5cpp/stl.hpp>
 #include "../fixture.hpp"
 
 using namespace hdf5;

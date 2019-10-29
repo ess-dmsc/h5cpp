@@ -28,6 +28,7 @@
 #include <cstdint>
 #include <vector>
 #include <array>
+#include <h5cpp/stl.hpp>
 
 using namespace hdf5;
 

@@ -38,6 +38,7 @@
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/memory/memory_adapter.hpp>
 #include <initializer_list>
 
 namespace hdf5 {
@@ -257,6 +258,7 @@ class DLL_EXPORT Attribute
       }
     }
 
+
     template<typename T>
     void read_fixed_length_string(T &data,
                                   const datatype::Datatype &mem_type) const
@@ -354,9 +356,16 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 template<typename T>
 void Attribute::write(const T &data) const
 {
-  auto mem_type = datatype::create<T>(data);
-
-  write(data,mem_type);
+  //using AdapterType = memory::MemoryAdapter<T>;
+  const auto adapter = memory::make_adapter(data);
+  //auto mem_type = datatype::create<T>(data);
+  //const void *ptr = dataspace::cptr(data);
+  if(H5Awrite(static_cast<hid_t>(handle_),
+              static_cast<hid_t>(adapter.datatype()),
+              adapter.pointer())<0)
+    {
+      error::Singleton::instance().throw_with_stack("Failure to write data to attribute!");
+    }
 }
 
 template<typename T>

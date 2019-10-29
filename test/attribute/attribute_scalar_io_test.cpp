@@ -25,6 +25,7 @@
 #include <cstdint>
 #include <vector>
 #include "../fixture.hpp"
+#include <h5cpp/stl.hpp>
 
 using namespace hdf5;
 
