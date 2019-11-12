@@ -25,6 +25,7 @@
 
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/file/direct_driver.hpp>
+#include <h5cpp/property/file_access.hpp>
 #include <h5cpp/error/error.hpp>
 
 #ifdef H5_HAVE_DIRECT
