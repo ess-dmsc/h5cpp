@@ -89,7 +89,6 @@ protected:
     }
 
   virtual void TearDown() {
-    fs::remove("dataset_direct_chunk.h5");
   }
 };
 
@@ -115,7 +114,6 @@ TEST_F(DatasetDirectChunkTest, write_chunk)
     data1.read(read_value, framespace);
     EXPECT_EQ(frame, read_value);
   }
-
 }
 
 
