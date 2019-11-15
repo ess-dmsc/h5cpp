@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@desy.de>
+//         Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Nov 6, 2017
 //
 #pragma once
@@ -33,5 +35,6 @@
 
 extern "C"{
 #include <hdf5.h>
+#include <hdf5_hl.h>
 }
 

@@ -267,6 +267,24 @@ class DLL_EXPORT Dataset : public Node
                                       property::DatasetTransferList()) const;
 
     //!
+    //! \brief write entire dataset
+    //!
+    //! Write the entire dataset from an instance of T.
+    //!
+    //! \throws std::runtime_error in caes of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param offset logical position of the first element of the chunk in the dataset’s dataspace
+    //! \param filter_mask mask of which filters are used with the chunk
+    //! \param dtpl reference to a dataset transfer property list
+    //!
+    template<typename T>
+      void write_chunk(const T &data,
+                       std::vector<long long unsigned int> offset,
+                       std::uint32_t filter_mask = 0,
+                       const property::DatasetTransferList &dtpl =
+                       property::DatasetTransferList())  const;
+    //!
     //! \brief read entire dataset
     //!
     //! Read the entire data from a dataset to an instance of T.
@@ -627,6 +645,38 @@ void Dataset::write(const T &data,
 
   write(data,mem_type,mem_space,file_space,dtpl);
 
+}
+
+template<typename T>
+void Dataset::write_chunk(const T &data,
+                          std::vector<long long unsigned int> offset,
+                          std::uint32_t filter_mask,
+                          const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  size_t databytesize = memory_space.size() * memory_type.size();
+
+  if(memory_type.get_class() == datatype::Class::INTEGER)
+    {
+      if(H5DOwrite_chunk(static_cast<hid_t>(*this),
+                         static_cast<hid_t>(dtpl),
+                         filter_mask,
+                         offset.data(),
+                         databytesize,
+                         dataspace::cptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to write chunk data to dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure to write non-integer chunk data to dataset ["<<link().path()<<"]!";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
 }
 
 template<typename T>

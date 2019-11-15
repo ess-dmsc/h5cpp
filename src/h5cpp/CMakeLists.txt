@@ -39,6 +39,12 @@ foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
     list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})  
 endforeach()
 
+set(H5CPP_PRIVATE_HL_LIBS ${HDF5_HL_LIBRARIES})
+foreach(HDF5_LIBRARY ${HDF5_HL_LIBRARIES})
+    get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
+    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
+endforeach()
+
 
 target_include_directories(h5cpp
   PRIVATE ${PROJECT_SOURCE_DIR}/src
@@ -66,7 +72,7 @@ enable_coverage(h5cpp)
 
 target_link_libraries(h5cpp
   PUBLIC ${H5CPP_LINKS}
-  PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS}
+  PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS} ${H5CPP_HL_PRIVATE_LIBS}
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
