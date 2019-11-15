@@ -274,7 +274,7 @@ class DLL_EXPORT Dataset : public Node
     //! \throws std::runtime_error in caes of a failure
     //! \tparam T source type
     //! \param data reference to the source instance of T
-    //! \param offset logical position of the first element of the chunk in the dataset’s dataspace
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \param filter_mask mask of which filters are used with the chunk
     //! \param dtpl reference to a dataset transfer property list
     //!
