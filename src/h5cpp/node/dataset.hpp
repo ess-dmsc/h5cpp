@@ -252,7 +252,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \brief write entire dataset
     //!
-    //! Write the entire dataset from an instance of T.
+    //! Write a entire dataset from an instance of T.
     //!
     //! \throws std::runtime_error in caes of a failure
     //! \tparam T source type
@@ -267,11 +267,11 @@ class DLL_EXPORT Dataset : public Node
                                       property::DatasetTransferList()) const;
 
     //!
-    //! \brief write entire dataset
+    //! \brief write dataset chunk
     //!
-    //! Write the entire dataset from an instance of T.
+    //! Write a dataset chunk from an instance of T.
     //!
-    //! \throws std::runtime_error in caes of a failure
+    //! \throws std::runtime_error in case of a failure
     //! \tparam T source type
     //! \param data reference to the source instance of T
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
@@ -284,6 +284,30 @@ class DLL_EXPORT Dataset : public Node
                        std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
                        property::DatasetTransferList())  const;
+
+#if H5_VERSION_GE(1,10,2)
+
+    //!
+    //! \brief read dataset chunk
+    //!
+    //! Read a chunk from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \param filter_mask mask of which filters are used with the chunk
+    //! \param dtpl reference to a dataset transfer property list
+    //!
+    template<typename T>
+      void read_chunk(const T &data,
+                       std::vector<long long unsigned int> offset,
+                       std::uint32_t filter_mask = 0,
+                       const property::DatasetTransferList &dtpl =
+                       property::DatasetTransferList())  const;
+
+#endif
+
     //!
     //! \brief read entire dataset
     //!
@@ -678,6 +702,39 @@ void Dataset::write_chunk(const T &data,
       error::Singleton::instance().throw_with_stack(ss.str());
     }
 }
+
+#if H5_VERSION_GE(1,10,2)
+
+template<typename T>
+void Dataset::read_chunk(const T &data,
+			 std::vector<long long unsigned int> offset,
+			 std::uint32_t filter_mask,
+			 const property::DatasetTransferList &dtpl) const
+{
+  auto memory_type  = hdf5::datatype::create(data);
+
+  if(memory_type.get_class() == datatype::Class::INTEGER)
+    {
+      if(H5DOread_chunk(static_cast<hid_t>(*this),
+		       static_cast<hid_t>(dtpl),
+		       offset.data(),
+		       filter_mask,
+		       dataspace::ptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure to read non-integer chunk data from dataset ["<<link().path()<<"]!";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+}
+
+#endif
 
 template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const

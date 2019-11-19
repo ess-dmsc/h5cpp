@@ -117,3 +117,31 @@ TEST_F(DatasetDirectChunkTest, write_chunk)
 }
 
 
+#if H5_VERSION_GE(1,10,2)
+
+TEST_F(DatasetDirectChunkTest, read_chunk)
+{
+
+  auto dtype = datatype::create<unsigned short int>();
+  node::Dataset data2 = node::Dataset(root,
+				      "data2",
+				      datatype::create<unsigned short int>(),
+				      space, lcpl, dcpl, dapl);
+
+  for(long long unsigned int i = 0; i != nframe; i++){
+    data2.extent(0, 1);
+    framespace.offset({i, 0, 0});
+    dataspace::Dataspace file_space = data2.dataspace();
+    file_space.selection(dataspace::SelectionOperation::SET, framespace);
+    data2.write(frame, dtype, memspace, file_space, dtpl);
+  }
+
+  std::vector<unsigned short int> read_value(xdim * ydim);
+
+  for(long long unsigned int i = 0; i != nframe; i++){
+    data2.read_chunk(read_value, {i, 0, 0});
+    EXPECT_EQ(frame, read_value);
+  }
+}
+
+#endif
