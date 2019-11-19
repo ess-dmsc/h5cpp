@@ -296,13 +296,12 @@ class DLL_EXPORT Dataset : public Node
     //! \tparam T source type
     //! \param data reference to the source instance of T
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
-    //! \param filter_mask mask of which filters are used with the chunk
     //! \param dtpl reference to a dataset transfer property list
+    //! \return filter_mask mask of which filters are used with the chunk
     //!
     template<typename T>
-      void read_chunk(const T &data,
+      std::uint32_t read_chunk(T &data,
                        std::vector<long long unsigned int> offset,
-                       std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
                        property::DatasetTransferList())  const;
 
@@ -706,19 +705,18 @@ void Dataset::write_chunk(const T &data,
 #if H5_VERSION_GE(1,10,2)
 
 template<typename T>
-void Dataset::read_chunk(const T &data,
+std::uint32_t Dataset::read_chunk(T &data,
 			 std::vector<long long unsigned int> offset,
-			 std::uint32_t filter_mask,
 			 const property::DatasetTransferList &dtpl) const
 {
   auto memory_type  = hdf5::datatype::create(data);
-
+  std::uint32_t filter_mask;
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
       if(H5DOread_chunk(static_cast<hid_t>(*this),
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
-		       filter_mask,
+		       &filter_mask,
 		       dataspace::ptr(data))<0)
 	{
 	  std::stringstream ss;
@@ -732,6 +730,7 @@ void Dataset::read_chunk(const T &data,
       ss<<"Failure to read non-integer chunk data from dataset ["<<link().path()<<"]!";
       error::Singleton::instance().throw_with_stack(ss.str());
     }
+  return filter_mask;
 }
 
 #endif
