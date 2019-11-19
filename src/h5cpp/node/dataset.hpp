@@ -252,7 +252,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \brief write entire dataset
     //!
-    //! Write a entire dataset from an instance of T.
+    //! Write the entire dataset from an instance of T.
     //!
     //! \throws std::runtime_error in caes of a failure
     //! \tparam T source type

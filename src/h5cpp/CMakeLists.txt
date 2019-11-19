@@ -83,7 +83,7 @@ else()
     PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS}
     INTERFACE ${H5CPP_INTERFACE_LIBS})
 endif()
-  
+
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
 install(TARGETS h5cpp
