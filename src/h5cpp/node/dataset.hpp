@@ -682,6 +682,7 @@ void Dataset::write_chunk(const T &data,
 
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
+#if H5_VERSION_GE(1,10,3)
       if(H5DOwrite_chunk(static_cast<hid_t>(*this),
                          static_cast<hid_t>(dtpl),
                          filter_mask,
@@ -693,6 +694,19 @@ void Dataset::write_chunk(const T &data,
 	  ss<<"Failure to write chunk data to dataset ["<<link().path()<<"]!";
 	  error::Singleton::instance().throw_with_stack(ss.str());
 	}
+#else
+      if(H5Dwrite_chunk(static_cast<hid_t>(*this),
+                         static_cast<hid_t>(dtpl),
+                         filter_mask,
+                         offset.data(),
+                         databytesize,
+                         dataspace::cptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to write chunk data to dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#endif
     }
   else
     {
@@ -713,6 +727,7 @@ std::uint32_t Dataset::read_chunk(T &data,
   std::uint32_t filter_mask;
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
+#if H5_VERSION_GE(1,10,3)
       if(H5DOread_chunk(static_cast<hid_t>(*this),
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
@@ -723,6 +738,18 @@ std::uint32_t Dataset::read_chunk(T &data,
 	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
 	  error::Singleton::instance().throw_with_stack(ss.str());
 	}
+#else
+      if(H5Dread_chunk(static_cast<hid_t>(*this),
+		       static_cast<hid_t>(dtpl),
+		       offset.data(),
+		       &filter_mask,
+		       dataspace::ptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#endif
     }
   else
     {

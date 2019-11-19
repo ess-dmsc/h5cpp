@@ -139,7 +139,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk)
   std::vector<unsigned short int> read_value(xdim * ydim);
   std::uint32_t filter_mask = 0;
 
-  
+
   for(long long unsigned int i = 0; i != nframe; i++){
     filter_mask = data2.read_chunk(read_value, {i, 0, 0});
     EXPECT_EQ(frame, read_value);
