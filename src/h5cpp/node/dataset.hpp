@@ -683,7 +683,7 @@ void Dataset::write_chunk(const T &data,
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
 #if H5_VERSION_GE(1,10,3)
-      if(H5DOwrite_chunk(static_cast<hid_t>(*this),
+      if(H5Dwrite_chunk(static_cast<hid_t>(*this),
                          static_cast<hid_t>(dtpl),
                          filter_mask,
                          offset.data(),
@@ -695,7 +695,7 @@ void Dataset::write_chunk(const T &data,
 	  error::Singleton::instance().throw_with_stack(ss.str());
 	}
 #else
-      if(H5Dwrite_chunk(static_cast<hid_t>(*this),
+      if(H5DOwrite_chunk(static_cast<hid_t>(*this),
                          static_cast<hid_t>(dtpl),
                          filter_mask,
                          offset.data(),
@@ -728,7 +728,7 @@ std::uint32_t Dataset::read_chunk(T &data,
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
 #if H5_VERSION_GE(1,10,3)
-      if(H5DOread_chunk(static_cast<hid_t>(*this),
+      if(H5Dread_chunk(static_cast<hid_t>(*this),
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
 		       &filter_mask,
@@ -739,7 +739,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 	  error::Singleton::instance().throw_with_stack(ss.str());
 	}
 #else
-      if(H5Dread_chunk(static_cast<hid_t>(*this),
+      if(H5DOread_chunk(static_cast<hid_t>(*this),
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
 		       &filter_mask,
