@@ -72,15 +72,18 @@ set_target_properties(h5cpp
 
 enable_coverage(h5cpp)
 
-target_link_libraries(h5cpp
-  PUBLIC ${H5CPP_LINKS}
-  if(HDF5_VERSION VERSION_LESS 1.10.3)
+if(HDF5_VERSION VERSION_LESS 1.10.3)
+  target_link_libraries(h5cpp
+    PUBLIC ${H5CPP_LINKS}
     PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS} ${H5CPP_HL_PRIVATE_LIBS}
-  else()
+    INTERFACE ${H5CPP_INTERFACE_LIBS})
+else()
+  target_link_libraries(h5cpp
+    PUBLIC ${H5CPP_LINKS}
     PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS}
-  endif()
-  INTERFACE ${H5CPP_INTERFACE_LIBS})
-
+    INTERFACE ${H5CPP_INTERFACE_LIBS})
+endif()
+  
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 
 install(TARGETS h5cpp
