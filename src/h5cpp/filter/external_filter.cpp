@@ -19,31 +19,52 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 6, 2017
+// Author: Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Sep 3, 2019
 //
 
-#include <h5cpp/filter/shuffle.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/filter/filter.hpp>
+#include <h5cpp/filter/external_filter.hpp>
+#include <sstream>
+
+using FilterID = H5Z_filter_t;
+
 
 namespace hdf5 {
 namespace filter {
 
-Shuffle::Shuffle():
-    Filter(H5Z_FILTER_SHUFFLE)
-{}
-
-Shuffle::~Shuffle()
-{}
-
-void Shuffle::operator()(const property::DatasetCreationList &dcpl,
-                         Availability) const
-{
-  if(H5Pset_shuffle(static_cast<hid_t>(dcpl))<0)
-  {
-    error::Singleton::instance().throw_with_stack("Failure to set shuffle filter!");
-  }
+bool is_filter_available(FilterID id){
+  return H5Zfilter_avail(id);
 }
+
+
+ExternalFilter::ExternalFilter(FilterID id, const std::vector<unsigned int> cd_values):
+    Filter(id),
+    cd_values_(cd_values)
+{
+}
+
+ExternalFilter::~ExternalFilter()
+{}
+
+
+void ExternalFilter::operator()(const property::DatasetCreationList &dcpl,
+                         Availability flag) const
+{
+  if(H5Pset_filter(static_cast<hid_t>(dcpl), id(), static_cast<hid_t>(flag),
+		   cd_values_.size(), cd_values_.data()) < 0)
+    {
+      error::Singleton::instance().throw_with_stack("Could not apply external filter!");
+    }
+}
+
+const std::vector<unsigned int> ExternalFilter::cd_values() const noexcept
+{
+  return cd_values_;
+}
+
 
 } // namespace filter
 } // namespace hdf5
