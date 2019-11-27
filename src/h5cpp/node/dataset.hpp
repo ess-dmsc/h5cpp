@@ -305,6 +305,20 @@ class DLL_EXPORT Dataset : public Node
                        const property::DatasetTransferList &dtpl =
                        property::DatasetTransferList())  const;
 
+
+    //!
+    //! \brief read dataset chunk
+    //!
+    //! Read a chunk storage size from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \return the size in bytes for the chunk.
+    //!
+      long long unsigned int chunk_storage_size(						std::vector<long long unsigned int> offset)  const;
+
 #endif
 
     //!
