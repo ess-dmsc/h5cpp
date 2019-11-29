@@ -37,6 +37,7 @@ set(test_sources
     ${dir}/dataset_pniio_bool_test.cpp
     ${dir}/dataset_read_speed_test.cpp
     ${dir}/dataset_write_speed_test.cpp
+    ${dir}/dataset_direct_chunk_test.cpp
     PARENT_SCOPE)
 
 set(test_headers
