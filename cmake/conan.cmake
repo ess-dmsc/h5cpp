@@ -166,6 +166,8 @@ function(conan_cmake_settings result)
         endif()
     elseif(${CMAKE_${LANGUAGE}_COMPILER_ID} STREQUAL MSVC)
         set(_VISUAL "Visual Studio")
+	# do not check MSVC version
+	set(CONAN_DISABLE_CHECK_COMPILER TRUE)
         _get_msvc_ide_version(_VISUAL_VERSION)
         if("${_VISUAL_VERSION}" STREQUAL "")
             message(FATAL_ERROR "Conan: Visual Studio not recognized")
