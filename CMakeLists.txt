@@ -13,7 +13,7 @@ list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 #=============================================================================
 # Conan
 #=============================================================================
-SET(CONAN_DISABLE_CHECK_COMPILER TRUE)
+# SET(CONAN_DISABLE_CHECK_COMPILER TRUE)
 SET(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
 SET(CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
 set(CONAN_FILE "conanfile_ess.txt" CACHE STRING "The conanfile to use for the build")
