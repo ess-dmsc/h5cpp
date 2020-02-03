@@ -128,7 +128,7 @@ and for Ubuntu (Bionic)
 
    $ wget http://repos.pni-hdri.de/bionic-pni-hdri.list
 
-Similarly, proceed for Buster, Jessie, Cosmic or Xenial.
+Similarly, proceed for Buster, Jessie, Eoan, Disco or Cosmic.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -140,7 +140,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.1.3 libh5cpp0.1.3-dbg libh5cpp0.1.3-doc libh5cpp0.1.3-dev
+   $ apt-get install libh5cpp0.3.3 libh5cpp0.3.3-dbg libh5cpp0.3.3-doc libh5cpp0.3.3-dev
 
-to install the library of v0.1.3. Dependencies will be resolved automatically so you can
+to install the library of v0.3.3. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.
