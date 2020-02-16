@@ -3,15 +3,16 @@ import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
-coverage_os = "centos7-release"
+// coverage_os = "centos7-release"
+coverage_os = "None"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'debian9': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
   'debian9-release': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
-  'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804'),
-  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804')
+  'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
+  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
@@ -38,11 +39,9 @@ properties([[
 ]]);
 
 def failure_function(exception_obj, failureMessage) {
-    def toEmails = [[$class: 'DevelopersRecipientProvider']]
-    emailext body: '${DEFAULT_CONTENT}\n\"' + failureMessage +'\"\n\nCheck console output at $BUILD_URL to view the results.',
-        recipientProviders: toEmails,
-        subject: '${DEFAULT_SUBJECT}'
-    throw exception_obj
+  def toEmails = [[$class: 'DevelopersRecipientProvider']]
+  emailext body: '${DEFAULT_CONTENT}\n\"' + failureMessage + '\"\n\nCheck console output at $BUILD_URL to view the results.', recipientProviders: toEmails, subject: '${DEFAULT_SUBJECT}'
+  throw exception_obj
 }
 
 pipeline_builder = new PipelineBuilder(this, container_build_nodes)
@@ -56,7 +55,7 @@ builders = pipeline_builder.createBuilders { container ->
     container.copyTo(pipeline_builder.project, pipeline_builder.project)
   }  // stage
 
-  pipeline_builder.stage("${container.key}: Dependencies") {
+  pipeline_builder.stage("${container.key}: Configure Conan") {
     def conan_remote = "ess-dmsc-local"
     container.sh """
       mkdir build
@@ -64,11 +63,10 @@ builders = pipeline_builder.createBuilders { container ->
       conan remote add \
         --insert 0 \
         ${conan_remote} ${local_conan_server}
-      conan install --build=outdated ../${pipeline_builder.project}/conan/conanfile.txt
     """
   }  // stage
   
-  pipeline_builder.stage("${container.key}: Configure") {
+  pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
     def cmake_prefix
     switch (container.key) {
@@ -77,7 +75,7 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
-        cmake_options = '-DCOV=1 -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'debian9':
@@ -99,15 +97,14 @@ builders = pipeline_builder.createBuilders { container ->
       default:
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
         cmake_prefix = ''
+        break
     }
 
     container.sh """
       cd build
-      . ./activate_run.sh
       cmake --version
       ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
     """
-    }
   }  // stage
 
   pipeline_builder.stage("${container.key}: Build") {
@@ -123,47 +120,47 @@ builders = pipeline_builder.createBuilders { container ->
     if (container.key != coverage_os) {
       try {
         container.sh """
-                cd ${project}/build
+                cd build
                 make run_tests
             """
       } catch(e) {
-        failure_function(e, 'Run tests (${container.key}) failed')
+        failure_function(e, 'Run tests failed')
       }
     }
   }
 
-pipeline_builder.stage("${container.key}: Coverage") {
-  if (container.key == coverage_os) {
-    try {
-        container.sh """
-            cd ${project}/build
-            make generate_coverage
-        """
-        container.copyFrom('build', '.')
-    } catch(e) {
-        container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
-        junit 'unit_tests_run.xml'
-    }
-
-    abs_dir = pwd()
-    dir("${project}/build") {
-        junit 'test/unit_tests_run.xml'
-        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
+  pipeline_builder.stage("${container.key}: Coverage") {
+    if (container.key == coverage_os) {
         try {
-            step([
-                $class: 'CoberturaPublisher',
-                autoUpdateHealth: true,
-                autoUpdateStability: true,
-                coberturaReportFile: 'coverage/coverage.xml',
-                failUnhealthy: false,
-                failUnstable: false,
-                maxNumberOfBuilds: 0,
-                onlyStable: false,
-                sourceEncoding: 'ASCII',
-                zoomCoverageChart: true
-            ])
+            container.sh """
+                cd build
+                make generate_coverage
+            """
+            container.copyFrom('build', '.')
         } catch(e) {
-            failure_function(e, 'Publishing coverage reports from (${container.key}) failed')
+            container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
+            junit 'unit_tests_run.xml'
+        }
+
+        abs_dir = pwd()
+        dir("build") {
+            sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
+            try {
+                step([
+                    $class: 'CoberturaPublisher',
+                    autoUpdateHealth: true,
+                    autoUpdateStability: true,
+                    coberturaReportFile: 'coverage/coverage.xml',
+                    failUnhealthy: false,
+                    failUnstable: false,
+                    maxNumberOfBuilds: 0,
+                    onlyStable: false,
+                    sourceEncoding: 'ASCII',
+                    zoomCoverageChart: true
+                ])
+            } catch(e) {
+                failure_function(e, 'Publishing coverage reports from failed')
+            }
         }
     }
   }
@@ -187,20 +184,13 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "conan install --build=outdated ../code/conanfile_ess.txt"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / getting dependencies failed')
-                    }
-
-                    try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DDISABLE_TESTS=True ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
 
                     try {
-                        sh "make -j4 unit_tests"
-                        sh "make run_tests"
+                        sh "make -j4"
                     } catch (e) {
                         failure_function(e, 'MacOSX / build+test failed')
                     }
@@ -248,7 +238,7 @@ def get_win10_pipeline()
     }
 }
 
-node('docker') {
+node {
   dir("${project}") {
     try {
       scm_vars = checkout scm
