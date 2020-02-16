@@ -10,13 +10,13 @@ images = [
     ],
 */    
     'debian9-release': [
-        'name': 'essdmscdm/debian9-build-node:3.0.0',
+        'name': 'screamingudder/debian9-build-node:3.5.0',
         'cmake': 'cmake',
         'sh': 'bash -e',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
     ],
     'ubuntu1804-release': [
-        'name': 'essdmscdm/ubuntu18.04-build-node:2.0.0',
+        'name': 'screamingudder/ubuntu18.04-build-node:3.0.0',
         'cmake': 'cmake',
         'sh': 'bash -e',
         'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
