@@ -1,50 +1,41 @@
+@Library('ecdc-pipeline')
+import ecdcpipeline.ContainerBuildNode
+import ecdcpipeline.PipelineBuilder
+
 project = "h5cpp"
 coverage_os = "centos7-release"
 
-images = [
-/*    'centos7-release': [
-        'name': 'essdmscdm/centos7-build-node:4.0.0',
-        'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
-        'sh': '/usr/bin/scl enable devtoolset-6 -- /bin/bash -e',
-        'cmake_flags': '-DCOV=1 -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
-    ],
-*/    
-    'debian9-release': [
-        'name': 'screamingudder/debian9-build-node:3.5.1',
-        'cmake': 'cmake',
-        'sh': 'bash -e',
-        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
-    ],
-    'ubuntu1804-release': [
-        'name': 'screamingudder/ubuntu18.04-build-node:3.0.2',
-        'cmake': 'cmake',
-        'sh': 'bash -e',
-        'cmake_flags': '-DCMAKE_BUILD_TYPE=Release'
-    ],
-
-/*
-    'centos7-debug': [
-            'name': 'essdmscdm/centos7-build-node:4.0.0',
-            'cmake': 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx cmake3',
-            'sh': '/usr/bin/scl enable devtoolset-6 -- /bin/bash -e',
-            'cmake_flags': '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
-    ],
-    'debian9-debug': [
-            'name': 'essdmscdm/debian9-build-node:3.0.0',
-            'cmake': 'cmake',
-            'sh': 'bash -e',
-            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
-    ],
-    'ubuntu1804-debug': [
-            'name': 'essdmscdm/ubuntu18.04-build-node:2.0.0',
-            'cmake': 'cmake',
-            'sh': 'bash -e',
-            'cmake_flags': '-DCMAKE_BUILD_TYPE=Debug'
-    ]
-    */
+container_build_nodes = [
+  'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
+  'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
+  'debian9': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
+  'debian9-release': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
+  'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804'),
+  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804')
 ]
 
-base_container_name = "${project}-${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+// Define number of old builds to keep. These numbers are somewhat arbitrary,
+// but based on the fact that for the master branch we want to have a certain
+// number of old builds available, while for the other branches we want to be
+// able to deploy easily without using too much disk space.
+def num_artifacts_to_keep
+if (env.BRANCH_NAME == 'master') {
+  num_artifacts_to_keep = '5'
+} else {
+  num_artifacts_to_keep = '1'
+}
+
+// Set number of old builds to keep.
+properties([[
+  $class: 'BuildDiscarderProperty',
+  strategy: [
+    $class: 'LogRotator',
+    artifactDaysToKeepStr: '',
+    artifactNumToKeepStr: num_artifacts_to_keep,
+    daysToKeepStr: '',
+    numToKeepStr: num_artifacts_to_keep
+  ]
+]]);
 
 def failure_function(exception_obj, failureMessage) {
     def toEmails = [[$class: 'DevelopersRecipientProvider']]
@@ -54,88 +45,107 @@ def failure_function(exception_obj, failureMessage) {
     throw exception_obj
 }
 
-def Object container_name(image_key) {
-    return "${base_container_name}-${image_key}"
-}
+pipeline_builder = new PipelineBuilder(this, container_build_nodes)
+pipeline_builder.activateEmailFailureNotifications()
 
-def Object get_container(image_key) {
-    def image = docker.image(images[image_key]['name'])
-    def container = image.run("\
-            --name ${container_name(image_key)} \
-        --tty \
-        --network=host \
-        --env http_proxy=${env.http_proxy} \
-        --env https_proxy=${env.https_proxy} \
-        --env local_conan_server=${env.local_conan_server} \
-        ")
-    return container
-}
+builders = pipeline_builder.createBuilders { container ->
+  pipeline_builder.stage("${container.key}: Checkout") {
+    dir(pipeline_builder.project) {
+      scm_vars = checkout scm
+    }
+    container.copyTo(pipeline_builder.project, pipeline_builder.project)
+  }  // stage
 
-def docker_copy_code(image_key) {
-    def custom_sh = images[image_key]['sh']
-    sh "docker cp ${project} ${container_name(image_key)}:/home/jenkins/${project}"
-    sh """docker exec --user root ${container_name(image_key)} ${custom_sh} -c \"
-                        chown -R jenkins.jenkins /home/jenkins/${project}
-                        \""""
-}
-
-def docker_dependencies(image_key) {
+  pipeline_builder.stage("${container.key}: Dependencies") {
     def conan_remote = "ess-dmsc-local"
-    def custom_sh = images[image_key]['sh']
-    sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-        mkdir ${project}/build
-        cd ${project}/build
-        conan remote add \
-            --insert 0 \
-            ${conan_remote} ${local_conan_server}
-    \""""
-}
+    container.sh """
+      mkdir build
+      cd build
+      conan remote add \
+        --insert 0 \
+        ${conan_remote} ${local_conan_server}
+      conan install --build=outdated ../${pipeline_builder.project}/conan/conanfile.txt
+    """
+  }  // stage
+  
+  pipeline_builder.stage("${container.key}: Configure") {
+    def cmake_options
+    def cmake_prefix
+    switch (container.key) {
+      case 'centos7':
+        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
+        cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
+        break
+      case 'centos7-release':
+        cmake_options = '-DCOV=1 -DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
+        cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
+        break
+      case 'debian9':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_prefix = ''
+        break
+      case 'debian9-release':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_prefix = ''
+        break
+      case 'ubuntu1804':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_prefix = ''
+        break
+      case 'ubuntu1804-release':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_prefix = ''
+        break
+      default:
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_prefix = ''
+    }
 
-def docker_build(image_key, xtra_flags) {
-    cmake_exec = images[image_key]['cmake']
-    def custom_sh = images[image_key]['sh']
-        try {
-            sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-                cd ${project}/build
-                ${cmake_exec} --version
-                ${cmake_exec} ${xtra_flags} ..
-                make --version
-                make -j4 unit_tests
-            \""""
-        } catch(e) {
-            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
-        }
-}
+    container.sh """
+      cd build
+      . ./activate_run.sh
+      cmake --version
+      ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
+    """
+    }
+  }  // stage
 
-def docker_test(image_key) {
-    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
-    def custom_sh = images[image_key]['sh']
-    try {
-        sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
+  pipeline_builder.stage("${container.key}: Build") {
+    container.sh """
+    cd build
+    . ./activate_run.sh
+    make --version
+    make -j4 unit_tests
+    """
+  }  // stage
+  
+  pipeline_builder.stage("${container.key}: Test") {
+    if (container.key != coverage_os) {
+      try {
+        container.sh """
                 cd ${project}/build
                 make run_tests
-            \""""
-    } catch(e) {
-        failure_function(e, 'Run tests (${container_name(image_key)}) failed')
+            """
+      } catch(e) {
+        failure_function(e, 'Run tests (${container.key}) failed')
+      }
     }
-}
+  }
 
-def docker_coverage(image_key) {
-    cmake_exec = "/home/jenkins/${project}/build/bin/cmake"
+pipeline_builder.stage("${container.key}: Coverage") {
+  if (container.key == coverage_os) {
+    try {
+        container.sh """
+            cd ${project}/build
+            make generate_coverage
+        """
+        container.copyFrom('build', '.')
+    } catch(e) {
+        container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
+        junit 'unit_tests_run.xml'
+    }
+
     abs_dir = pwd()
-    def custom_sh = images[image_key]['sh']
-        try {
-            sh """docker exec ${container_name(image_key)} ${custom_sh} -c \"
-                cd ${project}/build
-                make generate_coverage
-            \""""
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/${project} ./"
-        } catch(e) {
-            sh "docker cp ${container_name(image_key)}:/home/jenkins/${project}/build/test/unit_tests_run.xml unit_tests_run.xml"
-            junit 'unit_tests_run.xml'
-            failure_function(e, 'Run tests (${container_name(image_key)}) failed')
-        }
-
     dir("${project}/build") {
         junit 'test/unit_tests_run.xml'
         sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
@@ -153,35 +163,10 @@ def docker_coverage(image_key) {
                 zoomCoverageChart: true
             ])
         } catch(e) {
-            failure_function(e, 'Publishing coverage reports from (${container_name(image_key)}) failed')
+            failure_function(e, 'Publishing coverage reports from (${container.key}) failed')
         }
     }
-}
-
-def get_pipeline(image_key)
-{
-    return {
-        stage("${image_key}") {
-            try {
-                def container = get_container(image_key)
-
-                docker_copy_code(image_key)
-                docker_dependencies(image_key)
-                docker_build(image_key, images[image_key]['cmake_flags'])
-
-                if (image_key == coverage_os) {
-                    docker_coverage(image_key)
-                } else {
-                    docker_test(image_key)
-                }
-            } catch (e) {
-                failure_function(e, "Unknown build failure for ${image_key}")
-            } finally {
-                sh "docker stop ${container_name(image_key)}"
-                sh "docker rm -f ${container_name(image_key)}"
-            }
-        }
-    }
+  }
 }
 
 def get_macos_pipeline(build_type)
@@ -264,34 +249,28 @@ def get_win10_pipeline()
 }
 
 node('docker') {
-    stage('Checkout') {
-        dir("${project}") {
-            try {
-                scm_vars = checkout scm
-            } catch (e) {
-                failure_function(e, 'Checkout failed')
-            }
-        }
-    }
-    def builders = [:]
-    for (x in images.keySet()) {
-        def image_key = x
-        builders[image_key] = get_pipeline(image_key)
-    }
-    // builders['macOS-release'] = get_macos_pipeline('Release')
-    // builders['macOS-debug'] = get_macos_pipeline('Debug')
-    builders['Windows10'] = get_win10_pipeline()
-
-
+  dir("${project}") {
     try {
-        parallel builders
+      scm_vars = checkout scm
     } catch (e) {
-        failure_function(e, 'Job failed')
-        throw e
-    } finally {
-        // Delete workspace when build is done
-        cleanWs()
+      failure_function(e, 'Checkout failed')
     }
+  }
+  
+  builders['macOS-release'] = get_macos_pipeline('Release')
+  builders['macOS-debug'] = get_macos_pipeline('Debug')
+  builders['Windows10'] = get_win10_pipeline()
+
+
+  try {
+    parallel builders
+  } catch (e) {
+    pipeline_builder.handleFailureMessages()
+    throw e
+  } finally {
+    // Delete workspace when build is done
+    cleanWs()
+  }
 }
 
 node ("fedora") {
