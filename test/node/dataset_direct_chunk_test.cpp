@@ -212,7 +212,6 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate)
 
 #endif
 
-
 TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
 {
 
@@ -253,57 +252,5 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
     else
       EXPECT_EQ(tframe, read_value);
   }
-}
-
-TEST_F(DatasetDirectChunkTest, read_write_chunk)
-{
-
-
-  auto f = file::create("ddataset_direct_chunk.h5", file::AccessFlags::TRUNCATE);
-  auto root = f.root();
-  long long unsigned int fxdim = 10;
-  // long long unsigned int fxdim = 1000;
-  hdf5::dataspace::Simple fspace;
-  fspace =  {{fxdim}, {dataspace::Simple::UNLIMITED}};
-  std::vector<unsigned short int> fframe;
-  fframe = std::vector<unsigned short int>(fxdim);
-  for(size_t i = 0; i != fxdim; i++)
-     // fframe[i] = i / 2;
-     fframe[i] = 65535/ ( i + 2);
-    // fframe[i] = 65535/ (i + 20);
-  // fframe[i] = 65535/ (i + 200);
-  // std::generate(fframe.begin(), fframe.end(), std::rand);
-  for(size_t i = 0; i != fxdim; i++)
-    std::cerr << fframe[i] << std::endl;
-  
-  auto dtype = datatype::create<unsigned short int>();
-  property::DatasetCreationList dcpl;
-  filter::ExternalFilter filter(32008, {0u, 2u});
-  //filter::ExternalFilter filter(32001, {0u, 0u, 0u, 0u, 9u, 1u, 1u});
-  //filter::ExternalFilter filter(32001, {0u, 0u, 0u, 0u, 9u, 0u, 0u});
-  //  filter::ExternalFilter filter(2, {});
-  filter(dcpl);
-  dcpl.layout(property::DatasetLayout::CHUNKED);
-  dcpl.chunk({fxdim});
-  node::Dataset data5 = node::Dataset(root,
-  				      "data5",
-  				      datatype::create<unsigned short int>(),
-  				      fspace, lcpl, dcpl, dapl);
-  data5.write(fframe);
-
-  data5.close();
-  root.close();
-  f.close();
-  auto f2 = file::open("ddataset_direct_chunk.h5");
-  auto root2 = f2.root();
-  // data5 = node::get_dataset(root2,"/data5");
-  auto data6 = node::get_dataset(root2,"/data5");
-
-  std::vector<unsigned short int> read_value(fxdim);
-
-  data6.read(read_value);
-  // data5.read(read_value);
-  EXPECT_EQ(fframe, read_value);
-
 }
 
