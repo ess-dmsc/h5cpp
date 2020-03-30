@@ -116,19 +116,19 @@ keyring
 The return value of this command line should be `OK`.
 In a next step you have to add new package sources to your system. For this
 purpose go to :file:`/etc/apt/sources.list.d` and download the sources file.
-For Debian (Stretch) use
+For Debian (Buster) use
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/stretch-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/buster-pni-hdri.list
 
-and for Ubuntu (Bionic)
+and for Ubuntu (Focal)
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/bionic-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/focal-pni-hdri.list
 
-Similarly, proceed for Buster, Jessie, Eoan, Disco or Cosmic.
+Similarly, proceed for Stretch, Jessie, Eoan, Disco, Cosmic or Bionic.
 Once you have downloaded the file use
 
 .. code-block:: bash
