@@ -31,18 +31,16 @@ namespace testing
 {
 namespace internal
 {
-#ifndef GTestColor
-enum GTestColor {
+enum LocalGTestColor {
   kDefault,
   kRed,
   kGreen,
   kYellow
 };
-#endif
-extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
+extern void ColoredPrintf(LocalGTestColor color, const char* fmt, ...);
 }
 }
-#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::kGreen, "[          ] "); testing::internal::ColoredPrintf(testing::internal::kYellow, __VA_ARGS__); } while(0)
+#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::LocalGTestColor::kGreen, "[          ] "); testing::internal::ColoredPrintf(testing::internal::LocalGTestColor::kYellow, __VA_ARGS__); } while(0)
 
 // C++ stream interface
 class TestCout : public std::stringstream
