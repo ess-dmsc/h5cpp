@@ -31,12 +31,14 @@ namespace testing
 {
 namespace internal
 {
+#ifndef GTestColor
 enum GTestColor {
   kDefault,
   kRed,
   kGreen,
   kYellow
 };
+#endif
 extern void ColoredPrintf(GTestColor color, const char* fmt, ...);
 }
 }
