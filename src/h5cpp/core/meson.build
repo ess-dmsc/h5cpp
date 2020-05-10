@@ -1,0 +1,20 @@
+csd=meson.current_source_dir()
+
+sources+=[join_paths(csd,'context.cpp'),
+          join_paths(csd,'iterator_config.cpp'),
+          join_paths(csd,'iterator.cpp'),
+          join_paths(csd,'object_handle.cpp'),
+          join_paths(csd,'object_id.cpp'),
+          join_paths(csd,'path.cpp'),
+          join_paths(csd,'version.cpp')]
+headers+=[join_paths(csd,'context.hpp'),
+          join_paths(csd,'fixed_length_string.hpp'),
+          join_paths(csd,'hdf5_capi.hpp'),
+          join_paths(csd,'io_buffer.hpp'),
+          join_paths(csd,'iterator_config.hpp'),
+          join_paths(csd,'iterator.hpp'),
+          join_paths(csd,'object_handle.hpp'),
+          join_paths(csd,'object_id.hpp'),
+          join_paths(csd,'path.hpp'),
+          join_paths(csd,'version.hpp'),
+          join_paths(csd,'windows.hpp')]
