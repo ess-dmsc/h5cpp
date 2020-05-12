@@ -5,3 +5,4 @@ boost = dependency('boost', modules:['filesystem','system'])
 srcinc = include_directories('src')
 
 subdir('src/h5cpp')
+subdir('test')
