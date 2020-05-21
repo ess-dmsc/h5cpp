@@ -1,2 +1,5 @@
 sources+=files('descriptor.cpp', 'error.cpp', 'h5c_error.cpp')
-headers+=files('descriptor.hpp', 'error.hpp', 'h5c_error.hpp')
+local_headers=files('descriptor.hpp', 'error.hpp', 'h5c_error.hpp')
+headers+=local_headers
+
+install_headers(local_headers, subdir: join_paths('h5cpp', 'error'))
