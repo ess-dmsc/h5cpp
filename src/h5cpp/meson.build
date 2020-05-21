@@ -1,3 +1,4 @@
+pkg = import('pkgconfig')
 sources=[]
 headers=files('hdf5.hpp')
 
@@ -31,3 +32,7 @@ h5cpp_dep = declare_dependency(link_with: h5cpp_lib,
                                dependencies: [hdf5,boost],
                                include_directories:[srcinc])
 install_headers('hdf5.hpp', subdir:'h5cpp')
+
+pkg.generate(h5cpp_lib,
+             libraries: boost,
+             install_dir: join_paths(get_option('libdir'),'pkgconfig'))
