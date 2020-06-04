@@ -37,6 +37,14 @@ TEST(MemoryDriver, create_default)
   EXPECT_EQ(m.id(), file::DriverID::eMemory);
 }
 
+#ifdef H5_HAVE_DIRECT
+TEST(DirectDriver, create_default)
+{
+  file::DirectDriver m;
+  EXPECT_EQ(m.id(), file::DriverID::eDirect);
+}
+#endif
+
 TEST(MemoryDriver, create_custom)
 {
   file::MemoryDriver m(7000, true);

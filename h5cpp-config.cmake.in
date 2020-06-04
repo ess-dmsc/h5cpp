@@ -42,6 +42,13 @@ foreach(HDF5_LIB ${HDF5_LIBRARIES})
     link_directories(${LIB_PATH})
 endforeach()
 
+if(HDF5_VERSION VERSION_LESS 1.10.3)
+  foreach(HDF5_LIB ${HDF5_HL_LIBRARIES})
+    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+    link_directories(${LIB_PATH})
+  endforeach()
+endif()
+
 if(H5CPP_MPI_ENABLED AND (NOT HDF5_IS_PARALLEL))
     message(FATAL_ERROR "HDF5 library with MPI support required!")
 endif()

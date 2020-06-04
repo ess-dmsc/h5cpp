@@ -141,7 +141,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
 ```
 and accordingly, when building the client program:
 ```bash
-cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.1.0 path/to/your/source
+cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.3.3 path/to/your/source
 ```
 where version number may vary.
 

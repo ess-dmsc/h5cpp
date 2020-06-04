@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp
     LANGUAGES CXX C
-    VERSION 0.1.3
+    VERSION 0.3.3
     )
 
 #=============================================================================
@@ -13,8 +13,9 @@ list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 #=============================================================================
 # Conan
 #=============================================================================
-SET(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
-SET(CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
+# SET(CONAN_DISABLE_CHECK_COMPILER TRUE)
+set(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
+set(CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
 set(CONAN_FILE "conanfile_ess.txt" CACHE STRING "The conanfile to use for the build")
 if(${CONAN} MATCHES "AUTO")
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
@@ -28,10 +29,10 @@ elseif(${CONAN} MATCHES "MANUAL")
     include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     conan_basic_setup(NO_OUTPUT_DIRS SKIP_RPATH)
   else()
-    MESSAGE(FATAL_ERROR "CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
+    message(FATAL_ERROR "CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
   endif()
 elseif(NOT ${CONAN} MATCHES "DISABLE")
-  MESSAGE(FATAL_ERROR "Unrecognised option for CONAN (${CONAN}), use AUTO, MANUAL or DISABLE")
+  message(FATAL_ERROR "Unrecognised option for CONAN (${CONAN}), use AUTO, MANUAL or DISABLE")
 endif()
 
 #=============================================================================
@@ -70,11 +71,14 @@ install(DIRECTORY examples
 #=============================================================================
 # unit tests if GTest if present
 #=============================================================================
-include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
-if(GTest_FOUND)
-  add_subdirectory(test)
-else()
-  message(WARNING "GTest not found. No tests will be built.")
+set(DISABLE_TESTS False CACHE BOOL "Disable building unit tests")
+if(NOT DISABLE_TESTS)
+  include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
+  if(GTest_FOUND)
+    add_subdirectory(test)
+  else()
+    message(WARNING "GTest not found. No tests will be built.")
+  endif()
 endif()
 
 #=============================================================================
