@@ -29,14 +29,14 @@ namespace hdf5 {
 namespace node {
 
 
-std::ostream &operator<<(std::ostream &stream,const Type &type)
+std::ostream &operator<<(std::ostream &stream,const NodeType &type)
 {
   switch(type)
   {
-    case Type::UNKNOWN: return stream<<"UNKNOWN";
-    case Type::GROUP: return stream<<"GROUP";
-    case Type::DATASET: return stream<<"DATASET";
-    case Type::DATATYPE: return stream<<"DATATYPE";
+    case NodeType::UNKNOWN: return stream<<"UNKNOWN";
+    case NodeType::GROUP: return stream<<"GROUP";
+    case NodeType::DATASET: return stream<<"DATASET";
+    case NodeType::DATATYPE: return stream<<"DATATYPE";
     default:
       return stream;
   }
