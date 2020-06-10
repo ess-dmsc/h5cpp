@@ -49,7 +49,28 @@ TEST(NodeType, test_string_representation)
   EXPECT_EQ(stream.str(), "UNKNOWN");
 }
 
-TEST(NodeType, test_values)
+TEST(NodeType, test_node_type_string_representation)
+{
+  std::stringstream stream;
+
+  stream.str(std::string());
+  stream<<node::NodeType::DATASET;
+  EXPECT_EQ(stream.str(), "DATASET");
+
+  stream.str(std::string());
+  stream<<node::NodeType::DATATYPE;
+  EXPECT_EQ(stream.str(), "DATATYPE");
+
+  stream.str(std::string());
+  stream<<node::NodeType::GROUP;
+  EXPECT_EQ(stream.str(), "GROUP");
+
+  stream.str(std::string());
+  stream<<node::NodeType::UNKNOWN;
+  EXPECT_EQ(stream.str(), "UNKNOWN");
+}
+
+TEST(NodeType, test_type_values)
 {
   EXPECT_EQ(static_cast<H5O_type_t>(node::Type::DATASET),
                     H5O_TYPE_DATASET);
@@ -58,6 +79,19 @@ TEST(NodeType, test_values)
   EXPECT_EQ(static_cast<H5O_type_t>(node::Type::DATATYPE),
                     H5O_TYPE_NAMED_DATATYPE);
   EXPECT_EQ(static_cast<H5O_type_t>(node::Type::GROUP),
+                    H5O_TYPE_GROUP);
+}
+
+
+TEST(NodeType, test_node_type_values)
+{
+  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::DATASET),
+                    H5O_TYPE_DATASET);
+  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::UNKNOWN),
+                    H5O_TYPE_UNKNOWN);
+  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::DATATYPE),
+                    H5O_TYPE_NAMED_DATATYPE);
+  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::GROUP),
                     H5O_TYPE_GROUP);
 }
 

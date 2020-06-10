@@ -67,7 +67,7 @@ void Node::close()
   link_ = Link();
 }
 
-Type Node::type() const
+NodeType Node::type() const
 {
   H5O_info_t info;
   if(H5Oget_info(static_cast<hid_t>(*this),&info)<0)
@@ -75,7 +75,7 @@ Type Node::type() const
     error::Singleton::instance().throw_with_stack("Error retrieving type information for this node!");
   }
 
-  return static_cast<Type>(info.type);
+  return static_cast<NodeType>(info.type);
 }
 
 bool Node::is_valid() const
