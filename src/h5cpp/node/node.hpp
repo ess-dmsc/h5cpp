@@ -84,7 +84,7 @@ class DLL_EXPORT Node
     //!
     //! \brief return the node type
     //!
-    Type type() const;
+    NodeType type() const;
 
     //!
     //! \brief get unique ID
