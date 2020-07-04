@@ -19,6 +19,9 @@ probably the safest way to go.
 *h5cpp* wants to provide both, an easy to use modern C++ interface but at the 
 same time give you access to the full functionality HDF5 has to offer. 
 
+Although this and [Steve Vagras' h5cpp project](https://github.com/steven-varga/h5cpp)
+share the same name they are entirely unreleated.
+
 
 ### Complete and domain agnostic 
 
@@ -147,4 +150,6 @@ where version number may vary.
 
 For OSX and Windows instructions, as well as instructions for building tests and documentation,
 see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
+
+
 
