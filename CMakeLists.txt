@@ -60,7 +60,6 @@ if(WITH_BOOST)
   include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 else()
   set(CMAKE_CXX_STANDARD 17)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
   message(STATUS "Using std library for filesystem")
 endif()
 
