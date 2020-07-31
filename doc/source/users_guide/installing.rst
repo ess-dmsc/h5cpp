@@ -14,7 +14,7 @@ In order to build the code you need
 
 * a C++ compiler with reasonable C++11 support 
   (gcc>=4.9,Micrsoft Developer Studio >= 2015)
-* the `Boost`_ libraries
+* the `Boost`_ libraries or a compiler with std::filesystem or std::experimental::filesystem
 * the `HDF5`_ C library
 * `googletest`_ to build the unit tests
 * `sphinx`_ (with python) and  `doxygen`_ for the documentation build
@@ -69,7 +69,11 @@ and call cmake from there. In the simplest case just call
     
 which should do the job provided that all dependencies are installed in 
 standard locations. We strongly recommend to set the particular build 
-configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.   
+configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.
+
+To attempt to build without Boost, additionally specify `-DWITH_BOOST=OFF`.
+This requires a recent compiler, for example gcc >8, with filesystem in
+the std or std::experimental namespace.
 
 On a Linux system the default build system used is 
 :program:`make`. Thus, in the build directory, just run make 
