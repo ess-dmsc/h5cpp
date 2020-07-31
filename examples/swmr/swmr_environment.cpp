@@ -35,23 +35,23 @@ SWMREnvironment::SWMREnvironment():
                                property::LibVersion::LATEST);
 }
 
-file::File SWMREnvironment::create_file(const fs::path &fs,
+file::File SWMREnvironment::create_file(const fs::path &file_path,
                                         const NodeBuilder &builder) const
 {
-  file::File f = file::create(fs,file::AccessFlags::TRUNCATE,
+  file::File f = file::create(file_path,file::AccessFlags::TRUNCATE,
                               fcpl(),fapl());
   builder(f.root());
   return f;
 }
 
-file::File SWMREnvironment::open_write_file(const fs::path &fs) const
+file::File SWMREnvironment::open_write_file(const fs::path &file_path) const
 {
-  return file::open(fs,file::AccessFlags::READWRITE |
+  return file::open(file_path,file::AccessFlags::READWRITE |
                                  file::AccessFlags::SWMR_WRITE,fapl());
 }
 
-file::File SWMREnvironment::open_read_file(const fs::path &fs) const
+file::File SWMREnvironment::open_read_file(const fs::path &file_path) const
 {
-  return file::open(fs,file::AccessFlags::READONLY |
+  return file::open(file_path,file::AccessFlags::READONLY |
                               file::AccessFlags::SWMR_READ,fapl());
 }

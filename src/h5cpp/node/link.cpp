@@ -44,8 +44,8 @@ LinkTarget::LinkTarget(const hdf5::Path &object_path):
 {}
 
 LinkTarget::LinkTarget(const hdf5::Path &object_path,
-                       const fs::path &fs):
-    file_(fs),
+                       const fs::path &file_path):
+    file_(file_path),
     object_path_(object_path)
 {}
 

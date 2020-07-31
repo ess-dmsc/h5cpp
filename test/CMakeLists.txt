@@ -74,7 +74,7 @@ add_test(NAME "RunGoogleTests" COMMAND run_tests)
 
 create_coverage_targets(
   generate_coverage
-  run_tests`
+  run_tests
   ${PROJECT_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/src/h5cpp
   ${PROJECT_BINARY_DIR}/coverage)

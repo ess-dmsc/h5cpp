@@ -82,20 +82,20 @@ class ObjectIdTest : public testing::Test
 
 struct FileGuard
 {
-    fs::path fs;
+    fs::path file_path;
     ObjectHandle file_handle;
     ObjectHandle group1_handle;
     ObjectHandle group2_handle;
     ObjectHandle dataset_handle;
 
     FileGuard(const fs::path &path):
-      fs{path},
+      file_path{path},
       file_handle{},
       group1_handle{},
       group2_handle{},
       dataset_handle{}
     {
-      file_handle = ObjectHandle(H5Fcreate(fs.string().data(),
+      file_handle = ObjectHandle(H5Fcreate(file_path.string().data(),
                                            H5F_ACC_TRUNC,
                                            H5P_DEFAULT,
                                            H5P_DEFAULT));
