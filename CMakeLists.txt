@@ -53,10 +53,17 @@ include(DoxygenUtilities)
 #=============================================================================
 # compiler and library configuration
 #=============================================================================
+set(WITH_BOOST ON CACHE BOOL "enable Boost filesystem support")
+if(WITH_BOOST)
+  message(STATUS "Using Boost library for filesystem")
+  include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
+else()
+  message(STATUS "Using std library for filesystem")
+endif()
+
 include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
 include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
-include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 
 add_custom_target(html)
 add_subdirectory(src)

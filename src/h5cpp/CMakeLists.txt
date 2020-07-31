@@ -27,7 +27,14 @@ add_library(h5cpp SHARED
 add_doxygen_source_deps(${h5cpp_headers})
 
 target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
-set(H5CPP_LINKS Boost::filesystem Boost::system ${MPI_CXX_LIBRARIES})
+set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
+if(WITH_BOOST)
+  list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
+else()
+  # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
+  list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
+  list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
+endif()
 
 #
 # remove the absolute path from the library name
