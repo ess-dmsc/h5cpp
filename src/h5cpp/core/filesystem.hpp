@@ -1,8 +1,10 @@
 #pragma once
 
+#include <h5cpp/core/with_boost.hpp>
+
 #ifdef WITH_BOOST
-  #include <boost/filesystem.hpp>
-  namespace fs = boost::filesystem;
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
 #else
 
 // Check for feature test macro for <filesystem>
