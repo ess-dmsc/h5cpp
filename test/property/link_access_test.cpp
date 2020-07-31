@@ -58,11 +58,13 @@ TEST(LinkAccessList, test_maximum_link_traversal) {
 
 TEST(LinkAccessList, test_external_link_prefix) {
   pl::LinkAccessList lapl;
-  EXPECT_NO_THROW(lapl.external_link_prefix("/home/wintersb"));
-  EXPECT_EQ(lapl.external_link_prefix().string(), "/home/wintersb");
+  const std::string nix_path = "/home/wintersb";
+  // Using R"\\\\home\\\\wintersb" fails for unknown reason
+  const std::string windows_path = "\\\\home\\\\wintersb";
+  EXPECT_NO_THROW(lapl.external_link_prefix(nix_path));
+  EXPECT_EQ(lapl.external_link_prefix().string(), windows_path);  // temp
+  EXPECT_TRUE(lapl.external_link_prefix().string() == nix_path || lapl.external_link_prefix().string() == windows_path);
 
   hdf5::ObjectHandle(static_cast<hid_t>(lapl)).close();
   EXPECT_THROW(lapl.external_link_prefix("/home/wintersb"), std::runtime_error);
 }
-
-

@@ -73,8 +73,10 @@ TEST_F(FileCreation, test_default)
 TEST_F(FileCreation, test_no_truncate)
 {
   file::File f = file::create(fs::path("./test1_with_a_much_longer_file_name.h5"));
+  const auto path_string = f.path().string();
+  const std::string expected_filename = "test1_with_a_much_longer_file_name.h5";
   EXPECT_EQ(f.intent(),file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.path().string(),"./test1_with_a_much_longer_file_name.h5");
+  EXPECT_EQ(path_string.substr(path_string.size() - expected_filename.size(), path_string.size()), expected_filename);
   f.close();
 
   //cannot create another file
