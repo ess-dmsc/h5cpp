@@ -51,19 +51,12 @@
 
 
 #include <gtest/gtest.h>
-
 #include <h5cpp/core/hdf5_capi.hpp>
-
-#define BOOST_NO_CXX11_SCOPED_ENUMS
-#include <boost/filesystem.hpp>
-#undef BOOST_NO_CXX11_SCOPED_ENUMS
-
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/object_id.hpp>
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/types.hpp>
 #include <iostream>
-
-namespace fs = boost::filesystem;
 
 static const fs::path kFilePath_1 = fs::absolute("file1.h5");
 static const fs::path kFilePath_2 = fs::absolute("file2.h5");
@@ -89,20 +82,20 @@ class ObjectIdTest : public testing::Test
 
 struct FileGuard
 {
-    fs::path file_path;
+    fs::path fs;
     ObjectHandle file_handle;
     ObjectHandle group1_handle;
     ObjectHandle group2_handle;
     ObjectHandle dataset_handle;
 
     FileGuard(const fs::path &path):
-      file_path{path},
+      fs{path},
       file_handle{},
       group1_handle{},
       group2_handle{},
       dataset_handle{}
     {
-      file_handle = ObjectHandle(H5Fcreate(file_path.string().data(),
+      file_handle = ObjectHandle(H5Fcreate(fs.string().data(),
                                            H5F_ACC_TRUNC,
                                            H5P_DEFAULT,
                                            H5P_DEFAULT));
@@ -321,8 +314,13 @@ TEST_F(ObjectIdTest,  file_copy )
     FileGuard{kFilePath_1};
   }
 
-  fs::copy_file(kFilePath_1,kFilePath_2,
-                fs::copy_option::overwrite_if_exists);
+  #ifdef WITH_BOOST
+    fs::copy_file(kFilePath_1,kFilePath_2,
+                  fs::copy_option::overwrite_if_exists);
+  #else
+    fs::copy_file(kFilePath_1,kFilePath_2,
+                  fs::copy_options::overwrite_existing);
+  #endif
 
   ObjectHandle file1(H5Fopen(kFilePath_1.string().data(),
                              H5F_ACC_RDONLY, H5P_DEFAULT));

@@ -26,7 +26,6 @@
 #include "swmr_environment.hpp"
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 SWMREnvironment::SWMREnvironment():
     fapl_(),
@@ -36,23 +35,23 @@ SWMREnvironment::SWMREnvironment():
                                property::LibVersion::LATEST);
 }
 
-file::File SWMREnvironment::create_file(const fs::path &file_path,
+file::File SWMREnvironment::create_file(const fs::path &fs,
                                         const NodeBuilder &builder) const
 {
-  file::File f = file::create(file_path,file::AccessFlags::TRUNCATE,
+  file::File f = file::create(fs,file::AccessFlags::TRUNCATE,
                               fcpl(),fapl());
   builder(f.root());
   return f;
 }
 
-file::File SWMREnvironment::open_write_file(const fs::path &file_path) const
+file::File SWMREnvironment::open_write_file(const fs::path &fs) const
 {
-  return file::open(file_path,file::AccessFlags::READWRITE |
+  return file::open(fs,file::AccessFlags::READWRITE |
                                  file::AccessFlags::SWMR_WRITE,fapl());
 }
 
-file::File SWMREnvironment::open_read_file(const fs::path &file_path) const
+file::File SWMREnvironment::open_read_file(const fs::path &fs) const
 {
-  return file::open(file_path,file::AccessFlags::READONLY |
+  return file::open(fs,file::AccessFlags::READONLY |
                               file::AccessFlags::SWMR_READ,fapl());
 }

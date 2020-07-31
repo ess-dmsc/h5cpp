@@ -27,7 +27,6 @@
 #include <h5cpp/file/functions.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 class FileOpen : public testing::Test
 {

@@ -29,10 +29,9 @@
 #include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 class FileCreation : public testing::Test
 {
@@ -108,12 +107,12 @@ TEST_F(FileCreation, test_same_file_with_symbolic_link)
 {
   file::create("test1.h5",file::AccessFlags::TRUNCATE);
 
-  boost::filesystem::create_symlink("test1.h5", "test1_link.h5");
+  fs::create_symlink("test1.h5", "test1_link.h5");
   file::File f1 = file::open("test1.h5",file::AccessFlags::READONLY);
   file::File f2 = file::open("test1_link.h5",file::AccessFlags::READONLY);
 
   EXPECT_TRUE(f1.id()==f2.id());
-  boost::filesystem::remove("test1_link.h5");
+  fs::remove("test1_link.h5");
 }
 #endif
 

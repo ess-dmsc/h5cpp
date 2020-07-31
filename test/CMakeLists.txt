@@ -59,12 +59,7 @@ target_link_libraries(unit_tests
   ${COVERAGE_LIBRARIES})
 if(WITH_BOOST)
     target_link_libraries(unit_tests
-    h5cpp
     ${Boost_LIBRARIES})
-else()
-    # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
-    target_link_libraries(unit_tests h5cpp $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
-    target_link_libraries(unit_tests h5cpp $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
 endif()
 enable_coverage(unit_tests)
 
@@ -75,7 +70,7 @@ add_test(NAME "RunGoogleTests" COMMAND run_tests)
 
 create_coverage_targets(
   generate_coverage
-  run_tests
+  run_tests`
   ${PROJECT_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/src/h5cpp
   ${PROJECT_BINARY_DIR}/coverage)

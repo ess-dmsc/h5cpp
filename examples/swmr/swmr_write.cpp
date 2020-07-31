@@ -23,7 +23,7 @@
 // Created on: Oct 16, 2017
 //
 #include <h5cpp/hdf5.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <thread>
 #include <chrono>
 #include <csignal>
@@ -33,7 +33,6 @@
 #include "swmr_environment.hpp"
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 static std::atomic<bool> terminated(false);
 

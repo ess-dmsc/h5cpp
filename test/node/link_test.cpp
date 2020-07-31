@@ -81,7 +81,7 @@ TEST_F(Link, test_validity)
 
 TEST_F(Link,test_invalid_external_link)
 {
-  boost::filesystem::path file_path("external_data.h5");
+  fs::path file_path("external_data.h5");
   hdf5::Path data_path("/data");
 
   hdf5::node::link(file_path,data_path,file_.root(),hdf5::Path("external_data"));

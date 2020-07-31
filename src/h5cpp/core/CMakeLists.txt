@@ -21,6 +21,7 @@ set(HEADERS
   ${dir}/version.hpp
   ${dir}/variable_length_string.hpp
   ${dir}/fixed_length_string.hpp
+  ${dir}/filesystem.hpp
   )
 
 install(FILES ${HEADERS}

@@ -30,7 +30,6 @@
 #include <h5cpp/property/property_class.hpp>
 
 namespace pl = hdf5::property;
-namespace fs = boost::filesystem;
 
 TEST(LinkAccessList, test_default_construction) {
   pl::LinkAccessList lapl;

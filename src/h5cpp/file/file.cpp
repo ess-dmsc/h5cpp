@@ -91,7 +91,7 @@ void File::close()
   }
 }
 
-boost::filesystem::path File::path() const
+fs::path File::path() const
 {
   ssize_t size = H5Fget_name(static_cast<hid_t>(*this), NULL, 0);
 
@@ -108,7 +108,7 @@ boost::filesystem::path File::path() const
     error::Singleton::instance().throw_with_stack(ss.str());
   }
 
-  return boost::filesystem::path(std::string(buffer.begin(), --buffer.end()));
+  return fs::path(std::string(buffer.begin(), --buffer.end()));
 }
 
 size_t File::count_open_objects(SearchFlagsBase flags) const

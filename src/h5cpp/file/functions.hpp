@@ -24,6 +24,7 @@
 //
 #pragma once
 
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/file/types.hpp>
 #include <h5cpp/property/file_creation.hpp>
@@ -46,11 +47,11 @@ namespace file {
 //! \sa FileCreationList
 //! \sa FileAccessList
 //!
-DLL_EXPORT File create(const boost::filesystem::path &path,
+DLL_EXPORT File create(const fs::path &path,
                        AccessFlags flags = AccessFlags::EXCLUSIVE,
                        const property::FileCreationList &fcpl = property::FileCreationList(),
                        const property::FileAccessList &fapl = property::FileAccessList());
-DLL_EXPORT File create(const boost::filesystem::path &path,
+DLL_EXPORT File create(const fs::path &path,
                        AccessFlagsBase flags,
                        const property::FileCreationList &fcpl = property::FileCreationList(),
                        const property::FileAccessList &fapl = property::FileAccessList());
@@ -66,10 +67,10 @@ DLL_EXPORT File create(const boost::filesystem::path &path,
 //! \sa AccessFlags
 //! \sa FileAccessList
 //!
-DLL_EXPORT File open(const boost::filesystem::path &path,
+DLL_EXPORT File open(const fs::path &path,
                      AccessFlags flags = AccessFlags::READONLY,
                      const property::FileAccessList &fapl = property::FileAccessList());
-DLL_EXPORT File open(const boost::filesystem::path &path,
+DLL_EXPORT File open(const fs::path &path,
                      AccessFlagsBase flags,
                      const property::FileAccessList &fapl = property::FileAccessList());
 
@@ -80,7 +81,7 @@ DLL_EXPORT File open(const boost::filesystem::path &path,
 //! \throws std::runtime_error in case of a failure
 //! \return true if the path references an HDF5 file, false otherwise
 //!
-DLL_EXPORT bool is_hdf5_file(const boost::filesystem::path &path);
+DLL_EXPORT bool is_hdf5_file(const fs::path &path);
 
 } // namespace file
 } // namespace hdf5
