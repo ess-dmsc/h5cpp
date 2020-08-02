@@ -1,5 +1,7 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
+configure_file(${dir}/with_boost.hpp.in ${dir}/with_boost.hpp)
+
 set(SOURCES
   ${dir}/iterator.cpp
   ${dir}/iterator_config.cpp
@@ -21,6 +23,7 @@ set(HEADERS
   ${dir}/version.hpp
   ${dir}/variable_length_string.hpp
   ${dir}/fixed_length_string.hpp
+  ${dir}/filesystem.hpp
   )
 
 install(FILES ${HEADERS}

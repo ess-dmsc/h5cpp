@@ -69,11 +69,11 @@ void LinkAccessList::maximum_link_traversals(size_t size) const {
   }
 }
 
-boost::filesystem::path LinkAccessList::external_link_prefix() const {
+fs::path LinkAccessList::external_link_prefix() const {
   return elink_prefix_;
 }
 
-void LinkAccessList::external_link_prefix(const boost::filesystem::path &path) {
+void LinkAccessList::external_link_prefix(const fs::path &path) {
   std::string old_prefix = elink_prefix_;
   elink_prefix_ = path.string();
   if (H5Pset_elink_prefix(static_cast<hid_t>(*this), elink_prefix_.c_str()) < 0) {

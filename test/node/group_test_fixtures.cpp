@@ -46,7 +46,7 @@ void NodeIterationFixture::SetUp()
   node::link(d2,root_,Path("d2_soft_link"));
 }
 
-RecursiveIterationFixture::RecursiveIterationFixture(const boost::filesystem::path &filename):
+RecursiveIterationFixture::RecursiveIterationFixture(const fs::path &filename):
     fcpl(),
     fapl(),
     file()

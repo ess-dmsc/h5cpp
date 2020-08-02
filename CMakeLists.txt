@@ -27,7 +27,7 @@ if(${CONAN} MATCHES "AUTO")
 elseif(${CONAN} MATCHES "MANUAL")
   if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    conan_basic_setup(NO_OUTPUT_DIRS SKIP_RPATH)
+    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
   else()
     message(FATAL_ERROR "CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
   endif()
@@ -53,10 +53,18 @@ include(DoxygenUtilities)
 #=============================================================================
 # compiler and library configuration
 #=============================================================================
+set(WITH_BOOST ON CACHE BOOL "enable Boost filesystem support")
+if(WITH_BOOST)
+  message(STATUS "Using Boost library for filesystem")
+  include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
+else()
+  set(CMAKE_CXX_STANDARD 17)
+  message(STATUS "Using std library for filesystem")
+endif()
+
 include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
 include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
-include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 
 add_custom_target(html)
 add_subdirectory(src)

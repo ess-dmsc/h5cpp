@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/file/types.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/object_id.hpp>
@@ -114,7 +114,7 @@ class DLL_EXPORT File
   //!
   //! Return the file system path of the file.
   //!
-  boost::filesystem::path path() const;
+  fs::path path() const;
 
   //!
   //! \brief count number of open objects

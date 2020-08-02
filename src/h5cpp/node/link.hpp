@@ -72,14 +72,14 @@ class DLL_EXPORT LinkTarget
     //! \param object_path path to the object within the  file
     //! \param file_path path to the file within which the object is stored
     //!
-    explicit LinkTarget(const hdf5::Path &object_path,const boost::filesystem::path &file_path);
+    explicit LinkTarget(const hdf5::Path &object_path,const fs::path &file_path);
 
     //!
     //! \brief get file path
     //!
     //! Return the path to the file where the link target is located.
     //!
-    boost::filesystem::path file_path() const;
+    fs::path file_path() const;
 
     //!
     //! \brief get object path
@@ -89,7 +89,7 @@ class DLL_EXPORT LinkTarget
     hdf5::Path object_path() const;
 
   private:
-    boost::filesystem::path file_;
+    fs::path file_;
     hdf5::Path              object_path_;
 };
 

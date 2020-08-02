@@ -71,7 +71,7 @@ builders = pipeline_builder.createBuilders { container ->
     def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DWITH_BOOST=OFF'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
@@ -218,7 +218,7 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 15 2017 Win64" ..'
+                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
                     }

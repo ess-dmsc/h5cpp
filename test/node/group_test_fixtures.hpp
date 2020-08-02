@@ -43,7 +43,7 @@ class RecursiveIterationFixture : public testing::Test
     hdf5::property::FileAccessList fapl;
     hdf5::file::File file;
 
-    RecursiveIterationFixture(const boost::filesystem::path &filename);
+    RecursiveIterationFixture(const fs::path &filename);
     virtual ~RecursiveIterationFixture();
 };
 
