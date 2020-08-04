@@ -24,6 +24,7 @@ set(HEADERS
   ${dir}/variable_length_string.hpp
   ${dir}/fixed_length_string.hpp
   ${dir}/filesystem.hpp
+  ${dir}/with_boost.hpp
   )
 
 install(FILES ${HEADERS}
