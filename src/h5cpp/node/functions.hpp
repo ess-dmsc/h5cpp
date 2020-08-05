@@ -237,7 +237,7 @@ DLL_EXPORT void link(const Path &target_path,
 //! \pre `target_path` must be an absolute path
 //! \pre `link_base` must be a valid HDF5 object
 //!
-DLL_EXPORT void link(const boost::filesystem::path &target_file,
+DLL_EXPORT void link(const fs::path &target_file,
                      const Path &target_path,
                      const Group &link_base,
                      const Path &link_path,

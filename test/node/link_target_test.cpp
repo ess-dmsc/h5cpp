@@ -23,11 +23,15 @@
 // Created on: Mar 1, 2018
 //
 
+#ifdef WITH_BOOST
 #include <boost/version.hpp>
+#else
+#define BOOST_VERSION 100
+#endif
 #include <iterator>
 #include "group_test_fixtures.hpp"
 
-size_t get_path_size(const boost::filesystem::path& path)
+size_t get_path_size(const fs::path& path)
 {
 #if BOOST_VERSION < 106000
   return std::distance(path.begin(),path.end());
@@ -80,7 +84,7 @@ TEST_F(LinkTargetTest, internal_target_construction)
 TEST_F(LinkTargetTest, external_target_construction)
 {
   hdf5::Path object_path("/entry/data");
-  boost::filesystem::path file_path("test.h5");
+  fs::path file_path("test.h5");
   node::LinkTarget target(object_path, file_path);
 
   EXPECT_EQ(target.object_path(), object_path);
@@ -117,6 +121,3 @@ TEST_F(LinkTargetTest, external_link_target)
   EXPECT_EQ(target.object_path(), "/external_group");
   EXPECT_EQ(target.file_path(), "LinkTargetTestExternal.h5");
 }
-
-
-

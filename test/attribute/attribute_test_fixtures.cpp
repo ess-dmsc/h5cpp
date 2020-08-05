@@ -26,7 +26,6 @@
 #include <cstdint>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 
 void AttributeIterationFixture::SetUp()

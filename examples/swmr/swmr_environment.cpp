@@ -26,7 +26,6 @@
 #include "swmr_environment.hpp"
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 SWMREnvironment::SWMREnvironment():
     fapl_(),

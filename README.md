@@ -19,6 +19,9 @@ probably the safest way to go.
 *h5cpp* wants to provide both, an easy to use modern C++ interface but at the 
 same time give you access to the full functionality HDF5 has to offer. 
 
+Although this and [Steve Vagras' h5cpp project](https://github.com/steven-varga/h5cpp)
+share the same name they are entirely unreleated.
+
 
 ### Complete and domain agnostic 
 
@@ -56,9 +59,9 @@ for the library, using it should be the same on each of these platforms.
 The minimum requirements for building the library are:
 
 * a C++ compiler, gcc>=4.8.1 should do well
-* the boost libraries
 * the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
 * cmake >= 3.0
+* _either_ the boost libraries _or_ a compiler with std::filesystem or std::experimental::filesystem (and specify WITH_BOOST=OFF to CMake)
 
 The external library dependencies can be acquired and built using [Conan](https://conan.io/). Conan can be installed with PyPI: 
 ```
@@ -147,4 +150,6 @@ where version number may vary.
 
 For OSX and Windows instructions, as well as instructions for building tests and documentation,
 see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
+
+
 

@@ -25,7 +25,7 @@
 #pragma once
 
 #include <h5cpp/hdf5.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 
 #include "../node_builder.hpp"
 
@@ -48,8 +48,8 @@ class SWMREnvironment
       return fcpl_;
     }
 
-    hdf5::file::File create_file(const boost::filesystem::path &file_path,
+    hdf5::file::File create_file(const fs::path &file_path,
                            const NodeBuilder &builder) const;
-    hdf5::file::File open_write_file(const boost::filesystem::path &file_path) const;
-    hdf5::file::File open_read_file(const boost::filesystem::path &file_path) const;
+    hdf5::file::File open_write_file(const fs::path &file_path) const;
+    hdf5::file::File open_read_file(const fs::path &file_path) const;
 };
