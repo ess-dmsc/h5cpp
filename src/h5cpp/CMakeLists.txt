@@ -161,9 +161,11 @@ if(${CONAN} MATCHES "DISABLE")
   list(REMOVE_DUPLICATES PKG_CONFIG_LIBS)
   list(REMOVE_DUPLICATES PKG_CONFIG_LIBDIRS)
 
-  target_link_directories(h5cpp
-    PUBLIC ${PKG_CONFIG_LIBDIRS}
-    )
+  if(${CMAKE_VERSION} VERSION_LESS "3.13.0")
+    message("Please consider to switch to CMake 3.13.0")
+  else()
+    target_link_directories(h5cpp PUBLIC ${PKG_CONFIG_LIBDIRS})
+  endif()
 
   set(PKG_CONFIG_LINKFLAGS)
   foreach(DIR ${PKG_CONFIG_LIBDIRS})
