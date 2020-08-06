@@ -1,0 +1,33 @@
+#-----------------------------------------------------------------------------
+# Define Sources, one file per application
+#-----------------------------------------------------------------------------
+set (examples
+    h5ex_t_array.c
+    h5ex_t_arrayatt.c
+    h5ex_t_bit.c
+    h5ex_t_bitatt.c
+    h5ex_t_cmpd.c
+    h5ex_t_cmpdatt.c
+    h5ex_t_enum.c
+    h5ex_t_enumatt.c
+    h5ex_t_float.c
+    h5ex_t_floatatt.c
+    h5ex_t_int.c
+    h5ex_t_intatt.c
+    h5ex_t_objref.c
+    h5ex_t_objrefatt.c
+    h5ex_t_opaque.c
+    h5ex_t_opaqueatt.c
+    h5ex_t_regref.c
+    h5ex_t_regrefatt.c
+    h5ex_t_string.c
+    h5ex_t_stringatt.c
+    h5ex_t_vlen.c
+    h5ex_t_vlenatt.c
+    h5ex_t_vlstring.c
+    h5ex_t_vlstringatt.c
+    h5ex_t_cpxcmpd.c
+    h5ex_t_cpxcmpdatt.c
+    h5ex_t_commit.c
+    h5ex_t_convert.c
+)
