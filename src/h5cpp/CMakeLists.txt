@@ -43,7 +43,7 @@ set(H5CPP_INTERFACE_LIBS)
 set(H5CPP_PRIVATE_LIBS ${HDF5_LIBRARIES})
 foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
     get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})  
+    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
 endforeach()
 
 if(HDF5_VERSION VERSION_LESS 1.10.3)
@@ -161,6 +161,12 @@ if(${CONAN} MATCHES "DISABLE")
   list(REMOVE_DUPLICATES PKG_CONFIG_LIBS)
   list(REMOVE_DUPLICATES PKG_CONFIG_LIBDIRS)
 
+  if(${CMAKE_VERSION} VERSION_LESS "3.13.0")
+    message("Please consider to switch to CMake 3.13.0")
+  else()
+    target_link_directories(h5cpp PUBLIC ${PKG_CONFIG_LIBDIRS})
+  endif()
+
   set(PKG_CONFIG_LINKFLAGS)
   foreach(DIR ${PKG_CONFIG_LIBDIRS})
     set(PKG_CONFIG_LINKFLAGS "${PKG_CONFIG_LINKFLAGS} -L${DIR}")
@@ -193,5 +199,3 @@ if(${CONAN} MATCHES "DISABLE")
     COMPONENT development)
 
 endif()
-
-
