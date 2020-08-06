@@ -44,12 +44,12 @@ LinkTarget::LinkTarget(const hdf5::Path &object_path):
 {}
 
 LinkTarget::LinkTarget(const hdf5::Path &object_path,
-                       const boost::filesystem::path &file_path):
+                       const fs::path &file_path):
     file_(file_path),
     object_path_(object_path)
 {}
 
-boost::filesystem::path LinkTarget::file_path() const
+fs::path LinkTarget::file_path() const
 {
   return file_;
 }
@@ -135,7 +135,7 @@ LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) 
   }
 
   return LinkTarget(Path(std::string(objectpath_buffer)),
-                    boost::filesystem::path(filename_buffer));
+                    fs::path(filename_buffer));
 
 }
 

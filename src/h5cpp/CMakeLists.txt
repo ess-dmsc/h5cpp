@@ -27,7 +27,14 @@ add_library(h5cpp SHARED
 add_doxygen_source_deps(${h5cpp_headers})
 
 target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
-set(H5CPP_LINKS Boost::filesystem Boost::system ${MPI_CXX_LIBRARIES})
+set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
+if(WITH_BOOST)
+  list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
+else()
+    # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
+    list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
+    list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
+endif()
 
 #
 # remove the absolute path from the library name
@@ -36,7 +43,7 @@ set(H5CPP_INTERFACE_LIBS)
 set(H5CPP_PRIVATE_LIBS ${HDF5_LIBRARIES})
 foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
     get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})  
+    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
 endforeach()
 
 if(HDF5_VERSION VERSION_LESS 1.10.3)
@@ -154,6 +161,12 @@ if(${CONAN} MATCHES "DISABLE")
   list(REMOVE_DUPLICATES PKG_CONFIG_LIBS)
   list(REMOVE_DUPLICATES PKG_CONFIG_LIBDIRS)
 
+  if(${CMAKE_VERSION} VERSION_LESS "3.13.0")
+    message("Please consider to switch to CMake 3.13.0")
+  else()
+    target_link_directories(h5cpp PUBLIC ${PKG_CONFIG_LIBDIRS})
+  endif()
+
   set(PKG_CONFIG_LINKFLAGS)
   foreach(DIR ${PKG_CONFIG_LIBDIRS})
     set(PKG_CONFIG_LINKFLAGS "${PKG_CONFIG_LINKFLAGS} -L${DIR}")
@@ -186,5 +199,3 @@ if(${CONAN} MATCHES "DISABLE")
     COMPONENT development)
 
 endif()
-
-

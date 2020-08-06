@@ -30,13 +30,13 @@
 namespace hdf5 {
 namespace file {
 
-File create(const boost::filesystem::path &path, AccessFlags flags,
+File create(const fs::path &path, AccessFlags flags,
             const property::FileCreationList &fcpl, const property::FileAccessList &fapl)
 {
   return create(path, static_cast<AccessFlagsBase>(flags), fcpl, fapl);
 }
 
-File create(const boost::filesystem::path &path, AccessFlagsBase flags,
+File create(const fs::path &path, AccessFlagsBase flags,
             const property::FileCreationList &fcpl, const property::FileAccessList &fapl)
 {
   hid_t fid = H5Fcreate(path.string().c_str(), flags,
@@ -51,13 +51,13 @@ File create(const boost::filesystem::path &path, AccessFlagsBase flags,
   return File(hdf5::ObjectHandle(fid));
 }
 
-File open(const boost::filesystem::path &path, AccessFlags flags,
+File open(const fs::path &path, AccessFlags flags,
           const property::FileAccessList &fapl)
 {
   return open(path, static_cast<AccessFlagsBase>(flags), fapl);
 }
 
-File open(const boost::filesystem::path &path, AccessFlagsBase flags,
+File open(const fs::path &path, AccessFlagsBase flags,
           const property::FileAccessList &fapl)
 {
   hid_t fid = H5Fopen(path.string().c_str(), flags, static_cast<hid_t>(fapl));
@@ -70,7 +70,7 @@ File open(const boost::filesystem::path &path, AccessFlagsBase flags,
   return File(ObjectHandle(fid));
 }
 
-bool is_hdf5_file(const boost::filesystem::path &path)
+bool is_hdf5_file(const fs::path &path)
 {
   htri_t result = H5Fis_hdf5(path.string().c_str());
   if (result < 0)

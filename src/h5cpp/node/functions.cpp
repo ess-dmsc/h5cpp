@@ -107,7 +107,7 @@ void move(const Node &source,
   move(source, destination, source.link().path().name(), lcpl, lapl);
 }
 
-void link(const boost::filesystem::path &target_file,
+void link(const fs::path &target_file,
           const Path &target_path,
           const Group &link_base,
           const Path &link_path,

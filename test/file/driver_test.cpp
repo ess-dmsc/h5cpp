@@ -29,7 +29,6 @@
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 TEST(MemoryDriver, create_default)
 {

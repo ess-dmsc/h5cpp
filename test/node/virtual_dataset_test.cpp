@@ -31,7 +31,7 @@
 
 using namespace hdf5;
 
-using PathVector = std::vector<boost::filesystem::path>;
+using PathVector = std::vector<fs::path>;
 using DataVector = std::vector<int>;
 
 static const size_t kModuleSize = 30;
@@ -55,7 +55,7 @@ class VirtualDatasetTest : public testing::Test
 
   private:
 
-    void create_source(const boost::filesystem::path &filename,
+    void create_source(const fs::path &filename,
                        const DataVector &data);
 
     static const PathVector files_to_delete;
@@ -65,7 +65,7 @@ const PathVector VirtualDatasetTest::files_to_delete = {
     "vds_source_1.h5","vds_source_2.h5","vds_source_3.h5"
 };
 
-void VirtualDatasetTest::create_source(const boost::filesystem::path &filename,
+void VirtualDatasetTest::create_source(const fs::path &filename,
                                        const DataVector &data)
 {
   file::File f = file::create(filename,file::AccessFlags::TRUNCATE,gfcpl,gfapl);

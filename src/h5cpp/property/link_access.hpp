@@ -26,7 +26,7 @@
 //
 #pragma once
 
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/property/property_list.hpp>
 #include <h5cpp/core/windows.hpp>
 
@@ -66,9 +66,9 @@ class DLL_EXPORT LinkAccessList : public List {
   //! Returns the prefix prepended to every path in an external link.
   //!
   //! \throws std::runtime_error in case of a failure
-  //! \return prefix as an instance of boost::filesystem
+  //! \return prefix as an instance of fs
   //! \sa external_link_prefix
-  boost::filesystem::path external_link_prefix() const;
+  fs::path external_link_prefix() const;
 
   //!
   //! \brief set external link prefix
@@ -79,9 +79,9 @@ class DLL_EXPORT LinkAccessList : public List {
   //!
   //! \throws std::runtime_error in case of a failure
   //!
-  //! \param path reference to a boost::filesystem path containing the prefix
+  //! \param path reference to a fs path containing the prefix
   //! \sa external_link_prefix
-  void external_link_prefix(const boost::filesystem::path &path);
+  void external_link_prefix(const fs::path &path);
 
  protected:
   //!

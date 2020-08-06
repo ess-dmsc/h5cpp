@@ -24,11 +24,10 @@
 //
 #include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <fstream>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 class IsHDF5 : public testing::Test
 {
