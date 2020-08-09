@@ -124,6 +124,7 @@ bool LinkView::exists(const std::string &name, const property::LinkAccessList &l
       <<group().link().path()<<"]!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
+  return false;
 }
 
 LinkView::const_iterator LinkView::begin() const

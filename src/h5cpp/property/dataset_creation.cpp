@@ -100,6 +100,7 @@ DatasetLayout DatasetCreationList::layout() const {
 #endif
     default:error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
   }
+  return {};
 }
 
 void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {

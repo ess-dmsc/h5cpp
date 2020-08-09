@@ -29,13 +29,20 @@
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 TEST(MemoryDriver, create_default)
 {
   file::MemoryDriver m;
   EXPECT_EQ(m.id(), file::DriverID::eMemory);
 }
+
+#ifdef H5_HAVE_DIRECT
+TEST(DirectDriver, create_default)
+{
+  file::DirectDriver m;
+  EXPECT_EQ(m.id(), file::DriverID::eDirect);
+}
+#endif
 
 TEST(MemoryDriver, create_custom)
 {

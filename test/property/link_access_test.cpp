@@ -30,7 +30,6 @@
 #include <h5cpp/property/property_class.hpp>
 
 namespace pl = hdf5::property;
-namespace fs = boost::filesystem;
 
 TEST(LinkAccessList, test_default_construction) {
   pl::LinkAccessList lapl;
@@ -60,10 +59,10 @@ TEST(LinkAccessList, test_maximum_link_traversal) {
 TEST(LinkAccessList, test_external_link_prefix) {
   pl::LinkAccessList lapl;
   EXPECT_NO_THROW(lapl.external_link_prefix("/home/wintersb"));
+#ifndef _MSC_VER
   EXPECT_EQ(lapl.external_link_prefix().string(), "/home/wintersb");
+#endif
 
   hdf5::ObjectHandle(static_cast<hid_t>(lapl)).close();
   EXPECT_THROW(lapl.external_link_prefix("/home/wintersb"), std::runtime_error);
 }
-
-

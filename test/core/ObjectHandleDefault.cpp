@@ -142,7 +142,7 @@ INSTANTIATE_TEST_CASE_P(ObjHandleTest, ObjHandleFixture,
                                           hdf5::ObjectHandle::Type::PROPERTY_LIST,
                                           hdf5::ObjectHandle::Type::ERROR_MESSAGE,
                                           hdf5::ObjectHandle::Type::ERROR_CLASS,
-                                          hdf5::ObjectHandle::Type::ERROR_STACK));
+                                          hdf5::ObjectHandle::Type::ERROR_STACK),);
 
 //  //hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS));
 

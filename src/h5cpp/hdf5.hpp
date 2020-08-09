@@ -34,6 +34,8 @@
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/core/version.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/variable_length_string.hpp>
+#include <h5cpp/core/fixed_length_string.hpp>
 
 #include <h5cpp/attribute/attribute_iterator.hpp>
 #include <h5cpp/attribute/attribute_manager.hpp>
@@ -74,6 +76,7 @@
 #include <h5cpp/filter/deflate.hpp>
 #include <h5cpp/filter/fletcher32.hpp>
 #include <h5cpp/filter/shuffle.hpp>
+#include <h5cpp/filter/external_filter.hpp>
 
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/group_view.hpp>

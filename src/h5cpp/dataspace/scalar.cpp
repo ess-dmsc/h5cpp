@@ -26,6 +26,7 @@
 //
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/types.hpp>
 #include <sstream>
 
 namespace hdf5 {

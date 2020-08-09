@@ -33,6 +33,8 @@
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/core/variable_length_string.hpp>
+#include <h5cpp/core/fixed_length_string.hpp>
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
@@ -263,6 +265,61 @@ class DLL_EXPORT Dataset : public Node
 
     void write(const char *data,const property::DatasetTransferList &dtpl =
                                       property::DatasetTransferList()) const;
+
+    //!
+    //! \brief write dataset chunk
+    //!
+    //! Write a dataset chunk from an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \param filter_mask mask of which filters are used with the chunk
+    //! \param dtpl reference to a dataset transfer property list
+    //!
+    template<typename T>
+      void write_chunk(const T &data,
+                       std::vector<long long unsigned int> offset,
+                       std::uint32_t filter_mask = 0,
+                       const property::DatasetTransferList &dtpl =
+                       property::DatasetTransferList())  const;
+
+#if H5_VERSION_GE(1,10,2)
+
+    //!
+    //! \brief read dataset chunk
+    //!
+    //! Read a chunk from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \param dtpl reference to a dataset transfer property list
+    //! \return filter_mask mask of which filters are used with the chunk
+    //!
+    template<typename T>
+      std::uint32_t read_chunk(T &data,
+                       std::vector<long long unsigned int> offset,
+                       const property::DatasetTransferList &dtpl =
+                       property::DatasetTransferList())  const;
+
+
+    //!
+    //! \brief read dataset chunk
+    //!
+    //! Read a chunk storage size from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \return the size in bytes for the chunk.
+    //!
+      long long unsigned int chunk_storage_size(						std::vector<long long unsigned int> offset)  const;
+
+#endif
 
     //!
     //! \brief read entire dataset
@@ -628,6 +685,98 @@ void Dataset::write(const T &data,
 }
 
 template<typename T>
+void Dataset::write_chunk(const T &data,
+                          std::vector<long long unsigned int> offset,
+                          std::uint32_t filter_mask,
+                          const property::DatasetTransferList &dtpl) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  size_t databytesize = memory_space.size() * memory_type.size();
+
+  if(memory_type.get_class() == datatype::Class::INTEGER)
+    {
+#if H5_VERSION_GE(1,10,3)
+      if(H5Dwrite_chunk(static_cast<hid_t>(*this),
+                         static_cast<hid_t>(dtpl),
+                         filter_mask,
+                         offset.data(),
+                         databytesize,
+                         dataspace::cptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to write chunk data to dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#else
+      if(H5DOwrite_chunk(static_cast<hid_t>(*this),
+                         static_cast<hid_t>(dtpl),
+                         filter_mask,
+                         offset.data(),
+                         databytesize,
+                         dataspace::cptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to write chunk data to dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#endif
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure to write non-integer chunk data to dataset ["<<link().path()<<"]!";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+}
+
+#if H5_VERSION_GE(1,10,2)
+
+template<typename T>
+std::uint32_t Dataset::read_chunk(T &data,
+			 std::vector<long long unsigned int> offset,
+			 const property::DatasetTransferList &dtpl) const
+{
+  auto memory_type  = hdf5::datatype::create(data);
+  std::uint32_t filter_mask;
+  if(memory_type.get_class() == datatype::Class::INTEGER)
+    {
+#if H5_VERSION_GE(1,10,3)
+      if(H5Dread_chunk(static_cast<hid_t>(*this),
+		       static_cast<hid_t>(dtpl),
+		       offset.data(),
+		       &filter_mask,
+		       dataspace::ptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#else
+      if(H5DOread_chunk(static_cast<hid_t>(*this),
+		       static_cast<hid_t>(dtpl),
+		       offset.data(),
+		       &filter_mask,
+		       dataspace::ptr(data))<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#endif
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure to read non-integer chunk data from dataset ["<<link().path()<<"]!";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+  return filter_mask;
+}
+
+#endif
+
+template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
@@ -635,6 +784,16 @@ void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) con
   auto file_space  = dataspace();
   file_space.selection.all();
 
+  if (file_space.size() == memory_space.size() &&
+      memory_space.type() == dataspace::Type::SIMPLE &&
+      file_space.type() == dataspace::Type::SIMPLE){
+    const dataspace::Simple & mem_space = dataspace::Simple(memory_space);
+    const dataspace::Simple & fl_space = dataspace::Simple(file_space);
+    if(fl_space.rank() > 1 && mem_space.rank() == 1){
+      write(data,memory_type,file_space,file_space,dtpl);
+      return;
+    }
+  }
   write(data,memory_type,memory_space,file_space,dtpl);
 }
 
@@ -728,9 +887,33 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
 
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
-  write(data,memory_type,memory_space,file_space,dtpl);
-}
+  if (memory_space.type() != dataspace::Type::SIMPLE) {
+    write(data,memory_type,memory_space,file_space,dtpl);
+  }
+  else{
+    try{
 
+      const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
+      const dataspace::Simple & mem_space = dataspace::Simple(memory_space);
+
+      auto dims = hyper.block();
+      auto count = hyper.count();
+      for(Dimensions::size_type i = 0; i != dims.size(); i++)
+	dims[i] *= count[i];
+      dataspace::Simple selected_space(dims);
+      if(selected_space.rank() > 1 &&
+	 mem_space.rank() == 1 &&
+	 selected_space.size() == memory_space.size())
+	write(data,memory_type,selected_space,file_space,dtpl);
+      else
+	write(data,memory_type,memory_space,file_space,dtpl);
+
+    }
+    catch(const std::bad_cast&){
+      write(data,memory_type,memory_space,file_space,dtpl);
+    }
+  }
+}
 
 
 template<typename T>

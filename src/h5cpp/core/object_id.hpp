@@ -26,7 +26,7 @@
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <string>
 #include <sstream>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/windows.hpp>
 #include <h5cpp/core/object_handle.hpp>
 
@@ -122,7 +122,7 @@ class DLL_EXPORT ObjectId
     //!
     //! \return path to the objects parent file
     //!
-    boost::filesystem::path file_name() const noexcept;
+    fs::path file_name() const noexcept;
 
     //!
     //! \brief get the name of the file
@@ -140,7 +140,7 @@ class DLL_EXPORT ObjectId
  private:
     unsigned long file_num_ {0};
     haddr_t       obj_addr_ {0};
-    boost::filesystem::path   file_name_;
+    fs::path   file_name_;
 };
 
 

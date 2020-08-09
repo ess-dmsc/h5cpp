@@ -1,0 +1,1 @@
+test_sources+=files('array_adapter_test.cpp')

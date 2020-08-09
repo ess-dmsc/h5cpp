@@ -33,6 +33,8 @@
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/core/variable_length_string.hpp>
+#include <h5cpp/core/fixed_length_string.hpp>
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/error/error.hpp>

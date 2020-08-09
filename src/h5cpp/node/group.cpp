@@ -143,7 +143,7 @@ Node Group::operator[](const Path &path) const
 }
 
 void Group::create_link(const Path &link_path,
-                        const boost::filesystem::path &target_file,
+                        const fs::path &target_file,
                         const Path &target_path,
                         const property::LinkCreationList &lcpl,
                         const property::LinkAccessList &lapl)

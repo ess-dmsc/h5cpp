@@ -39,6 +39,12 @@ TEST(Scalar, test_default_construction) {
   EXPECT_EQ(space2.type(), dataspace::Type::SCALAR);
 }
 
+TEST(Scalar, test_current_dimensions)
+{
+  dataspace::Scalar space;
+  EXPECT_TRUE(space.current_dimensions().empty());
+}
+
 TEST(Scalar, test_bad_construction) {
   dataspace::Dataspace s(ObjectHandle(H5Screate(H5S_SIMPLE)));
   EXPECT_THROW((dataspace::Scalar(s)), std::runtime_error);

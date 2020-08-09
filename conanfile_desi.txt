@@ -2,7 +2,7 @@
 cmake_findboost_modular/1.66.0@bincrafters/stable
 boost_filesystem/1.66.0@bincrafters/stable
 hdf5/1.10.1@eugenwintersberger/testing
-gtest/1.8.0@conan/stable
+gtest/1.10.0
 zlib/1.2.8@conan/stable
 bzip2/1.0.6@conan/stable
 

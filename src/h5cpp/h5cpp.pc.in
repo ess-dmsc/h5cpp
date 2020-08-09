@@ -1,0 +1,6 @@
+Name: H5CPP
+Description: C++ wrapper for the HDF5 C-API
+Version: @PROJECT_VERSION@
+Requires:
+Cflags: -I@CMAKE_INSTALL_FULL_INCLUDEDIR@ @PKG_CONFIG_CFLAGS@
+Libs: -L@CMAKE_INSTALL_FULL_LIBDIR@ -lh5cpp @PKG_CONFIG_LINKFLAGS@

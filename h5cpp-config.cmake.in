@@ -5,26 +5,29 @@
 set(H5CPP_MPI_ENABLED @WITH_MPI@ CACHE BOOL "h5cpp was built with MPI support")
 set(H5CPP_SWMR_ENABLED @WITH_SWMR@ CACHE BOOL "h5cpp was built with SMWR support")
 set(H5CPP_VDS_ENABLED @WITH_VDS@ CACHE BOOL "h5cpp was built with VDS support")
+set(H5CPP_BOOST_ENABLED @WITH_BOOST@ CACHE BOOL "h5cpp was built against boost")
 
 #
 # checking for the Boost library
 #
-set(BOOST_COMPONENTS)
+if(H5CPP_BOOST_ENABLED)
+  set(BOOST_COMPONENTS)
 
-if(NOT TARGET Boost::filesystem)
-	list(APPEND BOOST_COMPONENTS filesystem)
+  if(NOT TARGET Boost::filesystem)
+    list(APPEND BOOST_COMPONENTS filesystem)
+  endif()
+
+  if(NOT TARGET Boost::system)
+    list(APPEND BOOST_COMPONENTS system)
+  endif()
+
+  find_package(Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@ EXACT REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+  if(NOT Boost_FOUND)
+    message(FATAL_ERROR "Could not find Boost filesystem library - cannot load h5cpp targets")
+  endif()
+
+  link_directories(${Boost_LIBRARY_DIRS})
 endif()
-
-if(NOT TARGET Boost::system)
-	list(APPEND BOOST_COMPONENTS system)
-endif()
-
-find_package(Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@ EXACT REQUIRED COMPONENTS ${BOOST_COMPONENTS})
-if(NOT Boost_FOUND)
-	message(FATAL_ERROR "Could not find Boost filesystem library - cannot load h5cpp targets")
-endif()
-
-link_directories(${Boost_LIBRARY_DIRS})
 
 
 #
@@ -41,6 +44,13 @@ foreach(HDF5_LIB ${HDF5_LIBRARIES})
     get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
     link_directories(${LIB_PATH})
 endforeach()
+
+if(HDF5_VERSION VERSION_LESS 1.10.3)
+  foreach(HDF5_LIB ${HDF5_HL_LIBRARIES})
+    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+    link_directories(${LIB_PATH})
+  endforeach()
+endif()
 
 if(H5CPP_MPI_ENABLED AND (NOT HDF5_IS_PARALLEL))
     message(FATAL_ERROR "HDF5 library with MPI support required!")

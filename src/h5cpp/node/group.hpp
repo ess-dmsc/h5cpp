@@ -181,7 +181,7 @@ class DLL_EXPORT Group : public Node
     //! \pre `target_path` must be an absolute path
     //!
     void create_link(const Path &link_path,
-                     const boost::filesystem::path &target_file,
+                     const fs::path &target_file,
                      const Path &target_path,
                      const property::LinkCreationList &lcpl = property::LinkCreationList(),
                      const property::LinkAccessList &lapl = property::LinkAccessList());

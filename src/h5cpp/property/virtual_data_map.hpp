@@ -26,7 +26,7 @@
 //
 #pragma once
 
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/view.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
@@ -72,7 +72,7 @@ class DLL_EXPORT VirtualDataMap {
   //! \param source_space dataspace with selection of the source dataset
   //!
   VirtualDataMap(const dataspace::View &target_view,
-                 const boost::filesystem::path &source_file,
+                 const fs::path &source_file,
                  const hdf5::Path &source_dataset,
                  const dataspace::View &source_view);
 
@@ -87,7 +87,7 @@ class DLL_EXPORT VirtualDataMap {
 
  private:
   dataspace::View target_view_;
-  boost::filesystem::path source_file_;
+  fs::path source_file_;
   hdf5::Path source_dataset_;
   dataspace::View source_view_;
 
