@@ -27,11 +27,10 @@
 #include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 class FileClose : public testing::Test
 {

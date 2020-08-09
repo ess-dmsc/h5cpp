@@ -26,10 +26,9 @@
 #include <h5cpp/property/file_creation.hpp>
 #include <h5cpp/property/file_access.hpp>
 #include <h5cpp/file/functions.hpp>
-#include <boost/filesystem.hpp>
+#include <h5cpp/core/filesystem.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 void BasicFixture::SetUp()
 {

@@ -1,0 +1,8 @@
+sources+=files('deflate.cpp', 'filter.cpp', 'fletcher32.cpp',
+               'shuffle.cpp', 'external_filter.cpp')
+local_headers=files('filter.hpp', 'types.hpp', 'deflate.hpp',
+                    'fletcher32.hpp', 'shuffle.hpp',
+                    'external_filter.hpp')
+headers+=local_headers
+
+install_headers(local_headers, subdir: join_paths('h5cpp', 'filter'))

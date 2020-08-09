@@ -14,7 +14,7 @@ In order to build the code you need
 
 * a C++ compiler with reasonable C++11 support 
   (gcc>=4.9,Micrsoft Developer Studio >= 2015)
-* the `Boost`_ libraries
+* the `Boost`_ libraries or a compiler with std::filesystem or std::experimental::filesystem
 * the `HDF5`_ C library
 * `googletest`_ to build the unit tests
 * `sphinx`_ (with python) and  `doxygen`_ for the documentation build
@@ -69,7 +69,11 @@ and call cmake from there. In the simplest case just call
     
 which should do the job provided that all dependencies are installed in 
 standard locations. We strongly recommend to set the particular build 
-configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.   
+configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.
+
+To attempt to build without Boost, additionally specify `-DWITH_BOOST=OFF`.
+This requires a recent compiler, for example gcc >8, with filesystem in
+the std or std::experimental namespace.
 
 On a Linux system the default build system used is 
 :program:`make`. Thus, in the build directory, just run make 
@@ -116,19 +120,19 @@ keyring
 The return value of this command line should be `OK`.
 In a next step you have to add new package sources to your system. For this
 purpose go to :file:`/etc/apt/sources.list.d` and download the sources file.
-For Debian (Stretch) use
+For Debian (Buster) use
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/stretch-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/buster-pni-hdri.list
 
-and for Ubuntu (Bionic)
+and for Ubuntu (Focal)
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/bionic-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/focal-pni-hdri.list
 
-Similarly, proceed for Buster, Jessie, Cosmic or Xenial.
+Similarly, proceed for Stretch, Jessie, Eoan, Disco, Cosmic or Bionic.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -140,7 +144,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.1.3 libh5cpp0.1.3-dbg libh5cpp0.1.3-doc libh5cpp0.1.3-dev
+   $ apt-get install libh5cpp0.3.3 libh5cpp0.3.3-dbg libh5cpp0.3.3-doc libh5cpp0.3.3-dev
 
-to install the library of v0.1.3. Dependencies will be resolved automatically so you can
+to install the library of v0.3.3. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.

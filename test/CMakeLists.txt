@@ -10,6 +10,10 @@ foreach(HDF5_LIB ${HDF5_LIBRARIES})
     get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
     link_directories(${LIB_PATH})
 endforeach()
+foreach(HDF5_LIB ${HDF5_HL_LIBRARIES})
+    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
+    link_directories(${LIB_PATH})
+endforeach()
 
 configure_file(h5py_test_data.h5 h5py_test_data.h5 COPYONLY)
 configure_file(h5py_test_boolattr.h5 h5py_test_boolattr.h5 COPYONLY)
@@ -55,8 +59,15 @@ target_link_libraries(unit_tests
   h5cpp
   ${GTEST_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
-  ${Boost_LIBRARIES}
   ${COVERAGE_LIBRARIES})
+if(WITH_BOOST)
+    target_link_libraries(unit_tests
+    ${Boost_LIBRARIES})
+else()
+    # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
+    target_link_libraries(unit_tests h5cpp $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
+    target_link_libraries(unit_tests h5cpp $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
+endif()
 enable_coverage(unit_tests)
 
 add_custom_target(run_tests

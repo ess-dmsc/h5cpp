@@ -77,6 +77,7 @@
 #include <h5cpp/filter/deflate.hpp>
 #include <h5cpp/filter/fletcher32.hpp>
 #include <h5cpp/filter/shuffle.hpp>
+#include <h5cpp/filter/external_filter.hpp>
 
 #include <h5cpp/type/trait.hpp>
 

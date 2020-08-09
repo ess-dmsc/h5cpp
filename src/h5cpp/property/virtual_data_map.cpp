@@ -34,7 +34,7 @@ namespace property {
 #if H5_VERSION_GE(1, 10, 0)
 
 VirtualDataMap::VirtualDataMap(const dataspace::View &target_view,
-                               const boost::filesystem::path &source_file,
+                               const fs::path &source_file,
                                const hdf5::Path &source_dataset,
                                const dataspace::View &source_view) :
     target_view_(target_view),

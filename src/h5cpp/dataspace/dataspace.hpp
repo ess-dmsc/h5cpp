@@ -86,13 +86,6 @@ class DLL_EXPORT Dataspace {
   Dataspace &operator=(const Dataspace &space);
 
   //!
-  //! \brief move assignment
-  //!
-  //! Use default compiler implementation here.
-  //!
-  Dataspace &operator=(Dataspace &&type) = default;
-
-  //!
   //! \brief number of elements in the dataspace
   //!
   //! \throws std::runtime_error in case of a failure

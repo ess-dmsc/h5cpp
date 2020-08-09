@@ -51,19 +51,12 @@
 
 
 #include <gtest/gtest.h>
-
 #include <h5cpp/core/hdf5_capi.hpp>
-
-#define BOOST_NO_CXX11_SCOPED_ENUMS
-#include <boost/filesystem.hpp>
-#undef BOOST_NO_CXX11_SCOPED_ENUMS
-
+#include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/object_id.hpp>
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/types.hpp>
 #include <iostream>
-
-namespace fs = boost::filesystem;
 
 static const fs::path kFilePath_1 = fs::absolute("file1.h5");
 static const fs::path kFilePath_2 = fs::absolute("file2.h5");
@@ -321,8 +314,13 @@ TEST_F(ObjectIdTest,  file_copy )
     FileGuard{kFilePath_1};
   }
 
-  fs::copy_file(kFilePath_1,kFilePath_2,
-                fs::copy_option::overwrite_if_exists);
+  #ifdef WITH_BOOST
+    fs::copy_file(kFilePath_1,kFilePath_2,
+                  fs::copy_option::overwrite_if_exists);
+  #else
+    fs::copy_file(kFilePath_1,kFilePath_2,
+                  fs::copy_options::overwrite_existing);
+  #endif
 
   ObjectHandle file1(H5Fopen(kFilePath_1.string().data(),
                              H5F_ACC_RDONLY, H5P_DEFAULT));

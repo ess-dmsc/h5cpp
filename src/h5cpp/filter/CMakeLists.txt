@@ -5,6 +5,7 @@ set(SOURCES
   ${dir}/filter.cpp
   ${dir}/fletcher32.cpp
   ${dir}/shuffle.cpp
+  ${dir}/external_filter.cpp
   )
 
 set(HEADERS
@@ -13,6 +14,7 @@ set(HEADERS
   ${dir}/deflate.hpp
   ${dir}/fletcher32.hpp
   ${dir}/shuffle.hpp
+  ${dir}/external_filter.hpp
   )
 
 install(FILES ${HEADERS}

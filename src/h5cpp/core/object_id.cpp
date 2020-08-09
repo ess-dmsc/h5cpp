@@ -23,6 +23,7 @@
 //
 #include <h5cpp/core/object_id.hpp>
 #include <h5cpp/error/error.hpp>
+#include <vector>
 
 namespace hdf5
 {
@@ -68,7 +69,7 @@ ObjectId::ObjectId(const ObjectHandle &handle)
       auto info = get_info(handle);
       file_num_ = info.fileno;
       obj_addr_ = info.addr;
-      file_name_ = boost::filesystem::path(get_file_name(handle));
+      file_name_ = fs::path(get_file_name(handle));
     }
     catch (...)
     {
@@ -132,7 +133,7 @@ haddr_t ObjectId::object_address() const noexcept
   return obj_addr_;
 }
 
-boost::filesystem::path ObjectId::file_name() const noexcept
+fs::path ObjectId::file_name() const noexcept
 {
   return file_name_;
 }

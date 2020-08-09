@@ -28,7 +28,6 @@
 #include <h5cpp/node/group.hpp>
 
 using namespace hdf5;
-namespace fs = boost::filesystem;
 
 class File : public testing::Test
 {

@@ -23,7 +23,7 @@
 //
 #pragma once
 
-#include <object_id.hpp>
+#include <h5cpp/core/object_id.hpp>
 #include <map>
 #include <mutex>
 

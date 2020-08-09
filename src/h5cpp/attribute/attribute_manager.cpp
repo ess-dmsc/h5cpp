@@ -129,6 +129,7 @@ bool AttributeManager::exists(const std::string &name) const
       <<node_.link().path()<<"]!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
+  return {};
 }
 
 Attribute AttributeManager::create(const std::string &name,
