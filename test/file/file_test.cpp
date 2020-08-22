@@ -69,8 +69,11 @@ SCENARIO("Testing basic file behavior", "[file,h5cpp]") {
       REQUIRE_THROWS_AS(f.count_open_objects(file::SearchFlags::ALL),
                         std::runtime_error);
       REQUIRE_THROWS_AS(f.flush(file::Scope::GLOBAL), std::runtime_error);
+      REQUIRE_THROWS_AS(f.flush(file::Scope::LOCAL), std::runtime_error);
+      REQUIRE_THROWS_AS(f.close(), std::runtime_error);
     }
 
   }
+
 }
 
