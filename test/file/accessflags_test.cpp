@@ -22,59 +22,83 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-
-#include <gtest/gtest.h>
 #include <h5cpp/file/types.hpp>
+#include <catch2/catch.hpp>
+#include <sstream>
 
 using namespace hdf5;
 
-TEST(AccessFlags, test_output_stream)
-{
+file::AccessFlagsBase to_int(file::AccessFlags flag) {
+  return static_cast<file::AccessFlagsBase>(flag);
+}
+
+SCENARIO("file access flags output", "[h5cpp,file]") {
   std::stringstream stream;
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::EXCLUSIVE;
-  EXPECT_EQ(stream.str(), "EXCLUSIVE");
+  GIVEN("AccessFlags::EXCLUSIVE") {
+    WHEN("written to output stream") {
+      stream << file::AccessFlags::EXCLUSIVE;
+      REQUIRE(stream.str() == "EXCLUSIVE");
+    }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::READONLY;
-  EXPECT_EQ(stream.str(), "READONLY");
+    WHEN("converted to integer") {
+      REQUIRE(to_int(file::AccessFlags::EXCLUSIVE) == H5F_ACC_EXCL);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::READWRITE;
-  EXPECT_EQ(stream.str(), "READWRITE");
+  GIVEN("AccessFalgs::READONLY") {
+    WHEN("written to output stream") {
+      stream << file::AccessFlags::READONLY;
+      REQUIRE(stream.str() == "READONLY");
+    }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::TRUNCATE;
-  EXPECT_EQ(stream.str(), "TRUNCATE");
-#if H5_VERSION_GE(1,10,0)
-  stream.str(std::string());
-  stream<<file::AccessFlags::SWMR_WRITE;
-  EXPECT_EQ(stream.str(), "SWMR WRITE");
+    WHEN("converted to integer") {
+      REQUIRE(to_int(file::AccessFlags::READONLY) == H5F_ACC_RDONLY);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::SWMR_READ;
-  EXPECT_EQ(stream.str(), "SWMR READ");
+  GIVEN("AccessFlags::READWRITE") {
+    WHEN("output") {
+      stream << file::AccessFlags::READWRITE;
+      REQUIRE(stream.str() == "READWRITE");
+    }
+
+    WHEN("converted to integer") {
+      REQUIRE(to_int(file::AccessFlags::READWRITE) == H5F_ACC_RDWR);
+    }
+  }
+
+  GIVEN("AccessFlags::TRUNCATE") {
+    WHEN("output") {
+      stream << file::AccessFlags::TRUNCATE;
+      REQUIRE(stream.str() == "TRUNCATE");
+    }
+
+    WHEN("converted to integer") {
+      REQUIRE(to_int(file::AccessFlags::TRUNCATE) == H5F_ACC_TRUNC);
+    }
+  }
+#if H5_VERSION_GE(1, 10, 0)
+  GIVEN("AccessFlags::SWMR_WRITE") {
+    WHEN("written to stream") {
+      stream << file::AccessFlags::SWMR_WRITE;
+      REQUIRE(stream.str() == "SWMR WRITE");
+    }
+
+    WHEN("converted to integer") {
+      REQUIRE(to_int(file::AccessFlags::SWMR_WRITE) == H5F_ACC_SWMR_WRITE);
+    }
+  }
+
+  GIVEN("AccessFlags::SWMR_READ") {
+    WHEN("written to output stream") {
+      stream << file::AccessFlags::SWMR_READ;
+      REQUIRE(stream.str() == "SWMR READ");
+    }
+
+    WHEN("converted to integer") {
+      REQUIRE(to_int(file::AccessFlags::SWMR_READ) == H5F_ACC_SWMR_READ);
+    }
+  }
 #endif
 }
-
-TEST(AccessFlags, test_values)
-{
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::EXCLUSIVE),
-                    H5F_ACC_EXCL);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::READONLY),
-                    H5F_ACC_RDONLY);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::READWRITE),
-                    H5F_ACC_RDWR);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE),
-                    H5F_ACC_TRUNC);
-#if H5_VERSION_GE(1,10,0)
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE),
-                    H5F_ACC_SWMR_WRITE);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ),
-                    H5F_ACC_SWMR_READ);
-
-#endif
-}
-
-

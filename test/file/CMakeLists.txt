@@ -1,14 +1,17 @@
-set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(test_sources
-  ${test_sources}
-  ${dir}/searchflags_test.cpp
-  ${dir}/accessflags_test.cpp
-  ${dir}/scope_test.cpp
-  ${dir}/file_test.cpp
-  ${dir}/file_creation_test.cpp
-  ${dir}/file_open_test.cpp
-  ${dir}/file_close_test.cpp
-  ${dir}/is_hdf5_test.cpp
-  ${dir}/driver_test.cpp
-  PARENT_SCOPE)
+  searchflags_test.cpp
+  accessflags_test.cpp
+  scope_test.cpp
+  file_test.cpp
+  #file_creation_test.cpp
+  # file_open_test.cpp
+  # file_close_test.cpp
+   is_hdf5_test.cpp
+   driver_test.cpp
+  )
+
+add_executable(file_test ${test_sources})
+target_link_libraries(file_test h5cpp)
+# target_compile_definitions(file_test PRIVATE CATCH_CONFIG_MAIN)
+add_test(NAME "Testing file related functions" COMMAND file_test)
+

@@ -23,99 +23,129 @@
 // Created on: May 4, 2018
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/node/group.hpp>
 
 using namespace hdf5;
 
-TEST(MemoryDriver, create_default)
-{
-  file::MemoryDriver m;
-  EXPECT_EQ(m.id(), file::DriverID::eMemory);
+SCENARIO("Construction of a memory driver instance", "[file,h5cpp,driver]") {
+  GIVEN("a default constructed instance") {
+    file::MemoryDriver m;
+    THEN("all parameters should have their default values") {
+      REQUIRE(m.id() == file::DriverID::eMemory);
+      REQUIRE_FALSE(m.backing_store());
+      REQUIRE(m.increment() == 1024ul * 1024ul);
+    }
+
+    WHEN("setting the backing store") {
+      m.backing_store(true);
+      THEN("the backing store should return true") {
+        REQUIRE(m.backing_store());
+      }
+    }
+
+    WHEN("setting the increment") {
+      m.increment(5000);
+      THEN("the appropriate value should also be returned") {
+        REQUIRE(m.increment() == 5000ul);
+      }
+    }
+  }
+
+  GIVEN("A driver constructed with the standard constructor") {
+    file::MemoryDriver m(7000, true);
+    THEN("we would expect an active backing store and an increment") {
+      REQUIRE(m.backing_store());
+      REQUIRE(m.increment() == 7000ul);
+    }
+  }
 }
 
+SCENARIO("Applying the memory driver") {
+  file::MemoryDriver m(7000, true);
+  GIVEN("a valid file access list") {
+    property::FileAccessList fapl;
+    THEN("a file can be constructed") {
+      property::FileCreationList fcpl;
+      m(fapl);
+      file::create("memory_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+    }
+  }
+
+  GIVEN("a closed file access list") {
+    property::FileAccessList fapl;
+    ObjectHandle(static_cast<hid_t>(fapl)).close();
+    THEN("the application of the drvier will fail") {
+      REQUIRE_THROWS_AS(m(fapl), std::runtime_error);
+    }
+  }
+}
+
+TEST_CASE("Default construction of drivers"){
 #ifdef H5_HAVE_DIRECT
-TEST(DirectDriver, create_default)
-{
-  file::DirectDriver m;
-  EXPECT_EQ(m.id(), file::DriverID::eDirect);
+    SECTION("the direct driver"){file::DirectDriver m;
+REQUIRE(m.id() == file::DriverID::eDirect);
 }
 #endif
 
-TEST(MemoryDriver, create_custom)
-{
-  file::MemoryDriver m(7000, true);
-  EXPECT_TRUE(m.backing_store());
-  EXPECT_EQ(m.increment(), 7000ul);
-}
-
-TEST(MemoryDriver, backing_store)
-{
-  file::MemoryDriver m;
-  EXPECT_FALSE(m.backing_store());
-  m.backing_store(true);
-  EXPECT_TRUE(m.backing_store());
-}
-
-TEST(MemoryDriver, increment)
-{
-  file::MemoryDriver m;
-  EXPECT_EQ(m.increment(), 1024ul * 1024ul);
-  m.increment(5000);
-  EXPECT_EQ(m.increment(), 5000ul);
-}
-
-TEST(MemoryDriver, apply)
-{
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-  file::MemoryDriver m(7000, true);
-  m(fapl);
-  file::create("memory_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
-
-  ObjectHandle(static_cast<hid_t>(fapl)).close();
-  EXPECT_THROW(m(fapl), std::runtime_error);
-}
-
-
-TEST(PosixDriver, create_default)
-{
+SECTION("the posix driver") {
   file::PosixDriver m;
-  EXPECT_EQ(m.id(), file::DriverID::ePosix);
-}
-
-TEST(PosixDriver, apply)
-{
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-  file::PosixDriver m;
-  m(fapl);
-  file::create("posix_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
-
-  ObjectHandle(static_cast<hid_t>(fapl)).close();
-  EXPECT_THROW(m(fapl), std::runtime_error);
+  REQUIRE(m.id() == file::DriverID::ePosix);
 }
 
 #ifdef WITH_MPI
 
-TEST(MPIDriver, create_default)
-{
-  file::MPIDriver m(MPI_COMM_WORLD,MPI_INFO_NULL);
-  EXPECT_EQ(m.id(), file::DriverID::eMPI);
+SECTION("the MPI driver") {
+  file::MPIDriver m(MPI_COMM_WORLD, MPI_INFO_NULL);
+  REQUIRE(m.id() == file::DriverID::eMPI);
 }
 
-TEST(MPIDriver, apply)
-{
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-  file::MPIDriver m(MPI_COMM_WORLD,MPI_INFO_NULL);
-  m(fapl);
-  file::create("posix_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+#endif
+}
 
-  ObjectHandle(static_cast<hid_t>(fapl)).close();
-  EXPECT_THROW(m(fapl), std::runtime_error);
+SCENARIO("Applying a POSIX file driver", "[h5cpp, file]") {
+  file::PosixDriver m;
+  property::FileCreationList fcpl;
+  GIVEN("a valid file access property list") {
+    property::FileAccessList fapl;
+    THEN("the driver can be applied and a new file be created") {
+      m(fapl);
+      file::create("posix_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+    }
+  }
+
+  GIVEN("an invalid file access property list") {
+    property::FileAccessList fapl;
+    ObjectHandle(static_cast<hid_t>(fapl)).close();
+    THEN("applying the driver will fail") {
+      REQUIRE_THROWS_AS(m(fapl), std::runtime_error);
+    }
+  }
+}
+
+#ifdef WITH_MPI
+
+SCENARIO("Applying the MPI file driver", "[h5cpp,file]") {
+  property::FileCreationList fcpl;
+  file::MPIDriver m(MPI_COMM_WORLD, MPI_INFO_NULL);
+
+  GIVEN("a valid file access property list") {
+    property::FileAccessList fapl;
+    THEN("the driver can be applied") {
+      m(fapl);
+      file::create("posix_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+    }
+  }
+
+  GIVEN("an invalid file access property list") {
+    property::FileAccessList fapl;
+    ObjectHandle(static_cast<hid_t>(fapl)).close();
+    THEN("applying the driver will fail") {
+      REQUIRE_THROWS_AS(m(fapl), std::runtime_error);
+    }
+  }
 }
 
 #endif
