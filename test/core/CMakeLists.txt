@@ -1,28 +1,29 @@
-set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(test_sources
-  ${test_sources}
-  ${dir}/ObjectHandleDefault.cpp
-  ${dir}/object_handle_test.cpp
-  ${dir}/file_object_handle_test.cpp
-  ${dir}/datatype_object_handle_test.cpp
-  ${dir}/dataspace_object_handle_test.cpp
-  ${dir}/group_object_handle_test.cpp
-  ${dir}/dataset_object_handle_test.cpp
-  ${dir}/attribute_object_handle_test.cpp
-  ${dir}/property_objects_handle_test.cpp
-  ${dir}/error_objects_handle_test.cpp
-  ${dir}/test_environment.cpp
-  ${dir}/iteration_index_test.cpp
-  ${dir}/iteration_order_test.cpp
-  ${dir}/iterator_test.cpp
-  ${dir}/object_id_test.cpp
-  ${dir}/path_test.cpp
-  ${dir}/version_test.cpp
-  PARENT_SCOPE)
+set(test_sources 
+    #ObjectHandleDefault.cpp
+    #object_handle_test.cpp
+    #file_object_handle_test.cpp
+    #datatype_object_handle_test.cpp
+    #dataspace_object_handle_test.cpp
+    #group_object_handle_test.cpp
+    #dataset_object_handle_test.cpp
+    #attribute_object_handle_test.cpp
+    #property_objects_handle_test.cpp
+    #error_objects_handle_test.cpp
+    #test_environment.cpp
+    #iteration_index_test.cpp
+    #iteration_order_test.cpp
+    #iterator_test.cpp
+    #object_id_test.cpp
+    path_test.cpp)
+    #version_test.cpp)
 
-set(test_headers
-  ${test_headers}
-  ${dir}/object_handle_test.hpp
-  PARENT_SCOPE)
+
+add_executable(core_test ${test_sources})
+target_link_libraries(core_test h5cpp)
+add_test(NAME "testing core components" COMMAND core_test)
+#set(test_headers
+#  ${test_headers}
+#  ${dir}/object_handle_test.hpp
+#  PARENT_SCOPE)
 
