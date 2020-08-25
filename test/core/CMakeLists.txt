@@ -15,8 +15,8 @@ set(test_sources
     #iteration_order_test.cpp
     #iterator_test.cpp
     #object_id_test.cpp
-    path_test.cpp)
-    #version_test.cpp)
+    path_test.cpp
+    version_test.cpp)
 
 
 add_executable(core_test ${test_sources})

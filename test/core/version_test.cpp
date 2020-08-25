@@ -65,7 +65,8 @@ SCENARIO("copying versions", "[h5cpp]") {
     }
     WHEN("copy assign to a new version") {
       hdf5::Version v2;
-      v2 = v1 THEN("the versions must have equal elements") {
+      v2 = v1;
+      THEN("the versions must have equal elements") {
         REQUIRE(v1.major_number() == v2.major_number());
         REQUIRE(v1.minor_number() == v2.minor_number());
         REQUIRE(v1.patch_number() == v2.patch_number());
@@ -74,82 +75,59 @@ SCENARIO("copying versions", "[h5cpp]") {
   }
 }
 
+SCENARIO("output a versin") {
+  GIVEN("the version 21.0.2") {
+    hdf5::Version v(21, 0, 2);
+    THEN("string conversion yields") {
+      REQUIRE(hdf5::Version::to_string(v) == "21.0.2");
+    }
 
-
-TEST(VersionTest, to_string) {
-  hdf5::Version v(21, 0, 2);
-  EXPECT_EQ(hdf5::Version::to_string(v), "21.0.2");
+    WHEN("written to a stream") {
+      std::stringstream ss;
+      ss << v;
+      THEN("the stream contains a string") {
+        REQUIRE(ss.str() == hdf5::Version::to_string(v));
+      }
+    }
+  }
 }
 
 SCENARIO("comparison of versions") {
-  GIVEN("Version 10.0.2") { 
-    hdf5::Version v1(10,23,3); 
-    WHEN("equality checked with 10.0.2") { 
-      hdf5::Version v2(10,23,3);
-      THEN("both versions are equal") { REQUIRE(v1 == v2);}
+  GIVEN("Version 10.23.3") {
+    hdf5::Version v1(10, 23, 3);
+    WHEN("equality checked with 10.23.3") {
+      hdf5::Version v2(10, 23, 3);
+      THEN("both versions are equal") { REQUIRE(v1 == v2); }
     }
 
-    WHEN("checked against 10.1.2") {
-      hdf5::Version v2(10,1,2);
-      THEN("the versions are not equal") { REQUIRE(v1 != v2);}
+    WHEN("checked for inequality") {
+      THEN("10.23.3 != 10.23.2") { REQUIRE(v1 != hdf5::Version(10, 23, 1)); }
+      THEN("10.23.3 != 10.20.3") { REQUIRE(v1 != hdf5::Version(10, 23, 3)); }
+      THEN("10.23.3 != 9.23.3") { REQUIRE(v1 != hdf5::Version(9, 23, 3)); }
     }
   }
 
-  GIVEN("version 10.12.1") { 
-    hdf5::Version v1(10,23,0)
-    THEN("version 10.12.1 >= 10.12.1") 
+  GIVEN("version 10.12.1") {
+    hdf5::Version v(10, 12, 1);
+    THEN("10.12.1 >= 10.12.1 ") { REQUIRE(v >= hdf5::Version(10, 12, 1)); }
+    THEN("10.12.1 >= 10.12.0") { REQUIRE(v >= hdf5::Version(10, 12, 0)); }
+    THEN("10.12.1 >= 10.11.0") { REQUIRE(v >= hdf5::Version(10, 11, 0)); }
+    THEN("10.12.1 >= 9.111.2") { REQUIRE(v >= hdf5::Version(9, 111, 2)); }
+
+    THEN("10.12.1 > 10.12.0") { REQUIRE(v > hdf5::Version(10, 12, 0)); }
+    THEN("10.12.1 > 10.11.0") { REQUIRE(v > hdf5::Version(10, 11, 0)); }
+    THEN("10.12.1 > 9.11.2") { REQUIRE(v > hdf5::Version(9, 111, 2)); }
+
+    THEN("10.12.1 <= 10.12.1 ") { REQUIRE(v <= hdf5::Version(10, 12, 1)); }
+    THEN("10.12.1 < 10.12.1") { REQUIRE(v < hdf5::Version(10, 12, 2)); }
+    THEN("10.12.1 < 10.13.2") { REQUIRE(v < hdf5::Version(10, 13, 2)); }
+    THEN("10.12.1 < 11.12.1") { REQUIRE(v < hdf5::Version(11, 12, 2)); }
   }
 }
 
-
-TEST(VersionTest, inequality) {
-  EXPECT_NE(hdf5::Version(10, 23, 0), hdf5::Version(10, 23, 1));
-  EXPECT_NE(hdf5::Version(10, 0, 1), hdf5::Version(10, 1, 1));
-  EXPECT_NE(hdf5::Version(0, 10, 1), hdf5::Version(1, 10, 1));
-}
-
-TEST(VersionTest, greater_equal_than) {
-  EXPECT_GE(hdf5::Version(10, 12, 1), hdf5::Version(10, 12, 1));
-  EXPECT_GE(hdf5::Version(10, 12, 1), hdf5::Version(10, 12, 0));
-  EXPECT_GE(hdf5::Version(10, 12, 1), hdf5::Version(10, 11, 0));
-  EXPECT_GE(hdf5::Version(10, 12, 1), hdf5::Version(9, 111, 2));
-}
-
-TEST(VersionTest, greater_than) {
-  EXPECT_GT(hdf5::Version(10, 12, 1), hdf5::Version(10, 12, 0));
-  EXPECT_GT(hdf5::Version(10, 12, 1), hdf5::Version(10, 11, 0));
-  EXPECT_GT(hdf5::Version(10, 12, 1), hdf5::Version(9, 111, 2));
-  EXPECT_FALSE(hdf5::Version(10, 12, 1) > hdf5::Version(10, 12, 2));
-  EXPECT_FALSE(hdf5::Version(10, 12, 1) > hdf5::Version(10, 13, 2));
-  EXPECT_FALSE(hdf5::Version(10, 12, 1) > hdf5::Version(11, 12, 2));
-}
-
-TEST(VersionTest, less_equal_than) {
-  EXPECT_LE(hdf5::Version(10, 12, 1), hdf5::Version(10, 12, 1));
-  EXPECT_LE(hdf5::Version(10, 12, 0), hdf5::Version(10, 12, 1));
-  EXPECT_LE(hdf5::Version(10, 11, 0), hdf5::Version(10, 12, 1));
-  EXPECT_LE(hdf5::Version(9, 111, 2), hdf5::Version(10, 12, 1));
-}
-
-TEST(VersionTest, less_than) {
-  EXPECT_LT(hdf5::Version(10, 12, 0), hdf5::Version(10, 12, 1));
-  EXPECT_LT(hdf5::Version(10, 11, 0), hdf5::Version(10, 12, 1));
-  EXPECT_LT(hdf5::Version(9, 111, 2), hdf5::Version(10, 12, 1));
-  EXPECT_FALSE(hdf5::Version(10, 12, 1) < hdf5::Version(10, 12, 0));
-  EXPECT_FALSE(hdf5::Version(10, 12, 1) < hdf5::Version(10, 11, 1));
-  EXPECT_FALSE(hdf5::Version(10, 12, 1) < hdf5::Version(9, 12, 1));
-}
-
-TEST(VersionTest, current_library_version) {
+SCENARIO("the current version would be", "[h5cpp]") {
   hdf5::Version current = hdf5::current_library_version();
-  EXPECT_EQ(current.major_number(), hdf5::Version::NumberType(H5_VERS_MAJOR));
-  EXPECT_EQ(current.minor_number(), hdf5::Version::NumberType(H5_VERS_MINOR));
-  EXPECT_EQ(current.patch_number(), hdf5::Version::NumberType(H5_VERS_RELEASE));
-}
-
-TEST(VersionTest, stream) {
-  hdf5::Version v(21, 0, 2);
-  std::stringstream ss;
-  ss << v;
-  EXPECT_EQ(ss.str(), hdf5::Version::to_string(v));
+  REQUIRE(current.major_number() == hdf5::Version::NumberType(H5_VERS_MAJOR));
+  REQUIRE(current.minor_number() == hdf5::Version::NumberType(H5_VERS_MINOR));
+  REQUIRE(current.patch_number() == hdf5::Version::NumberType(H5_VERS_RELEASE));
 }
