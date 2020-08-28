@@ -77,7 +77,6 @@ class DLL_EXPORT ObjectHandle
       DATASET,
       ATTRIBUTE,
       PROPERTY_LIST,
-      REFERENCE,
       VIRTUAL_FILE_LAYER,
       PROPERTY_LIST_CLASS,
       ERROR_CLASS,
