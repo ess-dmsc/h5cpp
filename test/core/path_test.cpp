@@ -57,7 +57,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       Path p("hello/world");
       THEN("we") {
         REQUIRE(p.size() == 2ul);
-        REQUIRE(p.absolute());
+        REQUIRE_FALSE(p.absolute());
         REQUIRE_FALSE(p.is_root());
       }
     }
@@ -66,7 +66,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       Path p("hello/world/instrument/data/");
       THEN("we") {
         REQUIRE(p.size() == 4ul);
-        REQUIRE(p.absolute());
+        REQUIRE_FALSE(p.absolute());
         REQUIRE_FALSE(p.is_root());
       }
     }
@@ -75,7 +75,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       Path p(".");
       THEN("we") {
         REQUIRE(p.size() == 0ul);
-        REQUIRE(p.absolute());
+        REQUIRE_FALSE(p.absolute());
         REQUIRE_FALSE(p.is_root());
       }
     }
@@ -84,7 +84,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       Path p("./");
       THEN("we") {
         REQUIRE(p.size() == 0ul);
-        REQUIRE(p.absolute());
+        REQUIRE_FALSE(p.absolute());
         REQUIRE_FALSE(p.is_root());
       }
     }
@@ -94,7 +94,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       THEN("we") {
         REQUIRE(p.size() == 0ul);
         REQUIRE(p.absolute());
-        REQUIRE_FALSE(p.is_root());
+        REQUIRE(p.is_root());
       }
     }
 
@@ -103,7 +103,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       THEN("we") {
         REQUIRE(p.size() == 0ul);
         REQUIRE(p.absolute());
-        REQUIRE_FALSE(p.is_root());
+        REQUIRE(p.is_root());
       }
     }
 
@@ -111,7 +111,7 @@ SCENARIO("Path construction", "[h5cpp, path]") {
       Path p(".///");
       THEN("we") {
         REQUIRE(p.size() == 0ul);
-        REQUIRE(p.absolute());
+        REQUIRE_FALSE(p.absolute());
         REQUIRE_FALSE(p.is_root());
       }
     }
@@ -278,7 +278,7 @@ SCENARIO("appending with + operator") {
   GIVEN("instrument/detector") {
     Path p("instrument/detector");
     WHEN("p + \"metadata/data\"") {
-      p = p + "metadata/daet";
+      p = p + "metadata/date";
       THEN("instrument/detector/metdata/date") {
         REQUIRE(to_string(p) == "instrument/detector/metadata/date");
         REQUIRE(p.size() == 4ul);

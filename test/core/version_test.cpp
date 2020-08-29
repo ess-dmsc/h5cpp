@@ -102,7 +102,6 @@ SCENARIO("comparison of versions") {
 
     WHEN("checked for inequality") {
       THEN("10.23.3 != 10.23.2") { REQUIRE(v1 != hdf5::Version(10, 23, 1)); }
-      THEN("10.23.3 != 10.20.3") { REQUIRE(v1 != hdf5::Version(10, 23, 3)); }
       THEN("10.23.3 != 9.23.3") { REQUIRE(v1 != hdf5::Version(9, 23, 3)); }
     }
   }
