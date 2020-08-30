@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Martin Shetty <martin.shetty@esss.se>
+// Authors: Martin Shetty <martin.shetty@esss.se>
+//          Sebastian Koenig <skoenig@ncsu.edu>
 //
 #pragma once
 
@@ -45,6 +46,7 @@ namespace hdf5
 //!
 //! Optinally we also provide the name of the the object is stored in.
 //!
+
 class DLL_EXPORT ObjectId
 {
   public:
@@ -130,11 +132,20 @@ class DLL_EXPORT ObjectId
     //! Obtains the name of the file where the object is stored in.
     static std::string get_file_name(const ObjectHandle &handle);
 
-    //!
+#if H5_VERSION_LE(1,10,5)
+#define H5O_info_t_ H5O_info_t
+#else
+#define H5O_info_t_ H5O_info1_t
+#endif
+
+    //!H5O_info_t
     //! \brief get object info
     //!
     //! Gets object info.
-    static H5O_info_t get_info(const ObjectHandle &handle);
+    //!
+    //! For HDF5 version 1.12.0 and higher, this explicitly returns a
+    //! H5O_info1_t structure.  For versions <= 1.10.5 it returns H5O_info_t.
+    static H5O_info_t_ get_info(const ObjectHandle &handle);
 
 
  private:
