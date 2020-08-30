@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+//          Sebastian Koenig <skoenig@ncsu.edu>
 // Created on: Aug 28, 2017
 //
 #pragma once
@@ -28,10 +29,12 @@
 #include <h5cpp/datatype/integer.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/string.hpp>
+#include <h5cpp/datatype/compound.hpp>
 
 #include <vector>
 #include <array>
 #include <string>
+#include <complex>
 #include <type_traits>
 
 namespace hdf5 {
@@ -256,6 +259,28 @@ class TypeTrait<bool> {
   static TypeClass create(const Type & = Type()) {
     return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
   }
+};
+
+template<typename T>
+class TypeTrait<std::complex<T>>
+{
+  private:
+    using element_type = TypeTrait<T>;
+
+  public:
+    using Type = std::complex<T>;
+    using TypeClass = Compound;
+
+    static TypeClass create(const Type & = Type())
+    {
+      datatype::Compound type = datatype::Compound::create(
+        sizeof(std::complex<T>));
+
+      type.insert("real", 0, element_type::create(T()));
+      type.insert("imag", alignof(T), element_type::create(T()));
+
+      return type;
+    }
 };
 
 } // namespace datatype
