@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+//          Sebastian Koenig <skoenig@ncsu.edu>
 // Created on: Oct 4, 2017
 //
 #include <sstream>
@@ -77,8 +78,12 @@ Attribute AttributeManager::operator[](const std::string &name) const
 
 size_t AttributeManager::size() const
 {
-  H5O_info_t obj_info;
+  H5O_info_t_ obj_info;
+#if H5_VERSION_LE(1,10,2)
   if(H5Oget_info(static_cast<hid_t>(node_),&obj_info))
+#else
+  if(H5Oget_info1(static_cast<hid_t>(node_),&obj_info))
+#endif
   {
     error::Singleton::instance().throw_with_stack("Failure to determine the number of attributes!");
   }
