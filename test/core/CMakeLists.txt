@@ -11,7 +11,7 @@ set(test_sources
     #property_objects_handle_test.cpp
     #error_objects_handle_test.cpp
     #test_environment.cpp
-    #iteration_index_test.cpp
+    iteration_index_test.cpp
     #iteration_order_test.cpp
     #iterator_test.cpp
     #object_id_test.cpp
