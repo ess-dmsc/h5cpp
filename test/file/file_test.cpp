@@ -23,7 +23,6 @@
 // Created on: May 4, 2018
 //
 
-#include <gtest/gtest.h>
 #include <catch2/catch.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>

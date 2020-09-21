@@ -23,67 +23,118 @@
 // Created on: Sep 11, 2017
 //
 
-#include <gtest/gtest.h>
 #include <h5cpp/core/iterator.hpp>
+#include <catch2/catch.hpp>
 
 using namespace hdf5;
 
-TEST(Iterator, constructors)
+TEST_CASE("Testing the iterator constructor")
 {
   Iterator a;
-  EXPECT_EQ(a.index(), 0);
-
   Iterator b(3);
-  EXPECT_EQ(b.index(), 3);
+  SECTION("default construction")
+  {
+    REQUIRE(a.index() == 0);
+  }
 
-  Iterator c = b;
-  EXPECT_EQ(c.index(), 3);
+  SECTION("constructor with index")
+  {
+    REQUIRE(b.index() == 3);
+  }
 
-  Iterator d(b);
-  EXPECT_EQ(d.index(), 3);
+  SECTION("implicit copy constructor")
+  {
+    Iterator c = b;
+    REQUIRE(c.index() == 3);
+  }
+
+  SECTION("explicit copy constructor")
+  {
+    Iterator d(b);
+    REQUIRE(d.index() == 3);
+  }
 }
 
-TEST(Iterator, comparators)
+SCENARIO("Testing the iterator comparators")
 {
-  EXPECT_EQ(Iterator(2), Iterator(2));
-
-  EXPECT_LT(Iterator(2), Iterator(3));
-  EXPECT_LE(Iterator(2), Iterator(3));
-  EXPECT_LE(Iterator(2), Iterator(2));
-
-  EXPECT_GT(Iterator(4), Iterator(3));
-  EXPECT_GE(Iterator(4), Iterator(3));
-  EXPECT_GE(Iterator(2), Iterator(2));
+  GIVEN("Iterator at 2")
+  {
+    Iterator a(2);
+    THEN("is equal to 2") { REQUIRE(a == Iterator(2)); }
+    THEN("is smaller than 3") { REQUIRE(a < Iterator(3)); }
+    THEN("is <= than 3") { REQUIRE(a <= Iterator(3)); }
+    THEN("is <= than 2") { REQUIRE(a <= Iterator(2)); }
+  }
+  GIVEN("Iterator at 4")
+  {
+    Iterator a(4);
+    THEN("is > than 3") { REQUIRE(a > Iterator(3)); }
+    THEN("is >= 4") { REQUIRE(a >= Iterator(3)); }
+    THEN("is >= 2") { REQUIRE(a >= Iterator(2)); }
+  }
 }
 
-TEST(Iterator, increment)
+SCENARIO("Testing iterator increment")
 {
-  Iterator i(1);
+  Iterator a(2);
+  GIVEN("increment += 2")
+  {
+    a += 2;
+    THEN("it must be at 3") { REQUIRE(a.index() == 4); }
+  }
+  GIVEN("postifix a++")
+  {
+    a++;
+    THEN("it must be at 3") { REQUIRE(a.index() == 3); }
+  }
+  GIVEN("prefix ++a")
+  {
+    ++a;
+    THEN("it must be at 3") { REQUIRE(a.index() == 3); }
+  }
 
-  i += 2;
-  ASSERT_EQ(3, i.index());
-
-  ASSERT_EQ(3, (i++).index());
-  ASSERT_EQ(4, i.index());
-
-  ASSERT_EQ(5, (++i).index());
-
-  ASSERT_EQ(6, (i + ssize_t(1)).index());
-  ASSERT_EQ(6, (ssize_t(1) + i).index());
+  GIVEN("a+ssize_t(1)")
+  {
+    a = a + ssize_t(1);
+    THEN(" it must be at 3") { REQUIRE(a.index() == 3); }
+  }
+  GIVEN("ssize_t(1) + a")
+  {
+    a = ssize_t(1) + a;
+    THEN("it must be at 3") { REQUIRE(a.index() == 3); }
+  }
 }
 
-TEST(Iterator, decrement)
+SCENARIO("Testing interator decrement")
 {
   Iterator i(7);
+  GIVEN("i -= 2")
+  {
+    i -= 2;
+    THEN("it must be at 5") { REQUIRE(5 == i.index()); }
+  }
+  GIVEN("i--")
+  {
+    THEN("it must be at 7")
+    {
+      REQUIRE(7 == (i--).index());
+      AND_THEN("it must be at 6") { REQUIRE(6 == i.index()); }
+    }
+  }
 
-  i -= 2;
-  ASSERT_EQ(5, i.index());
+  GIVEN("--i")
+  {
+    THEN("it must be at 6")
+    {
+      REQUIRE(6 == (--i).index());
+      AND_THEN("it must be at 6") { REQUIRE(6 == i.index()); }
+    }
+  }
 
-  ASSERT_EQ(5, (i--).index());
-  ASSERT_EQ(4, i.index());
-
-  ASSERT_EQ(3, (--i).index());
-
-  ASSERT_EQ(2, i - Iterator(1));
-  ASSERT_EQ(2, (i - ssize_t(1)).index());
+  GIVEN("i - Iterator(2)") { 
+    THEN("it must be at 5") { REQUIRE(5 == i - Iterator(2)); }
+  }
+  GIVEN("i - ssize_t(1)") { 
+    THEN("it must be at 6") { REQUIRE(6 == (i - ssize_t(1)).index()); }
+  }
 }
