@@ -27,17 +27,6 @@
 
 using namespace hdf5;
 
-namespace hdf5 {
-namespace datatype {
-
-template<typename T> class TypeTrait<std::complex<T>>
-{
-  public:
-};
-
-}
-}
-
 class AttributeComplexIO : public BasicFixture
 {};
 

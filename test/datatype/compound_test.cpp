@@ -68,22 +68,6 @@ struct complex_t {
   BT imag;
 };
 
-template<typename T>
-class TypeTrait<std::complex<T>> {
- private:
-  using complex_type = complex_t<T>;
- public:
-  using Type = std::complex<T>;
-  using TypeClass = Compound;
-
-  static TypeClass create(const Type & = Type()) {
-    auto type = datatype::Compound::create(sizeof(complex_struct));
-    type.insert("real", HOFFSET(complex_type, real), datatype::create<T>());
-    type.insert("imag", HOFFSET(complex_type, imag), datatype::create<T>());
-    return type;
-  }
-};
-
 template<>
 class TypeTrait<Pixel> {
  public:

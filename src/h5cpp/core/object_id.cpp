@@ -50,10 +50,14 @@ std::string ObjectId::get_file_name(const ObjectHandle &handle)
   return fname;
 }
 
-H5O_info_t ObjectId::get_info(const ObjectHandle &handle)
+H5O_info_t_ ObjectId::get_info(const ObjectHandle &handle)
 {
-  H5O_info_t info;
+  H5O_info_t_ info;
+#if H5_VERSION_LE(1,10,2)
   if (0 > H5Oget_info(static_cast<hid_t>(handle), &info))
+#else
+  if (0 > H5Oget_info1(static_cast<hid_t>(handle), &info))
+#endif
   {
     error::Singleton::instance().throw_with_stack("Could not get Object info.");
   }

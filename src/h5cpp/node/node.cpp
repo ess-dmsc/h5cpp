@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+//          Sebastian Koenig <skoenig@ncsu.edu>
 // Created on: Sep 11, 2017
 //
 #include <stdexcept>
@@ -69,8 +70,12 @@ void Node::close()
 
 NodeType Node::type() const
 {
-  H5O_info_t info;
+  H5O_info_t_ info;
+#if H5_VERSION_LE(1,10,2)
   if(H5Oget_info(static_cast<hid_t>(*this),&info)<0)
+#else
+  if(H5Oget_info1(static_cast<hid_t>(*this),&info)<0)
+#endif
   {
     error::Singleton::instance().throw_with_stack("Error retrieving type information for this node!");
   }

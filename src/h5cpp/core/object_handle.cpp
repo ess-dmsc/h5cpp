@@ -265,8 +265,6 @@ ObjectHandle::Type ObjectHandle::get_type() const
       return ObjectHandle::Type::DATASET;
     case H5I_ATTR:
       return ObjectHandle::Type::ATTRIBUTE;
-    case H5I_REFERENCE:
-      return ObjectHandle::Type::REFERENCE;
     case H5I_VFL:
       return ObjectHandle::Type::VIRTUAL_FILE_LAYER;
     case H5I_GENPROP_CLS:
@@ -373,9 +371,6 @@ std::ostream &operator<<(std::ostream &stream, const ObjectHandle::Type &type)
       break;
     case ObjectHandle::Type::PROPERTY_LIST:
       stream << "PROPERTY_LIST";
-      break;
-    case ObjectHandle::Type::REFERENCE:
-      stream << "REFERENCE";
       break;
     case ObjectHandle::Type::VIRTUAL_FILE_LAYER:
       stream << "VIRTUAL_FILE_LAYER";
