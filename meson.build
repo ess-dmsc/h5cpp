@@ -1,4 +1,5 @@
-project('h5cpp',['cpp','c'],version:'0.3.3', default_options:'cpp_std=c++17')
+project('h5cpp',['cpp','c'],version:'0.3.3',
+        default_options:'cpp_std=c++17')
 
 hdf5 = dependency('hdf5', language: 'c')
 boost = dependency('boost', modules:['filesystem','system'])

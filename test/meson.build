@@ -25,7 +25,7 @@ subdir('node')
 subdir('property')
 subdir('utilities')
 
-test=executable('unit_test', test_sources,
-                dependencies: [h5cpp_dep, gtest_dep])
-test('run unit tests', test,
-     workdir: meson.current_build_dir())
+#test=executable('unit_test', test_sources,
+#                dependencies: [h5cpp_dep, gtest_dep])
+#test('run unit tests', test,
+#     workdir: meson.current_build_dir())

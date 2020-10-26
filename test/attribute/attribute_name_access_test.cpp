@@ -22,221 +22,195 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-
-#include <h5cpp/datatype/types.hpp>
-#include "attribute_test_fixtures.hpp"
+#include <catch2/catch.hpp>
 #include <vector>
 #include <algorithm>
-#include <h5cpp/attribute/attribute_iterator.hpp>
+#include <iterator>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class AttributeName : public AttributeIterationFixture
-{};
+using names_t = std::vector<std::string>;
 
-TEST_F(AttributeName, test_name_access)
+datatype::Class type_class(const attribute::Attribute &attribute)
 {
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  EXPECT_EQ(root_.attributes["index"].datatype().get_class(),
-                    datatype::Class::INTEGER);
-  EXPECT_EQ(root_.attributes["elasticity"].datatype().get_class(),
-                    datatype::Class::FLOAT);
-  EXPECT_EQ(root_.attributes["counter"].datatype().get_class(),
-                    datatype::Class::INTEGER);
-
+  return attribute.datatype().get_class();
 }
 
-TEST_F(AttributeName, test_index_access_creation_order_increasing)
+names_t attr_names(const node::Node &node)
 {
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root_.attributes.iterator_config().order(IterationOrder::INCREASING);
-
-  EXPECT_EQ(root_.attributes[0].name(),"index");
-  EXPECT_EQ(root_.attributes[1].name(),"elasticity");
-  EXPECT_EQ(root_.attributes[2].name(),"counter");
-}
-
-TEST_F(AttributeName, test_iterator_access_creation_order_increasing)
-{
-  root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root_.attributes.iterator_config().order(IterationOrder::INCREASING);
-
-  std::vector<std::string> ref_names{"index","elasticity","counter"};
-  std::vector<std::string> names;
-
-  std::transform(root_.attributes.begin(),
-                 root_.attributes.end(),
+  names_t names;
+  std::transform(std::begin(node.attributes), std::end(node.attributes),
                  std::back_inserter(names),
-                 [](const attribute::Attribute &a) { return a.name();});
-  EXPECT_EQ(names, ref_names);
-
+                 [](const attribute::Attribute &a) { return a.name(); });
+  return names;
 }
 
-TEST_F(AttributeName, test_index_access_creation_order_decreasing)
+SCENARIO("With three attributes at the root node")
 {
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+  auto file = file::create("test.h5");
+  auto root = file.root();
+  using datatype::Class;
+  root.attributes.create<int>("index");
+  root.attributes.create<float>("elasticity", {6, 6});
+  root.attributes.create<std::uint32_t>("counter");
 
-  EXPECT_EQ(root_.attributes[2].name(),"index");
-  EXPECT_EQ(root_.attributes[1].name(),"elasticity");
-  EXPECT_EQ(root_.attributes[0].name(),"counter");
-}
-
-TEST_F(AttributeName, test_iterator_access_creation_order_decreasing)
-{
-  root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  std::vector<std::string> ref_names{"counter","elasticity","index"};
-  auto iter = ref_names.begin();
-
-  for(auto attribute: root_.attributes)
-    EXPECT_EQ(attribute.name(),*iter++);
-
-}
-
-TEST_F(AttributeName, test_index_access_name_order_increasing)
-{
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::INCREASING);
-
-  EXPECT_EQ(root_.attributes[2].name(),"index");
-  EXPECT_EQ(root_.attributes[1].name(),"elasticity");
-  EXPECT_EQ(root_.attributes[0].name(),"counter");
-}
-
-TEST_F(AttributeName, test_iterator_access_name_order_increasing)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::INCREASING);
-
-  std::vector<std::string> ref_names{"counter","elasticity","index"};
-  auto ref_iter = ref_names.begin();
-
-  for(auto iter = root_.attributes.begin();iter!=root_.attributes.end();++iter,++ref_iter)
-    EXPECT_EQ(iter->name(),*ref_iter);
-
-}
-
-TEST_F(AttributeName, test_index_access_name_order_decreasing)
-{
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  EXPECT_EQ(root_.attributes[0].name(),"index");
-  EXPECT_EQ(root_.attributes[1].name(),"elasticity");
-  EXPECT_EQ(root_.attributes[2].name(),"counter");
-}
-
-TEST_F(AttributeName, test_iterator_access_name_order_decreasing)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  std::vector<std::string> ref_names{"index","elasticity","counter"};
-  auto ref_iter = ref_names.begin();
-
-  auto iter     = root_.attributes.begin();
-  auto iter_end = root_.attributes.end();
-  while(iter!=iter_end)
+  GIVEN("the standard")
   {
-    EXPECT_EQ(iter++->name(),*ref_iter++);
+    THEN("the number of attribute")
+    {
+      REQUIRE(root.attributes.size() == 3ul);
+    }
+    AND_THEN("the attributes have the following types")
+    {
+      REQUIRE(type_class(root.attributes["index"]) == Class::INTEGER);
+      REQUIRE(type_class(root.attributes["elasticiy"]) == Class::FLOAT);
+      REQUIRE(type_class(root.attributes["counter"]) == Class::INTEGER);
+    }
+
+    AND_THEN("we get in case of illegal access")
+    {
+      REQUIRE_THROWS_AS(root.attributes[3], std::runtime_error);
+      REQUIRE_THROWS_AS(root.attributes["hello"], std::runtime_error);
+    }
+  }
+
+  GIVEN("Using the creation order as an index")
+  {
+    root.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
+
+    AND_GIVEN("increasing ordering")
+    {
+      root.attributes.iterator_config().order(IterationOrder::INCREASING);
+      THEN("we expect the following attributes names")
+      {
+        REQUIRE(root.attributes[0].name() == "index");
+        REQUIRE(root.attributes[1].name() == "elasticity");
+        REQUIRE(root.attributes[2].name() == "counter");
+      }
+      AND_THEN("algorithms should produce the same result")
+      {
+        auto ref_names = names_t{"index", "elasticity", "counter"};
+        REQUIRE_THAT(ref_names, Catch::Matchers::Equals(attr_names(root)));
+      }
+    }
+
+    AND_GIVEN("decreasing ordering")
+    {
+      THEN("the names are")
+      {
+        REQUIRE(root.attributes[2].name() == "index");
+        REQUIRE(root.attributes[1].name() == "elasticity");
+        REQUIRE(root.attributes[0].name() == "counter");
+      }
+      AND_THEN("the iterators give")
+      {
+        auto ref_names = names_t{"counter", "elasticity", "index"};
+        REQUIRE_THAT(ref_names, Catch::Matchers::Equals(attr_names(root)));
+      }
+    }
+  }
+
+  GIVEN("using the attribute name as an index")
+  {
+    root.attributes.iterator_config().index(IterationIndex::NAME);
+    AND_GIVEN("increasing ordering")
+    {
+      root.attributes.iterator_config().order(IterationOrder::INCREASING);
+      THEN("the names are")
+      {
+        REQUIRE(root.attributes[2].name() == "index");
+        REQUIRE(root.attributes[1].name() == "elasticity");
+        REQUIRE(root.attributes[0].name() == "counter");
+      }
+      AND_THEN("the iterator yields")
+      {
+        auto ref_names = names_t{"counter", "elasticity", "index"};
+        REQUIRE_THAT(ref_names, Catch::Matchers::Equals(attr_names(root)));
+      }
+    }
+
+    AND_GIVEN("decreasing ordering")
+    {
+      root.attributes.iterator_config().order(IterationOrder::DECREASING);
+
+      THEN("the attribute names are")
+      {
+        REQUIRE(root.attributes[0].name() == "index");
+        REQUIRE(root.attributes[1].name() == "elasticity");
+        REQUIRE(root.attributes[2].name() == "counter");
+      }
+
+      AND_THEN("we get for the iteration")
+      {
+        auto ref_names = names_t{"index", "elasticity", "counter"};
+        REQUIRE_THAT(ref_names, Catch::Matchers::Equals(attr_names(root)));
+      }
+
+      AND_THEN("we get for the iterator increments")
+      {
+        auto iter = root.attributes.begin();
+        REQUIRE((iter++)->name() == "index");
+        REQUIRE(iter->name() == "elasticity");
+        REQUIRE((++iter)->name() == "counter");
+      }
+
+      AND_THEN("we get for the iterator decrements")
+      {
+        auto iter = std::begin(root.attributes);
+
+        std::advance(iter, 2);
+        REQUIRE((iter--)->name() == "counter");
+        REQUIRE(iter->name() == "elasticity");
+        REQUIRE((--iter)->name() == "counter");
+      }
+
+      AND_THEN("for an invalid iterator we get")
+      {
+        auto iter = std::end(root.attributes);
+
+        REQUIRE_THROWS_AS((*iter), std::runtime_error);
+        REQUIRE_FALSE(static_cast<bool>(iter));
+      }
+
+      AND_THEN("we get for unary arithmetics")
+      {
+        auto iter = std::begin(root.attributes);
+        std::advance(iter, 2);
+        REQUIRE(iter->name() == "counter");
+        iter -= 2;
+        REQUIRE(iter->name() == "index");
+      }
+    }
+  }
+
+  GIVEN("an additional entry group") { 
+    auto entry = hdf5::node::Group(root, "entry");
+    entry.attributes.create("names",hdf5::datatype::create<std::string>(),
+                            hdf5::dataspace::Scalar());
+
+    THEN("we get for two iterators") { 
+      REQUIRE_FALSE(std::begin(root.attributes) == std::begin(entry.attributes));
+    }
   }
 }
 
-TEST_F(AttributeName, test_iterator_postincrement)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+/*
 
-  auto iter = root_.attributes.begin();
-  EXPECT_EQ((iter++)->name(),"index");
-  EXPECT_EQ(iter->name(),"elasticity");
-}
-
-TEST_F(AttributeName, test_iterator_preincrement)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  auto iter = root_.attributes.begin();
-  EXPECT_EQ((++iter)->name(),"elasticity");
-}
-
-TEST_F(AttributeName, test_iterator_postdecrement)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  auto iter = root_.attributes.begin();
-  std::advance(iter,2);
-  EXPECT_EQ((iter--)->name(),"counter");
-  EXPECT_EQ(iter->name(),"elasticity");
-}
-
-TEST_F(AttributeName, test_iterator_predecrement)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  auto iter = root_.attributes.begin();
-  std::advance(iter,2);
-  EXPECT_EQ((--iter)->name(),"elasticity");
-}
-
-TEST_F(AttributeName, test_invalid_iterator)
-{
-  auto iter = root_.attributes.end();
-
-  EXPECT_THROW((*iter),std::runtime_error);
-  EXPECT_FALSE(static_cast<bool>(iter));
-}
-
-TEST_F(AttributeName, test_unary_arithmetics)
-{
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
-
-  auto iter = root_.attributes.begin();
-  std::advance(iter,2);
-  EXPECT_EQ(iter->name(),"counter");
-  iter-=2;
-  EXPECT_EQ(iter->name(),"index");
-
-}
-
-TEST_F(AttributeName, test_iterator_comparison)
-{
-  hdf5::node::Group group(root_,"entry");
-  group.attributes.create("names",hdf5::datatype::create<std::string>(),
-                          hdf5::dataspace::Scalar());
-
-  EXPECT_NE(group.attributes.begin(),root_.attributes.begin());
-
-
-}
 
 TEST_F(AttributeName, test_iterator_random_access)
 {
   root_.attributes.iterator_config().index(IterationIndex::NAME);
   root_.attributes.iterator_config().order(IterationOrder::DECREASING);
 
-  std::vector<std::string> ref_names{"index","elasticity","counter"};
+  std::vector<std::string> ref_names{"index", "elasticity", "counter"};
 
-  auto iter     = root_.attributes.begin();
+  auto iter = root_.attributes.begin();
   auto iter_end = root_.attributes.end();
-  std::advance(iter,1);
-  EXPECT_EQ(iter->name(),"elasticity");
+  std::advance(iter, 1);
+  EXPECT_EQ(iter->name(), "elasticity");
   EXPECT_NO_THROW(iter--);
-  EXPECT_EQ(iter->name(),"index");
+  EXPECT_EQ(iter->name(), "index");
 }
 
-TEST_F(AttributeName, test_access_failure)
-{
-  EXPECT_THROW(root_.attributes[3],std::runtime_error);
-  EXPECT_THROW(root_.attributes["hello"],std::runtime_error);
-}
+*/
