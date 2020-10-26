@@ -48,7 +48,7 @@ names_t attr_names(const node::Node &node)
 
 SCENARIO("With three attributes at the root node")
 {
-  auto file = file::create("test.h5");
+  auto file = file::create("test.h5", file::AccessFlags::TRUNCATE);
   auto root = file.root();
   using datatype::Class;
   root.attributes.create<int>("index");
@@ -64,7 +64,7 @@ SCENARIO("With three attributes at the root node")
     AND_THEN("the attributes have the following types")
     {
       REQUIRE(type_class(root.attributes["index"]) == Class::INTEGER);
-      REQUIRE(type_class(root.attributes["elasticiy"]) == Class::FLOAT);
+      REQUIRE(type_class(root.attributes["elasticity"]) == Class::FLOAT);
       REQUIRE(type_class(root.attributes["counter"]) == Class::INTEGER);
     }
 
@@ -97,6 +97,7 @@ SCENARIO("With three attributes at the root node")
 
     AND_GIVEN("decreasing ordering")
     {
+      root.attributes.iterator_config().order(IterationOrder::DECREASING);
       THEN("the names are")
       {
         REQUIRE(root.attributes[2].name() == "index");
@@ -162,7 +163,7 @@ SCENARIO("With three attributes at the root node")
         std::advance(iter, 2);
         REQUIRE((iter--)->name() == "counter");
         REQUIRE(iter->name() == "elasticity");
-        REQUIRE((--iter)->name() == "counter");
+        REQUIRE((--iter)->name() == "index");
       }
 
       AND_THEN("for an invalid iterator we get")

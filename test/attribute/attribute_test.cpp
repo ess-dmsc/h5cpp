@@ -29,7 +29,7 @@
 using namespace hdf5;
 
 TEST_CASE("testing attribute construction","[h5cpp],[attribute],[create]") { 
-  auto file = file::create("test.h5");
+  auto file = file::create("test.h5", file::AccessFlags::TRUNCATE);
   auto root = file.root();
 
   SECTION("default construction") { 
