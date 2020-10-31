@@ -24,7 +24,7 @@
 //       Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 #include "../fixture.hpp"
 #include <string>
@@ -32,38 +32,30 @@
 
 using namespace hdf5;
 
-class AttributeFixedStringIO : public testing::Test
-{
-  public:
-    file::File file;
-    node::Group root_group;
-    dataspace::Scalar scalar_space;
-    dataspace::Simple simple_space;
-    datatype::String string_type;
+SCENARIO("Working with attributes and fixed strings") { 
+    auto h5file = file::create("attribute_fixed_string_IO.h5",file::AccessFlags::TRUNCATE);
+    auto root_group = h5file.root();
+    auto simple_space = dataspace::Simple{{2,3}};
+    auto scalar_space = dataspace::Scalar();
+    auto string_type = datatype::String::fixed(5);
+    string_type.encoding(datatype::CharacterEncoding::UTF8);
+    string_type.padding(datatype::StringPad::NULLTERM);
 
-    void SetUp()
-    {
-      file = file::create("AttributeFixedStringIO.h5",file::AccessFlags::TRUNCATE);
-      root_group = file.root();
-      simple_space = dataspace::Simple{{2,3}};
-      scalar_space = dataspace::Scalar();
-      string_type = datatype::String::fixed(5);
-      string_type.encoding(datatype::CharacterEncoding::UTF8);
-      string_type.padding(datatype::StringPad::NULLTERM);
+    GIVEN("an attribute with a scalar dataspace") { 
+      auto a = root_group.attributes.create("strattr",string_type,scalar_space);
+      THEN("we can write a string to it") {
+        std::string write = "hello";
+        REQUIRE_NOTHROW(a.write(write,string_type));
+
+        AND_THEN("read it back again") { 
+          std::string read;
+          a.read(read,string_type);
+          REQUIRE(write == read);
+        }
+      }
     }
-};
-
-TEST_F(AttributeFixedStringIO,scalar_io)
-{
-  std::string write = "hello";
-  std::string read;
-
-  EXPECT_TRUE(root_group.is_valid());
-  attribute::Attribute a = root_group.attributes.create("strattr",string_type,scalar_space);
-  a.write(write,string_type);
-  a.read(read,string_type);
-  EXPECT_EQ(write,read);
 }
+
 
 TEST_F(AttributeFixedStringIO,scalar_io_custom_read_type)
 {

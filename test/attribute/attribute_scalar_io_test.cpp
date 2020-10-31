@@ -22,69 +22,76 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
+#include <catch2/catch.hpp>
 #include <cstdint>
+#include <h5cpp/hdf5.hpp>
 #include <vector>
-#include "../fixture.hpp"
 
 using namespace hdf5;
 
-class AttributeScalarIO : public BasicFixture
-{};
+SCENARIO("testing scalar attribute IO", "[hdf5],[attribute]") {
+  auto h5file =
+      file::create("attribute_scalar_io_test.h5", file::AccessFlags::TRUNCATE);
+  auto root = h5file.root();
 
-TEST_F(AttributeScalarIO, test_uint8)
-{
-  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data");
-  std::uint8_t write_value = 12;
-  std::uint8_t read_value = 0;
-  a.write(write_value);
-  a.read(read_value);
-  EXPECT_EQ(write_value,read_value);
+  GIVEN("scalar unsigned int 8 IO") {
+    auto a = root.attributes.create<std::uint8_t>("data");
+    std::uint8_t write_value = 12;
+    std::uint8_t read_value = 0;
+    a.write(write_value);
+    a.read(read_value);
+    REQUIRE(write_value == read_value);
+  }
+
+  GIVEN("scalar float32 attribute io") {
+    auto a = root.attributes.create<float>("data");
+    float write_value = 3.213e-2;
+    float read_value = 0.0;
+    a.write(write_value);
+    a.read(read_value);
+    REQUIRE(write_value == read_value);
+  }
+
+  GIVEN("scalar vector attribute IO") {
+    // this should work as the size of the vector is one
+    auto a = root.attributes.create<std::uint8_t>("data");
+    std::vector<std::uint8_t> write_data{42};
+    std::vector<std::uint8_t> read_data(1);
+    REQUIRE_NOTHROW(a.write(write_data));
+    REQUIRE_NOTHROW(a.read(read_data));
+    REQUIRE(write_data[0] == read_data[0]);
+  }
+
+  GIVEN("a scalar float attribute") {
+    // this should work too - however, only the first element of the vector
+    // is written and read.
+    auto a = root.attributes.create<float>("data");
+
+    AND_GIVEN("a 3 element vectgor with data for writing") {
+      std::vector<float> write_data{1.2f, 3.4f};
+      THEN("trying to write the data will fail") {
+        REQUIRE_THROWS_AS(a.write(write_data), std::runtime_error);
+      }
+    }
+
+    AND_GIVEN("a 3 element vector for reading") {
+      std::vector<float> read_data(3);
+      THEN("trying to read will fail") {
+        REQUIRE_THROWS_AS(a.read(read_data), std::runtime_error);
+      }
+    }
+  }
+
+  GIVEN("a scalar bool attribute") {
+    attribute::Attribute a = root.attributes.create<bool>("flag");
+    AND_GIVEN("a true value for writing") {
+      bool value = true;
+      REQUIRE_NOTHROW(a.write(value)); 
+      THEN("reading back") { 
+        bool read_back = false;
+        a.read(read_back);
+        REQUIRE(value == read_back);
+      }
+    }
+  }
 }
-
-TEST_F(AttributeScalarIO, test_float32)
-{
-  attribute::Attribute a = root_.attributes.create<float>("data");
-  float write_value = 3.213e-2;
-  float read_value = 0.0;
-  a.write(write_value);
-  a.read(read_value);
-  EXPECT_NEAR(write_value,read_value,0.001);
-}
-
-TEST_F(AttributeScalarIO, test_vector_io)
-{
-  //this should work as the size of the vector is one
-  attribute::Attribute a = root_.attributes.create<std::uint8_t>("data");
-  std::vector<std::uint8_t> write_data{42};
-  std::vector<std::uint8_t> read_data(1);
-  EXPECT_NO_THROW(a.write(write_data));
-  EXPECT_NO_THROW(a.read(read_data));
-  EXPECT_EQ(write_data, read_data);
-
-}
-
-TEST_F(AttributeScalarIO, test_shape_mismatch)
-{
-  //this should work too - however, only the first element of the vector
-  //is written and read.
-  attribute::Attribute a = root_.attributes.create<float>("data");
-  std::vector<float> write_data{1.2f,3.4f};
-  std::vector<float> read_data(3);
-  EXPECT_THROW(a.write(write_data),std::runtime_error);
-  EXPECT_THROW(a.read(read_data),std::runtime_error);
-}
-
-TEST_F(AttributeScalarIO,test_bool)
-{
-  attribute::Attribute a = root_.attributes.create<bool>("flag");
-  bool value=true;
-  a.write(value);
-  bool read_back = false;
-  a.read(read_back);
-  EXPECT_EQ(value,read_back);
-}
-
-
-
-
-
