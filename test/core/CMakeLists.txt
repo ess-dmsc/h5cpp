@@ -21,4 +21,5 @@ set(test_sources
 
 add_executable(core_test ${test_sources})
 target_link_libraries(core_test h5cpp)
-add_test(NAME "testing core components" COMMAND core_test)
+catch_discover_tests(core_test
+                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

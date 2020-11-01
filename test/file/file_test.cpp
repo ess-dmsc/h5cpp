@@ -35,19 +35,19 @@ SCENARIO("Testing basic file behavior", "[file,h5cpp]") {
   property::FileAccessList fapl;
   fapl.library_version_bounds(property::LibVersion::LATEST,
                               property::LibVersion::LATEST);
-  file::create("file_open.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+  file::create("file_test.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
 #else
-  file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+  file::create("file_test.h5", file::AccessFlags::TRUNCATE);
 #endif
 
   GIVEN("An open file") {
-    file::File f= file::open("file_open.h5", file::AccessFlags::READWRITE);
+    file::File f= file::open("file_test.h5", file::AccessFlags::READWRITE);
     THEN("we must produce the following results") {
       REQUIRE(f.is_valid());
       REQUIRE(f.intent() == file::AccessFlags::READWRITE);
       REQUIRE(f.size() == 195ul);
-      REQUIRE(f.id().file_name() == "file_open.h5");
-      REQUIRE(f.path().string() == "file_open.h5");
+      REQUIRE(f.id().file_name() == "file_test.h5");
+      REQUIRE(f.path().string() == "file_test.h5");
       auto root = f.root();
       REQUIRE(root.link().path() == "/");
       REQUIRE(f.count_open_objects(file::SearchFlags::GROUP) == 1ul);

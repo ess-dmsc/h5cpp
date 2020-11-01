@@ -13,5 +13,6 @@ set(test_sources
 add_executable(file_test ${test_sources})
 target_link_libraries(file_test h5cpp)
 # target_compile_definitions(file_test PRIVATE CATCH_CONFIG_MAIN)
-add_test(NAME "Testing file related functions" COMMAND file_test)
+catch_discover_tests(file_test 
+                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 

@@ -74,7 +74,7 @@ enable_coverage(unit_tests)
 add_custom_target(run_tests
   COMMAND ${PROJECT_BINARY_DIR}/bin/unit_tests "--gtest_output=xml:unit_tests_run.xml"
   DEPENDS unit_tests)
-add_test(NAME "RunGoogleTests" COMMAND run_tests)
+# add_test(NAME "RunGoogleTests" COMMAND run_tests)
 
 create_coverage_targets(
   generate_coverage

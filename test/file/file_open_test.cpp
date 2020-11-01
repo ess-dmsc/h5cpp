@@ -28,24 +28,26 @@
 
 using namespace hdf5;
 
+static const std::string filename = "file_optn_test.h5";
+
 SCENARIO("opening a file") {
 #if H5_VERSION_GE(1, 10, 0)
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
   fapl.library_version_bounds(property::LibVersion::LATEST,
                               property::LibVersion::LATEST);
-  file::create("file_open.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+  file::create(filename, file::AccessFlags::TRUNCATE, fcpl, fapl);
 #else
-  file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+  file::create(filename, file::AccessFlags::TRUNCATE);
 #endif
 
   WHEN("using the default operation") {
-    auto f = file::open("file_open.h5");
+    auto f = file::open(filename);
     REQUIRE(f.intent() == file::AccessFlags::READONLY);
   }
 
   WHEN("opening in read/write mode") {
-    auto f = file::open("file_open.h5", file::AccessFlags::READWRITE);
+    auto f = file::open(filename, file::AccessFlags::READWRITE);
     REQUIRE(f.intent() == file::AccessFlags::READWRITE);
   }
 
@@ -58,12 +60,12 @@ SCENARIO("opening a file") {
 #if H5_VERSION_GE(1, 10, 0)
 
   WHEN("opening in SWMR read-mode") {
-    auto f = file::open("file_open.h5", file::AccessFlags::SWMR_READ);
+    auto f = file::open(filename, file::AccessFlags::SWMR_READ);
     REQUIRE(f.intent() == file::AccessFlags::SWMR_READ);
   }
 
   WHEN("opening in SWM  write-mode") {
-    auto f = file::open("file_open.h5", file::AccessFlags::READWRITE |
+    auto f = file::open(filename, file::AccessFlags::READWRITE |
                                             file::AccessFlags::SWMR_WRITE);
 
     REQUIRE(static_cast<file::AccessFlagsBase>(f.intent()) ==
