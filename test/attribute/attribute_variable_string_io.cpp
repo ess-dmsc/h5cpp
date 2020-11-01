@@ -33,7 +33,7 @@ using namespace hdf5;
 
 using strings = std::vector<std::string>;
 
-SCENARIO("Given an HDF5 file") {
+SCENARIO("variable string attribute IO") {
   auto file =
       file::create("AttributeFixedStringIO.h5", file::AccessFlags::TRUNCATE);
   auto root_group = file.root();

@@ -4,6 +4,7 @@
 if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
 endif ()
+include(Catch)
 
 include_directories(${PROJECT_SOURCE_DIR}/src
                     ${HDF5_INCLUDE_DIRS}

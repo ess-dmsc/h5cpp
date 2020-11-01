@@ -27,8 +27,8 @@
 
 using namespace hdf5;
 
-SCENARIO("Given the standard attribute for the") { 
-  auto file = file::create("test.h5", file::AccessFlags::TRUNCATE);
+SCENARIO("testing attribute manageument functionality") { 
+  auto file = file::create("attribute_management_test.h5", file::AccessFlags::TRUNCATE);
   auto root = file.root();
   using datatype::Class;
   root.attributes.create<int>("index");

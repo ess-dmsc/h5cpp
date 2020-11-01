@@ -32,7 +32,7 @@
 
 using namespace hdf5;
 
-SCENARIO("writing and reading multidimensional data to attributesl") {
+SCENARIO("multidimensional attribute IO") {
   auto h5file = file::create("attribute_test_multidim_io.h5",
                              file::AccessFlags::TRUNCATE);
   auto root = h5file.root();

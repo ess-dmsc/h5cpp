@@ -31,7 +31,7 @@ using namespace hdf5;
 
 #ifndef _MSC_VER
 
-SCENARIO("given an HDF5 file") {
+SCENARIO("Reading bool attributes created by the PNIIO library") {
   auto h5file =
       file::open("../pniio_test_boolattr.h5", file::AccessFlags::READONLY);
   auto root = h5file.root();

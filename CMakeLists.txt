@@ -3,12 +3,14 @@ project(h5cpp
     LANGUAGES CXX C
     VERSION 0.3.3
     )
+enable_testing()
 
 #=============================================================================
 # Augment CMake with our custom scripts
 #=============================================================================
 set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/catch2/cmake)
 
 #=============================================================================
 # Conan

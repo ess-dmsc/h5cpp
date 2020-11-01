@@ -41,7 +41,7 @@ datatype::EBool read_ebool(const attribute::Attribute& attr) {
 }
 
 #ifndef _MSC_VER
-SCENARIO("From a given h5py writen file") {
+SCENARIO("Reading bool attributes written by h5py") {
   auto h5py_file =
       file::open("./../h5py_test_boolattr.h5", file::AccessFlags::READONLY);
   auto root_group = h5py_file.root();

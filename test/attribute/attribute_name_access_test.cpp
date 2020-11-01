@@ -46,9 +46,9 @@ names_t attr_names(const node::Node &node)
   return names;
 }
 
-SCENARIO("With three attributes at the root node")
+SCENARIO("Accessing attribute names")
 {
-  auto file = file::create("test.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("attribute_name_access_test.h5", file::AccessFlags::TRUNCATE);
   auto root = file.root();
   using datatype::Class;
   root.attributes.create<int>("index");
