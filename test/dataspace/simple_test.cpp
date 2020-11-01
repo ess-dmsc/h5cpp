@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,71 +21,113 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
-
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/dataspace/simple.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-TEST(Simple, test_default_construction) {
-  dataspace::Simple space;
-  EXPECT_EQ(space.size(), 0);
-  EXPECT_EQ(space.rank(), 0u);
-  EXPECT_EQ(space.type(), dataspace::Type::SIMPLE);
-  EXPECT_TRUE(space.current_dimensions().empty());
-  EXPECT_TRUE(space.maximum_dimensions().empty());
+using Simple = dataspace::Simple;
+using Type = dataspace::Type;
 
-  dataspace::Simple space2(ObjectHandle(H5Screate(H5S_SIMPLE)));
-  EXPECT_EQ(space2.type(), dataspace::Type::SIMPLE);
+SCENARIO("default construction of a simple dataspace") {
+  GIVEN("a default constructed dataspace") {
+    Simple space;
+
+    THEN("the size is 0") { REQUIRE(space.size() == 0); }
+    THEN("the rank must be 0") { REQUIRE(space.rank() == 0u); }
+    THEN("the type must be Simple") { REQUIRE(space.type() == Type::SIMPLE); }
+    THEN("the dimensions must be empty") {
+      REQUIRE(space.current_dimensions().empty());
+      REQUIRE(space.maximum_dimensions().empty());
+    }
+    WHEN("closing the dataspace") {
+      ObjectHandle(static_cast<hid_t>(space)).close();
+
+      THEN("accessing the rank must fail") {
+        REQUIRE_THROWS_AS(space.rank(), std::runtime_error);
+      }
+      THEN("accessing the current dimensions must fail") {
+        REQUIRE_THROWS_AS(space.current_dimensions(), std::runtime_error);
+      }
+      THEN("accessing the maximum dimensions must fail") {
+        REQUIRE_THROWS_AS(space.maximum_dimensions(), std::runtime_error);
+      }
+      THEN("accessing the dimensions must fail") {
+        REQUIRE_THROWS_AS(space.dimensions({1}, {1}), std::runtime_error);
+      }
+    }
+  }
 }
 
-TEST(Simple, test_exceptions) {
-  dataspace::Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
-  EXPECT_THROW((dataspace::Simple(s)), std::runtime_error);
+SCENARIO("default construction of a simple dataspace from an hid_t") {
+  GIVEN("an hid_t to a simple dataspace") {
+    hid_t id = H5Screate(H5S_SIMPLE);
+    THEN("we can create a new instance of simple dataspace") {
+      Simple space2{ObjectHandle(id)};
+    }
+  }
 
-  dataspace::Simple s2;
-  ObjectHandle(static_cast<hid_t>(s2)).close();
-  EXPECT_THROW(s2.rank(), std::runtime_error);
-  EXPECT_THROW(s2.current_dimensions(), std::runtime_error);
-  EXPECT_THROW(s2.maximum_dimensions(), std::runtime_error);
-  EXPECT_THROW(s2.dimensions({1}, {1}), std::runtime_error);
+  GIVEN("an hid_t to a scalar dataspace") {
+    hid_t id = H5Screate(H5S_SCALAR);
+    THEN("the construction of an id must fail") {
+      REQUIRE_THROWS_AS(Simple{ObjectHandle(id)}, std::runtime_error);
+    }
+  }
 }
 
-TEST(Simple, test_construction_only_current) {
-  Dimensions s = {10, 20, 30};
-  dataspace::Simple space(s);
-  EXPECT_EQ(space.size(), 10 * 20 * 30);
-  EXPECT_EQ(space.rank(), 3u);
+SCENARIO("construction of a simple dataspace from dimensions") {
+  GIVEN("the dimensions") {
+    Dimensions dimensions = {10, 20, 30};
+    THEN("we can construct a new simple dataspace") {
+      Simple space{dimensions};
+      AND_THEN("the size is") { REQUIRE(space.size() == 10 * 20 * 30); }
+      AND_THEN("the rank is") { REQUIRE(space.rank() == 3); }
+      AND_THEN("the current dimensions are") {
+        REQUIRE_THAT(dimensions,
+                     Catch::Matchers::Equals(space.current_dimensions()));
+      }
+      AND_THEN("the maximum dimensions are") {
+        REQUIRE_THAT(dimensions,
+                     Catch::Matchers::Equals(space.maximum_dimensions()));
+      }
+    }
 
-  Dimensions c = space.current_dimensions();
-  Dimensions m = space.maximum_dimensions();
-  EXPECT_EQ(c, s);
-  EXPECT_EQ(c, m);
+    AND_GIVEN("maximum dimensions") {
+      Dimensions max = {100, 200, dataspace::Simple::UNLIMITED};
+      THEN("we can construct a dataspace with maximum dimensions") {
+        Simple space(dimensions, max);
+        AND_THEN("the size is") { REQUIRE(space.size() == 10 * 20 * 30); }
+        AND_THEN("the rank is") { REQUIRE(space.rank() == 3); }
+        AND_THEN("the current dimensions are") {
+          REQUIRE_THAT(dimensions,
+                       Catch::Matchers::Equals(space.current_dimensions()));
+        }
+        AND_THEN("the maximum dimensions are") {
+          REQUIRE_THAT(max,
+                       Catch::Matchers::Equals(space.maximum_dimensions()));
+        }
+      }
+    }
+  }
 }
 
-TEST(Simple, test_construction_current_and_max) {
-  Dimensions s = {30, 20, 10}, m = {100, 200, dataspace::Simple::UNLIMITED};
-  dataspace::Simple space(s, m);
-  EXPECT_EQ(space.rank(), 3u);
-  EXPECT_EQ(space.size(), 10 * 20 * 30);
-
-  Dimensions c = space.current_dimensions();
-  Dimensions max = space.maximum_dimensions();
-
-  EXPECT_EQ(s, c);
-  EXPECT_EQ(m, max);
-}
-
-//TODO: better name for test case
-// test_setting_dimensions_changes_rank_correctly
-// test_given_a_dataspace_of_rank_one_when_setting....
-TEST(Simple, test_change_rank) {
-  dataspace::Simple space(Dimensions{100});
-  EXPECT_EQ(space.rank(), 1u);
-  space.dimensions(Dimensions{2, 3}, Dimensions{2, 3});
-  EXPECT_EQ(space.rank(), 2u);
+SCENARIO("Resizing a simple dataspace") {
+  GIVEN("a simple dataspace with 100 elements and rank 1") {
+    Simple s{Dimensions{100}};
+    THEN("the size is") { REQUIRE(s.size() == 100); }
+    THEN("the rank is") { REQUIRE(s.rank() == 1); }
+    AND_GIVEN("new dimensions") {
+      Dimensions current{2, 3}, max{2, 3};
+      WHEN("we can set the new dimensions") {
+        s.dimensions(current, max);
+        THEN("the size is") { REQUIRE(s.size() == 6); }
+        THEN("the rank is") { REQUIRE(s.rank() == 2); }
+      }
+    }
+  }
 }

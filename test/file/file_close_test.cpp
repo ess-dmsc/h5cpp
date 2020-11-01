@@ -69,7 +69,7 @@ SCENARIO("Closing file") {
       // everything is close so file can be reopen in a different mode, i.e.
       // READWRITE
       REQUIRE_NOTHROW(
-          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READWRITE));
+          hdf5::file::open(filename, hdf5::file::AccessFlags::READWRITE));
     }
   }
 

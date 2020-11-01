@@ -25,58 +25,61 @@
 // Created on: Nov 13, 2017
 //
 
-#include <gtest/gtest.h>
-
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
-using namespace hdf5;
+using namespace hdf5::dataspace;
 
-class DataspaceViewTest : public testing::Test {
- public:
-  dataspace::Simple space;
-  dataspace::SelectionList selections;
-  dataspace::Hyperslab slab;
+SCENARIO("testing data view") {
+  auto space = Simple({1024, 512});
+  auto selections = SelectionList{
+      {SelectionOperation::SET,
+       Selection::SharedPointer(new Hyperslab({0, 0}, {100, 100}))},
+      {SelectionOperation::OR,
+       Selection::SharedPointer(new Hyperslab({200, 200}, {100, 100}))}};
 
-  DataspaceViewTest() :
-      space(),
-      selections(),
-      slab() {
-
-    using dataspace::Selection;
-    using dataspace::SelectionOperation;
-    using dataspace::SelectionList;
-    using dataspace::Hyperslab;
-
-    space = dataspace::Simple({1024, 512});
-    slab = Hyperslab{{300, 300}, {100, 100}};
-
-    selections = SelectionList{
-        {SelectionOperation::SET, Selection::SharedPointer(new Hyperslab({0, 0}, {100, 100}))},
-        {SelectionOperation::OR, Selection::SharedPointer(new Hyperslab({200, 200}, {100, 100}))}
-    };
+  GIVEN("a default constructed view") {
+    View view;
+    THEN("access to the size failed") {
+      REQUIRE_THROWS_AS(view.size(), std::runtime_error);
+    }
+    THEN("application to a hyperslab fails") {
+      REQUIRE_THROWS_AS(view(Hyperslab{{0, 0}, {10, 10}}), std::runtime_error);
+    }
+    THEN("application to a selection list must fail") {
+      REQUIRE_THROWS_AS(view(selections), std::runtime_error);
+    }
   }
-};
 
-TEST_F(DataspaceViewTest, test_default_construction) {
-  dataspace::View view;
-  EXPECT_THROW(view.size(), std::runtime_error);
-  EXPECT_THROW(view(dataspace::Hyperslab{{0, 0}, {10, 10}}), std::runtime_error);
-  EXPECT_THROW(view(selections), std::runtime_error);
-}
+  GIVEN("a hyperslab an a selections") {
+    auto slab = Hyperslab{{300, 300}, {100, 100}};
+    THEN("we can construct a new view") {
+      View view{space, selections};
+      AND_THEN("the size is") { REQUIRE(view.size() == 2ul * 100ul * 100ul); }
+      AND_THEN("the space is of size") {
+        REQUIRE(space.size() == 1024ul * 512ul);
+      }
+    }
 
-TEST_F(DataspaceViewTest, test_list_construction) {
-  dataspace::View view{space, selections};
-  EXPECT_EQ(view.size(), 2ul * 100ul * 100ul);
-  EXPECT_EQ(space.size(), 1024l * 512l);
-}
+    AND_GIVEN("a view on the dataspace") {
+      View view{space};
+      THEN("the size of the view and the dataspace match") {
+        REQUIRE(view.size() == space.size());
+      }
 
-TEST_F(DataspaceViewTest, test_reseting_selections) {
-  dataspace::View view(space);
-  EXPECT_EQ(static_cast<hssize_t>(view.size()), space.size());
+      WHEN("applying a single hyperslab") {
+        REQUIRE_NOTHROW(view(slab));
+        THEN("the size of the view will be") {
+          REQUIRE(view.size() == 100ul * 100ul);
+        }
+      }
 
-  EXPECT_NO_THROW(view(slab));
-  EXPECT_EQ(view.size(), 100ul * 100ul);
-
-  EXPECT_NO_THROW(view(selections));
-  EXPECT_EQ(view.size(), 2ul * 100ul * 100ul);
+      WHEN("applying a list of selections to the dataspace") {
+        REQUIRE_NOTHROW(view(selections));
+        THEN("the size of the view will be") {
+          REQUIRE(view.size() == 2ul * 100ul * 100ul);
+        }
+      }
+    }
+  }
 }
