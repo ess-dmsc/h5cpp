@@ -23,7 +23,7 @@
 // Created on: Oct 5, 2017
 //
 #include <catch2/catch.hpp>
-#include "attribute_test_fixtures.hpp"
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
