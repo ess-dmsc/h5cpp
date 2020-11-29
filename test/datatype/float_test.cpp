@@ -25,50 +25,45 @@
 // Created on: Aug 23, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 
 using namespace hdf5;
 
-template<class T>
-class Float : public testing::Test {
- protected:
-  Float() {}
-  virtual ~Float() {}
-  T value_;
-};
 
-using testing::Types;
-
-// The list of types we want to test.
-typedef
-Types<float, double, long double>
-    test_types;
-
-TYPED_TEST_CASE(Float, test_types);
-
+/*
 TYPED_TEST(Float, Exceptions) {
   datatype::Datatype dtype;
   EXPECT_THROW((datatype::Float(dtype)), std::runtime_error);
 
   auto ft = datatype::create<int>();
   EXPECT_THROW((datatype::Float(ft)), std::runtime_error);
-}
+}*/
 
-TYPED_TEST(Float, General) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t), datatype::Float>::value));
-  EXPECT_TRUE(t.get_class() == datatype::Class::FLOAT);
-  EXPECT_EQ(t.size(), sizeof(this->value_));
 
-  //construct from Datatype reference to an existing type
-  datatype::Datatype &generic_type = t;
-  datatype::Float new_type(generic_type);
-  EXPECT_EQ(new_type.get_class(), datatype::Class::FLOAT);
+TEMPLATE_TEST_CASE("testing","[datatype][numeric][lfoat]", float, double, long double) {
+  GIVEN("a datatype instance") { 
+    auto t = datatype::create<TestType>();
+    THEN("the factory function should return a Float instance") { 
+      REQUIRE((std::is_same<decltype(t), datatype::Float>::value));
+    }
+    THEN("the type class should be FLOAT") { 
+      REQUIRE(t.get_class() == datatype::Class::FLOAT);
+    }
+    THEN("the size should be") { 
+      REQUIRE(t.size() == sizeof(TestType));
+    }
 
-  //cannot construct from an invalid type
-  datatype::Datatype default_constructed;
-  EXPECT_THROW((datatype::Float(default_constructed)), std::runtime_error);
+    AND_GIVEN("a reference to the generic Datatype") { 
+      datatype::Datatype &generic_type = t;
+      THEN("we can create a new instance") { 
+        datatype::Float new_type(generic_type);
+        AND_THEN("we this should be a FLOAT type as well") { 
+          REQUIRE(new_type.get_class() == datatype::Class::FLOAT);
+        }
+      }
+    }
+  }
 }
 
