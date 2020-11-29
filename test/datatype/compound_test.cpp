@@ -30,11 +30,7 @@
 #include <catch2/catch.hpp>
 #include <complex>
 #include <cstdint>
-#include <h5cpp/attribute/attribute.hpp>
-#include <h5cpp/datatype/compound.hpp>
-#include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/file/file.hpp>
-#include "../fixture.hpp"
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 using namespace hdf5::datatype;
@@ -134,7 +130,7 @@ SCENARIO("Creating a pixel datatype using the trait") {
       REQUIRE(type.has_class(datatype::Class::INTEGER));
     }
     THEN("the type does not contain a FLOAT") {
-      REQUIRE(type.has_class(datatype::Class::FLOAT));
+      REQUIRE_FALSE(type.has_class(datatype::Class::FLOAT));
     }
   }
 }
@@ -158,7 +154,7 @@ SCENARIO("creating compound data type for a complex number type") {
           REQUIRE(type.has_class(datatype::Class::FLOAT));
         }
         THEN("the compound type will contain no interger field") {
-          REQUIRE(type.has_class(datatype::Class::INTEGER));
+          REQUIRE_FALSE(type.has_class(datatype::Class::INTEGER));
         }
         THEN("the real field has index 0") {
           REQUIRE(type.field_index("real") == 0ul);
