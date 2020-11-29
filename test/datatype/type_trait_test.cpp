@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,106 +21,63 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 28, 2017
 //
 
-#include <gtest/gtest.h>
-#include <h5cpp/datatype/type_trait.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/datatype/type_trait.hpp>
+#include <tuple>
 
 namespace ds = hdf5::datatype;
 
-TEST(TypeTrait, test_char) {
-  auto type = ds::TypeTrait<char>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_CHAR));
+namespace {
+template <typename T>
+auto dt(T&& t) -> decltype(std::get<0>(t)) {
+  return std::get<0>(t);
 }
 
-TEST(TypeTrait, test_unsigned_char) {
-  auto type = ds::TypeTrait<unsigned char>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_UCHAR));
-
+template <typename T>
+auto cl(T&& t) -> decltype(std::get<1>(t)) {
+  return std::get<1>(t);
 }
 
-TEST(TypeTrait, test_signed_char) {
-  auto type = ds::TypeTrait<signed char>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_SCHAR));
+template <typename T>
+hid_t hid(T&& t) {
+  return std::get<2>(t);
 }
 
-TEST(TypeTrait, test_short) {
-  auto type = ds::TypeTrait<short>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_SHORT));
+template <typename T> ds::Datatype create() {
+  return ds::TypeTrait<T>::create();
 }
+}  // namespace
 
-TEST(TypeTrait, test_unsigned_short) {
-  auto type = ds::TypeTrait<unsigned short>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_USHORT));
+SCENARIO("tesing standard type straits", "[datatype][numeric]") {
+  using ptype = std::tuple<ds::Datatype, ds::Class, hid_t>;
+  auto param = GENERATE(table<ds::Datatype, ds::Class, hid_t>(
+      {ptype{create<char>(), ds::Class::INTEGER, H5T_NATIVE_CHAR},
+       ptype{create<unsigned char>(), ds::Class::INTEGER, H5T_NATIVE_UCHAR},
+       ptype{create<signed char>(), ds::Class::INTEGER, H5T_NATIVE_SCHAR},
+       ptype{create<short>(), ds::Class::INTEGER, H5T_NATIVE_SHORT},
+       ptype{create<unsigned short>(), ds::Class::INTEGER, H5T_NATIVE_USHORT},
+       ptype{create<int>(), ds::Class::INTEGER, H5T_NATIVE_INT},
+       ptype{create<unsigned int>(), ds::Class::INTEGER, H5T_NATIVE_UINT},
+       ptype{create<long>(), ds::Class::INTEGER, H5T_NATIVE_LONG},
+       ptype{create<unsigned long>(), ds::Class::INTEGER, H5T_NATIVE_ULONG},
+       ptype{create<long long>(), ds::Class::INTEGER, H5T_NATIVE_LLONG},
+       ptype{create<unsigned long long>(), ds::Class::INTEGER, H5T_NATIVE_ULLONG},
+       ptype{create<float>(), ds::Class::FLOAT, H5T_NATIVE_FLOAT},
+       ptype{create<double>(), ds::Class::FLOAT, H5T_NATIVE_DOUBLE},
+       ptype{create<long double>(), ds::Class::FLOAT, H5T_NATIVE_LDOUBLE},
+       ptype{create<bool>(), ds::Class::INTEGER, H5T_NATIVE_HBOOL}
+       }));
+
+  GIVEN("an HDF5 datat type") {
+    THEN("the type class is") { REQUIRE(dt(param).get_class() == cl(param)); }
+    THEN("the types are equivalent") {
+      REQUIRE(H5Tequal(static_cast<hid_t>(dt(param)), hid(param)));
+    }
+  }
 }
-
-TEST(TypeTrait, test_int) {
-  auto type = ds::TypeTrait<int>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_INT));
-}
-
-TEST(TypeTrait, test_unsigned_int) {
-  auto type = ds::TypeTrait<unsigned int>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_UINT));
-}
-
-TEST(TypeTrait, test_long) {
-  auto type = ds::TypeTrait<long>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_LONG));
-}
-
-TEST(TypeTrait, test_unsigned_long) {
-  auto type = ds::TypeTrait<unsigned long>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_ULONG));
-}
-
-TEST(TypeTrait, test_long_long) {
-  auto type = ds::TypeTrait<long long>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_LLONG));
-}
-
-TEST(TypeTrait, test_unsigned_long_long) {
-  auto type = ds::TypeTrait<unsigned long long>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_ULLONG));
-}
-
-TEST(TypeTrait, test_float) {
-  auto type = ds::TypeTrait<float>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::FLOAT);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_FLOAT));
-}
-
-TEST(TypeTrait, test_double) {
-  auto type = ds::TypeTrait<double>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::FLOAT);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_DOUBLE));
-}
-
-TEST(TypeTrait, test_long_double) {
-  auto type = ds::TypeTrait<long double>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::FLOAT);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_LDOUBLE));
-}
-
-TEST(TypeTrait, test_bool) {
-  auto type = ds::TypeTrait<bool>::create();
-  EXPECT_TRUE(type.get_class() == ds::Class::INTEGER);
-  EXPECT_TRUE(H5Tequal(static_cast<hid_t>(type), H5T_NATIVE_HBOOL));
-}
-
-

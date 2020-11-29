@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,48 +21,77 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 23, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/array.hpp>
 #include <h5cpp/datatype/factory.hpp>
 
 using namespace hdf5;
 
-TEST(Array, DefaultConstruction) {
-  datatype::Array type;
-  EXPECT_FALSE(type.is_valid());
-  EXPECT_EQ(type.get_class(), datatype::Class::NONE);
+SCENARIO("array type default construction") {
+  GIVEN("a default constructed type") {
+    datatype::Array type;
+    THEN("the type would be invalid") { REQUIRE_FALSE(type.is_valid()); }
+    THEN("the class would be none") {
+      REQUIRE(type.get_class() == datatype::Class::NONE);
+    }
+    THEN("we cannot obtain the rank") {
+      REQUIRE_THROWS_AS(type.dimensions(), std::runtime_error);
+    }
+  }
+
+  GIVEN("a floating point type") {
+    auto ft = datatype::create<double>();
+    THEN("we cannot construct a array type from it") {
+      REQUIRE_THROWS_AS((datatype::Array(ft)), std::runtime_error);
+    }
+  }
+
+  GIVEN("a default constructed generic type") {
+    datatype::Datatype dt;
+    THEN("we cannot construct an array type from it") {
+      REQUIRE_THROWS_AS(datatype::Array::create(dt, {3, 4}),
+                        std::runtime_error);
+    }
+  }
 }
 
-TEST(Array, Exceptions) {
-  auto ft = datatype::create<double>();
-  EXPECT_THROW((datatype::Array(ft)), std::runtime_error);
-  EXPECT_THROW((datatype::Array::create(datatype::Datatype(), {3, 4})), std::runtime_error);
+SCENARIO("constructing a tensor type") {
+  using datatype::Array;
+  using datatype::Class;
+  GIVEN("a base type") {
+    auto base_type = datatype::create<int>();
+    THEN("we can construct an array type") {
+      auto type = Array::create(base_type, {3, 4});
+      AND_THEN("we get a valid datatype") { REQUIRE(type.is_valid()); }
+      AND_THEN("is array class") { REQUIRE(type.get_class() == Class::ARRAY); }
+      AND_THEN("the size is 12") { REQUIRE(type.size() == 12 * sizeof(int)); }
+      AND_THEN("the rank is 2") { REQUIRE(type.rank() == 2ul); }
+      AND_THEN("the dimensions are") {
+        auto dims = type.dimensions();
+        REQUIRE(dims[0] == 3ul);
+        REQUIRE(dims[1] == 4ul);
+      }
+    }
+  }
 }
 
-TEST(Array, TensorConstruction) {
-  auto base_type = datatype::create<int>();
-  auto type = datatype::Array::create(base_type, {3, 4});
-  EXPECT_TRUE(type.is_valid());
-  EXPECT_EQ(type.get_class(), datatype::Class::ARRAY);
-  EXPECT_EQ(type.size(), 12 * sizeof(int));
-  EXPECT_EQ(type.rank(), 2ul);
-
-  Dimensions dims = type.dimensions();
-  EXPECT_EQ(dims[0], 3ul);
-  EXPECT_EQ(dims[1], 4ul);
-
-  ObjectHandle(static_cast<hid_t>(type)).close();
-  EXPECT_THROW((type.rank()), std::runtime_error);
-}
-
-TEST(Array, VectorConstruction) {
-  auto base_type = datatype::create<double>();
-  auto type = datatype::Array::create(base_type, {4});
-  EXPECT_TRUE(type.is_valid());
-  EXPECT_EQ(type.get_class(), datatype::Class::ARRAY);
-  EXPECT_EQ(type.size(), 4 * sizeof(double));
+SCENARIO("constructing a vector type") {
+  GIVEN("a double base type") {
+    auto base_type = datatype::create<double>();
+    AND_GIVEN("a shape") {
+      Dimensions s{4};
+      THEN("we can construct a type") {
+        auto type = datatype::Array::create(base_type, s);
+        AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }
+        AND_THEN("is an array class") {
+          REQUIRE(type.get_class() == datatype::Class::ARRAY);
+        }
+        AND_THEN("get the size") { REQUIRE(type.size() == 4 * sizeof(double)); }
+      }
+    }
+  }
 }

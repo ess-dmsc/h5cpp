@@ -52,6 +52,7 @@
 #include <h5cpp/datatype/types.hpp>
 #include <h5cpp/datatype/string.hpp>
 #include <h5cpp/datatype/array.hpp>
+#include <h5cpp/datatype/enum.hpp>
 
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
