@@ -1,7 +1,7 @@
 test_sources=files('property_class_test.cpp'
                    ,'property_list_test.cpp'
                    ,'creation_order_test.cpp'
-                   #,'object_creation_test.cpp'
+                   ,'object_creation_test.cpp'
                    #,'dataset_creation_test.cpp'
                    #,'type_creation_test.cpp'
                    #,'group_creation_test.cpp'
