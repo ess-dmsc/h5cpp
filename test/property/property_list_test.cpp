@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,12 +21,12 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 23, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/property_list.hpp>
 
 using namespace hdf5;
@@ -33,41 +34,30 @@ using namespace hdf5::property;
 
 namespace pl = hdf5::property;
 
-TEST(List, default_construction_impossible) {
-  pl::Class c;
-  EXPECT_THROW(List(c).get_class(), std::runtime_error);
+SCENARIO("basic property list construction and assignment") {
+  GIVEN("a DatasetAccess class") {
+    THEN("we can construct a valid property list from it") {
+      List c{kDatasetAccess};
+      REQUIRE(c.get_class().name() == kDatasetAccess.name());
 
-  EXPECT_THROW((List(hdf5::ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
-}
+      AND_WHEN("we copy construct another list from it") {
+        List l2{c};
+        THEN("the two lists will be of the same class") {
+          REQUIRE(l2.get_class().name() == c.get_class().name());
+        }
+        THEN("they will be different objects") {
+          REQUIRE(static_cast<hid_t>(c) != static_cast<hid_t>(l2));
+        }
+      }
 
-TEST(List, from_class) {
-  pl::Class c = kDatasetAccess;
-  EXPECT_EQ(List(c).get_class().name(), c.name());
-}
-
-TEST(List, copy_construction) {
-  List c = List(kDatasetAccess);
-  ObjectHandle(static_cast<hid_t>(c)).close();
-  EXPECT_THROW(List(c).get_class(), std::runtime_error);
-
-  List s = List(kDatasetAccess);
-  List s2(s);
-  EXPECT_EQ(s.get_class().name(), s2.get_class().name());
-  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
-}
-
-TEST(List, copy_assignment) {
-  List c(kDatasetAccess);
-  List c2(kDatasetAccess);
-  ObjectHandle(static_cast<hid_t>(c)).close();
-  EXPECT_THROW((c2 = c), std::runtime_error);
-
-  List s = List(kDatasetAccess);
-  List s2 = s;
-  EXPECT_EQ(s.get_class().name(), s2.get_class().name());
-  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
-
-  List s3 = s2 = s;
-  EXPECT_EQ(s.get_class().name(), s3.get_class().name());
-  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s3));
+      AND_GIVEN("a DatasetXfer property list") {
+        List l3{kDatasetXfer};
+        THEN("we can copy assign to this list") {
+          l3 = c;
+          REQUIRE(l3.get_class().name() == c.get_class().name());
+          REQUIRE(static_cast<hid_t>(l3) != static_cast<hid_t>(c));
+        }
+      }
+    }
+  }
 }
