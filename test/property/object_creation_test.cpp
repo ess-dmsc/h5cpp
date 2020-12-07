@@ -1,4 +1,3 @@
-
 //
 // (c) Copyright 2017 DESY,ESS
 //               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
@@ -31,25 +30,9 @@
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/property/object_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include "../utilities.hpp"
 
 namespace pl = hdf5::property;
-
-template <typename T>
-hid_t to_hid(T&& object) {
-  return static_cast<hid_t>(object);
-}
-
-/**
- * @brief Utility function closing an object
- *
- * @tparam T
- * @param object const reference to an object
- */
-template <typename T>
-void close(const T& object) {
-  hdf5::ObjectHandle(to_hid(object)).close();
-}
-
 
 SCENARIO("Constructing an ObjectCreationList") {
   WHEN("default constructing") {
