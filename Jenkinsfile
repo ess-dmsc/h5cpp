@@ -171,6 +171,7 @@ builders = pipeline_builder.createBuilders { container ->
       dir("${project}/build") {
         container.sh """
           pip --proxy=${http_proxy} install --user sphinx breathe
+          export PATH=$PATH:~/.local/bin
           cd build
           make html
         """
