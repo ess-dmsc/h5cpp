@@ -170,6 +170,7 @@ builders = pipeline_builder.createBuilders { container ->
     if (container.key == documentation_os) {
       dir("${project}/build") {
         container.sh """
+          pip --proxy=${http_proxy} install --user sphinx breathe
           cd build
           make html
         """
