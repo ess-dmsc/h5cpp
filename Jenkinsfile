@@ -166,10 +166,10 @@ builders = pipeline_builder.createBuilders { container ->
     }
   }
 
-  stage("Documentation") {
+  pipeline_builder.stage("Documentation") {
     if (container.key == documentation_os) {
       dir("${project}/build") {
-        sh """
+        container.sh """
           cd build
           make html
         """
