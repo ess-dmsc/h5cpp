@@ -178,9 +178,9 @@ builders = pipeline_builder.createBuilders { container ->
       }
 
       if (pipeline_builder.branch == 'master') {
-        container.copyTo(pipeline_builder.project, "${project}/docs")
+        container.copyTo(pipeline_builder.project, "docs")
         container.sh """
-          cd "${project}/docs"
+          cd "docs"
 
           git config user.email 'dm-jenkins-integration@esss.se'
           git config user.name 'cow-bot'
@@ -200,14 +200,14 @@ builders = pipeline_builder.createBuilders { container ->
           git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
         """
 
-        container.copyFrom("${project}/docs", "${project}/docs")
-        dir("${project}/docs") {
+        container.copyFrom("docs", "docs")
+        dir("docs") {
           withCredentials([usernamePassword(
             credentialsId: 'cow-bot-username',
             usernameVariable: 'USERNAME',
             passwordVariable: 'PASSWORD'
           )]) {
-            sh "../${project}/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+            sh "../${pipeline_builder.project}/push_to_repo.sh ${USERNAME} ${PASSWORD}"
           }
         }
       } else {
