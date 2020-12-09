@@ -96,8 +96,7 @@ DLL_EXPORT bool is_hdf5_file(const fs::path &path);
 //! \throws std::runtime_error in case of a failure
 //! \tparam T source type
 //! \param data reference to the source instance of T
-//! \param flags file open flags
-//! \param fapl reference to a file access property list
+//! \param flags file image flags
 //! \return a new File instance
 //! \sa ImageFlags
 //!

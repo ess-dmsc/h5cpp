@@ -154,9 +154,7 @@ class DLL_EXPORT File
   //! \throws std::runtime_error in case of a failure
   //! \tparam T source type
   //! \param data reference to the source instance of T
-  //! \param flags file open flags
-  //! \param fapl reference to a file access property list
-  //! \return a new File instance
+  //! \return size of used space in a buffer
   //! \sa ImageFlags
   //!
   template<typename T>
