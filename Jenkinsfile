@@ -168,19 +168,17 @@ builders = pipeline_builder.createBuilders { container ->
 
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
-      dir("${project}/build") {
-        container.sh """
-          pip --proxy=${http_proxy} install --user sphinx breathe
-          export PATH=$PATH:~/.local/bin
-          cd build
-          make html
-        """
-      }
+      container.sh """
+        pip --proxy=${http_proxy} install --user sphinx breathe
+        export PATH=$PATH:~/.local/bin
+        cd build
+        make html
+      """
 
       if (pipeline_builder.branch == 'master') {
         container.copyTo(pipeline_builder.project, "docs")
         container.sh """
-          cd "docs"
+          cd docs
 
           git config user.email 'dm-jenkins-integration@esss.se'
           git config user.name 'cow-bot'
@@ -211,7 +209,8 @@ builders = pipeline_builder.createBuilders { container ->
           }
         }
       } else {
-        archiveArtifacts artifacts: 'doc/build/'
+        container.copyFrom("build", "build")
+        archiveArtifacts artifacts: 'build/doc/build/'
       }
     }
   }
