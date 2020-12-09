@@ -35,8 +35,6 @@
 
 extern "C"{
 #include <hdf5.h>
-#if H5_VERSION_LE(1,10,2)
 #include <hdf5_hl.h>
-#endif
 }
 

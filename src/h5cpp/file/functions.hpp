@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 #pragma once
@@ -30,6 +32,11 @@
 #include <h5cpp/property/file_creation.hpp>
 #include <h5cpp/property/file_access.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/datatype/factory.hpp>
+#include <h5cpp/error/error.hpp>
+
 
 namespace hdf5 {
 namespace file {
@@ -82,6 +89,60 @@ DLL_EXPORT File open(const fs::path &path,
 //! \return true if the path references an HDF5 file, false otherwise
 //!
 DLL_EXPORT bool is_hdf5_file(const fs::path &path);
+
+//!
+//! \brief load an image file from a buffer
+//!
+//! \throws std::runtime_error in case of a failure
+//! \tparam T source type
+//! \param data reference to the source instance of T
+//! \param flags file open flags
+//! \param fapl reference to a file access property list
+//! \return a new File instance
+//! \sa ImageFlags
+//!
+template<typename T>
+DLL_EXPORT File from_buffer(const T &data,
+			    ImageFlags flags = ImageFlags::READONLY);
+template<typename T>
+DLL_EXPORT File from_buffer(const T &data,
+			    ImageFlagsBase flags);
+
+
+
+template<typename T>
+File from_buffer(const T &data, ImageFlags flags)
+{
+  return from_buffer(data, static_cast<ImageFlagsBase>(flags));
+}
+
+template<typename T>
+File from_buffer(const T &data, ImageFlagsBase flags)
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  size_t databytesize = memory_space.size() * memory_type.size();
+  hid_t fid;
+  if(memory_type.get_class() == datatype::Class::INTEGER)
+    {
+
+      fid = H5LTopen_file_image(dataspace::cptr(data), databytesize, flags);
+      if (fid < 0)
+	{
+	  std::stringstream ss;
+	  ss << "Failure opening file image";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+      return File(ObjectHandle(fid));
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure to open non-integer buffer";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+  return File(hdf5::ObjectHandle(fid));
+}
 
 } // namespace file
 } // namespace hdf5

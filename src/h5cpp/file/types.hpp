@@ -46,7 +46,21 @@ enum class AccessFlags : unsigned
 #endif
 };
 
+//!
+//! \brief flags controlling image file opening and getting
+//!
+enum class ImageFlags : unsigned
+{
+  READONLY  = 0x0000,
+  READWRITE = H5LT_FILE_IMAGE_OPEN_RW,
+  DONTCOPY = H5LT_FILE_IMAGE_DONT_COPY,
+  RELEASE  = H5LT_FILE_IMAGE_DONT_RELEASE,
+  ALL = H5LT_FILE_IMAGE_ALL
+};
+
 using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
+
+using ImageFlagsBase = std::underlying_type<ImageFlags>::type;
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
 
