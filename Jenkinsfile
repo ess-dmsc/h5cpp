@@ -166,8 +166,8 @@ builders = pipeline_builder.createBuilders { container ->
     }
   }
 
-  pipeline_builder.stage("Documentation") {
-    if (container.key == documentation_os) {
+  if (container.key == documentation_os) {
+    pipeline_builder.stage("Documentation") {
       dir("${project}/build") {
         container.sh """
           pip --proxy=${http_proxy} install --user sphinx breathe
@@ -178,33 +178,36 @@ builders = pipeline_builder.createBuilders { container ->
       }
 
       if (pipeline_builder.branch == 'master') {
+        container.copyTo(pipeline_builder.project, "${project}/docs")
+        container.sh """
+          cd "${project}/docs"
+
+          git config user.email 'dm-jenkins-integration@esss.se'
+          git config user.name 'cow-bot'
+          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+
+          git fetch
+          git checkout gh-pages
+          git pull
+          shopt -u dotglob && rm -rf ./*
+          mv -f ../build/doc/build/* ./
+          mv -f ../build/doc/doxygen_html ./doxygen
+          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
+          find ./ -name "Makefile" -exec rm -rf {} \\;
+          find ./ -name "*.cmake" -exec rm -rf {} \\;
+          rm -rf ./_sources
+          git add -A
+          git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
+        """
+
+        container.copyFrom("${project}/docs", "${project}/docs")
         dir("${project}/docs") {
-          checkout scm
-          sh """
-            git config user.email 'dm-jenkins-integration@esss.se'
-            git config user.name 'cow-bot'
-            git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-
-            git fetch
-            git checkout gh-pages
-            git pull
-            shopt -u dotglob && rm -rf ./*
-            mv -f ../build/doc/build/* ./
-            mv -f ../build/doc/doxygen_html ./doxygen
-            find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
-            find ./ -name "Makefile" -exec rm -rf {} \\;
-            find ./ -name "*.cmake" -exec rm -rf {} \\;
-            rm -rf ./_sources
-            git add -A
-            git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
-          """
-
           withCredentials([usernamePassword(
             credentialsId: 'cow-bot-username',
             usernameVariable: 'USERNAME',
             passwordVariable: 'PASSWORD'
           )]) {
-            sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+            sh "../${project}/push_to_repo.sh ${USERNAME} ${PASSWORD}"
           }
         }
       } else {
