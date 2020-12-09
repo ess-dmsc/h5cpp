@@ -176,6 +176,40 @@ builders = pipeline_builder.createBuilders { container ->
           make html
         """
       }
+
+      if (pipeline_builder.branch == 'master') {
+        dir("${project}/docs") {
+          checkout scm
+          sh """
+            git config user.email 'dm-jenkins-integration@esss.se'
+            git config user.name 'cow-bot'
+            git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+
+            git fetch
+            git checkout gh-pages
+            git pull
+            shopt -u dotglob && rm -rf ./*
+            mv -f ../build/doc/build/* ./
+            mv -f ../build/doc/doxygen_html ./doxygen
+            find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
+            find ./ -name "Makefile" -exec rm -rf {} \\;
+            find ./ -name "*.cmake" -exec rm -rf {} \\;
+            rm -rf ./_sources
+            git add -A
+            git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
+          """
+
+          withCredentials([usernamePassword(
+            credentialsId: 'cow-bot-username',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
+            sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+          }
+        }
+      } else {
+        archiveArtifacts artifacts: 'doc/build/'
+      }
     }
   }
 }
@@ -276,61 +310,3 @@ node {
     cleanWs()
   }
 }
-
-// node ("fedora") {
-//     stage("Documentation") {
-//
-//         try {
-//             dir("${project}/code") {
-//                 checkout scm
-//             }
-//
-//             dir("${project}/build") {
-//                 sh "HDF5_ROOT=$HDF5_ROOT \
-//                     CMAKE_PREFIX_PATH=$HDF5_ROOT \
-//                     cmake -DCONAN=DISABLE ../code"
-//                 sh "make html"
-//                 if (env.BRANCH_NAME != 'master') {
-//                     archiveArtifacts artifacts: 'doc/build/'
-//                 }
-//             }
-//
-//             dir("${project}/docs") {
-//                 checkout scm
-//
-//                 if (env.BRANCH_NAME == 'master') {
-//                     sh "git config user.email 'dm-jenkins-integration@esss.se'"
-//                     sh "git config user.name 'cow-bot'"
-//                     sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
-//
-//                     sh "git fetch"
-//                     sh "git checkout gh-pages"
-//                     sh "git pull"
-//                     sh "shopt -u dotglob && rm -rf ./*"
-//                     sh "mv -f ../build/doc/build/* ./"
-//                     sh "mv -f ../build/doc/doxygen_html ./doxygen"
-//                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
-//                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
-//                     sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
-//                     sh 'rm -rf ./_sources'
-//                     sh "git add -A"
-//                     sh "git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
-//
-//                     withCredentials([usernamePassword(
-//                         credentialsId: 'cow-bot-username',
-//                         usernameVariable: 'USERNAME',
-//                         passwordVariable: 'PASSWORD'
-//                     )]) {
-//                         sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
-//                     }
-//                 }
-//             }
-//
-//         } catch (e) {
-//             failure_function(e, 'Generate docs / Publish docs failed')
-//         } finally {
-//             // Delete workspace when build is done
-//             cleanWs()
-//         }
-//     }
-// }
