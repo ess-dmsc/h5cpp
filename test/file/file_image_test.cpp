@@ -25,6 +25,7 @@
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 10, 2017
 //
+#include <fstream>
 
 #include <gtest/gtest.h>
 #include <h5cpp/file/functions.hpp>
