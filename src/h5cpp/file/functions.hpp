@@ -101,31 +101,31 @@ DLL_EXPORT bool is_hdf5_file(const fs::path &path);
 //! \sa ImageFlags
 //!
 template<typename T>
-DLL_EXPORT File from_buffer(const T &data,
+DLL_EXPORT File from_buffer(T &data,
 			    ImageFlags flags = ImageFlags::READONLY);
 template<typename T>
-DLL_EXPORT File from_buffer(const T &data,
+DLL_EXPORT File from_buffer(T &data,
 			    ImageFlagsBase flags);
 
 
 
 template<typename T>
-File from_buffer(const T &data, ImageFlags flags)
+File from_buffer(T &data, ImageFlags flags)
 {
   return from_buffer(data, static_cast<ImageFlagsBase>(flags));
 }
 
 template<typename T>
-File from_buffer(const T &data, ImageFlagsBase flags)
+File from_buffer(T &data, ImageFlagsBase flags)
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
   size_t databytesize = memory_space.size() * memory_type.size();
-  hid_t fid;
+  hid_t fid = 0;
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
 
-      fid = H5LTopen_file_image(dataspace::cptr(data), databytesize, flags);
+      fid = H5LTopen_file_image(dataspace::ptr(data), databytesize, flags);
       if (fid < 0)
 	{
 	  std::stringstream ss;

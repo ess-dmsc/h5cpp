@@ -7,6 +7,7 @@ set(test_sources
   ${dir}/scope_test.cpp
   ${dir}/file_test.cpp
   ${dir}/file_creation_test.cpp
+  ${dir}/file_image_test.cpp
   ${dir}/file_open_test.cpp
   ${dir}/file_close_test.cpp
   ${dir}/is_hdf5_test.cpp
