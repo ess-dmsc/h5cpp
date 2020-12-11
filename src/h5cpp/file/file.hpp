@@ -191,6 +191,7 @@ size_t File::to_buffer(T &data) const
   ssize_t s = 0;
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
+      flush(Scope::GLOBAL);
       s = H5Fget_file_image(static_cast<hid_t>(*this), dataspace::ptr(data), databytesize);
       if (s < 0)
 	{
