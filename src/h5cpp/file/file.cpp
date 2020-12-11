@@ -62,6 +62,16 @@ size_t File::size() const
   return s;
 }
 
+ssize_t File::buffer_size() const
+{
+  ssize_t s = H5Fget_file_image(static_cast<hid_t>(*this), NULL, 0);
+  if (s < 0)
+    {
+      error::Singleton::instance().throw_with_stack("Failure retrieving the buffer size");
+    }
+  return s;
+}
+
 void File::flush(Scope scope) const
 {
   if (H5Fflush(static_cast<hid_t>(*this), static_cast<H5F_scope_t>(scope)) < 0)
