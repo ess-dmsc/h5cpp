@@ -102,6 +102,13 @@ class DLL_EXPORT File
   size_t size() const;
 
   //!
+  //! \brief get the buffer size in bytes
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  ssize_t buffer_size() const;
+
+  //!
   //! \brief flush the file
   //!
   //! \throws std::runtime_error in case of a failure

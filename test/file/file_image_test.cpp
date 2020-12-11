@@ -100,7 +100,7 @@ TEST_F(FileImage, test_image_to_buffer)
 
     auto r1 = nexus_file.root();
     r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
-    size = nexus_file.size();
+    size = nexus_file.buffer_size();
     obuffer.resize(size);
     size_t realsize = nexus_file.to_buffer(obuffer);
     EXPECT_EQ(realsize, size);
@@ -136,7 +136,7 @@ TEST_F(FileImage, test_image_buffer)
   
   auto r1 = nexus_file.root();
   r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
-  size_t size = nexus_file.size();
+  size_t size = nexus_file.buffer_size();
   std::vector<unsigned char> buffer(size);
   size_t realsize = nexus_file.to_buffer(buffer);
   EXPECT_EQ(realsize, size);
