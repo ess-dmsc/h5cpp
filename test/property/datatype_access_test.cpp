@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,30 +20,36 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Aug 22, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/datatype_access.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(DatatypeAccessList, test_default_construction) {
-  pl::DatatypeAccessList dapl;
-  EXPECT_TRUE(dapl.get_class() == pl::kDatatypeAccess);
-
-  auto cl = pl::kDatatypeAccess;
-  EXPECT_NO_THROW((pl::DatatypeAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kGroupAccess;
-  EXPECT_THROW((pl::DatatypeAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
-
-  cl = pl::kDatatypeCreate;
-  EXPECT_THROW((pl::DatatypeAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("constructing a DatatypeAccessList instance") {
+  GIVEN("a default constructed instance") {
+    pl::DatatypeAccessList dapl;
+    THEN("we get") { REQUIRE(dapl.get_class() == pl::kDatatypeAccess); }
+  }
+  GIVEN("a handle to a datatype access property list") {
+    auto handle = handle_from_class(pl::kDatatypeAccess);
+    THEN("we can construct a list instance") {
+      REQUIRE_NOTHROW(pl::DatatypeAccessList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group access list") {
+    auto handle = handle_from_class(pl::kGroupAccess);
+    THEN(
+        "any attemp to construct an instance from DatatypeAccessList must "
+        "fail") {
+      REQUIRE_THROWS_AS(pl::DatatypeAccessList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
-
-

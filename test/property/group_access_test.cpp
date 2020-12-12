@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,31 +21,35 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/group_access.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(GroupAccessList, test_default) {
-  pl::GroupAccessList gapl;
-  EXPECT_TRUE(gapl.get_class() == pl::kGroupAccess);
-
-  auto cl = pl::kGroupAccess;
-  EXPECT_NO_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kDatatypeAccess;
-  EXPECT_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::GroupAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("creating an instance of a GroupAccessList class") {
+  GIVEN("a default constructed instance") {
+    pl::GroupAccessList gapl;
+    THEN("we get") { REQUIRE(gapl.get_class() == pl::kGroupAccess); }
+  }
+  GIVEN("a handle to a group access property list") {
+    auto handle = handle_from_class(pl::kGroupAccess);
+    THEN("we can construct an instance from this handle") {
+      REQUIRE_NOTHROW(pl::GroupAccessList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group create property list") {
+    auto handle = handle_from_class(pl::kGroupCreate);
+    THEN("instantiation fails") {
+      REQUIRE_THROWS_AS(pl::GroupAccessList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
-
-
