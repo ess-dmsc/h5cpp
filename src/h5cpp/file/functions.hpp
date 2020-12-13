@@ -101,11 +101,11 @@ DLL_EXPORT bool is_hdf5_file(const fs::path &path);
 //! \sa ImageFlags
 //!
 template<typename T>
-DLL_EXPORT File from_buffer(T &data,
-			    ImageFlags flags = ImageFlags::READONLY);
+File from_buffer(T &data,
+		 ImageFlags flags = ImageFlags::READONLY);
 template<typename T>
-DLL_EXPORT File from_buffer(T &data,
-			    ImageFlagsBase flags);
+File from_buffer(T &data,
+		 ImageFlagsBase flags);
 
 
 
