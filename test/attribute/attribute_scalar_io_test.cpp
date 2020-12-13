@@ -44,8 +44,8 @@ TEST_F(AttributeScalarIO, test_uint8)
 TEST_F(AttributeScalarIO, test_float32)
 {
   attribute::Attribute a = root_.attributes.create<float>("data");
-  float write_value = 3.213e-2;
-  float read_value = 0.0;
+  float write_value = 3.213e-2f;
+  float read_value = 0.0f;
   a.write(write_value);
   a.read(read_value);
   EXPECT_NEAR(write_value,read_value,0.001);

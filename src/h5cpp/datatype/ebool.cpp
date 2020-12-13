@@ -35,7 +35,7 @@ namespace datatype
 {
 
 bool is_bool(const Enum & etype){
-  int s = etype.number_of_values();
+  size_t s = etype.number_of_values();
   if(s != 2){
     return false;
   }
