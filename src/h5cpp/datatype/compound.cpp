@@ -55,7 +55,7 @@ Compound Compound::create(size_t size) {
 }
 
 Datatype Compound::operator[](size_t index) const {
-  hid_t id = H5Tget_member_type(static_cast<hid_t>(*this), index);
+  hid_t id = H5Tget_member_type(static_cast<hid_t>(*this), static_cast<int>(index));
   if (id < 0) {
     std::stringstream ss;
     ss << "Failure to obtain data type for field [" << index << "] in compound data type!";
@@ -80,7 +80,7 @@ size_t Compound::field_index(const std::string &name) const {
 
 // implementation same as for Enum
 std::string Compound::field_name(size_t index) const {
-  char *buffer = H5Tget_member_name(static_cast<hid_t>(*this), index);
+  char *buffer = H5Tget_member_name(static_cast<hid_t>(*this), static_cast<int>(index));
   if (buffer == NULL) {
     std::stringstream ss;
     ss << "Failure to obtain name of field [" << index << "] in compound data type!";
@@ -102,7 +102,7 @@ size_t Compound::field_offset(const std::string &name) const {
 }
 
 size_t Compound::field_offset(size_t index) const {
-  size_t offset = H5Tget_member_offset(static_cast<hid_t>(*this), index);
+  size_t offset = H5Tget_member_offset(static_cast<hid_t>(*this), static_cast<int>(index));
   if (offset == 0) {
     // if offset == 0, there could be a field at 0, or there could be nothing
     try {
@@ -123,7 +123,7 @@ Class Compound::field_class(const std::string &name) const {
 }
 
 Class Compound::field_class(size_t index) const {
-  H5T_class_t value = H5Tget_member_class(static_cast<hid_t>(*this), index);
+  H5T_class_t value = H5Tget_member_class(static_cast<hid_t>(*this), static_cast<int>(index));
   if (value < 0) {
     std::stringstream ss;
     ss << "Failure to obtain type class for field [" << index << "] in compound type!";
