@@ -45,24 +45,10 @@ class DLL_EXPORT AttributeIterator : public Iterator
     AttributeIterator(const AttributeIterator&) = default;
     AttributeIterator(const AttributeManager &manager,ssize_t index);
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4018)
-#endif
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
     explicit operator bool() const
     {
-      return !(index()<0 || index()>=manager_.get().size());
+      return !(index()<0 || index()>=static_cast<ssize_t>(manager_.get().size()));
     }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
     value_type operator*() const;
 

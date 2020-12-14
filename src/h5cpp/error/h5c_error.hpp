@@ -31,6 +31,10 @@
 namespace hdf5 {
 namespace error {
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4275)
+#endif
 //!
 //! \brief runtime exception containing an HDF5 error H5CError
 //!
@@ -78,6 +82,9 @@ class DLL_EXPORT H5CError : public std::runtime_error
   std::list<Descriptor> contents_;
   std::string what_message_;
 };
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 
 } // namespace file
