@@ -32,7 +32,7 @@ TEST(ExternalFilterTest, lz4_construction)
 {
   const unsigned int FILTER_LZ4 = 32004;
   filter::ExternalFilter filter(FILTER_LZ4, {0u, 0u});
-  EXPECT_EQ(filter.id(), FILTER_LZ4);
+  EXPECT_EQ(filter.id(), static_cast<int>(FILTER_LZ4));
   std::vector<unsigned int> cdvalues({0u, 0u});
   EXPECT_EQ(filter.cd_values(), cdvalues);
 }
