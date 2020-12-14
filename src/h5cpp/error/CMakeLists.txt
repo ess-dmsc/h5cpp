@@ -3,7 +3,6 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(SOURCES
   ${dir}/descriptor.cpp
   ${dir}/error.cpp
-  ${dir}/h5c_error.cpp
   )
 
 set(HEADERS
