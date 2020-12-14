@@ -25,16 +25,13 @@
 #pragma once
 
 #include <h5cpp/error/descriptor.hpp>
+#include <sstream>
 #include <stdexcept>
 #include <list>
 
 namespace hdf5 {
 namespace error {
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4275)
-#endif
 //!
 //! \brief runtime exception containing an HDF5 error H5CError
 //!
@@ -43,11 +40,8 @@ namespace error {
 //! Descriptor objects. Upon construction, the object also generates
 //! a string containing the a printout of the H5CError.
 //!
-class DLL_EXPORT H5CError : public std::runtime_error
+class H5CError : public std::runtime_error
 {
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
  public:
   //!
   //! \brief constructor
@@ -86,6 +80,33 @@ class DLL_EXPORT H5CError : public std::runtime_error
   std::string what_message_;
 };
 
+inline H5CError::H5CError(const std::list<Descriptor>& H5CError)
+: std::runtime_error("")
+, contents_(H5CError)
+{
+  std::stringstream ss;
+  for (auto& c : contents_)
+  {
+    c.extract_strings();
+    ss << c << "\n";
+  }
+  what_message_ = ss.str();
+}
+
+inline const char* H5CError::what() const throw()
+{
+  return what_message_.c_str();
+}
+
+inline const std::list<Descriptor>& H5CError::contents() const
+{
+  return contents_;
+}
+
+inline bool H5CError::empty() const
+{
+  return contents_.empty();
+}
 
 } // namespace file
 } // namespace hdf5
