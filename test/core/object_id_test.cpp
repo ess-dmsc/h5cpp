@@ -110,7 +110,8 @@ struct FileGuard
                                              H5P_DEFAULT,
                                              H5P_DEFAULT));
       Dimensions dims{3,3};
-      ObjectHandle space(H5Screate_simple(dims.size(),dims.data(),nullptr));
+      ObjectHandle space(H5Screate_simple(static_cast<int>(dims.size()),
+					  dims.data(),nullptr));
       dataset_handle = ObjectHandle(H5Dcreate(static_cast<hid_t>(group1_handle),
                                               "dset1",
                                               H5T_NATIVE_DOUBLE,

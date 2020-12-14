@@ -81,10 +81,10 @@ struct DatasetDirectChunkTest : public testing::Test
 
     sframe = std::vector<unsigned short int>(sxdim);
     for(size_t i = 0; i != sxdim; i++)
-      sframe[i] = i / 2;
+      sframe[i] = static_cast<int>(i / 2);
     tframe = std::vector<unsigned short int>(sxdim);
     for(size_t i = 0; i != sxdim; i++)
-      tframe[i] = i / 4;
+      tframe[i] = static_cast<int>(i / 4);
 
     sspace =  {{0, sxdim}, {dataspace::Simple::UNLIMITED,
 			   dataspace::Simple::UNLIMITED}};

@@ -71,9 +71,15 @@ Types<
 typedef
 Types<signed char, short, int, long, long long> test_signed_types;
 
+#ifdef TYPED_TEST_SUITE
+TYPED_TEST_SUITE(Integer, test_types);
+TYPED_TEST_SUITE(SignedInteger, test_signed_types);
+TYPED_TEST_SUITE(UnsignedInteger, test_unsigned_types);
+#else
 TYPED_TEST_CASE(Integer, test_types);
 TYPED_TEST_CASE(SignedInteger, test_signed_types);
 TYPED_TEST_CASE(UnsignedInteger, test_unsigned_types);
+#endif
 
 TYPED_TEST(Integer, Exceptions) {
   datatype::Datatype dtype;

@@ -48,7 +48,7 @@ class ArrayAdapterTest : public testing::Test
     // redirect stderr into buf
     integer_data = new int[bufsize];
     for (size_t index = 0; index < bufsize; index++)
-      integer_data[index] = index;
+      integer_data[index] = static_cast<int>(index);
   }
 
   virtual void TearDown()

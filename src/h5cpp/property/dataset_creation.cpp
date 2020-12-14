@@ -104,7 +104,9 @@ DatasetLayout DatasetCreationList::layout() const {
 }
 
 void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {
-  if (H5Pset_chunk(static_cast<hid_t>(*this), chunk_dims.size(), chunk_dims.data()) < 0) {
+  if (H5Pset_chunk(static_cast<hid_t>(*this),
+		   static_cast<int>(chunk_dims.size()),
+		   chunk_dims.data()) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting chunk dimensions!");
   }
 }
