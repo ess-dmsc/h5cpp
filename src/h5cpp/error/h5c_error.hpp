@@ -45,6 +45,9 @@ namespace error {
 //!
 class DLL_EXPORT H5CError : public std::runtime_error
 {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
  public:
   //!
   //! \brief constructor
@@ -82,9 +85,6 @@ class DLL_EXPORT H5CError : public std::runtime_error
   std::list<Descriptor> contents_;
   std::string what_message_;
 };
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
 
 } // namespace file
