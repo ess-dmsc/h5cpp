@@ -66,7 +66,7 @@ Types<std::string>
 //std::u32string>
     test_types;
 
-#ifdef TYPED_TEST_SUITE
+#ifdef TYPED_TEST_SUITE_CUSTOM_NAME_GENERATOR
 TYPED_TEST_SUITE(String, test_types);
 #else
 TYPED_TEST_CASE(String, test_types);

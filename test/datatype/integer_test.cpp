@@ -71,7 +71,8 @@ Types<
 typedef
 Types<signed char, short, int, long, long long> test_signed_types;
 
-#ifdef TYPED_TEST_SUITE
+
+#ifdef TYPED_TEST_SUITE_CUSTOM_NAME_GENERATOR
 TYPED_TEST_SUITE(Integer, test_types);
 TYPED_TEST_SUITE(SignedInteger, test_signed_types);
 TYPED_TEST_SUITE(UnsignedInteger, test_unsigned_types);
