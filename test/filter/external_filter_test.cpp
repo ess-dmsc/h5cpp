@@ -45,7 +45,7 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
   filter::ExternalFilter bfilter(FILTER_BITSHUFFLE, {0u, 2u});
 
   EXPECT_EQ(bfilter.cd_values(), cdvalues);
-  EXPECT_EQ(bfilter.id(), FILTER_BITSHUFFLE);
+  EXPECT_EQ(bfilter.id(), static_cast<int>(FILTER_BITSHUFFLE));
   if(filter::is_filter_available(FILTER_BITSHUFFLE)){
     EXPECT_NO_THROW(bfilter(dcpl));
   }
