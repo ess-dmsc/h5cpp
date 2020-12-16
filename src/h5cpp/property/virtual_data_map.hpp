@@ -87,12 +87,23 @@ class DLL_EXPORT VirtualDataMap {
 
  private:
   dataspace::View target_view_;
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
   fs::path source_file_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
   hdf5::Path source_dataset_;
   dataspace::View source_view_;
 
 };
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
 //!
 //! \brief utility container for virtual data maps
 //!
@@ -101,6 +112,9 @@ class DLL_EXPORT VirtualDataMap {
 //! The interface is exactly the same as for std::vector.
 //!
 class DLL_EXPORT VirtualDataMaps : public std::vector<VirtualDataMap> {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
  public:
   //
   // pull in std::vector constructors
