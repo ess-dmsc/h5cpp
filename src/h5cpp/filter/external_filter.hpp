@@ -80,7 +80,14 @@ class DLL_EXPORT ExternalFilter : public Filter
     const std::vector<unsigned int> cd_values() const noexcept;
 
   private:
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     const std::vector<unsigned int> cd_values_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 

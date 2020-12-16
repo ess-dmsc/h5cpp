@@ -89,7 +89,14 @@ class DLL_EXPORT LinkTarget
     hdf5::Path object_path() const;
 
   private:
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     fs::path file_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
     hdf5::Path              object_path_;
 };
 
