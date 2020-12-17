@@ -55,8 +55,7 @@ TEST(LinkCreationList, test_intermediate_gruop_creation) {
   EXPECT_TRUE(lcpl.intermediate_group_creation());
   EXPECT_NO_THROW(lcpl.disable_intermediate_group_creation());
 
-  // How does this make sense ???
-  EXPECT_TRUE(lcpl.intermediate_group_creation());
+  EXPECT_FALSE(lcpl.intermediate_group_creation());
 
   hdf5::ObjectHandle(static_cast<hid_t>(lcpl)).close();
   EXPECT_THROW(lcpl.enable_intermediate_group_creation(), std::runtime_error);
