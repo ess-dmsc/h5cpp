@@ -53,6 +53,31 @@ TEST_F(H5pyStringCompatTest, test_read_scalar_string)
   EXPECT_EQ(buffer,"hello from h5py     ");
 }
 
+TEST_F(H5pyStringCompatTest, test_read_scalar_string_utf8)
+{
+  node::Dataset dataset = root_group.nodes["utf8_string"];
+  std::vector<std::string> buffer(dataset.dataspace().size());
+  auto datatype = dataset.datatype();
+  auto dataspace = dataset.dataspace();
+  dataset.read(buffer, datatype, dataspace);
+  // 'Hello UTF8! Pr\xf3ba \u6d4b'
+  const std::string su = "Hello UTF8! Pr""\xc3""\xb3""ba ""\xe6""\xb5""\x8b";
+  EXPECT_EQ(buffer.size(), 1);
+  EXPECT_EQ(buffer[0], su);
+}
+
+TEST_F(H5pyStringCompatTest, test_read_scalar_string_simple_utf8)
+{
+  node::Dataset dataset = root_group.nodes["utf8_string"];
+  std::vector<std::string> buffer(dataset.dataspace().size());
+  dataset.read(buffer);
+
+  // 'Hello UTF8! Pr\xf3ba \u6d4b'
+  const std::string su = "Hello UTF8! Pr""\xc3""\xb3""ba ""\xe6""\xb5""\x8b";
+  EXPECT_EQ(buffer.size(), 1);
+  EXPECT_EQ(buffer[0], su);
+}
+
 TEST_F(H5pyStringCompatTest, test_read_vector_string)
 {
   std::vector<std::string> buffer(6);
