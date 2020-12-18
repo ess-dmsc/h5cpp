@@ -49,6 +49,13 @@ ExternalFilter::ExternalFilter(FilterID id,
 {
 }
 
+ExternalFilter::ExternalFilter():
+    Filter(0),
+    cd_values_(0, 0),
+    name_("")
+{
+}
+
 ExternalFilter::~ExternalFilter()
 {}
 
