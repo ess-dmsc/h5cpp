@@ -19,7 +19,10 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
+//
 // Created on: Sep 12, 2017
 //
 
@@ -27,6 +30,7 @@
 #include <stdexcept>
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/functions.hpp>
+#include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
@@ -200,6 +204,13 @@ long long unsigned int Dataset::chunk_storage_size(
 void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
 {
   write(std::string(data),dtpl);
+}
+
+filter::ExternalFilters Dataset::filters() const
+{
+  filter::ExternalFilters efilters = filter::ExternalFilters();
+  efilters.fill(creation_list());
+  return efilters;
 }
 
 void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)

@@ -48,14 +48,33 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
   EXPECT_EQ(bfilter.id(), static_cast<int>(FILTER_BITSHUFFLE));
   if(filter::is_filter_available(FILTER_BITSHUFFLE)){
     EXPECT_NO_THROW(bfilter(dcpl));
+
+    filter::ExternalFilters filters;
+    auto flags = filters.fill(dcpl);
+    EXPECT_EQ(filters.size(), 1);
+    EXPECT_EQ(flags.size(), 1);
+    EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
+    EXPECT_EQ(filters[0].cd_values(), cdvalues);
+    EXPECT_EQ(filters[0].id(), FILTER_BITSHUFFLE);
+    EXPECT_EQ(filters[0].name(),
+	      "bitshuffle; see https://github.com/kiyo-masui/bitshuffle");
   }
 }
 
 TEST(ExternalFilterTest, deflate_application)
 {
   property::DatasetCreationList dcpl;
+  std::vector<unsigned int> cdvalues({8u});
   filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, {8u});
 
   filter(dcpl);
-  EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
+  filter::ExternalFilters filters;
+  auto flags = filters.fill(dcpl);
+  // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
+  EXPECT_EQ(filters.size(), 1);
+  EXPECT_EQ(flags.size(), 1);
+  EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
+  EXPECT_EQ(filters[0].cd_values(), cdvalues);
+  EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
+  EXPECT_EQ(filters[0].name(), "deflate");
 }

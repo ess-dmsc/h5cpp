@@ -204,7 +204,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate)
 	filter_mask = data3.read_chunk(tread_value, {i, 0});
 	EXPECT_EQ(tcpvalue, tread_value);
       }
-      
+
     EXPECT_EQ(filter_mask, H5P_DEFAULT);
   }
 }
@@ -233,7 +233,7 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
   std::vector<unsigned short int> tcpframe =  {24184, 24675, 128, 1606, 25608, 32866,
 					       26176, 2054, 24932, 0, 20993, 7424};
 
-  
+
   for(long long unsigned int i = 0; i != nframe; i++){
     data4.extent(0, 1);
     if(i % 2)
@@ -251,5 +251,12 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
     else
       EXPECT_EQ(tframe, read_value);
   }
-}
 
+  auto filters = data4.filters();
+  std::vector<unsigned int> cdvalues({2u});
+  EXPECT_EQ(filters.size(), 1);
+  EXPECT_EQ(filters[0].cd_values(), cdvalues);
+  EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
+  EXPECT_EQ(filters[0].name(), "deflate");
+
+}
