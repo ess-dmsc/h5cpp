@@ -54,7 +54,7 @@ void LinkCreationList::enable_intermediate_group_creation() const {
 }
 
 void LinkCreationList::disable_intermediate_group_creation() const {
-  if (H5Pset_create_intermediate_group(static_cast<hid_t>(*this), -1) < 0) {
+  if (H5Pset_create_intermediate_group(static_cast<hid_t>(*this), 0) < 0) {
     error::Singleton::instance().throw_with_stack("Failure deleting intermediate group creation "
                                                       "flag on link creation property list!");
   }
