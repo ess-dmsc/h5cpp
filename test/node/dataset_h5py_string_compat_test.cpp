@@ -62,7 +62,7 @@ TEST_F(H5pyStringCompatTest, test_read_scalar_string_utf8)
   dataset.read(buffer, datatype, dataspace);
   // 'Hello UTF8! Pr\xf3ba \u6d4b'
   const std::string su = "Hello UTF8! Pr""\xc3""\xb3""ba ""\xe6""\xb5""\x8b";
-  EXPECT_EQ(buffer.size(), 1);
+  EXPECT_EQ(buffer.size(), 1lu);
   EXPECT_EQ(buffer[0], su);
 }
 
@@ -74,7 +74,7 @@ TEST_F(H5pyStringCompatTest, test_read_scalar_string_simple_utf8)
 
   // 'Hello UTF8! Pr\xf3ba \u6d4b'
   const std::string su = "Hello UTF8! Pr""\xc3""\xb3""ba ""\xe6""\xb5""\x8b";
-  EXPECT_EQ(buffer.size(), 1);
+  EXPECT_EQ(buffer.size(), 1lu);
   EXPECT_EQ(buffer[0], su);
 }
 

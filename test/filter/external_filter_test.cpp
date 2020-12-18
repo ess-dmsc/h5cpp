@@ -55,7 +55,7 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
     EXPECT_EQ(flags.size(), 1lu);
     EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
     EXPECT_EQ(filters[0].cd_values(), cdvalues);
-    EXPECT_EQ(filters[0].id(), FILTER_BITSHUFFLE);
+    EXPECT_EQ(filters[0].id(), static_cast<int>(FILTER_BITSHUFFLE));
     EXPECT_EQ(filters[0].name(),
 	      "bitshuffle; see https://github.com/kiyo-masui/bitshuffle");
   }
