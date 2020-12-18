@@ -254,7 +254,7 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
 
   auto filters = data4.filters();
   std::vector<unsigned int> cdvalues({2u});
-  EXPECT_EQ(filters.size(), 1);
+  EXPECT_EQ(filters.size(), 1lu);
   EXPECT_EQ(filters[0].cd_values(), cdvalues);
   EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
   EXPECT_EQ(filters[0].name(), "deflate");

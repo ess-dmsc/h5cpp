@@ -51,8 +51,8 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
 
     filter::ExternalFilters filters;
     auto flags = filters.fill(dcpl);
-    EXPECT_EQ(filters.size(), 1);
-    EXPECT_EQ(flags.size(), 1);
+    EXPECT_EQ(filters.size(), 1lu);
+    EXPECT_EQ(flags.size(), 1lu);
     EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
     EXPECT_EQ(filters[0].cd_values(), cdvalues);
     EXPECT_EQ(filters[0].id(), FILTER_BITSHUFFLE);
@@ -71,8 +71,8 @@ TEST(ExternalFilterTest, deflate_application)
   filter::ExternalFilters filters;
   auto flags = filters.fill(dcpl);
   // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
-  EXPECT_EQ(filters.size(), 1);
-  EXPECT_EQ(flags.size(), 1);
+  EXPECT_EQ(filters.size(), 1lu);
+  EXPECT_EQ(flags.size(), 1lu);
   EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
   EXPECT_EQ(filters[0].cd_values(), cdvalues);
   EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));

@@ -94,8 +94,8 @@ class DLL_EXPORT ExternalFilter : public Filter
 #pragma warning(push)
 #pragma warning(disable: 4251)
 #endif
-    const std::vector<unsigned int> cd_values_;
-    const std::string name_;
+    std::vector<unsigned int> cd_values_;
+    std::string name_;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
