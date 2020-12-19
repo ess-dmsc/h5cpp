@@ -185,5 +185,23 @@ class DLL_EXPORT Float : public Datatype {
   virtual void inpad(Pad inpad) const;
 };
 
+
+class DLL_EXPORT float16_t{
+ private:
+  uint16_t _value; //!< data element holding the current float16 value
+ public:
+  //! default constructor
+  float16_t():_value(0) {}
+
+  //! conversion constructor
+  float16_t(uint16_t v):_value(v) {}
+
+  //! conversion operator
+  operator uint16_t() const {
+    return _value;
+  }
+};
+
+
 } // namespace datatype
 } // namespace hdf5

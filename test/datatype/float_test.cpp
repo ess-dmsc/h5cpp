@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 
@@ -43,7 +44,7 @@ using testing::Types;
 
 // The list of types we want to test.
 typedef
-Types<float, double, long double>
+Types<datatype::float16_t, float, double, long double>
     test_types;
 
 #ifdef TYPED_TEST_SUITE
@@ -75,4 +76,3 @@ TYPED_TEST(Float, General) {
   datatype::Datatype default_constructed;
   EXPECT_THROW((datatype::Float(default_constructed)), std::runtime_error);
 }
-

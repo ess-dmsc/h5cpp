@@ -175,6 +175,20 @@ class TypeTrait<unsigned long long> {
 };
 
 template<>
+class TypeTrait<datatype::float16_t> {
+ public:
+  using Type = datatype::float16_t;
+  using TypeClass = Float;
+  static TypeClass create(const Type & = Type()) {
+    auto type = TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+    type.fields(15, 10, 5, 0, 10);
+    type.size(2);
+    type.ebias(15);
+    return type;
+  }
+};
+
+template<>
 class TypeTrait<float> {
  public:
   using TypeClass = Float;
