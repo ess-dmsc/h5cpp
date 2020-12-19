@@ -133,10 +133,17 @@ class DLL_EXPORT RecursiveLinkIterator
     //!
     LinkIterator    current_iterator_;
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     //!
     //! Pointer to the parent interator if there is one
     //!
     IteratorPointer parent_iterator_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 
 

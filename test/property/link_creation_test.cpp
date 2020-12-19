@@ -80,7 +80,7 @@ SCENARIO("activate intermediate group creation on a LinkCreationList") {
         REQUIRE_NOTHROW(lcpl.disable_intermediate_group_creation());
 
         // How does this make sense ???
-        REQUIRE(lcpl.intermediate_group_creation());
+        REQUIRE_FALSE(lcpl.intermediate_group_creation());
       }
     }
   }

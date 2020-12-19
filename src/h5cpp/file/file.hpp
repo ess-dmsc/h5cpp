@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 #pragma once
@@ -30,6 +32,11 @@
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/object_id.hpp>
 #include <h5cpp/property/group_access.hpp>
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/datatype/factory.hpp>
+#include <h5cpp/error/error.hpp>
+
 
 namespace hdf5 {
 namespace node {
@@ -95,6 +102,13 @@ class DLL_EXPORT File
   size_t size() const;
 
   //!
+  //! \brief get the buffer size in bytes
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  ssize_t buffer_size() const;
+
+  //!
   //! \brief flush the file
   //!
   //! \throws std::runtime_error in case of a failure
@@ -142,6 +156,18 @@ class DLL_EXPORT File
   }
 
   //!
+  //! \brief retrieve a copy of the image of an existing, open file
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \tparam T source type
+  //! \param data reference to the source instance of T
+  //! \return size of used space in a buffer
+  //! \sa ImageFlags
+  //!
+  template<typename T>
+  size_t to_buffer(T &data) const;
+
+  //!
   //! \brief check validity of the instance
   //!
   //! Return true if the instance refers to a valid HDF5 file instance.
@@ -162,6 +188,32 @@ class DLL_EXPORT File
   ObjectHandle handle_; //!< handle for the file object
 
 };
+
+template<typename T>
+size_t File::to_buffer(T &data) const
+{
+  auto memory_space = hdf5::dataspace::create(data);
+  auto memory_type  = hdf5::datatype::create(data);
+  size_t databytesize = memory_space.size() * memory_type.size();
+  ssize_t s = 0;
+  if(memory_type.get_class() == datatype::Class::INTEGER)
+    {
+      flush(Scope::GLOBAL);
+      s = H5Fget_file_image(static_cast<hid_t>(*this), dataspace::ptr(data), databytesize);
+      if (s < 0)
+	{
+	  error::Singleton::instance().throw_with_stack("Failure retrieving the image buffer to to small dataspace");
+        }
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure retrieving the image buffer to non-integer dataspace";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+  return (hsize_t) s;
+}
+
 
 } // namespace file
 } // namespace hdf5

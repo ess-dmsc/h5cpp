@@ -45,6 +45,7 @@
 
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/integer.hpp>
@@ -55,6 +56,8 @@
 #include <h5cpp/datatype/enum.hpp>
 
 #include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/hyperslab.hpp>
+#include <h5cpp/dataspace/points.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/dataspace/selection_manager.hpp>
 #include <h5cpp/dataspace/selection.hpp>
@@ -119,3 +122,5 @@
 #if H5_VERSION_GE(1,10,0)
 #include <h5cpp/property/virtual_data_map.hpp>
 #endif
+
+#include <h5cpp/utilities/array_adapter.hpp>

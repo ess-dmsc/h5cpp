@@ -41,7 +41,7 @@ class Error : public testing::Test
     // redirect stderr into buf
     fflush(stderr);
     std::memset(buf, 0, bufsize);
-    setbuf(stderr, buf);
+    setvbuf(stderr, buf, _IOFBF, bufsize);
   }
 
   std::string extract_string()
@@ -55,7 +55,7 @@ class Error : public testing::Test
   virtual void TearDown()
   {
     // return stderr to normal function
-    setbuf(stderr, NULL);
+    setvbuf(stderr, NULL, _IONBF, bufsize);
   }
 
   std::stringstream ss;

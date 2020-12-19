@@ -45,7 +45,7 @@ Array::Array(const Datatype &type) :
 }
 
 Array Array::create(const Datatype &base_type, const Dimensions &dims) {
-  hid_t ret = H5Tarray_create(static_cast<hid_t>(base_type), dims.size(), dims.data());
+  hid_t ret = H5Tarray_create(static_cast<hid_t>(base_type), static_cast<int>(dims.size()), dims.data());
   if (ret < 0) {
     std::stringstream ss;
     ss << "Could not create Array of base=" << base_type.get_class();

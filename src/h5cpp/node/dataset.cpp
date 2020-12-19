@@ -19,7 +19,10 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
+//
 // Created on: Sep 12, 2017
 //
 
@@ -27,6 +30,7 @@
 #include <stdexcept>
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/functions.hpp>
+#include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
@@ -202,6 +206,13 @@ void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) 
   write(std::string(data),dtpl);
 }
 
+filter::ExternalFilters Dataset::filters() const
+{
+  filter::ExternalFilters efilters = filter::ExternalFilters();
+  efilters.fill(creation_list());
+  return efilters;
+}
+
 void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
 {
   dataspace::Dataspace space = dataset.dataspace();
@@ -229,7 +240,7 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 #endif
-  if((delta<0) && (current_dims[dimension_index]<abs(delta)))
+  if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(abs(delta))))
   {
     std::stringstream ss;
     ss<<"Extent of dataset ["<<dataset.link().path()<<"] cannot be changed "
