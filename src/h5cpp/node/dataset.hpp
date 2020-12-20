@@ -39,6 +39,7 @@
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/property/dataset_access.hpp>
+#include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
@@ -387,6 +388,16 @@ class DLL_EXPORT Dataset : public Node
               const dataspace::Selection &file_selection,
               const property::DatasetTransferList &dtpl = property::DatasetTransferList()) const;
 
+    //!
+    //! \brief get the dataset external filters for the instance
+    //!
+    //! Returns an instance of the dataset external filters for the
+    //! dataset.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \return instance of ExternalFilters
+    //!
+    filter::ExternalFilters filters() const;
 
   private:
     //!

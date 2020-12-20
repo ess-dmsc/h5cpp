@@ -48,14 +48,59 @@ TEST(ExternalFilterTest, bitshufflelz4_construction)
   EXPECT_EQ(bfilter.id(), static_cast<int>(FILTER_BITSHUFFLE));
   if(filter::is_filter_available(FILTER_BITSHUFFLE)){
     EXPECT_NO_THROW(bfilter(dcpl));
+
+    filter::ExternalFilters filters;
+    auto flags = filters.fill(dcpl);
+    EXPECT_EQ(filters.size(), 1lu);
+    EXPECT_EQ(flags.size(), 1lu);
+    EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
+    EXPECT_EQ(filters[0].cd_values(), cdvalues);
+    EXPECT_EQ(filters[0].id(), static_cast<int>(FILTER_BITSHUFFLE));
+    EXPECT_EQ(filters[0].name(),
+	      "bitshuffle; see https://github.com/kiyo-masui/bitshuffle");
   }
 }
 
 TEST(ExternalFilterTest, deflate_application)
 {
   property::DatasetCreationList dcpl;
+  std::vector<unsigned int> cdvalues({8u});
   filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, {8u});
 
   filter(dcpl);
-  EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
+  filter::ExternalFilters filters;
+  auto flags = filters.fill(dcpl);
+  // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
+  EXPECT_EQ(filters.size(), 1lu);
+  EXPECT_EQ(flags.size(), 1lu);
+  EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
+  EXPECT_EQ(filters[0].cd_values(), cdvalues);
+  EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
+  EXPECT_EQ(filters[0].name(), "deflate");
+}
+
+TEST(ExternalFilterTest, deflate_shuffle_application)
+{
+  property::DatasetCreationList dcpl;
+  std::vector<unsigned int> cdvalues({8u});
+  std::vector<unsigned int> cdvalues2({});
+  filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, {8u});
+  filter::Shuffle shuffle;
+
+  filter(dcpl);
+  shuffle(dcpl);
+
+  filter::ExternalFilters filters;
+  auto flags = filters.fill(dcpl);
+  // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
+  EXPECT_EQ(filters.size(), 2lu);
+  EXPECT_EQ(flags.size(), 2lu);
+  EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
+  EXPECT_EQ(flags[1], filter::Availability::OPTIONAL);
+  EXPECT_EQ(filters[0].cd_values(), cdvalues);
+  EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
+  EXPECT_EQ(filters[0].name(), "deflate");
+  EXPECT_EQ(filters[1].cd_values(), cdvalues2);
+  EXPECT_EQ(filters[1].id(), static_cast<int>(H5Z_FILTER_SHUFFLE));
+  EXPECT_EQ(filters[1].name(), "shuffle");
 }
