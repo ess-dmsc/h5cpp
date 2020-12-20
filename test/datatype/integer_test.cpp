@@ -128,11 +128,11 @@ TYPED_TEST(UnsignedInteger, Signed) {
 
 TYPED_TEST(Integer, Precision) {
   auto t = datatype::create<decltype(this->value_)>();
-  ASSERT_EQ(t.precision(), t.size()*8);
-  t.precision(16);
-  ASSERT_EQ(t.precision(), 16);
-  t.precision(8);
-  ASSERT_EQ(t.precision(), 8);
+  ASSERT_EQ(t.precision(), t.size()*8lu);
+  t.precision(16lu);
+  ASSERT_EQ(t.precision(), 16lu);
+  t.precision(8lu);
+  ASSERT_EQ(t.precision(), 8lu);
 }
 
 TYPED_TEST(Integer, Order) {
@@ -152,11 +152,11 @@ TYPED_TEST(Integer, Order) {
 
 TYPED_TEST(Integer, Offset) {
   auto t = datatype::create<decltype(this->value_)>();
-  ASSERT_EQ(t.offset(), 0);
+  ASSERT_EQ(t.offset(), 0lu);
   t.offset(1);
-  ASSERT_EQ(t.offset(), 1);
+  ASSERT_EQ(t.offset(), 1lu);
   t.offset(2);
-  ASSERT_EQ(t.offset(), 2);
+  ASSERT_EQ(t.offset(), 2lu);
 }
 
 TYPED_TEST(Integer, Pad) {

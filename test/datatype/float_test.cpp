@@ -81,13 +81,13 @@ TYPED_TEST(Float, General) {
 
 TYPED_TEST(Float, Precision) {
   auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE (t.precision() == t.size()*8 ||
-	       t.precision() == 80)
+  EXPECT_TRUE (t.precision() == t.size()*8lu ||
+	       t.precision() == 80lu)
     << "Where the precision value: "   << t.precision()
-    << " equals neither: " << t.size()*8
+    << " equals neither: " << t.size()*8lu
     << " nor: "               << 80 << ".";
   t.precision(80);
-  ASSERT_EQ(t.precision(), 80);
+  ASSERT_EQ(t.precision(), 80lu);
 }
 
 TYPED_TEST(Float, Order) {
@@ -107,11 +107,11 @@ TYPED_TEST(Float, Order) {
 
 TYPED_TEST(Float, Offset) {
   auto t = datatype::create<decltype(this->value_)>();
-  ASSERT_EQ(t.offset(), 0);
+  ASSERT_EQ(t.offset(), 0lu);
   t.offset(1);
-  ASSERT_EQ(t.offset(), 1);
+  ASSERT_EQ(t.offset(), 1lu);
   t.offset(2);
-  ASSERT_EQ(t.offset(), 2);
+  ASSERT_EQ(t.offset(), 2lu);
 }
 
 TYPED_TEST(Float, Pad) {
@@ -156,18 +156,18 @@ TYPED_TEST(Float, EBias) {
     << " equals neither: " << (2*t.size()*t.size()*t.size() - 1)
     << " nor: "            << (4*t.size()*t.size()*t.size() - 1) << ".";
   t.ebias(63);
-  ASSERT_EQ(t.ebias(), 63);
+  ASSERT_EQ(t.ebias(), 63lu);
   t.ebias(31);
-  ASSERT_EQ(t.ebias(), 31);
+  ASSERT_EQ(t.ebias(), 31lu);
 }
 
 TYPED_TEST(Float, Fields) {
-  std::vector<size_t> fields1({15, 10, 5, 0, 10});
-  std::vector<size_t> fields2({14, 9, 5, 0, 9});
+  std::vector<size_t> fields1({15lu, 10lu, 5lu, 0lu, 10lu});
+  std::vector<size_t> fields2({14lu, 9lu, 5lu, 0lu, 9lu});
   auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_EQ (t.fields().size(), 5);
-  t.fields(15, 10, 5, 0, 10);
+  EXPECT_EQ (t.fields().size(), 5lu);
+  t.fields(15lu, 10lu, 5lu, 0lu, 10lu);
   ASSERT_EQ(t.fields(), fields1);
-  t.fields(14, 9, 5, 0, 9);
+  t.fields(14lu, 9lu, 5lu, 0lu, 9lu);
   ASSERT_EQ(t.fields(), fields2);
 }

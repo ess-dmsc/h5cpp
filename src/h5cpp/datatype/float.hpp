@@ -191,7 +191,7 @@ class DLL_EXPORT float16_t{
   uint16_t _value; //!< data element holding the current float16 value
  public:
   //! default constructor
-  float16_t():_value(0) {}
+  float16_t():_value(0u) {}
 
   //! conversion constructor
   float16_t(uint16_t v):_value(v) {}
