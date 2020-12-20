@@ -163,5 +163,18 @@ DatasetAllocTime DatasetCreationList::allocation_time() const {
   return static_cast<DatasetAllocTime>(buffer);
 }
 
+size_t DatasetCreationList::nfilters() const{
+  int nfilters = H5Pget_nfilters(static_cast<hid_t>(*this));
+  if(nfilters < 0)
+  {
+      std::stringstream ss;
+      ss<<"Failure to read a number of filters from " << this->get_class();
+      error::Singleton::instance().throw_with_stack(ss.str());
+  }
+  return static_cast<size_t>(nfilters);
+  
+}
+
+  
 } // namespace property
 } // namespace hdf5

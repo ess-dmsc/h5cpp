@@ -5,5 +5,6 @@ set(test_sources
   ${dir}/deflate_test.cpp
   ${dir}/shuffle_test.cpp
   ${dir}/fletcher32_test.cpp
+  ${dir}/nbit_test.cpp
   ${dir}/external_filter_test.cpp
   PARENT_SCOPE)

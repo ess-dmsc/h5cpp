@@ -4,6 +4,7 @@ set(SOURCES
   ${dir}/deflate.cpp
   ${dir}/filter.cpp
   ${dir}/fletcher32.cpp
+  ${dir}/nbit.cpp
   ${dir}/shuffle.cpp
   ${dir}/external_filter.cpp
   )
@@ -13,6 +14,7 @@ set(HEADERS
   ${dir}/types.hpp
   ${dir}/deflate.hpp
   ${dir}/fletcher32.hpp
+  ${dir}/nbit.hpp
   ${dir}/shuffle.hpp
   ${dir}/external_filter.hpp
   )
