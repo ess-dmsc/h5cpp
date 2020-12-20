@@ -5,7 +5,9 @@ set(SOURCES
   ${dir}/filter.cpp
   ${dir}/fletcher32.cpp
   ${dir}/nbit.cpp
+  ${dir}/scaleoffset.cpp
   ${dir}/shuffle.cpp
+  ${dir}/szip.cpp
   ${dir}/external_filter.cpp
   )
 
@@ -15,7 +17,9 @@ set(HEADERS
   ${dir}/deflate.hpp
   ${dir}/fletcher32.hpp
   ${dir}/nbit.hpp
+  ${dir}/scaleoffset.hpp
   ${dir}/shuffle.hpp
+  ${dir}/szip.hpp
   ${dir}/external_filter.hpp
   )
 

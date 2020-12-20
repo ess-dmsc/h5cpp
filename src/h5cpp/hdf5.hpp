@@ -80,7 +80,9 @@
 #include <h5cpp/filter/deflate.hpp>
 #include <h5cpp/filter/fletcher32.hpp>
 #include <h5cpp/filter/nbit.hpp>
+#include <h5cpp/filter/scaleoffset.hpp>
 #include <h5cpp/filter/shuffle.hpp>
+#include <h5cpp/filter/szip.hpp>
 #include <h5cpp/filter/external_filter.hpp>
 
 #include <h5cpp/node/dataset.hpp>
