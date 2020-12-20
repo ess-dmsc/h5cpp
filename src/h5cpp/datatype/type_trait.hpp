@@ -21,6 +21,7 @@
 //
 // Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
 //          Sebastian Koenig <skoenig@ncsu.edu>
+//          Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 28, 2017
 //
 #pragma once

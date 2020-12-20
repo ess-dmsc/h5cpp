@@ -66,8 +66,10 @@ Types<std::string>
 //std::u32string>
     test_types;
 
+// workaround for the TYPED_TEST_SUITE bug #2316
 #ifdef TYPED_TEST_SUITE
-TYPED_TEST_SUITE(String, test_types);
+#include <gtest/internal/gtest-internal.h>
+TYPED_TEST_SUITE(String, test_types, testing::internal::DefaultNameGenerator);
 #else
 TYPED_TEST_CASE(String, test_types);
 #endif
