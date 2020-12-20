@@ -40,11 +40,11 @@ TEST(SZipTest,application)
   filter::SZip szip(filter::SZip::EC_OPTION_MASK,16);
   property::DatasetCreationList dcpl;
 
-  szip(dcpl);
   filter::ExternalFilters filters;
-  auto flags = filters.fill(dcpl);
   std::vector<unsigned int> cdvalues({133, 16});
   if(filter::is_filter_available(H5Z_FILTER_SZIP)){
+    szip(dcpl);
+    auto flags = filters.fill(dcpl);
     // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
     EXPECT_EQ(szip.id(), static_cast<int>(H5Z_FILTER_SZIP));
     EXPECT_EQ(szip.is_decoding_enabled(), true);
@@ -62,11 +62,11 @@ TEST(SZipTest,application)
     EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_SZIP));
     EXPECT_EQ(filters[0].name(), "szip");
     
-    EXPECT_EQ(szip.options_mask(), filter::SZip::EC_OPTION_MASK);
-    EXPECT_EQ(szip.pixels_per_block(), 16);
-    szip.options_mask(filter::SZip::NN_OPTION_MASK);
-    EXPECT_EQ(szip.options_mask(), filter::SZip::NN_OPTION_MASK);
-    szip.pixels_per_block(32);
-    EXPECT_EQ(szip.pixels_per_block(), 32);
   }
+  EXPECT_EQ(szip.options_mask(), filter::SZip::EC_OPTION_MASK);
+  EXPECT_EQ(szip.pixels_per_block(), 16);
+  szip.options_mask(filter::SZip::NN_OPTION_MASK);
+  EXPECT_EQ(szip.options_mask(), filter::SZip::NN_OPTION_MASK);
+  szip.pixels_per_block(32);
+  EXPECT_EQ(szip.pixels_per_block(), 32);
 }
