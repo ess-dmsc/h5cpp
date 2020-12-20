@@ -80,7 +80,7 @@ class DLL_EXPORT Filter
     //! Return the actual config encoding enabled flag of the filter.
     //!
     virtual bool is_encoding_enabled() const;
-  
+
     //!
     //! \brief get the the config flag if decoding enabled
     //!

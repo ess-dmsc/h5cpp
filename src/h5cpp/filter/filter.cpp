@@ -53,7 +53,7 @@ bool Filter::is_encoding_enabled() const
     ss<<"Configuration flag cannot be checked for filter: " << id_;
     error::Singleton::instance().throw_with_stack(ss.str());
   }
-  
+
   return  bool(filter_info & H5Z_FILTER_CONFIG_ENCODE_ENABLED);
 }
 
@@ -66,7 +66,7 @@ bool Filter::is_decoding_enabled() const
     ss<<"Configuration flag cannot be checked for filter: " << id_;
     error::Singleton::instance().throw_with_stack(ss.str());
   }
-  
+
   return  bool(filter_info & H5Z_FILTER_CONFIG_DECODE_ENABLED);
 }
 

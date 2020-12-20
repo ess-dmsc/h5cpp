@@ -49,8 +49,8 @@ TEST(ScaleOffsetTest,application)
     EXPECT_EQ(scaleoffset.id(), static_cast<int>(H5Z_FILTER_SCALEOFFSET));
     EXPECT_EQ(scaleoffset.is_decoding_enabled(), true);
     EXPECT_EQ(scaleoffset.is_encoding_enabled(), true);
-    
-    EXPECT_EQ(dcpl.nfilters(), 1lu);
+
+    EXPECT_EQ(dcpl.nfilters(), 1u);
     EXPECT_EQ(filters.size(), 1lu);
     EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)),1);
     EXPECT_EQ(filters.size(), 1lu);
@@ -61,7 +61,7 @@ TEST(ScaleOffsetTest,application)
     EXPECT_EQ(filters[0].is_encoding_enabled(), true);
     EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_SCALEOFFSET));
     EXPECT_EQ(filters[0].name(), "scaleoffset");
-    
+
     EXPECT_EQ(scaleoffset.scale_type(), filter::SOScaleType::INT);
     EXPECT_EQ(scaleoffset.scale_factor(), 2);
     scaleoffset.scale_type(filter::SOScaleType::FLOAT_DSCALE);

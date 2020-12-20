@@ -90,7 +90,7 @@ const std::vector<Availability> ExternalFilters::fill(const property::DatasetCre
   size_t cd_number = max_cd_number;
   std::vector<char> fname(max_name_size);
 
-  for(size_t nf=0; nf != nfilters; nf++)
+  for(unsigned int nf=0; nf != nfilters; nf++)
   {
     std::vector<unsigned int> cd_values(max_cd_number);
     int filter_id = H5Pget_filter(static_cast<hid_t>(dcpl),

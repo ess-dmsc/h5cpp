@@ -54,9 +54,9 @@ class DLL_EXPORT SZip : public Filter
 
     // Selects entropy coding method
     static const unsigned int EC_OPTION_MASK;
-    // Selects nearest neighbor coding method. 
+    // Selects nearest neighbor coding method.
     static const unsigned int NN_OPTION_MASK;
 };
-  
+
 } // namespace filter
 } // namespace hdf5

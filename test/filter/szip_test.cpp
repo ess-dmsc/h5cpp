@@ -49,8 +49,8 @@ TEST(SZipTest,application)
     EXPECT_EQ(szip.id(), static_cast<int>(H5Z_FILTER_SZIP));
     EXPECT_EQ(szip.is_decoding_enabled(), true);
     EXPECT_EQ(szip.is_encoding_enabled(), true);
-    
-    EXPECT_EQ(dcpl.nfilters(), 1lu);
+
+    EXPECT_EQ(dcpl.nfilters(), 1u);
     EXPECT_EQ(filters.size(), 1lu);
     EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)),1);
     EXPECT_EQ(filters.size(), 1lu);
@@ -61,12 +61,12 @@ TEST(SZipTest,application)
     EXPECT_EQ(filters[0].is_encoding_enabled(), true);
     EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_SZIP));
     EXPECT_EQ(filters[0].name(), "szip");
-    
+
   }
   EXPECT_EQ(szip.options_mask(), filter::SZip::EC_OPTION_MASK);
-  EXPECT_EQ(szip.pixels_per_block(), 16);
+  EXPECT_EQ(szip.pixels_per_block(), 16u);
   szip.options_mask(filter::SZip::NN_OPTION_MASK);
   EXPECT_EQ(szip.options_mask(), filter::SZip::NN_OPTION_MASK);
   szip.pixels_per_block(32);
-  EXPECT_EQ(szip.pixels_per_block(), 32);
+  EXPECT_EQ(szip.pixels_per_block(), 32u);
 }

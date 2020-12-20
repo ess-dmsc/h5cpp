@@ -49,7 +49,7 @@ TEST(NBitTest,application)
     EXPECT_EQ(filter.id(), static_cast<int>(H5Z_FILTER_NBIT));
     EXPECT_EQ(filter.is_decoding_enabled(), true);
     EXPECT_EQ(filter.is_encoding_enabled(), true);
-    EXPECT_EQ(dcpl.nfilters(), 1lu);
+    EXPECT_EQ(dcpl.nfilters(), 1u);
     EXPECT_EQ(filters.size(), 1lu);
     EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)),1);
     EXPECT_EQ(filters.size(), 1lu);
