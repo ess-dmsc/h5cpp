@@ -33,7 +33,6 @@
 
 using namespace hdf5;
 
-
 /*
 TYPED_TEST(Integer, Exceptions) {
   datatype::Datatype dtype;
@@ -74,6 +73,58 @@ TEMPLATE_TEST_CASE("general integer properties",
         AND_THEN("type type class would be Integer") {
           REQUIRE(new_type.get_class() == datatype::Class::INTEGER);
         }
+      }
+    }
+
+    WHEN("checking for the precission") {
+      REQUIRE(t.precision() == t.size() * 8lu);
+      AND_THEN("we can set the precission to 16") {
+        t.precision(16lu);
+        REQUIRE(t.precision() == 16lu);
+      }
+      AND_THEN("we can set the precission to 8") {
+        t.precision(8lu);
+        REQUIRE(t.precision() == 8lu);
+      }
+    }
+
+    WHEN("checking the byte order") {
+      using datatype::Order;
+      REQUIRE(t.order() == Order::LE || t.order() == Order::BE ||
+              t.order() == Order::VAX);
+      AND_THEN("set the byte order to Big Endian") {
+        t.order(Order::BE);
+        REQUIRE(t.order() == datatype::Order::BE);
+      }
+      AND_THEN("set the byte order to Little Endian") {
+        t.order(datatype::Order::LE);
+        REQUIRE(t.order() == datatype::Order::LE);
+      }
+    }
+
+    WHEN("checking for the offset") {
+      REQUIRE(t.offset() == 0lu);
+      AND_THEN("set it to 1") {
+        t.offset(1);
+        REQUIRE(t.offset(), 1lu);
+      }
+      AND_THEN("set it to 2") {
+        t.offset(2);
+        REQUIRE(t.offset(), 2lu);
+      }
+    }
+
+    WHEN("checking the padding") {
+      using datatype::Pad;
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      AND_THEN("set it to ZERO:ONE") { 
+        t.pad(Pad::ZERO,Pad::ONE);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO,Pad::ONE}));
+      }
+      AND_THEN("set it to ONE:BACKGROUND") { 
+        t.pad(Pad::ONE,Pad::BACKGROUND);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ONE,Pad::BACKGROUND}));
       }
     }
   }

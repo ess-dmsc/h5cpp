@@ -85,19 +85,12 @@ const std::vector<Availability> ExternalFilters::fill(const property::DatasetCre
 						      size_t max_name_size)
 {
   std::vector<Availability> flags;
-  int nfilters = H5Pget_nfilters(static_cast<hid_t>(dcpl));
-  if(nfilters < 0)
-  {
-      std::stringstream ss;
-      ss<<"Failure to read a number of filters from " << dcpl.get_class();
-      error::Singleton::instance().throw_with_stack(ss.str());
-  }
-
+  size_t nfilters = dcpl.nfilters();
   unsigned int flag;
   size_t cd_number = max_cd_number;
   std::vector<char> fname(max_name_size);
 
-  for(int nf=0; nf != nfilters; nf++)
+  for(unsigned int nf=0; nf != nfilters; nf++)
   {
     std::vector<unsigned int> cd_values(max_cd_number);
     int filter_id = H5Pget_filter(static_cast<hid_t>(dcpl),
@@ -108,7 +101,7 @@ const std::vector<Availability> ExternalFilters::fill(const property::DatasetCre
 			      fname.size(),
 			      fname.data(),
 			      NULL);
-    if(nfilters < 0)
+    if(filter_id < 0)
     {
       std::stringstream ss;
       ss << "Failure to read a parameters of filter ("

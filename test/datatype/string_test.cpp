@@ -54,16 +54,6 @@ SCENARIO("testing variable length strings") {
   }
 }
 
-/*
-TEST(String, Constructor) {
-  datatype::Datatype dtype;
-  EXPECT_THROW((datatype::String(dtype)), std::runtime_error);
-
-  auto ft = datatype::create<double>();
-  EXPECT_THROW((datatype::String(ft)), std::runtime_error);
-}
-*/
-
 SCENARIO("constructing a fixed length string") {
   GIVEN("a string type of size 3") {
     auto t = datatype::String::fixed(3);

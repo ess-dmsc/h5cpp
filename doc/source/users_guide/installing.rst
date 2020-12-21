@@ -132,7 +132,7 @@ and for Ubuntu (Focal)
 
    $ wget http://repos.pni-hdri.de/focal-pni-hdri.list
 
-Similarly, proceed for Stretch, Jessie, Eoan, Disco, Cosmic or Bionic.
+Similarly, proceed for Bullseye, Buster, Stretch, Groovy, Focal or Bionic.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -144,7 +144,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.3.3 libh5cpp0.3.3-dbg libh5cpp0.3.3-doc libh5cpp0.3.3-dev
+   $ apt-get install libh5cpp0.4.0 libh5cpp0.4.0-dbg libh5cpp0.4.0-doc libh5cpp0.4.0-dev
 
-to install the library of v0.3.3. Dependencies will be resolved automatically so you can
+to install the library of v0.4.0. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.

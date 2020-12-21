@@ -27,6 +27,7 @@
 //
 #pragma once
 
+#include <vector>
 #include <type_traits>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/core/windows.hpp>
@@ -90,7 +91,63 @@ class DLL_EXPORT Integer : public Datatype {
   //!
   virtual void make_signed(bool sign) const;
 
+  //!
+  //! @brief get the precision of type, i.e. the number of significant bits
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual size_t precision() const;
 
+  //!
+  //! @brief set the precision of a type, i.e. the number of significant bits
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void precision(size_t precision) const;
+
+  //!
+  //! @brief get the bit offset of the first significant bit
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual size_t offset() const;
+
+  //!
+  //! @brief set the bit offset of the first significant bit
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void offset(size_t offset) const;
+
+  //!
+  //! @brief get the order of datatype
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual Order order() const;
+
+  //!
+  //! @brief set the order of datatype
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void order(Order offset) const;
+
+  //!
+  //! @brief get the pads of datatype
+  //! @return least and most significant bits
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual const std::vector<Pad> pad() const;
+
+  //!
+  //! @brief set the pads of datatype
+  //!
+  //! @param lsb padding type for least-significant bits
+  //! @param msb padding type for most-significant bits
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void pad(Pad lsb, Pad msb) const;
 };
 
 } // namespace datatype

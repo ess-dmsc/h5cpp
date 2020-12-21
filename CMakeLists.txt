@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp
     LANGUAGES CXX C
-    VERSION 0.3.3
+    VERSION 0.4.0
     )
 enable_testing()
 

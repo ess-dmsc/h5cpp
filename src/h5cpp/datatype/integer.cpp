@@ -62,5 +62,77 @@ void Integer::make_signed(bool sign) const {
   }
 }
 
+size_t Integer::precision() const {
+  size_t p = H5Tget_precision(static_cast<hid_t>(*this));
+  if (p == 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype precision");
+  }
+  return p;
+}
+
+void Integer::precision(size_t precision) const {
+  if (H5Tset_precision(static_cast<hid_t>(*this), precision) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype precision to " << precision;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+}
+
+size_t Integer::offset() const {
+  ssize_t p = H5Tget_offset(static_cast<hid_t>(*this));
+  if (p < 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype offset");
+  }
+  return p;
+}
+
+void Integer::offset(size_t offset) const {
+  if (H5Tset_offset(static_cast<hid_t>(*this), offset) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype offset to " << offset;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+}
+
+Order Integer::order() const {
+  htri_t ret = H5Tget_order(static_cast<hid_t>(*this));
+  if (ret > 4) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype order");
+  }
+  return static_cast<Order>(ret);
+}
+
+void Integer::order(Order order) const {
+  if (H5Tset_order(static_cast<hid_t>(*this), static_cast<H5T_order_t>(order)) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype order to " << order;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+}
+
+
+const std::vector<Pad> Integer::pad() const {
+  H5T_pad_t lsb;
+  H5T_pad_t msb;
+  std::vector<Pad> pads(2);
+  htri_t ret = H5Tget_pad(static_cast<hid_t>(*this), &lsb, &msb);
+  if (ret < 0) {
+    error::Singleton::instance().throw_with_stack("Could not retrieve datatype order");
+  }
+  pads[0] = static_cast<Pad>(lsb);
+  pads[1] = static_cast<Pad>(msb);
+  return pads;
+}
+
+void Integer::pad(Pad lsb, Pad msb) const {
+  if (H5Tset_pad(static_cast<hid_t>(*this),
+		 static_cast<H5T_pad_t>(lsb),
+		 static_cast<H5T_pad_t>(msb)) < 0) {
+    std::stringstream ss;
+    ss << "Could not set datatype pad to (" << lsb << ", " << msb << ")" ;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+}
+
 } // namespace datatype
 } // namespace hdf5

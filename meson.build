@@ -1,4 +1,4 @@
-project('h5cpp',['cpp','c'],version:'0.3.3',
+project('h5cpp',['cpp','c'],version:'0.4.0',
         default_options:'cpp_std=c++17')
 
 with_mpi = get_option('with-mpi')
@@ -10,7 +10,6 @@ if with_mpi
 else
  hdf5 = dependency('hdf5', language: 'c')
 endif
-
 
 boost = dependency('boost', modules:['filesystem','system'])
 srcinc = include_directories('src')

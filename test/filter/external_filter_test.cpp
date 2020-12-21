@@ -71,6 +71,7 @@ TEST(ExternalFilterTest, deflate_application)
   filter::ExternalFilters filters;
   auto flags = filters.fill(dcpl);
   // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
+  EXPECT_EQ(dcpl.nfilters(), 1u);
   EXPECT_EQ(filters.size(), 1lu);
   EXPECT_EQ(flags.size(), 1lu);
   EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
@@ -95,12 +96,17 @@ TEST(ExternalFilterTest, deflate_shuffle_application)
   // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
   EXPECT_EQ(filters.size(), 2lu);
   EXPECT_EQ(flags.size(), 2lu);
+  EXPECT_EQ(dcpl.nfilters(), 2u);
   EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
   EXPECT_EQ(flags[1], filter::Availability::OPTIONAL);
   EXPECT_EQ(filters[0].cd_values(), cdvalues);
   EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
   EXPECT_EQ(filters[0].name(), "deflate");
+  EXPECT_EQ(filters[0].is_decoding_enabled(), true);
+  EXPECT_EQ(filters[0].is_encoding_enabled(), true);
   EXPECT_EQ(filters[1].cd_values(), cdvalues2);
   EXPECT_EQ(filters[1].id(), static_cast<int>(H5Z_FILTER_SHUFFLE));
+  EXPECT_EQ(filters[1].is_decoding_enabled(), true);
+  EXPECT_EQ(filters[1].is_encoding_enabled(), true);
   EXPECT_EQ(filters[1].name(), "shuffle");
 }
