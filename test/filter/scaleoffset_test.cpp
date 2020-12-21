@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,55 +21,68 @@
 // ===========================================================================
 //
 // Authors:
-//         Eugen Wintersberger <eugen.wintersberger@desy.de>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //         Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Dec 20, 2020
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-TEST(ScaleOffsetTest,construction)
-{
-  filter::ScaleOffset filter;
-  EXPECT_EQ(filter.id(),H5Z_FILTER_SCALEOFFSET);
-}
+SCENARIO("ScalaOffset filter tests") {
+  GIVEN("a default constructed instance") {
+    filter::ScaleOffset filter;
+    THEN("we can expect") {
+      REQUIRE(filter.id() == H5Z_FILTER_SCALEOFFSET);
+      REQUIRE(filter.is_decoding_enabled());
+      REQUIRE(filter.is_encoding_enabled());
+    }
+    THEN("we can set the scale type to FLOAT_DSCALE") {
+      filter.scale_type(filter::SOScaleType::FLOAT_DSCALE);
+      REQUIRE(filter.scale_type() == filter::SOScaleType::FLOAT_DSCALE);
+    }
+    THEN("we can set the scale factor to FLOAT_ESCALE") {
+      filter.scale_type(filter::SOScaleType::FLOAT_ESCALE);
+      REQUIRE(filter.scale_type() == filter::SOScaleType::FLOAT_ESCALE);
+    }
+    THEN("we can set the scale factor to 4") {
+      filter.scale_factor(4);
+      REQUIRE(filter.scale_factor() == 4);
+    }
+  }
 
-TEST(ScaleOffsetTest,application)
-{
-  filter::ScaleOffset scaleoffset(filter::SOScaleType::INT,2);
-  property::DatasetCreationList dcpl;
+  GIVEN("a filter constructed for integer") {
+    filter::ScaleOffset scaleoffset(filter::SOScaleType::INT, 2);
+    THEN("the filter has the following properties") {
+      REQUIRE(scaleoffset.scale_type() == filter::SOScaleType::INT);
+      REQUIRE(scaleoffset.scale_factor() == 2);
+    }
+    AND_GIVEN("a dataset creation property list") {
+      property::DatasetCreationList dcpl;
+      THEN("we can apply this filter to the property list") {
+        scaleoffset(dcpl);
+        REQUIRE(dcpl.nfilters() == 1u);
 
-  scaleoffset(dcpl);
-  filter::ExternalFilters filters;
-  auto flags = filters.fill(dcpl);
-  std::vector<unsigned int> cdvalues({2, 2});
-  if(filter::is_filter_available(H5Z_FILTER_SCALEOFFSET)){
-    // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
-    EXPECT_EQ(scaleoffset.id(), static_cast<int>(H5Z_FILTER_SCALEOFFSET));
-    EXPECT_EQ(scaleoffset.is_decoding_enabled(), true);
-    EXPECT_EQ(scaleoffset.is_encoding_enabled(), true);
+        AND_GIVEN("an external filter instance") {
+          filter::ExternalFilters filters;
+          THEN("we can load the filters back from the property list") {
+            auto flags = filters.fill(dcpl);
+            REQUIRE(filters.size() == 1lu);
+            REQUIRE(flags.size() == 1lu);
 
-    EXPECT_EQ(dcpl.nfilters(), 1u);
-    EXPECT_EQ(filters.size(), 1lu);
-    EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)),1);
-    EXPECT_EQ(filters.size(), 1lu);
-    EXPECT_EQ(flags.size(), 1lu);
-    EXPECT_EQ(flags[0], filter::Availability::OPTIONAL);
-    EXPECT_EQ(filters[0].cd_values(), cdvalues);
-    EXPECT_EQ(filters[0].is_decoding_enabled(), true);
-    EXPECT_EQ(filters[0].is_encoding_enabled(), true);
-    EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_SCALEOFFSET));
-    EXPECT_EQ(filters[0].name(), "scaleoffset");
-
-    EXPECT_EQ(scaleoffset.scale_type(), filter::SOScaleType::INT);
-    EXPECT_EQ(scaleoffset.scale_factor(), 2);
-    scaleoffset.scale_type(filter::SOScaleType::FLOAT_DSCALE);
-    EXPECT_EQ(scaleoffset.scale_type(), filter::SOScaleType::FLOAT_DSCALE);
-    scaleoffset.scale_type(filter::SOScaleType::FLOAT_ESCALE);
-    EXPECT_EQ(scaleoffset.scale_type(), filter::SOScaleType::FLOAT_ESCALE);
-    scaleoffset.scale_factor(4);
-    EXPECT_EQ(scaleoffset.scale_factor(), 4);
+            // check here the filter parameters
+            REQUIRE(flags[0] == filter::Availability::OPTIONAL);
+            using r = std::vector<unsigned int>;
+            REQUIRE_THAT(filters[0].cd_values(), Catch::Matchers::Equals(r{2, 2}));
+            REQUIRE(filters[0].is_decoding_enabled());
+            REQUIRE(filters[0].is_encoding_enabled());
+            REQUIRE(filters[0].id() ==
+                    static_cast<int>(H5Z_FILTER_SCALEOFFSET));
+            REQUIRE(filters[0].name() == "scaleoffset");
+          }
+        }
+      }
+    }
   }
 }
