@@ -90,8 +90,8 @@ TEMPLATE_TEST_CASE("general integer properties",
 
     WHEN("checking the byte order") {
       using datatype::Order;
-      REQUIRE(t.order() == Order::LE || t.order() == Order::BE ||
-              t.order() == Order::VAX);
+      REQUIRE((t.order() == Order::LE || t.order() == Order::BE ||
+              t.order() == Order::VAX));
       AND_THEN("set the byte order to Big Endian") {
         t.order(Order::BE);
         REQUIRE(t.order() == datatype::Order::BE);
@@ -106,11 +106,11 @@ TEMPLATE_TEST_CASE("general integer properties",
       REQUIRE(t.offset() == 0lu);
       AND_THEN("set it to 1") {
         t.offset(1);
-        REQUIRE(t.offset(), 1lu);
+        REQUIRE(t.offset() == 1lu);
       }
       AND_THEN("set it to 2") {
         t.offset(2);
-        REQUIRE(t.offset(), 2lu);
+        REQUIRE(t.offset() == 2lu);
       }
     }
 

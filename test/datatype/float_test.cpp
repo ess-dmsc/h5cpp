@@ -106,15 +106,15 @@ TEMPLATE_TEST_CASE("testing byte order for floats",
     }
 
     WHEN("checking the padding we get") {
-      using r = std::vector<datatype::PAD>;
       using datatype::Pad;
-      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::Zero}));
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
       AND_THEN("we can set it to ZERO:ONE") {
-        t.pad(r{Pad::ZERO, Pad::ONE});
+        t.pad(Pad::ZERO, Pad::ONE);
         REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ONE}));
       }
       AND_THEN("we can set it to ONE:BACKGROUND") {
-        t.pad(r{Pad::ONE, Pad::BACKGROUND});
+        t.pad(Pad::ONE, Pad::BACKGROUND);
         REQUIRE_THAT(t.pad(),
                      Catch::Matchers::Equals(r{Pad::ONE, Pad::BACKGROUND}));
       }
@@ -135,7 +135,7 @@ TEMPLATE_TEST_CASE("testing byte order for floats",
 
     WHEN("checking the norm") {
       using datatype::Norm;
-      REQUIRE(t.norm() == Norm::IMPLIED || t.norm() == Norm::NONE);
+      REQUIRE((t.norm() == Norm::IMPLIED || t.norm() == Norm::NONE));
       AND_THEN("set it to MSBSET") {
         t.norm(Norm::MSBSET);
         REQUIRE(t.norm() == Norm::MSBSET);
@@ -147,15 +147,15 @@ TEMPLATE_TEST_CASE("testing byte order for floats",
     }
 
     WHEN("checking the EBIAS") {
-      REQUIRE(t.ebias() == 2 * t.size() * t.size() * t.size() - 1 ||
-              t.ebias() == 4 * t.size() * t.size() * t.size() - 1);
+      REQUIRE((t.ebias() == 2 * t.size() * t.size() * t.size() - 1 ||
+               t.ebias() == 4 * t.size() * t.size() * t.size() - 1));
       AND_THEN("set it to 63") {
         t.ebias(63);
         REQUIRE(t.ebias() == 63lu);
       }
       AND_THEN("set it to 31") {
         t.ebias(31);
-        REQUIRE(t.ebias(), 31lu);
+        REQUIRE(t.ebias() == 31lu);
       }
     }
 
