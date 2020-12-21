@@ -16,9 +16,9 @@ test_sources=files('utilities.cpp'
                    ,'attribute_creation_test.cpp'
                    ,'link_creation_test.cpp'
                    ,'dataset_transfer_test.cpp'
-                   #,'file_access_test.cpp'
-                   #,'file_mount_test.cpp'
-                   #,'object_copy_test.cpp'
+                   ,'file_access_test.cpp'
+                   ,'file_mount_test.cpp'
+                   ,'object_copy_test.cpp'
                    )
 
 properties_test = executable('properties_test', test_sources,

@@ -34,14 +34,6 @@
 
 using namespace hdf5;
 
-/**
-const std::vector<std::string> FileImage::files_ = {
-    "./test_image.h5",
-    "./test_image_from.h5",
-    "./test_image_to.h5",
-    "./test_buffer.h5",
-};*/
-
 using Bytes = std::vector<unsigned char>;
 
 Bytes file_to_bytes(const std::string& filename) {
