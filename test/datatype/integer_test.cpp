@@ -71,10 +71,12 @@ Types<
 typedef
 Types<signed char, short, int, long, long long> test_signed_types;
 
+// workaround for the TYPED_TEST_SUITE bug #2316
 #ifdef TYPED_TEST_SUITE
-TYPED_TEST_SUITE(Integer, test_types);
-TYPED_TEST_SUITE(SignedInteger, test_signed_types);
-TYPED_TEST_SUITE(UnsignedInteger, test_unsigned_types);
+#include <gtest/internal/gtest-internal.h>
+TYPED_TEST_SUITE(Integer, test_types, testing::internal::DefaultNameGenerator);
+TYPED_TEST_SUITE(SignedInteger, test_signed_types, testing::internal::DefaultNameGenerator);
+TYPED_TEST_SUITE(UnsignedInteger, test_unsigned_types, testing::internal::DefaultNameGenerator);
 #else
 TYPED_TEST_CASE(Integer, test_types);
 TYPED_TEST_CASE(SignedInteger, test_signed_types);
@@ -106,7 +108,7 @@ TYPED_TEST(Integer, General) {
 
 TYPED_TEST(SignedInteger, Signed) {
   auto t = datatype::create<decltype(this->value_)>();
-  
+
   ASSERT_EQ(t.is_signed(), true);
   t.make_signed(true);
   ASSERT_EQ(t.is_signed(), true);
@@ -116,7 +118,7 @@ TYPED_TEST(SignedInteger, Signed) {
 
 TYPED_TEST(UnsignedInteger, Signed) {
   auto t = datatype::create<decltype(this->value_)>();
-  
+
   ASSERT_EQ(t.is_signed(), false);
   t.make_signed(true);
   ASSERT_EQ(t.is_signed(), true);
@@ -124,3 +126,47 @@ TYPED_TEST(UnsignedInteger, Signed) {
   ASSERT_EQ(t.is_signed(), false);
 }
 
+TYPED_TEST(Integer, Precision) {
+  auto t = datatype::create<decltype(this->value_)>();
+  ASSERT_EQ(t.precision(), t.size()*8lu);
+  t.precision(16lu);
+  ASSERT_EQ(t.precision(), 16lu);
+  t.precision(8lu);
+  ASSERT_EQ(t.precision(), 8lu);
+}
+
+TYPED_TEST(Integer, Order) {
+  auto t = datatype::create<decltype(this->value_)>();
+  EXPECT_TRUE (t.order() == datatype::Order::LE ||
+	       t.order() == datatype::Order::BE ||
+	       t.order() == datatype::Order::VAX)
+    << "Where the order value: "   << t.order()
+    << " equals neither: " << datatype::Order::LE
+    << " nor: "               << datatype::Order::BE
+    << " nor: "               << datatype::Order::VAX << ".";
+  t.order(datatype::Order::BE);
+  ASSERT_EQ(t.order(), datatype::Order::BE);
+  t.order(datatype::Order::LE);
+  ASSERT_EQ(t.order(), datatype::Order::LE);
+}
+
+TYPED_TEST(Integer, Offset) {
+  auto t = datatype::create<decltype(this->value_)>();
+  ASSERT_EQ(t.offset(), 0lu);
+  t.offset(1);
+  ASSERT_EQ(t.offset(), 1lu);
+  t.offset(2);
+  ASSERT_EQ(t.offset(), 2lu);
+}
+
+TYPED_TEST(Integer, Pad) {
+  std::vector<datatype::Pad> pad00({datatype::Pad::ZERO, datatype::Pad::ZERO});
+  std::vector<datatype::Pad> pad01({datatype::Pad::ZERO, datatype::Pad::ONE});
+  std::vector<datatype::Pad> pad1B({datatype::Pad::ONE, datatype::Pad::BACKGROUND});
+  auto t = datatype::create<decltype(this->value_)>();
+  EXPECT_EQ (t.pad() , pad00);
+  t.pad(datatype::Pad::ZERO, datatype::Pad::ONE);
+  ASSERT_EQ(t.pad(), pad01);
+  t.pad(datatype::Pad::ONE, datatype::Pad::BACKGROUND);
+  ASSERT_EQ(t.pad(), pad1B);
+}

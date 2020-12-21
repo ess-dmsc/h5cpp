@@ -21,6 +21,7 @@
 //
 // Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
 //          Sebastian Koenig <skoenig@ncsu.edu>
+//          Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 28, 2017
 //
 #pragma once
@@ -171,6 +172,20 @@ class TypeTrait<unsigned long long> {
   using TypeClass = Integer;
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULLONG)));
+  }
+};
+
+template<>
+class TypeTrait<datatype::float16_t> {
+ public:
+  using Type = datatype::float16_t;
+  using TypeClass = Float;
+  static TypeClass create(const Type & = Type()) {
+    auto type = TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+    type.fields(15, 10, 5, 0, 10);
+    type.size(2);
+    type.ebias(15);
+    return type;
   }
 };
 
