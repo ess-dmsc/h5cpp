@@ -24,7 +24,7 @@ subdir('utilities')
 h5cpp_lib = library('h5cpp',sources,
                     dependencies:[hdf5,boost],
                     include_directories:[srcinc],
-                    version: '0.3.3',
+                    version: '0.4.0',
                     soversion:'1',
                     install:true,
                     install_mode:'r--r--r--')
