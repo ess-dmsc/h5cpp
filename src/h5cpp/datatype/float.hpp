@@ -22,12 +22,14 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 #pragma once
 
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/core/windows.hpp>
+#include <vector>
 
 namespace hdf5 {
 namespace datatype {
@@ -60,7 +62,146 @@ class DLL_EXPORT Float : public Datatype {
   //! \param datatype reference to a generic datatype instance
   //!
   explicit Float(const Datatype &datatype);
+
+  //!
+  //! @brief get the precision of type, i.e. the number of significant bits
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual size_t precision() const;
+
+  //!
+  //! @brief set the precision of a type, i.e. the number of significant bits
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void precision(size_t precision) const;
+
+  //!
+  //! @brief get the bit offset of the first significant bit
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual size_t offset() const;
+
+  //!
+  //! @brief set the bit offset of the first significant bit
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void offset(size_t offset) const;
+
+  //!
+  //! @brief get the order of datatype
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual Order order() const;
+
+  //!
+  //! @brief set the order of datatype
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void order(Order order) const;
+
+  //!
+  //! @brief get the pads of datatype
+  //! @return least and most significant bits
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual const std::vector<Pad> pad() const;
+
+  //!
+  //! @brief set the pads of datatype
+  //!
+  //! @param lsb padding type for least-significant bits
+  //! @param msb padding type for most-significant bits
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void pad(Pad lsb, Pad msb) const;
+
+  //!
+  //! @brief get the floating point datatype bit field information
+  //! @return floating point datatype bit field information,
+  //!         i.e. floating-point sign bit, exponent bit-position, size of exponent in bits
+  //!              mantissa bit-position, size of mantissa in bits
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual const std::vector<size_t> fields() const;
+
+  //!
+  //! @brief set the floating point datatype bit field information
+  //!
+  //! @param spos  floating-point sign bit
+  //! @param epos  exponent bit-position
+  //! @param ssize size of exponent in bits
+  //! @param mpos  mantissa bit-position
+  //! @param msize size of mantissa in bits
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void fields(size_t spos, size_t epos, size_t esize, size_t mpos, size_t msize) const;
+
+  //!
+  //! @brief get the exponent bias of a floating-point type
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual size_t ebias() const;
+
+  //!
+  //! @brief set the exponent bias of a floating-point type
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void ebias(size_t ebias) const;
+
+  //!
+  //! @brief get the mantissa normalization of a floating-point datatype
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual Norm norm() const;
+
+  //!
+  //! @brief set the mantissa normalization of a floating-point datatype
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void norm(Norm norm) const;
+
+  //!
+  //! @brief get the internal padding type for unused bits in floating-point datatypes
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual Pad inpad() const;
+
+  //!
+  //! @brief set the internal padding type for unused bits in floating-point datatypes
+  //!
+  //! @throws std::runtime_error in case of a failure
+  //!
+  virtual void inpad(Pad inpad) const;
 };
+
+
+class DLL_EXPORT float16_t{
+ private:
+  uint16_t _value; //!< data element holding the current float16 value
+ public:
+  //! default constructor
+  float16_t():_value(0u) {}
+
+  //! conversion constructor
+  float16_t(uint16_t v):_value(v) {}
+
+  //! conversion operator
+  operator uint16_t() const {
+    return _value;
+  }
+};
+
 
 } // namespace datatype
 } // namespace hdf5
