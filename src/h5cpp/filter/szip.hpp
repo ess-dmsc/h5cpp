@@ -19,56 +19,44 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 6, 2017
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@desy.de>
+//         Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Dec 20, 2020
 //
+#pragma once
 
 #include <h5cpp/filter/filter.hpp>
 
 namespace hdf5 {
 namespace filter {
 
-Filter::Filter():
-    id_(H5Z_FILTER_NONE)
-{}
-
-Filter::Filter(FilterID id):
-    id_(id)
-{}
-
-Filter::~Filter()
-{}
-
-FilterID Filter::id() const noexcept
+class DLL_EXPORT SZip : public Filter
 {
-  return id_;
-}
+  private:
+    unsigned int options_mask_;
+    unsigned int pixels_per_block_;
+  public:
+    SZip();
+    SZip(unsigned int options_mask, unsigned int pixels_per_block);
+    ~SZip();
 
-bool Filter::is_encoding_enabled() const
-{
-  unsigned int filter_info;
-  if(H5Zget_filter_info(id_, &filter_info) < 0)
-  {
-    std::stringstream ss;
-    ss<<"Configuration flag cannot be checked for filter: " << id_;
-    error::Singleton::instance().throw_with_stack(ss.str());
-  }
+    unsigned int options_mask() const noexcept;
 
-  return  bool(filter_info & H5Z_FILTER_CONFIG_ENCODE_ENABLED);
-}
+    void options_mask(unsigned int options_mask);
 
-bool Filter::is_decoding_enabled() const
-{
-  unsigned int filter_info;
-  if(H5Zget_filter_info(id_, &filter_info) < 0)
-  {
-    std::stringstream ss;
-    ss<<"Configuration flag cannot be checked for filter: " << id_;
-    error::Singleton::instance().throw_with_stack(ss.str());
-  }
+    unsigned int pixels_per_block() const noexcept;
 
-  return  bool(filter_info & H5Z_FILTER_CONFIG_DECODE_ENABLED);
-}
+    void pixels_per_block(unsigned int pixels_per_block);
+
+    virtual void operator()(const property::DatasetCreationList &dcpl,
+                            Availability flag=Availability::MANDATORY) const;
+
+    // Selects entropy coding method
+    static const unsigned int EC_OPTION_MASK;
+    // Selects nearest neighbor coding method.
+    static const unsigned int NN_OPTION_MASK;
+};
 
 } // namespace filter
-} // namesapce hdf5
+} // namespace hdf5

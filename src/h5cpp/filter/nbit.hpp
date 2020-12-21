@@ -19,56 +19,45 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 6, 2017
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@desy.de>
+//         Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Dec 20, 2020
 //
+#pragma once
 
 #include <h5cpp/filter/filter.hpp>
 
 namespace hdf5 {
 namespace filter {
 
-Filter::Filter():
-    id_(H5Z_FILTER_NONE)
-{}
-
-Filter::Filter(FilterID id):
-    id_(id)
-{}
-
-Filter::~Filter()
-{}
-
-FilterID Filter::id() const noexcept
+//!
+//! \brief NBit checksum filter
+//!
+//! If applied to a dataset creation property list this filter will setup
+//! the nbit checksum filter.
+//!
+class DLL_EXPORT NBit : public Filter
 {
-  return id_;
-}
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    NBit();
 
-bool Filter::is_encoding_enabled() const
-{
-  unsigned int filter_info;
-  if(H5Zget_filter_info(id_, &filter_info) < 0)
-  {
-    std::stringstream ss;
-    ss<<"Configuration flag cannot be checked for filter: " << id_;
-    error::Singleton::instance().throw_with_stack(ss.str());
-  }
+    ~NBit();
 
-  return  bool(filter_info & H5Z_FILTER_CONFIG_ENCODE_ENABLED);
-}
-
-bool Filter::is_decoding_enabled() const
-{
-  unsigned int filter_info;
-  if(H5Zget_filter_info(id_, &filter_info) < 0)
-  {
-    std::stringstream ss;
-    ss<<"Configuration flag cannot be checked for filter: " << id_;
-    error::Singleton::instance().throw_with_stack(ss.str());
-  }
-
-  return  bool(filter_info & H5Z_FILTER_CONFIG_DECODE_ENABLED);
-}
+    //!
+    //! \brief apply filter
+    //!
+    //! Applies the filter to a dataset creation property list.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param dcpl reference to the dataset creation property list
+    //!
+    virtual void operator()(const property::DatasetCreationList &dcpl,
+                            Availability flag = Availability::MANDATORY) const;
+};
 
 } // namespace filter
-} // namesapce hdf5
+} // namespace hdf5
