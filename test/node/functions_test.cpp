@@ -1,6 +1,7 @@
 
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,14 +20,16 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 2, 2017
 //
 
-#include "group_test_fixtures.hpp"
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
+#include "../utilities.hpp"
 
 using namespace hdf5;
-namespace nd = hdf5::node;
-
+/*
 class NodeFunctions : public BasicFixture {
  protected:
   void SetUp() override
@@ -37,11 +40,12 @@ class NodeFunctions : public BasicFixture {
     group2_ = root_.create_group("group_2");
     target_ = group1_.create_group("target");
     target_.create_group("contents");
-    root_.create_dataset("dataset", datatype::create<int>(), dataspace::Simple({0}));
+    root_.create_dataset("dataset", datatype::create<int>(),
+dataspace::Simple({0}));
 
     file2_ = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
-    file2_target_ = file2_.root().create_group("group").create_group("contents");
-    file2_.close();
+    file2_target_ =
+file2_.root().create_group("group").create_group("contents"); file2_.close();
   }
   virtual ~NodeFunctions() {}
 
@@ -49,54 +53,123 @@ class NodeFunctions : public BasicFixture {
   hdf5::file::File file2_;
   hdf5::node::Group file2_target_;
 };
+*/
 
-TEST_F(NodeFunctions, test_remove_node) {
-  EXPECT_NO_THROW(nd::remove(root_, Path("group_2")));
-  EXPECT_FALSE(root_.exists("group_2"));
+SCENARIO("testing node removal") {
+  auto file = file::create("node_test_1.h5", file::AccessFlags::TRUNCATE);
+  auto root = file.root();
 
-  EXPECT_THROW(nd::remove(root_, Path("group_2")), std::runtime_error);
-
-  EXPECT_NO_THROW(nd::remove(target_));
-  EXPECT_FALSE(group1_.exists("target"));
-  EXPECT_THROW(nd::remove(target_), std::runtime_error);
-
-  property::LinkAccessList lapl;
-  ObjectHandle(static_cast<hid_t>(lapl)).close();
-  EXPECT_THROW(nd::remove(root_, Path("group_1"), lapl), std::runtime_error);
+  GIVEN("a group below the root group") {
+    auto group = root.create_group("group");
+    THEN("the group must exist") { REQUIRE(root.exists("group")); }
+    WHEN("we remove the node by path") {
+      node::remove(root, "group");
+      THEN("the group no longer exists") {
+        REQUIRE_FALSE(root.exists("group"));
+        AND_WHEN("we try to remove the group a second time") {
+          THEN("the operation must fail") {
+            REQUIRE_THROWS_AS(node::remove(root, "group"), std::runtime_error);
+          }
+        }
+      }
+    }
+    WHEN("we remove the group by reference") {
+      node::remove(group);
+      THEN("the group no longer exists") {
+        REQUIRE_FALSE(root.exists("group"));
+      }
+    }
+    GIVEN("a link access property list") {
+      property::LinkAccessList lapl;
+      WHEN("we close the list") {
+        close(lapl);
+        THEN("trying to use this list in a remove operation must fail") {
+          REQUIRE_THROWS_AS(node::remove(root, "group", lapl),
+                            std::runtime_error);
+        }
+      }
+    }
+  }
 }
 
-TEST_F(NodeFunctions, test_copy_node) {
-  EXPECT_NO_THROW(nd::copy(target_, group2_, Path("gt")));
-  EXPECT_TRUE(group2_.exists("gt"));
-  EXPECT_THROW(nd::copy(target_, group2_, Path("gt")), std::runtime_error);
-
-  property::ObjectCopyList ocpl;
-  ObjectHandle(static_cast<hid_t>(ocpl)).close();
-  EXPECT_THROW(nd::copy(target_, group2_, Path("gt2"), ocpl), std::runtime_error);
-
-  EXPECT_NO_THROW(nd::copy(target_, group2_));
-  EXPECT_TRUE(group2_.exists("target"));
-
-  EXPECT_NO_THROW(nd::copy(target_, root_));
-  EXPECT_TRUE(root_.exists("target"));
-
-  EXPECT_THROW(nd::copy(target_, root_), std::runtime_error);
-
-  //copying root does not work
-  EXPECT_THROW(nd::copy(root_, group2_), std::runtime_error);
+SCENARIO("Testing node copying") {
+  auto file = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  auto root = file.root();
+  GIVEN("a group below the root group") {
+    auto g1 = root.create_group("group1");
+    WHEN("trying to create a copy under the same name") {
+      THEN("the operation must fail") {
+        REQUIRE_THROWS_AS(node::copy(g1, root), std::runtime_error);
+      }
+    }
+    WHEN("trying to copy the root group") {
+      THEN("the operation must fail") {
+        REQUIRE_THROWS_AS(node::copy(root, g1), std::runtime_error);
+      }
+    }
+    AND_GIVEN("a second group below the root group") {
+      auto g2 = root.create_group("group2");
+      THEN("copy the second group into the first") {
+        node::copy(g2, g1);
+        AND_THEN("g1 must have a new child group group2") {
+          REQUIRE(g1.exists("group2"));
+        }
+      }
+      THEN("copy the second group into the first as gt") {
+        node::copy(g2, g1, "gt");
+        AND_THEN("we get") { REQUIRE(g1.exists("gt")); }
+      }
+      AND_GIVEN("an object copy property list") {
+        property::ObjectCopyList ocpl;
+        AND_THEN("closing the list") {
+          close(ocpl);
+          THEN("any attempt to use this list in a copy operation must fail") {
+            REQUIRE_THROWS_AS(node::copy(g2, g1, ocpl), std::runtime_error);
+          }
+        }
+      }
+    }
+  }
 }
+
+SCENARIO("testing moving nodes") {
+  auto file = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  auto root = file.root();
+  GIVEN("/group1 below the root") {
+    auto g1 = root.create_group("group1");
+    AND_GIVEN("/group2 below the root") {
+      auto g2 = root.create_group("group2");
+      WHEN("moving the second into the first") {
+        node::move(g2, g1, "gt");
+        AND_THEN("we get") {
+          REQUIRE(g1.exists("gt"));
+          REQUIRE_FALSE(root.exists("group2"));
+        }
+        AND_GIVEN("a third group below the root group") {
+          auto g3 = root.create_group("group3");
+          WHEN(
+              "when try to move this to the same name in group1 the operation "
+              "must fail") {
+            REQUIRE_THROWS_AS(node::move(g3, g1, "gt"), std::runtime_error);
+          }
+        }
+      }
+      AND_GIVEN("a link creation property list") {
+        property::LinkCreationList lcpl;
+        WHEN("closing thist list") {
+          close(lcpl);
+          THEN("any move operation with thist list must fail") {
+            REQUIRE_THROWS_AS(node::move(g2, g1, lcpl), std::runtime_error);
+          }
+        }
+      }
+    }
+  }
+}
+
+/*
 
 TEST_F(NodeFunctions, test_move_node) {
-  EXPECT_NO_THROW(nd::move(target_, group2_, Path("gt")));
-  EXPECT_FALSE(group1_.exists("target"));
-  EXPECT_TRUE(group2_.exists("gt"));
-
-  property::LinkCreationList lcpl;
-  ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::move(target_, group2_, Path("gt2"), lcpl), std::runtime_error);
-
-  target_ = group1_.create_group("target");
-  EXPECT_THROW(nd::move(target_, group2_, Path("gt")), std::runtime_error);
 
   nd::Group gm = group2_["gt"];
   EXPECT_NO_THROW(nd::move(gm, group1_));
@@ -104,54 +177,115 @@ TEST_F(NodeFunctions, test_move_node) {
   EXPECT_FALSE(group2_.exists("gt"));
   EXPECT_THROW(nd::move(gm, group1_), std::runtime_error);
 }
+*/
 
-TEST_F(NodeFunctions, test_external_link) {
-  // Provoke underlying API error
-  property::LinkCreationList lcpl;
-  ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::link("./file2.h5", Path("group"), root_, Path("link"), lcpl), std::runtime_error);
+SCENARIO("testing external links") {
+  auto dtype = datatype::create<double>();
+  auto dspace = dataspace::Scalar{};
+  auto f1 = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  auto r1 = f1.root();
+  r1.create_dataset("data", dtype, dspace);
+  // create the second file where the targets of the external links are
+  // located
+  {
+    auto f = file::create("./node_test2.h5", file::AccessFlags::TRUNCATE);
+    f.root().create_group("group2").create_dataset("content", dtype, dspace);
+  }
 
-  // Parent path not group
-  EXPECT_THROW(nd::link("./file2.h5", Path("group"), root_, Path("/dataset/NA")), std::runtime_error);
+  auto link = [&](const Path& p) {
+    node::link("./node_test2.h5", "group2", r1, p);
+  };
+  GIVEN("a link creation property list") {
+    property::LinkCreationList lcpl;
+    WHEN("closing the list") {
+      close(lcpl);
+      THEN("any attempt to use it in an external linking operation will fail") {
+        REQUIRE_THROWS_AS(
+            node::link("./node_test2.h5", "group2", r1, "link", lcpl),
+            std::runtime_error);
+      }
+    }
+  }
+  WHEN("The target location is not a group") {
+    REQUIRE_THROWS_AS(link("/data"), std::runtime_error);
+  }
 
-  // Relative path
-  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"), root_, Path("link1")));
-  EXPECT_TRUE(nd::Group(root_["link1"]).exists("contents"));
+  GIVEN("a list of paths") {
+    auto paths = GENERATE(Path{"link"}, Path{"/link"});
+    WHEN("creating a link to this path") {
+      link(paths);
+      THEN("the new group exists") {
+        REQUIRE(r1.exists("link"));
+        AND_THEN("we can also check for the contents") {
+          REQUIRE(node::Group(r1["link"]).exists("content"));
+        }
+      }
+    }
+  }
 
-  // Absolute path
-  EXPECT_NO_THROW(nd::link("./file2.h5", Path("group"), target_, Path("/link2")));
-  EXPECT_TRUE(nd::Group(root_["link2"]).exists("contents"));
-
-  // Non-existent node
-  EXPECT_NO_THROW(nd::link("./file2.h5", Path("future_group"), root_, Path("/link3")));
-  EXPECT_TRUE(root_.links.exists("link3"));
+  GIVEN("a path to a non yet existing object in the secondary file") {
+    auto path = Path{"group2_future"};
+    THEN("creating the link should work") {
+      node::link("./node_test2.h5", path, r1, "link");
+      THEN("the link must exist") { REQUIRE(r1.links.exists("link")); }
+      THEN("access to the object must fail") {
+        REQUIRE_THROWS_AS(r1["link"], std::runtime_error);
+      }
+    }
+  }
 }
 
-TEST_F(NodeFunctions, test_soft_link) {
-  // Provoke underlying API error
-  property::LinkCreationList lcpl;
-  ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(nd::link(Path("/group_1"), target_, Path("/link"), lcpl), std::runtime_error);
+SCENARIO("testing soft links") {
+  auto f = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  auto r = f.root();
 
-  // Parent path not group
-  EXPECT_THROW(nd::link(Path("/group_1"), root_, Path("/dataset/NA")), std::runtime_error);
+  GIVEN("a group below root") {
+    auto g = r.create_group("group1");
 
-
-  //Relative path
-  EXPECT_NO_THROW(nd::link(Path("/group_1"), root_, Path("link1")));
-  EXPECT_TRUE(nd::Group(root_["link1"]).exists("target"));
-
-  //Absolute path
-  EXPECT_NO_THROW(nd::link(Path("/group_1"), target_, Path("/link2")));
-  EXPECT_TRUE(nd::Group(root_["link2"]).exists("target"));
-
-  // Non-existent node
-  EXPECT_NO_THROW(nd::link(Path("/group_1"), target_, Path("/group_2/link3")));
-  EXPECT_TRUE(nd::Group(group2_["link3"]).exists("target"));
+    AND_GIVEN("absolute and relative link paths") {
+      auto paths = GENERATE("link", "/link");
+      WHEN("attempting to link") {
+        node::link("/group1", r, paths);
+        THEN("the group should exist") { REQUIRE(r.exists("link")); }
+      }
+      AND_GIVEN("a link creation property list") {
+        property::LinkCreationList lcpl;
+        AND_WHEN("closing this list") {
+          close(lcpl);
+          THEN("using ist in a link operation causes the operation to fail") {
+            REQUIRE_THROWS_AS(node::link("/group1", r, paths, lcpl),
+                              std::runtime_error);
+          }
+        }
+      }
+    }
+    AND_GIVEN("a dataset") {
+      auto d = r.create_dataset("data", datatype::create<double>(),
+                                dataspace::Scalar{});
+      WHEN("attempting to use this as a target for a link") {
+        THEN("the linking must fail") {
+          REQUIRE_THROWS_AS(node::link("/group1", r, "/data/NA"),
+                            std::runtime_error);
+        }
+      }
+    }
+  }
+  WHEN("creating a link to a non-existing object") { 
+    node::link("dataset", r, "/data");
+    THEN("the link must exist") { 
+      REQUIRE(r.links.exists("data"));
+    }
+    THEN("accessing the object must fail") { 
+      REQUIRE_THROWS_AS(r["data"], std::runtime_error);
+    }
+  }
 }
 
+SCENARIO("testing linking") {}
+/*
 TEST_F(NodeFunctions, test_link)
 {
   EXPECT_NO_THROW(nd::link(target_, root_, Path("internal")));
   EXPECT_NO_THROW(nd::link(file2_target_, root_, Path("external")));
 }
+*/
