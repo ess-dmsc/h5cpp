@@ -53,7 +53,7 @@ class DLL_EXPORT ScaleOffset : public Filter
     int scale_factor_;
   public:
     ScaleOffset();
-    ScaleOffset(SOScaleType scale_type, int scale_factor_);
+    ScaleOffset(SOScaleType scale_type, int scale_factor);
     ~ScaleOffset();
 
     SOScaleType scale_type() const noexcept;
