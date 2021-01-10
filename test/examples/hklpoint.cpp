@@ -1,6 +1,5 @@
 //
-// (c) Copyright 2017 DESY,ESS
-//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// (c) Copyright 2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -21,32 +20,38 @@
 // ===========================================================================
 //
 // Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
-// Created on: Oct 23, 2017
+// Created on: Jan 10, 2021
 //
-#include <catch2/catch.hpp>
-#include <h5cpp/hdf5.hpp>
-#include <array>
-#include <cstdint>
 
-using namespace hdf5;
+#include "hklpoint.hpp"
 
-template<class Type>
-void constData() {
-  std::array<const Type,1> SomeData{0};
-  node::Dataset dset;
-  dset.write(SomeData);
+
+HKLPoint::HKLPoint(int h, int k, int l) : h_(h), k_(k), l_(l) {}
+
+HKLPoint::HKLPoint(const std::initializer_list<int>& init_list)
+    : h_(0), k_(0), l_(0) {
+  auto iter = init_list.begin();
+  h_ = *iter++;
+  k_ = *iter++;
+  l_ = *iter;
 }
 
-void DoNotRun() {
-  constData<std::int8_t>();
-  constData<std::uint8_t>();
-  constData<std::int16_t>();
-  constData<std::uint16_t>();
-  constData<std::int32_t>();
-  constData<std::uint32_t>();
-  constData<std::int64_t>();
-  constData<std::uint64_t>();
-  constData<double>();
-  constData<float>();
-  constData<char>();
+int HKLPoint::h() const noexcept {
+  return h_;
+}
+
+int HKLPoint::k() const noexcept {
+  return k_;
+}
+
+int HKLPoint::l() const noexcept {
+  return l_;
+}
+
+bool operator==(const HKLPoint& lhs, const HKLPoint& rhs) {
+  return (lhs.h() == rhs.h()) && (lhs.k() == rhs.k()) && (lhs.l() == rhs.l());
+}
+
+bool operator!=(const HKLPoint& lhs, const HKLPoint& rhs) {
+  return !(lhs == rhs);
 }

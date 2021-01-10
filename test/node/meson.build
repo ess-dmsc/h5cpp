@@ -6,12 +6,12 @@ test_sources=files('node_test.cpp'
                     ,'group_test.cpp'
                     ,'dataset_test.cpp'
                     ,'group_node_iteration_test.cpp'
+                    ,'dataset_partial_io_test.cpp'
+                    ,'dataset_extent_test.cpp'
+                    ,'dataset_array_type_io.cpp'
+                    ,'dataset_const_data.cpp'
+                    ,'dataset_vlen_array_io.cpp'
                     #,'group_test_fixtures.cpp'
-                    #,'dataset_extent_test.cpp'
-                    #,'dataset_partial_io_test.cpp'
-                    #,'dataset_array_type_io.cpp'
-                    #,'dataset_const_data.cpp'
-                    #,'dataset_vlen_array_io.cpp'
                     #,'dataset_fixed_string_io.cpp'
                     #,'dataset_variable_string_io.cpp'
                     #,'virtual_dataset_test.cpp'
@@ -34,5 +34,6 @@ test_sources=files('node_test.cpp'
                     #,'dataset_write_speed_test.cpp'
                     #,'dataset_direct_chunk_test.cpp'
                     )
-node_test = executable('node_test', test_sources, dependencies: [h5cpp_dep, catch2_dep])
+node_test = executable('node_test', test_sources, 
+    dependencies: [h5cpp_dep, catch2_dep, example_dep])
 test('run node test', node_test, workdir: meson.current_build_dir())
