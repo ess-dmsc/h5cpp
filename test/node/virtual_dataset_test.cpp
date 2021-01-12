@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,7 +20,7 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 10, 2017
 //
 
