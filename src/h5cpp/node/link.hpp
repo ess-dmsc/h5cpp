@@ -100,25 +100,26 @@ class DLL_EXPORT LinkTarget
     hdf5::Path              object_path_;
 };
 
-//!
-//! \brief a link
-//!
-//! Class representing a link to an object within an HDF5 file. In order to store links
-//! in a container they have to be default constructable. A default constructed link has the
-//! type LinkType::ERROR.
-//! Instead of a node type only the handle to the parent is stored. Thus, the parent can
-//! also be a File which would identify the link as the link to the root group.
-//!
+/**
+ * @brief an HDF5 link
+ * 
+ * Class representing a link to an object within an HDF5 file. In order to 
+ * store links in a container they have to be default constructable. A default
+ * constructed link has the type LinkType::ERROR.
+ * Instead of a node type only the handle to the parent is stored. Thus, the 
+ * parent can also be a File which would identify the link as the link to the 
+ * root group.
+ */
 class DLL_EXPORT Link
 {
   public:
-    //!
-    //! \brief constructor
-    //!
-    //! \param file reference to the file via which the link was accessed
-    //! \param parent_path the object path to the links parent
-    //1 \param link_name the name of the link below its parent
-    //!
+    /**
+     * @brief Construct a new Link object
+     * 
+     * @param file reference to the file object the link is locate in
+     * @param parent_path path to the parent group for the link
+     * @param link_name the name of the link
+     */
     Link(const file::File &file,
          const Path &parent_path,
          const std::string &link_name);
@@ -185,6 +186,19 @@ class DLL_EXPORT Link
     bool is_resolvable() const;
 
 
+    /**
+     * @brief equality operator for links
+     * 
+     * Two links are considered equal under the following conditions
+     * 
+     * - they both share the same parent file
+     * - their parent paths are equal
+     * - their names are equal
+     * 
+     * @param lhs left hanside of the operator
+     * @param rhs right handside of the operator
+     * @return true if the links are equal, false otherwise
+     */
     DLL_EXPORT friend bool operator==(const Link &lhs, const Link &rhs);
 
   private:

@@ -25,7 +25,7 @@
 //
 
 #include <catch2/catch.hpp>
-#include "group_test_fixtures.hpp"
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
@@ -41,15 +41,13 @@ SCENARIO("testing basic HDF5 link operations") {
   }
   GIVEN("a valid hdf5 file") {
     auto f = file::create("link_test.h5", file::AccessFlags::TRUNCATE);
-    THEN("we can create a link") {
+    WHEN("creating non-existing link (not in the file)") {
       node::Link l(f, "/", "name1");
-      AND_THEN("trying to get the type will fail") {
+      THEN("fetching the type will fail") {
         REQUIRE_THROWS_AS(l.type(), std::runtime_error);
       }
-      AND_THEN("the link does not exist") { REQUIRE_FALSE(l.exists()); }
-      AND_THEN("the link is not resolvable") {
-        REQUIRE_FALSE(l.is_resolvable());
-      }
+      THEN("the link does not exist") { REQUIRE_FALSE(l.exists()); }
+      THEN("the link is not resolvable") { REQUIRE_FALSE(l.is_resolvable()); }
     }
     GIVEN("given a  link to an object") {
       node::Link l1(f, "path1", "name1");
@@ -102,10 +100,10 @@ SCENARIO("testing basic HDF5 link operations") {
             REQUIRE(l.is_resolvable());
           }
         }
-        WHEN("creating a link to a non-existing object") { 
+        WHEN("creating a link to a non-existing object") {
           node::link("/original/data", root, "link");
           auto l = root.links["link"];
-          THEN("the link must be") { 
+          THEN("the link must be") {
             REQUIRE(l.exists());
             REQUIRE(l.type() == node::LinkType::SOFT);
             REQUIRE_FALSE(l.is_resolvable());
