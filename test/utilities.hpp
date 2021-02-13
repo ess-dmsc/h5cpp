@@ -42,3 +42,8 @@ void close(const T& object) {
   hdf5::ObjectHandle(to_hid(object)).close();
 }
 
+#include <vector>
+#include <h5cpp/datatype/ebool.hpp>
+using UChars = std::vector<unsigned char>;
+using EBools = std::vector<hdf5::datatype::EBool>;
+
