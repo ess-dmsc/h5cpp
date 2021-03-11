@@ -67,7 +67,7 @@ include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
 
 add_subdirectory(src)
-set( BUILD_DOCS OFF CACHE BOOL "Build documentation")
+set( BUILD_DOCS ON CACHE BOOL "Build documentation")
 if(BUILD_DOCS)
   add_subdirectory(doc)
 endif()
