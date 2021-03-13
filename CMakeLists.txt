@@ -66,9 +66,11 @@ include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
 include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
 
-add_custom_target(html)
 add_subdirectory(src)
-add_subdirectory(doc)
+set( BUILD_DOCS ON CACHE BOOL "Build documentation")
+if(BUILD_DOCS)
+  add_subdirectory(doc)
+endif()
 
 #=============================================================================
 # install the examples directory to the documentation directory
