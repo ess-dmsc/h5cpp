@@ -31,5 +31,6 @@ test_sources=files('node_test.cpp'
                     #,'dataset_write_speed_test.cpp'
                     )
 node_test = executable('node_test', test_sources, 
-    dependencies: [h5cpp_dep, catch2_dep, example_dep])
+    dependencies: [h5cpp_dep, catch2_dep, example_dep, dependency('threads')],
+    cpp_args: '-DCATCH_CONFIG_ENABLE_BENCHMARKING')
 test('run node test', node_test, workdir: meson.current_build_dir())

@@ -24,7 +24,6 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 12, 2018
 //
-
 #include <catch2/catch.hpp>
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/dataspace/hyperslab.hpp>
@@ -54,17 +53,18 @@ hdf5::Dimensions current_dimensions(const hdf5::node::Dataset& dataset) {
 
 using UShorts = std::vector<unsigned short int>;
 
-SCENARIO("testing read performance") {
+static std::string filename = "dataset_read_speed.h5";
+
+void create_initial_datafile() {
 #if H5_VERSION_GE(1, 10, 0)
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
   fapl.library_version_bounds(property::LibVersion::LATEST,
                               property::LibVersion::LATEST);
-  file::File f = file::create("dataset_read_speed.h5",
-                              file::AccessFlags::TRUNCATE, fcpl, fapl);
-#else
   file::File f =
-      file::create("dataset_read_speed.h5", file::AccessFlags::TRUNCATE);
+      file::create(filename, file::AccessFlags::TRUNCATE, fcpl, fapl);
+#else
+  file::File f = file::create(filename, file::AccessFlags::TRUNCATE);
 #endif
   property::DatasetCreationList dcpl;
   property::LinkCreationList lcpl;
@@ -86,87 +86,36 @@ SCENARIO("testing read performance") {
     framespace.offset({i, 0, 0});
     data.write(frame, framespace);
   }
+}
 
-  GIVEN("the timepoints") {
-    double time0, time1;
-    AND_GIVEN("a new datafile") {
-      auto f0 =
-          file::open("dataset_read_speed.h5", file::AccessFlags::READONLY);
-      auto r0 = f0.root();
-      auto d0 = r0.get_dataset("/data");
-      auto dims = current_dimensions(d0);
-      auto dtype = d0.datatype();
-      UShorts buffer(dims[0] * dims[1] * dims[2]);
+SCENARIO("testing read performance") {
+  create_initial_datafile();
+  GIVEN("The data file with the data to read") {
+    auto file = file::open(filename, file::AccessFlags::READONLY);
+    auto dataset = file.root().get_dataset("/data");
+    auto dims = current_dimensions(dataset);
+    auto dtype = dataset.datatype();
+    dataspace::Simple dspace = dataset.dataspace();
+    UShorts buffer_all(dims[0] * dims[1] * dims[2]);
+    UShorts buffer_selection(11 * dims[1] * dims[2]);
+    BENCHMARK("selecting the entire dataset block") {
+      hdf5::Dimensions frameoffset{0, 0, 0};
+      hdf5::Dimensions frameblock{dims[0], dims[1], dims[2]};
+      hdf5::dataspace::Hyperslab selected_frames{frameoffset, frameblock};
+      return dataset.read(buffer_all, dtype, dspace, selected_frames);
+    };
+    BENCHMARK("reading the entire dataset") { return dataset.read(buffer_all); };
+    BENCHMARK("reading 11 frames with a hyperslab and a memory dataspace of the correct rank") { 
+      hdf5::dataspace::Hyperslab selection{{10, 0, 0}, {11, dims[1], dims[2]}};
+      dataspace::Simple memory_dataspace(Dimensions({11, dims[1], dims[2]}));
+      return dataset.read(buffer_selection, dtype, memory_dataspace, selection);
+    };
+    BENCHMARK("reading 11 frames with a default dataspace") { 
+      hdf5::dataspace::Hyperslab selection{{10, 0, 0}, {11, dims[1], dims[2]}};
+      return dataset.read(buffer_selection,  selection);
+    };
 
-      WHEN("selecting the entire dataset block") {
-        hdf5::Dimensions frameoffset{0, 0, 0};
-        hdf5::Dimensions frameblock{dims[0], dims[1], dims[2]};
-        hdf5::dataspace::Hyperslab selected_frames{frameoffset, frameblock};
-        dataspace::Simple dspace = d0.dataspace();
-        struct timeval start, stop;
-        gettimeofday(&start, NULL);
-        d0.read(buffer, dtype, dspace, selected_frames);
-        gettimeofday(&stop, NULL);
-        time0 = delta_time(start,stop);
-      }
-      WHEN("reading the entire dataset") {
-        struct timeval start, stop;
-        gettimeofday(&start, NULL);
-        d0.read(buffer);
-        gettimeofday(&stop, NULL);
-        time1 = delta_time(start, stop);
-      }
-    }
-    THEN("we expect") {
-      UNSCOPED_INFO("reading with selection "<<time0);
-      UNSCOPED_INFO("reading without selection "<<time1);
-      REQUIRE(14 * time1 > time0);
-      REQUIRE(14 * time0 > time1);
-    }
   }
 
-  /*
-  TEST_F(DatasetReadSpeedTest, read_hyperslab) {
-    struct timeval stime1;
-    struct timeval etime1;
-    struct timeval stime0;
-    struct timeval etime0;
-
-    file::File f0 =
-        file::open("dataset_read_speed.h5", file::AccessFlags::READONLY);
-    auto root0 = f0.root();
-    auto dataset0 = root0.get_dataset("/data");
-    hdf5::dataspace::Simple dataspace(dataset0.dataspace());
-    const auto dims = dataspace.current_dimensions();
-    std::vector<unsigned short int> buffer(11 * dims[1] * dims[2]);
-    auto datatype = dataset0.datatype();
-
-    hdf5::Dimensions frameoffset{10, 0, 0};
-    hdf5::Dimensions frameblock{11, dims[1], dims[2]};
-    hdf5::dataspace::Hyperslab selected_frames{frameoffset, frameblock};
-    dataspace::Simple dataspace0(Dimensions({11, dims[1], dims[2]}));
-    // time0
-    gettimeofday(&stime0, NULL);
-    dataset0.read(buffer, datatype, dataspace0, selected_frames);
-    gettimeofday(&etime0, NULL);
-    f0.close();
-
-    file::File f1 =
-        file::open("dataset_read_speed.h5", file::AccessFlags::READONLY);
-    auto root1 = f1.root();
-    auto dataset1 = root1.get_dataset("/data");
-    // time1
-    gettimeofday(&stime1, NULL);
-    dataset1.read(buffer, selected_frames);
-    gettimeofday(&etime1, NULL);
-    f1.close();
-
-    double time0 = delta_time(stime0, etime0);
-    double time1 = delta_time(stime1, etime1);
-
-    EXPECT_GT(14 * time1, time0);
-    EXPECT_GT(14 * time0, time1);
-  }
-  */
 }
 #endif
