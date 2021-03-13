@@ -6,26 +6,23 @@ h5cpp_dependencies = []
 # check if the with mpi option was set
 # -----------------------------------------------------------------------------
 if get_option('with-mpi')
- mpi_cxx = dependency('mpi-cxx', method: 'pkg-config')
- h5cpp_dependencies += [mpi_cxx]
+ h5cpp_dependencies += dependency('mpi-cxx', method: 'pkg-config')
  add_project_arguments('-DWITH_MPI', language: 'cpp')
 endif
 
 # -----------------------------------------------------------------------------
 # setting up the HDF5 dependency
 # -----------------------------------------------------------------------------
-hdf5 = dependency('hdf5', language: 'c')
-h5cpp_dependencies += [hdf5]
+h5cpp_dependencies += dependency('hdf5', language: 'c')
 
 # -----------------------------------------------------------------------------
 # setting up the boost dependencies
 # -----------------------------------------------------------------------------
-boost = dependency('boost', modules:['filesystem','system'])
+h5cpp_dependencies += dependency('boost', modules:['filesystem','system'])
 srcinc = include_directories('src')
 
 catch2_dep = declare_dependency(include_directories:'subprojects/catch2/include')
 
-h5cpp_dependencies += [boost]
 
 
 

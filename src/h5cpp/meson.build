@@ -34,5 +34,5 @@ h5cpp_dep = declare_dependency(link_with: h5cpp_lib,
 install_headers('hdf5.hpp', subdir:'h5cpp')
 
 pkg.generate(h5cpp_lib,
-             libraries: boost,
+             libraries: h5cpp_dependencies,
              install_dir: join_paths(get_option('libdir'),'pkgconfig'))
