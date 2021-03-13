@@ -61,9 +61,7 @@ SCENARIO("writing MPITransferMode to a stream") {
   using r = std::tuple<pl::MPITransferMode,std::string>;
   auto p = GENERATE(table<pl::MPITransferMode,std::string>({
     r{pl::MPITransferMode::INDEPENDENT, "INDEPENDENT"},
-    r{pl::MPITransferMode::COLLECTIVE, "COLLECTIVE"},
-    r{pl::MPITransferMode::ONE_LINK_CHUNKED, "ONE_LINK_CHUNKED"},
-    r{pl::MPITransferMode::MULTI_CHUNK, "MULTI_CHUNK"}
+    r{pl::MPITransferMode::COLLECTIVE, "COLLECTIVE"}
   }));
   GIVEN("a stream") { 
     std::stringstream stream;
@@ -74,6 +72,7 @@ SCENARIO("writing MPITransferMode to a stream") {
   }
 }
 
+/*
 TEST(DatasetTransferList, transfer_mode) {
   pl::DatasetTransferList dtpl;
   dtpl.mpi_transfer_mode(pl::MPITransferMode::INDEPENDENT);
@@ -97,6 +96,6 @@ TEST(DatasetTransferList, chunk_option) {
   hdf5::ObjectHandle(static_cast<hid_t>(dtpl)).close();
   EXPECT_THROW(dtpl.mpi_chunk_option(pl::MPIChunkOption::MULTI_CHUNK),
                std::runtime_error);
-}
+}*/
 
 #endif

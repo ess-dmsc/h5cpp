@@ -169,7 +169,7 @@ TEMPLATE_TEST_CASE("testing byte order for floats",
       }
       AND_THEN("set them to 14, 9, 5, 0, 9") {
         auto fields = f{15ul, 9ul, 5ul, 0ul, 9lu};
-        t.fields(15lu, 8lu, 5lu, 0lu, 9lu);
+        t.fields(15lu, 9lu, 5lu, 0lu, 9lu);
         REQUIRE_THAT(t.fields(), Catch::Matchers::Equals(fields));
       }
     }
