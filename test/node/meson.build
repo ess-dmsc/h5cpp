@@ -26,7 +26,6 @@ test_sources=files('node_test.cpp'
                     ,'dataset_pniio_bool_test.cpp'
                     ,'dataset_io_speed_test.cpp'
                     ,'dataset_direct_chunk_test.cpp'
-                    #,'group_test_fixtures.cpp'
                     )
 node_test = executable('node_test', test_sources, 
     dependencies: [h5cpp_dep, catch2_dep, example_dep, dependency('threads')],
