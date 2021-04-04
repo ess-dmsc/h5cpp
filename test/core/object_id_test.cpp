@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,9 +21,9 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 13, 2017
 //
-
 
 /*
 
@@ -34,29 +35,30 @@
 
   file_number:
      not equal if same file closed and reopened
-     identifies the file that owns object, not owner of link (in case of ext link)
+     identifies the file that owns object, not owner of link (in case of ext
+ link)
 
   file_name:
-     not equal if file opened via symbolic link (h5 allows opening same file twice)
-     not equal if object opened via external link vs. original node
+     not equal if file opened via symbolic link (h5 allows opening same file
+ twice) not equal if object opened via external link vs. original node
 
 
   Conclusions:
-    file_number adequately reflects identity, unless file has been closed and reopened.
-    file_name does not adequately reflect identity. Resolving symbolic link would solve
-    part of the problem, but would also need to somehow dereference external links to
-    identify the name of the object-owning file.
+    file_number adequately reflects identity, unless file has been closed and
+ reopened. file_name does not adequately reflect identity. Resolving symbolic
+ link would solve part of the problem, but would also need to somehow
+ dereference external links to identify the name of the object-owning file.
 
 */
 
-
-#include <gtest/gtest.h>
-#include <h5cpp/core/hdf5_capi.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/core/filesystem.hpp>
-#include <h5cpp/core/object_id.hpp>
+#include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/core/object_handle.hpp>
+#include <h5cpp/core/object_id.hpp>
 #include <h5cpp/core/types.hpp>
 #include <iostream>
+#include <tuple>
 
 static const fs::path kFilePath_1 = fs::absolute("file1.h5");
 static const fs::path kFilePath_2 = fs::absolute("file2.h5");
@@ -68,366 +70,312 @@ static const fs::path kFilePath_3 = fs::absolute("file3.h5");
 
 using namespace hdf5;
 
-class ObjectIdTest : public testing::Test
-{
-  public:
-    ObjectIdTest() {}
-    ~ObjectIdTest()
-    {
-      fs::remove(FILE1);
-      fs::remove(FILE2);
-      fs::remove(FILE3);
-    }
-};
+ObjectHandle file_handle(const fs::path& path) {
+  return ObjectHandle(
+      H5Fcreate(path.string().data(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT));
+}
 
-struct FileGuard
-{
-    fs::path file_path;
-    ObjectHandle file_handle;
-    ObjectHandle group1_handle;
-    ObjectHandle group2_handle;
-    ObjectHandle dataset_handle;
+ObjectHandle group_handle(const ObjectHandle& parent, const std::string& name) {
+  return ObjectHandle(H5Gcreate(static_cast<hid_t>(parent), name.data(),
+                                H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT));
+}
 
-    FileGuard(const fs::path &path):
-      file_path{path},
-      file_handle{},
-      group1_handle{},
-      group2_handle{},
-      dataset_handle{}
-    {
-      file_handle = ObjectHandle(H5Fcreate(file_path.string().data(),
-                                           H5F_ACC_TRUNC,
-                                           H5P_DEFAULT,
-                                           H5P_DEFAULT));
-      group1_handle = ObjectHandle(H5Gcreate(static_cast<hid_t>(file_handle),
-                                             "/group1",
-                                             H5P_DEFAULT,
-                                             H5P_DEFAULT,
-                                             H5P_DEFAULT));
-      group2_handle = ObjectHandle(H5Gcreate(static_cast<hid_t>(file_handle),
-                                             "/group2",
-                                             H5P_DEFAULT,
-                                             H5P_DEFAULT,
-                                             H5P_DEFAULT));
-      Dimensions dims{3,3};
-      ObjectHandle space(H5Screate_simple(static_cast<int>(dims.size()),
-					  dims.data(),nullptr));
-      dataset_handle = ObjectHandle(H5Dcreate(static_cast<hid_t>(group1_handle),
-                                              "dset1",
-                                              H5T_NATIVE_DOUBLE,
-                                              static_cast<hid_t>(space),
-                                              H5P_DEFAULT,
-                                              H5P_DEFAULT,
-                                              H5P_DEFAULT));
-    }
-};
+struct FileGuard {
+  fs::path file_path;
+  ObjectHandle file;
+  ObjectHandle group1;
+  ObjectHandle group2;
+  ObjectHandle dataset;
 
-struct OneFile
-{
-  OneFile(std::string fname)
-  {
-    fname_ = fname;
-    file = H5Fcreate(fname.data(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    group1 = H5Gcreate(file, "/group1",
-                       H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-    group2 = H5Gcreate(file, "/group2",
-                       H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-
-    hsize_t dims[2];
-    dims[0] = 3;
-    dims[1] = 3;
-    hid_t dataspace = H5Screate_simple(2, dims, NULL);
-
-    dset1 = H5Dcreate(group1, "dset1", H5T_NATIVE_DOUBLE, dataspace,
-                      H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+  FileGuard(const fs::path& path)
+      : file_path{path},
+        file{file_handle(file_path)},
+        group1{group_handle(file, "/group1")},
+        group2{group_handle(file, "/group2")},
+        dataset{} {
+    Dimensions dims{3, 3};
+    ObjectHandle space(
+        H5Screate_simple(static_cast<int>(dims.size()), dims.data(), nullptr));
+    dataset = ObjectHandle(H5Dcreate(
+        static_cast<hid_t>(group1), "dset1", H5T_NATIVE_DOUBLE,
+        static_cast<hid_t>(space), H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT));
   }
-
-  ~OneFile()
-  {
-    H5Dclose(dset1);
-    H5Gclose(group1);
-    H5Gclose(group2);
-    H5Fclose(file);
-  }
-
-  std::string fname_;
-  hid_t file, group1, group2, dset1;
 };
 
 // Print
-TEST_F(ObjectIdTest,  printing )
-{
-  FileGuard file1(kFilePath_1);
-  ObjectId f1(file1.file_handle);
+TEST_CASE("testing object id", "[hdf5],[core]") {
+  SECTION("write id to stream") {
+    FileGuard file1(kFilePath_1);
+    ObjectId f1(file1.file);
 
-  std::stringstream ss;
-  ss << f1;
-  EXPECT_TRUE(!ss.str().empty());
+    std::stringstream ss;
+    ss << f1;
+    REQUIRE_FALSE(ss.str().empty());
+  }
+  fs::remove(kFilePath_1);
 }
 
-TEST_F(ObjectIdTest,default_construction)
-{
-  ObjectId id;
-  EXPECT_EQ(id.file_number(),0ul);
-  EXPECT_EQ(id.object_address(),0ul);
-  EXPECT_TRUE(id.file_name().empty());
-}
-
-TEST_F(ObjectIdTest, construction_from_invalid_handler)
-{
-  ObjectHandle handle;
-  ObjectId id(handle);
-  ObjectId id2;
-  EXPECT_EQ(id, id2);
-}
-
-TEST_F(ObjectIdTest, get_file_name)
-{
-  FileGuard file1(kFilePath_1);
-  EXPECT_EQ(ObjectId::get_file_name(file1.group1_handle), kFilePath_1);
-
-  ObjectHandle handle;
-  EXPECT_THROW(ObjectId::get_file_name(handle), std::runtime_error);
-}
-
-TEST_F(ObjectIdTest, get_info)
-{
-  FileGuard file1(kFilePath_1);
-  EXPECT_NO_THROW(ObjectId::get_info(file1.group1_handle));
-
-  ObjectHandle handle;
-  EXPECT_THROW(ObjectId::get_info(handle), std::runtime_error);
-}
-
-TEST_F(ObjectIdTest,construction)
-{
-  FileGuard file1(kFilePath_1);
-  ObjectId id(file1.group1_handle);
-
-  EXPECT_EQ(id.file_name(),kFilePath_1);
-}
-
-// For h5 hard links (to group):
-//   file_name, file_number and address are all equal
-TEST_F(ObjectIdTest,  hard_group )
-{
-  FileGuard file1(kFilePath_1);
-
-  //create a new hard link to group1 with the name group3
-  //we use an assert here as we can break the test if this operation fails
-  herr_t ret = H5Lcreate_hard(static_cast<hid_t>(file1.file_handle), "/group1",
-                              static_cast<hid_t>(file1.file_handle), "/group3",
-                              H5P_DEFAULT, H5P_DEFAULT);
-  ASSERT_GE(ret,0);
-  ObjectHandle group3_handle(H5Gopen(static_cast<hid_t>(file1.file_handle),
-                                     "/group3", H5P_DEFAULT));
-
-  ObjectId info1(file1.group1_handle);
-  ObjectId info3(group3_handle);
-
-  //the handler must not be equal - sanity check
-  EXPECT_NE(static_cast<hid_t>(file1.group1_handle),
-            static_cast<hid_t>(group3_handle));
-
-  //everything else must be
-  EXPECT_EQ(info1.file_name(), info3.file_name());
-  EXPECT_EQ(info1.file_number(), info3.file_number());
-  EXPECT_EQ(info1.object_address(), info3.object_address());
-}
-
-// For h5 hard links (to dataset):
-//   file_name, file_number and address are all equal
-TEST_F(ObjectIdTest,  hard_dset )
-{
-  FileGuard file1(kFilePath_1);
-
-  herr_t ret = H5Lcreate_hard(static_cast<hid_t>(file1.group1_handle), "dset1",
-                              static_cast<hid_t>(file1.group2_handle), "dset2",
-                              H5P_DEFAULT, H5P_DEFAULT);
-  ASSERT_GE(ret,0);
-  ObjectHandle dset2(H5Dopen(static_cast<hid_t>(file1.group2_handle), "dset2",
-                             H5P_DEFAULT));
-
-  ObjectId info1(file1.dataset_handle);
-  ObjectId info2(dset2);
-
-  EXPECT_NE(static_cast<hid_t>(file1.dataset_handle),
-            static_cast<hid_t>(dset2));
-  EXPECT_EQ(info1.file_name(), info2.file_name());
-  EXPECT_EQ(info1.file_number(), info2.file_number());
-  EXPECT_EQ(info1.object_address(), info1.object_address());
-}
-
-// For h5 soft links (to group):
-//   file_name, file_number and address are all equal
-TEST_F(ObjectIdTest,  soft_group )
-{
-  FileGuard file1(kFilePath_1);
-
-  herr_t ret = H5Lcreate_soft("/group1",
-                              static_cast<hid_t>(file1.file_handle),
-                              "/group3",
-                              H5P_DEFAULT, H5P_DEFAULT);
-  ASSERT_GE(ret,0);
-  ObjectHandle group3(H5Gopen(static_cast<hid_t>(file1.file_handle),
-                              "/group3", H5P_DEFAULT));
-
-  ObjectId info1(file1.group1_handle);
-  ObjectId info2(group3);
-
-  EXPECT_NE(static_cast<hid_t>(file1.group1_handle),
-            static_cast<hid_t>(group3));
-  EXPECT_EQ(info1.file_name(), info2.file_name());
-  EXPECT_EQ(info1.file_number(), info2.file_number());
-  EXPECT_EQ(info1.object_address(), info1.object_address());
-}
-
-// For h5 soft links (to dataset):
-//   file_name, file_number and address are all equal
-TEST_F(ObjectIdTest,  soft_dset )
-{
-  FileGuard file1(kFilePath_1);
-
-  herr_t ret = H5Lcreate_soft("/group1/dset1",
-                              static_cast<hid_t>(file1.file_handle),
-                              "/group2/dset2",
-                              H5P_DEFAULT, H5P_DEFAULT);
-  ASSERT_GE(ret,0);
-  ObjectHandle dset2(H5Dopen(static_cast<hid_t>(file1.group2_handle),
-                             "dset2", H5P_DEFAULT));
-
-  ObjectId info1(file1.dataset_handle);
-  ObjectId info2(dset2);
-
-  EXPECT_NE(static_cast<hid_t>(file1.dataset_handle),
-            static_cast<hid_t>(dset2));
-  EXPECT_EQ(info1.file_name(), info2.file_name());
-  EXPECT_EQ(info1.file_number(), info2.file_number());
-  EXPECT_EQ(info1.object_address(), info1.object_address());
-}
-
-// If file copy is made:
-//   only object addresses are equal
-TEST_F(ObjectIdTest,  file_copy )
-{
-  //just to ensure everything gets destroyed after construction
-  {
-    FileGuard{kFilePath_1};
+SCENARIO("testing Id construction") {
+  GIVEN("a default constructed id") {
+    ObjectId id;
+    THEN("the file number must be 0") { REQUIRE(id.file_number() == 0l); }
+    THEN("the objects' address must be 0") {
+      REQUIRE(id.object_address() == 0l);
+    }
+    THEN("the filename must be an empty string") {
+      REQUIRE(id.file_name().empty());
+    }
+    AND_GIVEN("a default constructed handle") {
+      ObjectHandle handle;
+      WHEN("constructing a new ID from this handle") {
+        ObjectId id2(handle);
+        THEN("this id must be equal to the default constructed id") {
+          REQUIRE(id == id2);
+        }
+      }
+      THEN("retrieving the file name from this handle must fail") {
+        REQUIRE_THROWS_AS(ObjectId::get_file_name(handle), std::runtime_error);
+      }
+      THEN("retrieving the info instance from this handle must fail") {
+        REQUIRE_THROWS_AS(ObjectId::get_info(handle), std::runtime_error);
+      }
+    }
   }
 
-  #ifdef WITH_BOOST
-    fs::copy_file(kFilePath_1,kFilePath_2,
-                  fs::copy_option::overwrite_if_exists);
-  #else
-    fs::copy_file(kFilePath_1,kFilePath_2,
-                  fs::copy_options::overwrite_existing);
-  #endif
-
-  ObjectHandle file1(H5Fopen(kFilePath_1.string().data(),
-                             H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle file2(H5Fopen(kFilePath_2.string().data(),
-                             H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle group1(H5Gopen(static_cast<hid_t>(file1), "/group1", H5P_DEFAULT));
-  ObjectHandle group2(H5Gopen(static_cast<hid_t>(file2), "/group1", H5P_DEFAULT));
-
-  ObjectId info1(group1);
-  ObjectId info2(group2);
-
-  EXPECT_NE(static_cast<hid_t>(group1),
-            static_cast<hid_t>(group2));
-  EXPECT_NE(info1.file_name(), info2.file_name());
-  EXPECT_NE(info1.file_number(), info2.file_number());
-  EXPECT_EQ(info1.object_address(), info1.object_address());
-
+  GIVEN("a single HDF5 file with some content") {
+    FileGuard file1(kFilePath_1);
+    WHEN("constructing an id from the handle to group1") {
+      ObjectId id(file1.group1);
+      THEN("we can retrieve the filename from this id instance") {
+        REQUIRE(id.file_name() == kFilePath_1);
+      }
+    }
+  }
+  fs::remove(kFilePath_1);
 }
 
-// If 2 files are created with identical structure:
-//   only object addresses are equal
-TEST_F(ObjectIdTest,  file_copy2 )
-{
-  //just to ensure everything gets destroyed after construction
+SCENARIO("testing info retrievel from a file") {
+  GIVEN("an HDF5 file with some content") {
+    FileGuard file1(kFilePath_1);
+    THEN("we can obtain the filename") {
+      REQUIRE(ObjectId::get_file_name(file1.group1) == kFilePath_1);
+    }
+    THEN("we can obtain object info via that id") {
+      REQUIRE_NOTHROW(ObjectId::get_info(file1.group1));
+    }
+  }
+  fs::remove(kFilePath_1);
+}
+
+hid_t to_hid(const ObjectHandle& handle) {
+  return static_cast<hid_t>(handle);
+}
+
+void hard_link(const ObjectHandle& parent,
+               const std::string& orig_path,
+               const std::string& link_path) {
+  REQUIRE(H5Lcreate_hard(to_hid(parent), orig_path.c_str(), to_hid(parent),
+                         link_path.c_str(), H5P_DEFAULT, H5P_DEFAULT) >= 0);
+}
+
+void soft_link(const ObjectHandle& parent,
+               const std::string& orig_path,
+               const std::string& link_path) {
+  REQUIRE(H5Lcreate_soft(orig_path.c_str(), to_hid(parent), link_path.c_str(),
+                         H5P_DEFAULT, H5P_DEFAULT) >= 0);
+}
+SCENARIO("working with links") {
+  FileGuard file1(kFilePath_1);
+  ObjectId id_group1(file1.group1);
+  ObjectId id_dataset(file1.dataset);
+
+  GIVEN("a hard link to group1 with name group3") {
+    hard_link(file1.file, "/group1", "/group3");
+    AND_GIVEN("an id to group3") {
+      ObjectHandle g(H5Gopen(to_hid(file1.file), "/group3", H5P_DEFAULT));
+      THEN("the handles must not be equal") {
+        REQUIRE(to_hid(g) != to_hid(file1.group1));
+      }
+      WHEN("constructing an id from this handle") {
+        ObjectId id(g);
+        THEN("all id attributes must be equal") {
+          REQUIRE(id_group1.file_name() == id.file_name());
+          REQUIRE(id_group1 == id);
+        }
+      }
+    }
+  }
+  GIVEN("a soft link to group1 with name group4") {
+    soft_link(file1.file, "/group1", "/group4");
+    AND_GIVEN("a handle to group4") {
+      ObjectHandle g(H5Gopen(to_hid(file1.file), "/group4", H5P_DEFAULT));
+      THEN("the handles to group4 and group1 must be different") {
+        REQUIRE(to_hid(g) != to_hid(file1.group1));
+      }
+      WHEN("constructing an id from this handle") {
+        ObjectId id(g);
+        THEN("all the ID parameters must match the original") {
+          REQUIRE(id_group1.file_name() == id.file_name());
+          REQUIRE(id_group1 == id);
+        }
+      }
+    }
+  }
+  GIVEN("a hard link to dset1 of name dset2") {
+    hard_link(file1.file, "/group1/dset1", "/group2/dset2");
+    AND_GIVEN("a handle to /group2/dset2") {
+      ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset2", H5P_DEFAULT));
+      THEN("handles must not be equal") {
+        REQUIRE(to_hid(d) != to_hid(file1.dataset));
+      }
+      WHEN("constructing and id from this handle") {
+        ObjectId id(d);
+        THEN("all id parameters must be equal") {
+          REQUIRE(id_dataset.file_name() == id.file_name());
+          REQUIRE(id_dataset == id);
+        }
+      }
+    }
+  }
+  GIVEN("a soft link to dset1 of name /group2/dset3") {
+    soft_link(file1.file, "/group1/dset1", "/group2/dset3");
+    AND_GIVEN("a handle to /group2/dset3") {
+      ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset3", H5P_DEFAULT));
+      THEN("handles must not be equal") {
+        REQUIRE(to_hid(d) != to_hid(file1.dataset));
+      }
+      WHEN("constructing an id from this handle") {
+        ObjectId id(d);
+        THEN("all id parameters must be equal") {
+          REQUIRE(id_dataset.file_name() == id.file_name());
+          REQUIRE(id_dataset == id);
+        }
+      }
+    }
+  }
+  fs::remove(kFilePath_1);
+}
+
+auto open = [](const fs::path& p) {
+  return H5Fopen(p.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT);
+};
+
+SCENARIO("checking copies and files of identical structure") {
   {
+    // create two files with identical structure
     FileGuard{kFilePath_1};
-    FileGuard{kFilePath_2};
+    FileGuard{kFilePath_3};
   }
 
-  ObjectHandle file1(H5Fopen(kFilePath_1.string().data(),
-                             H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle file2(H5Fopen(kFilePath_2.string().data(),
-                             H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle group1(H5Gopen(static_cast<hid_t>(file1), "/group1", H5P_DEFAULT));
-  ObjectHandle group2(H5Gopen(static_cast<hid_t>(file2), "/group1", H5P_DEFAULT));
+#ifdef WITH_BOOST
+  fs::copy_file(kFilePath_1, kFilePath_2, fs::copy_option::overwrite_if_exists);
+#else
+  fs::copy_file(kFilePath_1, kFilePath_2, fs::copy_options::overwrite_existing);
+#endif
 
-  ObjectId info1(group1);
-  ObjectId info2(group2);
-
-  EXPECT_NE(static_cast<hid_t>(group1),
-            static_cast<hid_t>(group2));
-  EXPECT_NE(info1.file_name(), info2.file_name());
-  EXPECT_NE(info1.file_number(), info2.file_number());
-  EXPECT_EQ(info1.object_address(), info1.object_address());
+  using files_t = std::tuple<fs::path, fs::path>;
+  auto files = GENERATE(table<fs::path, fs::path>(
+      {files_t{kFilePath_1, kFilePath_2}, files_t{kFilePath_1, kFilePath_3}}));
+  GIVEN("a handle to group 1 in the first file") {
+    ObjectHandle file1{open(std::get<0>(files))};
+    ObjectHandle g_file1(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
+    AND_GIVEN("a handle to group 1 in the second file") {
+      ObjectHandle file2{open(std::get<1>(files))};
+      ObjectHandle g_file2(H5Gopen(to_hid(file2), "/group1", H5P_DEFAULT));
+      THEN("we expect the two handles to be different") {
+        REQUIRE(to_hid(g_file1) != to_hid(g_file2));
+      }
+      WHEN("constructing ids from this group handles") {
+        ObjectId id_file1(g_file1);
+        ObjectId id_file2(g_file2);
+        THEN("the file names must be different") {
+          REQUIRE(id_file1.file_name() != id_file2.file_name());
+        }
+        THEN("the file number must be different") {
+          REQUIRE(id_file1.file_number() != id_file2.file_number());
+        }
+        THEN("the object address in the file must be equal") {
+          REQUIRE(id_file1.object_address() == id_file2.object_address());
+        }
+      }
+    }
+  }
+  fs::remove(kFilePath_1);
+  fs::remove(kFilePath_2);
+  fs::remove(kFilePath_3);
 }
 
 #ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal
 //   file_name is not equal
-TEST_F(ObjectIdTest,  symlink_id )
-{
-  {
-    FileGuard{kFilePath_1};
-  }
+SCENARIO("testing symbolic links") {
+  { FileGuard{kFilePath_1}; }
 
   // Symlink FILE2 -> FILE1
-  fs::create_symlink(kFilePath_1,kFilePath_2);
+  fs::create_symlink(kFilePath_1, kFilePath_2);
 
-  ObjectHandle file1(H5Fopen(kFilePath_1.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle file2(H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle group1(H5Gopen(static_cast<hid_t>(file1), "/group1", H5P_DEFAULT));
-  ObjectHandle group2(H5Gopen(static_cast<hid_t>(file2), "/group1", H5P_DEFAULT));
-
-  ObjectId info1(group1);
-  ObjectId info2(group2);
-
-  EXPECT_NE(static_cast<hid_t>(group1),
-            static_cast<hid_t>(group2));
-  EXPECT_NE(info1.file_name(), info2.file_name());
-  EXPECT_EQ(info1.file_number(), info2.file_number());
-  EXPECT_EQ(info1.object_address(), info1.object_address());
-
-  EXPECT_EQ(fs::canonical(kFilePath_1),fs::canonical(kFilePath_2));
+  REQUIRE(fs::canonical(kFilePath_1) == fs::canonical(kFilePath_2));
+  ObjectHandle orig(open(kFilePath_1));
+  ObjectHandle link(open(kFilePath_2));
+  GIVEN("a handler to the first group in the original file") {
+    ObjectHandle g_orig(H5Gopen(to_hid(orig), "/group1", H5P_DEFAULT));
+    AND_GIVEN("a handle to the group in the symbolic link") {
+      ObjectHandle g_link(H5Gopen(to_hid(link), "/group1", H5P_DEFAULT));
+      THEN("the two handle must be different") {
+        REQUIRE(to_hid(g_orig) != to_hid(g_link));
+      }
+      WHEN("constructing Ids for the the two handles") {
+        ObjectId id_orig(g_orig);
+        ObjectId id_link(g_link);
+        THEN("the file names must be different") {
+          REQUIRE(id_orig.file_name() != id_link.file_name());
+        }
+        THEN("the ids must be equal") { REQUIRE(id_orig == id_link); }
+      }
+    }
+  }
+  fs::remove(kFilePath_1);
+  fs::remove(kFilePath_2);
 }
 #endif
 
-// If external link is made file2/group3 -> File1/group1
-// All three parameters are equal
-TEST_F(ObjectIdTest,  file_external_group )
-{
+SCENARIO("testing with external links") {
   {
     FileGuard{kFilePath_1};
     FileGuard{kFilePath_2};
   }
 
+  ObjectHandle file2(
+      H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDWR, H5P_DEFAULT));
+  ObjectHandle file1(open(kFilePath_1));
   // Extlink file2/group3 -> file1/group1
-  ObjectHandle file2(H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDWR, H5P_DEFAULT));
-  herr_t ret = H5Lcreate_external(kFilePath_1.string().data(), "/group1",
-                                  static_cast<hid_t>(file2), "/group3",
-                                  H5P_DEFAULT, H5P_DEFAULT);
-  ASSERT_GE(ret,0);
-  ObjectHandle group23(H5Gopen(static_cast<hid_t>(file2), "/group3", H5P_DEFAULT));
+  GIVEN("an external link in file2 to group1 in file1") {
+    REQUIRE(H5Lcreate_external(kFilePath_1.string().data(), "/group1",
+                               to_hid(file2), "/group3", H5P_DEFAULT,
+                               H5P_DEFAULT) >= 0);
+    AND_GIVEN("a handle to this external link group in file") {
+      ObjectHandle linked(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
+      AND_GIVEN("a handle to the original group in the first file") {
+        ObjectHandle original(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
+        THEN("the two handles must be different") {
+          REQUIRE(to_hid(linked) != to_hid(original));
+        }
+        WHEN("creating the ids from this to handles") {
+          ObjectId id_original(original);
+          ObjectId id_linked(linked);
+          THEN("all attributes of the ids must be equal") {
+            REQUIRE(id_original.file_number() == id_linked.file_number());
+            REQUIRE(id_original.file_name() == id_linked.file_name());
+            REQUIRE(id_original.object_address() == id_linked.object_address());
+          }
+        }
+      }
+    }
+  }
 
-  // Original node
-  ObjectHandle file1(H5Fopen(kFilePath_1.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle group11(H5Gopen(static_cast<hid_t>(file1), "/group1", H5P_DEFAULT));
-
-  ObjectId info11(group11);
-  ObjectId info23(group23);
-
-  EXPECT_NE(static_cast<hid_t>(group11),
-            static_cast<hid_t>(group23));
-  EXPECT_EQ(info11.file_number(), info23.file_number());
-  EXPECT_EQ(info11.file_name(), info23.file_name());
-  EXPECT_EQ(info11.object_address(), info23.object_address());
+  fs::remove(kFilePath_1);
+  fs::remove(kFilePath_2);
 }
 
 #ifndef _MSC_VER
@@ -435,106 +383,115 @@ TEST_F(ObjectIdTest,  file_external_group )
 // External link is made file2/group3 -> File3/group1
 //   only file_number and object_address are equal
 //   file_name is not equal
-TEST_F(ObjectIdTest,  file_external_symlink )
-{
+SCENARIO("testing wiht external synmbolic link") {
   {
     FileGuard{kFilePath_1};
     FileGuard{kFilePath_2};
   }
 
   // Symlink FILE3 -> FILE1
-  fs::create_symlink(kFilePath_1,kFilePath_3);
+  fs::create_symlink(kFilePath_1, kFilePath_3);
 
   // Extlink file2/group3 -> file3/group1
-  ObjectHandle file2(H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDWR, H5P_DEFAULT));
-  herr_t ret = H5Lcreate_external(kFilePath_3.string().data(), "/group1",
-                                  static_cast<hid_t>(file2), "/group3",
-                                  H5P_DEFAULT, H5P_DEFAULT);
-  ASSERT_GE(ret,0);
-  ObjectHandle group23(H5Gopen(static_cast<hid_t>(file2), "/group3", H5P_DEFAULT));
+  ObjectHandle file2(
+      H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDWR, H5P_DEFAULT));
+  REQUIRE(H5Lcreate_external(kFilePath_3.string().data(), "/group1",
+                             to_hid(file2), "/group3", H5P_DEFAULT,
+                             H5P_DEFAULT) >= 0);
+  ObjectHandle group23(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
 
   // Original node
-  ObjectHandle file1(H5Fopen(kFilePath_1.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle group11(H5Gopen(static_cast<hid_t>(file1), "/group1", H5P_DEFAULT));
+  ObjectHandle file1(open(kFilePath_1));
+  ObjectHandle group11(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
 
   // Node in symlinked file
-  ObjectHandle file3(H5Fopen(kFilePath_3.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT));
-  ObjectHandle group31(H5Gopen(static_cast<hid_t>(file3), "/group1", H5P_DEFAULT));
+  ObjectHandle file3(open(kFilePath_3));
+  ObjectHandle group31(H5Gopen(to_hid(file3), "/group1", H5P_DEFAULT));
 
   ObjectId info11(group11);
   ObjectId info31(group31);
   ObjectId info23(group23);
 
-  EXPECT_NE((static_cast<hid_t>(group11)),(static_cast<hid_t>(group31)));
-  EXPECT_NE(static_cast<hid_t>(group11),static_cast<hid_t>(group23));
-  EXPECT_NE(static_cast<hid_t>(group23),static_cast<hid_t>(group31));
+  REQUIRE(to_hid(group11) != to_hid(group31));
+  REQUIRE(to_hid(group11) != to_hid(group23));
+  REQUIRE(to_hid(group23) != to_hid(group31));
 
-  EXPECT_NE(info11.file_name(), info31.file_name());
-  EXPECT_EQ(info31.file_name(), info23.file_name());
-  EXPECT_NE(info11.file_name(), info23.file_name());
+  REQUIRE(info11.file_name() != info31.file_name());
+  REQUIRE(info31.file_name() == info23.file_name());
+  REQUIRE(info11.file_name() != info23.file_name());
 
-  EXPECT_EQ(info11.file_number(), info31.file_number());
-  EXPECT_EQ(info11.file_number(), info23.file_number());
-  EXPECT_EQ(info31.file_number(), info23.file_number());
+  REQUIRE(info11.file_number() == info31.file_number());
+  REQUIRE(info11.file_number() == info23.file_number());
+  REQUIRE(info31.file_number() == info23.file_number());
 
-  EXPECT_EQ(info11.object_address(), info31.object_address());
-  EXPECT_EQ(info11.object_address(), info23.object_address());
-  EXPECT_EQ(info31.object_address(), info23.object_address());
+  REQUIRE(info11.object_address() == info31.object_address());
+  REQUIRE(info11.object_address() == info23.object_address());
+  REQUIRE(info31.object_address() == info23.object_address());
+
+  fs::remove(kFilePath_1);
+  fs::remove(kFilePath_2);
+  fs::remove(kFilePath_3);
 }
 #endif
 
-// If the same file is opened repeatedly:
-//   file_name and object_address are equal
-//   file_number is not equal
-TEST_F(ObjectIdTest,  repeated_open )
-{
-  ObjectId id1;
-  {
-    FileGuard file(kFilePath_1);
-    id1 = ObjectId(file.file_handle);
+SCENARIO("opening an instance serveral time") {
+  // This works because the ObjectId does not store any HDF5 object.
+  // It only stores some metadata about an object.
+  GIVEN("an id to the first file object") {
+    ObjectId id1;
+    {
+      FileGuard file(kFilePath_1);
+      id1 = ObjectId(file.file);
+    }
+    AND_GIVEN("an id to the file object opend the second time") {
+      ObjectId id2;
+      {
+        FileGuard file(kFilePath_1);
+        id2 = ObjectId(file.file);
+      }
+      THEN("the filenames must be equal") {
+        REQUIRE(id1.file_name() == id2.file_name());
+      }
+      THEN("the file numbers must be different") {
+        REQUIRE(id1.file_number() != id2.file_number());
+      }
+      THEN("the object addresses must be equal") {
+        REQUIRE(id1.object_address() == id2.object_address());
+      }
+    }
   }
-
-  ObjectId id2;
-  {
-    FileGuard file(kFilePath_1);
-    id2 = ObjectId(file.file_handle);
-  }
-
-  EXPECT_EQ(id1.file_name(), id2.file_name());
-  EXPECT_NE(id1.file_number(), id2.file_number());
-  EXPECT_EQ(id1.object_address(), id2.object_address());
+  fs::remove(kFilePath_1);
 }
 
-// Sorting ObjectIds
-TEST_F(ObjectIdTest,  comparison )
-{
-  ObjectId file1_id,file2_id,group1_id,group2_id;
+SCENARIO("comparing ids") {
+  ObjectId file1_id, file2_id, group1_id, group2_id;
 
   {
     FileGuard file1(kFilePath_1);
     FileGuard file2(kFilePath_2);
 
-    file1_id = ObjectId(file1.file_handle);
-    file2_id = ObjectId(file2.file_handle);
-    group1_id = ObjectId(file2.group1_handle);
-    group2_id = ObjectId(file2.group2_handle);
+    file1_id = ObjectId(file1.file);
+    file2_id = ObjectId(file2.file);
+    group1_id = ObjectId(file2.group1);
+    group2_id = ObjectId(file2.group2);
   }
 
-  EXPECT_EQ(file1_id,file1_id);
-  EXPECT_EQ(group1_id, group1_id);
-  EXPECT_NE(file1_id,file2_id);
-  EXPECT_NE(group1_id,group2_id);
-  EXPECT_NE(file1_id,group1_id);
-  EXPECT_NE(file1_id,group2_id);
-  EXPECT_NE(file2_id,group1_id);
-  EXPECT_NE(file2_id,group2_id);
-  EXPECT_TRUE(file1_id < file2_id);
-  EXPECT_FALSE(file1_id < file1_id);
-  EXPECT_FALSE(file2_id < file1_id);
-  EXPECT_FALSE(group2_id < group1_id);
-  EXPECT_LT(group1_id, group2_id);
-  EXPECT_LT(file1_id, group1_id);
-  EXPECT_LT(file2_id, group1_id);
+  REQUIRE(file1_id == file1_id);
+  REQUIRE(group1_id == group1_id);
+  REQUIRE(file1_id != file2_id);
+  REQUIRE(group1_id != group2_id);
+  REQUIRE(file1_id != group1_id);
+  REQUIRE(file1_id != group2_id);
+  REQUIRE(file2_id != group1_id);
+  REQUIRE(file2_id != group2_id);
+  REQUIRE(file1_id < file2_id);
+  REQUIRE_FALSE(file1_id < file1_id);
+  REQUIRE_FALSE(file2_id < file1_id);
+  REQUIRE_FALSE(group2_id < group1_id);
+  REQUIRE(group1_id < group2_id);
+  REQUIRE(file1_id < group1_id);
+  REQUIRE(file2_id < group1_id);
+
+  fs::remove(kFilePath_1);
+  fs::remove(kFilePath_2);
 }
-
-

@@ -12,7 +12,7 @@ sources=files(#'ObjectHandleDefault.cpp',
               'iteration_index_test.cpp',
               'iteration_order_test.cpp',
               'iterator_test.cpp',
-              #'object_id_test.cpp',
+              'object_id_test.cpp',
               'path_test.cpp',
               'version_test.cpp')
 
