@@ -80,6 +80,23 @@ ObjectHandle group_handle(const ObjectHandle& parent, const std::string& name) {
                                 H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT));
 }
 
+hid_t to_hid(const ObjectHandle& handle) {
+  return static_cast<hid_t>(handle);
+}
+
+void hard_link(const ObjectHandle& parent,
+               const std::string& orig_path,
+               const std::string& link_path) {
+  REQUIRE(H5Lcreate_hard(to_hid(parent), orig_path.c_str(), to_hid(parent),
+                         link_path.c_str(), H5P_DEFAULT, H5P_DEFAULT) >= 0);
+}
+
+void soft_link(const ObjectHandle& parent,
+               const std::string& orig_path,
+               const std::string& link_path) {
+  REQUIRE(H5Lcreate_soft(orig_path.c_str(), to_hid(parent), link_path.c_str(),
+                         H5P_DEFAULT, H5P_DEFAULT) >= 0);
+}
 struct FileGuard {
   fs::path file_path;
   ObjectHandle file;
@@ -167,88 +184,73 @@ SCENARIO("testing info retrievel from a file") {
   fs::remove(kFilePath_1);
 }
 
-hid_t to_hid(const ObjectHandle& handle) {
-  return static_cast<hid_t>(handle);
-}
-
-void hard_link(const ObjectHandle& parent,
-               const std::string& orig_path,
-               const std::string& link_path) {
-  REQUIRE(H5Lcreate_hard(to_hid(parent), orig_path.c_str(), to_hid(parent),
-                         link_path.c_str(), H5P_DEFAULT, H5P_DEFAULT) >= 0);
-}
-
-void soft_link(const ObjectHandle& parent,
-               const std::string& orig_path,
-               const std::string& link_path) {
-  REQUIRE(H5Lcreate_soft(orig_path.c_str(), to_hid(parent), link_path.c_str(),
-                         H5P_DEFAULT, H5P_DEFAULT) >= 0);
-}
 SCENARIO("working with links") {
-  FileGuard file1(kFilePath_1);
-  ObjectId id_group1(file1.group1);
-  ObjectId id_dataset(file1.dataset);
+  GIVEN("a file object with a group and a dataset") {
+    FileGuard file1(kFilePath_1);
+    ObjectId id_group1(file1.group1);
+    ObjectId id_dataset(file1.dataset);
 
-  GIVEN("a hard link to group1 with name group3") {
-    hard_link(file1.file, "/group1", "/group3");
-    AND_GIVEN("an id to group3") {
-      ObjectHandle g(H5Gopen(to_hid(file1.file), "/group3", H5P_DEFAULT));
-      THEN("the handles must not be equal") {
-        REQUIRE(to_hid(g) != to_hid(file1.group1));
-      }
-      WHEN("constructing an id from this handle") {
-        ObjectId id(g);
-        THEN("all id attributes must be equal") {
-          REQUIRE(id_group1.file_name() == id.file_name());
-          REQUIRE(id_group1 == id);
+    GIVEN("a hard link to group1 with name group3") {
+      hard_link(file1.file, "/group1", "/group3");
+      AND_GIVEN("an id to group3") {
+        ObjectHandle g(H5Gopen(to_hid(file1.file), "/group3", H5P_DEFAULT));
+        THEN("the handles must not be equal") {
+          REQUIRE(to_hid(g) != to_hid(file1.group1));
+        }
+        WHEN("constructing an id from this handle") {
+          ObjectId id(g);
+          THEN("all id attributes must be equal") {
+            REQUIRE(id_group1.file_name() == id.file_name());
+            REQUIRE(id_group1 == id);
+          }
         }
       }
     }
-  }
-  GIVEN("a soft link to group1 with name group4") {
-    soft_link(file1.file, "/group1", "/group4");
-    AND_GIVEN("a handle to group4") {
-      ObjectHandle g(H5Gopen(to_hid(file1.file), "/group4", H5P_DEFAULT));
-      THEN("the handles to group4 and group1 must be different") {
-        REQUIRE(to_hid(g) != to_hid(file1.group1));
-      }
-      WHEN("constructing an id from this handle") {
-        ObjectId id(g);
-        THEN("all the ID parameters must match the original") {
-          REQUIRE(id_group1.file_name() == id.file_name());
-          REQUIRE(id_group1 == id);
+    GIVEN("a soft link to group1 with name group4") {
+      soft_link(file1.file, "/group1", "/group4");
+      AND_GIVEN("a handle to group4") {
+        ObjectHandle g(H5Gopen(to_hid(file1.file), "/group4", H5P_DEFAULT));
+        THEN("the handles to group4 and group1 must be different") {
+          REQUIRE(to_hid(g) != to_hid(file1.group1));
+        }
+        WHEN("constructing an id from this handle") {
+          ObjectId id(g);
+          THEN("all the ID parameters must match the original") {
+            REQUIRE(id_group1.file_name() == id.file_name());
+            REQUIRE(id_group1 == id);
+          }
         }
       }
     }
-  }
-  GIVEN("a hard link to dset1 of name dset2") {
-    hard_link(file1.file, "/group1/dset1", "/group2/dset2");
-    AND_GIVEN("a handle to /group2/dset2") {
-      ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset2", H5P_DEFAULT));
-      THEN("handles must not be equal") {
-        REQUIRE(to_hid(d) != to_hid(file1.dataset));
-      }
-      WHEN("constructing and id from this handle") {
-        ObjectId id(d);
-        THEN("all id parameters must be equal") {
-          REQUIRE(id_dataset.file_name() == id.file_name());
-          REQUIRE(id_dataset == id);
+    GIVEN("a hard link to dset1 of name dset2") {
+      hard_link(file1.file, "/group1/dset1", "/group2/dset2");
+      AND_GIVEN("a handle to /group2/dset2") {
+        ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset2", H5P_DEFAULT));
+        THEN("handles must not be equal") {
+          REQUIRE(to_hid(d) != to_hid(file1.dataset));
+        }
+        WHEN("constructing and id from this handle") {
+          ObjectId id(d);
+          THEN("all id parameters must be equal") {
+            REQUIRE(id_dataset.file_name() == id.file_name());
+            REQUIRE(id_dataset == id);
+          }
         }
       }
     }
-  }
-  GIVEN("a soft link to dset1 of name /group2/dset3") {
-    soft_link(file1.file, "/group1/dset1", "/group2/dset3");
-    AND_GIVEN("a handle to /group2/dset3") {
-      ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset3", H5P_DEFAULT));
-      THEN("handles must not be equal") {
-        REQUIRE(to_hid(d) != to_hid(file1.dataset));
-      }
-      WHEN("constructing an id from this handle") {
-        ObjectId id(d);
-        THEN("all id parameters must be equal") {
-          REQUIRE(id_dataset.file_name() == id.file_name());
-          REQUIRE(id_dataset == id);
+    GIVEN("a soft link to dset1 of name /group2/dset3") {
+      soft_link(file1.file, "/group1/dset1", "/group2/dset3");
+      AND_GIVEN("a handle to /group2/dset3") {
+        ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset3", H5P_DEFAULT));
+        THEN("handles must not be equal") {
+          REQUIRE(to_hid(d) != to_hid(file1.dataset));
+        }
+        WHEN("constructing an id from this handle") {
+          ObjectId id(d);
+          THEN("all id parameters must be equal") {
+            REQUIRE(id_dataset.file_name() == id.file_name());
+            REQUIRE(id_dataset == id);
+          }
         }
       }
     }
@@ -258,6 +260,10 @@ SCENARIO("working with links") {
 
 auto open = [](const fs::path& p) {
   return H5Fopen(p.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT);
+};
+
+auto openrw = [](const fs::path& p) {
+  return H5Fopen(p.string().data(), H5F_ACC_RDWR, H5P_DEFAULT);
 };
 
 SCENARIO("checking copies and files of identical structure") {
@@ -316,9 +322,9 @@ SCENARIO("testing symbolic links") {
   fs::create_symlink(kFilePath_1, kFilePath_2);
 
   REQUIRE(fs::canonical(kFilePath_1) == fs::canonical(kFilePath_2));
+  GIVEN("a handler to the first group in the original file") {
   ObjectHandle orig(open(kFilePath_1));
   ObjectHandle link(open(kFilePath_2));
-  GIVEN("a handler to the first group in the original file") {
     ObjectHandle g_orig(H5Gopen(to_hid(orig), "/group1", H5P_DEFAULT));
     AND_GIVEN("a handle to the group in the symbolic link") {
       ObjectHandle g_link(H5Gopen(to_hid(link), "/group1", H5P_DEFAULT));
@@ -340,26 +346,32 @@ SCENARIO("testing symbolic links") {
 }
 #endif
 
+void external_link(const fs::path& target_file,
+                   const std::string& target_path,
+                   const ObjectHandle& link_file,
+                   const std::string& link_path) {
+  REQUIRE(H5Lcreate_external(target_file.string().data(), target_path.c_str(),
+                             to_hid(link_file), link_path.c_str(), H5P_DEFAULT,
+                             H5P_DEFAULT) >= 0);
+}
+
 SCENARIO("testing with external links") {
   {
     FileGuard{kFilePath_1};
     FileGuard{kFilePath_2};
   }
 
-  ObjectHandle file2(
-      H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDWR, H5P_DEFAULT));
-  ObjectHandle file1(open(kFilePath_1));
   // Extlink file2/group3 -> file1/group1
   GIVEN("an external link in file2 to group1 in file1") {
-    REQUIRE(H5Lcreate_external(kFilePath_1.string().data(), "/group1",
-                               to_hid(file2), "/group3", H5P_DEFAULT,
-                               H5P_DEFAULT) >= 0);
+    ObjectHandle file2(openrw(kFilePath_2));
+    external_link(kFilePath_1, "/group1", file2, "/group3");
     AND_GIVEN("a handle to this external link group in file") {
       ObjectHandle linked(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
       AND_GIVEN("a handle to the original group in the first file") {
+        ObjectHandle file1(open(kFilePath_1));
         ObjectHandle original(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
         THEN("the two handles must be different") {
-          REQUIRE(to_hid(linked) != to_hid(original));
+          REQUIRE(linked != original);
         }
         WHEN("creating the ids from this to handles") {
           ObjectId id_original(original);
@@ -393,11 +405,8 @@ SCENARIO("testing wiht external synmbolic link") {
   fs::create_symlink(kFilePath_1, kFilePath_3);
 
   // Extlink file2/group3 -> file3/group1
-  ObjectHandle file2(
-      H5Fopen(kFilePath_2.string().data(), H5F_ACC_RDWR, H5P_DEFAULT));
-  REQUIRE(H5Lcreate_external(kFilePath_3.string().data(), "/group1",
-                             to_hid(file2), "/group3", H5P_DEFAULT,
-                             H5P_DEFAULT) >= 0);
+  ObjectHandle file2(openrw(kFilePath_2));
+  external_link(kFilePath_3, "/group1", file2, "/group3");
   ObjectHandle group23(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
 
   // Original node
@@ -492,6 +501,7 @@ SCENARIO("comparing ids") {
   REQUIRE(file1_id < group1_id);
   REQUIRE(file2_id < group1_id);
 
+  // remove the two HDF5 file as the yare no longer required
   fs::remove(kFilePath_1);
   fs::remove(kFilePath_2);
 }
