@@ -82,7 +82,13 @@ SCENARIO("testing object handle construction") {
 }
 
 TEST_CASE("testing handle behavior for different object types") {
-  auto test = GENERATE(create_test(hdf5::ObjectHandle::Type::FILE));
+  using Type = hdf5::ObjectHandle::Type;
+  auto test = GENERATE(
+      create_test(Type::FILE), create_test(Type::DATATYPE),
+      create_test(Type::DATASPACE), create_test(Type::GROUP),
+      create_test(Type::DATASET), create_test(Type::ATTRIBUTE),
+      create_test(Type::PROPERTY_LIST), create_test(Type::ERROR_MESSAGE),
+      create_test(Type::ERROR_CLASS), create_test(Type::ERROR_STACK));
 
   SECTION("testing operations") {
     test->test_copy_assignment();
@@ -93,20 +99,3 @@ TEST_CASE("testing handle behavior for different object types") {
     test->test_equality();
   }
 }
-
-
-/*
-INSTANTIATE_TEST_CASE_P(
-    ObjHandleTest,
-    ObjHandleFixture,
-    ::testing::Values(hdf5::ObjectHandle::Type::FILE,
-                      hdf5::ObjectHandle::Type::DATATYPE,
-                      hdf5::ObjectHandle::Type::DATASPACE,
-                      hdf5::ObjectHandle::Type::GROUP,
-                      hdf5::ObjectHandle::Type::DATASET,
-                      hdf5::ObjectHandle::Type::ATTRIBUTE,
-                      hdf5::ObjectHandle::Type::PROPERTY_LIST,
-                      hdf5::ObjectHandle::Type::ERROR_MESSAGE,
-                      hdf5::ObjectHandle::Type::ERROR_CLASS,
-                      hdf5::ObjectHandle::Type::ERROR_STACK), );
-*/
