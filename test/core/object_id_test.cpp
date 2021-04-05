@@ -50,7 +50,6 @@
  dereference external links to identify the name of the object-owning file.
 
 */
-#define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/hdf5_capi.hpp>
@@ -162,7 +161,6 @@ SCENARIO("testing Id construction") {
   fs::remove(kFilePath1);
 }
 
-/*
 SCENARIO("testing info retrievel from a file") {
   GIVEN("an HDF5 file with some content") {
     File file1(kFilePath1);
@@ -253,12 +251,12 @@ SCENARIO("working with links") {
 SCENARIO("checking copies and files of identical structure") {
   {
     // create two files with identical structure
-    FileGuard{file_path_1()};
-    FileGuard{file_path_2()};
+    File{kFilePath1};
+    File{kFilePath2};
   }
 
 #ifdef WITH_BOOST
-  fs::copy_file(file_path_1(), file_path_1(),
+  fs::copy_file(kFilePath1, kFilePath3,
                 fs::copy_option::overwrite_if_exists);
 #else
   fs::copy_file(kFilePath_1, kFilePath_2, fs::copy_options::overwrite_existing);
@@ -266,8 +264,8 @@ SCENARIO("checking copies and files of identical structure") {
 
   using files_t = std::tuple<fs::path, fs::path>;
   auto files = GENERATE(
-      table<fs::path, fs::path>({files_t{file_path_1(), file_path_2()},
-                                 files_t{file_path_1(), file_path_2()}}));
+      table<fs::path, fs::path>({files_t{kFilePath1, kFilePath2},
+                                 files_t{kFilePath1, kFilePath3}}));
   GIVEN("a handle to group 1 in the first file") {
     ObjectHandle file1{open(std::get<0>(files))};
     ObjectHandle g_file1(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
@@ -292,9 +290,9 @@ SCENARIO("checking copies and files of identical structure") {
       }
     }
   }
-  fs::remove(file_path_1());
-  fs::remove(file_path_2());
-  fs::remove(file_path_3());
+  fs::remove(kFilePath1);
+  fs::remove(kFilePath2);
+  fs::remove(kFilePath3);
 }
 
 #ifndef _MSC_VER
@@ -302,15 +300,15 @@ SCENARIO("checking copies and files of identical structure") {
 //   only file_number and object_address are equal
 //   file_name is not equal
 SCENARIO("testing symbolic links") {
-  { FileGuard{file_path_1()}; }
+  { File{kFilePath1}; }
 
   // Symlink FILE2 -> FILE1
-  fs::create_symlink(file_path_1(), file_path_2());
+  fs::create_symlink(kFilePath1, kFilePath2);
 
-  REQUIRE(fs::canonical(file_path_1()) == fs::canonical(file_path_2()));
+  REQUIRE(fs::canonical(kFilePath1) == fs::canonical(kFilePath2));
   GIVEN("a handler to the first group in the original file") {
-    ObjectHandle orig(open(file_path_1()));
-    ObjectHandle link(open(file_path_2()));
+    ObjectHandle orig(open(kFilePath1));
+    ObjectHandle link(open(kFilePath2));
     ObjectHandle g_orig(H5Gopen(to_hid(orig), "/group1", H5P_DEFAULT));
     AND_GIVEN("a handle to the group in the symbolic link") {
       ObjectHandle g_link(H5Gopen(to_hid(link), "/group1", H5P_DEFAULT));
@@ -327,8 +325,8 @@ SCENARIO("testing symbolic links") {
       }
     }
   }
-  fs::remove(file_path_1());
-  fs::remove(file_path_2());
+  fs::remove(kFilePath1);
+  fs::remove(kFilePath2);
 }
 #endif
 
@@ -343,18 +341,18 @@ void external_link(const fs::path& target_file,
 
 SCENARIO("testing with external links") {
   {
-    FileGuard{file_path_1()};
-    FileGuard{file_path_2()};
+    File{kFilePath1};
+    File{kFilePath2};
   }
 
   // Extlink file2/group3 -> file1/group1
   GIVEN("an external link in file2 to group1 in file1") {
-    ObjectHandle file2(openrw(file_path_2()));
-    external_link(file_path_1(), "/group1", file2, "/group3");
+    ObjectHandle file2(openrw(kFilePath2));
+    external_link(kFilePath1, "/group1", file2, "/group3");
     AND_GIVEN("a handle to this external link group in file") {
       ObjectHandle linked(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
       AND_GIVEN("a handle to the original group in the first file") {
-        ObjectHandle file1(open(file_path_1()));
+        ObjectHandle file1(open(kFilePath1));
         ObjectHandle original(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
         THEN("the two handles must be different") {
           REQUIRE(linked != original);
@@ -372,8 +370,8 @@ SCENARIO("testing with external links") {
     }
   }
 
-  fs::remove(file_path_1());
-  fs::remove(file_path_2());
+  fs::remove(kFilePath1);
+  fs::remove(kFilePath2);
 }
 
 #ifndef _MSC_VER
@@ -383,24 +381,24 @@ SCENARIO("testing with external links") {
 //   file_name is not equal
 SCENARIO("testing wiht external synmbolic link") {
   {
-    FileGuard{file_path_1()};
-    FileGuard{file_path_2()};
+    File{kFilePath1};
+    File{kFilePath2};
   }
 
   // Symlink FILE3 -> FILE1
-  fs::create_symlink(file_path_1(), file_path_3());
+  fs::create_symlink(kFilePath1, kFilePath3);
 
   // Extlink file2/group3 -> file3/group1
-  ObjectHandle file2(openrw(file_path_2()));
-  external_link(file_path_3(), "/group1", file2, "/group3");
+  ObjectHandle file2(openrw(kFilePath2));
+  external_link(kFilePath3, "/group1", file2, "/group3");
   ObjectHandle group23(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
 
   // Original node
-  ObjectHandle file1(open(file_path_1()));
+  ObjectHandle file1(open(kFilePath1));
   ObjectHandle group11(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
 
   // Node in symlinked file
-  ObjectHandle file3(open(file_path_3()));
+  ObjectHandle file3(open(kFilePath3));
   ObjectHandle group31(H5Gopen(to_hid(file3), "/group1", H5P_DEFAULT));
 
   ObjectId info11(group11);
@@ -423,9 +421,9 @@ SCENARIO("testing wiht external synmbolic link") {
   REQUIRE(info11.object_address() == info23.object_address());
   REQUIRE(info31.object_address() == info23.object_address());
 
-  fs::remove(file_path_1());
-  fs::remove(file_path_2());
-  fs::remove(file_path_3());
+  fs::remove(kFilePath1);
+  fs::remove(kFilePath2);
+  fs::remove(kFilePath3);
 }
 #endif
 
@@ -435,13 +433,13 @@ SCENARIO("opening an instance serveral time") {
   GIVEN("an id to the first file object") {
     ObjectId id1;
     {
-      FileGuard file(file_path_1());
+      File file(kFilePath1);
       id1 = ObjectId(file.file);
     }
     AND_GIVEN("an id to the file object opend the second time") {
       ObjectId id2;
       {
-        FileGuard file(file_path_1());
+        File file(kFilePath1);
         id2 = ObjectId(file.file);
       }
       THEN("the filenames must be equal") {
@@ -455,15 +453,15 @@ SCENARIO("opening an instance serveral time") {
       }
     }
   }
-  fs::remove(file_path_1());
+  fs::remove(kFilePath1);
 }
 
 SCENARIO("comparing ids") {
   ObjectId file1_id, file2_id, group1_id, group2_id;
 
   {
-    FileGuard file1(file_path_1());
-    FileGuard file2(file_path_2());
+    File file1(kFilePath1);
+    File file2(kFilePath2);
 
     file1_id = ObjectId(file1.file);
     file2_id = ObjectId(file2.file);
@@ -488,6 +486,6 @@ SCENARIO("comparing ids") {
   REQUIRE(file2_id < group1_id);
 
   // remove the two HDF5 file as the yare no longer required
-  fs::remove(file_path_1());
-  fs::remove(file_path_2());
-}*/
+  fs::remove(kFilePath1);
+  fs::remove(kFilePath2);
+}
