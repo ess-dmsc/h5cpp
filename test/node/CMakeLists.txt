@@ -27,6 +27,7 @@ set(test_sources node_test.cpp
                  dataset_h5py_bool_test.cpp
                  dataset_pniio_bool_test.cpp
                  dataset_io_speed_test.cpp
+                 virtual_dataset_test.cpp
                  dataset_direct_chunk_test.cpp)
 
 add_executable(node_test ${test_sources})
@@ -35,8 +36,4 @@ target_compile_definitions(node_test PRIVATE CATCH_CONFIG_ENABLE_BENCHMARKING)
 catch_discover_tests(node_test 
                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-add_executable(virtual_dataset_test virtual_dataset_test.cpp)
-target_link_libraries(virtual_dataset_test h5cpp)
-catch_discover_tests(virtual_dataset_test 
-                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 

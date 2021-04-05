@@ -23,7 +23,6 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 10, 2017
 //
-#define CATCH_CONFIG_MAIN
 #include <algorithm>
 #include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
