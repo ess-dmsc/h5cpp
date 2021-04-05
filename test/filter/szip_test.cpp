@@ -35,8 +35,6 @@ SCENARIO("using the SZIP filter") {
     filter::SZip filter;
     THEN("the filter configuration will be") {
       REQUIRE(filter.id() == H5Z_FILTER_SZIP);
-      REQUIRE(filter.is_decoding_enabled());
-      REQUIRE(filter.is_encoding_enabled());
     }
   }
   GIVEN("a non-default instance") {
