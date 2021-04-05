@@ -85,12 +85,7 @@ install(DIRECTORY examples
 #=============================================================================
 set(DISABLE_TESTS False CACHE BOOL "Disable building unit tests")
 if(NOT DISABLE_TESTS)
-  include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
-  if(GTest_FOUND)
     add_subdirectory(test)
-  else()
-    message(WARNING "GTest not found. No tests will be built.")
-  endif()
 endif()
 
 #=============================================================================

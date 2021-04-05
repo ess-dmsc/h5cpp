@@ -28,40 +28,41 @@
 //
 #include <catch2/catch.hpp>
 #include <h5cpp/core/object_handle.hpp>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "object_handle_test.hpp"
 
 std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type type) {
+  using ptr_type = std::shared_ptr<ObjectHandleTest>;
   switch (type) {
     case hdf5::ObjectHandle::Type::FILE:
-      return std::make_unique<FileObjectHandleTest>("test.h5");
+      return ptr_type(new FileObjectHandleTest("test.h5"));
     case hdf5::ObjectHandle::Type::DATATYPE:
-      return std::make_unique<DatatypeObjectHandleTest>();
+      return ptr_type(new DatatypeObjectHandleTest());
     case hdf5::ObjectHandle::Type::DATASPACE:
-      return std::make_unique<DataspaceObjectHandleTest>();
+      return ptr_type(new DataspaceObjectHandleTest());
     case hdf5::ObjectHandle::Type::GROUP:
-      return std::make_unique<GroupObjectHandleTest>(
-          "object_handle_group_test.h5");
+      return ptr_type(new GroupObjectHandleTest("object_handle_group_test.h5"));
     case hdf5::ObjectHandle::Type::DATASET:
-      return std::make_unique<DatasetObjectHandleTest>(
-          "object_handle_dataset_test.h5");
+      return ptr_type(
+          new DatasetObjectHandleTest("object_handle_dataset_test.h5"));
     case hdf5::ObjectHandle::Type::ATTRIBUTE:
-      return std::make_unique<AttributeObjectHandleTest>(
-          "object_handle_attribute_test.h5");
+      return ptr_type(
+          new AttributeObjectHandleTest("object_handle_attribute_test.h5"));
     case hdf5::ObjectHandle::Type::PROPERTY_LIST:
-      return std::make_unique<PropertyListObjectHandleTest>();
+      return ptr_type(new PropertyListObjectHandleTest());
     case hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS:
-      return std::make_unique<PropertyListClassObjectHandleTest>();
+      return ptr_type(new PropertyListClassObjectHandleTest());
     case hdf5::ObjectHandle::Type::ERROR_CLASS:
-      return std::make_unique<ErrorClassObjectHandleTest>();
+      return ptr_type(new ErrorClassObjectHandleTest());
     case hdf5::ObjectHandle::Type::ERROR_MESSAGE:
-      return std::make_unique<ErrorMessageObjectHandleTest>();
+      return ptr_type(new ErrorMessageObjectHandleTest());
     case hdf5::ObjectHandle::Type::ERROR_STACK:
-      return std::make_unique<ErrorStackObjectHandleTest>();
+      return ptr_type(new ErrorStackObjectHandleTest());
     default:
-      return nullptr;
+      return ptr_type(nullptr);
   }
 }
 SCENARIO("testing object handle construction") {
@@ -84,18 +85,18 @@ SCENARIO("testing object handle construction") {
 TEST_CASE("testing handle behavior for different object types") {
   using Type = hdf5::ObjectHandle::Type;
   auto test = GENERATE(
-      create_test(Type::FILE), create_test(Type::DATATYPE),
-      create_test(Type::DATASPACE), create_test(Type::GROUP),
-      create_test(Type::DATASET), create_test(Type::ATTRIBUTE),
+      create_test(Type::FILE),          create_test(Type::DATATYPE),
+      create_test(Type::DATASPACE),     create_test(Type::GROUP),
+      create_test(Type::DATASET),       create_test(Type::ATTRIBUTE),
       create_test(Type::PROPERTY_LIST), create_test(Type::ERROR_MESSAGE),
-      create_test(Type::ERROR_CLASS), create_test(Type::ERROR_STACK));
+      create_test(Type::ERROR_CLASS),   create_test(Type::ERROR_STACK));
 
   SECTION("testing operations") {
-    test->test_copy_assignment();
-    test->test_move_assignment();
-    test->test_copy_construction();
-    test->test_move_construction();
-    test->test_close_pathology();
-    test->test_equality();
+      test->test_copy_assignment();
+      test->test_move_assignment();
+      test->test_copy_construction();
+      test->test_move_construction();
+      test->test_close_pathology();
+      test->test_equality();
   }
 }

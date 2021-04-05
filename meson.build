@@ -1,5 +1,5 @@
 project('h5cpp',['cpp','c'],version:'0.4.0',
-        default_options:'cpp_std=c++17')
+        default_options:'cpp_std=c++11')
 
 h5cpp_dependencies = []
 # -----------------------------------------------------------------------------
