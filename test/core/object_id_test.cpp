@@ -259,7 +259,7 @@ SCENARIO("checking copies and files of identical structure") {
   fs::copy_file(kFilePath1, kFilePath3,
                 fs::copy_option::overwrite_if_exists);
 #else
-  fs::copy_file(kFilePath_1, kFilePath_2, fs::copy_options::overwrite_existing);
+  fs::copy_file(kFilePath1, kFilePath2, fs::copy_options::overwrite_existing);
 #endif
 
   using files_t = std::tuple<fs::path, fs::path>;
