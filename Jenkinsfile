@@ -113,7 +113,7 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 unit_tests
+    make -j4 test
     """
   }  // stage
 
@@ -122,7 +122,7 @@ builders = pipeline_builder.createBuilders { container ->
       try {
         container.sh """
                 cd build
-                make run_tests
+                make test
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
