@@ -5,7 +5,8 @@ import ecdcpipeline.PipelineBuilder
 project = "h5cpp"
 // coverage_os = "centos7-release"
 coverage_os = "None"
-documentation_os = "debian9-release"
+// documentation_os = "debian9-release"
+documentation_os = "None"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
@@ -114,7 +115,6 @@ builders = pipeline_builder.createBuilders { container ->
     . ./activate_run.sh
     make --version
     make -j4 all
-    make -j4 test
     """
   }  // stage
 
@@ -123,7 +123,7 @@ builders = pipeline_builder.createBuilders { container ->
       try {
         container.sh """
                 cd build
-                make test
+                make -j4 test
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
