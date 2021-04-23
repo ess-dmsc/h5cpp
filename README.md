@@ -69,8 +69,8 @@ pip install conan
 ```
 Then run the following to configure required Conan repositories:
 ```
-conan remote add ess-dmsc https://api.bintray.com/conan/ess-dmsc/conan
-conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+conan remote add ecdc https://artifactoryconan.esss.dk/artifactory/api/conan/ecdc
+conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
 ```
 and that's it, CMake will handle the rest!
 
