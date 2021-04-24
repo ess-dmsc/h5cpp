@@ -128,7 +128,11 @@ SCENARIO("Applying a POSIX file driver", "[h5cpp, file]") {
 #ifdef WITH_MPI
 
 SCENARIO("Applying the MPI file driver", "[h5cpp,file]") {
-  MPI_Init(nullptr, nullptr);
+  int flag;
+  MPI_Initialized(&flag);
+  if (!flag) {
+    MPI_Init(nullptr, nullptr);
+  }
   property::FileCreationList fcpl;
   file::MPIDriver m(MPI_COMM_WORLD, MPI_INFO_NULL);
 
