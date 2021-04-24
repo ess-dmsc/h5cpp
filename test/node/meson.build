@@ -26,13 +26,10 @@ test_sources=files('node_test.cpp'
                     ,'dataset_pniio_bool_test.cpp'
                     ,'dataset_io_speed_test.cpp'
                     ,'dataset_direct_chunk_test.cpp'
+                    ,'virtual_dataset_test.cpp'
                     )
 node_test = executable('node_test', test_sources, 
     dependencies: [h5cpp_dep, catch2_dep, example_dep, dependency('threads')],
     cpp_args: '-DCATCH_CONFIG_ENABLE_BENCHMARKING')
 test('run node test', node_test, workdir: meson.current_build_dir(),
      args:['-r','xml'])
-
-virtual_dataset_test = executable('virtual_dataset_test', 'virtual_dataset_test.cpp',
-               dependencies: [h5cpp_dep, catch2_dep, example_dep, dependency('threads')])
-test('virtual dataset test', virtual_dataset_test, workdir: meson.current_build_dir())

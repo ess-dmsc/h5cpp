@@ -11,8 +11,6 @@ configure_file(input: 'pniio_test_boolattr.h5',
                output: 'pniio_test_boolattr.h5', copy:true)
 
 
-test_sources = files('fixture.cpp', 'main.cpp')
-test_headers = files('fixture.hpp', 'h5cpp_test_helpers.hpp')
 
 subdir('examples')
 subdir('attribute')
