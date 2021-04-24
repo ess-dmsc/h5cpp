@@ -32,8 +32,8 @@
 using namespace hdf5;
 
 SCENARIO("writing and reading with selections") {
-  auto f =
-      file::create("dataset_partial_io_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "writing_and_reading_with_selections.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
   dcpl.layout(property::DatasetLayout::CHUNKED);
@@ -98,8 +98,8 @@ using double_vector = std::vector<double>;
 
 SCENARIO("reading from empty datasets") {
   using Catch::Matchers::Equals;
-  auto f =
-      file::create("dataset_partial_io_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "reading_from_empty_datasets.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   auto r = f.root();
   dataspace::Simple space{{0}, {dataspace::Simple::UNLIMITED}};
   property::LinkCreationList lcpl;

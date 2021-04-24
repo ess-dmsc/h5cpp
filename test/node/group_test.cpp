@@ -34,7 +34,8 @@
 using namespace hdf5;
 
 SCENARIO("testing group constructors") {
-  auto f = file::create("group_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "testing_group_constructors.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   auto dt = datatype::create<int>();
   auto ds = dataspace::Scalar{};
 
@@ -88,14 +89,15 @@ SCENARIO("testing group constructors") {
 }
 
 SCENARIO("testing object creation and iteration") {
-  auto f = file::create("group_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "testing_object_creation_and_iteration.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   auto root = f.root();
 
   THEN("the group must have the followin properties") {
     REQUIRE(root.is_valid());
     REQUIRE(root.type() == node::Type::GROUP);
     REQUIRE(root.link().path() == "/");
-    REQUIRE(root.link().file().path() == "group_test.h5");
+    REQUIRE(root.link().file().path() == filename);
     AND_THEN("for a non-existing child group") {
       REQUIRE_FALSE(root.exists("hello"));
     }
@@ -211,7 +213,8 @@ SCENARIO("testing object creation and iteration") {
 }
 
 SCENARIO("Testing group creation with funny names") {
-  auto f = file::create("group_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "testing_group_creation_with_funny_names.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   auto r = f.root();
   WHEN("creating a group with the name 's p a c e y'") {
     REQUIRE_NOTHROW(r.create_group("s p a c e y"));

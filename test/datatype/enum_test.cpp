@@ -234,7 +234,7 @@ SCENARIO("Custom enumeration trait construction") {
 }
 
 SCENARIO("weak enumeration IO") {
-  auto file = file::create("weak_enum_test.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("weak_enum_io.h5", file::AccessFlags::TRUNCATE);
   auto root = file.root();
   GIVEN("create an enumeration attribute") {
     auto a = root.attributes.create<WeakFruit>("fruit");
@@ -253,7 +253,7 @@ SCENARIO("weak enumeration IO") {
 }
 
 SCENARIO("strong enumeration IO") {
-  auto file = file::create("weak_enum_test.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("string_enum_io.h5", file::AccessFlags::TRUNCATE);
   auto root = file.root();
   GIVEN("create an enumeration attribute") {
     auto a = root.attributes.create<StrongFruit>("fruit");

@@ -93,7 +93,8 @@ SCENARIO("testing node removal") {
 }
 
 SCENARIO("Testing node copying") {
-  auto file = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "testing_node_copying.h5";
+  auto file = file::create(filename, file::AccessFlags::TRUNCATE);
   auto root = file.root();
   GIVEN("a group below the root group") {
     auto g1 = root.create_group("group1");
@@ -133,7 +134,8 @@ SCENARIO("Testing node copying") {
 }
 
 SCENARIO("testing moving nodes") {
-  auto file = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "testing_moving_nodes.h5";
+  auto file = file::create(filename, file::AccessFlags::TRUNCATE);
   auto root = file.root();
   GIVEN("/group1 below the root") {
     auto g1 = root.create_group("group1");
@@ -180,9 +182,10 @@ TEST_F(NodeFunctions, test_move_node) {
 */
 
 SCENARIO("testing external links") {
+  const std::string filename = "testing_external_links.h5";
   auto dtype = datatype::create<double>();
   auto dspace = dataspace::Scalar{};
-  auto f1 = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  auto f1 = file::create(filename, file::AccessFlags::TRUNCATE);
   auto r1 = f1.root();
   r1.create_dataset("data", dtype, dspace);
   // create the second file where the targets of the external links are
@@ -236,7 +239,8 @@ SCENARIO("testing external links") {
 }
 
 SCENARIO("testing soft links") {
-  auto f = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  const std::string filename = "testing_soft_links.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   auto r = f.root();
 
   GIVEN("a group below root") {
