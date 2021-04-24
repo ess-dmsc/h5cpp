@@ -265,7 +265,7 @@ SCENARIO("checking copies and files of identical structure") {
   fs::copy_file(path1, path3,
                 fs::copy_option::overwrite_if_exists);
 #else
-  fs::copy_file(path1, path2, fs::copy_options::overwrite_existing);
+  fs::copy_file(path1, path3, fs::copy_options::overwrite_existing);
 #endif
 
   using files_t = std::tuple<fs::path, fs::path>;
