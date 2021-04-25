@@ -32,6 +32,7 @@
 
 class TestEnvironment
 {
+  std::string filename_;
   hdf5::ObjectHandle file_handle_;
  public:
   TestEnvironment(const std::string &filename);
