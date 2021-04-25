@@ -37,6 +37,10 @@ namespace datatype {
 
 const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
 
+#ifdef _MSC_VER
+#undef OPAQUE
+#endif
+
 //!
 //! \enum data type class
 //!
