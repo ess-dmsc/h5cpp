@@ -25,7 +25,6 @@
 
 #include <gtest/gtest.h>
 #include "../h5cpp_test_helpers.hpp"
-#include "../gtest_print.hpp"
 
 #include <cstring>
 
@@ -145,8 +144,5 @@ TEST_F(Error, exception_generation_print_off)
   {
     auto message = error::print_nested(e);
     EXPECT_GT(message.size(), 20ul);
-#ifdef _MSC_ER
-    TEST_COUT << "\n" << message;
-#endif
   }
 }
