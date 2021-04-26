@@ -25,7 +25,6 @@
 
 #include <gtest/gtest.h>
 #include "../h5cpp_test_helpers.hpp"
-#include "../gtest_print.hpp"
 
 #include <cstring>
 
