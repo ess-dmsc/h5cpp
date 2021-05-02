@@ -1,5 +1,5 @@
 project('h5cpp',['cpp','c'],version:'0.4.0',
-        default_options:'cpp_std=c++11')
+        default_options:'cpp_std=c++17')
 
 h5cpp_dependencies = []
 # -----------------------------------------------------------------------------
@@ -18,7 +18,13 @@ h5cpp_dependencies += dependency('hdf5', language: 'c')
 # -----------------------------------------------------------------------------
 # setting up the boost dependencies
 # -----------------------------------------------------------------------------
-h5cpp_dependencies += dependency('boost', modules:['filesystem','system'])
+boost_modules = ['system']
+if get_option('with-boostfilesystem') 
+  boost_modules += 'filesystem'
+  add_project_arguments('-DWITH_BOOST', language: 'cpp')
+endif
+
+h5cpp_dependencies += dependency('boost', modules:boost_modules)
 srcinc = include_directories('src')
 
 catch2_dep = declare_dependency(include_directories:'subprojects/catch2/include')

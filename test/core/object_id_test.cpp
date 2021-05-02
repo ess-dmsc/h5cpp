@@ -59,10 +59,6 @@
 #include <iostream>
 #include <tuple>
 
-//static const fs::path kFilePath1 = fs::absolute("file1.h5");
-//static const fs::path kFilePath2 = fs::absolute("file2.h5");
-//static const fs::path kFilePath3 = fs::absolute("file3.h5");
-
 using namespace hdf5;
 
 hid_t to_hid(const ObjectHandle& handle) {
@@ -249,7 +245,6 @@ SCENARIO("working with links") {
   fs::remove(path1);
 }
 
-/*
 SCENARIO("checking copies and files of identical structure") {
   static const fs::path path1 = fs::absolute("cp_and_id_structs_1.h5");
   static const fs::path path2 = fs::absolute("cp_and_id_structs_2.h5");
@@ -299,7 +294,6 @@ SCENARIO("checking copies and files of identical structure") {
   fs::remove(path2);
   fs::remove(path3);
 }
-*/
 #ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal
