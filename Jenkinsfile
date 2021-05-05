@@ -179,7 +179,7 @@ builders = pipeline_builder.createBuilders { container ->
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip --proxy=${http_proxy} install --user sphinx breathe
+        pip3 --proxy=${http_proxy} install --user sphinx breathe
         export PATH=$PATH:~/.local/bin
         cd build
         make html
