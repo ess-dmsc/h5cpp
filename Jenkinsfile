@@ -187,11 +187,10 @@ builders = pipeline_builder.createBuilders { container ->
 
       if (pipeline_builder.branch == 'master') {
         container.copyTo(pipeline_builder.project, "docs")
+        container.setupLocalGitUser("docs")
         container.sh """
           cd docs
 
-          git config user.email 'dm-jenkins-integration@esss.se'
-          git config user.name 'cow-bot'
           git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
 
           git fetch
