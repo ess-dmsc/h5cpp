@@ -5,16 +5,17 @@ import ecdcpipeline.PipelineBuilder
 project = "h5cpp"
 // coverage_os = "centos7-release"
 coverage_os = "None"
-// documentation_os = "debian9-release"
-documentation_os = "None"
+documentation_os = "debian10-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'debian9': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
-  'debian9-release': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
+  'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
-  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8')
+  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
+  'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
+  'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
@@ -80,11 +81,11 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
-      case 'debian9':
+      case 'debian10':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
         cmake_prefix = ''
         break
-      case 'debian9-release':
+      case 'debian10-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = ''
         break
@@ -93,6 +94,14 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_prefix = ''
         break
       case 'ubuntu1804-release':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_prefix = ''
+        break
+      case 'ubuntu2004':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_prefix = ''
+        break
+      case 'ubuntu2004-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = ''
         break
@@ -114,7 +123,7 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 all
+    make -j4 unit_tests
     """
   }  // stage
 
@@ -123,7 +132,7 @@ builders = pipeline_builder.createBuilders { container ->
       try {
         container.sh """
                 cd build
-                make -j4 test
+                make run_tests
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
@@ -170,7 +179,7 @@ builders = pipeline_builder.createBuilders { container ->
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip --proxy=${http_proxy} install --user sphinx breathe
+        pip3 --proxy=${http_proxy} install --user sphinx breathe
         export PATH=$PATH:~/.local/bin
         cd build
         make html
@@ -178,11 +187,10 @@ builders = pipeline_builder.createBuilders { container ->
 
       if (pipeline_builder.branch == 'master') {
         container.copyTo(pipeline_builder.project, "docs")
+        container.setupLocalGitUser("docs")
         container.sh """
           cd docs
 
-          git config user.email 'dm-jenkins-integration@esss.se'
-          git config user.name 'cow-bot'
           git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
 
           git fetch
@@ -202,11 +210,13 @@ builders = pipeline_builder.createBuilders { container ->
         container.copyFrom("docs", "docs")
         dir("docs") {
           withCredentials([usernamePassword(
-            credentialsId: 'cow-bot-username',
+            credentialsId: 'cow-bot-username-with-token',
             usernameVariable: 'USERNAME',
             passwordVariable: 'PASSWORD'
           )]) {
-            sh "../${pipeline_builder.project}/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+            withEnv(["PROJECT=${pipeline_builder.project}"]) {
+              sh '../$PROJECT/push_to_repo.sh $USERNAME $PASSWORD'
+            }
           }
         }
       } else {
@@ -275,7 +285,7 @@ def get_win10_pipeline()
                     }
 
                     try {
-                        bat "cmake --build . --config Release --target ALL_BUILD"
+                        bat "cmake --build . --config Release --target unit_tests"
                         bat """call activate_run.bat
     	                       .\\bin\\Release\\unit_tests.exe
     	                    """
