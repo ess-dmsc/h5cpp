@@ -123,7 +123,7 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 unit_tests
+    make -j4 test
     """
   }  // stage
 
@@ -132,7 +132,7 @@ builders = pipeline_builder.createBuilders { container ->
       try {
         container.sh """
                 cd build
-                make run_tests
+                make test
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
@@ -285,7 +285,7 @@ def get_win10_pipeline()
                     }
 
                     try {
-                        bat "cmake --build . --config Release --target unit_tests"
+                        bat "cmake --build . --config Release --target ALL_BUILD"
                         bat """call activate_run.bat
     	                       .\\bin\\Release\\unit_tests.exe
     	                    """
