@@ -50,7 +50,6 @@ def failure_function(exception_obj, failureMessage) {
 pipeline_builder = new PipelineBuilder(this, container_build_nodes)
 pipeline_builder.activateEmailFailureNotifications()
 
-/*
 builders = pipeline_builder.createBuilders { container ->
   pipeline_builder.stage("${container.key}: Checkout") {
     dir(pipeline_builder.project) {
@@ -227,7 +226,6 @@ builders = pipeline_builder.createBuilders { container ->
     }
   }
 }
-*/
 
 def get_macos_pipeline(build_type)
 {
@@ -331,9 +329,9 @@ node {
     }
   }
 
-  //builders['macOS-release'] = get_macos_pipeline('Release')
-  //builders['macOS-debug'] = get_macos_pipeline('Debug')
-  //builders['Windows10'] = get_win10_pipeline()
+  builders['macOS-release'] = get_macos_pipeline('Release')
+  builders['macOS-debug'] = get_macos_pipeline('Debug')
+  builders['Windows10'] = get_win10_pipeline()
   builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
