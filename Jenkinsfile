@@ -123,7 +123,7 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 test
+    make -j4 all
     """
   }  // stage
 
