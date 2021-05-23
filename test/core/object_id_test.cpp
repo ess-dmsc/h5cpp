@@ -255,10 +255,14 @@ SCENARIO("checking copies and files of identical structure") {
     File{path2};
   }
 
+  // create a copy of the first file.
 #ifdef WITH_BOOST
   fs::copy_file(path1, path3,
                 fs::copy_option::overwrite_if_exists);
 #else
+  std::cout<<path1<<std::endl;
+  std::cout<<path2<<std::endl;
+  std::cout<<path3<<std::endl;
   fs::copy_file(path1, path3, fs::copy_options::overwrite_existing);
 #endif
 
@@ -294,6 +298,7 @@ SCENARIO("checking copies and files of identical structure") {
   fs::remove(path2);
   fs::remove(path3);
 }
+
 #ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal

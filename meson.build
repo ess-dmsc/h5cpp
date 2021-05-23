@@ -22,6 +22,7 @@ boost_modules = ['system']
 if get_option('with-boostfilesystem') 
   boost_modules += 'filesystem'
   add_project_arguments('-DWITH_BOOST', language: 'cpp')
+  summary()
 endif
 
 h5cpp_dependencies += dependency('boost', modules:boost_modules)
