@@ -261,7 +261,7 @@ def get_macos_pipeline(build_type)
         }
     }
 }
-
+/*
 def get_meson_debian_pipeline() { 
   return { 
     stage("debian10-meson") { 
@@ -283,7 +283,7 @@ def get_meson_debian_pipeline() {
       }
     }
   }
-}
+}*/
 
 def get_win10_pipeline()
 {
@@ -332,7 +332,7 @@ node {
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
   builders['Windows10'] = get_win10_pipeline()
-  builders['Debian10/Meson'] = get_meson_debian_pipeline()
+  //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {
