@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,132 +21,140 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Jan Kotanski <jan.kotanski@desy.de>
 //
 // Created on: Oct 11, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include <h5cpp/dataspace/points.hpp>
-#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-class PartialIO : public BasicFixture
-{
- protected:
+SCENARIO("writing and reading with selections") {
+  const std::string filename = "writing_and_reading_with_selections.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
-
-  virtual void SetUp()
-  {
-    BasicFixture::SetUp();
-    dcpl.layout(property::DatasetLayout::CHUNKED);
-  }
-};
-
-TEST_F(PartialIO, test_read_write_hyperslab)
-{
-  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
-  auto type = datatype::create<int>();
-  int write_value = 0,
-      read_value = 0;
+  dcpl.layout(property::DatasetLayout::CHUNKED);
   dcpl.chunk({1024});
 
-  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
+  auto dataspace =
+      [](size_t size) {
+        return dataspace::Simple{{size}, {dataspace::Simple::UNLIMITED}};
+      };
 
-  dataspace::Hyperslab slab {{0},
-                             {1},
-                             {1},
-                             {1}};
+  GIVEN("an empty dataset") {
+    node::Dataset dset(f.root(), "data", datatype::create<int>(), dataspace(0),
+                       lcpl, dcpl);
+    AND_GIVEN("a hyperslab selection") {
+      dataspace::Hyperslab slab{{0}, {1}, {1}, {1}};
+      THEN("we cann append new values to the dataset") {
+        int write, read;
+        for (size_t index = 0; index < 100; ++index, write = index, read = 0) {
+          node::resize_by(dset, 0, 1);
+          slab.offset(0, index);
+          dset.write(write, slab);
+          dset.read(read, slab);
+          REQUIRE(write == read);
+        }
+      }
+    }
+  }
 
-  for (size_t index = 0; index < 100; index++)
-  {
-    dset.extent(0, 1);
-    slab.offset(0, index);
-    dset.write(write_value, slab);
-    dset.read(read_value, slab);
-    EXPECT_EQ(write_value, read_value);
+  GIVEN("a dataset of size 10") {
+    using Catch::Matchers::Equals;
+    node::Dataset dset(f.root(), "data", datatype::create<int>(), dataspace(10),
+                       lcpl, dcpl);
+    AND_GIVEN("input data") {
+      std::vector<int> write{6, 7, 8, 9, 10};
+      AND_GIVEN("a point selection") {
+        dataspace::Points points({{1}, {2}, {3}, {4}, {5}});
+        THEN("we can write this data with the selection") {
+          dset.write(write, points);
+          AND_THEN("we can read the entire stuff back") {
+            std::vector<int> read(10);
+            std::vector<int> expected{0, 6, 7, 8, 9, 10, 0, 0, 0, 0};
+            dset.read(read);
+            REQUIRE_THAT(read, Equals(expected));
+          }
+          AND_THEN("we can read a few points back") { 
+            std::vector<int> read(3);
+            std::vector<int> expected{6,7,8};
+            dataspace::Points read_points({{1},{2},{3}});
+            dset.read(read, read_points);
+            REQUIRE_THAT(read, Equals(expected));
+          }
+        }
+      }
+    }
   }
 }
 
-TEST_F(PartialIO, test_read_write_points)
-{
-  dataspace::Simple space {{10}};
-  auto type = datatype::create<int>();
 
-  node::Dataset dset(root_, Path("data"), type, space);
+using int_vector = std::vector<int>;
+using string_vector = std::vector<std::string>;
+using double_vector = std::vector<double>;
 
-  std::vector<int> write {6, 7, 8, 9, 10};
-  dset.write(write,
-             dataspace::Points({{1},
-                                {2},
-                                {3},
-                                {4},
-                                {5}}));
-
-  std::vector<int> read(3);
-  dset.read(read,
-            dataspace::Points({{1},
-                               {3},
-                               {5}}));
-
-  EXPECT_EQ(read, std::vector<int>({6, 8, 10}));
-}
-
-TEST_F(PartialIO, test_read_write_empty_int)
-{
-  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
-  auto type = datatype::create<int>();
-  std::vector<int> read_value;
-  std::vector<int> write_value;
+SCENARIO("reading from empty datasets") {
+  using Catch::Matchers::Equals;
+  const std::string filename = "reading_from_empty_datasets.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto r = f.root();
+  dataspace::Simple space{{0}, {dataspace::Simple::UNLIMITED}};
+  property::LinkCreationList lcpl;
+  property::DatasetCreationList dcpl;
   dcpl.chunk({1});
 
-  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
+  GIVEN("an empty integer dataset") {
+    node::Dataset dset(r, "data", datatype::create<int>(), space, lcpl, dcpl);
 
-  EXPECT_NO_THROW(dset.read(read_value));
-  EXPECT_EQ(write_value, read_value);
-}
+    WHEN("reading from this dataset") {
+      int_vector read;
+      REQUIRE_NOTHROW(dset.read(read));
+      THEN("it must be equal to an empty vector") {
+        int_vector expected;
+        REQUIRE_THAT(read, Equals(expected));
+      }
+    }
+  }
 
-TEST_F(PartialIO, test_read_write_empty_var_string)
-{
-  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
-  auto type = datatype::create<std::string>();
-  std::vector<std::string> read_value;
-  std::vector<std::string> write_value;
-  dcpl.chunk({1});
+  GIVEN("an empty variable length string dataset") {
+    node::Dataset dset(r, "data", datatype::create<std::string>(), space, lcpl,
+                       dcpl);
+    WHEN("reading  from this dataset") {
+      string_vector read;
+      REQUIRE_NOTHROW(dset.read(read));
+      THEN("it must be equal to an empty string vector") {
+        string_vector expected;
+        REQUIRE_THAT(read, Equals(expected));
+      }
+    }
+  }
 
-  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
+  GIVEN("an empty fixed length string dataset") {
+    node::Dataset dset(r, "data", datatype::String::fixed(5), space, lcpl,
+                       dcpl);
+    WHEN("reading from this dataset") {
+      string_vector read;
+      REQUIRE_NOTHROW(dset.read(read));
+      THEN("it must be equal to an empty value") {
+        string_vector expected;
+        REQUIRE_THAT(read, Equals(expected));
+      }
+    }
+  }
 
-  EXPECT_NO_THROW(dset.read(read_value));
-  EXPECT_EQ(write_value, read_value);
-}
-
-TEST_F(PartialIO, test_read_write_empty_fix_string)
-{
-  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
-  auto type = hdf5::datatype::String::fixed(5);
-  std::vector<std::string> read_value;
-  std::vector<std::string> write_value;
-  dcpl.chunk({1});
-
-  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
-
-  EXPECT_NO_THROW(dset.read(read_value));
-  EXPECT_EQ(write_value, read_value);
-}
-
-TEST_F(PartialIO, test_read_write_empty_double)
-{
-  dataspace::Simple space {{0}, {dataspace::Simple::UNLIMITED}};
-  auto type = datatype::create<double>();
-  std::vector<double> read_value;
-  std::vector<double> write_value;
-  dcpl.chunk({1});
-
-  node::Dataset dset(root_, Path("data"), type, space, lcpl, dcpl);
-
-  EXPECT_NO_THROW(dset.read(read_value));
-  EXPECT_EQ(write_value, read_value);
+  GIVEN("an empty double dataset") {
+    node::Dataset dset(r, "data", datatype::create<double>(), space, lcpl,
+                       dcpl);
+    WHEN("reading from this dataset") {
+      double_vector read;
+      REQUIRE_NOTHROW(dset.read(read));
+      THEN("it must be equal to an empty value") {
+        double_vector expected;
+        REQUIRE_THAT(read, Equals(expected));
+      }
+    }
+  }
 }

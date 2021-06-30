@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,32 +19,31 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 22, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 7 Dec, 2020
 //
-#include <gtest/gtest.h>
+#pragma once
 #include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
 
-using namespace hdf5::node;
-
-class IsGroupTest : public BasicFixture
-{
-
-};
-
-TEST_F(IsGroupTest, test_with_default_constructed_node)
-{
-  EXPECT_THROW(is_group(Node()),std::runtime_error);
+template <typename T>
+hid_t to_hid(T&& object) {
+  return static_cast<hid_t>(object);
 }
 
-TEST_F(IsGroupTest,test_with_group)
-{
-  EXPECT_TRUE(is_group(root_));
+/**
+ * @brief Utility function closing an object
+ *
+ * @tparam T
+ * @param object const reference to an object
+ */
+template <typename T>
+void close(const T& object) {
+  hdf5::ObjectHandle(to_hid(object)).close();
 }
 
-TEST_F(IsGroupTest,test_with_dataset)
-{
-  Dataset dset(root_,hdf5::Path("data"),hdf5::datatype::create<int>());
-  EXPECT_FALSE(is_group(dset));
-}
+#include <vector>
+#include <h5cpp/datatype/ebool.hpp>
+using UChars = std::vector<unsigned char>;
+using EBools = std::vector<hdf5::datatype::EBool>;
+

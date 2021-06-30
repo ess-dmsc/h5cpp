@@ -19,33 +19,33 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 08, 2017
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@desy.de>
+//         Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Dec 20, 2020
 //
-#include "fixture.hpp"
-#include <h5cpp/property/file_creation.hpp>
-#include <h5cpp/property/file_access.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/core/filesystem.hpp>
 
-using namespace hdf5;
+#include <h5cpp/filter/nbit.hpp>
+#include <h5cpp/error/error.hpp>
 
-void BasicFixture::SetUp()
+namespace hdf5 {
+namespace filter {
+
+NBit::NBit():
+    Filter(H5Z_FILTER_NBIT)
+{}
+
+NBit::~NBit()
+{}
+
+void NBit::operator()(const property::DatasetCreationList &dcpl,
+                            Availability) const
 {
-  property::FileCreationList fcpl;
-  property::FileAccessList fapl;
-
-  fcpl.link_creation_order(property::CreationOrder().enable_indexed());
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-
-#if H5_VERSION_GE(1,10,0)
-  //need this for SWMR
-  fapl.library_version_bounds(property::LibVersion::LATEST,property::LibVersion::LATEST);
-#endif
-
-  file_ = file::create("test_file.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
-  root_ = file_.root();
+  if(H5Pset_nbit(static_cast<hid_t>(dcpl))<0)
+  {
+    error::Singleton::instance().throw_with_stack("Failure to set the nbit filter!");
+  }
 }
 
-
+} // namespace filter
+} // namespace hdf5

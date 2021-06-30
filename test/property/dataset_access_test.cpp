@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,89 +21,102 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/property/property_class.hpp>
-#include <h5cpp/hdf5.hpp>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(DatasetAccessList, test_default_construction) {
-  pl::DatasetAccessList dapl;
-  EXPECT_TRUE(dapl.get_class() == pl::kDatasetAccess);
-
-  auto cl = pl::kDatasetAccess;
-  EXPECT_NO_THROW((pl::DatasetAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kGroupAccess;
-  EXPECT_THROW((pl::DatasetAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
-
-  cl = pl::kDatatypeCreate;
-  EXPECT_THROW((pl::DatasetAccessList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("instantiating a DatasetAccessList") {
+  GIVEN("a default constructed instance") {
+    pl::DatasetAccessList dapl;
+    THEN("we ge the following configuration") {
+      REQUIRE(dapl.get_class() == pl::kDatasetAccess);
+    }
+    WHEN("we close the instance") {
+      close(dapl);
+      THEN("calling any method on the class will fail") {
+        REQUIRE_THROWS_AS(
+            dapl.chunk_cache_parameters(pl::ChunkCacheParameters()),
+            std::runtime_error);
+        REQUIRE_THROWS_AS(dapl.chunk_cache_parameters(), std::runtime_error);
+#if H5_VERSION_GE(1, 10, 0)
+        REQUIRE_THROWS_AS(dapl.virtual_view(), std::runtime_error);
+        REQUIRE_THROWS_AS(dapl.virtual_view(pl::VirtualDataView::FIRST_MISSING),
+                          std::runtime_error);
+#endif
+      }
+    }
+  }
+  GIVEN("a handle to a dataset access property list") {
+    auto handle = handle_from_class(pl::kDatasetAccess);
+    THEN("we can construct an instance from it") {
+      REQUIRE_NOTHROW(pl::DatasetAccessList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group access property list") {
+    auto handle = handle_from_class(pl::kGroupAccess);
+    THEN("then any attempt to construct an instance will fail") {
+      REQUIRE_THROWS_AS(pl::DatasetAccessList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
 
 #if H5_VERSION_GE(1, 10, 0)
-TEST(DatasetAccessList, VirtualDataView) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << pl::VirtualDataView::FIRST_MISSING;
-  EXPECT_EQ(stream.str(), "FIRST_MISSING");
-
-  stream.str(std::string());
-  stream << pl::VirtualDataView::LAST_AVAILABLE;
-  EXPECT_EQ(stream.str(), "LAST_AVAILABLE");
+SCENARIO("writing VirtualDataView to a stream") {
+  using r = std::tuple<pl::VirtualDataView, std::string>;
+  auto p = GENERATE(table<pl::VirtualDataView, std::string>(
+      {r{pl::VirtualDataView::FIRST_MISSING, "FIRST_MISSING"},
+       r{pl::VirtualDataView::LAST_AVAILABLE, "LAST_AVAILABLE"}}));
+  GIVEN("an output stream") {
+    std::stringstream stream;
+    WHEN("writing the value to the stream") {
+      stream << std::get<0>(p);
+      THEN("we get as output") { REQUIRE(stream.str() == std::get<1>(p)); }
+    }
+  }
 }
 #endif
 
-TEST(DatasetAccessList, test_chunk_cache_parameters) {
-  pl::ChunkCacheParameters def;
+SCENARIO("setting the chunk cache paranmeters on a DatasetAccessList") {
   pl::DatasetAccessList dapl;
-  pl::ChunkCacheParameters params(200, 300 * 1024 * 1024, 0.5);
-  EXPECT_NO_THROW(dapl.chunk_cache_parameters(params));
-  pl::ChunkCacheParameters p2 = dapl.chunk_cache_parameters();
-
-  EXPECT_EQ(def.chunk_slots(), 0ul);
-  EXPECT_EQ(p2.chunk_slots(), 200ul);
-  EXPECT_NO_THROW(p2.chunk_slots(400ul));
-  EXPECT_EQ(p2.chunk_slots(), 400ul);
-
-  EXPECT_EQ(def.chunk_cache_size(), 0ul);
-  EXPECT_EQ(p2.chunk_cache_size(), 300ul * 1024ul * 1024ul);
-  EXPECT_NO_THROW(p2.chunk_cache_size(30ul));
-  EXPECT_EQ(p2.chunk_cache_size(), 30ul);
-
-  EXPECT_NEAR(def.preemption_policy(), 0, 0.0001);
-  EXPECT_NEAR(p2.preemption_policy(), 0.5, 0.0001);
-  EXPECT_NO_THROW(p2.preemption_policy(0.4));
-  EXPECT_NEAR(p2.preemption_policy(), 0.4, 0.0001);
-
-  hdf5::ObjectHandle(static_cast<hid_t>(dapl)).close();
-  EXPECT_THROW(dapl.chunk_cache_parameters(params), std::runtime_error);
-  EXPECT_THROW(dapl.chunk_cache_parameters(), std::runtime_error);
+  GIVEN("given a set of chunks cache parameters") {
+    pl::ChunkCacheParameters params(200, 300 * 1024 * 1024, 0.5);
+    WHEN("we set these parameters") {
+      REQUIRE_NOTHROW(dapl.chunk_cache_parameters(params));
+      AND_WHEN("we read these parameters back") {
+        auto p2 = dapl.chunk_cache_parameters();
+        AND_THEN("they should match the original parameters") {
+          REQUIRE(p2.chunk_slots() == params.chunk_slots());
+          REQUIRE(p2.chunk_cache_size() == params.chunk_cache_size());
+          REQUIRE(p2.preemption_policy() == params.preemption_policy());
+        }
+      }
+    }
+  }
 }
 
 #if H5_VERSION_GE(1, 10, 0)
-TEST(DatasetAccessList, test_virtual_data_view) {
+SCENARIO("setting the virtual data view on a DatasetAccessList") {
   pl::DatasetAccessList dapl;
-  dapl.virtual_view(pl::VirtualDataView::FIRST_MISSING);
-  EXPECT_EQ(dapl.virtual_view(), pl::VirtualDataView::FIRST_MISSING);
-
-  dapl.virtual_view(pl::VirtualDataView::LAST_AVAILABLE);
-  EXPECT_EQ(dapl.virtual_view(), pl::VirtualDataView::LAST_AVAILABLE);
-
-  hdf5::ObjectHandle(static_cast<hid_t>(dapl)).close();
-  EXPECT_THROW(dapl.virtual_view(), std::runtime_error);
-  EXPECT_THROW(dapl.virtual_view(pl::VirtualDataView::FIRST_MISSING), std::runtime_error);
+  GIVEN("the different view values") {
+    auto view = GENERATE(pl::VirtualDataView::FIRST_MISSING,
+                         pl::VirtualDataView::LAST_AVAILABLE);
+    WHEN("we set the view") {
+      dapl.virtual_view(view);
+      THEN("reading it back must yield the same result") {
+        REQUIRE(dapl.virtual_view() == view);
+      }
+    }
+  }
 }
-
 #endif
-
-

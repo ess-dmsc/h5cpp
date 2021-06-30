@@ -16,6 +16,7 @@ add_custom_command(OUTPUT doxygen.stamp
                    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doc)
 
 add_custom_target(api_doc DEPENDS doxygen.stamp)
+add_custom_target(html)
 add_dependencies(html api_doc)
 
 #=============================================================================

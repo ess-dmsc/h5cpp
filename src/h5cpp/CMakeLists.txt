@@ -32,7 +32,7 @@ if(WITH_BOOST)
   list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
 else()
     # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
-    list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
+    list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:stdc++fs>)
     list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
 endif()
 
@@ -46,13 +46,11 @@ foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
     list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
 endforeach()
 
-if(HDF5_VERSION VERSION_LESS 1.10.3)
-  set(H5CPP_HL_PRIVATE_LIBS ${HDF5_HL_LIBRARIES})
-  foreach(HDF5_LIBRARY ${HDF5_HL_LIBRARIES})
-    get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
-  endforeach()
-endif()
+set(H5CPP_HL_PRIVATE_LIBS ${HDF5_HL_LIBRARIES})
+foreach(HDF5_LIBRARY ${HDF5_HL_LIBRARIES})
+  get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
+  list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
+endforeach()
 
 
 target_include_directories(h5cpp
@@ -80,17 +78,10 @@ set_target_properties(h5cpp
 
 enable_coverage(h5cpp)
 
-if(HDF5_VERSION VERSION_LESS 1.10.3)
-  target_link_libraries(h5cpp
-    PUBLIC ${H5CPP_LINKS}
-    PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS} ${H5CPP_HL_PRIVATE_LIBS}
-    INTERFACE ${H5CPP_INTERFACE_LIBS})
-else()
-  target_link_libraries(h5cpp
-    PUBLIC ${H5CPP_LINKS}
-    PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS}
-    INTERFACE ${H5CPP_INTERFACE_LIBS})
-endif()
+target_link_libraries(h5cpp
+  PUBLIC ${H5CPP_LINKS}
+  PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS} ${H5CPP_HL_PRIVATE_LIBS}
+  INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
 

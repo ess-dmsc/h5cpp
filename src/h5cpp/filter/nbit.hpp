@@ -19,28 +19,45 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 08, 2017
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@desy.de>
+//         Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Dec 20, 2020
 //
 #pragma once
 
-#include <gtest/gtest.h>
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/filter/filter.hpp>
+
+namespace hdf5 {
+namespace filter {
 
 //!
-//! \brief base class for all test fixtures
+//! \brief NBit checksum filter
 //!
-//! This class can be used as a base for all test fixtures which require a
-//! file to be created.
+//! If applied to a dataset creation property list this filter will setup
+//! the nbit checksum filter.
 //!
-
-class BasicFixture : public testing::Test
+class DLL_EXPORT NBit : public Filter
 {
-  protected:
-    virtual void SetUp();
-    virtual ~BasicFixture() {}
+  public:
+    //!
+    //! \brief default constructor
+    //!
+    NBit();
 
-    hdf5::file::File file_;
-    hdf5::node::Group root_;
+    ~NBit();
+
+    //!
+    //! \brief apply filter
+    //!
+    //! Applies the filter to a dataset creation property list.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \param dcpl reference to the dataset creation property list
+    //!
+    virtual void operator()(const property::DatasetCreationList &dcpl,
+                            Availability flag = Availability::MANDATORY) const;
 };
 
+} // namespace filter
+} // namespace hdf5

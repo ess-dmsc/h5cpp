@@ -224,6 +224,11 @@ class DLL_EXPORT DatasetCreationList : public ObjectCreationList {
   //! \sa allocation_time(DatasetAllocTime)
   //!
   DatasetAllocTime allocation_time() const;
+
+  //!
+  //! \brief get a number of filters
+  //!
+  unsigned int nfilters() const;
 };
 
 template<typename T>

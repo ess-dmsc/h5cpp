@@ -132,7 +132,7 @@ class DLL_EXPORT ObjectId
     //! Obtains the name of the file where the object is stored in.
     static std::string get_file_name(const ObjectHandle &handle);
 
-#if H5_VERSION_LE(1,10,5)
+#if H5_VERSION_LE(1,10,6)
 #define H5O_info_t_ H5O_info_t
 #else
 #define H5O_info_t_ H5O_info1_t
@@ -151,7 +151,14 @@ class DLL_EXPORT ObjectId
  private:
     unsigned long file_num_ {0};
     haddr_t       obj_addr_ {0};
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     fs::path   file_name_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 

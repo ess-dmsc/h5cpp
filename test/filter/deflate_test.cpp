@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,45 +20,44 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 6, 2017
 //
-#include <gtest/gtest.h>
-
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include "../utilities.hpp"
 
 using namespace hdf5;
 
-TEST(DeflateFilter, default_construction)
-{
-  filter::Deflate filter;
-  EXPECT_EQ(filter.id(), H5Z_FILTER_DEFLATE);
-  EXPECT_EQ(filter.level(), 0u);
-}
-
-TEST(DeflateFilter, level_construction)
-{
-  filter::Deflate filter(7u);
-  EXPECT_EQ(filter.level(), 7u);
-  EXPECT_EQ(filter.id(), H5Z_FILTER_DEFLATE);
-}
-
-TEST(DeflateFilter, application)
-{
-  property::DatasetCreationList dcpl;
-  filter::Deflate filter(8u);
-
-  filter(dcpl);
-  EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
-}
-
-TEST(DeflateFilter, construct_with_invalid_level)
-{
-  EXPECT_THROW(filter::Deflate(10), std::runtime_error);
-}
-
-TEST(DeflateFilter, set_invalid_level)
-{
-  filter::Deflate filter;
-  EXPECT_THROW(filter.level(20), std::runtime_error);
+SCENARIO("DeflateFilter construction") {
+  GIVEN("a default constructed filter ") {
+    filter::Deflate filter;
+    REQUIRE(filter.id() == H5Z_FILTER_DEFLATE);
+    REQUIRE(filter.level() == 0u);
+    WHEN("trying to set an invalid level") { 
+      THEN("the operation will fail") { 
+        REQUIRE_THROWS_AS(filter.level(10), std::runtime_error);
+      }
+    }
+  }
+  GIVEN("a filter constructed from the compression level") {
+    filter::Deflate filter(7u);
+    REQUIRE(filter.level() == 7u);
+    REQUIRE(filter.id() == H5Z_FILTER_DEFLATE);
+    AND_GIVEN("a dataset creation property list") {
+      property::DatasetCreationList dcpl;
+      THEN("we can set the filter on the property list") {
+        filter(dcpl);
+        AND_THEN("the list should have one filter attached to it") {
+          REQUIRE(H5Pget_nfilters(to_hid(dcpl)) == 1);
+        }
+      }
+    }
+  }
+  WHEN("we try to construct the filter with an invalid level") { 
+    THEN("the construction will fail") { 
+      REQUIRE_THROWS_AS(filter::Deflate(10), std::runtime_error);
+    }
+  }
 }

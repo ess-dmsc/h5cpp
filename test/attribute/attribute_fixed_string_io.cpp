@@ -24,126 +24,141 @@
 //       Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
 #include <string>
 #include <vector>
 
 using namespace hdf5;
 
-class AttributeFixedStringIO : public testing::Test
-{
-  public:
-    file::File file;
-    node::Group root_group;
-    dataspace::Scalar scalar_space;
-    dataspace::Simple simple_space;
-    datatype::String string_type;
+SCENARIO("Working with attributes and fixed UTF8 strings") {
+  auto h5file =
+      file::create("attribute_fixed_string_IO.h5", file::AccessFlags::TRUNCATE);
+  auto root_group = h5file.root();
+  auto simple_space = dataspace::Simple{{2, 3}};
+  auto scalar_space = dataspace::Scalar();
+  auto string_type = datatype::String::fixed(5);
+  string_type.encoding(datatype::CharacterEncoding::UTF8);
+  string_type.padding(datatype::StringPad::NULLTERM);
 
-    void SetUp()
-    {
-      file = file::create("AttributeFixedStringIO.h5",file::AccessFlags::TRUNCATE);
-      root_group = file.root();
-      simple_space = dataspace::Simple{{2,3}};
-      scalar_space = dataspace::Scalar();
-      string_type = datatype::String::fixed(5);
-      string_type.encoding(datatype::CharacterEncoding::UTF8);
-      string_type.padding(datatype::StringPad::NULLTERM);
+  GIVEN("an attribute with a scalar dataspace") {
+    auto a = root_group.attributes.create("strattr", string_type, scalar_space);
+
+    AND_GIVEN("an instance of a standard string of correct size") {
+      std::string write = "hello";
+      THEN("we can write a string to it") {
+        REQUIRE_NOTHROW(a.write(write, string_type));
+        AND_THEN("read it with the data type used to create the attribute") {
+          std::string read;
+          REQUIRE_NOTHROW(a.read(read, string_type));
+          REQUIRE(write == read);
+        }
+
+        AND_GIVEN("a custom string type") {
+          auto read_type = datatype::String::fixed(20);
+          read_type.encoding(datatype::CharacterEncoding::UTF8);
+          read_type.padding(datatype::StringPad::NULLPAD);
+          THEN("we can read the data using this type") {
+            std::string read;
+            REQUIRE_NOTHROW(a.read(read, read_type));
+            // need to remove trailing \0 from the string
+            read.erase(std::remove(read.begin(), read.end(), '\0'), read.end());
+
+            REQUIRE(write == read);
+          }
+        }
+      }
     }
-};
 
-TEST_F(AttributeFixedStringIO,scalar_io)
-{
-  std::string write = "hello";
-  std::string read;
-
-  EXPECT_TRUE(root_group.is_valid());
-  attribute::Attribute a = root_group.attributes.create("strattr",string_type,scalar_space);
-  a.write(write,string_type);
-  a.read(read,string_type);
-  EXPECT_EQ(write,read);
-}
-
-TEST_F(AttributeFixedStringIO,scalar_io_custom_read_type)
-{
-  std::string write = "hello";
-
-  EXPECT_TRUE(root_group.is_valid());
-  attribute::Attribute a = root_group.attributes.create("strattr",string_type,scalar_space);
-  a.write(write,string_type);
-
-  auto read_type = datatype::String::fixed(20);
-  read_type.encoding(datatype::CharacterEncoding::UTF8);
-  read_type.padding(datatype::StringPad::NULLPAD);
-
-  std::string read;
-  a.read(read,read_type);
-  // need to remove trailing \0 from the string
-  read.erase(std::remove(read.begin(),read.end(),'\0'),read.end());
-
-  EXPECT_EQ(write,read);
-}
-
-TEST_F(AttributeFixedStringIO,vector_io)
-{
-  std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD",
-                                 "EEEEE","FFFFF"};
-  std::vector<std::string> read(write.size());
-
-  attribute::Attribute a = root_group.attributes.create("strattr",string_type,simple_space);
-  a.write(write,string_type);
-  a.read(read,string_type);
-  EXPECT_EQ(write,read);
-}
-
-TEST_F(AttributeFixedStringIO, simple_read)
-{
-
-  auto a = root_group.attributes.create(
-					"simple5",
-					string_type, dataspace::Simple({1}));
-  std::string write = "hell";
-  write.resize(5);
-  std::string read;
-  a.write(write, string_type);
-  EXPECT_NO_THROW(a.read(read, a.datatype()));
-  EXPECT_EQ(write, read);
-  EXPECT_NO_THROW(a.read(read));
-  EXPECT_EQ(write, read);
-}
-
-TEST_F(AttributeFixedStringIO, scalar_read)
-{
-
-  auto a = root_group.attributes.create("scalar5", string_type, scalar_space);
-  std::string write = "hell";
-  write.resize(5);
-  std::string read;
-  a.write(write, string_type);
-  EXPECT_NO_THROW(a.read(read, a.datatype()));
-  EXPECT_EQ(write, read);
-  EXPECT_NO_THROW(a.read(read));
-  EXPECT_EQ(write, read);
-}
-
-TEST_F(AttributeFixedStringIO, simple_vector_read)
-{
-
-  auto a = root_group.attributes.create("simple20x",
-      string_type, hdf5::dataspace::Simple({4}));
-  std::vector<std::string> write = {"hllo", "ho1", "h", "ho33"};
-  std::vector<std::string> write2;
-  for(auto st : write){
-    std::string st2(st);
-    st2.resize(5);
-    write2.push_back(std::string(st2));
+    AND_GIVEN("an instance of a smaller string") {
+      std::string write = "hell";
+      THEN("we have to resize the string to the appropriate size") {
+        write.resize(5);
+        AND_THEN("we can write it to the attribute") {
+          REQUIRE_NOTHROW(a.write(write, string_type));
+          AND_THEN("read it with the attribte datatype") {
+            std::string read;
+            REQUIRE_NOTHROW(a.read(read, a.datatype()));
+            REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+          }
+          AND_THEN("read it with the default datatype") {
+            std::string read;
+            REQUIRE_NOTHROW(a.read(read));
+            REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+          }
+        }
+      }
+    }
   }
-  std::vector<std::string> read(4);
-  a.write(write, string_type);
-  EXPECT_NO_THROW(a.read(read, a.datatype()));
-  EXPECT_EQ(write2, read);
-  EXPECT_NO_THROW(a.read(read));
-  EXPECT_EQ(write2, read);
-}
 
+  GIVEN("an attribute with a 2x3 simple dataspace") {
+    auto a = root_group.attributes.create("strattr", string_type, simple_space);
+    AND_GIVEN("a vector with 6 strings") {
+      std::vector<std::string> write{"AAAAA", "BBBBB", "CCCCC",
+                                     "DDDDD", "EEEEE", "FFFFF"};
+      THEN("we can write this data to the attribute") {
+        REQUIRE_NOTHROW(a.write(write, string_type));
+        AND_THEN("read it to a vector of proper size") {
+          std::vector<std::string> read(write.size());
+          REQUIRE_NOTHROW(a.read(read, string_type));
+          REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+        }
+      }
+    }
+  }
+
+  GIVEN("an attribute with a simple dataspace of size 1") {
+    auto a = root_group.attributes.create("simple5", string_type,
+                                          dataspace::Simple({1}));
+    AND_GIVEN("a string of size 4") {
+      std::string write = "hell";
+      THEN("we have to resize the string") {
+        write.resize(5);
+        AND_THEN("write it to the attribute") {
+          REQUIRE_NOTHROW(a.write(write, string_type));
+          AND_THEN("we can read it back using the attribute datatype") {
+            std::string read;
+            REQUIRE_NOTHROW(a.read(read, a.datatype()));
+            REQUIRE(write == read);
+          }
+          AND_THEN("read the data with the default datatype") {
+            std::string read;
+            REQUIRE_NOTHROW(a.read(read));
+            REQUIRE(write == read);
+          }
+        }
+      }
+    }
+  }
+
+  GIVEN("an attribute with a simple dataspace of size 4") {
+    using strings = std::vector<std::string>;
+    auto a = root_group.attributes.create("simple20x", string_type,
+                                          hdf5::dataspace::Simple({4}));
+    AND_GIVEN("a vector of strings of wrong size") {
+      auto orig = strings{"hllo", "ho1", "h", "ho33"};
+      THEN("we have to fix the size of the strings") {
+        strings write;
+        std::transform(std::begin(orig), std::end(orig),
+                       std::back_inserter(write), [](const std::string& s) {
+                         std::string str(s);
+                         str.resize(5);
+                         return str;
+                       });
+        AND_THEN("we can write the data to the attribute") {
+          REQUIRE_NOTHROW(a.write(write, string_type));
+          AND_THEN("read it back using the attribute type") {
+            strings read(4);
+            REQUIRE_NOTHROW(a.read(read, a.datatype()));
+            REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+          }
+          AND_THEN("read it back using the default type") {
+            strings read(4);
+            REQUIRE_NOTHROW(a.read(read));
+            REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+          }
+        }
+      }
+    }
+  }
+}

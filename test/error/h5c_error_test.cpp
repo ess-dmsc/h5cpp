@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,42 +21,44 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: May 5, 2018
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include "../h5cpp_test_helpers.hpp"
 
 using namespace hdf5;
 
-TEST(H5CError, empty)
-{
-  auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_TRUE(stack.empty());
-}
-
-TEST(H5CError, extract_stack)
-{
-  provoke_h5_error();
-  auto stack = error::Singleton::instance().extract_stack();
-  EXPECT_EQ(stack.contents().size(), 2u);
-  for (auto d : stack.contents())
-  {
-    EXPECT_GT(d.description.size(), 2u);
-    EXPECT_NE(d.function.find("H5"), std::string::npos) << d;
+SCENARIO("testing h5cerror") {
+  GIVEN("an empty stack") {
+    auto stack = error::Singleton::instance().extract_stack();
+    REQUIRE(stack.empty());
   }
-}
-
-TEST(H5CError, what)
-{
-  provoke_h5_error();
-  auto stack = error::Singleton::instance().extract_stack();
-  std::stringstream ss;
-  ss << stack.what();
-  for (auto d : stack.contents())
-  {
-    std::stringstream ss2;
-    ss2 << d;
-    EXPECT_NE(ss.str().find(ss2.str()), std::string::npos);
+  GIVEN("an error occuring") {
+    provoke_h5_error();
+    THEN("we can extract the error stack") {
+      auto stack = error::Singleton::instance().extract_stack();
+      AND_THEN("there should be some content in the stack") {
+        REQUIRE(stack.contents().size() == 2u);
+        AND_THEN("we can read this content") {
+          for (auto d : stack.contents()) {
+            REQUIRE(d.description.size() > 2u);
+            REQUIRE(d.function.find("H5") != std::string::npos);
+          }
+        }
+      }
+      GIVEN("a stream string instance") {
+        std::stringstream ss;
+        AND_THEN("we can write this to the stream") {
+          ss << stack.what();
+          for (auto d : stack.contents()) {
+            std::stringstream ss2;
+            ss2 << d;
+            REQUIRE(ss.str().find(ss2.str()) != std::string::npos);
+          }
+        }
+      }
+    }
   }
 }

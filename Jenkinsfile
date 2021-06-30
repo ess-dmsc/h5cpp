@@ -5,14 +5,17 @@ import ecdcpipeline.PipelineBuilder
 project = "h5cpp"
 // coverage_os = "centos7-release"
 coverage_os = "None"
+documentation_os = "debian10-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'debian9': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
-  'debian9-release': ContainerBuildNode.getDefaultContainerBuildNode('debian9'),
+  'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
-  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8')
+  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
+  'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
+  'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
@@ -65,7 +68,7 @@ builders = pipeline_builder.createBuilders { container ->
         ${conan_remote} ${local_conan_server}
     """
   }  // stage
-  
+
   pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
     def cmake_prefix
@@ -78,11 +81,11 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
-      case 'debian9':
+      case 'debian10':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
         cmake_prefix = ''
         break
-      case 'debian9-release':
+      case 'debian10-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = ''
         break
@@ -91,6 +94,14 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_prefix = ''
         break
       case 'ubuntu1804-release':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_prefix = ''
+        break
+      case 'ubuntu2004':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_prefix = ''
+        break
+      case 'ubuntu2004-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = ''
         break
@@ -112,16 +123,16 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 unit_tests
+    make -j4 all
     """
   }  // stage
-  
+
   pipeline_builder.stage("${container.key}: Test") {
     if (container.key != coverage_os) {
       try {
         container.sh """
                 cd build
-                make run_tests
+                make test
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
@@ -164,6 +175,56 @@ builders = pipeline_builder.createBuilders { container ->
         }
     }
   }
+
+  if (container.key == documentation_os) {
+    pipeline_builder.stage("Documentation") {
+      container.sh """
+        pip3 --proxy=${http_proxy} install --user sphinx breathe
+        export PATH=$PATH:~/.local/bin
+        cd build
+        make html
+      """
+
+      if (pipeline_builder.branch == 'master') {
+        container.copyTo(pipeline_builder.project, "docs")
+        container.setupLocalGitUser("docs")
+        container.sh """
+          cd docs
+
+          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+
+          git fetch
+          git checkout gh-pages
+          git pull
+          shopt -u dotglob && rm -rf ./*
+          mv -f ../build/doc/build/* ./
+          mv -f ../build/doc/doxygen_html ./doxygen
+          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
+          find ./ -name "Makefile" -exec rm -rf {} \\;
+          find ./ -name "*.cmake" -exec rm -rf {} \\;
+          rm -rf ./_sources
+          git add -A
+          git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
+        """
+
+        container.copyFrom("docs", "docs")
+        dir("docs") {
+          withCredentials([usernamePassword(
+            credentialsId: 'cow-bot-username-with-token',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
+            withEnv(["PROJECT=${pipeline_builder.project}"]) {
+              sh '../$PROJECT/push_to_repo.sh $USERNAME $PASSWORD'
+            }
+          }
+        }
+      } else {
+        container.copyFrom("build", "build")
+        archiveArtifacts artifacts: 'build/doc/build/'
+      }
+    }
+  }
 }
 
 def get_macos_pipeline(build_type)
@@ -200,6 +261,29 @@ def get_macos_pipeline(build_type)
         }
     }
 }
+/*
+def get_meson_debian_pipeline() { 
+  return { 
+    stage("debian10-meson") { 
+      node("debian10") { 
+        cleanWs()
+        // checkout the source code
+        dir("${project}/code") { 
+          try { 
+            sh "apt install -y meson"
+          } catch (e) { 
+            failure_function(e, "Debian10 meson installation failed")
+          }
+          try { 
+            checkout scm
+          } catch(e) { 
+            failure_function(e, "Debian10/Meson checkout failed")
+          }
+        }
+      }
+    }
+  }
+}*/
 
 def get_win10_pipeline()
 {
@@ -224,10 +308,8 @@ def get_win10_pipeline()
                     }
 
                     try {
-                        bat "cmake --build . --config Release --target unit_tests"
-                        bat """call activate_run.bat
-    	                       .\\bin\\Release\\unit_tests.exe
-    	                    """
+                        bat "cmake --build . --config Release --target ALL_BUILD"
+                        bat "cmake --build . --config Release --target RUN_TESTS"
                     } catch (e) {
                         failure_function(e, 'Windows10 / build+test failed')
                     }
@@ -246,10 +328,11 @@ node {
       failure_function(e, 'Checkout failed')
     }
   }
-  
+
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
   builders['Windows10'] = get_win10_pipeline()
+  //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {
@@ -261,62 +344,4 @@ node {
     // Delete workspace when build is done
     cleanWs()
   }
-}
-
-node ("fedora") {
-    stage("Documentation") {
-
-        try {
-            dir("${project}/code") {
-                checkout scm
-            }
-
-            dir("${project}/build") {
-                sh "HDF5_ROOT=$HDF5_ROOT \
-                    CMAKE_PREFIX_PATH=$HDF5_ROOT \
-                    cmake -DCONAN=DISABLE ../code"
-                sh "make html"
-                if (env.BRANCH_NAME != 'master') {
-                    archiveArtifacts artifacts: 'doc/build/'
-                }
-            }
-
-            dir("${project}/docs") {
-                checkout scm
-
-                if (env.BRANCH_NAME == 'master') {
-                    sh "git config user.email 'dm-jenkins-integration@esss.se'"
-                    sh "git config user.name 'cow-bot'"
-                    sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
-
-                    sh "git fetch"
-                    sh "git checkout gh-pages"
-                    sh "git pull"
-                    sh "shopt -u dotglob && rm -rf ./*"
-                    sh "mv -f ../build/doc/build/* ./"
-                    sh "mv -f ../build/doc/doxygen_html ./doxygen"
-                    sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
-                    sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
-                    sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
-                    sh 'rm -rf ./_sources'
-                    sh "git add -A"
-                    sh "git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
-
-                    withCredentials([usernamePassword(
-                        credentialsId: 'cow-bot-username',
-                        usernameVariable: 'USERNAME',
-                        passwordVariable: 'PASSWORD'
-                    )]) {
-                        sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
-                    }
-                }
-            }
-
-        } catch (e) {
-            failure_function(e, 'Generate docs / Publish docs failed')
-        } finally {
-            // Delete workspace when build is done
-            cleanWs()
-        }
-    }
 }

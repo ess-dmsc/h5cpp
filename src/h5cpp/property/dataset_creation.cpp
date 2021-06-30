@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 25, 2017
 //
 #include <h5cpp/property/property_class.hpp>
@@ -104,7 +105,9 @@ DatasetLayout DatasetCreationList::layout() const {
 }
 
 void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {
-  if (H5Pset_chunk(static_cast<hid_t>(*this), chunk_dims.size(), chunk_dims.data()) < 0) {
+  if (H5Pset_chunk(static_cast<hid_t>(*this),
+		   static_cast<int>(chunk_dims.size()),
+		   chunk_dims.data()) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting chunk dimensions!");
   }
 }
@@ -160,6 +163,19 @@ DatasetAllocTime DatasetCreationList::allocation_time() const {
   }
   return static_cast<DatasetAllocTime>(buffer);
 }
+
+unsigned int DatasetCreationList::nfilters() const{
+  int nfilters = H5Pget_nfilters(static_cast<hid_t>(*this));
+  if(nfilters < 0)
+  {
+      std::stringstream ss;
+      ss<<"Failure to read a number of filters from " << this->get_class();
+      error::Singleton::instance().throw_with_stack(ss.str());
+  }
+  return static_cast<unsigned int>(nfilters);
+
+}
+
 
 } // namespace property
 } // namespace hdf5

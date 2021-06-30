@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,15 +19,11 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 8 Dec, 2020
 //
 #pragma once
-#include "../fixture.hpp"
+#include <h5cpp/hdf5.hpp>
 
-
-struct AttributeIterationFixture : public BasicFixture
-{
-  protected:
-    virtual void SetUp();
-};
+hdf5::ObjectHandle handle_from_class(const hdf5::property::Class &plist_class);

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 #pragma once
@@ -35,6 +36,10 @@ namespace hdf5 {
 namespace datatype {
 
 const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
+
+#ifdef _MSC_VER
+#undef OPAQUE
+#endif
 
 //!
 //! \enum data type class
@@ -73,7 +78,9 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Class &c);
 enum class Order : std::underlying_type<H5T_order_t>::type
 {
   LE = H5T_ORDER_LE, //!< littlen endian type
-  BE = H5T_ORDER_BE  //!< big endian type
+  BE = H5T_ORDER_BE,  //!< big endian type
+  VAX = H5T_ORDER_VAX, //  VAX mixed byte order
+  NONE = H5T_ORDER_NONE  // None
 };
 
 //!

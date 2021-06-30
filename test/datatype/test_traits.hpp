@@ -1,5 +1,5 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,20 +19,34 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+//   Martin Shetty <martin.shetty@esss.se>
+// Created on: Nov 29, 2020
 //
-#include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
+#include <cstdlib>
 
-int main(int argc, char **argv)
-{
-#ifdef WITH_MPI
-  MPI_Init(&argc,&argv);
-#endif
+template <typename T>
+struct TypeTrait {
+  size_t size = 0;
+};
 
-  hdf5::error::Singleton::instance().auto_print(false);
+#define TYPE_TRAIT(t, s) \
+  template <>            \
+  struct TypeTrait<t> {  \
+    size_t size = s;     \
+  }
 
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+TYPE_TRAIT(char, 1);
+TYPE_TRAIT(unsigned char, 1);
+TYPE_TRAIT(short, 2);
+TYPE_TRAIT(unsigned short, 2);
+TYPE_TRAIT(int, 4);
+TYPE_TRAIT(unsigned int, 4);
+TYPE_TRAIT(long, 8);
+TYPE_TRAIT(unsigned long, 8);
+TYPE_TRAIT(long long, 16);
+TYPE_TRAIT(unsigned long long, 16);
+TYPE_TRAIT(float, 4);
+TYPE_TRAIT(double, 8);
+TYPE_TRAIT(long double, 16);

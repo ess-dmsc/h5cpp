@@ -61,7 +61,8 @@ void Simple::dimensions(const Dimensions &current, const Dimensions &maximum) {
   if (maximum.empty())
     maximum_ptr = current.data();
 
-  if (H5Sset_extent_simple(static_cast<hid_t>(*this), current.size(), current_ptr,
+  if (H5Sset_extent_simple(static_cast<hid_t>(*this),
+			   static_cast<int>(current.size()), current_ptr,
                            maximum_ptr) < 0) {
     error::Singleton::instance().throw_with_stack("Failure setting the dimensions for a simple dataspace!");
   }

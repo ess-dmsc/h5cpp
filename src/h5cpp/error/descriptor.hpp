@@ -59,6 +59,10 @@ struct DLL_EXPORT Descriptor
 
   hid_t       maj_num;	// major error ID
   hid_t       min_num;	// minor error number
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
   std::string major;         // major error text
   std::string minor;         // minor error text
 
@@ -66,6 +70,9 @@ struct DLL_EXPORT Descriptor
   std::string function;      // function in which error occurred
   std::string file;          // file in which error occurred
   std::string description;   // supplied description
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 //!

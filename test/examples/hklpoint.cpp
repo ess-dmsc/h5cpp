@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY, ESS
+// (c) Copyright 2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,37 +19,39 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Martin Shetty <martin.shetty@esss.se>
-// Created on: Nov 22, 2017
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: Jan 10, 2021
 //
 
-#pragma  once
+#include "hklpoint.hpp"
 
-#include <gtest/gtest.h>
 
-namespace testing
-{
-namespace internal
-{
-enum LocalGTestColor {
-  kDefault,
-  kRed,
-  kGreen,
-  kYellow
-};
-extern void ColoredPrintf(LocalGTestColor color, const char* fmt, ...);
+HKLPoint::HKLPoint(int h, int k, int l) : h_(h), k_(k), l_(l) {}
+
+HKLPoint::HKLPoint(const std::initializer_list<int>& init_list)
+    : h_(0), k_(0), l_(0) {
+  auto iter = init_list.begin();
+  h_ = *iter++;
+  k_ = *iter++;
+  l_ = *iter;
 }
+
+int HKLPoint::h() const noexcept {
+  return h_;
 }
-#define PRINTF(...)  do { testing::internal::ColoredPrintf(testing::internal::LocalGTestColor::kGreen, "[          ] "); testing::internal::ColoredPrintf(testing::internal::LocalGTestColor::kYellow, __VA_ARGS__); } while(0)
 
-// C++ stream interface
-class TestCout : public std::stringstream
-{
- public:
-  ~TestCout()
-  {
-    PRINTF("%s\n",str().c_str());
-  }
-};
+int HKLPoint::k() const noexcept {
+  return k_;
+}
 
-#define TEST_COUT  TestCout()
+int HKLPoint::l() const noexcept {
+  return l_;
+}
+
+bool operator==(const HKLPoint& lhs, const HKLPoint& rhs) {
+  return (lhs.h() == rhs.h()) && (lhs.k() == rhs.k()) && (lhs.l() == rhs.l());
+}
+
+bool operator!=(const HKLPoint& lhs, const HKLPoint& rhs) {
+  return !(lhs == rhs);
+}

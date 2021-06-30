@@ -22,91 +22,79 @@
 // Author: Jan Kotanski <jan,kotanski@desy.de>
 // Created on: Jul 2, 2018
 //
-#include <gtest/gtest.h>
-#include <h5cpp/hdf5.hpp>
-#include <h5cpp/datatype/enum.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/ebool.hpp>
+#include <h5cpp/datatype/enum.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class PNIIOBoolTest : public testing::Test
-{
- protected:
-  file::File pniio_file;
-  node::Group root_group;
-
-  virtual void SetUp()
-  {
-    pniio_file = file::open("./pniio_test_boolattr.h5", file::AccessFlags::READONLY);
-    root_group = pniio_file.root();
-  }
-
-};
-
 #ifndef _MSC_VER
 
-TEST_F(PNIIOBoolTest, test_read_simple_bool)
-{
-  auto attrue = root_group.attributes["bool_true"];
-  bool buffer;
-  attrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  bool buffer2;
-  auto atfalse = root_group.attributes["bool_false"];
-  atfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
-}
+SCENARIO("Reading bool attributes created by the PNIIO library") {
+  auto h5file =
+      file::open("../pniio_test_boolattr.h5", file::AccessFlags::READONLY);
+  auto root = h5file.root();
 
-TEST_F(PNIIOBoolTest, test_read_vector_bool)
-{
-  auto a = root_group.attributes["bool_array"];
-  // missing iterator which points to separate bits
-  // std::vector<bool> buffer(4);
-  // std::vector<bool> ref  = {false, true, true, false};
-  // a.read(buffer);
-  // EXPECT_EQ(buffer, ref);
-  std::vector<unsigned char> buffer2(4);
-  std::vector<unsigned char> ref2 = {0, 1, 1, 0};
-  EXPECT_EQ(a.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(a.datatype().size(), 1ul);
-  a.read(buffer2);
-  EXPECT_EQ(buffer2, ref2);
-}
+  GIVEN("a scalar bool attribute with value true") {
+    auto attr = root.attributes["bool_true"];
+    THEN("the datatype will be integer") {
+      REQUIRE(attr.datatype().get_class() == datatype::Class::INTEGER);
+      AND_THEN("of size 1") { REQUIRE(attr.datatype().size() == 1ul); }
+    }
 
-TEST_F(PNIIOBoolTest, test_read_scalar_ebool)
-{
-  auto attrue = root_group.attributes["bool_true"];
-  datatype::EBool buffer;
-  // does not work because of #309, #347
-  // attrue.read(buffer);
-  attrue.read(buffer, attrue.datatype());
-  EXPECT_EQ(buffer, true);
-  EXPECT_EQ(buffer, 1);
-  EXPECT_EQ(buffer, datatype::EBool::TRUE);
-  datatype::EBool buffer2;
-  auto atfalse = root_group.attributes["bool_false"];
-  // does not work because of #309, #347
-  // atfalse.read(buffer2);
-  atfalse.read(buffer2, atfalse.datatype());
-  EXPECT_EQ(buffer2, false);
-  EXPECT_EQ(buffer2, 0);
-  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
-}
+    THEN("we can read its value as native C++ bool value") {
+      bool buffer;
+      REQUIRE_NOTHROW(attr.read(buffer));
+      REQUIRE(buffer);
+    }
 
-TEST_F(PNIIOBoolTest, test_read_vector_ebool)
-{
-  auto a = root_group.attributes["bool_array"];
-  std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> eref = {datatype::EBool::FALSE,
-                                       datatype::EBool::TRUE,
-                                       datatype::EBool::TRUE,
-                                       datatype::EBool::FALSE};
-  EXPECT_EQ(a.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(a.datatype().size(), 1ul);
-  // does not work because of #309, #347
-  // a.read(buffer);
-  a.read(buffer, a.datatype());
-  EXPECT_EQ(buffer, eref);
+    THEN("we can read its value as EBool value") {
+      datatype::EBool buffer;
+      attr.read(buffer, attr.datatype());
+      REQUIRE(buffer == true);
+      REQUIRE(buffer == 1);
+      REQUIRE(buffer == datatype::EBool::TRUE);
+    }
+
+    GIVEN("a scalar bool attribute of value false") {
+      auto attr = root.attributes["bool_false"];
+      THEN("we can read its value as native C++ bool") {
+        bool buffer;
+        REQUIRE_NOTHROW(attr.read(buffer));
+        REQUIRE_FALSE(buffer);
+      }
+
+      THEN("we can read its value as EBOOL value") {
+        datatype::EBool buffer;
+        REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
+        REQUIRE(buffer == false);
+        REQUIRE(buffer == 0);
+        REQUIRE(buffer == datatype::EBool::FALSE);
+      }
+    }
+  }
+
+  GIVEN("an array attribute of bool values") {
+    auto attr = root.attributes["bool_array"];
+    // we cannot read to std::vector<bool> as this is not an addressable type
+    THEN("we can read the values to a vector of unsigned char") {
+      using bools = std::vector<unsigned char>;
+      bools buffer(4);
+      REQUIRE_NOTHROW(attr.read(buffer));
+      bools expected = {0, 1, 1, 0};
+      REQUIRE_THAT(expected, Catch::Matchers::Equals(buffer));
+    }
+
+    THEN("we can read the values to a vector of ebool") {
+      using EBool = datatype::EBool;
+      using bools = std::vector<EBool>;
+      bools buffer(4);
+      REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
+      bools expected = {EBool::FALSE, EBool::TRUE, EBool::TRUE, EBool::FALSE};
+      REQUIRE_THAT(expected, Catch::Matchers::Equals(buffer));
+    }
+  }
 }
 
 #endif

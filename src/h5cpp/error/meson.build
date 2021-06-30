@@ -1,4 +1,4 @@
-sources+=files('descriptor.cpp', 'error.cpp', 'h5c_error.cpp')
+sources+=files('descriptor.cpp', 'error.cpp')
 local_headers=files('descriptor.hpp', 'error.hpp', 'h5c_error.hpp')
 headers+=local_headers
 

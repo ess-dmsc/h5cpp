@@ -1,7 +1,7 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,31 +19,13 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 13, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 8 Dec, 2020
 //
-#pragma once 
+#include "utilities.hpp"
+#include "../utilities.hpp"
 
-#include <gtest/gtest.h>
-#include "../fixture.hpp"
-
-class NodeIterationFixture : public BasicFixture
-{
-  protected:
-    virtual void SetUp();
-};
-
-class RecursiveIterationFixture : public testing::Test
-{
-  private:
-    static void create_standard_test(const hdf5::node::Group &root);
-    static void create_linked_group_test(const hdf5::node::Group &root);
-  public:
-    hdf5::property::FileCreationList fcpl;
-    hdf5::property::FileAccessList fapl;
-    hdf5::file::File file;
-
-    RecursiveIterationFixture(const fs::path &filename);
-    virtual ~RecursiveIterationFixture();
-};
-
+hdf5::ObjectHandle handle_from_class(const hdf5::property::Class &plist_class) { 
+    return hdf5::ObjectHandle{H5Pcreate(to_hid(plist_class))};
+}

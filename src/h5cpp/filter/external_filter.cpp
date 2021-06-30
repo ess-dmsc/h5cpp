@@ -40,9 +40,19 @@ bool is_filter_available(FilterID id){
 }
 
 
-ExternalFilter::ExternalFilter(FilterID id, const std::vector<unsigned int> cd_values):
+ExternalFilter::ExternalFilter(FilterID id,
+			       const std::vector<unsigned int> cd_values,
+			       const std::string &name):
     Filter(id),
-    cd_values_(cd_values)
+    cd_values_(cd_values),
+    name_(name)
+{
+}
+
+ExternalFilter::ExternalFilter():
+    Filter(0),
+    cd_values_(0, 0),
+    name_("")
 {
 }
 
@@ -65,6 +75,61 @@ const std::vector<unsigned int> ExternalFilter::cd_values() const noexcept
   return cd_values_;
 }
 
+const std::string ExternalFilter::name() const noexcept
+{
+  return name_;
+}
+
+const std::vector<Availability> ExternalFilters::fill(const property::DatasetCreationList &dcpl,
+						      size_t max_cd_number,
+						      size_t max_name_size)
+{
+  std::vector<Availability> flags;
+  size_t nfilters = dcpl.nfilters();
+  unsigned int flag;
+  size_t cd_number = max_cd_number;
+  std::vector<char> fname(max_name_size);
+
+  for(unsigned int nf=0; nf != nfilters; nf++)
+  {
+    std::vector<unsigned int> cd_values(max_cd_number);
+    int filter_id = H5Pget_filter(static_cast<hid_t>(dcpl),
+			      nf,
+			      &flag,
+			      &cd_number,
+			      cd_values.data(),
+			      fname.size(),
+			      fname.data(),
+			      NULL);
+    if(filter_id < 0)
+    {
+      std::stringstream ss;
+      ss << "Failure to read a parameters of filter ("
+	 << nf << ") from " << dcpl.get_class();
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+    if(cd_number > max_cd_number)
+    {
+      std::stringstream ss;
+      ss<<"Too many filter parameters in " << dcpl.get_class();
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+    cd_values.resize(cd_number);
+    if(static_cast<int>(static_cast<Availability>(flag)) != flag)
+    {
+      std::stringstream ss;
+      ss<<"Wrong filter flag value in " << dcpl.get_class();
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+
+    Availability fflag = static_cast<Availability>(flag);
+    fname[max_name_size - 1] = '\0';
+    std::string name(fname.data());
+    push_back(ExternalFilter(filter_id, cd_values, name));
+    flags.push_back(fflag);
+  }
+  return flags;
+}
 
 } // namespace filter
 } // namespace hdf5

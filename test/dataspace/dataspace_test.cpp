@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,54 +21,100 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 22, 2017
 //
-
-#include <gtest/gtest.h>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 
 using namespace hdf5;
 using namespace hdf5::dataspace;
 
-TEST(Dataspace, default_construction) {
-  Dataspace s;
-  EXPECT_THROW(s.size(), std::runtime_error);
-  EXPECT_THROW(s.type(), std::runtime_error);
-  EXPECT_FALSE(s.is_valid());
+SCENARIO("default constructed dataspace") {
+  GIVEN("a default constructed dataspace") {
+    Dataspace s;
+    THEN("size() will fail") {
+      REQUIRE_THROWS_AS(s.size(), std::runtime_error);
+    }
+    THEN("type() will fail") {
+      REQUIRE_THROWS_AS(s.type(), std::runtime_error);
+    }
+    THEN("the dataspace will not be valid") { REQUIRE_FALSE(s.is_valid()); }
+  }
 }
 
-TEST(Dataspace, from_hid) {
-  Dataspace s(ObjectHandle(H5Screate(H5S_SCALAR)));
-  EXPECT_EQ(s.size(), 1);
-  EXPECT_EQ(s.type(), Type::SCALAR);
-  EXPECT_TRUE(s.is_valid());
+SCENARIO("dataspace constructed from an hid_t") {
+  GIVEN("a valid hidt") {
+    hid_t id = H5Screate(H5S_SCALAR);
+    THEN("we can construct a dataspace") {
+      Dataspace s{ObjectHandle(id)};
+      AND_THEN("the dataspace size will be 1") { REQUIRE(s.size() == 1); }
+      AND_THEN("the type will be scalar") { REQUIRE(s.type() == Type::SCALAR); }
+      AND_THEN("the dataspace will be valid") { REQUIRE(s.is_valid()); }
+    }
+  }
 
-  EXPECT_THROW((Dataspace(ObjectHandle(H5Tcreate(H5T_COMPOUND, 1)))), std::runtime_error);
+  GIVEN("a handle to compound data type") {
+    hid_t id = H5Tcreate(H5T_COMPOUND, 1);
+    THEN("the creation of the dataspace will fail") {
+      REQUIRE_THROWS_AS(Dataspace(ObjectHandle(id)), std::runtime_error);
+    }
+  }
 }
 
-TEST(Dataspace, copy_construction) {
-  Dataspace s;
-  const Dataspace &ss = s;
-  EXPECT_THROW(Dataspace(ss).is_valid(), std::runtime_error);
+SCENARIO("copy constructed dataspace") {
+  GIVEN("a default constructed original dataspace") {
+    Dataspace s;
+    const Dataspace& ss = s;
+    THEN("copy construction will fail") {
+      REQUIRE_THROWS_AS(Dataspace(ss).is_valid(), std::runtime_error);
+    }
+  }
 
-  s = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
-  Dataspace s2(s);
-  EXPECT_EQ(s.type(), s2.type());
-  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
+  GIVEN("a dataspace constructed from an hid_t") {
+    auto s = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
+    THEN("we can copy construct a new dataspace") {
+      Dataspace s2(s);
+      AND_THEN("its types will match") { REQUIRE(s.type() == s2.type()); }
+      AND_THEN("the two underlying ids are different") {
+        REQUIRE_FALSE(static_cast<hid_t>(s) == static_cast<hid_t>(s2));
+      }
+    }
+  }
 }
 
-TEST(Dataspace, copy_assignment) {
-  Dataspace s, s2;
-  EXPECT_THROW((s2 = s), std::runtime_error);
+SCENARIO("copy assignemnt of a dataspace") {
+  Dataspace s2;
+  GIVEN("two default constructed dataspaces") {
+    Dataspace s1;
+    THEN("assignment fails") {
+      REQUIRE_THROWS_AS((s2 = s1), std::runtime_error);
+    }
+  }
 
-  s = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
-  s2 = s;
-  EXPECT_EQ(s.type(), s2.type());
-  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s2));
-
-  Dataspace s3 = s2 = s;
-  EXPECT_EQ(s.type(), s3.type());
-  EXPECT_NE(static_cast<hid_t>(s), static_cast<hid_t>(s3));
+  GIVEN("a scalar dataspace from an hid_t") {
+    auto s1 = Dataspace(ObjectHandle(H5Screate(H5S_SCALAR)));
+    THEN("assignment construction should work") {
+      s2 = s1;
+      AND_THEN("the types must be the same") {
+        REQUIRE(s1.type() == s2.type());
+      }
+      AND_THEN("the ids match") { 
+        REQUIRE_FALSE(static_cast<hid_t>(s1) ==static_cast<hid_t>(s2));
+      }
+    }
+    THEN("we can assign three objects from this") { 
+      Dataspace s3 = s2 = s1;
+      AND_THEN("the types must match") { 
+        REQUIRE(s1.type() == s1.type());
+        REQUIRE(s1.type() == s3.type());
+      }
+      AND_THEN("the is are different") { 
+        REQUIRE_FALSE(static_cast<hid_t>(s1) == static_cast<hid_t>(s2));
+        REQUIRE_FALSE(static_cast<hid_t>(s1) == static_cast<hid_t>(s3));
+        REQUIRE_FALSE(static_cast<hid_t>(s2) == static_cast<hid_t>(s3));
+      }
+    }
+  }
 }
-
-

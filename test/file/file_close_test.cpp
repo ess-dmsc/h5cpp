@@ -33,12 +33,14 @@
 
 using namespace hdf5;
 
+static const std::string filename = "file_close_test.h5";
+
 SCENARIO("Closing file") {
   {
     hdf5::property::FileAccessList fapl;
     hdf5::property::FileCreationList fcpl;
     auto f =
-        file::create("testclose.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+        file::create(filename, file::AccessFlags::TRUNCATE, fcpl, fapl);
     f.root()
         .attributes
         .create("HDF5_version", datatype::create<std::string>(),
@@ -51,7 +53,7 @@ SCENARIO("Closing file") {
     fapl.close_degree(hdf5::property::CloseDegree::STRONG);
     REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::STRONG);
     THEN("the all remaining objects will be close along with the file") {
-      auto file = hdf5::file::open("testclose.h5",
+      auto file = hdf5::file::open(filename,
                                    hdf5::file::AccessFlags::READONLY, fapl);
       auto root_group = file.root();
 
@@ -67,14 +69,14 @@ SCENARIO("Closing file") {
       // everything is close so file can be reopen in a different mode, i.e.
       // READWRITE
       REQUIRE_NOTHROW(
-          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READWRITE));
+          hdf5::file::open(filename, hdf5::file::AccessFlags::READWRITE));
     }
   }
 
   GIVEN("the default closing policy") {
     hdf5::property::FileAccessList fapl;
     REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::DEFAULT);
-    auto file = hdf5::file::open("testclose.h5",
+    auto file = hdf5::file::open(filename,
                                  hdf5::file::AccessFlags::READONLY, fapl);
     auto root_group = file.root();
 
@@ -88,7 +90,7 @@ SCENARIO("Closing file") {
 
     // file cannot be reopen in a different mode, i.e. READWRITE
     REQUIRE_THROWS_AS(
-        hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READWRITE),
+        hdf5::file::open(filename, hdf5::file::AccessFlags::READWRITE),
         std::runtime_error);
   }
 }

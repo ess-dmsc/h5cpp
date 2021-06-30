@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersbeger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,32 +21,37 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
+#include <h5cpp/datatype/types.hpp>
 #include <h5cpp/property/attribute_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
-#include <h5cpp/datatype/types.hpp>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-TEST(AttributeCreationList, test_default_construction) {
-  pl::AttributeCreationList acpl;
-  EXPECT_TRUE(acpl.get_class() == pl::kAttributeCreate);
-
-  auto cl = pl::kAttributeCreate;
-  EXPECT_NO_THROW((pl::AttributeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kStringCreate;
-  EXPECT_THROW((pl::AttributeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::AttributeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("instantiating AttributeCreationList") {
+  GIVEN("a default constructed instance") {
+    pl::AttributeCreationList acpl;
+    THEN("we get") { REQUIRE(acpl.get_class() == pl::kAttributeCreate); }
+  }
+  GIVEN("a handle to a attribute creation property list") {
+    auto handle = handle_from_class(pl::kAttributeCreate);
+    THEN("we can construct an instance from this handle") {
+      REQUIRE_NOTHROW(pl::AttributeCreationList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a string creation property list") {
+    auto handle = handle_from_class(pl::kStringCreate);
+    THEN("instantiation must fail") {
+      REQUIRE_THROWS_AS(pl::AttributeCreationList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
-

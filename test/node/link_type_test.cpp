@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,47 +20,30 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 11, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-TEST(LinkType, test_string_representation)
-{
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream<<node::LinkType::ERROR;
-  EXPECT_EQ(stream.str(),  "ERROR");
-
-  stream.str(std::string());
-  stream<<node::LinkType::EXTERNAL;
-  EXPECT_EQ(stream.str(), "EXTERNAL");
-
-  stream.str(std::string());
-  stream<<node::LinkType::HARD;
-  EXPECT_EQ(stream.str(), "HARD");
-
-  stream.str(std::string());
-  stream<<node::LinkType::SOFT;
-  EXPECT_EQ(stream.str(), "SOFT");
+SCENARIO("testing LinkType stream io an integer conversion") { 
+  using node::LinkType;
+  using r = std::tuple<LinkType,std::string,H5L_type_t>;
+  auto d = GENERATE(table<LinkType,std::string,H5L_type_t>({
+    r{LinkType::ERROR, "ERROR", H5L_TYPE_ERROR},
+    r{LinkType::EXTERNAL, "EXTERNAL", H5L_TYPE_EXTERNAL},
+    r{LinkType::HARD, "HARD", H5L_TYPE_HARD},
+    r{LinkType::SOFT, "SOFT", H5L_TYPE_SOFT}
+  }));
+  std::stringstream ss;
+  WHEN("writing to stream") { 
+    ss<<std::get<0>(d);
+    THEN("we get") { REQUIRE(ss.str() == std::get<1>(d));}
+  }
+  WHEN("converting to integer we get") { 
+    REQUIRE(static_cast<H5L_type_t>(std::get<0>(d)) == std::get<2>(d));
+  }
 }
-
-TEST(LinkType, test_value)
-{
-  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::ERROR),
-                    H5L_TYPE_ERROR);
-  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::HARD),
-                      H5L_TYPE_HARD);
-  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::SOFT),
-                      H5L_TYPE_SOFT);
-  EXPECT_EQ(static_cast<H5L_type_t>(node::LinkType::EXTERNAL),
-                      H5L_TYPE_EXTERNAL);
-
-}
-
-

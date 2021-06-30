@@ -114,7 +114,14 @@ class DLL_EXPORT Points : public Selection
 
   private:
     size_t rank_{ 0 };
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4251)
+#endif
     std::vector<hsize_t> coordinates_;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
 } // namespace dataspace

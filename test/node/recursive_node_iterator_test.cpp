@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,104 +20,115 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 17, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/hdf5.hpp>
 #include <algorithm>
-#include "group_test_fixtures.hpp"
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class RecursiveNodeIteratorTest : public RecursiveIterationFixture
-{
-  public:
-    RecursiveNodeIteratorTest():
-      RecursiveIterationFixture("RecursiveNodeIteratorTest.h5")
-    {}
+using Paths = std::vector<Path>;
 
+const Paths paths_increasing{Path("/standard/a_group"),
+                             Path("/standard/a_group/a_a_group"),
+                             Path("/standard/a_group/b_a_group"),
+                             Path("/standard/a_group/c_a_group"),
+                             Path("/standard/a_group/d_a_dataset"),
+                             Path("/standard/a_group/e_a_dataset"),
+                             Path("/standard/b_group"),
+                             Path("/standard/b_group/a_b_group"),
+                             Path("/standard/b_group/a_b_group/data"),
+                             Path("/standard/b_group/b_b_group"),
+                             Path("/standard/b_group/c_b_group"),
+                             Path("/standard/b_group/c_b_group/data"),
+                             Path("/standard/c_group")};
 
+const Paths paths_decreasing{Path("/standard/c_group"),
+                             Path("/standard/b_group"),
+                             Path("/standard/b_group/c_b_group"),
+                             Path("/standard/b_group/c_b_group/data"),
+                             Path("/standard/b_group/b_b_group"),
+                             Path("/standard/b_group/a_b_group"),
+                             Path("/standard/b_group/a_b_group/data"),
+                             Path("/standard/a_group"),
+                             Path("/standard/a_group/e_a_dataset"),
+                             Path("/standard/a_group/d_a_dataset"),
+                             Path("/standard/a_group/c_a_group"),
+                             Path("/standard/a_group/b_a_group"),
+                             Path("/standard/a_group/a_a_group")};
 
-};
+SCENARIO("testing recursive node iteration") {
+  auto f = file::create("recursive_node_iterator_test.h5",
+                        file::AccessFlags::TRUNCATE);
+  auto r = node::Group(f.root(), "standard");
+  node::Group(r, "c_group");
+  node::Group b_group(r, "b_group");
+  node::Group a_group(r, "a_group");
 
+  node::Group(a_group, "c_a_group");
+  node::Group(a_group, "b_a_group");
+  node::Group(a_group, "a_a_group");
+  node::Dataset dset_d(a_group, "d_a_dataset", datatype::create<int>());
+  node::Dataset dset_e(a_group, "e_a_dataset", datatype::create<int>());
 
-TEST_F(RecursiveNodeIteratorTest,equality_operator)
-{
-  using hdf5::node::RecursiveNodeIterator;
-  EXPECT_EQ(RecursiveNodeIterator::begin(file.root()),
-            RecursiveNodeIterator::begin(file.root()));
+  node::Group(b_group, "c_b_group");
+  node::Group(b_group, "b_b_group");
+  node::Group(b_group, "a_b_group");
 
-  EXPECT_EQ(RecursiveNodeIterator::end(file.root()),
-            RecursiveNodeIterator::end(file.root()));
-}
+  node::link(dset_d, b_group, "c_b_group/data");
+  node::link(dset_e, b_group, "a_b_group/data");
 
-TEST_F(RecursiveNodeIteratorTest,test_name_increasing)
-{
+  using node::RecursiveLinkIterator;
+  using node::RecursiveNodeIterator;
+  REQUIRE(RecursiveNodeIterator::begin(r) == RecursiveNodeIterator::begin(r));
+  REQUIRE(RecursiveNodeIterator::end(r) == RecursiveNodeIterator::end(r));
+  REQUIRE(RecursiveLinkIterator::begin(r) == RecursiveLinkIterator::begin(r));
+  REQUIRE(RecursiveLinkIterator::end(r) == RecursiveLinkIterator::end(r));
 
-  using hdf5::node::RecursiveNodeIterator;
-  std::vector<Path> node_path{
-    Path("/standard/a_group"),
-    Path("/standard/a_group/a_a_group"),
-    Path("/standard/a_group/b_a_group"),
-    Path("/standard/a_group/c_a_group"),
-    Path("/standard/a_group/d_a_dataset"),
-    Path("/standard/a_group/e_a_dataset"),
-    Path("/standard/b_group"),
-    Path("/standard/b_group/a_b_group"),
-    Path("/standard/b_group/a_b_group/data"),
-    Path("/standard/b_group/b_b_group"),
-    Path("/standard/b_group/c_b_group"),
-    Path("/standard/b_group/c_b_group/data"),
-    Path("/standard/c_group")};
-
-  node::Group base = node::get_node(file.root(),Path("standard"));
-  base.iterator_config().index(IterationIndex::NAME);
-  base.iterator_config().order(IterationOrder::INCREASING);
-  auto path_iter = node_path.begin();
-
-  std::for_each(RecursiveNodeIterator::begin(base),
-                RecursiveNodeIterator::end(base),
-                [&path_iter](const node::Node &node)
-                { EXPECT_EQ(node.link().path(),*path_iter++);}
-                );
-}
-
-TEST_F(RecursiveNodeIteratorTest,test_name_decreasing)
-{
-
-  using hdf5::node::RecursiveNodeIterator;
-  std::vector<Path> node_path{
-    Path("/standard/c_group"),
-    Path("/standard/b_group"),
-    Path("/standard/b_group/c_b_group"),
-    Path("/standard/b_group/c_b_group/data"),
-    Path("/standard/b_group/b_b_group"),
-    Path("/standard/b_group/a_b_group"),
-    Path("/standard/b_group/a_b_group/data"),
-    Path("/standard/a_group"),
-    Path("/standard/a_group/e_a_dataset"),
-    Path("/standard/a_group/d_a_dataset"),
-    Path("/standard/a_group/c_a_group"),
-    Path("/standard/a_group/b_a_group"),
-    Path("/standard/a_group/a_a_group")
-   };
-
-  node::Group base = node::get_node(file.root(),Path("standard"));
-  base.iterator_config().index(IterationIndex::NAME);
-  base.iterator_config().order(IterationOrder::DECREASING);
-  auto path_iter = node_path.begin();
-
-  std::for_each(RecursiveNodeIterator::begin(base),
-                RecursiveNodeIterator::end(base),
-                [&path_iter](const node::Node &node)
-                { EXPECT_EQ(node.link().path(),*path_iter++);}
-                );
-
-  path_iter = node_path.begin();
-  for(auto it = RecursiveNodeIterator::begin(base);
-      it != RecursiveNodeIterator::end(base); it++)
-  {
-    EXPECT_EQ(it->link().path(),*path_iter++);
+  GIVEN("the standard group as base") {
+    node::Group base = node::get_node(f.root(), Path("standard"));
+    AND_WHEN("configured to iterate by name index") {
+      base.iterator_config().index(IterationIndex::NAME);
+      AND_WHEN("configured for iteration in increasing order") {
+        base.iterator_config().order(IterationOrder::INCREASING);
+        THEN("we can iterate all child nodes") {
+          Paths p;
+          std::transform(RecursiveNodeIterator::begin(base),
+                         RecursiveNodeIterator::end(base),
+                         std::back_inserter(p),
+                         [](const node::Node& n) { return n.link().path(); });
+          REQUIRE_THAT(p, Catch::Matchers::Equals(paths_increasing));
+        }
+        THEN("iterating over all links") {
+          Paths p;
+          std::transform(RecursiveLinkIterator::begin(base),
+                         RecursiveLinkIterator::end(base),
+                         std::back_inserter(p),
+                         [](const node::Link& l) { return l.path(); });
+          REQUIRE_THAT(p, Catch::Matchers::Equals(paths_increasing));
+        }
+      }
+      AND_WHEN("configured for iteration in decreasing order") {
+        base.iterator_config().order(IterationOrder::DECREASING);
+        THEN("we can iterate over all subgroups") {
+          Paths p;
+          std::transform(RecursiveNodeIterator::begin(base),
+                         RecursiveNodeIterator::end(base),
+                         std::back_inserter(p),
+                         [](const node::Node& n) { return n.link().path(); });
+          REQUIRE_THAT(p, Catch::Matchers::Equals(paths_decreasing));
+        }
+        THEN("iterating over all links") {
+          Paths p;
+          std::transform(RecursiveLinkIterator::begin(base),
+                         RecursiveLinkIterator::end(base),
+                         std::back_inserter(p),
+                         [](const node::Link& l) { return l.path(); });
+          REQUIRE_THAT(p, Catch::Matchers::Equals(paths_decreasing));
+        }
+      }
+    }
   }
 }

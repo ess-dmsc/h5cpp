@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp
     LANGUAGES CXX C
-    VERSION 0.3.3
+    VERSION 0.4.0
     )
+enable_testing()
 
 #=============================================================================
 # Augment CMake with our custom scripts
 #=============================================================================
 set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/catch2/cmake)
 
 #=============================================================================
 # Conan
@@ -66,9 +68,11 @@ include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
 include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
 
-add_custom_target(html)
 add_subdirectory(src)
-add_subdirectory(doc)
+set( BUILD_DOCS ON CACHE BOOL "Build documentation")
+if(BUILD_DOCS)
+  add_subdirectory(doc)
+endif()
 
 #=============================================================================
 # install the examples directory to the documentation directory
@@ -81,12 +85,7 @@ install(DIRECTORY examples
 #=============================================================================
 set(DISABLE_TESTS False CACHE BOOL "Disable building unit tests")
 if(NOT DISABLE_TESTS)
-  include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
-  if(GTest_FOUND)
     add_subdirectory(test)
-  else()
-    message(WARNING "GTest not found. No tests will be built.")
-  endif()
 endif()
 
 #=============================================================================

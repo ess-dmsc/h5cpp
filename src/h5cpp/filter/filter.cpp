@@ -44,5 +44,31 @@ FilterID Filter::id() const noexcept
   return id_;
 }
 
+bool Filter::is_encoding_enabled() const
+{
+  unsigned int filter_info;
+  if(H5Zget_filter_info(id_, &filter_info) < 0)
+  {
+    std::stringstream ss;
+    ss<<"Configuration flag cannot be checked for filter: " << id_;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+
+  return  bool(filter_info & H5Z_FILTER_CONFIG_ENCODE_ENABLED);
+}
+
+bool Filter::is_decoding_enabled() const
+{
+  unsigned int filter_info;
+  if(H5Zget_filter_info(id_, &filter_info) < 0)
+  {
+    std::stringstream ss;
+    ss<<"Configuration flag cannot be checked for filter: " << id_;
+    error::Singleton::instance().throw_with_stack(ss.str());
+  }
+
+  return  bool(filter_info & H5Z_FILTER_CONFIG_DECODE_ENABLED);
+}
+
 } // namespace filter
 } // namesapce hdf5
