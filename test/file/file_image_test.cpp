@@ -66,11 +66,11 @@ TEST_F(FileImage, test_image_from_buffer)
 				   file::AccessFlags::TRUNCATE);
     auto type = datatype::create<std::string>();
     dataspace::Scalar space;
-    
+
     auto r1 = nexus_file.root();
     r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
   } // close all nexus_file objects
-  
+
   std::ifstream fin("test_image_from.h5", std::ios::binary);
   std::vector<unsigned char> ibuffer(std::istreambuf_iterator<char>(fin), {});
   auto nexus_file2 = file::from_buffer(ibuffer);
@@ -109,7 +109,7 @@ TEST_F(FileImage, test_image_to_buffer)
     fout.close();
     nexus_file.close();
   } //close nexus_file objects
-    
+
   auto file2 = hdf5::file::open("test_buf.h5",
   				hdf5::file::AccessFlags::READONLY);
   auto r2 = file2.root();
@@ -132,8 +132,8 @@ TEST_F(FileImage, test_image_buffer)
 				 file::AccessFlags::TRUNCATE);
   auto type = datatype::create<std::string>();
   dataspace::Scalar space;
-  
-  
+
+
   auto r1 = nexus_file.root();
   r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
   size_t size = nexus_file.buffer_size();
@@ -141,10 +141,10 @@ TEST_F(FileImage, test_image_buffer)
   size_t realsize = nexus_file.to_buffer(buffer);
   EXPECT_EQ(realsize, size);
   nexus_file.close();
-  
+
   auto file2 = file::from_buffer(buffer);
   auto r2 = file2.root();
-  
+
   auto a = r2.attributes["HDF5_version"];
   std::string st;
   a.read(st);
@@ -152,9 +152,35 @@ TEST_F(FileImage, test_image_buffer)
   a.close();
   r2.close();
   file2.close();
-  
+
 }
 
+TEST_F(FileImage, test_image_buffer_flags)
+{
+  std::string hdf5_version =  "1.0.0";
+  auto nexus_file = file::create("test_image_to.h5",
+				 file::AccessFlags::TRUNCATE);
+  auto type = datatype::create<std::string>();
+  dataspace::Scalar space;
 
 
+  auto r1 = nexus_file.root();
+  r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+  size_t size = nexus_file.buffer_size();
+  std::vector<unsigned char> buffer(size);
+  size_t realsize = nexus_file.to_buffer(buffer);
+  EXPECT_EQ(realsize, size);
+  nexus_file.close();
 
+  auto file2 = file::from_buffer(buffer, file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE);
+  auto r2 = file2.root();
+
+  auto a = r2.attributes["HDF5_version"];
+  std::string st;
+  a.read(st);
+  EXPECT_EQ(st, hdf5_version);
+  a.close();
+  r2.close();
+  file2.close();
+
+}

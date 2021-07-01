@@ -61,6 +61,35 @@ AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs)
   return static_cast<AccessFlagsBase>(lhs) | rhs;
 }
 
+std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags)
+{
+  switch(flags)
+  {
+    case ImageFlags::READONLY: return stream<<"READONLY";
+    case ImageFlags::READWRITE: return stream<<"READWRITE";
+    case ImageFlags::DONT_COPY: return stream<<"DONT COPY";
+    case ImageFlags::DONT_RELEASE: return stream<<"DONT RELEASE";
+    case ImageFlags::ALL: return stream<<"ALL";
+    default:
+      return stream;
+  }
+}
+
+ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlags &rhs)
+{
+  return static_cast<ImageFlagsBase>(lhs) |
+         static_cast<ImageFlagsBase>(rhs);
+}
+
+ImageFlagsBase operator|(const ImageFlagsBase &lhs,const ImageFlags &rhs)
+{
+  return lhs | static_cast<ImageFlagsBase>(rhs);
+}
+
+ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlagsBase &rhs)
+{
+  return static_cast<ImageFlagsBase>(lhs) | rhs;
+}
 
 std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags)
 {
