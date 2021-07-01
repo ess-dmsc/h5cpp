@@ -107,12 +107,34 @@ template<typename T>
 File from_buffer(T &data,
 		 ImageFlagsBase flags);
 
+template<typename T>
+File from_buffer(const T &data,
+		 ImageFlags flags = ImageFlags::READONLY);
+template<typename T>
+File from_buffer(const T &data,
+		 ImageFlagsBase flags);
+
 
 
 template<typename T>
 File from_buffer(T &data, ImageFlags flags)
 {
   return from_buffer(data, static_cast<ImageFlagsBase>(flags));
+}
+
+template<typename T>
+File from_buffer(const T &data, ImageFlags flags)
+{
+  return from_buffer(data, static_cast<ImageFlagsBase>(flags));
+}
+
+template<typename T>
+File from_buffer(const T &data, ImageFlagsBase flags)
+{
+  if((flags & static_cast<AccessFlagsBase>(ImageFlags::READWRITE))  &&
+     (flags & static_cast<AccessFlagsBase>(ImageFlags::DONT_COPY)))
+    throw std::runtime_error("Invalid ImageFlags for const buffer");
+  return from_buffer(const_cast<T&>(data), static_cast<ImageFlagsBase>(flags));
 }
 
 template<typename T>
