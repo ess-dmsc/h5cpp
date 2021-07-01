@@ -45,6 +45,13 @@ enum class AccessFlags : unsigned
   SWMR_WRITE = 0x0020
 #endif
 };
+using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
+
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
+
+DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
 
 //!
 //! \brief flags controlling image file opening and getting
@@ -58,16 +65,13 @@ enum class ImageFlags : unsigned
   ALL = H5LT_FILE_IMAGE_ALL
 };
 
-using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
-
 using ImageFlagsBase = std::underlying_type<ImageFlags>::type;
 
-DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags);
 
-DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs);
-DLL_EXPORT AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
-DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
-
+DLL_EXPORT ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlags &rhs);
+DLL_EXPORT ImageFlagsBase operator|(const ImageFlagsBase &lhs,const ImageFlags &rhs);
+DLL_EXPORT ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlagsBase &rhs);
 
 //!
 //! \brief flags controlling object search in a file
