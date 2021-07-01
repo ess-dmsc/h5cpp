@@ -134,29 +134,7 @@ File from_buffer(const T &data, ImageFlagsBase flags)
   if((flags & static_cast<AccessFlagsBase>(ImageFlags::READWRITE))  &&
      (flags & static_cast<AccessFlagsBase>(ImageFlags::DONT_COPY)))
     throw std::runtime_error("Invalid ImageFlags for const buffer");
-  auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
-  size_t databytesize = memory_space.size() * memory_type.size();
-  hid_t fid = 0;
-  if(memory_type.get_class() == datatype::Class::INTEGER)
-    {
-
-      fid = H5LTopen_file_image(const_cast<void *>(dataspace::cptr(data)), databytesize, flags);
-      if (fid < 0)
-	{
-	  std::stringstream ss;
-	  ss << "Failure opening file image";
-	  error::Singleton::instance().throw_with_stack(ss.str());
-	}
-      return File(ObjectHandle(fid));
-    }
-  else
-    {
-      std::stringstream ss;
-      ss<<"Failure to open non-integer buffer";
-      error::Singleton::instance().throw_with_stack(ss.str());
-    }
-  return File(hdf5::ObjectHandle(fid));
+  return from_buffer(const_cast<T&>(data), static_cast<ImageFlagsBase>(flags));
 }
 
 template<typename T>
