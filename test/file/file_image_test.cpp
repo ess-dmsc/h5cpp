@@ -172,11 +172,16 @@ TEST_F(FileImage, test_image_buffer_flags)
   EXPECT_EQ(realsize, size);
   nexus_file.close();
   const std::vector<unsigned char> cbuffer = buffer;
+  EXPECT_THROW(file::from_buffer(buffer, file::ImageFlags::DONT_COPY),
+	       std::runtime_error);
   EXPECT_THROW(file::from_buffer(cbuffer,
-				 file::ImageFlags::DONT_COPY | file::ImageFlags::READWRITE),
+				 file::ImageFlags::DONT_COPY |
+				 file::ImageFlags::DONT_RELEASE |
+				 file::ImageFlags::READWRITE),
 	       std::runtime_error);
   auto file2 = file::from_buffer(cbuffer,
-				 file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE); 
+				 file::ImageFlags::DONT_COPY |
+				 file::ImageFlags::DONT_RELEASE);
   auto r2 = file2.root();
 
   auto a = r2.attributes["HDF5_version"];

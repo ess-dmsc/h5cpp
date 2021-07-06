@@ -131,15 +131,18 @@ File from_buffer(const T &data, ImageFlags flags)
 template<typename T>
 File from_buffer(const T &data, ImageFlagsBase flags)
 {
-  if((flags & static_cast<AccessFlagsBase>(ImageFlags::READWRITE))  &&
-     (flags & static_cast<AccessFlagsBase>(ImageFlags::DONT_COPY)))
-    throw std::runtime_error("Invalid ImageFlags for const buffer");
+  if((flags & static_cast<ImageFlagsBase>(ImageFlags::READWRITE))  &&
+     (flags & static_cast<ImageFlagsBase>(ImageFlags::DONT_COPY)))
+    throw std::runtime_error("Invalid ImageFlags for const buffer: the DONT_COPY flag together with the READWRITE flag");
   return from_buffer(const_cast<T&>(data), static_cast<ImageFlagsBase>(flags));
 }
 
 template<typename T>
 File from_buffer(T &data, ImageFlagsBase flags)
 {
+  if ((flags & static_cast<ImageFlagsBase>(ImageFlags::DONT_COPY)) &&
+      !(flags & static_cast<ImageFlagsBase>(ImageFlags::DONT_RELEASE)))
+    throw std::runtime_error("Invalid ImageFlags in from_buffer: the DONT_COPY flag without the DONT_RELEASE flag");
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
   size_t databytesize = memory_space.size() * memory_type.size();
