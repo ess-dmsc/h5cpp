@@ -1,0 +1,60 @@
+name: cmake-build
+on: [push]
+jobs:
+  linux-build:
+    strategy:
+      matrix:
+        image: [conanio/gcc11]
+        libcxx: [libstdc++11]
+        include:
+          - image: conanio/clang11
+            libcxx: libc++
+    runs-on: ubuntu-20.04
+    container:
+      image: ${{ matrix.image }}
+      options: '--user=root'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install and configure conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade \
+            conan \
+            ninja
+          conan install . -if build \
+            -s compiler.libcxx=${{ matrix.libcxx }} -s build_type=Release \
+            --build missing
+      - name: build with cmake
+        run: |
+          cmake -S . -B build -G Ninja \
+            -D CONAN=MANUAL \
+            -D WITH_BOOST=OFF
+          cmake --build build
+      - name: run tests
+        run: |
+          ctest -vvv build
+  windows-build:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install and configure conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade \
+            conan \
+            ninja
+          conan install . -if build \
+            -s compiler="Visual Studio" -s compiler.version="16" -s build_type=Release \
+            --build missing
+        shell: bash
+      - name: build with cmake
+        run: |
+          cmake -S . -B build -G "Visual Studio 16 2019" -A x64 \
+            -D CONAN=MANUAL \
+            -D WITH_BOOST=OFF
+          cmake --build build
+        shell: bash
+      - name: run tests
+        run: |
+          ctest -vvv build
+        shell: bash

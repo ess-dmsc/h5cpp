@@ -17,9 +17,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/catch2/cma
 #=============================================================================
 # Conan
 #=============================================================================
-# SET(CONAN_DISABLE_CHECK_COMPILER TRUE)
-set(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
 set(CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
+set(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
 set(CONAN_FILE "conanfile_ess.txt" CACHE STRING "The conanfile to use for the build")
 if(${CONAN} MATCHES "AUTO")
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)

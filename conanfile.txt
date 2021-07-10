@@ -1,0 +1,9 @@
+[requires]
+hdf5/1.12.0
+
+[build_requires]
+gtest/1.11.0
+
+[generators]
+cmake
+cmake_find_package
