@@ -4,6 +4,7 @@ set(test_sources
   scope_test.cpp
   file_test.cpp
   file_creation_test.cpp
+  file_image_test.cpp
    file_open_test.cpp
    file_close_test.cpp
    is_hdf5_test.cpp
