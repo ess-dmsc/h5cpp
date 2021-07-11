@@ -11,6 +11,7 @@ hdf5:shared=True
 hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
 zlib:shared=True
+bzip:shared=True
 
 [imports]
 bin, *.dll -> ./bin
