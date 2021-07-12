@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 
@@ -75,6 +77,19 @@ TEST(SearchFlags, test_or_left_three)
   EXPECT_EQ(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET |
             file::SearchFlags::DATATYPE,
             H5F_OBJ_ATTR | H5F_OBJ_DATASET | H5F_OBJ_DATATYPE);
+}
+
+TEST(SearchFlags, test_and_or_comb)
+{
+  EXPECT_EQ((file::SearchFlags::DATATYPE | file::SearchFlags::DATASET) &
+            file::SearchFlags::DATATYPE,
+            H5F_OBJ_DATATYPE);
+  EXPECT_EQ(file::SearchFlags::ATTRIBUTE &
+	    (file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET),
+            H5F_OBJ_ATTR);
+  EXPECT_EQ((file::SearchFlags::DATATYPE | file::SearchFlags::DATASET) &
+	    (file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET),
+            H5F_OBJ_DATASET);
 }
 
 TEST(SearchFlags, test_values)
