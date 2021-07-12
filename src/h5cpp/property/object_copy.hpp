@@ -186,17 +186,17 @@ DLL_EXPORT CopyFlags operator|(const CopyFlags &flags, const CopyFlag &flag) noe
 DLL_EXPORT CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noexcept;
 
 //!
-//! \brief binary or operator for copy flags
+//! \brief binary and operator for copy flags
 //!
 DLL_EXPORT CopyFlags operator&(const CopyFlags &flags, const CopyFlags &rhs) noexcept;
 
 //!
-//! \brief binary or operator for copy flags
+//! \brief binary and operator for copy flags
 //!
 DLL_EXPORT CopyFlags operator&(const CopyFlags &flags, const CopyFlag &flag) noexcept;
 
 //!
-//! \brief binary or operator for copy flags
+//! \brief binary and operator for copy flags
 //!
 DLL_EXPORT CopyFlags operator&(const CopyFlag &flag, const CopyFlags &flags) noexcept;
 
