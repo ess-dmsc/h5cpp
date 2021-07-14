@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 
@@ -61,6 +63,21 @@ AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs)
   return static_cast<AccessFlagsBase>(lhs) | rhs;
 }
 
+AccessFlagsBase operator&(const AccessFlags &lhs,const AccessFlags &rhs)
+{
+  return static_cast<AccessFlagsBase>(lhs) & static_cast<AccessFlagsBase>(rhs);
+}
+
+AccessFlagsBase operator&(const AccessFlagsBase &lhs,const AccessFlags &rhs)
+{
+  return lhs & static_cast<AccessFlagsBase>(rhs);
+}
+
+AccessFlagsBase operator&(const AccessFlags &lhs,const AccessFlagsBase &rhs)
+{
+  return static_cast<AccessFlagsBase>(lhs) & rhs;
+}
+
 std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags)
 {
   switch(flags)
@@ -91,6 +108,21 @@ ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlagsBase &rhs)
   return static_cast<ImageFlagsBase>(lhs) | rhs;
 }
 
+ImageFlagsBase operator&(const ImageFlags &lhs,const ImageFlags &rhs)
+{
+  return static_cast<ImageFlagsBase>(lhs) & static_cast<ImageFlagsBase>(rhs);
+}
+
+ImageFlagsBase operator&(const ImageFlagsBase &lhs,const ImageFlags &rhs)
+{
+  return lhs & static_cast<ImageFlagsBase>(rhs);
+}
+
+ImageFlagsBase operator&(const ImageFlags &lhs,const ImageFlagsBase &rhs)
+{
+  return static_cast<ImageFlagsBase>(lhs) & rhs;
+}
+
 std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags)
 {
   switch(flags)
@@ -119,7 +151,22 @@ SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs)
 
 SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs)
 {
-  return rhs | lhs;
+  return rhs | static_cast<SearchFlagsBase>(lhs);
+}
+
+ SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlags &rhs)
+{
+  return static_cast<SearchFlagsBase>(lhs) & static_cast<SearchFlagsBase>(rhs);
+}
+
+SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlagsBase &rhs)
+{
+  return static_cast<SearchFlagsBase>(lhs) & rhs;
+}
+
+SearchFlagsBase operator&(const SearchFlagsBase &lhs,const SearchFlags &rhs)
+{
+  return rhs & static_cast<SearchFlagsBase>(lhs);
 }
 
 std::ostream &operator<<(std::ostream &stream,const Scope &scope)

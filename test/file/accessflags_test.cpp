@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 
@@ -56,6 +58,34 @@ TEST(AccessFlags, test_output_stream)
   stream<<file::AccessFlags::SWMR_READ;
   EXPECT_EQ(stream.str(), "SWMR READ");
 #endif
+}
+
+TEST(AccessFlags, test_or_flags) {
+  EXPECT_EQ(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE,
+            H5F_ACC_RDWR | H5F_ACC_TRUNC);
+
+  EXPECT_EQ(file::AccessFlags::EXCLUSIVE | file::AccessFlags::READONLY,
+            H5F_ACC_EXCL | H5F_ACC_RDONLY);
+}
+
+TEST(AccessFlags, test_or_left_three)
+{
+  EXPECT_EQ(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE |
+            file::AccessFlags::EXCLUSIVE,
+            H5F_ACC_RDWR | H5F_ACC_TRUNC | H5F_ACC_EXCL);
+}
+
+TEST(AccessFlags, test_and_or_comb)
+{
+  EXPECT_EQ((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
+            file::AccessFlags::READWRITE,
+            H5F_ACC_RDWR);
+  EXPECT_EQ(file::AccessFlags::TRUNCATE &
+	    (file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE),
+            H5F_ACC_TRUNC);
+  EXPECT_EQ((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
+	    (file::AccessFlags::READWRITE | file::AccessFlags::EXCLUSIVE),
+            H5F_ACC_RDWR);
 }
 
 TEST(AccessFlags, test_values)

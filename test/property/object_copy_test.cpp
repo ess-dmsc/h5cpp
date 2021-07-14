@@ -207,6 +207,31 @@ TEST(CopyFlags, test_or_operations_1) {
   EXPECT_TRUE(flags.expand_external_links());
 }
 
+TEST(CopyFlags, test_and_or_comb)
+{
+  property::CopyFlags flags1 =
+    (property::CopyFlag::EXPAND_EXTERNAL_LINKS |
+     property::CopyFlag::EXPAND_SOFT_LINKS) &
+    property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+  EXPECT_TRUE(!flags1.expand_soft_links());
+  EXPECT_TRUE(flags1.expand_external_links());
+
+  property::CopyFlags flags2 =
+    property::CopyFlag::EXPAND_EXTERNAL_LINKS &
+    (property::CopyFlag::EXPAND_EXTERNAL_LINKS |
+     property::CopyFlag::EXPAND_SOFT_LINKS);
+  EXPECT_TRUE(!flags2.expand_soft_links());
+  EXPECT_TRUE(flags2.expand_external_links());
+
+  property::CopyFlags flags3 =
+    (property::CopyFlag::EXPAND_EXTERNAL_LINKS |
+     property::CopyFlag::EXPAND_SOFT_LINKS) &
+    (property::CopyFlag::WITHOUT_ATTRIBUTES |
+     property::CopyFlag::EXPAND_SOFT_LINKS);
+  EXPECT_TRUE(flags3.expand_soft_links());
+  EXPECT_TRUE(!flags3.expand_external_links());
+}
+
 TEST(ObjectCopy, construction) {
   property::ObjectCopyList ocpl;
   EXPECT_TRUE(ocpl.get_class() == property::kObjectCopy);

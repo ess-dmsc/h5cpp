@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 #pragma once
@@ -53,6 +55,10 @@ DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &r
 DLL_EXPORT AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
 DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
 
+DLL_EXPORT AccessFlagsBase operator&(const AccessFlags &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator&(const AccessFlagsBase &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator&(const AccessFlags &lhs,const AccessFlagsBase &rhs);
+
 //!
 //! \brief flags controlling image file opening and getting
 //!
@@ -72,6 +78,10 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags
 DLL_EXPORT ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlags &rhs);
 DLL_EXPORT ImageFlagsBase operator|(const ImageFlagsBase &lhs,const ImageFlags &rhs);
 DLL_EXPORT ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlagsBase &rhs);
+
+DLL_EXPORT ImageFlagsBase operator&(const ImageFlags &lhs,const ImageFlags &rhs);
+DLL_EXPORT ImageFlagsBase operator&(const ImageFlagsBase &lhs,const ImageFlags &rhs);
+DLL_EXPORT ImageFlagsBase operator&(const ImageFlags &lhs,const ImageFlagsBase &rhs);
 
 //!
 //! \brief flags controlling object search in a file
@@ -94,6 +104,10 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const SearchFlags &flag
 DLL_EXPORT SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlags &rhs);
 DLL_EXPORT SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs);
 DLL_EXPORT SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs);
+
+DLL_EXPORT SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlags &rhs);
+DLL_EXPORT SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlagsBase &rhs);
+DLL_EXPORT SearchFlagsBase operator&(const SearchFlagsBase &lhs,const SearchFlags &rhs);
 
 //!
 //! \brief file scope
