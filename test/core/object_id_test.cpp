@@ -118,7 +118,7 @@ struct File {
 };
 
 SCENARIO("testing Id construction") {
-  static const fs::path path1 = fs::absolute("id_construction.h5");
+  const fs::path path1 = fs::absolute(std::string("id_construction.h5"));
   GIVEN("a default constructed id") {
     ObjectId id;
     THEN("the file number must be 0") { REQUIRE(id.file_number() == 0l); }

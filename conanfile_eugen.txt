@@ -1,5 +1,5 @@
 [requires]
-boost/1.74.0
+boost/1.69.0
 hdf5/1.10.6
 zlib/1.2.11
 bzip2/1.0.8
@@ -13,7 +13,6 @@ hdf5:shared=True
 hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
 zlib:shared=True
-bzip:shared=True
 
 [imports]
 bin, *.dll -> ./bin

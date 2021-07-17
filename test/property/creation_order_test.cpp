@@ -55,7 +55,7 @@ SCENARIO("setting LinkCreationOrder configuration by member methods") {
     WHEN("enabling tracking") {
       o.enable_tracked();
       THEN("the tracking flag will be set") { REQUIRE(o.tracked()); }
-      THEN('the index flag must not be set') { REQUIRE_FALSE(o.indexed()); }
+      THEN("the index flag must not be set") { REQUIRE_FALSE(o.indexed()); }
       AND_WHEN("disabling tracking") {
         o.disable_tracked();
         THEN("the traking flag is unset") { REQUIRE_FALSE(o.tracked()); }
