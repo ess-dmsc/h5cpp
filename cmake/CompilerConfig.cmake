@@ -18,3 +18,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     endif()
 
 endif()
+
+if(CMAKE_CXX_COMPILER_ID MATCHES Clang)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic")
+endif()

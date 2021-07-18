@@ -32,7 +32,7 @@
 
 class TestEnvironment
 {
-  std::string filename_;
+  std::string filename_{};
   hdf5::ObjectHandle file_handle_;
  public:
   TestEnvironment(const std::string &filename);
@@ -72,7 +72,7 @@ class ObjectHandleTest
 class FileObjectHandleTest : public ObjectHandleTest
 {
  private:
-  std::string filename_;
+  std::string filename_{};
  public:
   FileObjectHandleTest(const std::string &filename);
   ~FileObjectHandleTest();
@@ -109,7 +109,7 @@ class GroupObjectHandleTest : public ObjectHandleTest
 class DatasetObjectHandleTest : public ObjectHandleTest
 {
  private:
-  std::string filename_;
+  std::string filename_{};
   TestEnvironment environment_;
   hdf5::ObjectHandle dtype_;
   hdf5::ObjectHandle dspace_;
@@ -123,7 +123,7 @@ class DatasetObjectHandleTest : public ObjectHandleTest
 class AttributeObjectHandleTest : public ObjectHandleTest
 {
  private:
-  std::string filename_;
+  std::string filename_{};
   TestEnvironment environment_;
   hdf5::ObjectHandle group_;
  public:

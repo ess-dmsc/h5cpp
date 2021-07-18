@@ -118,7 +118,7 @@ struct File {
 };
 
 SCENARIO("testing Id construction") {
-  const fs::path path1 = fs::absolute(std::string("id_construction.h5"));
+  const auto path1 = fs::absolute(std::string("id_construction.h5"));
   GIVEN("a default constructed id") {
     ObjectId id;
     THEN("the file number must be 0") { REQUIRE(id.file_number() == 0l); }
@@ -246,9 +246,9 @@ SCENARIO("working with links") {
 }
 
 SCENARIO("checking copies and files of identical structure") {
-  static const fs::path path1 = fs::absolute("cp_and_id_structs_1.h5");
-  static const fs::path path2 = fs::absolute("cp_and_id_structs_2.h5");
-  static const fs::path path3 = fs::absolute("cp_and_id_structs_3.h5");
+  auto path1 = fs::absolute("cp_and_id_structs_1.h5");
+  auto path2 = fs::absolute("cp_and_id_structs_2.h5");
+  auto path3 = fs::absolute("cp_and_id_structs_3.h5");
   {
     // create two files with identical structure
     File{path1};
@@ -267,7 +267,7 @@ SCENARIO("checking copies and files of identical structure") {
 #endif
 
   using files_t = std::tuple<fs::path, fs::path>;
-  auto files = GENERATE(
+  auto files = GENERATE_REF(
       table<fs::path, fs::path>({files_t{path1, path2},
                                  files_t{path1, path3}}));
   GIVEN("a handle to group 1 in the first file") {
