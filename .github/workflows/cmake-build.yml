@@ -73,3 +73,27 @@ jobs:
         run: |
           ctest -vvv build
         shell: bash
+  mac-build:
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install and configure conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade \
+            conan \
+            ninja
+          conan install . -if build \
+            -s build_type=Release \
+            -s hdf5:shared=${{ matrix.shared }} \
+            --build missing
+      - name: build with cmake
+        run: |
+          cmake -S . -B build -G Ninja \
+            -D CONAN=MANUAL \
+            -D WITH_BOOST=OFF \
+            -D BUILD_SHARED_LIBS=${{ matrix.shared }}
+          cmake --build build
+      - name: run tests
+        run: |
+          ctest -vvv build
