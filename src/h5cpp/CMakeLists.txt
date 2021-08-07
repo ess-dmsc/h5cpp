@@ -36,27 +36,9 @@ else()
     list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
 endif()
 
-#
-# remove the absolute path from the library name
-#
-set(H5CPP_INTERFACE_LIBS)
-set(H5CPP_PRIVATE_LIBS ${HDF5_LIBRARIES})
-foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
-    get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
-endforeach()
-
-set(H5CPP_HL_PRIVATE_LIBS ${HDF5_HL_LIBRARIES})
-foreach(HDF5_LIBRARY ${HDF5_HL_LIBRARIES})
-  get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-  list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
-endforeach()
-
 
 target_include_directories(h5cpp
   PRIVATE ${PROJECT_SOURCE_DIR}/src
-  PUBLIC ${HDF5_INCLUDE_DIRS}
-  PUBLIC ${MPI_CXX_INCLUDE_PATH}
   INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
   INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
@@ -79,8 +61,10 @@ set_target_properties(h5cpp
 enable_coverage(h5cpp)
 
 target_link_libraries(h5cpp
-  PUBLIC ${H5CPP_LINKS}
-  PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS} ${H5CPP_HL_PRIVATE_LIBS}
+  PUBLIC 
+	${H5CPP_LINKS}
+  PRIVATE ${COVERAGE_LIBRARIES}
+  	hdf5::hdf5 hdf5::hdf5_hl
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX

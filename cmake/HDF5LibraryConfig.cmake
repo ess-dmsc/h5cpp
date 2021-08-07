@@ -15,9 +15,6 @@ message(STATUS "Found HDF5 HDF5_VERSION = ${HDF5_VERSION}")
 message(STATUS "Found HDF5 HDF5_IS_PARALLEL = ${HDF5_IS_PARALLEL}")
 message(STATUS "==============================================================")
 
-if(CMAKE_CXX_COMPILER_ID MATCHES MSVC)
-  add_definitions(-DH5_BUILT_AS_DYNAMIC_LIB)
-endif()
 
 if(WITH_MPI)
   if(NOT HDF5_IS_PARALLEL)
