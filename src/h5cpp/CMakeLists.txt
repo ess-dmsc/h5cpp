@@ -19,7 +19,7 @@ add_subdirectory(utilities)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
-add_library(h5cpp SHARED
+add_library(h5cpp
   ${h5cpp_sources}
   ${h5cpp_headers}
   )
