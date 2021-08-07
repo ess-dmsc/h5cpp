@@ -20,6 +20,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/catch2/cma
 set(CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
 set(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
 set(CONAN_FILE "conanfile_ess.txt" CACHE STRING "The conanfile to use for the build")
+
 if(${CONAN} MATCHES "AUTO")
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
   conan_cmake_run(CONANFILE ${CONAN_FILE}
@@ -27,10 +28,12 @@ if(${CONAN} MATCHES "AUTO")
       BASIC_SETUP NO_OUTPUT_DIRS KEEP_RPATHS
       BUILD_TYPE "None"
       BUILD outdated)
+   list(PREPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 elseif(${CONAN} MATCHES "MANUAL")
   if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
+    list(PREPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
   else()
     message(FATAL_ERROR "CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
   endif()
