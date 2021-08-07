@@ -64,7 +64,7 @@ target_link_libraries(h5cpp
   PUBLIC 
 	${H5CPP_LINKS}
   PRIVATE ${COVERAGE_LIBRARIES}
-  	hdf5::hdf5 hdf5::hdf5_hl
+  	HDF5::HDF5
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
