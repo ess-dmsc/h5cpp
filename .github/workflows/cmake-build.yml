@@ -9,6 +9,7 @@ jobs:
         include:
           - image: conanio/clang11
             libcxx: libc++
+          
     runs-on: ubuntu-20.04
     container:
       image: ${{ matrix.image }}
@@ -37,6 +38,8 @@ jobs:
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
+      - name: Add MSVC to PATH
+        uses: ilammy/msvc-dev-cmd@v1
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
@@ -49,7 +52,8 @@ jobs:
         shell: bash
       - name: build with cmake
         run: |
-          cmake -S . -B build -G "Visual Studio 16 2019" -A x64 \
+          cmake -S . -B build -G "Ninja" \
+            -D CMAKE_CXX_COMPILER=cl \
             -D CONAN=MANUAL \
             -D WITH_BOOST=OFF
           cmake --build build
