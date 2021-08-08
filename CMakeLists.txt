@@ -61,8 +61,8 @@ include(DoxygenUtilities)
 #=============================================================================
 set(WITH_BOOST ON CACHE BOOL "enable Boost filesystem support")
 if(WITH_BOOST)
+  find_package(Boost 1.41 COMPONENTS filesystem system REQUIRED)
   message(STATUS "Using Boost library for filesystem")
-  include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
 else() 
   # if we do not use Boost we have to ensure a C++ standard of at least 2017
   # since we require the std::filesystem API
