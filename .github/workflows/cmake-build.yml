@@ -36,15 +36,12 @@ jobs:
             -s build_type=Release \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5:shared=${H5CPP_SHARED} \
             --build missing
       - name: build with cmake
         run: |
-          cmake -S . -B build -G Ninja \
-            -D CONAN=MANUAL \
-            -D BUILD_SHARED_LIBS=${H5CPP_SHARED}
-            -D WITH_BOOST=${H5CPP_WITH_BOOST} \
-            -D WITH_MPI=${H5CPP_WITH_MPI} \
-          cmake --build build
+          conan build . --build-folder build
       - name: run tests
         run: |
           ctest -vvv build
@@ -75,17 +72,13 @@ jobs:
             -s compiler.version="16" \
             -s build_type=Release \
             -o with_boost=${H5CPP_WITH_BOOST} \
-            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5:shared=${H5CPP_SHARED} \
             --build missing
         shell: bash
       - name: build with cmake
         run: |
-          cmake -S . -B build -G "Ninja" \
-            -D CMAKE_CXX_COMPILER=cl \
-            -D CONAN=MANUAL \
-            -D BUILD_SHARED_LIBS=${H5CPP_SHARED} \
-            -D WITH_BOOST=${H5CPP_WITH_BOOST}
-          cmake --build build
+          conan build . --build-folder build
         shell: bash
       - name: run tests
         run: |
@@ -119,15 +112,12 @@ jobs:
             -s build_type=Release \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5:shared=${H5CPP_SHARED} \
             --build missing
       - name: build with cmake
         run: |
-          cmake -S . -B build -G Ninja \
-            -D CONAN=MANUAL \
-            -D BUILD_SHARED_LIBS=${H5CPP_SHARED} \
-            -D WITH_MPI=${H5CPP_WITH_MPI} \
-            -D WITH_BOOST=${H5CPP_WITH_BOOST}
-          cmake --build build
+          conan build . --build-folder build
       - name: run tests
         run: |
           ctest -vvv build
