@@ -35,7 +35,7 @@ namespace property {
 class DLL_EXPORT FileCreationList : public GroupCreationList {
  public:
   FileCreationList();
-  ~FileCreationList();
+  ~FileCreationList() override;
 
   explicit FileCreationList(ObjectHandle &&handle);
 

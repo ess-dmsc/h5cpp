@@ -75,7 +75,7 @@ class DLL_EXPORT FileAccessList : public List {
   //!
   //! \brief destructor
   //!
-  ~FileAccessList();
+  ~FileAccessList() override;
 
   explicit FileAccessList(ObjectHandle &&handle);
 

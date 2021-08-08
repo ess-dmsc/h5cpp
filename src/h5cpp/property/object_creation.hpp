@@ -43,7 +43,7 @@ class DLL_EXPORT ObjectCreationList : public List {
   //!
   //! \brief destructor
   //!
-  virtual ~ObjectCreationList();
+  virtual ~ObjectCreationList() override;
 
   explicit ObjectCreationList(ObjectHandle &&handle);
 

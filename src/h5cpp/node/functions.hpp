@@ -201,7 +201,7 @@ DLL_EXPORT void link(const Node &target,
 //! relative to `link_base`. If absolute, the path is assumed to be on the same file as
 //! `link_base`.
 //!
-//! \param target the target node (could also be path here?)
+//! \param target_path the target node (could also be path here?)
 //! \param link_base the base group for the link location
 //! \param link_path path to the new link (either relative or absolute)
 //! \param lcpl optional link creation property list

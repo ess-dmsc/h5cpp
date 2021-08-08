@@ -41,6 +41,7 @@
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
+#include <vector>
 
 namespace hdf5 {
 namespace node {
@@ -590,8 +591,9 @@ class DLL_EXPORT Dataset : public Node
                                           const property::DatasetTransferList &dtpl) const
     {
       using Trait = VarLengthStringTrait<T>;
+      using size_type = std::vector<T>::size_type;
 
-      typename Trait::BufferType buffer(static_cast<std::vector::size_type>(mem_space.size()));
+      typename Trait::BufferType buffer(static_cast<size_type>(mem_space.size()));
 
 
       if(H5Dread(static_cast<hid_t>(*this),

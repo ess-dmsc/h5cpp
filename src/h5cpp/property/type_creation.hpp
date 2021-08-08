@@ -42,7 +42,7 @@ class DLL_EXPORT TypeCreationList : public ObjectCreationList {
   //!
   //! \brief destructor
   //!
-  ~TypeCreationList();
+  ~TypeCreationList() override;
 
   explicit TypeCreationList(ObjectHandle &&handle);
 };

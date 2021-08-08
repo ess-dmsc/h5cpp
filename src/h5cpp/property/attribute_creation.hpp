@@ -42,7 +42,7 @@ class DLL_EXPORT AttributeCreationList : public StringCreationList {
   //!
   //! \brief destructor
   //!
-  ~AttributeCreationList();
+  ~AttributeCreationList() override;
 
   explicit AttributeCreationList(ObjectHandle &&handle);
 };

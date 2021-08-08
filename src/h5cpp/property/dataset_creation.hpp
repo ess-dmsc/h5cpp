@@ -117,7 +117,7 @@ class DLL_EXPORT DatasetCreationList : public ObjectCreationList {
   //!
   //! \brief destructor
   //!
-  ~DatasetCreationList();
+  ~DatasetCreationList() override;
 
   //!
   //! \brief constructor
