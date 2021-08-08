@@ -8,6 +8,7 @@ jobs:
         libcxx: [libstdc++11, libc++]
         shared: ["shared", "static"]
         boost: ["boost", "stdfs"]
+        mpi: ["mpi", "serial"]
         exclude:
           - image: conanio/gcc11
             libcxx: libc++
@@ -31,13 +32,15 @@ jobs:
             -s compiler.libcxx=${{ matrix.libcxx }} \
             -s build_type=Release \
             -o hdf5:shared=${H5CPP_SHARED} \
+            -o hdf5:parallel=${H5CPP_WITH_MPI} \
             --build missing
       - name: build with cmake
         run: |
           cmake -S . -B build -G Ninja \
             -D CONAN=MANUAL \
-            -D WITH_BOOST=${H5CPP_WITH_BOOST} \
             -D BUILD_SHARED_LIBS=${H5CPP_SHARED}
+            -D WITH_BOOST=${H5CPP_WITH_BOOST} \
+            -D WITH_MPI=${H5CPP_WITH_MPI} \
           cmake --build build
       - name: run tests
         run: |
@@ -73,8 +76,8 @@ jobs:
         run: |
           cmake -S . -B build -G "Ninja" \
             -D CMAKE_CXX_COMPILER=cl \
-            -D BUILD_SHARED_LIBS=${H5CPP_SHARED} \
             -D CONAN=MANUAL \
+            -D BUILD_SHARED_LIBS=${H5CPP_SHARED} \
             -D WITH_BOOST=${H5CPP_WITH_BOOST}
           cmake --build build
         shell: bash
@@ -87,6 +90,7 @@ jobs:
       matrix:
         shared: ["shared", "static"]
         boost: ["boost", "stdfs"]
+        mpi: ["mpi", "serial"]
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
@@ -105,13 +109,14 @@ jobs:
           conan install . -if build \
             -s build_type=Release \
             -o hdf5:shared=${H5CPP_SHARED} \
+            -o hdf5:parallel=${H5CPP_WITH_MPI} \
             --build missing
       - name: build with cmake
         run: |
           cmake -S . -B build -G Ninja \
             -D CONAN=MANUAL \
-            -D WITH_BOOST=OFF \
             -D BUILD_SHARED_LIBS=${H5CPP_SHARED} \
+            -D WITH_MPI=${H5CPP_WITH_MPI} \
             -D WITH_BOOST=${H5CPP_WITH_BOOST}
           cmake --build build
       - name: run tests

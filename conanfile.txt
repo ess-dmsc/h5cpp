@@ -1,6 +1,7 @@
 [requires]
 boost/1.76.0
 hdf5/1.12.0
+openmpi/4.1.0
 
 [build_requires]
 gtest/1.11.0
