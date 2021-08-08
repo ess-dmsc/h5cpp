@@ -59,7 +59,7 @@ class H5CError : public std::runtime_error
   //! Returns the pre-generated string containing a printout of the
   //! error H5CError.
   //!
-  const char* what() const throw();
+  const char* what() const noexcept override;
 
   //!
   //! \brief access to error H5CError
@@ -94,7 +94,7 @@ inline H5CError::H5CError(const std::list<Descriptor>& H5CError)
 }
 
 
-inline const char* H5CError::what() const throw()
+inline const char* H5CError::what() const noexcept
 {
   return what_message_.c_str();
 }

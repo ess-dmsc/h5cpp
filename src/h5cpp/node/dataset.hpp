@@ -591,7 +591,7 @@ class DLL_EXPORT Dataset : public Node
                                           const property::DatasetTransferList &dtpl) const
     {
       using Trait = VarLengthStringTrait<T>;
-      using size_type = std::vector<T>::size_type;
+      using size_type = typename std::vector<T>::size_type;
 
       typename Trait::BufferType buffer(static_cast<size_type>(mem_space.size()));
 

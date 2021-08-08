@@ -60,7 +60,7 @@ class DLL_EXPORT Singleton
   //! of every error. Turning this off redirects the stack to be passed out
   //! to the client using nested exceptions.
   //!
-  //! \param enable
+  //! \param enable set to true if autoprinting should be enabled, false otherwise
   //!
   void auto_print(bool enable);
 
@@ -128,7 +128,7 @@ class DLL_EXPORT Singleton
 //! if included, the extracted error stack. For each level of nesting and for each
 //! level of the error stack, the output is on a new line and incrementally indented.
 //!
-//! \param exception
+//! \param exception the exception to print
 //!
 //! \param level indentation level
 //!
