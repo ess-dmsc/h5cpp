@@ -21,7 +21,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set environment variables
         run: |
-            bash .github/workflows/set_env_vars.sh
+            bash .github/workflows/set_env_vars.sh \
+              ${{ matrix.shared }} \
+              ${{ matrix.boost }} \
+              ${{ matrix.mpi }}
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
@@ -31,8 +34,8 @@ jobs:
           conan install . -if build \
             -s compiler.libcxx=${{ matrix.libcxx }} \
             -s build_type=Release \
-            -o hdf5:shared=${H5CPP_SHARED} \
-            -o hdf5:parallel=${H5CPP_WITH_MPI} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
             --build missing
       - name: build with cmake
         run: |
@@ -57,7 +60,9 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
       - name: Set environment variables
         run: |
-            bash .github/workflows/set_env_vars.sh
+            bash .github/workflows/set_env_vars.sh \
+              ${{ matrix.shared }} \
+              ${{ matrix.boost }}
         shell: bash
       - name: Install and configure conan
         run: |
@@ -69,7 +74,8 @@ jobs:
             -s compiler="Visual Studio" \
             -s compiler.version="16" \
             -s build_type=Release \
-            -o hdf5:shared=${H5CPP_SHARED} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
             --build missing
         shell: bash
       - name: build with cmake
@@ -99,7 +105,10 @@ jobs:
           python-version: '3.x'
       - name: Set environment variables
         run: |
-            bash .github/workflows/set_env_vars.sh
+            bash .github/workflows/set_env_vars.sh \
+              ${{ matrix.shared }} \
+              ${{ matrix.boost }} \
+              ${{ matrix.mpi }}
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
@@ -108,8 +117,8 @@ jobs:
             ninja
           conan install . -if build \
             -s build_type=Release \
-            -o hdf5:shared=${H5CPP_SHARED} \
-            -o hdf5:parallel=${H5CPP_WITH_MPI} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
             --build missing
       - name: build with cmake
         run: |
