@@ -65,11 +65,11 @@ class DLL_EXPORT VirtualDataMap {
   //! \brief constructor
   //!
   //! \throws std::runtime_error in case of a failure
-  //! \param target_space dataspace with the selection where to view the
+  //! \param target_view dataspace view with the selection where to view the
   //!                     source data
   //! \param source_file path to the source file
   //! \param source_dataset path to the source dataset
-  //! \param source_space dataspace with selection of the source dataset
+  //! \param source_view dataspace view with selection of the source dataset
   //!
   VirtualDataMap(const dataspace::View &target_view,
                  const fs::path &source_file,

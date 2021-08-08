@@ -32,36 +32,50 @@ using namespace hdf5;
 
 using PathVector = std::vector<fs::path>;
 using DataVector = std::vector<int>;
-
-static const size_t kModuleSize = 30;
-
-#if H5_VERSION_GE(1, 10, 0)
-
-const static PathVector vds_files = {"vds_source_1.h5", "vds_source_2.h5",
-                                     "vds_source_3.h5"};
-
-const static property::FileCreationList gfcpl;
-const static property::FileAccessList gfapl;
-const static dataspace::Simple module_space{{kModuleSize}};
-const static auto module_type = datatype::create<int>();
-
-void create_module_file(const fs::path& filename, const DataVector& data) {
-  file::File f =
-      file::create(filename, file::AccessFlags::TRUNCATE, gfcpl, gfapl);
-  node::Dataset dataset(f.root(), Path("module_data"), module_type,
-                        module_space);
-  dataset.write(data);
-}
-
-DataVector create_data(size_t size, int initial_value) {
-  DataVector data(size);
-  std::fill(std::begin(data), std::end(data), initial_value);
-  return data;
-}
-
 using dataspace::Hyperslab;
 using dataspace::View;
 using hdf5::Path;
+
+
+#if H5_VERSION_GE(1, 10, 0)
+
+namespace { 
+
+  static const size_t kModuleSize = 30;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+  const static PathVector vds_files = {"vds_source_1.h5", "vds_source_2.h5",
+                                     "vds_source_3.h5"};
+
+  const static property::FileCreationList gfcpl;
+  const static property::FileAccessList gfapl;
+  const static dataspace::Simple module_space{{kModuleSize}};
+  const static auto module_type = datatype::create<int>();
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+  static void create_module_file(const fs::path& filename, const DataVector& data) {
+    file::File f =
+        file::create(filename, file::AccessFlags::TRUNCATE, gfcpl, gfapl);
+    node::Dataset dataset(f.root(), Path("module_data"), module_type,
+                          module_space);
+    dataset.write(data);
+  }
+
+  static DataVector create_data(size_t size, int initial_value) {
+    DataVector data(size);
+    std::fill(std::begin(data), std::end(data), initial_value);
+    return data;
+  }
+}
+
+
+
+
 SCENARIO("testing virtual datasets") {
   auto data_module_1 = create_data(kModuleSize, 1);
   auto data_module_2 = create_data(kModuleSize, 2);

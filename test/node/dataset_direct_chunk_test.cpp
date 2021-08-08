@@ -29,6 +29,7 @@
 
 using namespace hdf5;
 
+namespace { 
 static const long long unsigned int xdim = 867;
 static const long long unsigned int ydim = 700;
 static const long long unsigned int sxdim = 17;
@@ -42,13 +43,16 @@ using UShorts = std::vector<unsigned short int>;
  * @param current the current dimensions for the dataspace
  * @return hdf5::dataspace::Simple new instance
  */
-hdf5::dataspace::Simple unlimited_space(const hdf5::Dimensions& current) {
+static hdf5::dataspace::Simple unlimited_space(const hdf5::Dimensions& current) {
   using hdf5::dataspace::Simple;
   hdf5::Dimensions limits(current.size());
   std::fill(std::begin(limits), std::end(limits), Simple::UNLIMITED);
 
   return Simple(current, limits);
 }
+
+}
+
 
 SCENARIO("testing dataset access via chunks") {
 #if H5_VERSION_GE(1, 10, 0)

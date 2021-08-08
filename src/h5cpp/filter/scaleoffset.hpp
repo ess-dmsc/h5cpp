@@ -65,7 +65,7 @@ class DLL_EXPORT ScaleOffset : public Filter
     void scale_factor(int scale_factor);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::MANDATORY) const override;
 
 };
 

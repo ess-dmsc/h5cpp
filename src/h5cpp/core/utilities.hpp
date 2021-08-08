@@ -67,7 +67,7 @@ TType unsigned2signed(SType &&source_value) {
 #endif
     return static_cast<TType>(std::forward<SType>(source_value));
 #ifdef __clang__
-#pragma clang_diagnostic pop
+#pragma clang diagnostic pop
 #endif
   } else { 
     throw std::range_error("unsigned source value is too large for signed type");
@@ -90,11 +90,12 @@ TType signed2unsigned(SType &&source_value) {
   if(source_value < 0) { 
 	  throw std::range_error("input value is < 0 -> cannot be converted to unsigned");
   }
-  if(source_value <= target_limits::max()) { 
 #ifdef __clang__
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-compare"
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
+  if(source_value <= target_limits::max()) { 
 	  return static_cast<stripped_target_t>(std::forward<SType>(source_value));
 #ifdef __clang__
 #pragma clang diagnostic pop

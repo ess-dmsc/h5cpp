@@ -43,7 +43,7 @@ class DLL_EXPORT Deflate : public Filter
     void level(unsigned int value);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::MANDATORY) const override;
 };
 
 

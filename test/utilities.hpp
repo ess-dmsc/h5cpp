@@ -34,7 +34,7 @@ hid_t to_hid(T&& object) {
 /**
  * @brief Utility function closing an object
  *
- * @tparam T
+ * @tparam T type to close
  * @param object const reference to an object
  */
 template <typename T>

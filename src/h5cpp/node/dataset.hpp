@@ -42,6 +42,7 @@
 #include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
 #include <vector>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -535,7 +536,7 @@ class DLL_EXPORT Dataset : public Node
       }
       else
       {
-        buffer.resize(file_space.size());
+        buffer.resize(signed2unsigned<size_t>(file_space.size()));
       }
 
       if(H5Dread(static_cast<hid_t>(*this),
@@ -710,7 +711,7 @@ void Dataset::write_chunk(const T &data,
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-  size_t databytesize = memory_space.size() * memory_type.size();
+  size_t databytesize = signed2unsigned<unsigned long long>(memory_space.size()) * memory_type.size();
 
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {

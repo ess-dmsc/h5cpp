@@ -85,7 +85,7 @@ class DLL_EXPORT Group : public Node
           const property::GroupCreationList &gcpl = property::GroupCreationList(),
           const property::GroupAccessList &gapl = property::GroupAccessList());
 
-    virtual ~Group() {}
+    virtual ~Group() override {}
 
     //!
     //! \brief copy assignment operator

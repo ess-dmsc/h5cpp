@@ -45,7 +45,7 @@ class DLL_EXPORT LinkIterator : public Iterator
 
     LinkIterator() = delete;
     LinkIterator(const LinkIterator&) = default;
-    ~LinkIterator() = default;
+    ~LinkIterator() override = default;
 
     static LinkIterator begin(const Group &group);
     static LinkIterator end(const Group &group);

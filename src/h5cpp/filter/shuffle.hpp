@@ -37,7 +37,7 @@ class DLL_EXPORT Shuffle : public Filter
     ~Shuffle();
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::MANDATORY) const;
+                            Availability flag = Availability::MANDATORY) const override;
 
 };
 
