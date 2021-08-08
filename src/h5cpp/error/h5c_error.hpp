@@ -93,6 +93,7 @@ inline H5CError::H5CError(const std::list<Descriptor>& H5CError)
   what_message_ = ss.str();
 }
 
+
 inline const char* H5CError::what() const throw()
 {
   return what_message_.c_str();

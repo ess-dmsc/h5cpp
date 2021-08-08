@@ -108,7 +108,7 @@ class DLL_EXPORT ObjectCreationList : public List {
   //!
   //! \brief get upper threshold for compact storage
   //!
-  //! \return
+  //! \return return the upper threshhold for which compat storage is used
   unsigned attribute_storage_maximum_compact() const;
 
   //!

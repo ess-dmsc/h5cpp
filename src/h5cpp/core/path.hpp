@@ -46,6 +46,10 @@ namespace hdf5 {
 //! \c .. simply means nothing. It would be even allowed to use \c .. as a
 //! name for a group, dataset or committed datatype.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT Path
 {
   public:
@@ -279,6 +283,9 @@ class DLL_EXPORT Path
 
     void sanitize();
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);

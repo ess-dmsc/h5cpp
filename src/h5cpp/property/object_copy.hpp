@@ -151,7 +151,7 @@ class DLL_EXPORT CopyFlags {
   bool merge_committed_types() const noexcept;
 
   //!
-  //! \biref set the state of the merge comitted attribute flag
+  //! \brief set the state of the merge comitted attribute flag
   //!
   void merge_committed_types(bool flag) noexcept;
 

@@ -121,8 +121,8 @@ class DLL_EXPORT AttributeManager
     //! \brief rename an attribute
     //!
     //! \throws std::runtime_error in case of a failure
-    //! \param old _name the old name of the attribute
-    //! \param the new name of the attribute
+    //! \param old_name _name the old name of the attribute
+    //! \param new_name new name of the attribute
     //!
     void rename(const std::string &old_name,const std::string &new_name) const;
 

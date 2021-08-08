@@ -85,6 +85,8 @@ class DLL_EXPORT Group : public Node
           const property::GroupCreationList &gcpl = property::GroupCreationList(),
           const property::GroupAccessList &gapl = property::GroupAccessList());
 
+    virtual ~Group() {}
+
     //!
     //! \brief copy assignment operator
     //!
@@ -195,7 +197,6 @@ class DLL_EXPORT Group : public Node
     //! \throws std::runtime_error in case of a failure
     //!
     //! \param link_path absolute or relative path to the new link
-    //! \param target_file the file where the link target is stored
     //! \param target_path absolute path to the object which we want to reference
     //!                    in the target file
     //! \param lcpl optional link creation property list

@@ -248,7 +248,7 @@ class DLL_EXPORT Hyperslab : public Selection {
   const Dimensions &block() const;
 
   virtual void apply(const Dataspace &space,
-                     SelectionOperation ops) const;
+                     SelectionOperation ops) const override;
 
  private:
   inline void check_dimension_index(size_t index, const std::string &what) const {

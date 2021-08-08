@@ -153,7 +153,14 @@ class DLL_EXPORT Dataset : public Node
     //! \param dims vector with new number of elements along each dimension
     //! \deprecated this method is deprecated - use resize instead
     //!
+    #ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdocumentation-deprecated-sync"
+    #endif
     void extent(const Dimensions &dims) const;
+    #ifdef __clang__
+    #pragma clang diagnostic pop
+    #endif
 
 
 
@@ -313,8 +320,6 @@ class DLL_EXPORT Dataset : public Node
     //! Read a chunk storage size from a dataset to an instance of T.
     //!
     //! \throws std::runtime_error in case of a failure
-    //! \tparam T source type
-    //! \param data reference to the source instance of T
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \return the size in bytes for the chunk.
     //!
@@ -586,7 +591,7 @@ class DLL_EXPORT Dataset : public Node
     {
       using Trait = VarLengthStringTrait<T>;
 
-      typename Trait::BufferType buffer(mem_space.size());
+      typename Trait::BufferType buffer(static_cast<std::vector::size_type>(mem_space.size()));
 
 
       if(H5Dread(static_cast<hid_t>(*this),
