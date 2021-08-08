@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import ConanFile, CMake, tools
 
 
 class H5CppConan(ConanFile):
@@ -44,4 +44,5 @@ class H5CppConan(ConanFile):
             "WITH_BOOST": self.options.with_boost
         })
         cmake.configure()
-        cmake.build()
+        with tools.run_environment(self):
+            cmake.build()
