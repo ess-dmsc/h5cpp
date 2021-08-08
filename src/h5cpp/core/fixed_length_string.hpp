@@ -29,6 +29,7 @@
 #include <string>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/datatype/string.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 
@@ -154,7 +155,7 @@ struct FixedLengthStringTrait<std::vector<std::string>>
      auto start=buffer.begin();
      while(start!=buffer.end())
      {
-       auto end = start+memory_type.size();
+       auto end = start+unsigned2signed<std::string::difference_type>(memory_type.size());
        data.push_back(std::string(start,end));
        start=end;
      }

@@ -39,7 +39,7 @@ class DLL_EXPORT SZip : public Filter
   public:
     SZip();
     SZip(unsigned int options_mask, unsigned int pixels_per_block);
-    ~SZip();
+    ~SZip() override;
 
     unsigned int options_mask() const noexcept;
 

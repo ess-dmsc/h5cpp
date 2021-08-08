@@ -63,7 +63,7 @@ class TypeTrait<datatype::EBool> {
 //!
 //! @brief check if Enum is EBool
 //!
-//! @param Enum object
+//! @param etype object
 //! @return if Enum is EBool flag
 //!
 DLL_EXPORT bool is_bool(const Enum & etype);

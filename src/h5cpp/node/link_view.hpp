@@ -33,6 +33,10 @@ namespace node {
 class Link;
 class LinkIterator;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT LinkView : public GroupView
 {
   public:
@@ -59,6 +63,9 @@ class DLL_EXPORT LinkView : public GroupView
     const_iterator begin() const;
     const_iterator end() const;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace node
 } // namespace hdf5

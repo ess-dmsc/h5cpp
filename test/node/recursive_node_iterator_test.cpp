@@ -31,6 +31,12 @@ using namespace hdf5;
 
 using Paths = std::vector<Path>;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+namespace { 
 const Paths paths_increasing{Path("/standard/a_group"),
                              Path("/standard/a_group/a_a_group"),
                              Path("/standard/a_group/b_a_group"),
@@ -58,6 +64,10 @@ const Paths paths_decreasing{Path("/standard/c_group"),
                              Path("/standard/a_group/c_a_group"),
                              Path("/standard/a_group/b_a_group"),
                              Path("/standard/a_group/a_a_group")};
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 SCENARIO("testing recursive node iteration") {
   auto f = file::create("recursive_node_iterator_test.h5",

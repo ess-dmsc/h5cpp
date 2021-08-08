@@ -29,6 +29,8 @@
 
 using namespace hdf5;
 
+namespace { 
+
 auto int_dtype = []() { return datatype::create<int>(); };
 auto link_creation_list = []() { return property::LinkCreationList{}; };
 auto dataset_creation_list = []() { return property::DatasetCreationList{}; };
@@ -37,6 +39,7 @@ auto dataset_access_list = []() { return property::DatasetAccessList{}; };
 auto current_dimension = [](const node::Dataset& dataset, size_t index = 0) {
   return dataspace::Simple{dataset.dataspace()}.current_dimensions()[index];
 };
+}
 
 SCENARIO("testing the extent of a dataset") {
   using node::resize_by;

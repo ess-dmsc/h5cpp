@@ -43,6 +43,10 @@
 namespace hdf5 {
 namespace node {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Group : public Node
 {
   public:
@@ -393,7 +397,9 @@ class DLL_EXPORT Group : public Node
     IteratorConfig iter_config_;
 
 };
-
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 } // namespace node

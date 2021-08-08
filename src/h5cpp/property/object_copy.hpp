@@ -172,6 +172,10 @@ DLL_EXPORT CopyFlags operator|(const CopyFlags &flags, const CopyFlag &flag) noe
 //!
 DLL_EXPORT CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noexcept;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT ObjectCopyList : public List {
  public:
   ObjectCopyList();
@@ -184,6 +188,9 @@ class DLL_EXPORT ObjectCopyList : public List {
   CopyFlags flags() const;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace property
 } // namespace hdf5

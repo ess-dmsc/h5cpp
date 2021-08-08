@@ -33,6 +33,10 @@
 namespace hdf5 {
 namespace dataspace {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 //!
 //! \brief simple multidimensional dataspace
 //!
@@ -111,6 +115,9 @@ class DLL_EXPORT Simple : public Dataspace {
   //!
   Dimensions maximum_dimensions() const;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace dataspace
 } // namespace hdf5

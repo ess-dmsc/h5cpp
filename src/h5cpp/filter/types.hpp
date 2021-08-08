@@ -37,7 +37,7 @@ using FilterID = H5Z_filter_t;
 //!
 //! When a filter is applied to a dataset creation property list the
 //! user in general must declare a degree of availability for the filter.
-//! A filter can be either \i optional or \i mandatory. In the former case
+//! A filter can be either \b optional or \b mandatory. In the former case
 //! the filter is simply omitted if not available (for instance an external
 //! filter) in the latter case the operation fails if the filter is not
 //! available.

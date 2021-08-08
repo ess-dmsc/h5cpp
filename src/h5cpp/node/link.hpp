@@ -170,8 +170,8 @@ class DLL_EXPORT Link
     //!
     //! Return an instance to the node referenced by this particular link.
     //!
-    //! \precondition all intermediate links exist and the final link must be
-    //!               resolvable.
+    //! \pre all intermediate links exist and the final link must be
+    //!      resolvable.
     Node operator*() const;
 
 

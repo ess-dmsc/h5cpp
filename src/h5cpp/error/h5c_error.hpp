@@ -40,6 +40,10 @@ namespace error {
 //! Descriptor objects. Upon construction, the object also generates
 //! a string containing the a printout of the H5CError.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class H5CError : public std::runtime_error
 {
  public:
@@ -79,6 +83,9 @@ class H5CError : public std::runtime_error
   std::list<Descriptor> contents_;
   std::string what_message_;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 inline H5CError::H5CError(const std::list<Descriptor>& H5CError)
 : std::runtime_error("")

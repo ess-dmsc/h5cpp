@@ -33,12 +33,14 @@
 //#include "group_test_fixtures.hpp"
 #include <h5cpp/hdf5.hpp>
 
-size_t get_path_size(const fs::path& path) {
-#if BOOST_VERSION < 106000
-  return std::distance(path.begin(), path.end());
-#else
-  return path.size();
-#endif
+namespace { 
+  static size_t get_path_size(const fs::path& path) {
+  #if BOOST_VERSION < 106000
+    return std::distance(path.begin(), path.end());
+  #else
+    return path.size();
+  #endif
+  }
 }
 
 using namespace hdf5;

@@ -43,7 +43,7 @@ class DLL_EXPORT Fletcher32 : public Filter
     //!
     Fletcher32();
 
-    ~Fletcher32();
+    ~Fletcher32() override;
 
     //!
     //! \brief apply filter

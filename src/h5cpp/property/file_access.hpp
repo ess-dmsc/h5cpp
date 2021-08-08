@@ -71,6 +71,7 @@ class DLL_EXPORT FileAccessList : public List {
   //! \brief default constructor
   //!
   FileAccessList();
+  FileAccessList(const FileAccessList &) = default;
 
   //!
   //! \brief destructor

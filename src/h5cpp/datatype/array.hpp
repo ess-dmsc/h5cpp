@@ -41,6 +41,10 @@ namespace datatype {
 //! tensors and vectors. This is a fixed size data type. All instances (elements)
 //! of this type stored in an attribute or dataset are of equal size.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Array : public Datatype
 {
  public:
@@ -120,6 +124,9 @@ class DLL_EXPORT VLengthArray : public Datatype
   static VLengthArray create(const Datatype &base_type);
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace datatype
 } // namespace hdf5

@@ -49,6 +49,10 @@ namespace node {
 
 class Selection;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Dataset : public Node
 {
   public:
@@ -658,6 +662,10 @@ class DLL_EXPORT Dataset : public Node
       }
     }
 };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 template<typename T>
 void Dataset::write(const T &data,const datatype::Datatype &mem_type,

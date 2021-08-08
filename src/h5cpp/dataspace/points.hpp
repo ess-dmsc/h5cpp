@@ -51,7 +51,7 @@ class DLL_EXPORT Points : public Selection
     //! \brief destructor
     //!
     //! Use the compiler provided default implementation.
-    ~Points () = default;
+    ~Points () override = default;
 
     //!
     //! \brief constructor

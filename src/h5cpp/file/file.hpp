@@ -36,6 +36,7 @@
 #include <h5cpp/dataspace/type_trait.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 
 namespace hdf5 {
@@ -194,7 +195,7 @@ size_t File::to_buffer(T &data) const
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-  size_t databytesize = memory_space.size() * memory_type.size();
+  size_t databytesize = signed2unsigned<unsigned long long>(memory_space.size()) * memory_type.size();
   ssize_t s = 0;
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
@@ -211,7 +212,7 @@ size_t File::to_buffer(T &data) const
       ss<<"Failure retrieving the image buffer to non-integer dataspace";
       error::Singleton::instance().throw_with_stack(ss.str());
     }
-  return (hsize_t) s;
+  return static_cast<hsize_t>(s);
 }
 
 

@@ -45,7 +45,7 @@ class DLL_EXPORT NBit : public Filter
     //!
     NBit();
 
-    ~NBit();
+    ~NBit() override;
 
     //!
     //! \brief apply filter

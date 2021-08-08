@@ -39,6 +39,7 @@ class DLL_EXPORT ObjectCreationList : public List {
   //! \brief constructor
   //!
   ObjectCreationList();
+  ObjectCreationList(const ObjectCreationList &) = default;
 
   //!
   //! \brief destructor

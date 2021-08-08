@@ -42,6 +42,10 @@ namespace datatype
 //! An enum data type which can be used to save enum values along
 //! with metadata describing their meaning.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Enum : public Datatype
 {
  public:
@@ -124,6 +128,9 @@ class DLL_EXPORT Enum : public Datatype
   void check_type(const T& data) const;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 template<typename T>
 void Enum::check_type(const T& data) const

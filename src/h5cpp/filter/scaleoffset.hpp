@@ -46,6 +46,10 @@ enum class SOScaleType: std::underlying_type<H5Z_SO_scale_type_t>::type {
 };
 
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT ScaleOffset : public Filter
 {
   private:
@@ -54,7 +58,7 @@ class DLL_EXPORT ScaleOffset : public Filter
   public:
     ScaleOffset();
     ScaleOffset(SOScaleType scale_type, int scale_factor);
-    ~ScaleOffset();
+    ~ScaleOffset() override;
 
     SOScaleType scale_type() const noexcept;
 
@@ -68,6 +72,9 @@ class DLL_EXPORT ScaleOffset : public Filter
                             Availability flag=Availability::MANDATORY) const override;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 
@@ -75,7 +82,7 @@ class DLL_EXPORT ScaleOffset : public Filter
 //! @brief stream output operator for CharacterEncoding enumerations
 //!
 //! @param stream reference to an output stream
-//! @param enc reference to a CharacterEncoding enumeration instance
+//! @param scale_type reference to the scala type to write
 //! @return modified output stream
 //!
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const SOScaleType &scale_type);

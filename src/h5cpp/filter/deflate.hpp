@@ -36,7 +36,7 @@ class DLL_EXPORT Deflate : public Filter
   public:
     Deflate();
     Deflate(unsigned int value);
-    ~Deflate();
+    ~Deflate() override;
 
     unsigned int level() const noexcept;
 
