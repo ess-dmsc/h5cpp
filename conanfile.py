@@ -44,5 +44,5 @@ class H5CppConan(ConanFile):
             "WITH_BOOST": self.options.with_boost
         })
         cmake.configure()
-        with tools.run_environment(self):
-            cmake.build()
+        cmake.build()
+        cmake.build(target="unit_tests")
