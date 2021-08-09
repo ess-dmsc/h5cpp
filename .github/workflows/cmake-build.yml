@@ -88,9 +88,8 @@ jobs:
       - name: run tests
         run: |
           cd build
-          source ./activate_run.sh
+          .\activate_run.ps1
           ctest --extra-verbose
-        shell: bash
   mac-build:
     strategy:
       matrix:
