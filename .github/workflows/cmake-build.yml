@@ -9,13 +9,21 @@ jobs:
             "conanio/clang12-ubuntu16.04:1.39.0"
         ]
         libcxx: [libstdc++11, libc++]
-        shared: ["shared", "static"]
-        boost: ["boost", "stdfs"]
-        mpi: ["serial"]
+        shared: [shared, static]
+        boost: [boost, stdfs]
+        mpi: [serial]
         exclude:
           - image: conanio/gcc11-ubuntu16.04:1.39.0
             libcxx: libc++
-          
+        include:
+          - image: conanio/gcc11-ubuntu16.04:1.39.0
+            profile: gcc11
+          - image: conanio/clang12-ubuntu16.04:1.39.0
+            libcxx: libstdc++11
+            profile: clang12-libstdc++
+          - image: conanio/clang12-ubuntu16.04:1.39.0
+            libcxx: libc++
+            profile: clang12-libc++    
     runs-on: ubuntu-20.04
     container:
       image: ${{ matrix.image }}
@@ -35,8 +43,7 @@ jobs:
             conan \
             ninja
           conan lock create conanfile.py \
-            -s compiler.libcxx=${{ matrix.libcxx }} \
-            -s build_type=Release \
+            --profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
@@ -47,6 +54,7 @@ jobs:
         with:
           path: ~/.conan/data
           key: conan-${{ hashFiles('conan.lock') }}
+          restore-keys: conan-${{ matrix.profile }}
       - name: install conan dependencies
         run: |
           conan install . \
@@ -84,9 +92,7 @@ jobs:
             conan \
             ninja
           conan lock create conanfile.py \
-            -s compiler="Visual Studio" \
-            -s compiler.version="16" \
-            -s build_type=Release \
+            --profile .github/workflows/conan/profiles/vs2019 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED} \
@@ -97,6 +103,7 @@ jobs:
         with:
           path: ~/.conan/data
           key: conan-${{ hashFiles('conan.lock') }}
+          restore-keys: conan-vs2019
       - name: install conan dependencies
         run: |
           conan install . \
@@ -104,6 +111,7 @@ jobs:
             --lockfile conan.lock \
             --build missing \
             --generator virtualrunenv
+        shell: bash
       - name: build with cmake
         run: |
           conan build . --build-folder build
@@ -138,17 +146,17 @@ jobs:
             conan \
             ninja
           conan lock create conanfile.py \
-            -s build_type=Release \
+            --profile .github/workflows/conan/profiles/apple-clang12 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${H5CPP_SHARED} \
-            --build missing
+            -o hdf5:shared=${H5CPP_SHARED} 
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
           path: ~/.conan/data
           key: conan-${{ hashFiles('conan.lock') }}
+          restore-keys: conan-apple-clang12
       - name: install conan dependencies
         run: |
           conan install . \
