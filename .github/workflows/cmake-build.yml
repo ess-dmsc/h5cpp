@@ -34,7 +34,7 @@ jobs:
           pip install --upgrade \
             conan \
             ninja
-          conan install . -if build \
+          conan lock create conanfile.py \
             -s compiler.libcxx=${{ matrix.libcxx }} \
             -s build_type=Release \
             -o with_boost=${H5CPP_WITH_BOOST} \
@@ -42,9 +42,21 @@ jobs:
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED} \
             --build missing
+      - name: cache conan dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan/data
+          key: conan-${{ hashFiles('conan.lock') }}
+      - name: install conan dependencies
+        run: |
+          conan install . \
+            --install-folder build \
+            --lockfile conan.lock \
+            --build missing
       - name: build with cmake
         run: |
-          conan build . --build-folder build
+          conan build . \
+            --build-folder build
       - name: run tests
         run: |
           cd build
@@ -71,16 +83,27 @@ jobs:
           pip install --upgrade \
             conan \
             ninja
-          conan install . -if build \
+          conan lock create conanfile.py \
             -s compiler="Visual Studio" \
             -s compiler.version="16" \
             -s build_type=Release \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED} \
-            -g virtualrunenv \
             --build missing
         shell: bash
+      - name: cache conan dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan/data
+          key: conan-${{ hashFiles('conan.lock') }}
+      - name: install conan dependencies
+        run: |
+          conan install . \
+            --install-folder build \
+            --lockfile conan.lock \
+            --build missing \
+            --generator virtualrunenv
       - name: build with cmake
         run: |
           conan build . --build-folder build
@@ -114,12 +137,23 @@ jobs:
           pip install --upgrade \
             conan \
             ninja
-          conan install . -if build \
+          conan lock create conanfile.py \
             -s build_type=Release \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED} \
+            --build missing
+      - name: cache conan dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan/data
+          key: conan-${{ hashFiles('conan.lock') }}
+      - name: install conan dependencies
+        run: |
+          conan install . \
+            --install-folder build \
+            --lockfile conan.lock \
             --build missing
       - name: build with cmake
         run: |
