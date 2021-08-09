@@ -47,7 +47,8 @@ jobs:
           conan build . --build-folder build
       - name: run tests
         run: |
-          ctest --extra-verbose --test-dir build
+          cd build
+          ctest --extra-verbose
   windows-build:
     strategy:
       matrix:
@@ -85,7 +86,8 @@ jobs:
         shell: bash
       - name: run tests
         run: |
-          ctest --extra-verbose --test-dir build
+          cd build
+          ctest --extra-verbose
         shell: bash
   mac-build:
     strategy:
@@ -123,4 +125,5 @@ jobs:
           conan build . --build-folder build
       - name: run tests
         run: |
-          ctest --extra-verbose --test-dir build
+          cd build
+          ctest --extra-verbose
