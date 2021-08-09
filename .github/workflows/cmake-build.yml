@@ -4,13 +4,16 @@ jobs:
   linux-build:
     strategy:
       matrix:
-        image: [conanio/gcc11, conanio/clang11]
+        image: [
+            "conanio/gcc11-ubuntu16.04:1.39.0",
+            "conanio/clang12-ubuntu16.04:1.39.0"
+        ]
         libcxx: [libstdc++11, libc++]
         shared: ["shared", "static"]
         boost: ["boost", "stdfs"]
         mpi: ["serial"]
         exclude:
-          - image: conanio/gcc11
+          - image: conanio/gcc11-ubuntu16.04:1.39.0
             libcxx: libc++
           
     runs-on: ubuntu-20.04
