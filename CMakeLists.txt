@@ -14,6 +14,10 @@ set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/catch2/cmake)
 
+option(H5CPP_BUILD_SHARED "Build h5cpp as a shared library" OFF)
+if (BUILD_SHARED_LIBS)
+    set(H5CPP_BUILD_SHARED ON)
+endif()
 #=============================================================================
 # Conan
 #=============================================================================

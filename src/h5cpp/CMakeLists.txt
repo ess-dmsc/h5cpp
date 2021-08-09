@@ -26,7 +26,10 @@ add_library(h5cpp
 
 add_doxygen_source_deps(${h5cpp_headers})
 
-target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
+if (H5CPP_BUILD_SHARED OR BUILD_SHARED_LIBS)
+	target_compile_definitions(h5cpp PRIVATE H5CPP_EXPORTS PUBLIC H5CPP_BUILD_SHARED)
+endif()
+
 set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
 if(WITH_BOOST)
   list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
@@ -35,16 +38,6 @@ else()
     target_compile_features(h5cpp PUBLIC cxx_std_17)
     list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:stdc++fs>)
     list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
-	# handle clang with libstdc++ that requires an additional flag
-	if(NOT MSVC)
-	    get_target_property(_h5cpp_compile_flags h5cpp COMPILE_OPTIONS)
-		string(FIND "${_h5cpp_compile_flags}" "stdlibc++" USING_GNU_LIBCXX)
-		if (NOT ${USING_GNU_LIBCXX} EQUAL -1)
-		    list(APPEND H5CPP_LINKS $<$<CXX_COMPILER_ID:Clang>:stdc++fs>)
-        endif()
-		message(STATUS "compile flags: ${_h5cpp_compile_flags}")
-		message(STATUS "libstd++: ${USING_GNU_LIBCXX}")
-    endif()
 endif()
 
 target_include_directories(h5cpp
