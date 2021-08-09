@@ -78,6 +78,7 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED} \
+            -g virtualrunenv \
             --build missing
         shell: bash
       - name: build with cmake
@@ -87,6 +88,7 @@ jobs:
       - name: run tests
         run: |
           cd build
+          source ./activate_run.sh
           ctest --extra-verbose
         shell: bash
   mac-build:
