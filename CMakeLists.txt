@@ -21,28 +21,28 @@ endif()
 #=============================================================================
 # Conan
 #=============================================================================
-set(CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
-set(CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
-set(CONAN_FILE "conanfile_ess.txt" CACHE STRING "The conanfile to use for the build")
+set(H5CPP_CONAN "AUTO" CACHE STRING "conan options AUTO (conan must be in path), MANUAL (expects conanbuildinfo.cmake in build directory) or DISABLE")
+set(H5CPP_CONAN_PROFILE "default" CACHE STRING "Name of conan profile to use, uses default by default")
+set(H5CPP_CONAN_FILE "conanfile_ess.txt" CACHE STRING "The conanfile to use for the build")
 
-if(${CONAN} MATCHES "AUTO")
+if(${H5CPP_CONAN} MATCHES "AUTO")
   include(${EXTRA_MODULES_DIR}/ConanSetup.cmake)
-  conan_cmake_run(CONANFILE ${CONAN_FILE}
-      PROFILE ${CONAN_PROFILE}
+  conan_cmake_run(CONANFILE ${H5CPP_CONAN_FILE}
+      PROFILE ${H5CPP_CONAN_PROFILE}
       BASIC_SETUP NO_OUTPUT_DIRS KEEP_RPATHS
       BUILD_TYPE "None"
       BUILD outdated)
    list(PREPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-elseif(${CONAN} MATCHES "MANUAL")
+elseif(${H5CPP_CONAN} MATCHES "MANUAL")
   if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
     list(PREPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
   else()
-    message(FATAL_ERROR "CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
+    message(FATAL_ERROR "H5CPP_CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
   endif()
-elseif(NOT ${CONAN} MATCHES "DISABLE")
-  message(FATAL_ERROR "Unrecognised option for CONAN (${CONAN}), use AUTO, MANUAL or DISABLE")
+elseif(NOT ${H5CPP_CONAN} MATCHES "DISABLE")
+  message(FATAL_ERROR "Unrecognised option for H5CPP_CONAN (${H5CPP_CONAN}), use AUTO, MANUAL or DISABLE")
 endif()
 
 #=============================================================================
@@ -63,8 +63,8 @@ include(DoxygenUtilities)
 #=============================================================================
 # compiler and library configuration
 #=============================================================================
-set(WITH_BOOST ON CACHE BOOL "enable Boost filesystem support")
-if(WITH_BOOST)
+option(H5CPP_WITH_BOOST "enable Boost filesystem support" ON)
+if(H5CPP_WITH_BOOST)
   find_package(Boost 1.41 COMPONENTS filesystem system REQUIRED)
   message(STATUS "Using Boost library for filesystem")
 else() 
@@ -79,8 +79,8 @@ include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
 
 add_subdirectory(src)
-set( BUILD_DOCS ON CACHE BOOL "Build documentation")
-if(BUILD_DOCS)
+option(H5CPP_BUILD_DOCS "Build documentation" ON)
+if(H5CPP_BUILD_DOCS)
   add_subdirectory(doc)
 endif()
 
@@ -93,8 +93,8 @@ install(DIRECTORY examples
 #=============================================================================
 # unit tests if GTest if present
 #=============================================================================
-set(DISABLE_TESTS False CACHE BOOL "Disable building unit tests")
-if(NOT DISABLE_TESTS)
+option(H5CPP_DISABLE_TESTS "Disable building unit tests" OFF)
+if(NOT H5CPP_DISABLE_TESTS)
     enable_testing()
     include(Catch)
     add_subdirectory(test)
@@ -103,11 +103,11 @@ endif()
 #=============================================================================
 # create package file
 #=============================================================================
-set(WITH_SWMR OFF CACHE BOOL "enable SWMR support")
-set(WITH_VDS OFF CACHE BOOL "enable VDS support")
+option(H5CPP_WITH_SWMR "enable SWMR support" OFF)
+option(H5CPP_WITH_VDS "enable VDS support" OFF)
 if(HDF5_VERSION VERSION_GREATER 1.10.0 OR HDF5_VERSION VERSION_EQUAL 1.10.0)
-  set(WITH_SWMR ON)
-  set(WITH_VDS ON)
+  set(H5CPP_WITH_SWMR ON)
+  set(H5CPP_WITH_VDS ON)
 endif()
 
 #

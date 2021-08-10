@@ -39,9 +39,9 @@ class H5CppConan(ConanFile):
     def build(self):
         cmake = CMake(self, generator="Ninja")
         cmake.definitions.update({
-            "CONAN": "MANUAL",
-            "WITH_MPI": self.options.get_safe("with_mpi", False),
-            "WITH_BOOST": self.options.with_boost
+            "H5CPP_CONAN": "MANUAL",
+            "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
+            "H5CPP_WITH_BOOST": self.options.with_boost
         })
         cmake.configure()
         cmake.build()

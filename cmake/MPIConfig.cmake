@@ -1,6 +1,6 @@
-option(WITH_MPI "Enable MPI support" OFF)
+option(H5CPP_WITH_MPI "Enable MPI support" OFF)
 
-if (WITH_MPI)
+if (H5CPP_WITH_MPI)
   if (CMAKE_SYSTEM_NAME MATCHES Windows)
     message(FATAL_ERROR "MPI not supported on the Windows platform!")
   endif ()

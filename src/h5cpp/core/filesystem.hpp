@@ -2,7 +2,7 @@
 
 #include <h5cpp/core/with_boost.hpp>
 
-#ifdef WITH_BOOST
+#ifdef H5CPP_WITH_BOOST
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
 #else

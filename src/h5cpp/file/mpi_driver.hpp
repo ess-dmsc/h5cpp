@@ -30,7 +30,7 @@
 namespace hdf5 {
 namespace file {
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 
 class DLL_EXPORT MPIDriver : public Driver
 {

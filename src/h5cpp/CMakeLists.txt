@@ -31,7 +31,7 @@ if (H5CPP_BUILD_SHARED OR BUILD_SHARED_LIBS)
 endif()
 
 set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
-if(WITH_BOOST)
+if(H5CPP_WITH_BOOST)
   list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
 else()
     # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
@@ -49,8 +49,8 @@ target_include_directories(h5cpp
 #
 # THIS IS BAD
 # NEED TO GET RID OF THIS
-if (WITH_MPI)
-  target_compile_definitions(h5cpp PUBLIC WITH_MPI)
+if (H5CPP_WITH_MPI)
+  target_compile_definitions(h5cpp PUBLIC H5CPP_WITH_MPI)
 endif ()
 
 set_target_properties(h5cpp
@@ -123,7 +123,7 @@ function(GET_LIBRARY_NAME LIB)
 
 endfunction(GET_LIBRARY_NAME)
 
-if(${CONAN} MATCHES "DISABLE")
+if(${H5CPP_CONAN} MATCHES "DISABLE")
 
   get_target_property(LIBRARIES h5cpp INTERFACE_LINK_LIBRARIES)
   get_target_property(DEFINITIONS h5cpp INTERFACE_COMPILE_DEFINITIONS)

@@ -33,7 +33,7 @@
 namespace hdf5 {
 namespace property {
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 enum class MPITransferMode : std::underlying_type<H5FD_mpio_xfer_t>::type
 {
   Independent = H5FD_MPIO_INDEPENDENT,
@@ -90,7 +90,7 @@ class DLL_EXPORT DatasetTransferList : public List {
     return dtpl_;
   }
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
   void mpi_transfer_mode(MPITransferMode mode) const;
   MPITransferMode mpi_transfer_mode() const;
 

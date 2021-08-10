@@ -125,7 +125,7 @@ SCENARIO("Applying a POSIX file driver", "[h5cpp, file]") {
   }
 }
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 
 SCENARIO("Applying the MPI file driver", "[h5cpp,file]") {
   int flag;

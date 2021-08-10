@@ -1,4 +1,4 @@
-if(WITH_MPI)
+if(H5CPP_WITH_MPI)
   set(HDF5_PREFER_PARALLEL TRUE)
 endif()
 
@@ -16,7 +16,7 @@ message(STATUS "Found HDF5 HDF5_IS_PARALLEL = ${HDF5_IS_PARALLEL}")
 message(STATUS "==============================================================")
 
 
-if(WITH_MPI)
+if(H5CPP_WITH_MPI)
   if(NOT HDF5_IS_PARALLEL)
     message(FATAL_ERROR "The HDF5 version found does not support MPI")
   endif()
