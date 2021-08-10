@@ -23,7 +23,7 @@ jobs:
             profile: clang12-libstdc++
           - image: conanio/clang12-ubuntu16.04:1.39.0
             libcxx: libc++
-            profile: clang12-libc++    
+            profile: clang12-libc++
     runs-on: ubuntu-20.04
     container:
       image: ${{ matrix.image }}
@@ -148,6 +148,9 @@ jobs:
               ${{ matrix.shared }} \
               ${{ matrix.boost }} \
               ${{ matrix.mpi }}
+      - name: Install OpenMPI and prerequisites
+        if: ${{ matrix.mpi == 'mpi' }}
+        run: brew install open-mpi
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
