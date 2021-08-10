@@ -42,19 +42,21 @@ jobs:
           pip install --upgrade \
             conan \
             ninja
-          conan lock create conanfile.py \
-            --profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${H5CPP_SHARED} \
-            --build missing
+            -o hdf5:shared=${H5CPP_SHARED}"
+          conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
+          conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
           path: ~/.conan/data
-          key: conan-${{ hashFiles('conan.lock') }}
-          restore-keys: conan-${{ matrix.profile }}
+          key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          restore-keys: |
+            conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
+            conan-${{ matrix.profile }}
       - name: install conan dependencies
         run: |
           conan install . \
@@ -91,19 +93,21 @@ jobs:
           pip install --upgrade \
             conan \
             ninja
-          conan lock create conanfile.py \
-            --profile .github/workflows/conan/profiles/vs2019 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${H5CPP_SHARED} \
-            --build missing
+            -o hdf5:shared=${H5CPP_SHARED}"
+          conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
+          conan lock create conanfile.py ${CONAN_ARGS} --build missing
         shell: bash
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
           path: ~/.conan/data
-          key: conan-${{ hashFiles('conan.lock') }}
-          restore-keys: conan-vs2019
+          key: conan-vs2019-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          restore-keys: |
+            conan-vs-2019-${{ hashfiles('base.lock') }}
+            conan-vs-2019
       - name: install conan dependencies
         run: |
           conan install . \
@@ -145,18 +149,21 @@ jobs:
           pip install --upgrade \
             conan \
             ninja
-          conan lock create conanfile.py \
-            --profile .github/workflows/conan/profiles/apple-clang12 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${H5CPP_SHARED} 
+            -o hdf5:shared=${H5CPP_SHARED}"
+          conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
+          conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
           path: ~/.conan/data
-          key: conan-${{ hashFiles('conan.lock') }}
-          restore-keys: conan-apple-clang12
+          key: conan-apple-clang12-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          restore-keys: |
+            conan-apple-clang12-${{ hashfiles('base.lock') }}
+            conan-apple-clang12
       - name: install conan dependencies
         run: |
           conan install . \
