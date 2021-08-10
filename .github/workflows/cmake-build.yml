@@ -11,7 +11,7 @@ jobs:
         libcxx: [libstdc++11, libc++]
         shared: [shared, static]
         boost: [boost, stdfs]
-        mpi: [serial]
+        mpi: [mpi, serial]
         exclude:
           - image: conanio/gcc11-ubuntu16.04:1.39.0
             libcxx: libc++
@@ -126,7 +126,7 @@ jobs:
       matrix:
         shared: ["shared", "static"]
         boost: ["boost", "stdfs"]
-        mpi: ["serial"]
+        mpi: ["serial", "mpi"]
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
