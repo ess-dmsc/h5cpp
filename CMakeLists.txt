@@ -66,17 +66,26 @@ include(DoxygenUtilities)
 option(H5CPP_WITH_BOOST "enable Boost filesystem support" ON)
 if(H5CPP_WITH_BOOST)
   find_package(Boost 1.41 COMPONENTS filesystem system REQUIRED)
-  message(STATUS "Using Boost library for filesystem")
+  h5cpp_message(STATUS "Using Boost library for filesystem")
 else() 
   # if we do not use Boost we have to ensure a C++ standard of at least 2017
   # since we require the std::filesystem API
   set(CMAKE_CXX_STANDARD 17)
-  message(STATUS "Using std library for filesystem")
+  h5cpp_message(STATUS "Using std library for filesystem")
 endif()
 
 include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
 include(${EXTRA_MODULES_DIR}/MPIConfig.cmake)
 include(${EXTRA_MODULES_DIR}/HDF5LibraryConfig.cmake)
+
+if(H5CPP_BUILD_SHARED)
+  h5cpp_message(STATUS "Building shared library")
+else()
+  h5cpp_message(STATUS "Building static library")
+endif()
+if (H5CPP_WITH_MPI)
+  h5cpp_message(STATUS "Building with MPI support")
+endif()
 
 add_subdirectory(src)
 option(H5CPP_BUILD_DOCS "Build documentation" ON)
