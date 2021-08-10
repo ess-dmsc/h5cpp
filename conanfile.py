@@ -15,6 +15,7 @@ class H5CppConan(ConanFile):
         "fPIC": True,
         "with_mpi": False,
         "with_boost": True,
+        "hdf5:hl": True,
         "hdf5:enable_cxx": False
     }
 

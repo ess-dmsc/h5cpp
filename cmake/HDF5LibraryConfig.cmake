@@ -2,7 +2,7 @@ if(H5CPP_WITH_MPI)
   set(HDF5_PREFER_PARALLEL TRUE)
 endif()
 
-find_package(HDF5)
+find_package(HDF5 REQUIRED COMPONENTS C HL)
 message(STATUS "==============================================================")
 message(STATUS "========================Found HDF5============================")
 message(STATUS "==============================================================")
