@@ -21,6 +21,7 @@ class H5CppConan(ConanFile):
 
     def build_requirements(self):
         self.build_requires("gtest/1.11.0")
+        self.build_requires("ninja/1.10.2")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -38,7 +39,7 @@ class H5CppConan(ConanFile):
             self.requires("openmpi/4.1.0")
 
     def build(self):
-        cmake = CMake(self, generator="Ninja")
+        cmake = CMake(self)
         cmake.definitions.update({
             "H5CPP_CONAN": "MANUAL",
             "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
