@@ -23,6 +23,7 @@ add_library(h5cpp
   ${h5cpp_sources}
   ${h5cpp_headers}
   )
+add_library(h5cpp::h5cpp ALIAS h5cpp)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
@@ -83,4 +84,5 @@ install(TARGETS h5cpp
 
 install(EXPORT h5cpp_targets
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
+  NAMESPACE h5cpp::
   COMPONENT development)
