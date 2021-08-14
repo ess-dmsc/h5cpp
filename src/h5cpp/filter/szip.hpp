@@ -31,6 +31,10 @@
 namespace hdf5 {
 namespace filter {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT SZip : public Filter
 {
   private:
@@ -57,6 +61,9 @@ class DLL_EXPORT SZip : public Filter
     // Selects nearest neighbor coding method.
     static const unsigned int NN_OPTION_MASK;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace filter
 } // namespace hdf5

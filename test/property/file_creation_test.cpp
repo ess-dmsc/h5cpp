@@ -28,6 +28,7 @@
 
 #include <catch2/catch.hpp>
 #include <h5cpp/property/file_creation.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <tuple>
 #include "../utilities.hpp"
 
@@ -108,7 +109,7 @@ SCENARIO("setting the object offset size on a FileCreationList") {
   GIVEN("an object length size to 2") {
     REQUIRE_NOTHROW(fcpl.object_length_size(2));
     AND_GIVEN("valid values forthe offset size") {
-      auto size = GENERATE(2, 4, 8, 16);
+      auto size = GENERATE(size_t(2), size_t(4), size_t(8), size_t(16));
       THEN("we can set the object offset") {
         REQUIRE_NOTHROW(fcpl.object_offset_size(size));
         AND_THEN("read it back and get") {
@@ -118,7 +119,7 @@ SCENARIO("setting the object offset size on a FileCreationList") {
       }
     }
     AND_GIVEN("invalid values for the offset size") {
-      auto size = GENERATE(15, 25);
+      auto size = GENERATE(size_t(15), size_t(25));
       THEN("setting the offset will fail") {
         REQUIRE_THROWS_AS(fcpl.object_offset_size(size), std::runtime_error);
       }
@@ -131,7 +132,7 @@ SCENARIO("setting the object length size on a FileCreationList") {
   GIVEN("an object offset size of 2") {
     REQUIRE_NOTHROW(fcpl.object_offset_size(2));
     AND_GIVEN("valid values for the lenght size") {
-      auto size = GENERATE(2, 4, 8, 16);
+      auto size = GENERATE(size_t(2), size_t(4), size_t(8), size_t(16));
       THEN("we can set the object length size") {
         REQUIRE_NOTHROW(fcpl.object_length_size(size));
         AND_THEN("read it back and get") {
@@ -141,7 +142,7 @@ SCENARIO("setting the object length size on a FileCreationList") {
       }
     }
     AND_GIVEN("invalid values for the length size") {
-      auto size = GENERATE(15, 25);
+      auto size = GENERATE(size_t(15), size_t(25));
       REQUIRE_THROWS_AS(fcpl.object_length_size(size), std::runtime_error);
     }
   }
@@ -152,7 +153,14 @@ SCENARIO("setting the btree rank on a FileCreationList") {
   using r = std::tuple<size_t, size_t>;
   auto p = GENERATE(table<size_t, size_t>({r{0, 16}, r{2, 2}, r{32767, 32767}}));
   WHEN("setting the btree rank") {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#endif
     REQUIRE_NOTHROW(fcpl.btree_rank(std::get<0>(p)));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif 
     THEN("the value should be") {
       REQUIRE(fcpl.btree_rank() == std::get<1>(p));
     }
@@ -172,7 +180,14 @@ SCENARIO("setting the btree symbols on a FileCreationList") {
   using r = std::tuple<size_t, size_t>;
   auto p = GENERATE(table<size_t, size_t>({r{0, 4}, r{7, 7}, r{42, 42}}));
   WHEN("setting the btree symbols to 0") {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#endif
     REQUIRE_NOTHROW(fcpl.btree_symbols(std::get<0>(p)));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif 
     THEN("the value will be 4") {
       REQUIRE(fcpl.btree_symbols() == std::get<1>(p));
     }
@@ -182,7 +197,7 @@ SCENARIO("setting the btree symbols on a FileCreationList") {
 SCENARIO("setting the chunk tree rank on a FileCreationList") {
   pl::FileCreationList fcpl;
   WHEN("using valid rank values") {
-    auto rank = GENERATE(1, 2, 32767);
+    auto rank = GENERATE(1u, 2u, 32767u);
     THEN("we can set these values") {
       REQUIRE_NOTHROW(fcpl.chunk_tree_rank(rank));
       AND_THEN("read it back") { REQUIRE(fcpl.chunk_tree_rank() == rank); }
@@ -208,7 +223,7 @@ SCENARIO("setting the page size on a FileCreationList") {
   pl::FileCreationList fcpl;
 
   WHEN("setting the page size to reasonable values") {
-    auto page_size = GENERATE(512, 513);
+    auto page_size = GENERATE(hsize_t(512), hsize_t(513));
     THEN("we can set the page size") {
       REQUIRE_NOTHROW(fcpl.page_size(page_size));
       AND_THEN("read it back") { REQUIRE(fcpl.page_size() == page_size); }

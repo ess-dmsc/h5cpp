@@ -33,7 +33,17 @@
 
 using namespace hdf5;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructor"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+namespace { 
 static const std::string filename = "file_close_test.h5";
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 SCENARIO("Closing file") {
   {

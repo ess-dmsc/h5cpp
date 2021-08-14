@@ -32,18 +32,20 @@ using namespace hdf5;
 
 using names_t = std::vector<std::string>;
 
-datatype::Class type_class(const attribute::Attribute &attribute)
+namespace { 
+static datatype::Class type_class(const attribute::Attribute &attribute)
 {
   return attribute.datatype().get_class();
 }
 
-names_t attr_names(const node::Node &node)
+static names_t attr_names(const node::Node &node)
 {
   names_t names;
   std::transform(std::begin(node.attributes), std::end(node.attributes),
                  std::back_inserter(names),
                  [](const attribute::Attribute &a) { return a.name(); });
   return names;
+}
 }
 
 SCENARIO("Accessing attribute names")

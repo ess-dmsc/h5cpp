@@ -35,6 +35,10 @@ namespace filter {
 //! If applied to a dataset creation property list this filter will setup
 //! the fletcher32 checksum filter.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT Fletcher32 : public Filter
 {
   public:
@@ -56,6 +60,9 @@ class DLL_EXPORT Fletcher32 : public Filter
     virtual void operator()(const property::DatasetCreationList &dcpl,
                             Availability flag = Availability::MANDATORY) const override;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace filter
 } // namespace hdf5

@@ -45,11 +45,11 @@ SCENARIO("scalar attribute IO", "[hdf5],[attribute]") {
 
   GIVEN("scalar float32 attribute io") {
     auto a = root.attributes.create<float>("data");
-    float write_value = 3.213e-2;
+    float write_value = 3.213e-2f;
     float read_value = 0.0;
     a.write(write_value);
     a.read(read_value);
-    REQUIRE(write_value == read_value);
+    REQUIRE(write_value == Approx(read_value));
   }
 
   GIVEN("scalar vector attribute IO") {

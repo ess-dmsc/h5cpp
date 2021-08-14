@@ -98,7 +98,7 @@ SCENARIO("setting the chunk cache paranmeters on a DatasetAccessList") {
         AND_THEN("they should match the original parameters") {
           REQUIRE(p2.chunk_slots() == params.chunk_slots());
           REQUIRE(p2.chunk_cache_size() == params.chunk_cache_size());
-          REQUIRE(p2.preemption_policy() == params.preemption_policy());
+          REQUIRE(p2.preemption_policy() == Approx(params.preemption_policy()));
         }
       }
     }

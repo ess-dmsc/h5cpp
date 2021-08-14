@@ -27,6 +27,7 @@
 
 #include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 using namespace hdf5::dataspace;
 
@@ -64,7 +65,7 @@ SCENARIO("testing data view") {
     AND_GIVEN("a view on the dataspace") {
       View view{space};
       THEN("the size of the view and the dataspace match") {
-        REQUIRE(view.size() == space.size());
+        REQUIRE(view.size() == signed2unsigned<size_t>(space.size()));
       }
 
       WHEN("applying a single hyperslab") {

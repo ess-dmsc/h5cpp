@@ -25,6 +25,7 @@
 //
 #include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 using namespace hdf5;
 
@@ -59,7 +60,7 @@ SCENARIO("testing h5py compatible string IO") {
         "\xb5"
         "\x8b";
     AND_GIVEN("a vector buffer") {
-      strings buffer(dataset.dataspace().size());
+      strings buffer(signed2unsigned<std::vector<double>::size_type>(dataset.dataspace().size()));
       THEN("we can read this data back using") {
         auto datatype = dataset.datatype();
         auto dataspace = dataset.dataspace();

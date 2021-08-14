@@ -28,16 +28,12 @@
 
 using namespace hdf5;
 
-bool read_bool(const attribute::Attribute& attr) {
-  bool buffer;
-  attr.read(buffer);
-  return buffer;
-}
-
-datatype::EBool read_ebool(const attribute::Attribute& attr) {
+namespace { 
+static datatype::EBool read_ebool(const attribute::Attribute& attr) {
   datatype::EBool buffer;
   attr.read(buffer);
   return buffer;
+}
 }
 
 #ifndef _MSC_VER

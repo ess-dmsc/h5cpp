@@ -30,8 +30,10 @@
 
 using namespace hdf5;
 
-std::string to_string(const Path& p) {
+namespace { 
+static std::string to_string(const Path& p) {
   return static_cast<std::string>(p);
+}
 }
 
 SCENARIO("Path construction", "[h5cpp, path]") {

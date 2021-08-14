@@ -32,21 +32,6 @@ using namespace hdf5;
 
 using Nodes = std::vector<hdf5::node::Node>;
 
-/**
- * @brief utility function producing node vectors
- *
- * Basically all this function does is to copy all the nodes below a group
- * to a vector.
- *
- * @param parent
- * @return Nodes
- */
-Nodes to_nodes(const node::Group& parent) {
-  Nodes nodes;
-  std::copy(std::begin(parent.nodes), std::end(parent.nodes),
-            std::back_inserter(nodes));
-  return nodes;
-}
 
 SCENARIO("testing node iteration over a group") {
   dataspace::Scalar ds;

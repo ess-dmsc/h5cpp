@@ -37,7 +37,7 @@ SCENARIO("testing variable length strings") {
       REQUIRE(t.get_class() == datatype::Class::STRING);
     }
     THEN("the size of the type is H5T_VARIABLE") {
-      REQUIRE(t.size() == H5T_VARIABLE);
+      REQUIRE(t.size() == size_t(H5T_VARIABLE));
     }
     THEN("the variable length flag is set") { REQUIRE(t.is_variable_length()); }
 

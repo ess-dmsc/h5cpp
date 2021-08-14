@@ -29,6 +29,7 @@
 #include <catch2/catch.hpp>
 #include <h5cpp/property/link_access.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include "../utilities.hpp"
 #include "utilities.hpp"
 
@@ -71,9 +72,9 @@ SCENARIO("setting the maximum traversal on a LinkAccessList") {
   GIVEN("valid values for the maximum link traversal") {
     auto m = GENERATE(1000, 2000);
     THEN("we can set the maximum link traversal to this value") {
-      REQUIRE_NOTHROW(lapl.maximum_link_traversals(m));
+      REQUIRE_NOTHROW(lapl.maximum_link_traversals(signed2unsigned<size_t>(m)));
       AND_THEN("check its value") {
-        REQUIRE(lapl.maximum_link_traversals() == m);
+        REQUIRE(lapl.maximum_link_traversals() == signed2unsigned<size_t>(m));
       }
     }
   }

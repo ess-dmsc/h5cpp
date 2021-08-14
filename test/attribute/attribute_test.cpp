@@ -100,7 +100,7 @@ TEST_CASE("testing attribute construction","[h5cpp],[attribute],[create]") {
     auto a = root.attributes.create_from("test",float(23.4));
     float buffer;
     a.read(buffer);
-    REQUIRE(buffer == 23.4f);
+    REQUIRE(buffer == Approx(23.4f));
   }
 
   SECTION("create from vector")

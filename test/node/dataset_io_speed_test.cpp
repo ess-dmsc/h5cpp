@@ -33,16 +33,26 @@ using namespace hdf5;
 
 #ifndef _MSC_VER
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+namespace { 
 const static long long unsigned int xdim = 867;
 const static long long unsigned int ydim = 700;
 const static long long unsigned int nframe = 33;
 static std::string filename = "dataset_io_speed.h5";
 using UShorts = std::vector<unsigned short int>;
 
-hdf5::Dimensions current_dimensions(const hdf5::node::Dataset& dataset) {
+static hdf5::Dimensions current_dimensions(const hdf5::node::Dataset& dataset) {
   hdf5::dataspace::Simple dataspace(dataset.dataspace());
   return dataspace.current_dimensions();
 }
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 class create {
  public:

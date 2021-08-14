@@ -56,22 +56,22 @@ SCENARIO("Reading bool attributes created by the PNIIO library") {
       REQUIRE(buffer == 1);
       REQUIRE(buffer == datatype::EBool::TRUE);
     }
+  }
 
-    GIVEN("a scalar bool attribute of value false") {
-      auto attr = root.attributes["bool_false"];
-      THEN("we can read its value as native C++ bool") {
-        bool buffer;
-        REQUIRE_NOTHROW(attr.read(buffer));
-        REQUIRE_FALSE(buffer);
-      }
+  GIVEN("a scalar bool attribute of value false") {
+    auto attr = root.attributes["bool_false"];
+    THEN("we can read its value as native C++ bool") {
+      bool buffer;
+      REQUIRE_NOTHROW(attr.read(buffer));
+      REQUIRE_FALSE(buffer);
+    }
 
-      THEN("we can read its value as EBOOL value") {
-        datatype::EBool buffer;
-        REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
-        REQUIRE(buffer == false);
-        REQUIRE(buffer == 0);
-        REQUIRE(buffer == datatype::EBool::FALSE);
-      }
+    THEN("we can read its value as EBOOL value") {
+      datatype::EBool buffer;
+      REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
+      REQUIRE(buffer == false);
+      REQUIRE(buffer == 0);
+      REQUIRE(buffer == datatype::EBool::FALSE);
     }
   }
 
