@@ -6,3 +6,4 @@ set(test_sources
 add_executable(error_test ${test_sources})
 target_link_libraries(error_test h5cpp)
 catch_discover_tests(error_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME error_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND error_test)

@@ -15,3 +15,4 @@ add_executable(datatype_test ${test_sources})
 target_link_libraries(datatype_test h5cpp)
 catch_discover_tests(datatype_test
                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME datatype_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND datatype_test)

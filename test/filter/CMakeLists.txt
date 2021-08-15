@@ -10,3 +10,4 @@ set(test_sources
 add_executable(filter_test ${test_sources})
 target_link_libraries(filter_test h5cpp)
 catch_discover_tests(filter_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME filter_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND filter_test)

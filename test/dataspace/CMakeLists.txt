@@ -15,3 +15,4 @@ add_executable(dataspace_test ${test_sources})
 target_link_libraries(dataspace_test h5cpp)
 catch_discover_tests(dataspace_test 
                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME dataspace_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND dataspace_test)
