@@ -24,7 +24,7 @@
 // Created on: 7 Dec, 2020
 //
 #pragma once
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/core/object_handle.hpp>
 
 template <typename T>
 hid_t to_hid(T&& object) {
@@ -43,7 +43,11 @@ void close(const T& object) {
 }
 
 #include <vector>
-#include <h5cpp/datatype/ebool.hpp>
+
 using UChars = std::vector<unsigned char>;
+
+#ifndef _MSC_VER
+#include <h5cpp/datatype/ebool.hpp>
 using EBools = std::vector<hdf5::datatype::EBool>;
+#endif
 

@@ -28,6 +28,7 @@
 
 using namespace hdf5;
 
+#ifndef _MSC_VER
 namespace { 
 static datatype::EBool read_ebool(const attribute::Attribute& attr) {
   datatype::EBool buffer;
@@ -36,7 +37,7 @@ static datatype::EBool read_ebool(const attribute::Attribute& attr) {
 }
 }
 
-#ifndef _MSC_VER
+
 SCENARIO("Reading bool attributes written by h5py") {
   auto h5py_file =
       file::open("./../h5py_test_boolattr.h5", file::AccessFlags::READONLY);
