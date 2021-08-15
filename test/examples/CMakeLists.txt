@@ -1,1 +1,1 @@
-add_library(example_lib SHARED hklpoint.cpp)
+add_library(example_lib STATIC hklpoint.cpp)
