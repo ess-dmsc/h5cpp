@@ -81,14 +81,20 @@ SCENARIO("stream output of dataset property list related enumeration types") {
 
   WHEN("writing the DatasetLayout enumeration to a stream") {
     using r = stream_record<Layout>;
+#if H5_VERSION_GE(1, 10, 0)
     auto params = GENERATE(table<Layout, std::string>({
       r{Layout::COMPACT, "COMPACT"}, r{Layout::CONTIGUOUS, "CONTIGUOUS"}, r {
         Layout::CHUNKED, "CHUNKED"
       }
-#if H5_VERSION_GE(1, 10, 0)
       , r { Layout::VIRTUAL, "VIRTUAL" }
-#endif
     }));
+#else
+	auto params = GENERATE(table<Layout, std::string>({
+  r{Layout::COMPACT, "COMPACT"}, r{Layout::CONTIGUOUS, "CONTIGUOUS"}, r {
+	Layout::CHUNKED, "CHUNKED"
+  } }));
+#endif
+	
     stream << std::get<0>(params);
     THEN("the content of the stream will be") {
       REQUIRE(std::get<1>(params) == stream.str());
@@ -142,12 +148,13 @@ SCENARIO("construction of a DatasetCreationList") {
 
 SCENARIO("setting the layout on a DatasetCreation property list") {
   prop::DatasetCreationList pl;
-  auto layouts = GENERATE(Layout::CONTIGUOUS, Layout::CHUNKED, Layout::COMPACT
 #if H5_VERSION_GE(1, 10, 0)
-                          ,
-                          Layout::VIRTUAL
+  auto layouts = GENERATE(Layout::CONTIGUOUS, Layout::CHUNKED, Layout::COMPACT,
+                          Layout::VIRTUAL);
+#else
+  auto layouts = GENERATE(Layout::CONTIGUOUS, Layout::CHUNKED, Layout::COMPACT);
 #endif
-  );
+  
   WHEN("setting the layout") {
     pl.layout(layouts);
     THEN("the layout is given as") { REQUIRE(pl.layout() == layouts); }

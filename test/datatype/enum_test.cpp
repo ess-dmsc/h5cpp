@@ -32,7 +32,7 @@
 
 enum WeakFruit : uint16_t { Apple = 0, Pear = 1, Orange = 2 };
 enum class StrongFruit : uint16_t { Pineapple = 0, Jackfruit = 1, Durian = 2 };
-enum FakeBool : int8_t { TRUE = 0, FALSE = 1 };
+enum FakeBool : int8_t { True = 0, False = 1 };
 
 namespace hdf5 {
 namespace datatype {
@@ -72,8 +72,8 @@ class TypeTrait<FakeBool> {
 
   static TypeClass create(const FakeBool& = FakeBool()) {
     auto type = datatype::Enum::create(FakeBool());
-    type.insert("TRUE", FakeBool::TRUE);
-    type.insert("FALSE", FakeBool::FALSE);
+    type.insert("TRUE", FakeBool::True);
+    type.insert("FALSE", FakeBool::False);
     return type;
   }
 };
@@ -227,8 +227,8 @@ SCENARIO("Custom enumeration trait construction") {
       REQUIRE(type.name(1) == "TRUE");
     }
     THEN("we can obtain the values by index") {
-      REQUIRE(type.value<datatype::EBool>(0) == datatype::EBool::FALSE);
-      REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::TRUE);
+      REQUIRE(type.value<datatype::EBool>(0) == datatype::EBool::False);
+      REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::True);
     }
   }
 }
@@ -281,11 +281,11 @@ SCENARIO("testing EBOOL IO") {
   GIVEN("an EBOOL attribute") {
     auto a = root.attributes.create<datatype::EBool>("TRUE");
     AND_GIVEN("an actual true value") {
-      auto write_ebool = datatype::EBool::TRUE;
+      auto write_ebool = datatype::EBool::True;
       THEN("we can write this to the attribute") {
         a.write(write_ebool);
         AND_WHEN("we read the value back") {
-          auto read_ebool = datatype::EBool::FALSE;
+          auto read_ebool = datatype::EBool::False;
           a.read(read_ebool);
           THEN("the values should match") {
             REQUIRE(write_ebool == read_ebool);
@@ -300,11 +300,11 @@ SCENARIO("testing EBOOL IO") {
   GIVEN("another EBOOL attribute") {
     auto a = root.attributes.create<datatype::EBool>("FALSE");
     AND_GIVEN("an actual false value") {
-      auto write_ebool = datatype::EBool::FALSE;
+      auto write_ebool = datatype::EBool::False;
       THEN("we can write this to the attribute") {
         a.write(write_ebool);
         AND_WHEN("we read the value back") {
-          auto read_ebool = datatype::EBool::FALSE;
+          auto read_ebool = datatype::EBool::False;
           a.read(read_ebool);
           THEN("the values should match") {
             REQUIRE(write_ebool == read_ebool);
@@ -321,8 +321,8 @@ SCENARIO("testing EBOOL IO") {
 
     AND_GIVEN("a vector of bool values") {
       std::vector<datatype::EBool> ref = {
-          datatype::EBool::FALSE, datatype::EBool::TRUE, datatype::EBool::TRUE,
-          datatype::EBool::FALSE};
+          datatype::EBool::False, datatype::EBool::True, datatype::EBool::True,
+          datatype::EBool::False};
       THEN("we can write the values") {
         a.write(ref);
         AND_WHEN("we read them back to EBool") {

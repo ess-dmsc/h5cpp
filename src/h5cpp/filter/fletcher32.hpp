@@ -58,7 +58,7 @@ class DLL_EXPORT Fletcher32 : public Filter
     //! \param dcpl reference to the dataset creation property list
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::MANDATORY) const override;
+                            Availability flag = Availability::mandatory) const override;
 };
 #ifdef __clang__
 #pragma clang diagnostic pop

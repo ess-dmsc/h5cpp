@@ -3,6 +3,7 @@
 *.user
 .idea
 .idea/
+.vs/
 
 *.swp
 /file_open.h5

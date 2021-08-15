@@ -52,7 +52,7 @@ SCENARIO("testing the NBit filter") {
               auto flags = filters.fill(dcpl);
               REQUIRE(filters.size() == 1lu);
               REQUIRE(flags.size() == 1lu);
-              REQUIRE(flags[0] == filter::Availability::OPTIONAL);
+              REQUIRE(flags[0] == filter::Availability::optional);
               REQUIRE_THAT(filters[0].cd_values(),
                            Catch::Matchers::Equals(std::vector<unsigned int>{}));
               REQUIRE(filters[0].is_decoding_enabled());

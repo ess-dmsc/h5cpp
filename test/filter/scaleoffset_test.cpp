@@ -72,7 +72,7 @@ SCENARIO("ScalaOffset filter tests") {
             REQUIRE(flags.size() == 1lu);
 
             // check here the filter parameters
-            REQUIRE(flags[0] == filter::Availability::OPTIONAL);
+            REQUIRE(flags[0] == filter::Availability::optional);
             using r = std::vector<unsigned int>;
             REQUIRE_THAT(filters[0].cd_values(), Catch::Matchers::Equals(r{2, 2}));
             REQUIRE(filters[0].is_decoding_enabled());
