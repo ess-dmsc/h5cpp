@@ -3,6 +3,7 @@ project(h5cpp
     LANGUAGES CXX C
     VERSION 0.4.1
     )
+	include(CTest)
 enable_testing()
 
 #=============================================================================
