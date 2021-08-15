@@ -3,8 +3,7 @@ project(h5cpp
     LANGUAGES CXX C
     VERSION 0.4.1
     )
-	include(CTest)
-enable_testing()
+
 
 #=============================================================================
 # Augment CMake with our custom scripts
@@ -60,7 +59,9 @@ set(WITH_BOOST ON CACHE BOOL "enable Boost filesystem support")
 if(WITH_BOOST)
   message(STATUS "Using Boost library for filesystem")
   include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
-else()
+else() 
+  # if we do not use Boost we have to ensure a C++ standard of at least 2017
+  # since we require the std::filesystem API
   set(CMAKE_CXX_STANDARD 17)
   message(STATUS "Using std library for filesystem")
 endif()
@@ -86,6 +87,8 @@ install(DIRECTORY examples
 #=============================================================================
 set(DISABLE_TESTS False CACHE BOOL "Disable building unit tests")
 if(NOT DISABLE_TESTS)
+	enable_testing()
+	include(Catch)
     add_subdirectory(test)
 endif()
 

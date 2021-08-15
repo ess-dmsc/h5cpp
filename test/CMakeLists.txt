@@ -1,7 +1,6 @@
 #
 # We definitely need a better solution for this!
 #
-enable_testing()
 if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
 endif ()
@@ -9,7 +8,6 @@ endif ()
 # ----------------------------------------------------------------------------
 # include the modules required to use Catch2
 # ----------------------------------------------------------------------------
-include(Catch)
 
 include_directories(${PROJECT_SOURCE_DIR}/src
                     ${HDF5_INCLUDE_DIRS}

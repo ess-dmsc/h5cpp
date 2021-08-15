@@ -11,5 +11,7 @@ set(test_sources
 
 add_executable(attribute_test ${test_sources})
 target_link_libraries(attribute_test h5cpp)
-catch_discover_tests(attribute_test 
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+catch_discover_tests(attribute_test)
+add_test(NAME attribute_test
+         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		 COMMAND attribute_test)
