@@ -40,8 +40,8 @@ namespace datatype
 //!
 enum EBool : int8_t
 {
-  True = 0, //!< indicates a false value
-  False = 1   //!< indicates a true value
+  TRUE = 1, //!< indicates a false value
+  FALSE = 0   //!< indicates a true value
 };
 
 
@@ -53,8 +53,8 @@ class TypeTrait<datatype::EBool> {
 
   static TypeClass create(const Type & = Type()) {
     auto type = TypeClass::create(Type());
-    type.insert("FALSE", Type::False);
-    type.insert("TRUE", Type::True);
+    type.insert("FALSE", Type::FALSE);
+    type.insert("TRUE", Type::TRUE);
     return type;
   }
 };
