@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 09, 2017
 //
 
@@ -46,6 +47,10 @@ std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag) {
 
 CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs) {
   return CopyFlags(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs));
+}
+
+CopyFlags operator&(const CopyFlag &lhs, const CopyFlag &rhs) {
+  return CopyFlags(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs));
 }
 
 CopyFlags::CopyFlags() noexcept:
@@ -73,6 +78,28 @@ CopyFlags &CopyFlags::operator|=(const CopyFlag &flag) noexcept {
 
 CopyFlags &CopyFlags::operator|=(const CopyFlags &flags) noexcept {
   value_ |= static_cast<unsigned>(flags);
+  return *this;
+}
+
+CopyFlags operator&(const CopyFlags &flags, const CopyFlags &rhs) noexcept {
+  return CopyFlags(static_cast<unsigned>(flags) & static_cast<unsigned>(rhs));
+}
+
+CopyFlags operator&(const CopyFlags &flags, const CopyFlag &flag) noexcept {
+  return CopyFlags(static_cast<unsigned>(flags) & static_cast<unsigned>(flag));
+}
+
+CopyFlags operator&(const CopyFlag &flag, const CopyFlags &flags) noexcept {
+  return CopyFlags(static_cast<unsigned>(flag) & static_cast<unsigned>(flags));
+}
+
+CopyFlags &CopyFlags::operator&=(const CopyFlag &flag) noexcept {
+  value_ &= static_cast<unsigned>(flag);
+  return *this;
+}
+
+CopyFlags &CopyFlags::operator&=(const CopyFlags &flags) noexcept {
+  value_ &= static_cast<unsigned>(flags);
   return *this;
 }
 

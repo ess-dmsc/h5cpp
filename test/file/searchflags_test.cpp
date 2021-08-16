@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 #include <h5cpp/file/types.hpp>
@@ -118,5 +120,36 @@ TEST_CASE("search flags ||", "[h5cpp,file]") {
             file::SearchFlags::DATATYPE) == (H5F_OBJ_ATTR | H5F_OBJ_DATASET |
             H5F_OBJ_DATATYPE));
   }
+SECTION("test AND and OR operators")
+{
+  using file::SearchFlags;
+  using file::SearchFlagsBase;
+  REQUIRE(static_cast<SearchFlagsBase>((file::SearchFlags::DATATYPE | file::SearchFlags::DATASET) &
+            file::SearchFlags::DATATYPE) == H5F_OBJ_DATATYPE);
+  REQUIRE(static_cast<SearchFlagsBase>(file::SearchFlags::ATTRIBUTE &
+	    (file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET)) ==
+            H5F_OBJ_ATTR);
+  REQUIRE(static_cast<SearchFlagsBase>((file::SearchFlags::DATATYPE | file::SearchFlags::DATASET) &
+	    (file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET)) ==
+            H5F_OBJ_DATASET);
+}
+
+SECTION("test values")
+{
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::ALL) ==
+            H5F_OBJ_ALL);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::ATTRIBUTE) ==
+            H5F_OBJ_ATTR);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATASET) ==
+            H5F_OBJ_DATASET);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATATYPE) ==
+            H5F_OBJ_DATATYPE);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::FILE) ==
+            H5F_OBJ_FILE);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::GROUP) ==
+            H5F_OBJ_GROUP);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::LOCAL) ==
+            H5F_OBJ_LOCAL);
+}
 }
 

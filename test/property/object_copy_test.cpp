@@ -33,7 +33,8 @@
 
 using namespace hdf5;
 
-SCENARIO("wrting the CopyFlag to a stream") {
+SCENARIO("wrting the CopyFlag to a stream")
+{
   std::stringstream stream;
   using property::CopyFlag;
   using r = std::tuple<property::CopyFlag, std::string>;
@@ -44,17 +45,22 @@ SCENARIO("wrting the CopyFlag to a stream") {
        r{CopyFlag::EXPAND_REFERENCES, "EXPAND_REFERENCES"},
        r{CopyFlag::WITHOUT_ATTRIBUTES, "WITHOUT_ATTRIBUTES"},
        r{CopyFlag::MERGE_COMMITTED_TYPES, "MERGE_COMMITTED_TYPES"}}));
-  THEN("we get") {
+  THEN("we get")
+  {
     stream << std::get<0>(flags);
     REQUIRE(stream.str() == std::get<1>(flags));
   }
 }
 
-SCENARIO("Copy flags operators") {
+SCENARIO("Copy flags operators")
+{
   using property::CopyFlag;
-  GIVEN("SHALLOW_HIERARCHY | EXPAND_SOFT_LINKS") {
+  using property::CopyFlags;
+  GIVEN("SHALLOW_HIERARCHY | EXPAND_SOFT_LINKS")
+  {
     auto flags = CopyFlag::SHALLOW_HIERARCHY | CopyFlag::EXPAND_SOFT_LINKS;
-    THEN("we expect") {
+    THEN("we expect")
+    {
       REQUIRE(flags.shallow_hierarchy());
       REQUIRE(flags.expand_soft_links());
       REQUIRE_FALSE(flags.expand_external_links());
@@ -63,9 +69,24 @@ SCENARIO("Copy flags operators") {
       REQUIRE_FALSE(flags.merge_committed_types());
     }
   }
-  GIVEN("EXPAND_SOFT_LINKS | EXPAND_EXTERNAL_LINKS") {
+  GIVEN("default constructed copy flags")
+  {
+    CopyFlags flags;
+    WHEN("using the unary | operator on such flags")
+    {
+      flags |= property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+      THEN("the approriate flag will be set")
+      {
+        REQUIRE(flags.expand_external_links());
+      }
+    }
+  }
+
+  GIVEN("EXPAND_SOFT_LINKS | EXPAND_EXTERNAL_LINKS")
+  {
     auto flags = CopyFlag::EXPAND_SOFT_LINKS | CopyFlag::EXPAND_EXTERNAL_LINKS;
-    THEN("we expect") {
+    THEN("we expect")
+    {
       REQUIRE_FALSE(flags.shallow_hierarchy());
       REQUIRE(flags.expand_soft_links());
       REQUIRE(flags.expand_external_links());
@@ -74,9 +95,11 @@ SCENARIO("Copy flags operators") {
       REQUIRE_FALSE(flags.merge_committed_types());
     }
   }
-  GIVEN("EXPAND_EXTERNAL_LINKS | EXPAND_REFERENCES") {
+  GIVEN("EXPAND_EXTERNAL_LINKS | EXPAND_REFERENCES")
+  {
     auto flags = CopyFlag::EXPAND_EXTERNAL_LINKS | CopyFlag::EXPAND_REFERENCES;
-    THEN("we expect") {
+    THEN("we expect")
+    {
       REQUIRE_FALSE(flags.shallow_hierarchy());
       REQUIRE_FALSE(flags.expand_soft_links());
       REQUIRE(flags.expand_external_links());
@@ -86,9 +109,11 @@ SCENARIO("Copy flags operators") {
     }
   }
 
-  GIVEN("EXPAND_REFERENCES | WITHOUT_ATTRIBUTES") {
+  GIVEN("EXPAND_REFERENCES | WITHOUT_ATTRIBUTES")
+  {
     auto flags = CopyFlag::EXPAND_REFERENCES | CopyFlag::WITHOUT_ATTRIBUTES;
-    THEN("we expect") {
+    THEN("we expect")
+    {
       REQUIRE_FALSE(flags.shallow_hierarchy());
       REQUIRE_FALSE(flags.expand_soft_links());
       REQUIRE_FALSE(flags.expand_external_links());
@@ -98,10 +123,12 @@ SCENARIO("Copy flags operators") {
     }
   }
 
-  GIVEN("WITHOUT_ATTRIBUTES | MERGE_COMMITTED_TYPES") {
+  GIVEN("WITHOUT_ATTRIBUTES | MERGE_COMMITTED_TYPES")
+  {
     auto flags = CopyFlag::WITHOUT_ATTRIBUTES | CopyFlag::MERGE_COMMITTED_TYPES;
 
-    THEN("we expect") {
+    THEN("we expect")
+    {
       REQUIRE_FALSE(flags.shallow_hierarchy());
       REQUIRE_FALSE(flags.expand_soft_links());
       REQUIRE_FALSE(flags.expand_external_links());
@@ -111,10 +138,12 @@ SCENARIO("Copy flags operators") {
     }
   }
 
-  GIVEN("MERGE_COMMITTED_TYPES | SHALLOW_HIERARCHY") {
+  GIVEN("MERGE_COMMITTED_TYPES | SHALLOW_HIERARCHY")
+  {
     auto flags = CopyFlag::MERGE_COMMITTED_TYPES | CopyFlag::SHALLOW_HIERARCHY;
 
-    THEN("we expect") {
+    THEN("we expect")
+    {
       REQUIRE(flags.shallow_hierarchy());
       REQUIRE_FALSE(flags.expand_soft_links());
       REQUIRE_FALSE(flags.expand_external_links());
@@ -123,19 +152,61 @@ SCENARIO("Copy flags operators") {
       REQUIRE(flags.merge_committed_types());
     }
   }
-  GIVEN("EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS | WITHOUT_ATTRIBUTES") {
+  GIVEN("EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS | WITHOUT_ATTRIBUTES")
+  {
     auto flags = CopyFlag::EXPAND_EXTERNAL_LINKS | CopyFlag::EXPAND_SOFT_LINKS |
                  CopyFlag::WITHOUT_ATTRIBUTES;
     REQUIRE(flags.without_attributes());
     REQUIRE(flags.expand_soft_links());
     REQUIRE(flags.expand_external_links());
   }
+
+  GIVEN("(EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS) & EXPAND_EXTERNAL_LINKS ")
+  {
+    auto flags = (CopyFlag::EXPAND_EXTERNAL_LINKS |
+                  CopyFlag::EXPAND_SOFT_LINKS) &
+                 CopyFlag::EXPAND_EXTERNAL_LINKS;
+    THEN("we get for the resulting flags")
+    {
+      REQUIRE_FALSE(flags.expand_soft_links());
+      REQUIRE(flags.expand_external_links());
+    }
+  }
+  GIVEN("EXPAND_EXTERNAL_LINKS & EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS")
+  {
+    CopyFlags flags =
+        CopyFlag::EXPAND_EXTERNAL_LINKS &
+        (CopyFlag::EXPAND_EXTERNAL_LINKS |
+         CopyFlag::EXPAND_SOFT_LINKS);
+    THEN("we get for the result flags")
+    {
+      REQUIRE_FALSE(flags.expand_soft_links());
+      REQUIRE(flags.expand_external_links());
+    }
+  }
+
+  GIVEN("(EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS) & WITHOUT_ATTRIBUTES | EXPAND_SOFT_LINKS")
+  {
+    auto flags =
+        (CopyFlag::EXPAND_EXTERNAL_LINKS |
+         CopyFlag::EXPAND_SOFT_LINKS) &
+        (CopyFlag::WITHOUT_ATTRIBUTES |
+         CopyFlag::EXPAND_SOFT_LINKS);
+    THEN("we get for the resulting flags")
+    {
+      REQUIRE(flags.expand_soft_links());
+      REQUIRE_FALSE(flags.expand_external_links());
+    }
+  }
 }
 
-SCENARIO("CopyFlag construction and handling") {
-  GIVEN("default constructed CopyFlag") {
+SCENARIO("CopyFlag construction and handling")
+{
+  GIVEN("default constructed CopyFlag")
+  {
     property::CopyFlags flags;
-    THEN("we expect the following values") {
+    THEN("we expect the following values")
+    {
       REQUIRE_FALSE(flags.shallow_hierarchy());
       REQUIRE_FALSE(flags.expand_soft_links());
       REQUIRE_FALSE(flags.expand_external_links());
@@ -143,71 +214,85 @@ SCENARIO("CopyFlag construction and handling") {
       REQUIRE_FALSE(flags.without_attributes());
       REQUIRE_FALSE(flags.merge_committed_types());
     }
-    THEN("we can set the shallow hierarchy flags") {
+    THEN("we can set the shallow hierarchy flags")
+    {
       flags.shallow_hierarchy(true);
       REQUIRE(flags.shallow_hierarchy());
 
       flags.shallow_hierarchy(false);
       REQUIRE_FALSE(flags.expand_soft_links());
     }
-    THEN("we can set/unset the expand soft links flags") {
+    THEN("we can set/unset the expand soft links flags")
+    {
       flags.expand_soft_links(true);
       REQUIRE(flags.expand_soft_links());
       flags.expand_soft_links(false);
       REQUIRE_FALSE(flags.expand_soft_links());
     }
-    THEN("we can set/unset the expand external links flags") {
+    THEN("we can set/unset the expand external links flags")
+    {
       flags.expand_external_links(true);
       REQUIRE(flags.expand_external_links());
       flags.expand_external_links(false);
       REQUIRE_FALSE(flags.expand_external_links());
     }
-    THEN("we can set/unset the expand references flag") {
+    THEN("we can set/unset the expand references flag")
+    {
       flags.expand_references(true);
       REQUIRE(flags.expand_references());
       flags.expand_references(false);
       REQUIRE_FALSE(flags.expand_references());
     }
-    THEN("we can set/unset the without attributes flag") {
+    THEN("we can set/unset the without attributes flag")
+    {
       flags.without_attributes(true);
       REQUIRE(flags.without_attributes());
       flags.without_attributes(false);
       REQUIRE_FALSE(flags.without_attributes());
     }
-    THEN("we can set/unset the merge comitted types flag") {
+    THEN("we can set/unset the merge comitted types flag")
+    {
       flags.merge_committed_types(true);
       REQUIRE(flags.merge_committed_types());
       flags.merge_committed_types(false);
       REQUIRE_FALSE(flags.merge_committed_types());
     }
   }
-  GIVEN("default constructed flags") {
+  GIVEN("default constructed flags")
+  {
     property::CopyFlags flags;
     flags |= property::CopyFlag::EXPAND_EXTERNAL_LINKS;
     REQUIRE(flags.expand_external_links());
   }
 }
 
-SCENARIO("ObjectCopy property list construction") {
+SCENARIO("ObjectCopy property list construction")
+{
   using property::CopyFlag;
-  GIVEN("default constructed list") {
+  GIVEN("default constructed list")
+  {
     property::ObjectCopyList ocpl;
     THEN("we expect") { REQUIRE(ocpl.get_class() == property::kObjectCopy); }
-    AND_GIVEN("the flags") {
+    AND_GIVEN("the flags")
+    {
       auto flags =
           CopyFlag::EXPAND_SOFT_LINKS | CopyFlag::EXPAND_EXTERNAL_LINKS;
-      THEN("we can apply the flags to the list") {
+      THEN("we can apply the flags to the list")
+      {
         REQUIRE_NOTHROW(ocpl.flags(flags));
-        AND_THEN("we can read the flags back via the list") {
+        AND_THEN("we can read the flags back via the list")
+        {
           REQUIRE(ocpl.flags().expand_soft_links());
           REQUIRE_NOTHROW(
               ocpl.flags(property::CopyFlag::EXPAND_EXTERNAL_LINKS));
           REQUIRE(ocpl.flags().expand_external_links());
         }
       }
-      AND_WHEN("closing the list") {
+      AND_WHEN("closing the list")
+      {
         close(ocpl);
-        THEN("all operations must fail") {
+        THEN("all operations must fail")
+        {
           REQUIRE_THROWS_AS(ocpl.flags(flags), std::runtime_error);
           REQUIRE_THROWS_AS(ocpl.flags(), std::runtime_error);
           REQUIRE_THROWS_AS(
@@ -216,20 +301,25 @@ SCENARIO("ObjectCopy property list construction") {
         }
       }
     }
-    WHEN("closing the list instance") {
+    WHEN("closing the list instance")
+    {
       close(ocpl);
       THEN("we should expect") {}
     }
   }
-  GIVEN("a handle to a object copy property list") {
+  GIVEN("a handle to a object copy property list")
+  {
     auto handle = handle_from_class(property::kObjectCopy);
-    THEN("we can construct an instance of the object copy list") {
+    THEN("we can construct an instance of the object copy list")
+    {
       REQUIRE_NOTHROW(property::ObjectCopyList{std::move(handle)});
     }
   }
-  GIVEN("a handle to a group create property list") {
+  GIVEN("a handle to a group create property list")
+  {
     auto handle = handle_from_class(property::kGroupCreate);
-    THEN("any attempt to construct an instnace will fail") {
+    THEN("any attempt to construct an instance will fail")
+    {
       REQUIRE_THROWS_AS(property::ObjectCopyList{std::move(handle)},
                         std::runtime_error);
     }

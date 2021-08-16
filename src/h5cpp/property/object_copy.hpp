@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 09, 2017
 //
 #pragma once
@@ -45,6 +46,8 @@ enum class CopyFlag : unsigned {
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag);
 
 DLL_EXPORT CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs);
+
+DLL_EXPORT CopyFlags operator&(const CopyFlag &lhs, const CopyFlag &rhs);
 
 //!
 //! \brief encapsulate copy flags
@@ -87,6 +90,16 @@ class DLL_EXPORT CopyFlags {
   //! \brief unary logical or operator
   //!
   CopyFlags &operator|=(const CopyFlags &flags) noexcept;
+
+  //!
+  //! \brief unary logical and operator
+  //!
+  CopyFlags &operator&=(const CopyFlag &flag) noexcept;
+
+  //!
+  //! \brief unary logical and operator
+  //!
+  CopyFlags &operator&=(const CopyFlags &flags) noexcept;
 
   //!
   //! \brief allow for explicit conversion to unsigned
@@ -176,6 +189,21 @@ DLL_EXPORT CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noe
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
+//!
+//! \brief binary and operator for copy flags
+//!
+DLL_EXPORT CopyFlags operator&(const CopyFlags &flags, const CopyFlags &rhs) noexcept;
+
+//!
+//! \brief binary and operator for copy flags
+//!
+DLL_EXPORT CopyFlags operator&(const CopyFlags &flags, const CopyFlag &flag) noexcept;
+
+//!
+//! \brief binary and operator for copy flags
+//!
+DLL_EXPORT CopyFlags operator&(const CopyFlag &flag, const CopyFlags &flags) noexcept;
+
 class DLL_EXPORT ObjectCopyList : public List {
  public:
   ObjectCopyList();
