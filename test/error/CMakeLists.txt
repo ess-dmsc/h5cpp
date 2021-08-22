@@ -11,4 +11,3 @@ target_link_libraries(
         hdf5::hdf5
 )
 catch_discover_tests(error_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-add_test(NAME error_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND error_test)

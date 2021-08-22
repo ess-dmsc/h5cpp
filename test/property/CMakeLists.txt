@@ -33,6 +33,4 @@ target_link_libraries(
         h5cpp
         hdf5::hdf5
 )
-catch_discover_tests(properties_test
-                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-add_test(NAME properties_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND properties_test)
+catch_discover_tests(properties_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

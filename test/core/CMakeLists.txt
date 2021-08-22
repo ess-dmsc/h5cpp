@@ -28,8 +28,4 @@ target_link_libraries(
         $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:stdc++fs>
 )
 
-catch_discover_tests(core_test
-                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-add_test(NAME core_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND core_test)
-
-
+catch_discover_tests(core_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
