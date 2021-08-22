@@ -47,4 +47,3 @@ class H5CppConan(ConanFile):
         })
         cmake.configure()
         cmake.build()
-        cmake.build(target="unit_tests")
