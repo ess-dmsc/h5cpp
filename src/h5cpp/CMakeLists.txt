@@ -27,7 +27,7 @@ add_library(h5cpp::h5cpp ALIAS h5cpp)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
-if (H5CPP_BUILD_SHARED OR BUILD_SHARED_LIBS)
+if (H5CPP_BUILD_SHARED)
 	target_compile_definitions(h5cpp PRIVATE H5CPP_EXPORTS PUBLIC H5CPP_BUILD_SHARED)
 endif()
 
