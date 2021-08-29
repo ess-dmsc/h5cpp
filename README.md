@@ -88,6 +88,12 @@ cmake ..
 make
 ```
 
+In any case you should run the tests after the build.
+
+```bash
+$ make test
+```
+
 To install the library to system, you would follow this up with:
 ```bash
 sudo make install
