@@ -16,7 +16,7 @@ boost_system:shared=True
 hdf5:shared=True
 hdf5:szip_support=wich_libaec
 hdf5:szip_encoding=True
-hdf5:cxx=False
+hdf5:enable_cxx=False
 
 [imports]
 bin, cmake -> ./bin
