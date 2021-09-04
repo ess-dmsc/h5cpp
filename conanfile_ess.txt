@@ -1,7 +1,9 @@
 [requires]
 cmake_findboost_modular/1.69.0@bincrafters/stable
 boost_filesystem/1.69.0@bincrafters/stable
-hdf5/1.12.1-dm2@ess-dmsc/stable
+hdf5/1.10.6
+zlib/1.2.11
+bzip2/1.0.8
 
 [generators]
 cmake
@@ -12,6 +14,8 @@ virtualrunenv
 boost_filesystem:shared=True
 boost_system:shared=True
 hdf5:shared=True
+hdf5:szip_support=wich_libaec
+hdf5:szip_encoding=True
 hdf5:cxx=False
 
 [imports]
