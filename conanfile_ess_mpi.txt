@@ -17,6 +17,7 @@ hdf5:shared=True
 hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
 hdf5:enable_cxx=False
+zlib:shared=True
 
 [imports]
 bin, cmake -> ./bin
