@@ -14,7 +14,7 @@ virtualrunenv
 boost_filesystem:shared=True
 boost_system:shared=True
 hdf5:shared=True
-hdf5:szip_support=wich_libaec
+hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
 hdf5:enable_cxx=False
 
