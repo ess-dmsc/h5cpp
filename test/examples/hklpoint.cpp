@@ -1,5 +1,6 @@
 //
-// (c) Copyright 2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// (c) Copyright 2017 DESY, ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
