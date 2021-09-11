@@ -33,7 +33,6 @@ set(test_sources node_test.cpp
 add_executable(node_test ${test_sources})
 target_link_libraries(node_test h5cpp example_lib)
 target_compile_definitions(node_test PRIVATE CATCH_CONFIG_ENABLE_BENCHMARKING)
-catch_discover_tests(node_test 
-                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+catch_discover_tests(node_test)
 add_test(NAME node_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND node_test)
 

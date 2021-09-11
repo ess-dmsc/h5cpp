@@ -61,6 +61,7 @@
 
 using namespace hdf5;
 
+namespace {
 hid_t to_hid(const ObjectHandle& handle) {
   return static_cast<hid_t>(handle);
 }
@@ -116,6 +117,7 @@ struct File {
         to_hid(space), H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT));
   }
 };
+}
 
 SCENARIO("testing Id construction") {
   const auto path1 = fs::absolute(std::string("id_construction.h5"));
