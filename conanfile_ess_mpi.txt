@@ -1,6 +1,5 @@
 [requires]
-cmake_findboost_modular/1.69.0@bincrafters/stable
-boost_filesystem/1.69.0@bincrafters/stable
+boost/1.69.0
 hdf5/1.10.6
 zlib/1.2.11
 bzip2/1.0.8
@@ -11,8 +10,7 @@ virtualbuildenv
 virtualrunenv
 
 [options]
-boost_filesystem:shared=True
-boost_system:shared=True
+boost:shared=True
 hdf5:shared=True
 hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
