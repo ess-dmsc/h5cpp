@@ -113,8 +113,6 @@ builders = pipeline_builder.createBuilders { container ->
 
     container.sh """
       cd build
-      conan remote add conancenter https://center.conan.io
-      conan remote list
       cmake --version
       ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
     """
