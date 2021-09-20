@@ -35,9 +35,9 @@ boost:without_timer=True
 boost:without_type_erasure=True
 boost:without_wave=True
 hdf5:shared=True
+hdf5:cxx=False
 hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
-hdf5:enable_cxx=False
 zlib:shared=True
 
 [imports]
