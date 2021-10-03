@@ -302,6 +302,7 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
+                        bat 'conan remote list'
                         bat 'conan remote add conancenter https://center.conan.io'
                         bat 'cmake -DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_windows_ess.txt -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
                     } catch (e) {
