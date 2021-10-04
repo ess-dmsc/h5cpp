@@ -41,8 +41,8 @@ namespace datatype
 //!
 enum EBool : int8_t
 {
-  TRUE = 1, //!< indicates a false value
-  FALSE = 0   //!< indicates a true value
+  TRUE = 1, //!< indicates a true value
+  FALSE = 0   //!< indicates a false value
 };
 
 
