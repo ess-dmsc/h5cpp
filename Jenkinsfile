@@ -303,7 +303,6 @@ def get_win10_pipeline()
                 dir("_build") {
                     try {
                         bat 'conan remote list'
-                        bat 'conan remote remove conan-center'
                         bat 'cmake -DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_windows_ess.txt -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
@@ -333,7 +332,7 @@ node {
 
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
-  //builders['Windows10'] = get_win10_pipeline()
+  builders['Windows10'] = get_win10_pipeline()
   //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
