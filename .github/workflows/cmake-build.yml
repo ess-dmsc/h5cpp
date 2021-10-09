@@ -14,7 +14,7 @@ jobs:
       matrix:
         image: [
             "conanio/gcc11-ubuntu16.04:1.41.0",
-            "conanio/clang12-ubuntu16.04:1.41.0"
+            "conanio/clang13-ubuntu16.04:1.41.0"
         ]
         libcxx: [libstdc++11, libc++]
         shared: [shared, static]
@@ -26,12 +26,12 @@ jobs:
         include:
           - image: conanio/gcc11-ubuntu16.04:1.41.0
             profile: gcc11
-          - image: conanio/clang12-ubuntu16.04:1.41.0
+          - image: conanio/clang13-ubuntu16.04:1.41.0
             libcxx: libstdc++11
-            profile: clang12-libstdc++
-          - image: conanio/clang12-ubuntu16.04:1.41.0
+            profile: clang13-libstdc++
+          - image: conanio/clang13-ubuntu16.04:1.41.0
             libcxx: libc++
-            profile: clang12-libc++
+            profile: clang13-libc++
     runs-on: ubuntu-20.04
     container:
       image: ${{ matrix.image }}
