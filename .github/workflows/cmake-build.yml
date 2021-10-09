@@ -65,7 +65,7 @@ jobs:
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.conan/data
+          path: /home/conan/.conan/data
           key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
             conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
