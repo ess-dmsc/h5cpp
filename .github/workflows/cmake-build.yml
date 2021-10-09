@@ -8,6 +8,10 @@ on:
       - master
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   linux-build:
     strategy:
@@ -95,7 +99,6 @@ jobs:
             bash .github/workflows/set_env_vars.sh \
               ${{ matrix.shared }} \
               ${{ matrix.boost }}
-        shell: bash
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
@@ -106,7 +109,6 @@ jobs:
             -o hdf5:shared=${H5CPP_SHARED}"
           conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
-        shell: bash
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
@@ -122,16 +124,15 @@ jobs:
             --lockfile conan.lock \
             --build missing \
             --generator virtualrunenv
-        shell: bash
       - name: build with cmake
         run: |
           conan build . --build-folder build
-        shell: bash
       - name: run tests
         run: |
           cd build
           .\activate_run.ps1
           ctest --extra-verbose
+        shell: pwsh
   mac-build:
     strategy:
       matrix:
@@ -211,7 +212,7 @@ jobs:
       - name: build with cmake
         run: |
           HDF5_STATIC=ON
-          [ "${H5CPP_SHARED}" == "True" ] && HDF5_STATIC=OFF
+          [ "${H5CPP_SHARED}" = "True" ] && HDF5_STATIC=OFF
           mkdir build
           cd build
           cmake .. \
