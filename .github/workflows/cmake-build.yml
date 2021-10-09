@@ -193,3 +193,35 @@ jobs:
           cd build
           source activate.sh
           ctest --extra-verbose
+  linux-no-conan:
+    strategy:
+      matrix:
+        shared: [shared, static]
+        boost: [boost, stdfs]
+    runs-on: ubuntu-20.04
+    container:
+      image: algodynamic/ubuntu-dev:18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set environment variables
+        run: |
+          bash .github/workflows/set_env_vars.sh \
+            ${{ matrix.shared }} \
+            ${{ matrix.boost }}
+      - name: build with cmake
+        run: |
+          HDF5_STATIC=ON
+          [ "${H5CPP_SHARED}" == "True" ] && HDF5_STATIC=OFF
+          mkdir build
+          cd build
+          cmake .. \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D H5CPP_CONAN=DISABLE \
+            -D HDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} \
+            -D H5CPP_BUILD_SHARED=${H5CPP_SHARED} \
+            -D H5CPP_WITH_BOOST=${H5CPP_WITH_BOOST}
+          cmake --build . -- -j
+      - name: run tests
+        run: |
+          cd build
+          ctest --extra-verbose
