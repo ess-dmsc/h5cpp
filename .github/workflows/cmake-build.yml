@@ -221,7 +221,7 @@ jobs:
             -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} \
             -DH5CPP_BUILD_SHARED=${H5CPP_SHARED} \
             -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST}
-          cmake --build . -- -j
+          cmake --build . -- -j 2
       - name: run tests
         run: |
           cd build
