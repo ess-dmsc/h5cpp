@@ -16,7 +16,7 @@ target_link_libraries(
     file_test
     PRIVATE
         h5cpp
-        hdf5::hdf5
         hdf5::hdf5_hl
+        hdf5::hdf5
 )
 catch_discover_tests(file_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
