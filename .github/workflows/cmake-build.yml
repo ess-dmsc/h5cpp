@@ -13,23 +13,23 @@ jobs:
     strategy:
       matrix:
         image: [
-            "conanio/gcc11-ubuntu16.04:1.39.0",
-            "conanio/clang12-ubuntu16.04:1.39.0"
+            "conanio/gcc11-ubuntu16.04:1.41.0",
+            "conanio/clang12-ubuntu16.04:1.41.0"
         ]
         libcxx: [libstdc++11, libc++]
         shared: [shared, static]
         boost: [boost, stdfs]
         mpi: [mpi, serial]
         exclude:
-          - image: conanio/gcc11-ubuntu16.04:1.39.0
+          - image: conanio/gcc11-ubuntu16.04:1.41.0
             libcxx: libc++
         include:
-          - image: conanio/gcc11-ubuntu16.04:1.39.0
+          - image: conanio/gcc11-ubuntu16.04:1.41.0
             profile: gcc11
-          - image: conanio/clang12-ubuntu16.04:1.39.0
+          - image: conanio/clang12-ubuntu16.04:1.41.0
             libcxx: libstdc++11
             profile: clang12-libstdc++
-          - image: conanio/clang12-ubuntu16.04:1.39.0
+          - image: conanio/clang12-ubuntu16.04:1.41.0
             libcxx: libc++
             profile: clang12-libc++
     runs-on: ubuntu-20.04
