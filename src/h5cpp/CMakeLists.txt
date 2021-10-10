@@ -70,6 +70,7 @@ target_link_libraries(h5cpp
   PRIVATE ${COVERAGE_LIBRARIES}
     hdf5::hdf5_hl
     hdf5::hdf5
+    ZLIB::ZLIB
     ${CMAKE_DL_LIBS}
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
