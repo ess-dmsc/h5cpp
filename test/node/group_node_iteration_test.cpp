@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,162 +20,169 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 13, 2017
 //
-#include "group_test_fixtures.hpp"
+#include <algorithm>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <vector>
 
 using namespace hdf5;
 
-class NodeIteration : public NodeIterationFixture
-{
-};
+using Nodes = std::vector<hdf5::node::Node>;
 
-TEST_F(NodeIteration, group_index_name_order_access)
-{
-  EXPECT_EQ(root_.nodes.size(),10ul);
-  //setup creation order
-  root_.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
 
-  EXPECT_EQ(root_.nodes[0].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[0].link().path()),"/g3_soft_link");
-  EXPECT_EQ(root_.nodes[1].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[1].link().path()),"/g3");
+SCENARIO("testing node iteration over a group") {
+  dataspace::Scalar ds;
+  property::LinkCreationList lcpl;
+  property::FileCreationList fcpl;
+  property::FileAccessList fapl;
+  fapl.library_version_bounds(property::LibVersion::LATEST,
+                              property::LibVersion::LATEST);
 
-  EXPECT_EQ(root_.nodes[2].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[2].link().path()),"/g2_soft_link");
-  EXPECT_EQ(root_.nodes[3].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[3].link().path()),"/g2");
+  property::GroupCreationList gcpl;
+  gcpl.link_creation_order(property::CreationOrder().enable_indexed());
+  fcpl.link_creation_order(property::CreationOrder().enable_indexed());
+  auto f = file::create("group_node_iteration_test.h5",
+                        file::AccessFlags::TRUNCATE, fcpl, fapl);
+  auto r = f.root();
+  auto g1 = r.create_group("g1", lcpl, gcpl);
+  auto g2 = r.create_group("g2", lcpl, gcpl);
+  auto g3 = r.create_group("g3", lcpl, gcpl);
+  auto d1 = r.create_dataset("d1", datatype::create<float>(), ds);
+  auto d2 = r.create_dataset("d2", datatype::create<int>(), ds);
+  node::link(g1, r, "g1_soft_link");
+  node::link(g2, r, "g2_soft_link");
+  node::link(g3, r, "g3_soft_link");
+  node::link(d1, r, "d1_soft_link");
+  node::link(d2, r, "d2_soft_link");
 
-  EXPECT_EQ(root_.nodes[4].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[4].link().path()),"/g1_soft_link");
-  EXPECT_EQ(root_.nodes[5].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[5].link().path()),"/g1");
+  THEN("the total number of elements below the root group must be 10") {
+    REQUIRE(r.nodes.size() == 10ul);
+  }
 
-  EXPECT_EQ(root_.nodes[6].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[6].link().path()),"/d2_soft_link");
-  EXPECT_EQ(root_.nodes[7].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[7].link().path()),"/d2");
+  using node::LinkType;
+  using node::Type;
+  using tr = std::tuple<Type, LinkType, std::string>;
 
-  EXPECT_EQ(root_.nodes[8].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[8].link().path()),"/d1_soft_link");
-  EXPECT_EQ(root_.nodes[9].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[9].link().path()),"/d1");
-}
+  auto node_type = [](const tr& n) { return std::get<0>(n); };
+  auto link_type = [](const tr& l) { return std::get<1>(l); };
+  auto name = [](const tr& l) { return std::get<2>(l); };
+  auto path = [&name](const tr& l) { return "/" + name(l); };
 
-TEST_F(NodeIteration, group_index_creation_order_access)
-{
-  EXPECT_EQ(root_.nodes.size(),10ul);
-  //setup creation order
-  root_.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
-  root_.iterator_config().order(hdf5::IterationOrder::INCREASING);
+  WHEN("access by index in decreasing order using the name as key") {
+    r.iterator_config().index(hdf5::IterationIndex::NAME);
+    r.iterator_config().order(hdf5::IterationOrder::DECREASING);
+    std::vector<tr> values{tr{Type::GROUP, LinkType::SOFT, "g3_soft_link"},
+                      tr{Type::GROUP, LinkType::HARD, "g3"},
+                      tr{Type::GROUP, LinkType::SOFT, "g2_soft_link"},
+                      tr{Type::GROUP, LinkType::HARD, "g2"},
+                      tr{Type::GROUP, LinkType::SOFT, "g1_soft_link"},
+                      tr{Type::GROUP, LinkType::HARD, "g1"},
+                      tr{Type::DATASET, LinkType::SOFT, "d2_soft_link"},
+                      tr{Type::DATASET, LinkType::HARD, "d2"},
+                      tr{Type::DATASET, LinkType::SOFT, "d1_soft_link"},
+                      tr{Type::DATASET, LinkType::HARD, "d1"}};
+    THEN("we can access the nodes by their numeric index") {
+      for (size_t index = 0; index < r.nodes.size(); ++index) {
+        REQUIRE(r.nodes[index].type() == node_type(values[index]));
+        REQUIRE(r.nodes[index].link().path() == path(values[index]));
+        REQUIRE(r.links[index].type() == link_type(values[index]));
+        REQUIRE(r.links[index].path() == path(values[index]));
+      }
+    }
+    THEN("we can access names and links by name") { 
+      for(auto v: values) { 
+        auto n = name(v);
+        REQUIRE(r.nodes[n].type() == node_type(v));
+        REQUIRE(r.nodes[n].link().path() == path(v));
+        REQUIRE(r.links[n].type() == link_type(v));
+        REQUIRE(r.links[n].path() == path(v));
+      }
+    }
+    THEN("we can access the elements by iterator") {
+      auto eiter = values.begin();
+      auto niter = r.nodes.begin();
+      auto liter = r.links.begin();
+      for (; niter != r.nodes.end(); ++niter, ++eiter, ++liter) {
+        REQUIRE(niter->type() == node_type(*eiter));
+        REQUIRE(niter->link().path() == path(*eiter));
+        REQUIRE(liter->type() == link_type(*eiter));
+        REQUIRE(liter->path() == path(*eiter));
+      }
+    }
+    THEN("we can access the nodes via foreach") {
+      auto eiter = values.begin();
+      for (auto n : r.nodes) {
+        auto e = eiter++;
+        REQUIRE(n.type() == node_type(*e));
+        REQUIRE(n.link().path() == path(*e));
+      }
+    }
+    THEN("we can iterate the links via foreach") { 
+      auto eiter = values.begin();
+      for (auto l : r.links) {
+        auto e = eiter++;
+        REQUIRE(l.type() == link_type(*e));
+        REQUIRE(l.path() == path(*e));
+      }
+    }
+  }
 
-  EXPECT_EQ(root_.nodes[0].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[0].link().path()),"/g1");
-  EXPECT_EQ(root_.nodes[1].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[1].link().path()),"/g2");
-  EXPECT_EQ(root_.nodes[2].type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[2].link().path()),"/g3");
-  EXPECT_EQ(root_.nodes[3].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[3].link().path()),"/d1");
-  EXPECT_EQ(root_.nodes[4].type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(root_.nodes[4].link().path()),"/d2");
-}
-
-TEST_F(NodeIteration, group_name_access)
-{
-  node::Node n;
-  EXPECT_NO_THROW(n=root_.nodes["g1"]);
-  EXPECT_EQ(n.type(),node::Type::GROUP);
-  EXPECT_EQ(static_cast<std::string>(n.link().path()),"/g1");
-  EXPECT_NO_THROW(n=root_.nodes["d1"]);
-  EXPECT_EQ(n.type(),node::Type::DATASET);
-  EXPECT_EQ(static_cast<std::string>(n.link().path()),"/d1");
-
-}
-
-TEST_F(NodeIteration, group_node_iteration)
-{
-  EXPECT_EQ(root_.nodes.size(),10ul);
-  //setup creation order
-  root_.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
-
-  std::vector<std::string> names{"/g3_soft_link","/g3",
-    "/g2_soft_link","/g2","/g1_soft_link","/g1","/d2_soft_link","/d2",
-    "/d1_soft_link","/d1"};
-  std::vector<node::Type> types{node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::DATASET,
-                                node::Type::DATASET,
-                                node::Type::DATASET,
-                                node::Type::DATASET};
-  auto name_iter = names.begin();
-  auto type_iter = types.begin();
-
-  for(auto iter = root_.nodes.begin();iter!=root_.nodes.end();++iter)
-  {
-    EXPECT_EQ(static_cast<std::string>(iter->link().path()),*name_iter++);
-    EXPECT_EQ((*iter).type(),*type_iter++);
+  WHEN("access by index in increasing order using the creation order as key") {
+    r.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
+    r.iterator_config().order(hdf5::IterationOrder::INCREASING);
+    std::vector<tr> values{tr{Type::GROUP, LinkType::HARD, "g1"},
+                           tr{Type::GROUP, LinkType::HARD, "g2"},
+                           tr{Type::GROUP, LinkType::HARD, "g3"},
+                           tr{Type::DATASET, LinkType::HARD, "d1"},
+                           tr{Type::DATASET, LinkType::HARD, "d2"},
+                           tr{Type::GROUP, LinkType::SOFT, "g1_soft_link"},
+                           tr{Type::GROUP, LinkType::SOFT, "g2_soft_link"},
+                           tr{Type::GROUP, LinkType::SOFT, "g3_soft_link"},
+                           tr{Type::DATASET, LinkType::SOFT, "d1_soft_link"},
+                           tr{Type::DATASET, LinkType::SOFT, "d2_soft_link"}};
+    THEN("we can access the element by numeric index") {
+      for (size_t index = 0; index < r.nodes.size(); ++index) {
+        REQUIRE(r.nodes[index].type() == node_type(values[index]));
+        REQUIRE(r.nodes[index].link().path() == path(values[index]));
+        REQUIRE(r.links[index].type() == link_type(values[index]));
+        REQUIRE(r.links[index].path() == path(values[index]));
+      }
+    }
+    THEN("we can access names and links by name") { 
+      for(auto v: values) { 
+        auto n = name(v);
+        REQUIRE(r.nodes[n].type() == node_type(v));
+        REQUIRE(r.nodes[n].link().path() == path(v));
+        REQUIRE(r.links[n].type() == link_type(v));
+        REQUIRE(r.links[n].path() == path(v));
+      }
+    }
+    THEN("we can access the elements by iterator") {
+      auto eiter = values.begin();
+      for (auto niter = r.nodes.begin(); niter != r.nodes.end();
+           ++niter, ++eiter) {
+        REQUIRE(niter->type() == node_type(*eiter));
+        REQUIRE(niter->link().path() == path(*eiter));
+      }
+    }
+    THEN("we can access the nodes via foreach") {
+      auto eiter = values.begin();
+      for (auto n : r.nodes) {
+        auto e = eiter++;
+        REQUIRE(n.type() == node_type(*e));
+        REQUIRE(n.link().path() == path(*e));
+      }
+    }
+    THEN("we can iterate the links via foreach") { 
+      auto eiter = values.begin();
+      for (auto l : r.links) {
+        auto e = eiter++;
+        REQUIRE(l.type() == link_type(*e));
+        REQUIRE(l.path() == path(*e));
+      }
+    }
   }
 }
-
-TEST_F(NodeIteration, group_nodes_foreach)
-{
-  EXPECT_EQ(root_.nodes.size(),10ul);
-  //setup creation order
-  root_.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
-
-  std::vector<std::string> names{"/g3_soft_link","/g3",
-    "/g2_soft_link","/g2","/g1_soft_link","/g1","/d2_soft_link","/d2",
-    "/d1_soft_link","/d1"};
-  std::vector<node::Type> types{node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::GROUP,
-                                node::Type::DATASET,
-                                node::Type::DATASET,
-                                node::Type::DATASET,
-                                node::Type::DATASET};
-
-  auto name_iter = names.begin();
-  auto type_iter = types.begin();
-
-  for(auto node: root_.nodes)
-  {
-    EXPECT_EQ(static_cast<std::string>(node.link().path()),*name_iter++);
-    EXPECT_EQ(node.type(),*type_iter++);
-  }
-}
-
-TEST_F(NodeIteration, group_node_iterator_ops)
-{
-  EXPECT_EQ(root_.nodes.size(),10ul);
-  //setup creation order
-  root_.iterator_config().index(hdf5::IterationIndex::NAME);
-  root_.iterator_config().order(hdf5::IterationOrder::DECREASING);
-
-  std::vector<std::string> names{"/g3_soft_link","/g3",
-                                 "/g2_soft_link","/g2","/g1_soft_link","/g1","/d2_soft_link","/d2",
-                                 "/d1_soft_link","/d1"};
-
-  auto name_iter = names.begin();
-  auto name_riter = names.rbegin();
-
-  for(auto node = root_.nodes.begin(); node != root_.nodes.end(); node++)
-    EXPECT_EQ(static_cast<std::string>(node->link().path()),*name_iter++);
-
-  auto node = root_.nodes.end(); node--;
-  for(; node != root_.nodes.begin(); node--)
-    EXPECT_EQ(static_cast<std::string>(node->link().path()),*name_riter++);
-}
-

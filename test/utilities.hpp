@@ -1,7 +1,8 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,31 +20,35 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Sep 13, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 7 Dec, 2020
 //
-#pragma once 
+#pragma once
+#include <h5cpp/core/object_handle.hpp>
 
-#include <gtest/gtest.h>
-#include "../fixture.hpp"
+template <typename T>
+hid_t to_hid(T&& object) {
+  return static_cast<hid_t>(object);
+}
 
-class NodeIterationFixture : public BasicFixture
-{
-  protected:
-    virtual void SetUp();
-};
+/**
+ * @brief Utility function closing an object
+ *
+ * @tparam T type to close
+ * @param object const reference to an object
+ */
+template <typename T>
+void close(const T& object) {
+  hdf5::ObjectHandle(to_hid(object)).close();
+}
 
-class RecursiveIterationFixture : public testing::Test
-{
-  private:
-    static void create_standard_test(const hdf5::node::Group &root);
-    static void create_linked_group_test(const hdf5::node::Group &root);
-  public:
-    hdf5::property::FileCreationList fcpl;
-    hdf5::property::FileAccessList fapl;
-    hdf5::file::File file;
+#include <vector>
 
-    RecursiveIterationFixture(const fs::path &filename);
-    virtual ~RecursiveIterationFixture();
-};
+using UChars = std::vector<unsigned char>;
+
+#ifndef _MSC_VER
+#include <h5cpp/datatype/ebool.hpp>
+using EBools = std::vector<hdf5::datatype::EBool>;
+#endif
 

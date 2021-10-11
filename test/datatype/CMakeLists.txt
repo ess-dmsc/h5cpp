@@ -1,16 +1,18 @@
-set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(test_sources
-    ${test_sources}
-    ${dir}/datatype_test.cpp
-    ${dir}/integer_test.cpp
-    ${dir}/compound_test.cpp
-    ${dir}/float_test.cpp
-    ${dir}/string_test.cpp
-    ${dir}/type_test.cpp
-    ${dir}/type_trait_test.cpp
-    ${dir}/datatype_test.cpp
-    ${dir}/array_test.cpp
-    ${dir}/vlen_array_test.cpp
-    ${dir}/enum_test.cpp
-    PARENT_SCOPE)
+    datatype_test.cpp
+    integer_test.cpp
+    compound_test.cpp
+    float_test.cpp
+    string_test.cpp
+    type_test.cpp
+    type_trait_test.cpp
+    datatype_test.cpp
+    array_test.cpp
+    vlen_array_test.cpp
+    enum_test.cpp)
+
+add_executable(datatype_test ${test_sources}) 
+target_link_libraries(datatype_test h5cpp)
+catch_discover_tests(datatype_test
+                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME datatype_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND datatype_test)

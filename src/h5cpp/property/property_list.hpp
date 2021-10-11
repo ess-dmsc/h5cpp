@@ -47,13 +47,13 @@ class DLL_EXPORT List {
   //!
   //! \brief constructor
   //!
-  //! @param plist_class
+  //! @param plist_class reference to the property list class
   //!
   explicit List(const Class &plist_class);
 
   //!
   //! \brief copy constructor
-  //! @param plist
+  //! @param plist reference to the original property list
   //!
   List(const List &plist);
 

@@ -35,7 +35,18 @@
 namespace hdf5 {
 namespace datatype {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
 const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+#ifdef _MSC_VER
+#undef OPAQUE
+#endif
 
 //!
 //! \enum data type class

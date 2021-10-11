@@ -31,6 +31,10 @@
 namespace hdf5 {
 namespace filter {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT SZip : public Filter
 {
   private:
@@ -39,7 +43,7 @@ class DLL_EXPORT SZip : public Filter
   public:
     SZip();
     SZip(unsigned int options_mask, unsigned int pixels_per_block);
-    ~SZip();
+    ~SZip() override;
 
     unsigned int options_mask() const noexcept;
 
@@ -50,13 +54,16 @@ class DLL_EXPORT SZip : public Filter
     void pixels_per_block(unsigned int pixels_per_block);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::mandatory) const override;
 
     // Selects entropy coding method
     static const unsigned int EC_OPTION_MASK;
     // Selects nearest neighbor coding method.
     static const unsigned int NN_OPTION_MASK;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace filter
 } // namespace hdf5

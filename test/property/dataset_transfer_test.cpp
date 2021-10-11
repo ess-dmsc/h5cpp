@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,86 +21,105 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 28, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include <sstream>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 
-void test_function(const  pl::DatasetTransferList &dtpl = pl::DatasetTransferList())
-{
-  std::cout<<dtpl.get_class()<<std::endl;
-}
 
-TEST(DatasetTransferList, test_default_construction)
-{
-  pl::DatasetTransferList dtpl;
-  EXPECT_TRUE(dtpl.get_class() == pl::kDatasetXfer);
-
-  auto cl = pl::kDatasetXfer;
-  EXPECT_NO_THROW((pl::DatasetTransferList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::DatasetTransferList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
-}
-
-TEST(DatasetTransferList,test_as_default_argument)
-{
-  EXPECT_NO_THROW(test_function());
+SCENARIO("DatasetTransferList creation") {
+  GIVEN("a default constructed list") {
+    pl::DatasetTransferList dtpl;
+    THEN("we get") { REQUIRE(dtpl.get_class() == pl::kDatasetXfer); }
+  }
+  GIVEN("a handle to a dataset transfer property list") {
+    auto handle = handle_from_class(pl::kDatasetXfer);
+    THEN("we can construct a new instance from this") { 
+      REQUIRE_NOTHROW(pl::DatasetTransferList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group creation property list") { 
+    auto handle = handle_from_class(pl::kGroupCreate);
+    THEN("instantiation must fail") { 
+      REQUIRE_THROWS_AS(pl::DatasetTransferList{std::move(handle)}, std::runtime_error);
+    }
+  }
 }
 
 #ifdef WITH_MPI
 
-TEST(DatasetTransferList, flags)
-{
-  std::stringstream stream;
+SCENARIO("testing the MPI transfer mode enumeration") { 
+  using r = std::tuple<pl::MPITransferMode,std::string>;
+  auto p = GENERATE(table<pl::MPITransferMode,std::string>({
+    r{pl::MPITransferMode::INDEPENDENT, "INDEPENDENT"},
+    r{pl::MPITransferMode::COLLECTIVE, "COLLECTIVE"}
+  }));
+  GIVEN("a stream") { 
+    std::stringstream stream;
+    WHEN("writing to the stream") { 
+      stream<<std::get<0>(p);
+      THEN("we get") { REQUIRE(stream.str() == std::get<1>(p));}
+    }
+  }
 
-  stream << pl::MPITransferMode::INDEPENDENT;
-  EXPECT_EQ(stream.str(), "INDEPENDENT");
+  GIVEN("a dataset transfer property list") { 
+    pl::DatasetTransferList dtpl;
+    THEN("the default transfer mode is INDEPENDENT") { 
+      REQUIRE(dtpl.mpi_transfer_mode() == pl::MPITransferMode::INDEPENDENT);
+    }
+    THEN("we can set the transfer mode") { 
+      dtpl.mpi_transfer_mode(std::get<0>(p));
+      REQUIRE(dtpl.mpi_transfer_mode() == std::get<0>(p));
+    }
+    AND_WHEN("we close the list") { 
+      close(dtpl);
+      THEN("trying to set the transfer mode must fail") { 
+        REQUIRE_THROWS_AS(dtpl.mpi_transfer_mode(std::get<0>(p)),std::runtime_error);
+      }
+      THEN("trying to retrieve the transfer mode must fail") { 
+        REQUIRE_THROWS_AS(dtpl.mpi_transfer_mode(), std::runtime_error);
+      }
+    }
 
-  stream.str(std::string());
-  stream << pl::MPITransferMode::COLLECTIVE;
-  EXPECT_EQ(stream.str(), "COLLECTIVE");
-
-  stream.str(std::string());
-  stream << pl::MPIChunkOption::ONE_LINK_CHUNKED;
-  EXPECT_EQ(stream.str(), "ONE_LINK_CHUNKED");
-
-  stream.str(std::string());
-  stream << pl::MPIChunkOption::MULTI_CHUNK;
-  EXPECT_EQ(stream.str(), "MULTI_CHUNK");
+  }
 }
 
-TEST(DatasetTransferList, transfer_mode)
-{
-  pl::DatasetTransferList dtpl;
-  dtpl.mpi_transfer_mode(pl::MPITransferMode::INDEPENDENT);
-  EXPECT_EQ(dtpl.mpi_transfer_mode(), pl::MPITransferMode::INDEPENDENT);
+SCENARIO("testing the MPI chunk optimization enumeration") { 
+  using r = std::tuple<pl::MPIChunkOption,std::string>;
+  auto p = GENERATE(table<pl::MPIChunkOption,std::string>({
+    r{pl::MPIChunkOption::ONE_LINK_CHUNKED, "ONE_LINK_CHUNKED"},
+    r{pl::MPIChunkOption::MULTI_CHUNK, "MULTI_CHUNK"}
+  }));
+  GIVEN("a stream") { 
+    std::stringstream stream;
+    WHEN("writing to the stream") { 
+      stream<<std::get<0>(p);
+      THEN("we get") { REQUIRE(stream.str() == std::get<1>(p));}
+    }
+  }
 
-  dtpl.mpi_transfer_mode(pl::MPITransferMode::COLLECTIVE);
-  EXPECT_EQ(dtpl.mpi_transfer_mode(), pl::MPITransferMode::COLLECTIVE);
+  GIVEN("a dataset transfer property list") { 
+    pl::DatasetTransferList dtpl;
+    THEN("we can set the transfer mode") { 
+      dtpl.mpi_chunk_option(std::get<0>(p));
+    }
+    AND_WHEN("we close the list") { 
+      close(dtpl);
+      THEN("trying to set the transfer mode must fail") { 
+        REQUIRE_THROWS_AS(dtpl.mpi_chunk_option(std::get<0>(p)),std::runtime_error);
+      }
+    }
 
-  hdf5::ObjectHandle(static_cast<hid_t>(dtpl)).close();
-  EXPECT_THROW(dtpl.mpi_transfer_mode(pl::MPITransferMode::COLLECTIVE), std::runtime_error);
-  EXPECT_THROW(dtpl.mpi_transfer_mode(), std::runtime_error);
-}
-
-TEST(DatasetTransferList, chunk_option)
-{
-  pl::DatasetTransferList dtpl;
-  dtpl.mpi_chunk_option(pl::MPIChunkOption::ONE_LINK_CHUNKED);
-  dtpl.mpi_chunk_option(pl::MPIChunkOption::MULTI_CHUNK);
-
-  EXPECT_THROW(dtpl.mpi_chunk_option(), std::runtime_error);
-  hdf5::ObjectHandle(static_cast<hid_t>(dtpl)).close();
-  EXPECT_THROW(dtpl.mpi_chunk_option(pl::MPIChunkOption::MULTI_CHUNK), std::runtime_error);
+  }
 }
 
 #endif

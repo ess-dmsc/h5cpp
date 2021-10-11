@@ -123,7 +123,7 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 unit_tests
+    make -j4 all
     """
   }  // stage
 
@@ -132,7 +132,7 @@ builders = pipeline_builder.createBuilders { container ->
       try {
         container.sh """
                 cd build
-                make run_tests
+                make test
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
@@ -261,6 +261,29 @@ def get_macos_pipeline(build_type)
         }
     }
 }
+/*
+def get_meson_debian_pipeline() { 
+  return { 
+    stage("debian10-meson") { 
+      node("debian10") { 
+        cleanWs()
+        // checkout the source code
+        dir("${project}/code") { 
+          try { 
+            sh "apt install -y meson"
+          } catch (e) { 
+            failure_function(e, "Debian10 meson installation failed")
+          }
+          try { 
+            checkout scm
+          } catch(e) { 
+            failure_function(e, "Debian10/Meson checkout failed")
+          }
+        }
+      }
+    }
+  }
+}*/
 
 def get_win10_pipeline()
 {
@@ -279,16 +302,15 @@ def get_win10_pipeline()
 
                 dir("_build") {
                     try {
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
+                        bat 'conan remote list'
+                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_windows_ess.txt -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
                     }
 
                     try {
-                        bat "cmake --build . --config Release --target unit_tests"
-                        bat """call activate_run.bat
-    	                       .\\bin\\Release\\unit_tests.exe
-    	                    """
+                        bat "cmake --build . --config Release --target ALL_BUILD"
+                        bat "cmake --build . --config Release --target RUN_TESTS"
                     } catch (e) {
                         failure_function(e, 'Windows10 / build+test failed')
                     }
@@ -311,6 +333,7 @@ node {
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
   builders['Windows10'] = get_win10_pipeline()
+  //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {

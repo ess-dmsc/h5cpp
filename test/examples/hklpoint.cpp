@@ -1,5 +1,6 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,20 +20,39 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 24, 2017
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: Jan 10, 2021
 //
-#include <gtest/gtest.h>
-#include <h5cpp/error/error.hpp>
 
-int main(int argc, char **argv)
-{
-#ifdef WITH_MPI
-  MPI_Init(&argc,&argv);
-#endif
+#include "hklpoint.hpp"
 
-  hdf5::error::Singleton::instance().auto_print(false);
 
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+HKLPoint::HKLPoint(int h, int k, int l) : h_(h), k_(k), l_(l) {}
+
+HKLPoint::HKLPoint(const std::initializer_list<int>& init_list)
+    : h_(0), k_(0), l_(0) {
+  auto iter = init_list.begin();
+  h_ = *iter++;
+  k_ = *iter++;
+  l_ = *iter;
+}
+
+int HKLPoint::h() const noexcept {
+  return h_;
+}
+
+int HKLPoint::k() const noexcept {
+  return k_;
+}
+
+int HKLPoint::l() const noexcept {
+  return l_;
+}
+
+bool operator==(const HKLPoint& lhs, const HKLPoint& rhs) {
+  return (lhs.h() == rhs.h()) && (lhs.k() == rhs.k()) && (lhs.l() == rhs.l());
+}
+
+bool operator!=(const HKLPoint& lhs, const HKLPoint& rhs) {
+  return !(lhs == rhs);
 }

@@ -42,9 +42,9 @@ namespace dataspace {
 //! HDF5 dataset. The number of dimensions for every hyperslab  is determined
 //! during construction and cannot be altered once it has been fixed.
 //!
+//! \b Todo:
 //!
-//! \todo
-//! \li we may have to add a function to check if all the Dimension instances
+//! - we may have to add a function to check if all the Dimension instances
 //!     have the same size. However, this might be an expensive procedure and
 //!     we should take performance considerations into account here.
 //!
@@ -67,7 +67,7 @@ class DLL_EXPORT Hyperslab : public Selection {
   //!
   //! \brief destructor
   //!
-  ~Hyperslab();
+  ~Hyperslab() override;
 
   //!
   //! \brief copy constructor
@@ -248,7 +248,7 @@ class DLL_EXPORT Hyperslab : public Selection {
   const Dimensions &block() const;
 
   virtual void apply(const Dataspace &space,
-                     SelectionOperation ops) const;
+                     SelectionOperation ops) const override;
 
  private:
   inline void check_dimension_index(size_t index, const std::string &what) const {

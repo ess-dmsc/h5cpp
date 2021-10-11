@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2018 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,82 +20,79 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Feb 5, 2018
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 using namespace hdf5;
 
-class H5pyStringCompatTest : public testing::Test
-{
-  protected:
-    file::File h5py_file;
-    node::Group root_group;
-
-    virtual void SetUp()
-    {
-      h5py_file = file::open("./h5py_test_data.h5",file::AccessFlags::READONLY);
-      root_group = h5py_file.root();
-    }
-
-};
-
 #ifndef _MSC_VER
-TEST_F(H5pyStringCompatTest, test_read_scalar_string)
-{
-  node::Dataset dataset = root_group.nodes["fix_string_scalar"];
-  std::string buffer;
-  datatype::String memory_type = datatype::String::fixed(20);
-  memory_type.padding(datatype::StringPad::SPACEPAD);
-  dataspace::Scalar memory_space;
-  dataset.read(buffer,memory_type,memory_space,dataset.dataspace());
-  EXPECT_EQ(buffer,"hello from h5py     ");
-}
+SCENARIO("testing h5py compatible string IO") {
+  auto f = file::open("../h5py_test_data.h5", file::AccessFlags::READONLY);
+  auto r = f.root();
 
-TEST_F(H5pyStringCompatTest, test_read_scalar_string_utf8)
-{
-  node::Dataset dataset = root_group.nodes["utf8_string"];
-  std::vector<std::string> buffer(dataset.dataspace().size());
-  auto datatype = dataset.datatype();
-  auto dataspace = dataset.dataspace();
-  dataset.read(buffer, datatype, dataspace);
-  // 'Hello UTF8! Pr\xf3ba \u6d4b'
-  const std::string su = "Hello UTF8! Pr""\xc3""\xb3""ba ""\xe6""\xb5""\x8b";
-  EXPECT_EQ(buffer.size(), 1lu);
-  EXPECT_EQ(buffer[0], su);
-}
+  GIVEN("a dataset with a fixed size string") {
+    node::Dataset dataset = r.nodes["fix_string_scalar"];
+    AND_GIVEN("a fixed size string memory data type") {
+      dataspace::Scalar memory_space;
+      auto memory_type = datatype::String::fixed(20);
+      memory_type.padding(datatype::StringPad::SPACEPAD);
+      THEN("we can read the content from the dataset to a buffer") {
+        std::string buffer;
+        dataset.read(buffer, memory_type, memory_space, dataset.dataspace());
+        REQUIRE(buffer == "hello from h5py     ");
+      }
+    }
+  }
 
-TEST_F(H5pyStringCompatTest, test_read_scalar_string_simple_utf8)
-{
-  node::Dataset dataset = root_group.nodes["utf8_string"];
-  std::vector<std::string> buffer(dataset.dataspace().size());
-  dataset.read(buffer);
+  using strings = std::vector<std::string>;
+  GIVEN("a UTF8 string dataset") {
+    node::Dataset dataset = r.nodes["utf8_string"];
+    const std::string expected =
+        "Hello UTF8! Pr"
+        "\xc3"
+        "\xb3"
+        "ba "
+        "\xe6"
+        "\xb5"
+        "\x8b";
+    AND_GIVEN("a vector buffer") {
+      strings buffer(signed2unsigned<std::vector<double>::size_type>(dataset.dataspace().size()));
+      THEN("we can read this data back using") {
+        auto datatype = dataset.datatype();
+        auto dataspace = dataset.dataspace();
+        dataset.read(buffer, datatype, dataspace);
+        REQUIRE(buffer.size() == 1lu);
+        REQUIRE(buffer[0] == expected);
+      }
+      THEN("we can read the data back without a special data type") {
+        dataset.read(buffer);
+        REQUIRE(buffer.size() == 1lu);
+        REQUIRE(buffer[0] == expected);
+      }
+    }
+  }
 
-  // 'Hello UTF8! Pr\xf3ba \u6d4b'
-  const std::string su = "Hello UTF8! Pr""\xc3""\xb3""ba ""\xe6""\xb5""\x8b";
-  EXPECT_EQ(buffer.size(), 1lu);
-  EXPECT_EQ(buffer[0], su);
-}
-
-TEST_F(H5pyStringCompatTest, test_read_vector_string)
-{
-  std::vector<std::string> buffer(6);
-  std::vector<std::string> ref_data{"hello               ",
-                                    "world               ",
-                                    "this                ",
-                                    "is                  ",
-                                    "a                   ",
-                                    "test                "
-  };
-  node::Dataset dataset = root_group.nodes["fix_string_array"];
-
-
-  datatype::String memory_type = datatype::String::fixed(20);
-  memory_type.padding(datatype::StringPad::SPACEPAD);
-  dataspace::Simple memory_space{{2,3}};
-  dataset.read(buffer,memory_type,memory_space,dataset.dataspace());
-  EXPECT_EQ(buffer,ref_data);
+  GIVEN("given a dataset with an array of") {
+    node::Dataset dataset = r.nodes["fix_string_array"];
+    const strings expected{"hello               ", "world               ",
+                           "this                ", "is                  ",
+                           "a                   ", "test                "};
+    AND_GIVEN("a fixed size string type") {
+      datatype::String memory_type = datatype::String::fixed(20);
+      memory_type.padding(datatype::StringPad::SPACEPAD);
+      AND_GIVEN("a 2x3 simple dataspace") {
+        dataspace::Simple memory_space{{2, 3}};
+        THEN("we can read the data back to a buffer") {
+          strings buffer(6);
+          dataset.read(buffer, memory_type, memory_space, dataset.dataspace());
+          REQUIRE(buffer == expected);
+        }
+      }
+    }
+  }
 }
 #endif

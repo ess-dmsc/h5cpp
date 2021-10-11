@@ -44,7 +44,7 @@ class DLL_EXPORT NodeView : public GroupView
     NodeView() = delete;
     NodeView(const NodeView &) = default;
     NodeView(Group &node);
-    ~NodeView();
+    ~NodeView() override;
 
     Node operator[](size_t index) const;
 

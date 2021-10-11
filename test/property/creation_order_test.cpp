@@ -1,6 +1,7 @@
 
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -21,49 +22,55 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/creation_order.hpp>
 
 namespace pl = hdf5::property;
 
-TEST(LinkCreationOrder, test_default_construction) {
-  pl::CreationOrder order;
-  EXPECT_EQ(order, 0x0000ul);
+SCENARIO("Testing LinkCreationOrder construction") {
+  WHEN("default constructed") {
+    pl::CreationOrder order;
+    THEN("it must implicitely convert to 0") { REQUIRE(order == 0x0000ul); }
+  }
+  WHEN("created with H5P_CRT_ORDER_TRACKED") {
+    pl::CreationOrder o1(H5P_CRT_ORDER_TRACKED);
+    THEN("the tracked flag must be set") { REQUIRE(o1.tracked()); }
+    THEN("the indexed flag must not be set") { REQUIRE_FALSE(o1.indexed()); }
+  }
+  WHEN("created with TRACKED and INDEXED") {
+    auto o1 = pl::CreationOrder(H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
+    THEN("the tracked flag must be set") { REQUIRE(o1.tracked()); }
+    THEN("the indexed flag must be set") { REQUIRE(o1.indexed()); }
+  }
 }
 
-TEST(LinkCreationOrder, test_conversion_construction) {
-  pl::CreationOrder o1(H5P_CRT_ORDER_TRACKED);
-  EXPECT_TRUE(o1.tracked());
-  EXPECT_FALSE(o1.indexed());
-
-  o1 = pl::CreationOrder(H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
-  EXPECT_TRUE(o1.tracked());
-  EXPECT_TRUE(o1.indexed());
-}
-
-TEST(LinkCreationOrder, test_set_tracked) {
-  pl::CreationOrder o;
-  o.enable_tracked();
-  EXPECT_TRUE(o.tracked());
-  EXPECT_FALSE(o.indexed());
-
-  o.disable_tracked();
-  EXPECT_FALSE(o.tracked());
-  EXPECT_FALSE(o.indexed());
-}
-
-TEST(LinkCreationOrder, test_set_indexed) {
-  pl::CreationOrder o;
-  o.enable_indexed();
-  EXPECT_TRUE(o.tracked());
-  EXPECT_TRUE(o.indexed());
-
-  o.disable_indexed();
-  EXPECT_TRUE(o.tracked());
-  EXPECT_FALSE(o.indexed());
+SCENARIO("setting LinkCreationOrder configuration by member methods") {
+  GIVEN("a default constructed instance") {
+    pl::CreationOrder o;
+    WHEN("enabling tracking") {
+      o.enable_tracked();
+      THEN("the tracking flag will be set") { REQUIRE(o.tracked()); }
+      THEN("the index flag must not be set") { REQUIRE_FALSE(o.indexed()); }
+      AND_WHEN("disabling tracking") {
+        o.disable_tracked();
+        THEN("the traking flag is unset") { REQUIRE_FALSE(o.tracked()); }
+        THEN("the indexed flag is unset") { REQUIRE_FALSE(o.indexed()); }
+      }
+    }
+    WHEN("enabling indexing") {
+      o.enable_indexed();
+      THEN("the tracking flag will be set") { REQUIRE(o.tracked()); }
+      THEN("the index flag will be set") { REQUIRE(o.indexed()); }
+      AND_WHEN("disabling indexing") {
+        o.disable_indexed();
+        THEN("the tracking flag remains set") { REQUIRE(o.tracked()); }
+        THEN("the index flag will be unset") { REQUIRE_FALSE(o.indexed()); }
+      }
+    }
+  }
 }

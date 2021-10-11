@@ -32,6 +32,10 @@
 namespace hdf5 {
 namespace attribute {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT AttributeIterator : public Iterator
 {
   public:
@@ -78,6 +82,9 @@ class DLL_EXPORT AttributeIterator : public Iterator
     Attribute current_attribute_;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace attribute
 } // namespace hdf5

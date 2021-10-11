@@ -1,6 +1,5 @@
-set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-
-set(test_sources
-    ${test_sources}
-    ${dir}/array_adapter_test.cpp
-    PARENT_SCOPE)
+add_executable(utilities_test array_adapter_test.cpp)
+target_link_libraries(utilities_test h5cpp)
+catch_discover_tests(utilities_test
+                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME utilities_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND utilities_test)

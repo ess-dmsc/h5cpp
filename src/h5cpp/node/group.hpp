@@ -43,6 +43,10 @@
 namespace hdf5 {
 namespace node {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Group : public Node
 {
   public:
@@ -84,6 +88,8 @@ class DLL_EXPORT Group : public Node
           const property::LinkCreationList &lcpl = property::LinkCreationList(),
           const property::GroupCreationList &gcpl = property::GroupCreationList(),
           const property::GroupAccessList &gapl = property::GroupAccessList());
+
+    virtual ~Group() override {}
 
     //!
     //! \brief copy assignment operator
@@ -195,7 +201,6 @@ class DLL_EXPORT Group : public Node
     //! \throws std::runtime_error in case of a failure
     //!
     //! \param link_path absolute or relative path to the new link
-    //! \param target_file the file where the link target is stored
     //! \param target_path absolute path to the object which we want to reference
     //!                    in the target file
     //! \param lcpl optional link creation property list
@@ -392,7 +397,9 @@ class DLL_EXPORT Group : public Node
     IteratorConfig iter_config_;
 
 };
-
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 } // namespace node

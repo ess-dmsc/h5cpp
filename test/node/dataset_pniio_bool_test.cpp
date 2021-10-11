@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2018 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,88 +21,96 @@
 // ===========================================================================
 //
 // Author: Jan Kotanski <jan,kotanski@desy.de>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Jul 2, 2018
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include <h5cpp/datatype/ebool.hpp>
+#include "../utilities.hpp"
 
 using namespace hdf5;
 
-class DatasetPNIIOBoolTest : public testing::Test
-{
- protected:
-  file::File pniio_file;
-  node::Group root_group;
+#ifndef _MSC_VER
+SCENARIO("testing pniio bool compatibility") {
+  auto file =
+      file::open("../pniio_test_boolattr.h5", file::AccessFlags::READONLY);
+  auto root = file.root();
 
-  virtual void SetUp()
-  {
-    pniio_file = file::open("./pniio_test_boolattr.h5", file::AccessFlags::READONLY);
-    root_group = pniio_file.root();
+  GIVEN("a datast with a scalar dataspace storing a true value") {
+    auto dataset = node::get_dataset(root, "ds_bool_scalar_true");
+    AND_GIVEN("a bool buffer") {
+      bool buffer;
+      WHEN("reading the data to the buffer") {
+        dataset.read(buffer);
+        THEN("the buffer must be true") { REQUIRE(buffer); }
+      }
+    }
+    AND_GIVEN("an EBool buffer") {
+      datatype::EBool buffer;
+      WHEN("reading the data") {
+        // does not work because of a bug similar to #309, #347
+        // dstrue.read(buffer);
+        dataset.read(buffer, dataset.datatype(), dataspace::Simple{{1}},
+                     dataset.dataspace());
+        THEN("the buffer must be TRUE") {
+          REQUIRE(buffer == datatype::EBool::TRUE);
+        }
+      }
+    }
   }
 
-};
+  GIVEN("as dataset with a scalar datspace storing a false value") {
+    auto dataset = node::get_dataset(root, "ds_bool_scalar_false");
+    AND_GIVEN("a bool read buffer") {
+      bool buffer;
+      WHEN("reading the dataset to the buffer") {
+        dataset.read(buffer);
+        THEN("the buffer must be false") { REQUIRE_FALSE(buffer); }
+      }
+    }
+    AND_GIVEN("an EBool buffer") {
+      datatype::EBool buffer;
+      WHEN("reading the dataset to the buffer") {
+        // does not work because of a bug similar to #309, #347
+        // dsfalse.read(buffer2);
+        dataset.read(buffer, dataset.datatype(), dataspace::Simple{{1}},
+                     dataset.dataspace());
+        THEN("the buffer must be FALSE") {
+          REQUIRE(buffer == datatype::EBool::FALSE);
+        }
+      }
+    }
+  }
 
-#ifndef _MSC_VER
-
-TEST_F(DatasetPNIIOBoolTest, test_read_simple_bool)
-{
-  auto dstrue = node::get_dataset(root_group, "ds_bool_scalar_true");
-  bool buffer;
-  dstrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  bool buffer2;
-  auto dsfalse = node::get_dataset(root_group, "ds_bool_scalar_false");
-  dsfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
+  GIVEN("a dataset storing a bool array") {
+    auto dataset = node::get_dataset(root, "ds_bool_array");
+    THEN("the datasets' datatype must be of class INTEGER") {
+      REQUIRE(dataset.datatype().get_class() == datatype::Class::INTEGER);
+      AND_THEN("the size of the datasets' datatype must be 1") {
+        REQUIRE(dataset.datatype().size() == 1);
+      }
+    }
+    AND_GIVEN("a unsigned char vector buffer") {
+      UChars buffer(4);
+      WHEN("reading the dataset to the buffer") {
+        dataset.read(buffer);
+        THEN("the result must be {0, 1, 1, 0}") {
+          REQUIRE_THAT(buffer, Catch::Matchers::Equals(UChars{0, 1, 1, 0}));
+        }
+      }
+    }
+    AND_GIVEN("an EBool vector buffer") {
+      EBools buffer(4);
+      WHEN("reading the dataset to the buffer") {
+        dataset.read(buffer, dataset.datatype(), dataspace::Simple{{4}},
+                     dataset.dataspace());
+        THEN("the result must be {FALSE, TRUE, TRUE, FALSE}") {
+          EBools expected{datatype::EBool::FALSE, datatype::EBool::TRUE,
+                          datatype::EBool::TRUE, datatype::EBool::FALSE};
+          REQUIRE_THAT(buffer, Catch::Matchers::Equals(expected));
+        }
+      }
+    }
+  }
 }
-
-TEST_F(DatasetPNIIOBoolTest, test_read_vector_bool)
-{
-  auto ds = node::get_dataset(root_group, "ds_bool_array");
-  // missing implementation for std:vector<bool>
-  // std::vector<bool> buffer(4);
-  // std::vector<bool> ref  = {false, true, true, false};
-  // ds.read(buffer);
-  // EXPECT_EQ(buffer, ref);
-  std::vector<unsigned char> buffer2(4);
-  std::vector<unsigned char> ref2 = {0, 1, 1, 0};
-  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(ds.datatype().size(), 1ul);
-  ds.read(buffer2);
-  EXPECT_EQ(buffer2, ref2);
-}
-
-TEST_F(DatasetPNIIOBoolTest, test_read_simple_ebool)
-{
-  auto dstrue = node::get_dataset(root_group, "ds_bool_scalar_true");
-  datatype::EBool buffer;
-  // does not work because of a bug similar to #309, #347
-  // dstrue.read(buffer);
-  dstrue.read(buffer, dstrue.datatype(), dataspace::Simple{{1}}, dstrue.dataspace());
-  EXPECT_EQ(buffer, true);
-  datatype::EBool buffer2;
-  auto dsfalse = node::get_dataset(root_group, "ds_bool_scalar_false");
-  // does not work because of a bug similar to #309, #347
-  // dsfalse.read(buffer2);
-  dsfalse.read(buffer2, dsfalse.datatype(), dataspace::Simple{{1}}, dsfalse.dataspace());
-  EXPECT_EQ(buffer2, false);
-}
-
-TEST_F(DatasetPNIIOBoolTest, test_read_vector_ebool)
-{
-  auto ds = node::get_dataset(root_group, "ds_bool_array");
-  std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> eref = {datatype::EBool::FALSE,
-                                       datatype::EBool::TRUE,
-                                       datatype::EBool::TRUE,
-                                       datatype::EBool::FALSE};
-  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::INTEGER);
-  EXPECT_EQ(ds.datatype().size(), 1ul);
-  // does not work because of a bug similar to #309, #347
-  // ds.read(buffer);
-  ds.read(buffer, ds.datatype(), dataspace::Simple{{4}}, ds.dataspace());
-  EXPECT_EQ(buffer, eref);
-}
-
 #endif

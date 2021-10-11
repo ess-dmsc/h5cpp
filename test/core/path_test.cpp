@@ -24,264 +24,398 @@
 //    Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 24, 2017
 //
-#include <gtest/gtest.h>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include <h5cpp/core/path.hpp>
 
 using namespace hdf5;
-using namespace std;
 
-TEST(Path, test_default_construction)
-{
-  Path p;
-  EXPECT_EQ(p.size(),0ul);
-  EXPECT_FALSE(p.absolute());
+namespace { 
+static std::string to_string(const Path& p) {
+  return static_cast<std::string>(p);
+}
 }
 
-TEST(Path, test_construction_from_string)
-{
-  Path p;
+SCENARIO("Path construction", "[h5cpp, path]") {
+  WHEN("default constructed") {
+    Path p;
+    THEN("we get") {
+      REQUIRE(p.size() == 0);
+      REQUIRE_FALSE(p.absolute());
+    }
+  }
 
-  p = Path("/hello/world/data");
-  EXPECT_EQ(p.size(),3ul);
-  EXPECT_TRUE(p.absolute());
-  EXPECT_FALSE(p.is_root());
+  WHEN("constructed from a string") {
+    GIVEN("/hello/world/data") {
+      Path p("/hello/world/data");
+      THEN("we") {
+        REQUIRE(p.size() == 3ul);
+        REQUIRE(p.absolute());
+        REQUIRE_FALSE(p.is_root());
+      }
+    }
 
-  p = Path("hello/world");
-  EXPECT_EQ(p.size(),2ul);
-  EXPECT_FALSE(p.absolute());
-  EXPECT_FALSE(p.is_root());
+    GIVEN("hello/world") {
+      Path p("hello/world");
+      THEN("we") {
+        REQUIRE(p.size() == 2ul);
+        REQUIRE_FALSE(p.absolute());
+        REQUIRE_FALSE(p.is_root());
+      }
+    }
 
-  p = Path("hello/world/instrument/data/");
-  EXPECT_EQ(p.size(),4ul);
-  EXPECT_FALSE(p.absolute());
-  EXPECT_FALSE(p.is_root());
+    GIVEN("hello/world/instrument/data/") {
+      Path p("hello/world/instrument/data/");
+      THEN("we") {
+        REQUIRE(p.size() == 4ul);
+        REQUIRE_FALSE(p.absolute());
+        REQUIRE_FALSE(p.is_root());
+      }
+    }
 
-  p = Path(".");
-  EXPECT_EQ(p.size(),0ul);
-  EXPECT_FALSE(p.absolute());
-  EXPECT_FALSE(p.is_root());
+    GIVEN(".") {
+      Path p(".");
+      THEN("we") {
+        REQUIRE(p.size() == 0ul);
+        REQUIRE_FALSE(p.absolute());
+        REQUIRE_FALSE(p.is_root());
+      }
+    }
 
-  p = Path("./");
-  EXPECT_EQ(p.size(),0ul);
-  EXPECT_FALSE(p.absolute());
-  EXPECT_FALSE(p.is_root());
+    GIVEN("./") {
+      Path p("./");
+      THEN("we") {
+        REQUIRE(p.size() == 0ul);
+        REQUIRE_FALSE(p.absolute());
+        REQUIRE_FALSE(p.is_root());
+      }
+    }
 
-  p = Path("/.");
-  EXPECT_EQ(p.size(),0ul);
-  EXPECT_TRUE(p.absolute());
-  EXPECT_TRUE(p.is_root());
+    GIVEN("/.") {
+      Path p("/.");
+      THEN("we") {
+        REQUIRE(p.size() == 0ul);
+        REQUIRE(p.absolute());
+        REQUIRE(p.is_root());
+      }
+    }
 
-  p = Path("/");
-  EXPECT_EQ(p.size(),0ul);
-  EXPECT_TRUE(p.absolute());
-  EXPECT_TRUE(p.is_root());
+    GIVEN("/") {
+      Path p("/");
+      THEN("we") {
+        REQUIRE(p.size() == 0ul);
+        REQUIRE(p.absolute());
+        REQUIRE(p.is_root());
+      }
+    }
 
-  p = Path(".///");
-  EXPECT_EQ(p.size(),0ul);
-  EXPECT_FALSE(p.absolute());
-  EXPECT_FALSE(p.is_root());
+    GIVEN(".///") {
+      Path p(".///");
+      THEN("we") {
+        REQUIRE(p.size() == 0ul);
+        REQUIRE_FALSE(p.absolute());
+        REQUIRE_FALSE(p.is_root());
+      }
+    }
+  }
 }
 
-TEST(Path, test_conversion_to_string)
-{
-  Path p;
+SCENARIO("path to string conversion") {
+  WHEN("using static_cast<std::string>") {
+    GIVEN("constructed from /hello/world/data") {
+      Path p("/hello/world/data");
+      THEN("we") { REQUIRE(to_string(p) == "/hello/world/data"); }
+    }
 
-  p = Path("/hello/world/data");
-  EXPECT_EQ(static_cast<string>(p),"/hello/world/data");
+    GIVEN("path is hello/world") {
+      Path p("hello/world");
+      THEN("we") { REQUIRE(to_string(p) == "hello/world"); }
+    }
 
-  p = Path("hello/world");
-  EXPECT_EQ(static_cast<string>(p),"hello/world");
+    GIVEN("path is hello/world/instrument/data/") {
+      Path p("hello/world/instrument/data/");
+      THEN("we") { REQUIRE(to_string(p) == "hello/world/instrument/data"); }
+    }
 
-  p = Path("hello/world/instrument/data/");
-  EXPECT_EQ(static_cast<string>(p),"hello/world/instrument/data");
+    GIVEN("path is .") {
+      Path p(".");
+      THEN("we") { REQUIRE(to_string(p) == "."); }
+    }
 
-  p = Path(".");
-  EXPECT_EQ(static_cast<string>(p),".");
+    GIVEN("path is empty") {
+      Path p("");
+      THEN("we") { REQUIRE(to_string(p) == "."); }
+    }
+  }
 
-  p = Path("");
-  EXPECT_EQ(static_cast<string>(p),".");
+  WHEN("sanatizing the input path") {
+    GIVEN("a path with ./hello") {
+      Path p("./hello");
+      THEN("we") { REQUIRE(to_string(p) == "hello"); }
+    }
+
+    GIVEN("a path hello/world/.") {
+      Path p("hello/world/.");
+      THEN("we") { REQUIRE(to_string(p) == "hello/world"); }
+    }
+
+    GIVEN("a path reading hello/./world") {
+      Path p("hello/./world");
+      THEN("we") { REQUIRE(to_string(p) == "hello/world"); }
+    }
+
+    GIVEN("a path hello///world") {
+      Path p("hello///world");
+      THEN("we") { REQUIRE(to_string(p) == "hello/world"); }
+    }
+  }
 }
 
-TEST(Path, test_sanitization)
-{
-  Path p;
+SCENARIO("Determining the common path base", "[h5cpp, path]") {
+  GIVEN("a relative path ab/b/c") {
+    Path p1("a/b/c");
 
-  p = Path("./hello");
-  EXPECT_EQ(static_cast<string>(p),"hello");
+    WHEN("second path is a/b/z/") {
+      auto common = common_base(p1, Path("a/b/z"));
+      THEN("the common part is a/b") { REQUIRE(to_string(common) == "a/b"); }
+    }
 
-  p = Path("hello/world/.");
-  EXPECT_EQ(static_cast<string>(p),"hello/world");
+    WHEN("second path is a/b/c") {
+      auto common = common_base(p1, Path("a/b/c"));
+      THEN("the common part is a/b/c") {
+        REQUIRE(to_string(common) == "a/b/c");
+      }
+    }
 
-  p = Path("hello/./world");
-  EXPECT_EQ(static_cast<string>(p),"hello/world");
+    WHEN("second path is .") {
+      auto common = common_base(p1, Path("."));
+      THEN("the common part is .") { REQUIRE(to_string(common) == "."); }
+    }
+  }
 
-  p = Path("hello///world");
-  EXPECT_EQ(static_cast<string>(p),"hello/world");
+  GIVEN("an absolute path /a/b/c") {
+    Path p1("/a/b/c");
+    WHEN("second path is /a/b/z") {
+      auto common = common_base(p1, Path("/a/b/z"));
+      THEN("the common part is /a/b") { REQUIRE(to_string(common) == "/a/b"); }
+    }
+
+    WHEN("second path is /a/b/c") {
+      auto common = common_base(p1, Path("/a/b/c"));
+      THEN("the common part is /a/b/c") {
+        REQUIRE(to_string(common) == "/a/b/c");
+      }
+    }
+
+    WHEN("second path is /a/b/c") {
+      auto common = common_base(p1, Path("/x/y"));
+      THEN("the common part is /") { REQUIRE(to_string(common) == "/"); }
+    }
+
+    WHEN("second path is d/e") {
+      THEN("an exception will be thrown") {
+        REQUIRE_THROWS_AS(common_base(p1, Path("d/e")), std::runtime_error);
+      }
+    }
+  }
 }
 
-TEST(Path, common_base)
-{
-  Path common;
+TEST_CASE("test relative_to") {
+  SECTION("a/b/c with a/b") {
+    auto p = Path("a/b/c").relative_to(Path("a/b"));
+    REQUIRE(to_string(p) == "c");
+  }
 
-  common = common_base(Path("a/b/c"), Path("a/b/z"));
-  EXPECT_EQ(static_cast<string>(common),"a/b");
+  SECTION("/a/b/c with /a/b") {
+    auto p = Path("/a/b/c").relative_to(Path("/a/b"));
+    REQUIRE(to_string(p) == "c");
+  }
 
-  common = common_base(Path("a/b/c"), Path("a/b/c"));
-  EXPECT_EQ(static_cast<string>(common),"a/b/c");
+  SECTION("/a/b with  /") {
+    auto p = Path("/a/b").relative_to(Path("/"));
+    REQUIRE(to_string(p) == "a/b");
+  }
 
-  common = common_base(Path("a/b/c"), Path("."));
-  EXPECT_EQ(static_cast<string>(common),".");
+  SECTION("/ with /") {
+    auto p = Path("/").relative_to(Path("/"));
+    REQUIRE(to_string(p) == ".");
+  }
 
+  REQUIRE_THROWS_AS(Path("c/d").relative_to(Path("/a/b")), std::runtime_error);
 
-  common = common_base(Path("/a/b/c"), Path("/a/b/z"));
-  EXPECT_EQ(static_cast<string>(common),"/a/b");
+  REQUIRE_THROWS_AS(Path("a/b").relative_to(Path("a/b/c")), std::runtime_error);
 
-  common = common_base(Path("/a/b/c"), Path("/a/b/c"));
-  EXPECT_EQ(static_cast<string>(common),"/a/b/c");
+  REQUIRE_THROWS_AS(Path("/a/b/c").relative_to(Path("a/b")),
+                    std::runtime_error);
 
-  common = common_base(Path("/a/b/c"), Path("/x/y"));
-  EXPECT_EQ(static_cast<string>(common),"/");
-
-  EXPECT_THROW(common_base(Path("/a/b/c"), Path("d/e")), std::runtime_error);
+  REQUIRE_THROWS_AS(Path("/a/b/c").relative_to(Path("/x/y/z")),
+                    std::runtime_error);
 }
 
-TEST(Path, relative_to)
-{
-  Path p;
-
-  p = Path("a/b/c").relative_to(Path("a/b"));
-  EXPECT_EQ(static_cast<string>(p),"c");
-
-  p = Path("/a/b/c").relative_to(Path("/a/b"));
-  EXPECT_EQ(static_cast<string>(p),"c");
-
-  p = Path("/a/b").relative_to(Path("/"));
-  EXPECT_EQ(static_cast<string>(p),"a/b");
-
-  p = Path("/").relative_to(Path("/"));
-  EXPECT_EQ(static_cast<string>(p),".");
-
-  EXPECT_THROW(Path("c/d").relative_to(Path("/a/b")), std::runtime_error);
-
-  EXPECT_THROW(Path("a/b").relative_to(Path("a/b/c")), std::runtime_error);
-
-  EXPECT_THROW(Path("/a/b/c").relative_to(Path("a/b")), std::runtime_error);
-
-  EXPECT_THROW(Path("/a/b/c").relative_to(Path("/x/y/z")), std::runtime_error);
+SCENARIO("inplace append") {
+  GIVEN("/entry/instrument") {
+    Path p("/entry/instrument");
+    WHEN("appended detector/data") {
+      p.append(Path("detector/data"));
+      THEN("/entry/instrument/detector/data") {
+        REQUIRE(to_string(p) == "/entry/instrument/detector/data");
+      }
+    }
+  }
 }
 
-TEST(Path, test_append)
-{
-  Path p;
+SCENARIO("appending with + operator") {
+  GIVEN("/entry/instrument/detector") {
+    Path p("/entry/instrument/detector");
+    WHEN("p+\"data\"") {
+      p = p + "data";
+      THEN("/entry/instrument/detector/data") {
+        REQUIRE(to_string(p) == "/entry/instrument/detector/data");
+        REQUIRE(p.size() == 4ul);
+        REQUIRE(p.absolute());
+      }
+    }
+  }
 
-  p = Path("/entry/instrument");
-  p.append(Path("detector/data"));
-  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  GIVEN("instrument/detector") {
+    Path p("instrument/detector");
+    WHEN("p + \"metadata/data\"") {
+      p = p + "metadata/date";
+      THEN("instrument/detector/metdata/date") {
+        REQUIRE(to_string(p) == "instrument/detector/metadata/date");
+        REQUIRE(p.size() == 4ul);
+        REQUIRE_FALSE(p.absolute());
+      }
+    }
+  }
 }
 
-TEST(Path,test_append_link_name)
-{
-  Path p("/entry/instrument/detector");
-  p = p+"data";
-  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
-  EXPECT_EQ(p.size(),4ul);
-  EXPECT_TRUE(p.absolute());
+SCENARIO("prepending names") {
+  GIVEN("instrument/detector") {
+    Path p("instrument/detector");
+    WHEN("\"/entry\" + p") {
+      p = "/entry" + p;
+      THEN("/entry/instrument/detector") {
+        REQUIRE(to_string(p) == "/entry/instrument/detector");
+        REQUIRE(p.absolute());
+      }
+    }
+  }
 
-  p = Path("instrument/detector");
-  p = p + "metadata/date";
-  EXPECT_EQ(static_cast<string>(p),"instrument/detector/metadata/date");
-  EXPECT_EQ(p.size(),4ul);
-  EXPECT_FALSE(p.absolute());
+  GIVEN("detect/data") {
+    Path p("detector/data");
+    WHEN("\"entry/instrument\" + p") {
+      p = "/entry/instrument/" + p;
+      THEN("/entry/instrument/detector/data") {
+        REQUIRE(to_string(p) == "/entry/instrument/detector/data");
+        REQUIRE(p.absolute());
+      }
+    }
+  }
+
+  GIVEN("entry/instrument") {
+    Path p("entry/instrument");
+    WHEN("\"/\"+p") {
+      p = "/" + p;
+      THEN("/entry/instrument") {
+        REQUIRE(p.size() == 2ul);
+        REQUIRE(p.absolute());
+      }
+    }
+  }
 }
 
-TEST(Path,test_prepend_link_name)
-{
-  Path p("instrument/detector");
-  p = "/entry" + p;
-  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector");
-  EXPECT_TRUE(p.absolute());
-
-  p = Path("detector/data");
-  p = "/entry/instrument/" + p;
-  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
-  EXPECT_TRUE(p.absolute());
-
-  p = Path("entry/instrument");
-  p = "/" + p;
-  EXPECT_EQ(p.size(),2ul);
-  EXPECT_TRUE(p.absolute());
-}
-
-TEST(Path,test_adding_two_paths)
-{
+TEST_CASE("adding two paths", "[h5cpp,file]") {
   Path p1("/entry/instrument"), p2("detector/data");
-  Path p = p1+p2;
-  EXPECT_EQ(p.size(),4ul);
-  EXPECT_TRUE(p.absolute());
-  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data");
+  SECTION("addition with infix operator") {
+    auto p = p1 + p2;
+    REQUIRE(p.size() == 4ul);
+    REQUIRE(p.absolute());
+    REQUIRE(to_string(p) == "/entry/instrument/detector/data");
+  }
 
-  p += Path("item");
-  EXPECT_EQ(static_cast<string>(p),"/entry/instrument/detector/data/item");
+  SECTION("using the increment assignment") {
+    auto p = p1 + p2;
+    p += Path("item");
+    REQUIRE(to_string(p) == "/entry/instrument/detector/data/item");
+  }
 }
 
-TEST(Path,test_root_path)
-{
-  Path p("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_TRUE(p.absolute());
-  EXPECT_EQ(static_cast<string>(p),"/");
+SCENARIO("testing the root path") {
+  GIVEN("/") {
+    Path p("/");
+    REQUIRE(p.is_root());
+    REQUIRE(p.absolute());
+    REQUIRE(to_string(p) == "/");
+  }
 }
 
-TEST(Path, test_reverse_iterators)
-{
-  Path p("/hello/world");
-  auto ri = p.rbegin();
-  EXPECT_EQ(*ri,"world");
-  ++ri;
-  EXPECT_EQ(*ri,"hello");
-  ++ri;
-  EXPECT_EQ(ri,p.rend());
+SCENARIO("Using the reverse path iterator") {
+  GIVEN("a path") {
+    Path p("/hello/world");
+    WHEN("creating an iterator") {
+      auto ri = p.rbegin();
+      THEN("last element") { REQUIRE(*ri == "world"); }
+      ++ri;
+      THEN("first element") { REQUIRE(*ri == "hello"); }
+      ++ri;
+      THEN("at the end") { REQUIRE(ri == p.rend()); }
+    }
+  }
 }
 
-TEST(Path,test_name)
-{
-  Path p("hello/world");
-  EXPECT_EQ(p.name(),"world");
-  EXPECT_FALSE(p.is_name());
+SCENARIO("the last element of a path is the name", "[h5cpp]") {
+  GIVEN("hello/world") {
+    Path p("hello/world");
+    THEN("the name is world") {
+      REQUIRE(p.name() == "world");
+      REQUIRE_FALSE(p.is_name());
+    }
+  }
 
-  p = Path("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(p.name(),".");
-  EXPECT_FALSE(p.is_name());
+  GIVEN("/") {
+    Path p("/");
+    THEN("the path references the root") { REQUIRE(p.is_root()); }
+    THEN("the name is .") { REQUIRE(p.name() == "."); }
+    THEN("the path is not only a name") { REQUIRE_FALSE(p.is_name()); }
+  }
 
-  p = Path("/temperature");
-  EXPECT_EQ(p.name(),"temperature");
-  EXPECT_FALSE(p.is_name());
+  GIVEN("/temperature") {
+    Path p("/temperature");
+    THEN("the name is temperature") { REQUIRE(p.name() == "temperature"); }
+    THEN("the path is not only a name") { REQUIRE_FALSE(p.is_name()); }
+  }
 
-  p = Path("name");
-  EXPECT_EQ(p.name(),"name");
-  EXPECT_TRUE(p.is_name());
+  GIVEN("name") {
+    Path p("name");
+    THEN("the name is name") { REQUIRE(p.name() == "name"); }
+    THEN("the path is merely a name") { REQUIRE(p.is_name()); }
+  }
 }
 
-TEST(Path,test_parent_path)
-{
-  Path p("hello/world");
-  EXPECT_EQ(static_cast<string>(p.parent()),"hello");
+SCENARIO("everything but the name is the parent of a path", "[h5cpp]") {
+  GIVEN("hello/world") {
+    Path p("hello/world");
+    THEN("hello is the parent") { REQUIRE(to_string(p.parent()) == "hello"); }
+  }
 
-  p = Path("/hello/world");
-  EXPECT_EQ(static_cast<string>(p.parent()),"/hello");
+  GIVEN("/hello/world") {
+    Path p("/hello/world");
+    THEN("/hello is the parent") { REQUIRE(to_string(p.parent()) == "/hello"); }
+  }
 
-  p = Path("/");
-  EXPECT_TRUE(p.is_root());
-  EXPECT_EQ(static_cast<string>(p.parent()),"/");
+  GIVEN("/") {
+    Path p("/");
+    THEN("the path references the root node") { REQUIRE(p.is_root()); }
+    AND_THEN("the parent is /") { REQUIRE(to_string(p.parent()) == "/"); }
+  }
 }
 
-TEST(Path,test_path_equality)
-{
+SCENARIO("test equality") {
   Path p1("hello/world");
   Path p2("/hello/world");
   Path p3("/hello");
-  EXPECT_TRUE(p1 == p1);
-  EXPECT_TRUE(p1 != p2);
-  EXPECT_TRUE(p2 != p3);
+  THEN("hello/world == hello/world") { REQUIRE(p1 == p1); }
+  THEN("hello/world != /hello/world") { REQUIRE(p1 != p2); }
+  THEN("hello/world != /hello") { REQUIRE(p2 != p3); }
 }

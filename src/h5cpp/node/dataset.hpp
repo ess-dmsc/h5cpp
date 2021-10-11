@@ -41,12 +41,18 @@
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
+#include <vector>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace node {
 
 class Selection;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Dataset : public Node
 {
   public:
@@ -153,7 +159,14 @@ class DLL_EXPORT Dataset : public Node
     //! \param dims vector with new number of elements along each dimension
     //! \deprecated this method is deprecated - use resize instead
     //!
+    #ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wdocumentation-deprecated-sync"
+    #endif
     void extent(const Dimensions &dims) const;
+    #ifdef __clang__
+    #pragma clang diagnostic pop
+    #endif
 
 
 
@@ -313,8 +326,6 @@ class DLL_EXPORT Dataset : public Node
     //! Read a chunk storage size from a dataset to an instance of T.
     //!
     //! \throws std::runtime_error in case of a failure
-    //! \tparam T source type
-    //! \param data reference to the source instance of T
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \return the size in bytes for the chunk.
     //!
@@ -529,7 +540,7 @@ class DLL_EXPORT Dataset : public Node
       }
       else
       {
-        buffer.resize(file_space.size());
+        buffer.resize(signed2unsigned<size_t>(file_space.size()));
       }
 
       if(H5Dread(static_cast<hid_t>(*this),
@@ -585,8 +596,9 @@ class DLL_EXPORT Dataset : public Node
                                           const property::DatasetTransferList &dtpl) const
     {
       using Trait = VarLengthStringTrait<T>;
+      using size_type = typename std::vector<T>::size_type;
 
-      typename Trait::BufferType buffer(mem_space.size());
+      typename Trait::BufferType buffer(static_cast<size_type>(mem_space.size()));
 
 
       if(H5Dread(static_cast<hid_t>(*this),
@@ -651,6 +663,10 @@ class DLL_EXPORT Dataset : public Node
     }
 };
 
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 template<typename T>
 void Dataset::write(const T &data,const datatype::Datatype &mem_type,
                                   const dataspace::Dataspace &mem_space,
@@ -703,7 +719,7 @@ void Dataset::write_chunk(const T &data,
 {
   auto memory_space = hdf5::dataspace::create(data);
   auto memory_type  = hdf5::datatype::create(data);
-  size_t databytesize = memory_space.size() * memory_type.size();
+  size_t databytesize = signed2unsigned<unsigned long long>(memory_space.size()) * memory_type.size();
 
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {

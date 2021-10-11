@@ -1,12 +1,13 @@
-set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(test_sources
-  ${test_sources}
-  ${dir}/deflate_test.cpp
-  ${dir}/scaleoffset_test.cpp
-  ${dir}/shuffle_test.cpp
-  ${dir}/szip_test.cpp
-  ${dir}/fletcher32_test.cpp
-  ${dir}/nbit_test.cpp
-  ${dir}/external_filter_test.cpp
-  PARENT_SCOPE)
+  deflate_test.cpp
+  scaleoffset_test.cpp
+  shuffle_test.cpp
+  szip_test.cpp
+  fletcher32_test.cpp
+  nbit_test.cpp
+  external_filter_test.cpp)
+
+add_executable(filter_test ${test_sources})
+target_link_libraries(filter_test h5cpp)
+catch_discover_tests(filter_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+add_test(NAME filter_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND filter_test)

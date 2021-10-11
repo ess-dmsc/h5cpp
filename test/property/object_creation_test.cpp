@@ -1,6 +1,6 @@
-
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -21,71 +21,99 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
 #include <h5cpp/property/object_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
-#include <h5cpp/hdf5.hpp>
+#include "../utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(ObjectCreationList, default_construction) {
-  pl::ObjectCreationList ocpl;
-  EXPECT_TRUE(ocpl.get_class() == pl::kObjectCreate);
-  EXPECT_EQ(ocpl.get_class().name(), "object create");
+SCENARIO("Constructing an ObjectCreationList") {
+  WHEN("default constructing") {
+    pl::ObjectCreationList ocpl;
+    THEN("the list will be of class ObjectCreate") {
+      REQUIRE(ocpl.get_class() == pl::kObjectCreate);
+    }
 
-  auto cl = pl::kGroupAccess;
-  EXPECT_THROW((pl::ObjectCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+    AND_WHEN("closing this list") {
+      close(ocpl);
+      THEN("all methods fail") {
+        REQUIRE_THROWS_AS(ocpl.enable_time_tracking(), std::runtime_error);
+        REQUIRE_THROWS_AS(ocpl.disable_time_tracking(), std::runtime_error);
+        REQUIRE_THROWS_AS(ocpl.time_tracking(), std::runtime_error);
+        REQUIRE_THROWS_AS(ocpl.attribute_creation_order(), std::runtime_error);
+        REQUIRE_THROWS_AS(
+            ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()),
+            std::runtime_error);
+        REQUIRE_THROWS_AS(ocpl.attribute_storage_maximum_compact(),
+                          std::runtime_error);
+        REQUIRE_THROWS_AS(ocpl.attribute_storage_minimum_dense(),
+                          std::runtime_error);
+      }
+    }
+  }
+  WHEN("trying to construct from a wrong handle") {
+    auto handle = hdf5::ObjectHandle(H5Pcreate(to_hid(pl::kGroupAccess)));
+    THEN("the creation process fails") {
+      REQUIRE_THROWS_AS(pl::ObjectCreationList(std::move(handle)),
+                        std::runtime_error);
+    }
+  }
 }
 
-TEST(ObjectCreationList, test_time_tracking) {
-  pl::ObjectCreationList ocpl;
-  EXPECT_NO_THROW(ocpl.enable_time_tracking());
-  EXPECT_TRUE(ocpl.time_tracking());
+SCENARIO("tesing configuration on ObjectCreationList") {
+  GIVEN("a default constructed list") {
+    pl::ObjectCreationList ocpl;
 
-  EXPECT_NO_THROW(ocpl.disable_time_tracking());
-  EXPECT_FALSE(ocpl.time_tracking());
+    WHEN("enable time tracking") {
+      REQUIRE_NOTHROW(ocpl.enable_time_tracking());
+      THEN("then the flag will be set") { REQUIRE(ocpl.time_tracking()); }
+      AND_WHEN("disabling it again") {
+        REQUIRE_NOTHROW(ocpl.disable_time_tracking());
+        THEN("the flag will be cleared again") {
+          REQUIRE_FALSE(ocpl.time_tracking());
+        }
+      }
+    }
+    AND_GIVEN("tracked creation order") {
+      auto co = pl::CreationOrder().enable_tracked();
+      WHEN("setting the creating order") {
+        REQUIRE_NOTHROW(ocpl.attribute_creation_order(co));
+        THEN("set get for the creation order") {
+          REQUIRE(ocpl.attribute_creation_order().tracked());
+          REQUIRE_FALSE(ocpl.attribute_creation_order().indexed());
+        }
+      }
+    }
 
-  hdf5::ObjectHandle(static_cast<hid_t>(ocpl)).close();
-  EXPECT_THROW(ocpl.enable_time_tracking(), std::runtime_error);
-  EXPECT_THROW(ocpl.disable_time_tracking(), std::runtime_error);
-  EXPECT_THROW(ocpl.time_tracking(), std::runtime_error);
+    AND_GIVEN("indexed creation order") {
+      auto co = pl::CreationOrder().enable_indexed();
+      WHEN("setting the creation order") {
+        REQUIRE_NOTHROW(ocpl.attribute_creation_order(co));
+        THEN("get for the creation order") {
+          REQUIRE(ocpl.attribute_creation_order().tracked());
+          REQUIRE(ocpl.attribute_creation_order().indexed());
+        }
+      }
+    }
+
+    WHEN("settting the storage thresholds") {
+      REQUIRE_NOTHROW(ocpl.attribute_storage_thresholds(100, 50));
+      THEN("we get for the thresholds") {
+        REQUIRE(ocpl.attribute_storage_maximum_compact() == 100ul);
+        REQUIRE(ocpl.attribute_storage_minimum_dense() == 50ul);
+      }
+    }
+
+    WHEN("trying to set the storage thresholds wrong") {
+      REQUIRE_THROWS_AS(ocpl.attribute_storage_thresholds(50, 100),
+                        std::runtime_error);
+    }
+  }
 }
-
-TEST(ObjectCreationList, test_attribute_creation_order) {
-  pl::ObjectCreationList ocpl;
-
-  EXPECT_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()));
-  EXPECT_TRUE(ocpl.attribute_creation_order().tracked());
-  EXPECT_FALSE(ocpl.attribute_creation_order().indexed());
-
-  EXPECT_NO_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_indexed()));
-  EXPECT_TRUE(ocpl.attribute_creation_order().tracked());
-  EXPECT_TRUE(ocpl.attribute_creation_order().indexed());
-
-  hdf5::ObjectHandle(static_cast<hid_t>(ocpl)).close();
-  EXPECT_THROW(ocpl.attribute_creation_order(), std::runtime_error);
-  EXPECT_THROW(ocpl.attribute_creation_order(pl::CreationOrder().enable_tracked()), std::runtime_error);
-}
-
-TEST(ObjectCreationList, test_attribute_storage_threshold) {
-  pl::ObjectCreationList ocpl;
-  EXPECT_NO_THROW(ocpl.attribute_storage_thresholds(100, 50));
-  EXPECT_EQ(ocpl.attribute_storage_maximum_compact(), 100ul);
-  EXPECT_EQ(ocpl.attribute_storage_minimum_dense(), 50ul);
-
-  EXPECT_THROW(ocpl.attribute_storage_thresholds(50, 100),
-               std::runtime_error);
-
-  hdf5::ObjectHandle(static_cast<hid_t>(ocpl)).close();
-  EXPECT_THROW(ocpl.attribute_storage_maximum_compact(), std::runtime_error);
-  EXPECT_THROW(ocpl.attribute_storage_minimum_dense(), std::runtime_error);
-}
-
-
-

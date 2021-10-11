@@ -33,8 +33,19 @@
 #include <mpi.h>
 #endif
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
+
 extern "C"{
 #include <hdf5.h>
 #include <hdf5_hl.h>
 }
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 

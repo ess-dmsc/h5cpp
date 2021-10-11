@@ -23,102 +23,56 @@
 // Created on: May 4, 2018
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 
 using namespace hdf5;
 
-class File : public testing::Test
-{
- protected:
-  virtual void SetUp()
-  {
+SCENARIO("Testing basic file behavior", "[file,h5cpp]") {
 #if H5_VERSION_GE(1, 10, 0)
-    property::FileCreationList fcpl;
-    property::FileAccessList fapl;
-    fapl.library_version_bounds(property::LibVersion::LATEST,
-                                property::LibVersion::LATEST);
-    file::create("file_open.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+  property::FileCreationList fcpl;
+  property::FileAccessList fapl;
+  fapl.library_version_bounds(property::LibVersion::LATEST,
+                              property::LibVersion::LATEST);
+  file::create("file_test.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
 #else
-    file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+  file::create("file_test.h5", file::AccessFlags::TRUNCATE);
 #endif
+
+  GIVEN("An open file") {
+    file::File f= file::open("file_test.h5", file::AccessFlags::READWRITE);
+    THEN("we must produce the following results") {
+      REQUIRE(f.is_valid());
+      REQUIRE(f.intent() == file::AccessFlags::READWRITE);
+      REQUIRE(f.size() == 195ul);
+      REQUIRE(f.id().file_name() == "file_test.h5");
+      REQUIRE(f.path().string() == "file_test.h5");
+      auto root = f.root();
+      REQUIRE(root.link().path() == "/");
+      REQUIRE(f.count_open_objects(file::SearchFlags::GROUP) == 1ul);
+      REQUIRE_NOTHROW(f.flush(file::Scope::GLOBAL));
+    }
+    f.close();
   }
-};
 
-TEST_F(File, is_valid)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_TRUE(f.is_valid());
+  GIVEN("A closed file") {
+    file::File f;
+    THEN("file is closed") {
+      REQUIRE_FALSE(f.is_valid());
+      REQUIRE_THROWS_AS(f.intent(), std::runtime_error);
+      REQUIRE_THROWS_AS(f.size(), std::runtime_error);
+      REQUIRE_THROWS_AS(f.id(), std::runtime_error);
+      REQUIRE_THROWS_AS(f.path(), std::runtime_error);
+      REQUIRE_THROWS_AS(f.root(), std::runtime_error);
+      REQUIRE_THROWS_AS(f.count_open_objects(file::SearchFlags::ALL),
+                        std::runtime_error);
+      REQUIRE_THROWS_AS(f.flush(file::Scope::GLOBAL), std::runtime_error);
+      REQUIRE_THROWS_AS(f.flush(file::Scope::LOCAL), std::runtime_error);
+      REQUIRE_THROWS_AS(f.close(), std::runtime_error);
+    }
+
+  }
+
 }
 
-TEST_F(File, close)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  f.close();
-  EXPECT_FALSE(f.is_valid());
-}
-
-TEST_F(File, intent)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.intent(), file::AccessFlags::READWRITE);
-
-  f.close();
-  EXPECT_THROW(f.intent(), std::runtime_error);
-}
-
-TEST_F(File, size)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_GE(f.size(), 0ul);
-
-  f.close();
-  EXPECT_THROW(f.size(), std::runtime_error);
-}
-
-TEST_F(File, id)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.id().file_name(), "file_open.h5");
-
-  f.close();
-  EXPECT_THROW(f.id(), std::runtime_error);
-}
-
-TEST_F(File, path)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.path().string(), "file_open.h5");
-
-  f.close();
-  EXPECT_THROW(f.path(), std::runtime_error);
-}
-
-TEST_F(File, root)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.root().link().path(), "/");
-
-  f.close();
-  EXPECT_THROW(f.root(), std::runtime_error);
-}
-
-TEST_F(File, count_open_objects)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  auto r = f.root();
-  EXPECT_EQ(f.count_open_objects(file::SearchFlags::GROUP), 1ul);
-
-  f.close();
-  EXPECT_THROW(f.count_open_objects(file::SearchFlags::ALL), std::runtime_error);
-}
-
-TEST_F(File, flush)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_NO_THROW(f.flush(file::Scope::GLOBAL));
-
-  f.close();
-  EXPECT_THROW(f.flush(file::Scope::GLOBAL), std::runtime_error);
-}

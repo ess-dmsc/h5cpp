@@ -39,6 +39,7 @@
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/error/error.hpp>
 #include <initializer_list>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace attribute {
@@ -283,7 +284,7 @@ class DLL_EXPORT Attribute
     {
       using Trait = VarLengthStringTrait<T>;
 
-      typename Trait::BufferType buffer(dataspace().size());
+      typename Trait::BufferType buffer(signed2unsigned<typename std::vector<T>::size_type>(dataspace().size()));
 
       if(H5Aread(static_cast<hid_t>(handle_),
                  static_cast<hid_t>(mem_type),

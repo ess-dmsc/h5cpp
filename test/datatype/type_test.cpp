@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,161 +20,123 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: 
+// Author:
 //   Martin Shetty <martin.shetty@esss.se>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Feb 03, 2018
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/types.hpp>
+#include <sstream>
+#include <tuple>
 
 using namespace hdf5;
 using namespace hdf5::datatype;
 
-TEST(DatatypeEnum, TypeClass) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << Class::NONE;
-  EXPECT_EQ(stream.str(), "NONE");
-
-  stream.str(std::string());
-  stream << Class::INTEGER;
-  EXPECT_EQ(stream.str(), "INTEGER");
-
-  stream.str(std::string());
-  stream << Class::FLOAT;
-  EXPECT_EQ(stream.str(), "FLOAT");
-
-  stream.str(std::string());
-  stream << Class::TIME;
-  EXPECT_EQ(stream.str(), "TIME");
-
-  stream.str(std::string());
-  stream << Class::STRING;
-  EXPECT_EQ(stream.str(), "STRING");
-
-  stream.str(std::string());
-  stream << Class::BITFIELD;
-  EXPECT_EQ(stream.str(), "BITFIELD");
-
-  stream.str(std::string());
-  stream << Class::OPAQUE;
-  EXPECT_EQ(stream.str(), "OPAQUE");
-
-  stream.str(std::string());
-  stream << Class::COMPOUND;
-  EXPECT_EQ(stream.str(), "COMPOUND");
-
-  stream.str(std::string());
-  stream << Class::REFERENCE;
-  EXPECT_EQ(stream.str(), "REFERENCE");
-
-  stream.str(std::string());
-  stream << Class::ENUM;
-  EXPECT_EQ(stream.str(), "ENUM");
-
-  stream.str(std::string());
-  stream << Class::VARLENGTH;
-  EXPECT_EQ(stream.str(), "VARLENGTH");
-
-  stream.str(std::string());
-  stream << Class::ARRAY;
-  EXPECT_EQ(stream.str(), "ARRAY");
+namespace {
+template <typename T>
+auto value(T&& e) -> decltype(std::get<0>(e)) {
+  return std::get<0>(e);
 }
 
-TEST(DatatypeEnum, Order) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << Order::BE;
-  EXPECT_EQ(stream.str(), "BE");
-
-  stream.str(std::string());
-  stream << Order::LE;
-  EXPECT_EQ(stream.str(), "LE");
+template <typename T>
+auto str(T&& e) -> decltype(std::get<1>(e)) {
+  return std::get<1>(e);
 }
+}  // namespace
 
-TEST(DatatypeEnum, Sign) {
+SCENARIO("Enumeration stream IO") {
   std::stringstream stream;
+  GIVEN("type class enumerations") {
+    using ptype = std::tuple<Class, std::string>;
+    auto param = GENERATE(table<Class, std::string>(
+        {ptype{Class::NONE, "NONE"}, ptype{Class::INTEGER, "INTEGER"},
+         ptype{Class::FLOAT, "FLOAT"}, ptype{Class::TIME, "TIME"},
+         ptype{Class::STRING, "STRING"}, ptype{Class::BITFIELD, "BITFIELD"},
+         ptype{Class::OPAQUE, "OPAQUE"}, ptype{Class::COMPOUND, "COMPOUND"},
+         ptype{Class::REFERENCE, "REFERENCE"}, ptype{Class::ENUM, "ENUM"},
+         ptype{Class::VARLENGTH, "VARLENGTH"}, ptype{Class::ARRAY, "ARRAY"}}));
+    WHEN("writting the type class to the stream") {
+      stream << value(param);
+      THEN("result will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-  stream.str(std::string());
-  stream << Sign::TWOS_COMPLEMENT;
-  EXPECT_EQ(stream.str(), "TWOS COMPLEMENT");
+  GIVEN("write order enumeration") {
+    using ptype = std::tuple<Order, std::string>;
+    auto param = GENERATE(table<Order, std::string>(
+        {ptype{Order::BE, "BE"}, ptype{Order::LE, "LE"}}));
+    WHEN("writing the order enumeration to the stream") {
+      stream << value(param);
+      THEN("the output will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-  stream.str(std::string());
-  stream << Sign::UNSIGNED;
-  EXPECT_EQ(stream.str(), "UNSIGNED");
-}
+  GIVEN("write the sign enumeration") {
+    using ptype = std::tuple<Sign, std::string>;
+    auto param = GENERATE(table<Sign, std::string>(
+        {ptype{Sign::TWOS_COMPLEMENT, "TWOS COMPLEMENT"},
+         ptype{Sign::UNSIGNED, "UNSIGNED"}}));
+    WHEN("writing the sign to the stream") {
+      stream << value(param);
+      THEN("the result will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-TEST(DatatypeEnum, Norm) {
-  std::stringstream stream;
+  GIVEN("write the Norm enumeration") {
+    using ptype = std::tuple<Norm, std::string>;
+    auto param = GENERATE(table<Norm, std::string>(
+        {ptype{Norm::IMPLIED, "IMPLIED"}, ptype{Norm::MSBSET, "MSBSET"},
+         ptype{Norm::NONE, "NONE"}}));
+    WHEN("writing the norm to the stream") {
+      stream << value(param);
+      THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-  stream.str(std::string());
-  stream << Norm::IMPLIED;
-  EXPECT_EQ(stream.str(), "IMPLIED");
+  GIVEN("write Pad enumeration") {
+    using ptype = std::tuple<Pad, std::string>;
+    auto param = GENERATE(table<Pad, std::string>(
+        {ptype{Pad::BACKGROUND, "BACKGROUND"}, ptype{Pad::ONE, "ONE"},
+         ptype{Pad::ZERO, "ZERO"}}));
+    WHEN("writing the pad to the stream") {
+      stream << value(param);
+      THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-  stream.str(std::string());
-  stream << Norm::MSBSET;
-  EXPECT_EQ(stream.str(), "MSBSET");
+  GIVEN("wirting the string padding to the stream") {
+    using ptype = std::tuple<StringPad, std::string>;
+    auto param = GENERATE(table<StringPad, std::string>(
+        {ptype{StringPad::NULLPAD, "NULLPAD"},
+         ptype{StringPad::NULLTERM, "NULLTERM"},
+         ptype{StringPad::SPACEPAD, "SPACEPAD"}}));
+    WHEN("writing the string padding to the stream") {
+      stream << value(param);
+      THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-  stream.str(std::string());
-  stream << Norm::NONE;
-  EXPECT_EQ(stream.str(), "NONE");
-}
+  GIVEN("writing the direction to the stream") {
+    using ptype = std::tuple<Direction, std::string>;
+    auto param = GENERATE(
+        table<Direction, std::string>({ptype{Direction::ASCEND, "ASCEND"},
+                                       ptype{Direction::DESCEND, "DESCEND"}}));
+    WHEN("writing the direction to the stream") {
+      stream << value(param);
+      THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 
-TEST(DatatypeEnum, Pad) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << Pad::BACKGROUND;
-  EXPECT_EQ(stream.str(), "BACKGROUND");
-
-  stream.str(std::string());
-  stream << Pad::ONE;
-  EXPECT_EQ(stream.str(), "ONE");
-
-  stream.str(std::string());
-  stream << Pad::ZERO;
-  EXPECT_EQ(stream.str(), "ZERO");
-}
-
-TEST(DatatypeEnum, StringPad) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << StringPad::NULLPAD;
-  EXPECT_EQ(stream.str(), "NULLPAD");
-
-  stream.str(std::string());
-  stream << StringPad::NULLTERM;
-  EXPECT_EQ(stream.str(), "NULLTERM");
-
-  stream.str(std::string());
-  stream << StringPad::SPACEPAD;
-  EXPECT_EQ(stream.str(), "SPACEPAD");
-}
-
-TEST(DatatypeEnum, Direction) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << Direction::ASCEND;
-  EXPECT_EQ(stream.str(), "ASCEND");
-
-  stream.str(std::string());
-  stream << Direction::DESCEND;
-  EXPECT_EQ(stream.str(), "DESCEND");
-}
-
-TEST(DatatypeEnum, CharacterEncoding) {
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream << CharacterEncoding::ASCII;
-  EXPECT_EQ(stream.str(), "ASCII");
-
-  stream.str(std::string());
-  stream << CharacterEncoding::UTF8;
-  EXPECT_EQ(stream.str(), "UTF8");
+  GIVEN("writing the character encoding to the stream") {
+    using ptype = std::tuple<CharacterEncoding, std::string>;
+    auto param = GENERATE(table<CharacterEncoding, std::string>(
+        {ptype{CharacterEncoding::ASCII, "ASCII"},
+         ptype{CharacterEncoding::UTF8, "UTF8"}}));
+    WHEN("writing the character encoding to the stream") {
+      stream << value(param);
+      THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
+    }
+  }
 }

@@ -31,6 +31,7 @@
 #include <h5cpp/error/error.hpp>
 #include <sstream>
 
+#ifndef _MSC_VER
 namespace hdf5
 {
 namespace datatype
@@ -40,8 +41,8 @@ namespace datatype
 //!
 enum EBool : int8_t
 {
-  FALSE = 0, //!< indicates a false value
-  TRUE = 1   //!< indicates a true value
+  TRUE = 1, //!< indicates a true value
+  FALSE = 0   //!< indicates a false value
 };
 
 
@@ -63,10 +64,11 @@ class TypeTrait<datatype::EBool> {
 //!
 //! @brief check if Enum is EBool
 //!
-//! @param Enum object
+//! @param etype object
 //! @return if Enum is EBool flag
 //!
 DLL_EXPORT bool is_bool(const Enum & etype);
 
 } // namespace datatype
 } // namespace hdf5
+#endif

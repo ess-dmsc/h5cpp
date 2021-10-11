@@ -92,8 +92,8 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList {
   //!
   //! \brief destructor
   //!
-  ~DatasetAccessList();
-
+  ~DatasetAccessList() override;
+ 
   //!
   //! \brief set the chunk cache parameters
   //! \throws std::runtime_error in case of a failure

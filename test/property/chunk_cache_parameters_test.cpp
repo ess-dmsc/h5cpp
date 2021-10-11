@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,56 +21,65 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include "../utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(ChunkCacheParameters, default_construction) {
-  pl::ChunkCacheParameters params;
+SCENARIO("ChunkCacheParameters construction") {
+  GIVEN("default constructed parameter") {
+    pl::ChunkCacheParameters params;
+    THEN("we get the following default configuration") {
+      REQUIRE(params.chunk_slots() == 0ul);
+      REQUIRE(params.chunk_cache_size() == 0ul);
+      REQUIRE(params.preemption_policy() == 0.0);
+    }
+    AND_WHEN("we set the chunks slots to 20")  { 
+      REQUIRE_NOTHROW(params.chunk_slots(20));
+      THEN("we get for the chunk slots") { 
+        REQUIRE(params.chunk_slots() == 20);
+      }
+    }
+    AND_WHEN("we set the chunk cache size to 200") { 
+      REQUIRE_NOTHROW(params.chunk_cache_size(200));
+      THEN("we get for the chunk cache size") { 
+        REQUIRE(params.chunk_cache_size() == 200);
+      }
+    }
+    AND_WHEN("we set the preemption policy") { 
+      REQUIRE_NOTHROW(params.preemption_policy(0.1));
+      THEN("we get for the preemption policy") { 
+        REQUIRE(params.preemption_policy() == Approx(0.1));
+      }
+    }
+  }
+  GIVEN("parameters") {
+    size_t slots = 100;
+    size_t cache_size = 200;
+    double policy = 0.2;
+    THEN("we can construct parameters") {
+      pl::ChunkCacheParameters params(slots, cache_size, policy);
+      AND_THEN("check their values") {
+        REQUIRE(params.chunk_slots() == slots);
+        REQUIRE(params.chunk_cache_size() == cache_size);
+        REQUIRE(params.preemption_policy() == Approx(policy));
+      }
+      AND_WHEN("copy construct from this instance") { 
+        pl::ChunkCacheParameters p2 = params;
+        THEN("the new instance has the same configuration") { 
+          REQUIRE(p2.chunk_slots() == params.chunk_slots());
+          REQUIRE(p2.chunk_cache_size() == params.chunk_cache_size());
+          REQUIRE(p2.preemption_policy() == Approx(params.preemption_policy()));
+        }
 
-  EXPECT_EQ(params.chunk_slots(), 0ul);
-  EXPECT_EQ(params.chunk_cache_size(), 0ul);
-  EXPECT_NEAR(params.preemption_policy(), 0.0, 0.0001);
+      }
+    }
+  }
 }
-
-TEST(ChunkCacheParameters, test_construction) {
-  pl::ChunkCacheParameters params(100, 200, 0.2);
-  EXPECT_EQ(params.chunk_slots(), 100ul);
-  EXPECT_EQ(params.chunk_cache_size(), 200ul);
-  EXPECT_NEAR(params.preemption_policy(), 0.2, 0.0001);
-}
-
-TEST(ChunkCacheParameters, test_copy_construction) {
-  pl::ChunkCacheParameters params1(100, 200, 0.2);
-  pl::ChunkCacheParameters params2(params1);
-  EXPECT_EQ(params2.chunk_slots(), 100ul);
-  EXPECT_EQ(params2.chunk_cache_size(), 200ul);
-  EXPECT_NEAR(params2.preemption_policy(), 0.2, 0.0001);
-}
-
-TEST(ChunkCacheParameters, test_chunk_slots) {
-  pl::ChunkCacheParameters p;
-  p.chunk_slots(20);
-  EXPECT_EQ(p.chunk_slots(), 20ul);
-}
-
-TEST(ChunkCacheParameters, test_chunk_cache_size) {
-  pl::ChunkCacheParameters p;
-  p.chunk_cache_size(200);
-  EXPECT_EQ(p.chunk_cache_size(), 200ul);
-}
-
-TEST(ChunkCacheParameters, test_preemption_policy) {
-  pl::ChunkCacheParameters p;
-  p.preemption_policy(0.2);
-  EXPECT_NEAR(p.preemption_policy(), 0.2, 0.0001);
-}
-
-

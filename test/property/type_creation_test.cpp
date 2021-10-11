@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,26 +21,35 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/type_creation.hpp>
+#include "../utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(TypeCreationList, test_default_construction) {
-  pl::TypeCreationList tcpl;
-  EXPECT_TRUE(tcpl.get_class() == pl::kDatatypeCreate);
-
-  auto cl = pl::kDatatypeCreate;
-  EXPECT_NO_THROW((pl::TypeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::TypeCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("create a TypeCreationList property list") {
+  GIVEN("a default constructed instance") {
+    pl::TypeCreationList tcpl;
+    THEN("the property list class will fit") {
+      REQUIRE(tcpl.get_class() == pl::kDatatypeCreate);
+    }
+  }
+  GIVEN("a handle to a type creation property list") {
+    hdf5::ObjectHandle handle{H5Pcreate(to_hid(pl::kDatatypeCreate))};
+    THEN("we can use this to construct a new instance") {
+      REQUIRE_NOTHROW(pl::TypeCreationList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group creation property list") {
+    hdf5::ObjectHandle handle{H5Pcreate(to_hid(pl::kGroupCreate))};
+    THEN("the instantiation of a TypeCreationList will fail") {
+      REQUIRE_THROWS_AS(pl::TypeCreationList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
-
-

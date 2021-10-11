@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,78 +21,105 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
 
-#include <gtest/gtest.h>
-#include <h5cpp/dataspace/simple.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/dataspace/points.hpp>
+#include <h5cpp/dataspace/simple.hpp>
 
 using namespace hdf5;
 
-TEST(PointsSimple, DefaultConsructor)
-{
-  dataspace::Points h;
-  EXPECT_EQ(h.rank(), 0ul);
+SCENARIO("construction of point selections") {
+  GIVEN("a default constructed Points") {
+    dataspace::Points h;
+    THEN("the rank must be 0") { REQUIRE(h.rank() == 0); }
+  }
 
-  dataspace::Points h1(1);
-  EXPECT_EQ(h1.rank(), 1ul);
+  GIVEN("a Point selection constructed for a rank 2") { 
+    dataspace::Points h(2);
+    THEN("the rank must be 2") { REQUIRE(h.rank() == 2); }
+  }
 
-  dataspace::Points h2(2);
-  EXPECT_EQ(h2.rank(), 2ul);
+  GIVEN("a Point selection constructed from a list of points") { 
+    dataspace::Points points({{1, 1}, {2, 2}});
+    THEN("the rank must be 2") { REQUIRE(points.rank() == 2u); }
+    THEN("the number of points must be 2") { REQUIRE(points.points() == 2u); }
+  }
+
+  GIVEN("a list of points of different rank") {
+    THEN("the construction of a point selection must fail"){
+      REQUIRE_THROWS_AS(dataspace::Points({{1, 1}, {2, 2, 3}}), std::runtime_error);
+    }
+  }
+
 }
 
-//
-// adding points to a selection
-//
-TEST(PointsSimple, Add)
-{
-  dataspace::Points h(1);
-  EXPECT_EQ(h.points(), 0u);
-  h.add({2});
-  EXPECT_EQ(h.points(), 1u);
-  h.add({7});
-  EXPECT_EQ(h.points(), 2u);
+SCENARIO("apply a point selection") { 
+  GIVEN("a point selection for rank 1") { 
+    dataspace::Points h(1);
+    THEN("the number of points must be 0") { REQUIRE(h.points() == 0); }
+    WHEN("adding a point") {
+      h.add({2});
+      THEN("the number of points must be 1") { REQUIRE(h.points() == 1); }
+      AND_WHEN("adding another point") { 
+        h.add({7});
+        THEN("the number of points must be 2") { REQUIRE(h.points() == 2); }
+      }
+    }
+    WHEN("trying to add a 2d point") {
+      REQUIRE_THROWS_AS(h.add({2,3}), std::runtime_error);
+    }
+
+  }
+
+  GIVEN("a simple dataspace of shape {10,1024}") { 
+    dataspace::Simple space({10, 1024});
+    THEN("the selection type for the dataspace must be ALL") { 
+      REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+    }
+
+    AND_GIVEN("a selection of two points") { 
+      dataspace::Points points({{1,1},{2,2}});
+      THEN("applying this selection to the dataspace will fail") {
+        REQUIRE_THROWS_AS(space.selection(dataspace::SelectionOperation::OR, points), std::runtime_error);
+      }
+    }
+  }
+
+  GIVEN("a point selection of ranke 2") { 
+    dataspace::Points points(2);
+    AND_GIVEN("a set of points") { 
+      THEN("adding the list of indexes") { 
+        REQUIRE_THROWS_AS(points.add_set({{1,1},{2,2,3}}), std::runtime_error);
+      }
+    }
+  }
 }
 
-//
-// this must fail due to a rank mismatch between the constructed selection
-// and the point coordinate added
-//
-TEST(PointsSimple, FailAdd)
-{
-  dataspace::Points h(1);
-  EXPECT_THROW(h.add({2, 3}), std::runtime_error);
-}
-
-TEST(PointsSimple, test_case_1)
-{
+SCENARIO("test case one for a point selection") { 
   // create the dataspace
   dataspace::Simple space({10, 20});
-  EXPECT_EQ(space.rank(), 2u);
-  EXPECT_EQ(space.size(), 200);
+  REQUIRE(space.rank() == 2u);
+  REQUIRE(space.size() == 200);
 
-  //create the point selection
-  dataspace::Points points(2);
-  points.add({1, 1});
-  points.add({5, 5});
+  // create the point selection
+  dataspace::Points points({{1,1}, {5,5}});
 
-  //apply the selection to the dataspace
+  // apply the selection to the dataspace
   space.selection(dataspace::SelectionOperation::SET, points);
-  EXPECT_EQ(space.selection.size(), 2ul);
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::POINTS);
+  REQUIRE(space.selection.size() == 2ul);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::POINTS);
 
-  //remove the selection
-  EXPECT_NO_THROW(space.selection.all());
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
+  // remove the selection
+  REQUIRE_NOTHROW(space.selection.all());
+  REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
 }
 
-TEST(PointsSimple, test_case_2)
-{
+SCENARIO("test case two for point selection") {
   dataspace::Simple space({10, 1024, 1024});
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
 
   dataspace::Points points(2);
   points.add({1, 1});
@@ -100,70 +128,16 @@ TEST(PointsSimple, test_case_2)
   points.add({4, 4});
 
   // TODO: why does this not throw when rank is not matching?
-  EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::SET, points));
-  EXPECT_EQ(space.selection.size(), 4ul);
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::POINTS);
+  REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::SET, points));
+  REQUIRE(space.selection.size() == 4ul);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::POINTS);
 
   dataspace::Points points2(2);
   points2.add({5, 5});
   points2.add({6, 6});
 
-  EXPECT_NO_THROW(space.selection(dataspace::SelectionOperation::APPEND, points2));
-  EXPECT_EQ(space.selection.size(), 6ul);
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::POINTS);
-}
-
-TEST(PointsSimple, BadSelection)
-{
-  dataspace::Simple space({10, 1024});
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
-
-  dataspace::Points points(2);
-  points.add({1, 1});
-  points.add({2, 2});
-
-  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points),
-               std::runtime_error);
-}
-
-TEST(PointsSimple, AddSet)
-{
-  dataspace::Simple space({10, 1024});
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
-
-  dataspace::Points points(2);
-  points.add_set({{1, 1}, {2, 2}});
-
-  EXPECT_THROW(space.selection(dataspace::SelectionOperation::OR, points),
-               std::runtime_error);
-}
-
-TEST(PointsSimple, AddSetError)
-{
-  dataspace::Simple space({10, 1024});
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
-
-  dataspace::Points points(2);
-  EXPECT_THROW(points.add_set({{1, 1}, {2, 2, 3}}),
-               std::runtime_error);
-}
-
-TEST(PointsSimple, ConvenienceConstructor)
-{
-  dataspace::Simple space({10, 1024});
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
-
-  dataspace::Points points({{1, 1}, {2, 2}});
-
-  EXPECT_EQ(points.rank(), 2u);
-  EXPECT_EQ(points.points(), 2u);
-}
-
-TEST(PointsSimple, ConvenienceConstructorError)
-{
-  dataspace::Simple space({10, 1024});
-  EXPECT_EQ(space.selection.type(), dataspace::SelectionType::ALL);
-
-  EXPECT_THROW(dataspace::Points({{1, 1}, {2, 2, 3}}),
-               std::runtime_error);
+  REQUIRE_NOTHROW(
+      space.selection(dataspace::SelectionOperation::APPEND, points2));
+  REQUIRE(space.selection.size() == 6ul);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::POINTS);
 }

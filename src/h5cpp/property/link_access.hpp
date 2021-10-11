@@ -46,7 +46,7 @@ class DLL_EXPORT LinkAccessList : public List {
   //!
   //! \brief destructor
   //!
-  virtual ~LinkAccessList();
+  virtual ~LinkAccessList() override;
 
   explicit LinkAccessList(ObjectHandle &&handle);
 

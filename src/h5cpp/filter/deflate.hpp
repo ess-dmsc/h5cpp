@@ -36,14 +36,14 @@ class DLL_EXPORT Deflate : public Filter
   public:
     Deflate();
     Deflate(unsigned int value);
-    ~Deflate();
+    ~Deflate() override;
 
     unsigned int level() const noexcept;
 
     void level(unsigned int value);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::mandatory) const override;
 };
 
 

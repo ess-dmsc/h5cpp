@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,146 +21,184 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 25, 2017
 //
-
-#include <h5cpp/utilities/array_adapter.hpp>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include <gtest/gtest.h>
-#include "../h5cpp_test_helpers.hpp"
-
-#include <cstring>
+#include <h5cpp/utilities/array_adapter.hpp>
 
 using namespace hdf5;
-
-#define bufsize 7ul
 
 using IntegerArrayAdapter = ArrayAdapter<int>;
 using DoubleArrayAdapter = ArrayAdapter<double>;
 
-class ArrayAdapterTest : public testing::Test
-{
- protected:
-  int* integer_data;
-
-  virtual void SetUp()
-  {
-    // redirect stderr into buf
-    integer_data = new int[bufsize];
-    for (size_t index = 0; index < bufsize; index++)
-      integer_data[index] = static_cast<int>(index);
+SCENARIO("Default construction of an ArrayAdapter") {
+  GIVEN("a default constructed adapter") {
+    ArrayAdapter<int> adapter;
+    THEN("the data will refer to nullptr") {
+      REQUIRE(adapter.data() == nullptr);
+    }
+    THEN("the size will be 0") { REQUIRE(adapter.size() == 0ul); }
+    WHEN("we ask for the dimensions") {
+      auto dims = get_dimensions(adapter);
+      THEN("the size of the dimensions will be 1") {
+        REQUIRE(dims.size() == 1ul);
+      }
+      THEN("the number of dimensions will be 0") { REQUIRE(dims[0] == 0ul); }
+    }
   }
+}
 
-  virtual void TearDown()
-  {
-    delete integer_data;
+SCENARIO("A non empty adapter") {
+  size_t bufsize = 7ul;
+  auto integer_data = new int[bufsize];
+  GIVEN("an adapter constructed from a memory buffer") {
+    ArrayAdapter<int> adapter(integer_data, bufsize);
+    THEN("the data() will point to the original buffer") {
+      REQUIRE(adapter.data() == integer_data);
+      AND_THEN("the size will be equal to the buffer size") {
+        REQUIRE(adapter.size() == bufsize);
+      }
+    }
+    WHEN("we ask for the dimensions") {
+      auto dimensions = get_dimensions(adapter);
+      THEN("the returned dimensions wille be of size 1") {
+        REQUIRE(dimensions.size() == 1ul);
+        AND_THEN("the first dimensions will be the number of elements") {
+          REQUIRE(dimensions[0] == bufsize);
+        }
+      }
+    }
+    WHEN("we copy construct a new adapter from the original one") {
+      ArrayAdapter<int> a2(adapter);
+      THEN("the sizes must match") { REQUIRE(a2.size() == adapter.size()); }
+      THEN("the adapters must refer to the same memory location") {
+        REQUIRE(a2.data() == adapter.data());
+      }
+    }
+    WHEN("copy construct a new adapter") {
+      ArrayAdapter<int> a2(std::move(adapter));
+      THEN("the original datapter referse to nullptr") {
+        REQUIRE(adapter.data() == nullptr);
+        AND_THEN("its size will be 0") { REQUIRE(adapter.size() == 0ul); }
+      }
+      AND_THEN("the new adapter must refer to the original memory location") {
+        REQUIRE(a2.data() == integer_data);
+        AND_THEN("its size must be the equal to that of the buffer") {
+          REQUIRE(a2.size() == bufsize);
+        }
+      }
+    }
+    AND_GIVEN("a default constructed adapter") {
+      ArrayAdapter<int> a3;
+      WHEN("copy assigning the original adapter") {
+        a3 = adapter;
+        THEN("the size will match the original") {
+          REQUIRE(a3.size() == adapter.size());
+          AND_THEN("both adapters will refer to the same memory") {
+            REQUIRE(a3.data() == adapter.data());
+          }
+        }
+      }
+      WHEN("move assign the original adapter") {
+        a3 = std::move(adapter);
+        THEN("the original adapter will be invalidated") {
+          REQUIRE(adapter.data() == nullptr);
+          REQUIRE(adapter.size() == 0ul);
+        }
+        THEN("the LHS of the assignment will refer to the original buffer") {
+          REQUIRE(a3.data() == integer_data);
+          REQUIRE(a3.size() == bufsize);
+        }
+      }
+    }
   }
-};
-
-TEST_F(ArrayAdapterTest, default_construction)
-{
-  ArrayAdapter<int> adapter;
-  EXPECT_EQ(adapter.data(), nullptr);
-  EXPECT_EQ(adapter.size(), 0ul);
-  Dimensions dims = get_dimensions(adapter);
-  EXPECT_EQ(dims.size(), 1ul);
-  EXPECT_EQ(dims[0], 0ul);
 }
 
-TEST_F(ArrayAdapterTest, constructor_construction)
-{
-  ArrayAdapter<int> adapter(integer_data, bufsize);
-  EXPECT_EQ(adapter.data(), integer_data);
-  EXPECT_EQ(adapter.size(), bufsize);
-  Dimensions dimensions = get_dimensions(adapter);
-  EXPECT_EQ(dimensions.size(), 1ul);
-  EXPECT_EQ(dimensions[0], bufsize);
+SCENARIO("Constructing datatypes from adapter types") {
+  GIVEN("an integer array datapter") {
+    using adapter_type = ArrayAdapter<int>;
+    WHEN("we construct a datatype using the type trait") {
+      auto dtype = datatype::TypeTrait<adapter_type>::create();
+      THEN("the resulting type will be an integer type") {
+        REQUIRE(dtype.get_class() == datatype::Class::INTEGER);
+        AND_THEN("the resulting integer type would be of size 4") {
+          REQUIRE(dtype.size() == sizeof(int));
+        }
+      }
+    }
+  }
+  GIVEN("an double array adapter") {
+    using adapter_type = ArrayAdapter<double>;
+    WHEN("we construct a datatype using the type trait") {
+      auto dtype = datatype::TypeTrait<adapter_type>::create();
+      THEN("the resulting type will be an double type") {
+        REQUIRE(dtype.get_class() == datatype::Class::FLOAT);
+        AND_THEN("the resulting double type would be of size 8") {
+          REQUIRE(dtype.size() == sizeof(double));
+        }
+      }
+    }
+  }
 }
 
-TEST_F(ArrayAdapterTest, copy_construction)
-{
-  ArrayAdapter<int> a1(integer_data, bufsize);
-  ArrayAdapter<int> a2(a1);
+SCENARIO("writing and reading data using an ArrayAdapter") {
+  size_t buffsize = 7;
+  int write_buffer[] = {0, 10, 100, -4, 3, 20, 43};
+  auto write_adapter = ArrayAdapter<int>(write_buffer, buffsize);
 
-  EXPECT_EQ(a1.data(), integer_data);
-  EXPECT_EQ(a1.size(), a2.size());
-  EXPECT_EQ(a1.data(), a2.data());
+  auto file = file::create("ArrayAdapterTest.h5", file::AccessFlags::TRUNCATE);
+  auto root = file.root();
+  auto space = dataspace::Simple(Dimensions{buffsize});
+  auto type = datatype::create<int>();
+
+  GIVEN("given a dataset in the file") {
+    auto dataset = node::Dataset(root, "data", type, space);
+    THEN("we write the data to the dataset") {
+      dataset.write(write_adapter);
+      AND_WHEN("given a read buffer of appropriate size") {
+        auto read_buffer = new int[buffsize];
+        THEN("we can create a new array adapter to the read buffer") {
+          auto read_adapter = ArrayAdapter<int>(read_buffer, buffsize);
+          AND_THEN("we can read the data back to the read buffer") {
+            dataset.read(read_adapter);
+            for (size_t index = 0; index < buffsize; index++)
+              REQUIRE(write_buffer[index] == read_buffer[index]);
+          }
+        }
+      }
+    }
+  }
+  GIVEN("an attribute in the file") { 
+    auto attribute = root.attributes.create("data", type, space);
+    THEN("we can write the data to the attribute") { 
+      attribute.write(write_adapter); 
+      AND_WHEN("we are provided with a read buffer of appropriate size") { 
+        auto read_buffer  = new int[buffsize];
+        THEN("we can create a new array adapter to the read buffer") {
+          auto read_adapter = ArrayAdapter<int>(read_buffer, buffsize);
+          AND_THEN("we can read the data back to the read buffer") {
+            attribute.read(read_adapter);
+            for (size_t index = 0; index < buffsize; index++)
+              REQUIRE(write_buffer[index] == read_buffer[index]);
+          }
+        }
+      }
+    }
+  }
 }
 
-TEST_F(ArrayAdapterTest, move_construction)
-{
-  ArrayAdapter<int> a1(integer_data, bufsize);
-  ArrayAdapter<int> a2(std::move(a1));
+/*
 
-  EXPECT_EQ(a1.data(), nullptr);
-  EXPECT_EQ(a1.size(), 0ul);
 
-  EXPECT_EQ(a2.data(), integer_data);
-  EXPECT_EQ(a2.size(), bufsize);
-}
-
-TEST_F(ArrayAdapterTest, copy_assignment)
-{
-  ArrayAdapter<int> a1(integer_data, bufsize);
-  ArrayAdapter<int> a2;
-
-  a2 = a1;
-  EXPECT_EQ(a1.data(), a2.data());
-  EXPECT_EQ(a1.size(), a2.size());
-}
-
-TEST_F(ArrayAdapterTest, move_assignment)
-{
-  ArrayAdapter<int> a1(integer_data, bufsize);
-  ArrayAdapter<int> a2;
-
-  a2 = std::move(a1);
-  EXPECT_EQ(a1.data(), nullptr);
-  EXPECT_EQ(a1.size(), 0ul);
-  EXPECT_EQ(a2.data(), integer_data);
-  EXPECT_EQ(a2.size(), bufsize);
-}
-
-TEST_F(ArrayAdapterTest, datatype_type_trait)
-{
-  datatype::Datatype itype = datatype::TypeTrait<IntegerArrayAdapter>::create();
-  EXPECT_EQ(itype.get_class(), datatype::Class::INTEGER);
-  datatype::Integer it(itype);
-  EXPECT_EQ(it.size(), 4ul);
-
-  datatype::Datatype dtype = datatype::TypeTrait<DoubleArrayAdapter>::create();
-  EXPECT_EQ(dtype.get_class(), datatype::Class::FLOAT);
-  datatype::Float dt(dtype);
-  EXPECT_EQ(dt.size(), 8ul);
-}
-
-TEST_F(ArrayAdapterTest, dataset_io)
-{
-  file::File file = file::create("ArrayAdapterTest.h5", file::AccessFlags::TRUNCATE);
+TEST_F(ArrayAdapterTest, attribute_io) {
+  file::File file =
+      file::create("ArrayAdapterTest.h5", file::AccessFlags::TRUNCATE);
   node::Group root = file.root();
-  node::Dataset dataset(root, "data", datatype::create<int>(), dataspace::Simple(Dimensions{bufsize}));
-
-  dataset.write(IntegerArrayAdapter(integer_data, bufsize));
-
-  int read_data[bufsize];
-  IntegerArrayAdapter adapter(read_data, bufsize);
-  dataset.read(adapter);
-  EXPECT_EQ(read_data[0], 0);
-  EXPECT_EQ(read_data[1], 1);
-  EXPECT_EQ(read_data[2], 2);
-  EXPECT_EQ(read_data[3], 3);
-  EXPECT_EQ(read_data[4], 4);
-  EXPECT_EQ(read_data[5], 5);
-  EXPECT_EQ(read_data[6], 6);
-
-}
-
-TEST_F(ArrayAdapterTest, attribute_io)
-{
-  file::File file = file::create("ArrayAdapterTest.h5", file::AccessFlags::TRUNCATE);
-  node::Group root = file.root();
-  attribute::Attribute attribute = root.attributes.create("iattr", datatype::create<int>(),
-                                                          dataspace::Simple(Dimensions{bufsize}));
+  attribute::Attribute attribute = root.attributes.create(
+      "iattr", datatype::create<int>(), dataspace::Simple(Dimensions{bufsize}));
   attribute.write(IntegerArrayAdapter(integer_data, bufsize));
 
   int read_data[bufsize];
@@ -173,4 +212,4 @@ TEST_F(ArrayAdapterTest, attribute_io)
   EXPECT_EQ(read_data[5], 5);
   EXPECT_EQ(read_data[6], 6);
 }
-
+*/

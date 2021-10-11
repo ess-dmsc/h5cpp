@@ -33,6 +33,10 @@
 namespace hdf5 {
 namespace property {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT CreationOrder {
  public:
   //!
@@ -120,6 +124,9 @@ class DLL_EXPORT CreationOrder {
   unsigned reserved_:sizeof(unsigned) - 2;
 #endif
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 }  // namespace property
 }  // namespace hdf5

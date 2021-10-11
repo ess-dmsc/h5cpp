@@ -53,7 +53,7 @@ std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option);
 class DLL_EXPORT DatasetTransferList : public List {
  public:
   DatasetTransferList();
-  ~DatasetTransferList();
+  ~DatasetTransferList() override;
 
   explicit DatasetTransferList(ObjectHandle &&handle);
 

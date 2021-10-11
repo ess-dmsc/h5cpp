@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,80 +20,48 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+//
 // Created on: Sep 11, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-TEST(NodeType, test_string_representation)
-{
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream<<node::Type::DATASET;
-  EXPECT_EQ(stream.str(), "DATASET");
-
-  stream.str(std::string());
-  stream<<node::Type::DATATYPE;
-  EXPECT_EQ(stream.str(), "DATATYPE");
-
-  stream.str(std::string());
-  stream<<node::Type::GROUP;
-  EXPECT_EQ(stream.str(), "GROUP");
-
-  stream.str(std::string());
-  stream<<node::Type::UNKNOWN;
-  EXPECT_EQ(stream.str(), "UNKNOWN");
+SCENARIO("testing node::Type stream output") {
+  using node::Type;
+  std::stringstream ss;
+  using r = std::tuple<Type, std::string, H5O_type_t>;
+  auto d = GENERATE(table<Type, std::string, H5O_type_t>(
+      {r{Type::DATASET, "DATASET", H5O_TYPE_DATASET},
+       r{Type::DATATYPE, "DATATYPE", H5O_TYPE_NAMED_DATATYPE},
+       r{Type::GROUP, "GROUP", H5O_TYPE_GROUP},
+       r{Type::UNKNOWN, "UNKNOWN", H5O_TYPE_UNKNOWN}}));
+  WHEN("writing the enumeration to the stream") {
+    ss << std::get<0>(d);
+    THEN("the output should be") { REQUIRE(ss.str() == std::get<1>(d)); }
+  }
+  WHEN("converting the value to an integer") {
+    REQUIRE(static_cast<H5O_type_t>(std::get<0>(d)) == std::get<2>(d));
+  }
 }
 
-TEST(NodeType, test_node_type_string_representation)
-{
-  std::stringstream stream;
-
-  stream.str(std::string());
-  stream<<node::NodeType::DATASET;
-  EXPECT_EQ(stream.str(), "DATASET");
-
-  stream.str(std::string());
-  stream<<node::NodeType::DATATYPE;
-  EXPECT_EQ(stream.str(), "DATATYPE");
-
-  stream.str(std::string());
-  stream<<node::NodeType::GROUP;
-  EXPECT_EQ(stream.str(), "GROUP");
-
-  stream.str(std::string());
-  stream<<node::NodeType::UNKNOWN;
-  EXPECT_EQ(stream.str(), "UNKNOWN");
+SCENARIO("testing node::NodeType stream output") {
+  using node::NodeType;
+  using r = std::tuple<NodeType, std::string, H5O_type_t>;
+  auto d = GENERATE(table<NodeType, std::string, H5O_type_t>(
+      {r{NodeType::DATASET, "DATASET", H5O_TYPE_DATASET},
+       r{NodeType::DATATYPE, "DATATYPE", H5O_TYPE_NAMED_DATATYPE},
+       r{NodeType::GROUP, "GROUP", H5O_TYPE_GROUP},
+       r{NodeType::UNKNOWN, "UNKNOWN", H5O_TYPE_UNKNOWN}}));
+  std::stringstream ss;
+  WHEN("writing the enumeration to the stream") {
+    ss << std::get<0>(d);
+    THEN("the output should be") { REQUIRE(ss.str() == std::get<1>(d)); }
+  }
+  WHEN("converting the value to an integer") {
+    REQUIRE(static_cast<H5O_type_t>(std::get<0>(d)) == std::get<2>(d));
+  }
 }
-
-TEST(NodeType, test_type_values)
-{
-  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::DATASET),
-                    H5O_TYPE_DATASET);
-  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::UNKNOWN),
-                    H5O_TYPE_UNKNOWN);
-  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::DATATYPE),
-                    H5O_TYPE_NAMED_DATATYPE);
-  EXPECT_EQ(static_cast<H5O_type_t>(node::Type::GROUP),
-                    H5O_TYPE_GROUP);
-}
-
-
-TEST(NodeType, test_node_type_values)
-{
-  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::DATASET),
-                    H5O_TYPE_DATASET);
-  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::UNKNOWN),
-                    H5O_TYPE_UNKNOWN);
-  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::DATATYPE),
-                    H5O_TYPE_NAMED_DATATYPE);
-  EXPECT_EQ(static_cast<H5O_type_t>(node::NodeType::GROUP),
-                    H5O_TYPE_GROUP);
-}
-
-

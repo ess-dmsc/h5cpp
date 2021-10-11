@@ -36,7 +36,7 @@ namespace property {
 class DLL_EXPORT GroupCreationList : public ObjectCreationList {
  public:
   GroupCreationList();
-  virtual ~GroupCreationList();
+  virtual ~GroupCreationList() override;
 
   explicit GroupCreationList(ObjectHandle &&handle);
 

@@ -1,5 +1,6 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,31 +20,37 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 22, 2017
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: Jan 10, 2021
 //
-#include <gtest/gtest.h>
-#include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
+#pragma once
+#include <vector>
 
-using namespace hdf5;
-
-class IsDatasetTest : public BasicFixture
-{};
-
-TEST_F(IsDatasetTest,test_with_default_node)
+class HKLPoint
 {
-  EXPECT_THROW(node::is_dataset(node::Node()),std::runtime_error);
-}
+  public:
+    HKLPoint() = default;
+    HKLPoint(int h,int k,int l);
+    HKLPoint(const std::initializer_list<int> &init_list);
+    HKLPoint(const HKLPoint &) = default;
+    HKLPoint(HKLPoint &&) = default;
 
-TEST_F(IsDatasetTest,test_with_group)
+    int h() const noexcept;
+    int k() const noexcept;
+    int l() const noexcept;
+  private:
+    int h_{0};
+    int k_{0};
+    int l_{0};
+};
+
+bool operator==(const HKLPoint& lhs, const HKLPoint& rhs);
+bool operator!=(const HKLPoint& lhl ,const HKLPoint& rhs);
+
+class HKLPointList : public std::vector<HKLPoint>
 {
-  EXPECT_FALSE(node::is_dataset(root_));
-}
+  public:
+    using std::vector<HKLPoint>::vector;
+};
 
-TEST_F(IsDatasetTest,test_with_dataset)
-{
-  node::Dataset dset(root_,Path("data"),datatype::create<int>());
-
-  EXPECT_TRUE(node::is_dataset(dset));
-}
+using HKLPoints = std::vector<HKLPointList>;

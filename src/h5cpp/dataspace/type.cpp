@@ -35,7 +35,9 @@ std::ostream &operator<<(std::ostream &stream, const Type &t) {
     case Type::SCALAR: return stream << "SCALAR";
     case Type::SIMPLE: return stream << "SIMPLE";
     case Type::NODATA: return stream << "NODATA";
+#ifndef __clang__
     default:return stream;
+#endif
   }
 }
 
@@ -45,7 +47,9 @@ std::ostream &operator<<(std::ostream &stream, const SelectionType &t) {
     case SelectionType::POINTS: return stream << "POINTS";
     case SelectionType::HYPERSLAB: return stream << "HYPERSLAB";
     case SelectionType::ALL: return stream << "ALL";
+#ifndef __clang__
     default:return stream;
+#endif
   }
 
 }
@@ -60,7 +64,9 @@ std::ostream &operator<<(std::ostream &stream, const SelectionOperation &o) {
     case SelectionOperation::NOTA: return stream << "NOTA";
     case SelectionOperation::APPEND: return stream << "APPEND";
     case SelectionOperation::PREPEND: return stream << "PREPEND";
+#ifndef __clang__
     default:return stream;
+#endif
   }
 
 }

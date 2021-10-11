@@ -4,11 +4,13 @@ project(h5cpp
     VERSION 0.4.1
     )
 
+
 #=============================================================================
 # Augment CMake with our custom scripts
 #=============================================================================
 set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/subprojects/catch2/cmake)
 
 #=============================================================================
 # Conan
@@ -57,7 +59,9 @@ set(WITH_BOOST ON CACHE BOOL "enable Boost filesystem support")
 if(WITH_BOOST)
   message(STATUS "Using Boost library for filesystem")
   include(${EXTRA_MODULES_DIR}/BoostLibraryConfig.cmake)
-else()
+else() 
+  # if we do not use Boost we have to ensure a C++ standard of at least 2017
+  # since we require the std::filesystem API
   set(CMAKE_CXX_STANDARD 17)
   message(STATUS "Using std library for filesystem")
 endif()
@@ -83,12 +87,9 @@ install(DIRECTORY examples
 #=============================================================================
 set(DISABLE_TESTS False CACHE BOOL "Disable building unit tests")
 if(NOT DISABLE_TESTS)
-  include(${EXTRA_MODULES_DIR}/FindGTestFix.cmake)
-  if(GTest_FOUND)
+	enable_testing()
+	include(Catch)
     add_subdirectory(test)
-  else()
-    message(WARNING "GTest not found. No tests will be built.")
-  endif()
 endif()
 
 #=============================================================================

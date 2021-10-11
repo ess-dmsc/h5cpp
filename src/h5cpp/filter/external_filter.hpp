@@ -57,7 +57,7 @@ class DLL_EXPORT ExternalFilter : public Filter
                    const std::vector<unsigned int> cd_values,
                    const std::string &name=std::string());
     ExternalFilter();
-    ~ExternalFilter();
+    ~ExternalFilter() override;
 
     //!
     //! \brief apply filter
@@ -67,10 +67,10 @@ class DLL_EXPORT ExternalFilter : public Filter
     //! \throws std::runtime_error in case of a failure
     //! \param dcpl reference to the dataset creation property list
     //! \param flag determines the availability requirement for a filter
-    //!             which is \i mandatory by default.
+    //!             which is \e mandatory by default.
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::mandatory) const override;
 
     //!
     //! \brief compression options

@@ -63,6 +63,9 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const NodeType &type);
  */
 using Type = NodeType;
 
+#ifdef _MSC_VER
+#undef ERROR
+#endif
 /**
  * @brief link type enumeration
  * 

@@ -62,6 +62,10 @@ enum class DriverID : unsigned
 //! mainly due to the fact that we are currently accessing the drivers
 //! only via the file access property list.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Driver
 {
  public:
@@ -87,6 +91,9 @@ class DLL_EXPORT Driver
   //1
   virtual DriverID id() const noexcept = 0;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace file
 } // namespace hdf5

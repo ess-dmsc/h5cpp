@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,254 +21,329 @@
 // ===========================================================================
 //
 // Authors:
-//    Eugen Wintersberger <eugen.wintersberger@desy.de>
+//    Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //    Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 12, 2017
 //
 
-#include <vector>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include "group_test_fixtures.hpp"
+#include <vector>
+#include "../utilities.hpp"
 
 using namespace hdf5;
 
-class GroupTest : public BasicFixture
-{
-};
-
-TEST_F(GroupTest, test_root_group)
-{
-  node::Group root;
-  EXPECT_NO_THROW(root = file_.root());
-  EXPECT_TRUE(root.is_valid());
-  EXPECT_EQ(root.type(),node::Type::GROUP);
-  EXPECT_EQ(root.links.size(),0ul);
-  EXPECT_EQ(root.nodes.size(),0ul);
-  EXPECT_EQ(static_cast<std::string>(root.link().path()),"/");
-  EXPECT_EQ(root.link().file().path(),"test_file.h5");
-}
-
-TEST_F(GroupTest, test_default_construction)
-{
-  node::Group group;
-  EXPECT_FALSE(group.is_valid());
-  group = group;
-  EXPECT_TRUE(group == group);
-}
-
-TEST_F(GroupTest,test_node_construction)
-{
-  node::Dataset dset(file_.root(),"data",datatype::create<int>());
-  node::Node &dset_ref = dset;
-  EXPECT_THROW((node::Group(dset_ref)),std::runtime_error);
-
-  node::Group root = file_.root();
-  node::Node &root_ref = root;
-  node::Group g(root_ref);
-  EXPECT_EQ(g.link().path(),"/");
-
-  // test the close method here
-  root.close();
-  EXPECT_FALSE(root.is_valid());
-
-
-}
-
-TEST_F(GroupTest,test_constructor_construction)
-{
-  node::Group root_group = file_.root();
-  node::Group g(root_group,Path("test_group"));
-  EXPECT_TRUE(g.is_valid());
-  EXPECT_EQ(g.link().path().name(),"test_group");
-  EXPECT_EQ(static_cast<std::string>(g.link().path().parent()),"/");
-}
-
-TEST_F(GroupTest, test_group_creation)
-{
-  node::Group g = file_.root();
-  EXPECT_EQ(g.nodes.size(),0ul);
-  EXPECT_EQ(g.links.size(),0ul);
-  EXPECT_NO_THROW(g.create_group("group_1"));
-  EXPECT_EQ(g.nodes.size(),1ul);
-  EXPECT_EQ(g.links.size(),1ul);
-  EXPECT_NO_THROW(g.create_group("group_2"));
-  EXPECT_EQ(g.nodes.size(),2ul);
-  EXPECT_EQ(g.links.size(),2ul);
-  EXPECT_THROW(g.create_group("group_2"), std::runtime_error);
-
-  property::LinkCreationList lcpl;
-  ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(g.create_group("group_3", lcpl), std::runtime_error);
-}
-
-TEST_F(GroupTest, test_dataset_creation)
-{
+SCENARIO("testing group constructors") {
+  const std::string filename = "testing_group_constructors.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
   auto dt = datatype::create<int>();
-  auto ds = dataspace::Simple({0});
+  auto ds = dataspace::Scalar{};
 
-  node::Group g = file_.root();
-  EXPECT_EQ(g.nodes.size(),0ul);
-  EXPECT_EQ(g.links.size(),0ul);
-  EXPECT_NO_THROW(g.create_dataset("data_1", dt, ds));
-  EXPECT_EQ(g.nodes.size(),1ul);
-  EXPECT_EQ(g.links.size(),1ul);
-  EXPECT_NO_THROW(g.create_dataset("data_2", dt, ds));
-  EXPECT_EQ(g.nodes.size(),2ul);
-  EXPECT_EQ(g.links.size(),2ul);
-  EXPECT_THROW(g.create_dataset("data_2", dt, ds), std::runtime_error);
-  EXPECT_THROW(g.create_dataset("/bad/name", dt, ds), std::runtime_error);
+  GIVEN("a default constructed group") {
+    node::Group g;
+    THEN("the group must have the following properties") {
+      REQUIRE_FALSE(g.is_valid());
+    }
+  }
+
+  GIVEN("the node reference to a dataset") {
+    auto d = f.root().create_dataset("data", dt, ds);
+    node::Node& nr = d;
+    THEN("trying to create a group from this will fail") {
+      REQUIRE_THROWS_AS(node::Group(nr), std::runtime_error);
+    }
+  }
+
+  GIVEN("the root group of the file") {
+    auto root = f.root();
+    WHEN("using this as a parent in the constructor") {
+      node::Group g(root, "test_group");
+      THEN("we can use this to construct a new group with") {
+        REQUIRE(g.is_valid());
+        REQUIRE(g.link().path().name() == "test_group");
+        REQUIRE(g.link().path().parent() == "/");
+      }
+    }
+  }
+  GIVEN("the node reference to the root group") {
+    auto root = f.root();
+    const node::Node& root_ref = root;
+    THEN("we can construct a group from this") {
+      node::Group g(root_ref);
+      REQUIRE(g.link().path() == "/");
+      const auto& nodes = root.nodes;
+      WHEN("closing the original group") {
+        root.close();
+        THEN("the original reference must be invalid") {
+          REQUIRE_FALSE(root.is_valid());
+          AND_THEN("the new group must still be valid") {
+            REQUIRE(g.is_valid());
+          }
+        }
+        THEN("requesting the size of the nodes it must fail") {
+          REQUIRE_THROWS_AS(nodes.size(), std::runtime_error);
+        }
+      }
+    }
+  }
 }
 
-TEST_F(GroupTest, test_group_groupview)
-{
-  auto nodes = root_.nodes;
-  ObjectHandle(static_cast<hid_t>(root_)).close();
-  EXPECT_THROW(nodes.size(), std::runtime_error);
+SCENARIO("testing object creation and iteration") {
+  const std::string filename = "testing_object_creation_and_iteration.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto root = f.root();
+
+  THEN("the group must have the followin properties") {
+    REQUIRE(root.is_valid());
+    REQUIRE(root.type() == node::Type::GROUP);
+    REQUIRE(root.link().path() == "/");
+    REQUIRE(root.link().file().path() == filename);
+    AND_THEN("for a non-existing child group") {
+      REQUIRE_FALSE(root.exists("hello"));
+    }
+    AND_THEN("we expect for the links view") {
+      REQUIRE(root.links.size() == 0ul);
+      GIVEN("the name of a non-existing child") {
+        THEN("we can ask for its existance") {
+          REQUIRE_FALSE(root.links.exists("data_group"));
+        }
+      }
+      GIVEN("a path to a non-existing object") {
+        THEN("the exists method must throw an exception") {
+          REQUIRE_THROWS_AS(root.links.exists("data_group/elements"),
+                            std::runtime_error);
+          REQUIRE_THROWS_AS(root.links.exists("/data_group"),
+                            std::runtime_error);
+        }
+      }
+      WHEN("we try to access any link by index") {
+        THEN("the operation must fail") {
+          REQUIRE_THROWS_AS(root.links[1], std::runtime_error);
+        }
+      }
+    }
+    AND_THEN("we expect for the nodes view") {
+      REQUIRE(root.nodes.size() == 0ul);
+    }
+  }
+
+  GIVEN("a link creation property list") {
+    property::LinkCreationList lcpl;
+    WHEN("this list is closed") {
+      close(lcpl);
+      THEN("trying to create a group with this list must fail") {
+        REQUIRE_THROWS_AS(root.create_group("group_1", lcpl),
+                          std::runtime_error);
+      }
+    }
+  }
+
+  WHEN("creating a new group below the root group") {
+    auto g = root.create_group("group_1");
+    THEN("there must be") {
+      REQUIRE(root.exists("group_1"));
+      REQUIRE(root.nodes.size() == 1ul);
+      REQUIRE(root.links.size() == 1ul);
+    }
+    THEN("the IDs of every reference to the new group must match") {
+      REQUIRE(g.id() == root["group_1"].id());
+    }
+    AND_WHEN("creating a second group") {
+      root.create_group("group_2");
+      THEN("there must be") {
+        REQUIRE(root.nodes.size() == 2ul);
+        REQUIRE(root.links.size() == 2ul);
+      }
+      WHEN("trying to create a group of identical name") {
+        THEN("the attempt must fail") {
+          REQUIRE_THROWS_AS(root.create_group("group_2"), std::runtime_error);
+        }
+      }
+    }
+  }
+  GIVEN("a dataspace and a datatype") {
+    auto dt = datatype::create<int>();
+    auto ds = dataspace::Simple({0});
+
+    WHEN("creating a first dataset below the root group") {
+      auto d1 = root.create_dataset("data_1", dt, ds);
+      THEN("the root group must have one child element") {
+        REQUIRE(root.nodes.size() == 1ul);
+        REQUIRE(root.links.size() == 1ul);
+      }
+      AND_WHEN("creating a second dataset") {
+        auto d2 = root.create_dataset("data_2", dt, ds);
+        THEN("the root group must have two children") {
+          REQUIRE(root.nodes.size() == 2ul);
+          REQUIRE(root.links.size() == 2ul);
+        }
+        GIVEN("the links view to this group") {
+          const auto& links = root.links;
+          THEN("the links to the datasets must exist") {
+            REQUIRE(links.exists("data_1"));
+            REQUIRE(links.exists("data_2"));
+            AND_THEN("we can compare this links with the created objects") {
+              REQUIRE(d1.link() == links["data_1"]);
+              REQUIRE(d2.link() == links["data_2"]);
+            }
+          }
+        }
+        GIVEN("the nodes view to this group") {
+          const auto& nodes = root.nodes;
+          THEN("the references to the datasets must exists") {
+            REQUIRE(nodes.exists("data_1"));
+            REQUIRE(nodes.exists("data_2"));
+            AND_THEN("we can check the id") {
+              REQUIRE(d1.id() == nodes["data_1"].id());
+              REQUIRE(d2.id() == nodes["data_2"].id());
+            }
+          }
+        }
+      }
+      AND_WHEN("trying to create a a second dataset with the same name") {
+        REQUIRE_THROWS_AS(root.create_dataset("data_1", dt, ds),
+                          std::runtime_error);
+      }
+    }
+    WHEN("trying to create a dataset with a non-existing path") {
+      REQUIRE_THROWS_AS(root.create_dataset("/bad/name", dt, ds),
+                        std::runtime_error);
+    }
+  }
 }
 
-TEST_F(GroupTest, test_group_linkview)
-{
-  property::LinkAccessList lapl;
-  ObjectHandle(static_cast<hid_t>(lapl)).close();
-  EXPECT_THROW(root_.links.exists("whatever", lapl), std::runtime_error);
-  EXPECT_THROW(root_.links.exists("/absolute/path"), std::runtime_error);
-  EXPECT_THROW(root_.links[99], std::runtime_error);
+SCENARIO("Testing group creation with funny names") {
+  const std::string filename = "testing_group_creation_with_funny_names.h5";
+  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto r = f.root();
+  WHEN("creating a group with the name 's p a c e y'") {
+    REQUIRE_NOTHROW(r.create_group("s p a c e y"));
+    REQUIRE(r.exists("s p a c e y"));
+  }
+  WHEN("creating a group with the name ' sp'") {
+    REQUIRE_NOTHROW(r.create_group(" sp"));
+    REQUIRE(r.exists(" sp"));
+  }
+  WHEN("creating a group with the name 'sp '") {
+    REQUIRE_NOTHROW(r.create_group("sp "));
+    REQUIRE(r.exists("sp "));
+  }
+  WHEN("creating a group with name 'sp'") {
+    REQUIRE_NOTHROW(r.create_group("sp"));
+    REQUIRE(r.exists("sp"));
+  }
+  WHEN("creating a group with name ' '") {
+    REQUIRE_NOTHROW(r.create_group(" "));
+    REQUIRE(r.exists(" "));
+  }
+  WHEN("creating a group with name '  '") {
+    REQUIRE_NOTHROW(r.create_group("  "));
+    REQUIRE(r.exists("  "));
+  }
+  WHEN("creating a group with name 'd.o.t.s'") {
+    REQUIRE_NOTHROW(r.create_group("d.o.t.s"));
+    REQUIRE(r.exists("d.o.t.s"));
+  }
+  WHEN("creating a group with name '.d.o.t'") {
+    REQUIRE_NOTHROW(r.create_group(".d.o.t"));
+    REQUIRE(r.exists(".d.o.t"));
+  }
+  WHEN("creating a group with name 'd..t'") {
+    REQUIRE_NOTHROW(r.create_group("d..t"));
+    REQUIRE(r.exists("d..t"));
+  }
+  WHEN("creating a group with name '..dt'") {
+    REQUIRE_NOTHROW(r.create_group("..dt"));
+    REQUIRE(r.exists("..dt"));
+  }
+  WHEN("creating a group with name '..'") {
+    REQUIRE_NOTHROW(r.create_group(".."));
+    REQUIRE(r.exists(".."));
+  }
 
-
-  EXPECT_FALSE(root_.links.exists("group_1"));
-
-  node::Group g1 = root_.create_group("group_1");
-
-  EXPECT_TRUE(root_.links.exists("group_1"));
-
-  node::Link l;
-  EXPECT_NO_THROW(l = root_.links["group_1"]);
-  EXPECT_EQ(l, g1.link());
+  //  EXPECT_NO_THROW(g.create_group("g/g2"));
+  //  EXPECT_NO_THROW(g.create_group("./g/g3"));
+  WHEN("trying to create group of name '.'") {
+    THEN("the attempt must fail") {
+      REQUIRE_THROWS_AS(r.create_group("."), std::exception);
+    }
+  }
 }
 
-TEST_F(GroupTest, test_group_nodeview)
-{
-  EXPECT_THROW(root_.nodes.exists("/absolute/path"), std::runtime_error);
-  EXPECT_THROW(root_.nodes[99], std::runtime_error);
+SCENARIO("testing group convenience functions") {
+  auto dt = datatype::create<int>();
+  auto ds = dataspace::Scalar{};
+  auto f = file::create("group_test.h5", file::AccessFlags::TRUNCATE);
+  auto r = f.root();
 
-  ObjectHandle(static_cast<hid_t>(root_.iterator_config().link_access_list())).close();
-  EXPECT_THROW(root_.nodes["path"], std::runtime_error);
-  root_.iterator_config().link_access_list(property::LinkAccessList());
+  GIVEN("a new group") {
+    auto g = r.create_group("group_1");
+    THEN("we get") {
+      REQUIRE(r.has_group("group_1"));
+      REQUIRE_FALSE(r.has_group("group_2"));
+      REQUIRE(g == r.get_group("group_1"));
+    }
+  }
+  GIVEN("a new dataset") {
+    auto d = r.create_dataset("data_1", dt, ds);
+    THEN("we get") {
+      REQUIRE(r.has_dataset("data_1"));
+      REQUIRE_FALSE(r.has_dataset("data_2"));
+      REQUIRE(d == r.get_dataset("data_1"));
+    }
+  }
 
-  EXPECT_FALSE(root_.nodes.exists("group_1"));
-
-  node::Group g1 = root_.create_group("group_1");
-
-  EXPECT_TRUE(root_.nodes.exists("group_1"));
-
-  node::Group n = root_.nodes["group_1"];
-  EXPECT_EQ(n.id(), g1.id());
+  GIVEN("a group and a dataset below the root group") {
+    auto g = r.create_group("group_1");
+    auto d = r.create_dataset("data_1", dt, ds);
+    THEN("we can copy the dataset to the new group") {
+      g.copy_here(d);
+      AND_THEN("we get") {
+        REQUIRE(g.exists("data_1"));
+        REQUIRE(r.exists("data_1"));
+        WHEN("removing the dataset from the new group") {
+          g.remove("data_1");
+          AND_THEN("we get") {
+            REQUIRE_FALSE(g.exists("data_1"));
+            REQUIRE(r.exists("data_1"));
+          }
+        }
+      }
+    }
+    WHEN("we can create an internal link to the dataset in the group") {
+      g.create_link("internal", "/data_1");
+      THEN("we get") { REQUIRE(g.has_dataset("internal")); }
+    }
+    THEN("we can move the dataset to the new group") {
+      g.move_here(d);
+      AND_THEN("we get") {
+        REQUIRE(g.exists("data_1"));
+        REQUIRE_FALSE(r.exists("data_1"));
+      }
+    }
+    AND_GIVEN("a second file") {
+      auto f2 = file::create("group_test_2.h5", file::AccessFlags::TRUNCATE);
+      auto r2 = f2.root();
+      auto g2 = r2.create_group("group").create_group("contents");
+      THEN("we can copy the dataset to the new group") {
+        g2.copy_here(d);
+        AND_THEN("we get") {
+          REQUIRE(g2.exists("data_1"));
+          REQUIRE(g2.has_dataset("data_1"));
+          REQUIRE(r.exists("data_1"));
+          REQUIRE(r.has_dataset("data_1"));
+        }
+      }
+      WHEN("trying to move the dataset to the second file") {
+        THEN("the operation must fail") {
+          REQUIRE_THROWS_AS(g2.move_here(d), std::runtime_error);
+        }
+      }
+      WHEN("creating an external link to the second file") {
+        REQUIRE_NOTHROW(
+            g.create_link("external", "group_test_2.h5", "/group/contents"));
+        THEN("we can check") { REQUIRE(g.get_group("external") == g2); }
+      }
+    }
+  }
 }
-
-TEST_F(GroupTest, test_group_existence)
-{
-  node::Group g = file_.root();
-
-  EXPECT_FALSE(g.exists("group_1"));
-
-  node::Group g1 = g.create_group("group_1");
-
-  EXPECT_TRUE(g.exists("group_1"));
-}
-
-TEST_F(GroupTest, test_group_accessor)
-{
-  node::Group g = file_.root();
-  node::Group g1 = g.create_group("group_1");
-
-  EXPECT_EQ(g1.id(), g["group_1"].id());
-}
-
-TEST_F(GroupTest, test_funky_names)
-{
-  auto f = file::create("funky_names.h5",file::AccessFlags::TRUNCATE);
-  node::Group g = f.root();
-
-  EXPECT_NO_THROW(g.create_group("s p a c e y"));
-  EXPECT_TRUE(g.exists("s p a c e y"));
-
-  EXPECT_NO_THROW(g.create_group(" sp"));
-  EXPECT_TRUE(g.exists(" sp"));
-
-  EXPECT_NO_THROW(g.create_group("sp "));
-  EXPECT_TRUE(g.exists("sp "));
-
-  EXPECT_NO_THROW(g.create_group("sp"));
-  EXPECT_TRUE(g.exists("sp"));
-
-  EXPECT_NO_THROW(g.create_group(" "));
-  EXPECT_TRUE(g.exists(" "));
-
-  EXPECT_NO_THROW(g.create_group("  "));
-  EXPECT_TRUE(g.exists("  "));
-
-  EXPECT_NO_THROW(g.create_group("d.o.t.s"));
-  EXPECT_TRUE(g.exists("d.o.t.s"));
-
-  EXPECT_NO_THROW(g.create_group(".d.o.t"));
-  EXPECT_TRUE(g.exists(".d.o.t"));
-
-  EXPECT_NO_THROW(g.create_group("d..t"));
-  EXPECT_TRUE(g.exists("d..t"));
-
-  EXPECT_NO_THROW(g.create_group("..dt"));
-  EXPECT_TRUE(g.exists("..dt"));
-
-  EXPECT_NO_THROW(g.create_group(".."));
-  EXPECT_TRUE(g.exists(".."));
-
-//  EXPECT_NO_THROW(g.create_group("g/g2"));
-//  EXPECT_NO_THROW(g.create_group("./g/g3"));
-
-  EXPECT_THROW(g.create_group("."), std::exception);
-}
-
-TEST_F(GroupTest, test_group_convenience)
-{
-  node::Group g = file_.root();
-
-  node::Group g1 = g.create_group("group_1");
-  EXPECT_TRUE(g.has_group("group_1"));
-  EXPECT_FALSE(g.has_group("group_2"));
-  EXPECT_EQ(g1, g.get_group("group_1"));
-
-  node::Dataset d1 = g.create_dataset("data_1", datatype::create<int>(), dataspace::Simple({0}));
-  EXPECT_TRUE(g.has_dataset("data_1"));
-  EXPECT_FALSE(g.has_dataset("data_2"));
-  EXPECT_EQ(d1, g.get_dataset("data_1"));
-
-  auto file2 = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
-  auto f2g = file2.root().create_group("group").create_group("contents");
-
-  g1.copy_here(d1);
-  EXPECT_TRUE(g.has_dataset(Path("group_1/data_1")));
-  f2g.copy_here(Path("d1"), d1);
-  EXPECT_TRUE(file2.root().has_dataset(Path("group/contents/d1")));
-
-  g1.remove(Path("data_1"));
-
-  g1.move_here(d1);
-  EXPECT_TRUE(g.has_dataset(Path("group_1/data_1")));
-  EXPECT_FALSE(g.has_dataset(Path("data_1")));
-
-  //Can't move across file boundaries
-  f2g.remove(Path("d1"));
-  EXPECT_THROW(f2g.move_here(Path("d1"), d1), std::runtime_error);
-
-  g.create_link(Path("external"), "./file2.h5", Path("group/contents"));
-  EXPECT_EQ(g.get_group(Path("external")), f2g);
-
-  g.create_link(Path("internal"), Path("/group_1"));
-  EXPECT_EQ(g.get_group(Path("internal")), g1);
-
-  g.create_link(Path("soft"), g1);
-  EXPECT_EQ(g.get_group(Path("soft")), g1);
-}
-
-
-

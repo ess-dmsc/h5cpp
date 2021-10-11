@@ -43,7 +43,7 @@ class DLL_EXPORT Node
     //! \brief constructor
     //!
     //! \param handle rvalue reference to a handle instance
-    //! \param path the path to the node
+    //! \param link the path to the node
     //!
     Node(ObjectHandle &&handle,const Link &link);
 

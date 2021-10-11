@@ -76,7 +76,7 @@ class DLL_EXPORT View {
   //!
   //! \throws std::runtime_error in case of a failure
   //! \param space reference to the original dataspace
-  //! \param selectins reference to the list of selections to apply
+  //! \param selections reference to the list of selections to apply
   //!
   View(const Dataspace &space, const SelectionList &selections);
 

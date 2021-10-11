@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,10 +20,10 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 23, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 #include <array>
 #include <cstdint>

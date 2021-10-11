@@ -26,148 +26,152 @@
 // Created on: Aug 23, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 
 using namespace hdf5;
 
-template<class T>
-class Float : public testing::Test {
- protected:
-  Float() {}
-  virtual ~Float() {}
-  T value_;
-};
-
-using testing::Types;
-
-// The list of types we want to test.
-typedef
-Types<datatype::float16_t, float, double, long double>
-    test_types;
-
-// workaround for the TYPED_TEST_SUITE bug #2316
-#ifdef TYPED_TEST_SUITE
-#include <gtest/internal/gtest-internal.h>
-TYPED_TEST_SUITE(Float, test_types, testing::internal::DefaultNameGenerator);
-#else
-TYPED_TEST_CASE(Float, test_types);
-#endif
-
+/*
 TYPED_TEST(Float, Exceptions) {
   datatype::Datatype dtype;
   EXPECT_THROW((datatype::Float(dtype)), std::runtime_error);
 
   auto ft = datatype::create<int>();
   EXPECT_THROW((datatype::Float(ft)), std::runtime_error);
+}*/
+
+TEMPLATE_TEST_CASE("testing",
+                   "[datatype][numeric][lfoat]",
+                   float,
+                   double,
+                   long double) {
+  GIVEN("a datatype instance") {
+    auto t = datatype::create<TestType>();
+    THEN("the factory function should return a Float instance") {
+      REQUIRE((std::is_same<decltype(t), datatype::Float>::value));
+    }
+    THEN("the type class should be FLOAT") {
+      REQUIRE(t.get_class() == datatype::Class::FLOAT);
+    }
+    THEN("the size should be") { REQUIRE(t.size() == sizeof(TestType)); }
+
+    AND_GIVEN("a reference to the generic Datatype") {
+      datatype::Datatype& generic_type = t;
+      THEN("we can create a new instance") {
+        datatype::Float new_type(generic_type);
+        AND_THEN("we this should be a FLOAT type as well") {
+          REQUIRE(new_type.get_class() == datatype::Class::FLOAT);
+        }
+      }
+    }
+  }
 }
 
-TYPED_TEST(Float, General) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t), datatype::Float>::value));
-  EXPECT_TRUE(t.get_class() == datatype::Class::FLOAT);
-  EXPECT_EQ(t.size(), sizeof(this->value_));
+TEMPLATE_TEST_CASE("testing byte order for floats",
+                   "[datatype][numeric][float]",
+                   datatype::float16_t,
+                   float,
+                   double,
+                   long double) {
+  GIVEN("an instance of the actual type") {
+    auto t = datatype::create<TestType>();
+    WHEN("we check the precision of the type") {
+      REQUIRE((t.precision() == t.size() * 8lu || t.precision() == 80lu));
+    }
+    WHEN("checking the byte order it must be either") {
+      REQUIRE((t.order() == datatype::Order::LE ||
+               t.order() == datatype::Order::BE ||
+               t.order() == datatype::Order::VAX));
 
-  //construct from Datatype reference to an existing type
-  datatype::Datatype &generic_type = t;
-  datatype::Float new_type(generic_type);
-  EXPECT_EQ(new_type.get_class(), datatype::Class::FLOAT);
+      AND_THEN("we can set it to Big Endian") {
+        t.order(datatype::Order::BE);
+        REQUIRE(t.order() == datatype::Order::BE);
+      }
+      AND_THEN("we can set it to Little Endian") {
+        t.order(datatype::Order::LE);
+        REQUIRE(t.order() == datatype::Order::LE);
+      }
+    }
+    WHEN("checking the offset of the type") {
+      REQUIRE(t.offset() == 0lu);
+      AND_THEN("we can set it to 1") {
+        t.offset(1);
+        REQUIRE(t.offset() == 1lu);
+      }
+      AND_THEN("we can set it to 2") {
+        t.offset(2);
+        REQUIRE(t.offset() == 2lu);
+      }
+    }
 
-  //cannot construct from an invalid type
-  datatype::Datatype default_constructed;
-  EXPECT_THROW((datatype::Float(default_constructed)), std::runtime_error);
-}
+    WHEN("checking the padding we get") {
+      using datatype::Pad;
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      AND_THEN("we can set it to ZERO:ONE") {
+        t.pad(Pad::ZERO, Pad::ONE);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ONE}));
+      }
+      AND_THEN("we can set it to ONE:BACKGROUND") {
+        t.pad(Pad::ONE, Pad::BACKGROUND);
+        REQUIRE_THAT(t.pad(),
+                     Catch::Matchers::Equals(r{Pad::ONE, Pad::BACKGROUND}));
+      }
+    }
 
-TYPED_TEST(Float, Precision) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE (t.precision() == t.size()*8lu ||
-	       t.precision() == 80lu)
-    << "Where the precision value: "   << t.precision()
-    << " equals neither: " << t.size()*8lu
-    << " nor: "               << 80 << ".";
-  t.precision(80);
-  ASSERT_EQ(t.precision(), 80lu);
-}
+    WHEN("checking the inpad") {
+      using datatype::Pad;
+      REQUIRE(t.inpad() == Pad::ZERO);
+      AND_THEN("set it to ONE") {
+        t.inpad(Pad::ONE);
+        REQUIRE(t.inpad() == Pad::ONE);
+      }
+      AND_THEN("set it to BACKGROUND") {
+        t.inpad(Pad::BACKGROUND);
+        REQUIRE(t.inpad() == Pad::BACKGROUND);
+      }
+    }
 
-TYPED_TEST(Float, Order) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE (t.order() == datatype::Order::LE ||
-	       t.order() == datatype::Order::BE ||
-	       t.order() == datatype::Order::VAX)
-    << "Where the order value: "   << t.order()
-    << " equals neither: " << datatype::Order::LE
-    << " nor: "               << datatype::Order::BE
-    << " nor: "               << datatype::Order::VAX << ".";
-  t.order(datatype::Order::BE);
-  ASSERT_EQ(t.order(), datatype::Order::BE);
-  t.order(datatype::Order::LE);
-  ASSERT_EQ(t.order(), datatype::Order::LE);
-}
+    WHEN("checking the norm") {
+      using datatype::Norm;
+      REQUIRE((t.norm() == Norm::IMPLIED || t.norm() == Norm::NONE));
+      AND_THEN("set it to MSBSET") {
+        t.norm(Norm::MSBSET);
+        REQUIRE(t.norm() == Norm::MSBSET);
+      }
+      AND_THEN("set it to NONE") {
+        t.norm(Norm::NONE);
+        REQUIRE(t.norm() == Norm::NONE);
+      }
+    }
 
-TYPED_TEST(Float, Offset) {
-  auto t = datatype::create<decltype(this->value_)>();
-  ASSERT_EQ(t.offset(), 0lu);
-  t.offset(1);
-  ASSERT_EQ(t.offset(), 1lu);
-  t.offset(2);
-  ASSERT_EQ(t.offset(), 2lu);
-}
+    WHEN("checking the EBIAS") {
+      REQUIRE((t.ebias() == 2 * t.size() * t.size() * t.size() - 1 ||
+               t.ebias() == 4 * t.size() * t.size() * t.size() - 1));
+      AND_THEN("set it to 63") {
+        t.ebias(63);
+        REQUIRE(t.ebias() == 63lu);
+      }
+      AND_THEN("set it to 31") {
+        t.ebias(31);
+        REQUIRE(t.ebias() == 31lu);
+      }
+    }
 
-TYPED_TEST(Float, Pad) {
-  std::vector<datatype::Pad> pad00({datatype::Pad::ZERO, datatype::Pad::ZERO});
-  std::vector<datatype::Pad> pad01({datatype::Pad::ZERO, datatype::Pad::ONE});
-  std::vector<datatype::Pad> pad1B({datatype::Pad::ONE, datatype::Pad::BACKGROUND});
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_EQ (t.pad() , pad00);
-  t.pad(datatype::Pad::ZERO, datatype::Pad::ONE);
-  ASSERT_EQ(t.pad(), pad01);
-  t.pad(datatype::Pad::ONE, datatype::Pad::BACKGROUND);
-  ASSERT_EQ(t.pad(), pad1B);
-}
-
-TYPED_TEST(Float, Inpad) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_EQ (t.inpad() , datatype::Pad::ZERO);
-  t.inpad(datatype::Pad::ONE);
-  ASSERT_EQ(t.inpad(), datatype::Pad::ONE);
-  t.inpad(datatype::Pad::BACKGROUND);
-  ASSERT_EQ(t.inpad(), datatype::Pad::BACKGROUND);
-}
-
-TYPED_TEST(Float, Norm) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE (t.norm() == datatype::Norm::IMPLIED ||
-	       t.norm() == datatype::Norm::NONE)
-    << "Where the norm value: "   << t.norm()
-    << " equals neither: " << datatype::Norm::IMPLIED
-    << " nor: "               << datatype::Norm::NONE << ".";
-  t.norm(datatype::Norm::MSBSET);
-  ASSERT_EQ(t.norm(), datatype::Norm::MSBSET);
-  t.norm(datatype::Norm::NONE);
-  ASSERT_EQ(t.norm(), datatype::Norm::NONE);
-}
-
-TYPED_TEST(Float, EBias) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE (t.ebias() == 2*t.size()*t.size()*t.size() - 1 ||
-	       t.ebias() == 4*t.size()*t.size()*t.size() - 1)
-    << "Where the ebias value: "   << t.ebias()
-    << " equals neither: " << (2*t.size()*t.size()*t.size() - 1)
-    << " nor: "            << (4*t.size()*t.size()*t.size() - 1) << ".";
-  t.ebias(63);
-  ASSERT_EQ(t.ebias(), 63lu);
-  t.ebias(31);
-  ASSERT_EQ(t.ebias(), 31lu);
-}
-
-TYPED_TEST(Float, Fields) {
-  std::vector<size_t> fields1({15lu, 10lu, 5lu, 0lu, 10lu});
-  std::vector<size_t> fields2({14lu, 9lu, 5lu, 0lu, 9lu});
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_EQ (t.fields().size(), 5lu);
-  t.fields(15lu, 10lu, 5lu, 0lu, 10lu);
-  ASSERT_EQ(t.fields(), fields1);
-  t.fields(14lu, 9lu, 5lu, 0lu, 9lu);
-  ASSERT_EQ(t.fields(), fields2);
+    WHEN("checking fields") {
+      using f = std::vector<size_t>;
+      REQUIRE(t.fields().size() == 5lu);
+      AND_THEN("set them to 15, 10,5, 0,10") {
+        auto fields = f{15lu, 10lu, 5lu, 0lu, 10lu};
+        t.fields(15lu, 10lu, 5lu, 0lu, 10lu);
+        REQUIRE_THAT(t.fields(), Catch::Matchers::Equals(fields));
+      }
+      AND_THEN("set them to 14, 9, 5, 0, 9") {
+        auto fields = f{15ul, 9ul, 5ul, 0ul, 9lu};
+        t.fields(15lu, 9lu, 5lu, 0lu, 9lu);
+        REQUIRE_THAT(t.fields(), Catch::Matchers::Equals(fields));
+      }
+    }
+  }
 }

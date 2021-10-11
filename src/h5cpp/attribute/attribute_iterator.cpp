@@ -25,6 +25,7 @@
 
 #include <h5cpp/attribute/attribute_iterator.hpp>
 #include <h5cpp/attribute/attribute.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <h5cpp/node/node.hpp>
 
 namespace hdf5 {
@@ -36,7 +37,7 @@ AttributeIterator::AttributeIterator(const AttributeManager &view,ssize_t index)
     current_attribute_()
 {
   if(*this)
-    current_attribute_ = manager_.get()[Iterator::index()];
+    current_attribute_ = manager_.get()[signed2unsigned<size_t>(Iterator::index())];
 }
 
 
@@ -60,7 +61,7 @@ AttributeIterator &AttributeIterator::operator++()
 {
   Iterator::operator++();
   if(*this)
-    current_attribute_ = manager_.get()[index()];
+    current_attribute_ = manager_.get()[signed2unsigned<size_t>(index())];
 
   return *this;
 }
@@ -75,7 +76,7 @@ AttributeIterator AttributeIterator::operator++(int)
 AttributeIterator &AttributeIterator::operator--()
 {
   Iterator::operator--();
-  if(*this) current_attribute_ = manager_.get()[index()];
+  if(*this) current_attribute_ = manager_.get()[signed2unsigned<size_t>(index())];
   return *this;
 }
 
@@ -90,14 +91,14 @@ AttributeIterator AttributeIterator::operator--(int)
 AttributeIterator &AttributeIterator::operator+=(ssize_t i)
 {
   Iterator::operator+=(i);
-  if(*this) current_attribute_ = manager_.get()[index()];
+  if(*this) current_attribute_ = manager_.get()[signed2unsigned<size_t>(index())];
   return *this;
 }
 
 AttributeIterator &AttributeIterator::operator-=(ssize_t i)
 {
   Iterator::operator-=(i);
-  if(*this) current_attribute_ = manager_.get()[index()];
+  if(*this) current_attribute_ = manager_.get()[signed2unsigned<size_t>(index())];
   return *this;
 }
 

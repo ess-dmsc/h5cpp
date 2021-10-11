@@ -43,6 +43,10 @@ namespace error
 //! of the library along with thrown exceptions, but only in the case
 //! that automatic error stack printing is turned off.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 struct DLL_EXPORT Descriptor
 {
   //!
@@ -74,6 +78,11 @@ struct DLL_EXPORT Descriptor
 #pragma warning(pop)
 #endif
 };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 
 //!
 //! \brief output operator for Descriptor

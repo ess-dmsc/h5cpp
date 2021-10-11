@@ -113,11 +113,12 @@ class DLL_EXPORT DatasetCreationList : public ObjectCreationList {
   //! \brief default constructor
   //!
   DatasetCreationList();
+  DatasetCreationList(const DatasetCreationList &) = default;
 
   //!
   //! \brief destructor
   //!
-  ~DatasetCreationList();
+  ~DatasetCreationList() override;
 
   //!
   //! \brief constructor
@@ -171,9 +172,9 @@ class DLL_EXPORT DatasetCreationList : public ObjectCreationList {
   //! By default the library tries to deduce the appropriate HDF5 data type automatically.
   //! This will succeed if
   //!
-  //! \list T is a native type already implemented in the library
-  //! \list the user has provided an appropriate type trait to construct an HDF5
-  //!       datatype for T
+  //! - \c T is a native type already implemented in the library
+  //! - the user has provided an appropriate type trait to construct an HDF5
+  //!       datatype for \c T
   //!
   //! Optionally, an HDF5 data type can be passed as a second argument to this member
   //! function. T must not necessarily be the same type used to create the dataset however,

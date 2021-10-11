@@ -1,5 +1,6 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,27 +20,11 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 5, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 8 Dec, 2020
 //
-#include "../fixture.hpp"
-#include <complex>
+#pragma once
+#include <h5cpp/hdf5.hpp>
 
-using namespace hdf5;
-
-class AttributeComplexIO : public BasicFixture
-{};
-
-TEST_F(AttributeComplexIO, test_complex_scalar)
-{
-
-}
-
-TEST_F(AttributeComplexIO, test_complex_vector)
-{
-
-}
-
-
-
-
+hdf5::ObjectHandle handle_from_class(const hdf5::property::Class &plist_class);

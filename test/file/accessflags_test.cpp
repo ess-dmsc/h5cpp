@@ -24,87 +24,172 @@
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
-
-#include <gtest/gtest.h>
 #include <h5cpp/file/types.hpp>
+#include <catch2/catch.hpp>
+#include <sstream>
 
 using namespace hdf5;
 
-TEST(AccessFlags, test_output_stream)
+file::AccessFlagsBase to_int(file::AccessFlags flag)
+{
+  return static_cast<file::AccessFlagsBase>(flag);
+}
+
+SCENARIO("test file access or operator")
+{
+  using file::AccessFlags;
+  using file::AccessFlagsBase;
+  GIVEN("READWRITE")
+  {
+    AND_GIVEN("TRUNCATE")
+    {
+      THEN("we get H5F_ACC_RDWR | H5F_ACC_TRUNC")
+      {
+        REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) == (H5F_ACC_RDWR | H5F_ACC_TRUNC));
+      }
+
+      AND_GIVEN("EXCLUSIVE")
+      {
+        THEN("we get ")
+        {
+          REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE |
+                  file::AccessFlags::EXCLUSIVE) ==
+                      (H5F_ACC_RDWR |
+                  H5F_ACC_TRUNC | H5F_ACC_EXCL));
+        }
+      }
+    }
+  }
+  GIVEN("EXCLUSIVE")
+  {
+    AND_GIVEN("READONLY")
+    {
+      THEN("we get H5F_ACC_EXCL | H5F_ACC_RDONLY")
+      {
+        REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::EXCLUSIVE | file::AccessFlags::READONLY) == (H5F_ACC_EXCL | H5F_ACC_RDONLY));
+      }
+    }
+  }
+}
+
+SCENARIO("Testing OR and AND operator combinations")
+{
+  using file::AccessFlagsBase;
+  REQUIRE(static_cast<AccessFlagsBase>((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
+                file::AccessFlags::READWRITE) ==
+            H5F_ACC_RDWR);
+  REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::TRUNCATE &
+                (file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE)) ==
+            H5F_ACC_TRUNC);
+  REQUIRE(static_cast<AccessFlagsBase>((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
+                (file::AccessFlags::READWRITE | file::AccessFlags::EXCLUSIVE)) ==
+            H5F_ACC_RDWR);
+}
+
+SCENARIO("Test access flags values")
+{
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::EXCLUSIVE) ==
+          H5F_ACC_EXCL);
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::READONLY) ==
+          H5F_ACC_RDONLY);
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::READWRITE) ==
+          H5F_ACC_RDWR);
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE) ==
+          H5F_ACC_TRUNC);
+#if H5_VERSION_GE(1, 10, 0)
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE) ==
+          H5F_ACC_SWMR_WRITE);
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ) ==
+          H5F_ACC_SWMR_READ);
+#endif
+}
+
+SCENARIO("file access flags output", "[h5cpp,file]")
 {
   std::stringstream stream;
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::EXCLUSIVE;
-  EXPECT_EQ(stream.str(), "EXCLUSIVE");
+  GIVEN("AccessFlags::EXCLUSIVE")
+  {
+    WHEN("written to output stream")
+    {
+      stream << file::AccessFlags::EXCLUSIVE;
+      REQUIRE(stream.str() == "EXCLUSIVE");
+    }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::READONLY;
-  EXPECT_EQ(stream.str(), "READONLY");
+    WHEN("converted to integer")
+    {
+      REQUIRE(to_int(file::AccessFlags::EXCLUSIVE) == H5F_ACC_EXCL);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::READWRITE;
-  EXPECT_EQ(stream.str(), "READWRITE");
+  GIVEN("AccessFalgs::READONLY")
+  {
+    WHEN("written to output stream")
+    {
+      stream << file::AccessFlags::READONLY;
+      REQUIRE(stream.str() == "READONLY");
+    }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::TRUNCATE;
-  EXPECT_EQ(stream.str(), "TRUNCATE");
-#if H5_VERSION_GE(1,10,0)
-  stream.str(std::string());
-  stream<<file::AccessFlags::SWMR_WRITE;
-  EXPECT_EQ(stream.str(), "SWMR WRITE");
+    WHEN("converted to integer")
+    {
+      REQUIRE(to_int(file::AccessFlags::READONLY) == H5F_ACC_RDONLY);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::AccessFlags::SWMR_READ;
-  EXPECT_EQ(stream.str(), "SWMR READ");
+  GIVEN("AccessFlags::READWRITE")
+  {
+    WHEN("output")
+    {
+      stream << file::AccessFlags::READWRITE;
+      REQUIRE(stream.str() == "READWRITE");
+    }
+
+    WHEN("converted to integer")
+    {
+      REQUIRE(to_int(file::AccessFlags::READWRITE) == H5F_ACC_RDWR);
+    }
+  }
+
+  GIVEN("AccessFlags::TRUNCATE")
+  {
+    WHEN("output")
+    {
+      stream << file::AccessFlags::TRUNCATE;
+      REQUIRE(stream.str() == "TRUNCATE");
+    }
+
+    WHEN("converted to integer")
+    {
+      REQUIRE(to_int(file::AccessFlags::TRUNCATE) == H5F_ACC_TRUNC);
+    }
+  }
+#if H5_VERSION_GE(1, 10, 0)
+  GIVEN("AccessFlags::SWMR_WRITE")
+  {
+    WHEN("written to stream")
+    {
+      stream << file::AccessFlags::SWMR_WRITE;
+      REQUIRE(stream.str() == "SWMR WRITE");
+    }
+
+    WHEN("converted to integer")
+    {
+      REQUIRE(to_int(file::AccessFlags::SWMR_WRITE) == H5F_ACC_SWMR_WRITE);
+    }
+  }
+
+  GIVEN("AccessFlags::SWMR_READ")
+  {
+    WHEN("written to output stream")
+    {
+      stream << file::AccessFlags::SWMR_READ;
+      REQUIRE(stream.str() == "SWMR READ");
+    }
+
+    WHEN("converted to integer")
+    {
+      REQUIRE(to_int(file::AccessFlags::SWMR_READ) == H5F_ACC_SWMR_READ);
+    }
+  }
 #endif
 }
-
-TEST(AccessFlags, test_or_flags) {
-  EXPECT_EQ(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE,
-            H5F_ACC_RDWR | H5F_ACC_TRUNC);
-
-  EXPECT_EQ(file::AccessFlags::EXCLUSIVE | file::AccessFlags::READONLY,
-            H5F_ACC_EXCL | H5F_ACC_RDONLY);
-}
-
-TEST(AccessFlags, test_or_left_three)
-{
-  EXPECT_EQ(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE |
-            file::AccessFlags::EXCLUSIVE,
-            H5F_ACC_RDWR | H5F_ACC_TRUNC | H5F_ACC_EXCL);
-}
-
-TEST(AccessFlags, test_and_or_comb)
-{
-  EXPECT_EQ((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
-            file::AccessFlags::READWRITE,
-            H5F_ACC_RDWR);
-  EXPECT_EQ(file::AccessFlags::TRUNCATE &
-	    (file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE),
-            H5F_ACC_TRUNC);
-  EXPECT_EQ((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
-	    (file::AccessFlags::READWRITE | file::AccessFlags::EXCLUSIVE),
-            H5F_ACC_RDWR);
-}
-
-TEST(AccessFlags, test_values)
-{
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::EXCLUSIVE),
-                    H5F_ACC_EXCL);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::READONLY),
-                    H5F_ACC_RDONLY);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::READWRITE),
-                    H5F_ACC_RDWR);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE),
-                    H5F_ACC_TRUNC);
-#if H5_VERSION_GE(1,10,0)
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE),
-                    H5F_ACC_SWMR_WRITE);
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ),
-                    H5F_ACC_SWMR_READ);
-
-#endif
-}
-
-

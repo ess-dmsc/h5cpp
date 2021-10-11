@@ -22,119 +22,110 @@
 // Author: Jan Kotanski <jan,kotanski@desy.de>
 // Created on: Jul 2, 2018
 //
-#include <gtest/gtest.h>
-#include <h5cpp/hdf5.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/ebool.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class H5pyBoolTest : public testing::Test
-{
-  protected:
-    file::File h5py_file;
-    node::Group root_group;
+#ifndef _MSC_VER
+namespace { 
+static datatype::EBool read_ebool(const attribute::Attribute& attr) {
+  datatype::EBool buffer;
+  attr.read(buffer);
+  return buffer;
+}
+}
 
-    virtual void SetUp()
-    {
-      h5py_file = file::open("./h5py_test_boolattr.h5",file::AccessFlags::READONLY);
-      root_group = h5py_file.root();
+
+SCENARIO("Reading bool attributes written by h5py") {
+  auto h5py_file =
+      file::open("./../h5py_test_boolattr.h5", file::AccessFlags::READONLY);
+  auto root_group = h5py_file.root();
+
+  // ==========================================================================
+  // testing reading the bool data from an attribute with a scalar dataspace
+  // ==========================================================================
+  GIVEN("a boolean attribute with a scalar dataspace") {
+    AND_GIVEN("it has the value true") {
+      auto attr = root_group.attributes["bool_scalar_true"];
+      THEN("read") {
+        REQUIRE(read_ebool(attr) == true);
+        REQUIRE(read_ebool(attr) == datatype::EBool::TRUE);
+        REQUIRE(read_ebool(attr) == 1);
+      }
+
+      AND_THEN("the data type should be an enumeration type") {
+        REQUIRE(attr.datatype().get_class() == datatype::Class::ENUM);
+        REQUIRE(datatype::is_bool(datatype::Enum(attr.datatype())));
+      }
     }
 
-};
+    AND_GIVEN("it hast the value false") {
+      auto attr = root_group.attributes["bool_scalar_false"];
+      THEN("read as bool") {
+        REQUIRE(read_ebool(attr) == false);
+        REQUIRE(read_ebool(attr) == datatype::EBool::FALSE);
+        REQUIRE(read_ebool(attr) == 0);
+      }
+    }
+  }
 
-#ifndef _MSC_VER
-TEST_F(H5pyBoolTest, test_read_scalar_bool)
-{
-  auto attrue =  root_group.attributes["bool_scalar_true"];
-  bool buffer;
-  attrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  bool buffer2;
-  auto atfalse =  root_group.attributes["bool_scalar_false"];
-  atfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
-}
+  // ==========================================================================
+  // test reading the bool data from an attribute with a simple dataspace
+  // of size 1
+  // ==========================================================================
+  GIVEN("a boolean attribute with a simple dataspace") {
+    AND_GIVEN("it has the value true") {
+      auto attr = root_group.attributes["bool_simple_true"];
+      THEN("read") {
+        REQUIRE(read_ebool(attr) == true);
+        REQUIRE(read_ebool(attr) == datatype::EBool::TRUE);
+        REQUIRE(read_ebool(attr) == 1);
+      }
 
-TEST_F(H5pyBoolTest, test_read_simple_bool)
-{
-  auto attrue =  root_group.attributes["bool_simple_true"];
-  bool buffer;
-  attrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  bool buffer2;
-  auto atfalse =  root_group.attributes["bool_simple_false"];
-  atfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
-}
+      AND_THEN("the data type should be an enumeration type") {
+        REQUIRE(attr.datatype().get_class() == datatype::Class::ENUM);
+        REQUIRE(datatype::is_bool(datatype::Enum(attr.datatype())));
+      }
+    }
 
-TEST_F(H5pyBoolTest, test_read_vector_bool)
-{
-  auto a =  root_group.attributes["bool_array"];
-  // missing implementation for std:vector<bool>
-  // std::vector<bool> buffer(4);
-  // std::vector<bool> ref  = {false, true, true, false};
-  // a.read(buffer);
-  // EXPECT_EQ(buffer, ref);
-  std::vector<unsigned char> buffer2(4);
-  std::vector<unsigned char> ref2  = {0, 1, 1, 0};
-  EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(a.datatype().size(), 1ul);
-  a.read(buffer2);
-  EXPECT_EQ(buffer2, ref2);
-}
+    AND_GIVEN("it has the value false") {
+      auto attr = root_group.attributes["bool_simple_false"];
+      THEN("read") { 
+        REQUIRE(read_ebool(attr) == false);
+        REQUIRE(read_ebool(attr) == datatype::EBool::FALSE);
+        REQUIRE(read_ebool(attr) == 0); }
+    }
+  }
 
-TEST_F(H5pyBoolTest, test_read_scalar_ebool)
-{
-  auto attrue =  root_group.attributes["bool_scalar_true"];
-  datatype::EBool buffer;
-  EXPECT_EQ(attrue.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(attrue.datatype())), true);
-  attrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  EXPECT_EQ(buffer, 1);
-  EXPECT_EQ(buffer, datatype::EBool::TRUE);
-  datatype::EBool buffer2;
-  auto atfalse =  root_group.attributes["bool_scalar_false"];
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(atfalse.datatype())), true);
-  EXPECT_EQ(atfalse.datatype().get_class(), datatype::Class::ENUM);
-  atfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
-  EXPECT_EQ(buffer2, 0);
-  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
-}
+  // ==========================================================================
+  // test reading the bool data from an attribute with a simple dataspace
+  // of size 4
+  // ==========================================================================
+  GIVEN("a boolean array attribute") {
+    using uchars = std::vector<unsigned char>;
+    using ebools = std::vector<datatype::EBool>; 
+    auto ref_uchar = uchars{0, 1, 1, 0};
 
-TEST_F(H5pyBoolTest, test_read_simple_ebool)
-{
-  auto attrue =  root_group.attributes["bool_simple_true"];
-  datatype::EBool buffer;
-  EXPECT_EQ(attrue.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(attrue.datatype())), true);
-  attrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  EXPECT_EQ(buffer, 1);
-  EXPECT_EQ(buffer, datatype::EBool::TRUE);
-  datatype::EBool buffer2;
-  auto atfalse =  root_group.attributes["bool_simple_false"];
-  atfalse.read(buffer2);
-  EXPECT_EQ(atfalse.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(atfalse.datatype())), true);
-  EXPECT_EQ(buffer2, false);
-  EXPECT_EQ(buffer2, 0);
-  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
-}
 
-TEST_F(H5pyBoolTest, test_read_vector_ebool)
-{
-  auto a =  root_group.attributes["bool_array"];
-  EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(a.datatype())), true);
-  std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
-					datatype::EBool::TRUE,
-				        datatype::EBool::TRUE,
-				        datatype::EBool::FALSE};
-  EXPECT_EQ(a.datatype().size(), 1ul);
-  a.read(buffer);
-  EXPECT_EQ(buffer, eref);
+    auto attr = root_group.attributes["bool_array"];
+
+    THEN("we get 0 1 1 0") {
+      uchars buffer(4);
+      attr.read(buffer);
+      REQUIRE_THAT(buffer, Catch::Matchers::Equals(ref_uchar));
+    }
+
+    THEN("we can read as ebool") { 
+      ebools buffer(4);
+      attr.read(buffer);
+    }
+
+    AND_THEN("we get for the data type") {
+      REQUIRE(attr.datatype().get_class() == datatype::Class::ENUM);
+      REQUIRE(attr.datatype().size() == 1);
+    }
+  }
 }
 #endif

@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2018 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,122 +21,173 @@
 // ===========================================================================
 //
 // Author: Jan Kotanski <jan,kotanski@desy.de>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Jul 2, 2018
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include <h5cpp/datatype/ebool.hpp>
+#include "../utilities.hpp"
 
 using namespace hdf5;
 
-class DatasetH5pyBoolTest : public testing::Test
-{
-  protected:
-    file::File h5py_file;
-    node::Group root_group;
+#ifndef _MSC_VER
+SCENARIO("testing h5py compatiable booleans") {
+  auto h5py_file =
+      file::open("../h5py_test_boolattr.h5", file::AccessFlags::READONLY);
+  auto root_group = h5py_file.root();
 
-    virtual void SetUp()
-    {
-      h5py_file = file::open("./h5py_test_boolattr.h5",file::AccessFlags::READONLY);
-      root_group = h5py_file.root();
+  // =========================================================================
+  // reading a single true value from a dataset with a scalar dataspace
+  // =========================================================================
+  GIVEN("given a dataset with a scalar dataspace storing true") {
+    auto dataset = node::get_dataset(root_group, "ds_bool_scalar_true");
+    THEN("the class of the datasets' datatype is ENUM") {
+      REQUIRE(dataset.datatype().get_class() == datatype::Class::ENUM);
+      AND_THEN("the dataset has a bloolean datatype") {
+        REQUIRE(datatype::is_bool(datatype::Enum(dataset.datatype())));
+      }
+    }
+    AND_GIVEN("given a scalar bool buffer") {
+      bool buffer;
+      WHEN("reading the data") {
+        dataset.read(buffer);
+        THEN("the content of the read buffer must be true") { REQUIRE(buffer); }
+      }
+    }
+    AND_GIVEN("and given a scalar EBools buffer") {
+      datatype::EBool buffer;
+      WHEN("reading the data from the dataset") {
+        dataset.read(buffer);
+        THEN("the result must be true") { REQUIRE(buffer == true); }
+        THEN("the result must be 1") { REQUIRE(buffer == 1); }
+        THEN("the result must be EBool::TRUE") {
+          REQUIRE(buffer == datatype::EBool::TRUE);
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // reading a single false value from a dataset with a scalar dataspace
+  // ==========================================================================
+  GIVEN("a dataset with a scalar dataspace and one false value stored") {
+    auto dataset = node::get_dataset(root_group, "ds_bool_scalar_false");
+    AND_GIVEN("a scalar bool buffer") {
+      bool buffer;
+      WHEN("reading the data") {
+        dataset.read(buffer);
+        THEN("the content of the read buffer must be false") {
+          REQUIRE_FALSE(buffer);
+        }
+      }
+    }
+    AND_GIVEN("a scalar EBool buffer") {
+      datatype::EBool buffer;
+      WHEN("reading the data from the dataset") {
+        dataset.read(buffer);
+        THEN("the result must be false") { REQUIRE_FALSE(buffer); }
+        THEN("the result must be 0") { REQUIRE(buffer == 0); }
+        THEN("the result must be EBool::FALSE") {
+          REQUIRE(buffer == datatype::EBool::FALSE);
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // reading a single true value from a dataset with a simple dataspace
+  // ==========================================================================
+  GIVEN("a dataspace with a simple dataspace and one true value stored") {
+    auto dataset = node::get_dataset(root_group, "ds_bool_simple_true");
+    AND_GIVEN("a bool read buffer") {
+      bool buffer;
+      WHEN("reading the data") {
+        dataset.read(buffer);
+        THEN("the content of the read buffer must be true") { REQUIRE(buffer); }
+      }
+    }
+    AND_GIVEN("an EBool read buffer") {
+      datatype::EBool buffer;
+      WHEN("reading the data") {
+        dataset.read(buffer);
+        THEN("the result must be true") { REQUIRE(buffer == true); }
+        THEN("the result must be 1") { REQUIRE(buffer == 1); }
+        THEN("the result must be EBool::TRUE") {
+          REQUIRE(buffer == datatype::EBool::TRUE);
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // reading a single false value froma dataset with a simple dataspace
+  // ==========================================================================
+  GIVEN("a datapsace with a simple dataspace and one false value stored") {
+    auto dataset = node::get_dataset(root_group, "ds_bool_simple_false");
+    AND_GIVEN("a bool read buffer") {
+      bool buffer;
+      WHEN("reading the data") {
+        dataset.read(buffer);
+        THEN("the content of the read buffer must be false") {
+          REQUIRE_FALSE(buffer);
+        }
+      }
+    }
+    AND_GIVEN("an EBool read buffer") {
+      datatype::EBool buffer;
+      WHEN("reading the data") {
+        dataset.read(buffer);
+        THEN("the result must be false") { REQUIRE_FALSE(buffer); }
+        THEN("the result must be 0") { REQUIRE(buffer == 0); }
+        THEN("the result must be EBool::FALSE") {
+          REQUIRE(buffer == datatype::EBool::FALSE);
+        }
+      }
+    }
+  }
+
+  // ============================================================================
+  // testing reading boolean array data from a dataset
+  // ============================================================================
+  GIVEN("a dataset storing an array of bools") {
+    auto dataset = node::get_dataset(root_group, "ds_bool_array");
+    THEN("the datasets' data type will be ENUM") {
+      REQUIRE(dataset.datatype().get_class() == datatype::Class::ENUM);
+      AND_THEN("the size of the datatype will be 1") {
+        REQUIRE(dataset.datatype().size() == 1ul);
+      }
     }
 
-};
-
-#ifndef _MSC_VER
-TEST_F(DatasetH5pyBoolTest, test_read_scalar_bool)
-{
-  auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
-  bool buffer;
-  dstrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  bool buffer2;
-  auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
-  dsfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
+    // --------------------------------------------------------------------------
+    // reading the data to an unsigned char vector
+    //
+    // This is a workaround as there is no implementation for std::vector<bool>
+    // --------------------------------------------------------------------------
+    AND_GIVEN("a unsigned char vector read buffer") {
+      UChars buffer(4);
+      WHEN("reading the data from the dataset") {
+        dataset.read(buffer);
+        THEN("the result will be as expected") {
+          UChars expected = {0, 1, 1, 0};
+          REQUIRE_THAT(buffer, Catch::Matchers::Equals(expected));
+        }
+      }
+    }
+    // --------------------------------------------------------------------------
+    // reading the data to an EBool vector
+    // --------------------------------------------------------------------------
+    AND_GIVEN("a EBool vector read buffer") {
+      EBools buffer(4);
+      WHEN("reading the data from the dataset") {
+        dataset.read(buffer);
+        THEN("the result will be {FALSE, TRUE, TRUE, FALSE} ") {
+          EBools expected{datatype::EBool::FALSE, datatype::EBool::TRUE,
+                          datatype::EBool::TRUE, datatype::EBool::FALSE};
+          REQUIRE_THAT(buffer, Catch::Matchers::Equals(expected));
+        }
+      }
+    }
+  }
 }
 
-TEST_F(DatasetH5pyBoolTest, test_read_simple_bool)
-{
-  auto dstrue = node::get_dataset(root_group,"ds_bool_simple_true");
-  bool buffer;
-  dstrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  bool buffer2;
-  auto dsfalse = node::get_dataset(root_group,"ds_bool_simple_false");
-  dsfalse.read(buffer2);
-  EXPECT_EQ(buffer2, false);
-}
-
-TEST_F(DatasetH5pyBoolTest, test_read_vector_bool)
-{
-  auto ds = node::get_dataset(root_group,"ds_bool_array");
-  // missing implementation for std:vector<bool>
-  // std::vector<bool> buffer(4);
-  // std::vector<bool> ref  = {false, true, true, false};
-  // ds.read(buffer);
-  // EXPECT_EQ(buffer, ref);
-  std::vector<unsigned char> buffer2(4);
-  std::vector<unsigned char> ref2  = {0, 1, 1, 0};
-  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(ds.datatype().size(), 1ul);
-  ds.read(buffer2);
-  EXPECT_EQ(buffer2, ref2);
-}
-
-TEST_F(DatasetH5pyBoolTest, test_read_scalar_ebool)
-{
-  auto dstrue = node::get_dataset(root_group,"ds_bool_scalar_true");
-  datatype::EBool buffer;
-  EXPECT_EQ(dstrue.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(dstrue.datatype())), true);
-  dstrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  EXPECT_EQ(buffer, 1);
-  EXPECT_EQ(buffer, datatype::EBool::TRUE);
-  datatype::EBool buffer2;
-  auto dsfalse = node::get_dataset(root_group,"ds_bool_scalar_false");
-  dsfalse.read(buffer2);
-  EXPECT_EQ(dsfalse.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(dsfalse.datatype())), true);
-  EXPECT_EQ(buffer2, false);
-  EXPECT_EQ(buffer2, 0);
-  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
-}
-
-TEST_F(DatasetH5pyBoolTest, test_read_simple_ebool)
-{
-  auto dstrue = node::get_dataset(root_group,"ds_bool_simple_true");
-  datatype::EBool buffer;
-  EXPECT_EQ(dstrue.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(dstrue.datatype())), true);
-  dstrue.read(buffer);
-  EXPECT_EQ(buffer, true);
-  EXPECT_EQ(buffer, 1);
-  EXPECT_EQ(buffer, datatype::EBool::TRUE);
-  datatype::EBool buffer2;
-  auto dsfalse = node::get_dataset(root_group,"ds_bool_simple_false");
-  dsfalse.read(buffer2);
-  EXPECT_EQ(dsfalse.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(dsfalse.datatype())), true);
-  EXPECT_EQ(buffer2, false);
-  EXPECT_EQ(buffer2, 0);
-  EXPECT_EQ(buffer2, datatype::EBool::FALSE);
-}
-
-TEST_F(DatasetH5pyBoolTest, test_read_vector_ebool)
-{
-  auto ds = node::get_dataset(root_group,"ds_bool_array");
-  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(datatype::is_bool(datatype::Enum(ds.datatype())), true);
-  std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> eref  = {datatype::EBool::FALSE,
-					datatype::EBool::TRUE,
-				        datatype::EBool::TRUE,
-				        datatype::EBool::FALSE};
-  EXPECT_EQ(ds.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(ds.datatype().size(), 1ul);
-  ds.read(buffer);
-  EXPECT_EQ(buffer, eref);
-}
 #endif

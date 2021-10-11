@@ -1,7 +1,8 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,32 +20,13 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Nov 22, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 8 Dec, 2020
 //
-#include <gtest/gtest.h>
-#include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
+#include "utilities.hpp"
+#include "../utilities.hpp"
 
-using namespace hdf5::node;
-
-class IsGroupTest : public BasicFixture
-{
-
-};
-
-TEST_F(IsGroupTest, test_with_default_constructed_node)
-{
-  EXPECT_THROW(is_group(Node()),std::runtime_error);
-}
-
-TEST_F(IsGroupTest,test_with_group)
-{
-  EXPECT_TRUE(is_group(root_));
-}
-
-TEST_F(IsGroupTest,test_with_dataset)
-{
-  Dataset dset(root_,hdf5::Path("data"),hdf5::datatype::create<int>());
-  EXPECT_FALSE(is_group(dset));
+hdf5::ObjectHandle handle_from_class(const hdf5::property::Class &plist_class) { 
+    return hdf5::ObjectHandle{H5Pcreate(to_hid(plist_class))};
 }

@@ -29,6 +29,7 @@
 #include <string>
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/datatype/string.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 
@@ -44,7 +45,7 @@ class FixedLengthStringBuffer : public  std::vector<CharT>
     {
       FixedLengthStringBuffer<CharT> buffer;
       if(dataspace.selection.type() == dataspace::SelectionType::ALL)
-        buffer =  FixedLengthStringBuffer<CharT>(datatype.size()*dataspace.size());
+        buffer =  FixedLengthStringBuffer<CharT>(datatype.size()*static_cast<size_t>(dataspace.size()));
       else
         buffer = FixedLengthStringBuffer<CharT>(datatype.size()*dataspace.selection.size());
 
@@ -154,7 +155,7 @@ struct FixedLengthStringTrait<std::vector<std::string>>
      auto start=buffer.begin();
      while(start!=buffer.end())
      {
-       auto end = start+memory_type.size();
+       auto end = start+unsigned2signed<std::string::difference_type>(memory_type.size());
        data.push_back(std::string(start,end));
        start=end;
      }

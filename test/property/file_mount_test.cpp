@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,27 +21,34 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 22, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/file_mount.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 
-TEST(FileMountList, test_default_construction) {
-  pl::FileMountList fmpl;
-  EXPECT_TRUE(fmpl.get_class() == pl::kFileMount);
-
-  auto cl = pl::kFileMount;
-  EXPECT_NO_THROW((pl::FileMountList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::FileMountList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("constructing a file mount property list") {
+  GIVEN("a default constructed list") {
+    pl::FileMountList fmpl;
+    THEN("we expect") { REQUIRE(fmpl.get_class() == pl::kFileMount); }
+  }
+  GIVEN("a handle to a file mount list") {
+    auto handle = handle_from_class(pl::kFileMount);
+    THEN("we can use this to construct a list instance") {
+      REQUIRE_NOTHROW(pl::FileMountList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group creation property list") {
+    auto handle = handle_from_class(pl::kGroupCreate);
+    THEN("any attempt to construct a file mount property list must fail") {
+      REQUIRE_THROWS_AS(pl::FileMountList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
-
-

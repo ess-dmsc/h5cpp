@@ -56,8 +56,8 @@ class DLL_EXPORT Version
 
     //!
     //! @brief constructor
-    //! @param major the major version number
-    //! @param minor the minor version number
+    //! @param major_number the major version number
+    //! @param minor_number the minor version number
     //! @param patch the patch version number
     //!
     Version(NumberType major_number, NumberType minor_number, NumberType patch) noexcept;

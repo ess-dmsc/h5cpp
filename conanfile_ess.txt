@@ -1,20 +1,44 @@
 [requires]
-cmake_findboost_modular/1.69.0@bincrafters/stable
-boost_filesystem/1.69.0@bincrafters/stable
-hdf5/1.10.5-dm2@ess-dmsc/stable
-gtest/1.10.0
+boost/1.69.0
+hdf5/1.10.6
+zlib/1.2.11
+bzip2/1.0.8
 
 [generators]
-cmake
+cmake_paths
+cmake_find_package
 virtualbuildenv
 virtualrunenv
 
 [options]
-boost_filesystem:shared=True
-boost_system:shared=True
+boost:shared=True
+boost:without_atomic=True
+boost:without_chrono=True
+boost:without_container=True
+boost:without_context=True
+boost:without_contract=True
+boost:without_coroutine=True
+boost:without_date_time=True
+boost:without_exception=True
+boost:without_fiber=True
+boost:without_graph=True
+boost:without_iostreams=True
+boost:without_locale=True
+boost:without_log=True
+boost:without_math=True
+boost:without_random=True
+boost:without_serialization=True
+boost:without_stacktrace=True
+boost:without_test=True
+boost:without_thread=True
+boost:without_timer=True
+boost:without_type_erasure=True
+boost:without_wave=True
 hdf5:shared=True
-hdf5:cxx=False
-gtest:shared=True
+hdf5:szip_support=with_libaec
+hdf5:szip_encoding=True
+hdf5:enable_cxx=False
+zip:shared=True
 
 [imports]
 bin, cmake -> ./bin

@@ -1,6 +1,7 @@
 
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -26,18 +27,10 @@
 // Created on: Oct 6, 2017
 //
 
-#include <gtest/gtest.h>
-#include <h5cpp/datatype/compound.hpp>
-#include <h5cpp/datatype/float.hpp>
-#include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/file/file.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
-#include <h5cpp/attribute/attribute.hpp>
-#include <cstdint>
+#include <catch2/catch.hpp>
 #include <complex>
-#include <vector>
-#include "../fixture.hpp"
+#include <cstdint>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 using namespace hdf5::datatype;
@@ -45,7 +38,6 @@ using namespace hdf5::datatype;
 struct complex_struct {
   double real;
   double imag;
-
 };
 
 class Pixel {
@@ -62,18 +54,18 @@ class Pixel {
 namespace hdf5 {
 namespace datatype {
 
-template<typename BT>
+template <typename BT>
 struct complex_t {
   BT real;
   BT imag;
 };
 
-template<>
+template <>
 class TypeTrait<Pixel> {
  public:
   using TypeClass = Compound;
 
-  static TypeClass create(const Pixel & = Pixel()) {
+  static TypeClass create(const Pixel& = Pixel()) {
     auto type = datatype::Compound::create(sizeof(Pixel));
     type.insert("red", 0, datatype::create<std::uint8_t>());
     type.insert("green", 1, datatype::create<std::uint8_t>());
@@ -82,94 +74,164 @@ class TypeTrait<Pixel> {
   }
 };
 
-}
-}
+}  // namespace datatype
+}  // namespace hdf5
 
-class CompoundType : public BasicFixture {
-};
+SCENARIO("Compount type construction") {
+  GIVEN("a default constructed compount type") {
+    datatype::Compound type;
+    THEN("the resulting type is invalid") { REQUIRE_FALSE(type.is_valid()); }
+    THEN("it is of typeclass NONE") {
+      REQUIRE(type.get_class() == datatype::Class::NONE);
+    }
+    THEN("cannot retrieve fields") {
+      REQUIRE_THROWS_AS(type.number_of_fields(), std::runtime_error);
+    }
+    THEN("insertion of a new element fails") {
+      REQUIRE_THROWS_AS(type.insert("x", HOFFSET(complex_struct, real),
+                                    datatype::create<double>()),
+                        std::runtime_error);
+    }
+    THEN("obtaining a field index fails") {
+      REQUIRE_THROWS_AS(type.field_index("hello"), std::runtime_error);
+    }
+    THEN("obtaining the field name fails") {
+      REQUIRE_THROWS_AS(type.field_name(0), std::runtime_error);
+    }
+    THEN("accessing a fields class fails") {
+      REQUIRE_THROWS_AS(type.field_class(0), std::runtime_error);
+    }
+    THEN("accessing a field fails") {
+      REQUIRE_THROWS_AS(type[0], std::runtime_error);
+    }
+    THEN("packing will fails") {
+      REQUIRE_THROWS_AS(type.pack(), std::runtime_error);
+    }
+  }
 
-TEST_F(CompoundType, test_default_construction) {
-  datatype::Compound type;
-  EXPECT_FALSE(type.is_valid());
-  EXPECT_EQ(type.get_class(), datatype::Class::NONE);
-  //EXPECT_THROW(type.field_index("real"),std::runtime_error);
-  //EXPECT_THROW(type.field_index(0),std::runtime_error);
-}
-
-TEST_F(CompoundType, Exceptions) {
-  auto ft = datatype::create<double>();
-  EXPECT_THROW((datatype::Compound(ft)), std::runtime_error);
-  EXPECT_THROW((datatype::Compound::create(0)), std::runtime_error);
-
-  auto type = Compound::create(sizeof(complex_struct));
-  ObjectHandle(static_cast<hid_t>(type)).close();
-  EXPECT_THROW((type.number_of_fields()), std::runtime_error);
-  EXPECT_THROW(type.insert("x", HOFFSET(complex_struct, real), datatype::create<double>()),
-               std::runtime_error);
-  EXPECT_THROW((type.field_index("hello")), std::runtime_error);
-  EXPECT_THROW((type.field_name(0)), std::runtime_error);
-  EXPECT_THROW((type.field_class(0)), std::runtime_error);
-  EXPECT_THROW((type[0]), std::runtime_error);
-
-  EXPECT_THROW((type.pack()), std::runtime_error);
-}
-
-TEST_F(CompoundType, test_complex_number) {
-  auto type = Compound::create(sizeof(complex_struct));
-  EXPECT_EQ(type.number_of_fields(), 0ul);
-
-  EXPECT_NO_THROW(type.insert("real", HOFFSET(complex_struct, real), datatype::create<double>()));
-  EXPECT_NO_THROW(type.insert("imag", HOFFSET(complex_struct, imag), datatype::create<double>()));
-
-  EXPECT_EQ(type.number_of_fields(), 2ul);
-  EXPECT_TRUE(type.has_class(datatype::Class::FLOAT));
-  EXPECT_FALSE(type.has_class(datatype::Class::INTEGER));
-
-  EXPECT_EQ(type.field_index("real"), 0ul);
-  EXPECT_EQ(type.field_index("imag"), 1ul);
-
-  EXPECT_EQ(type.field_name(0), "real");
-  EXPECT_EQ(type.field_name(1), "imag");
-
-  EXPECT_EQ(type.field_class(0), datatype::Class::FLOAT);
-  EXPECT_EQ(type.field_class("real"), datatype::Class::FLOAT);
-
-  EXPECT_EQ(type.field_offset(0), 0ul);
-  EXPECT_EQ(type.field_offset("real"), 0ul);
-
-  EXPECT_EQ(type[0], datatype::create<double>());
-  EXPECT_EQ(type["real"], datatype::create<double>());
-
-  EXPECT_NO_THROW(type.pack());
+  GIVEN("a double type") {
+    auto ft = datatype::create<double>();
+    THEN("we cannot construct a compount from this") {
+      REQUIRE_THROWS_AS((datatype::Compound(ft)), std::runtime_error);
+    }
+  }
+  WHEN("the size of the compount type is 0") {
+    THEN("the construction fails") {
+      REQUIRE_THROWS_AS((datatype::Compound::create(0)), std::runtime_error);
+    }
+  }
 }
 
-TEST_F(CompoundType, test_complex_number_io) {
-  std::complex<double> write_value(1., 3.);
-  std::complex<double> read_value(0., 0.);
-  attribute::Attribute a = root_.attributes.create<std::complex<double>>("hello");
-  a.write(write_value);
-  a.read(read_value);
-  EXPECT_NEAR(write_value.real(), read_value.real(), 0.0001);
-  EXPECT_NEAR(write_value.imag(), read_value.imag(), 0.0001);
+SCENARIO("Creating a pixel datatype using the trait") {
+  GIVEN("a pixel type") {
+    auto type = datatype::create<Pixel>();
+    THEN("the compound type") { REQUIRE(type.size() == 3ul); }
+    THEN("the type contains an INTEGER") {
+      REQUIRE(type.has_class(datatype::Class::INTEGER));
+    }
+    THEN("the type does not contain a FLOAT") {
+      REQUIRE_FALSE(type.has_class(datatype::Class::FLOAT));
+    }
+  }
 }
 
-TEST_F(CompoundType, test_pixel_type) {
-  Pixel write_pixel(1, 2, 3);
-  Pixel read_pixel(0, 0, 0);
-
-  auto type = datatype::create<Pixel>();
-  attribute::Attribute a = root_.attributes.create<Pixel>("pixel");
-  a.write(write_pixel);
-  a.read(read_pixel);
-
-  EXPECT_EQ(write_pixel.red_, read_pixel.red_);
-  EXPECT_EQ(write_pixel.green_, read_pixel.green_);
-  EXPECT_EQ(write_pixel.blue_, read_pixel.blue_);
-  EXPECT_TRUE(type.has_class(datatype::Class::INTEGER));
-  EXPECT_FALSE(type.has_class(datatype::Class::FLOAT));
+SCENARIO("creating compound data type for a complex number type") {
+  GIVEN("a compount type of the size of the complex structure") {
+    auto type = Compound::create(sizeof(complex_struct));
+    THEN("the initial number of fields is 0") {
+      REQUIRE(type.number_of_fields() == 0ul);
+    }
+    AND_WHEN("we add the first field") {
+      REQUIRE_NOTHROW(type.insert("real", HOFFSET(complex_struct, real),
+                                  datatype::create<double>()));
+      AND_WHEN("we add the second field") {
+        REQUIRE_NOTHROW(type.insert("imag", HOFFSET(complex_struct, imag),
+                                    datatype::create<double>()));
+        THEN("the number of fields is 2") {
+          REQUIRE(type.number_of_fields() == 2ul);
+        }
+        THEN("the compound type will contain a field of float type") {
+          REQUIRE(type.has_class(datatype::Class::FLOAT));
+        }
+        THEN("the compound type will contain no interger field") {
+          REQUIRE_FALSE(type.has_class(datatype::Class::INTEGER));
+        }
+        THEN("the real field has index 0") {
+          REQUIRE(type.field_index("real") == 0ul);
+        }
+        THEN("the imag field has index 1") {
+          REQUIRE(type.field_index("imag") == 1ul);
+        }
+        THEN("the name of field 0 is 'real'") {
+          REQUIRE(type.field_name(0) == "real");
+        }
+        THEN("the name of field 1 is 'imag'") {
+          REQUIRE(type.field_name(1) == "imag");
+        }
+        THEN("the type class of field 0 is FLOAT") {
+          REQUIRE(type.field_class(0) == datatype::Class::FLOAT);
+        }
+        THEN("the type class of field 'real' is FLOAT") {
+          REQUIRE(type.field_class("real") == datatype::Class::FLOAT);
+        }
+        THEN("the offset of the first field is 0") {
+          REQUIRE(type.field_offset(0) == 0ul);
+        }
+        THEN("the offset of the field with name 'real' is 0") {
+          REQUIRE(type.field_offset("real") == 0ul);
+        }
+        AND_GIVEN("a double datat type") {
+          auto t = datatype::create<double>();
+          THEN("the type of field 0 is the same") { REQUIRE(type[0] == t); }
+          THEN("the type of name 'real' is the same") {
+            REQUIRE(type["real"] == t);
+          }
+        }
+        THEN("we can pack the type") { REQUIRE_NOTHROW(type.pack()); }
+      }
+    }
+  }
 }
 
+SCENARIO("testing IO with complex value") {
+  auto f = file::create("compound_test.h5", file::AccessFlags::TRUNCATE);
+  auto root = f.root();
 
+  GIVEN("a complex attribute") {
+    using complex_type = std::complex<double>;
+    auto a = root.attributes.create<complex_type>("hello");
+    AND_GIVEN("a complex number") {
+      complex_type write_value{1., 3.};
+      THEN("we can write a value") {
+        a.write(write_value);
+        AND_WHEN("we read the numbers back") {
+          complex_type read_value{0., 0.};
+          a.read(read_value);
+          THEN("They must match the original values") {
+            REQUIRE(write_value.real() == read_value.real());
+            REQUIRE(write_value.imag() == read_value.imag());
+          }
+        }
+      }
+    }
+  }
 
-
-
+  GIVEN("pixel attribute") {
+    auto a = root.attributes.create<Pixel>("pixel");
+    AND_GIVEN("a pixel value") {
+      Pixel write_pixel(1, 2, 3);
+      THEN("we can write the pixel value to the attribute") {
+        a.write(write_pixel);
+        AND_WHEN("reading the number back") {
+          Pixel read_pixel(0, 0, 0);
+          a.read(read_pixel);
+          THEN("the values should match") {
+            REQUIRE(write_pixel.red_ == read_pixel.red_);
+            REQUIRE(write_pixel.green_ == read_pixel.green_);
+            REQUIRE(write_pixel.blue_ == read_pixel.blue_);
+          }
+        }
+      }
+    }
+  }
+}

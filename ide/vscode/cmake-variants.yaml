@@ -1,0 +1,58 @@
+buildType:
+  default: debug
+  description: Type and puprpose of build
+  choices:
+    debug:
+      short: Debug
+      long: Build with debugging symbols and without optimization
+      buildType: Debug
+    release:
+      short: Release
+      long: Build for release with full optimizations enabled
+      bulidType: Release
+
+mpi:
+  default: nompi
+  description: build with MPI support
+  choices:
+    nompi:
+      short: without MPI 
+      long: build with the serial version of the HDF5 library
+      settings:
+        WITH_MPI: OFF
+    withmpi:
+      short: with MPI
+      long: bulid using the installed MPI flavor
+      settings:
+        WITH_MPI: ON
+
+filesystem:
+  default: boostfs
+  description: implementation of the filesystem namespace
+  choices:
+    boostfs:
+      short: boost::filesystem
+      long: use boos filesystem implementation
+      settings:
+        WITH_BOOST: ON
+    stdfs:
+      short: std::filesystem
+      long: use the C++ standard library filesystem implementation
+      settings:
+        WITH_BOOST: OFF
+
+
+conan:
+  default: 'disabled'
+  description: Decide whether or not to use conan to satisfy build dependencies
+  choices:
+    'disabled':
+      short: without conan
+      long: all dependencies must be provided by the OS environment
+      settings:
+        CONAN: DISABLE
+    'auto':
+      short: with conan
+      long: all dependencies will be satisifed by conan
+      settings:
+        CONAN: AUTO

@@ -38,6 +38,10 @@ namespace filter {
 //! easy configuration of filters. They basically only store the fitlers
 //! parameters and apply them to the dataset creation property list.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT Filter
 {
   public:
@@ -48,8 +52,7 @@ class DLL_EXPORT Filter
     //! implementation.
     //!
     Filter();
-
-
+    Filter(const Filter&) = default;
     virtual ~Filter();
 
     //!
@@ -60,10 +63,10 @@ class DLL_EXPORT Filter
     //! \throws std::runtime_error in case of a failure
     //! \param dcpl reference to the dataset creation property list
     //! \param flag determines the availability requirement for a filter
-    //!             which is \i mandatory by default.
+    //!             which is \e mandatory by default.
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::MANDATORY) const = 0;
+                            Availability flag = Availability::mandatory) const = 0;
 
     //!
     //! \brief get the ID of the filter
@@ -101,7 +104,9 @@ class DLL_EXPORT Filter
   private:
     FilterID id_;
 };
-
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 } // namespace filter

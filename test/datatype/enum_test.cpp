@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,33 +21,28 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: May 14, 2018
 //
-#include <gtest/gtest.h>
-#include <h5cpp/datatype/enum.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/ebool.hpp>
-#include <h5cpp/datatype/factory.hpp>
-#include "../fixture.hpp"
+#include <h5cpp/hdf5.hpp>
 
-struct Enum : public BasicFixture
-{};
-
-enum WeakFruit : uint16_t { Apple = 0, Pear = 1, Orange = 2};
-enum class StrongFruit : uint16_t { Pineapple = 0, Jackfruit = 1, Durian = 2};
-enum FakeBool : int8_t { TRUE = 0, FALSE = 1};
+enum WeakFruit : uint16_t { Apple = 0, Pear = 1, Orange = 2 };
+enum class StrongFruit : uint16_t { Pineapple = 0, Jackfruit = 1, Durian = 2 };
+enum FakeBool : int8_t { TRUE = 0, FALSE = 1 };
 
 namespace hdf5 {
 namespace datatype {
 
-template<>
+template <>
 class TypeTrait<WeakFruit> {
  public:
   using TypeClass = Enum;
 
-  static TypeClass create(const WeakFruit & = WeakFruit()) {
+  static TypeClass create(const WeakFruit& = WeakFruit()) {
     auto type = datatype::Enum::create(WeakFruit());
     type.insert("Apple", WeakFruit::Apple);
     type.insert("Pear", WeakFruit::Pear);
@@ -55,12 +51,12 @@ class TypeTrait<WeakFruit> {
   }
 };
 
-template<>
+template <>
 class TypeTrait<StrongFruit> {
  public:
   using TypeClass = Enum;
 
-  static TypeClass create(const StrongFruit & = StrongFruit()) {
+  static TypeClass create(const StrongFruit& = StrongFruit()) {
     auto type = datatype::Enum::create(StrongFruit());
     type.insert("Pineapple", StrongFruit::Pineapple);
     type.insert("Jackfruit", StrongFruit::Jackfruit);
@@ -69,12 +65,12 @@ class TypeTrait<StrongFruit> {
   }
 };
 
-template<>
+template <>
 class TypeTrait<FakeBool> {
  public:
   using TypeClass = Enum;
 
-  static TypeClass create(const FakeBool & = FakeBool()) {
+  static TypeClass create(const FakeBool& = FakeBool()) {
     auto type = datatype::Enum::create(FakeBool());
     type.insert("TRUE", FakeBool::TRUE);
     type.insert("FALSE", FakeBool::FALSE);
@@ -82,79 +78,105 @@ class TypeTrait<FakeBool> {
   }
 };
 
-}
-}
-
+}  // namespace datatype
+}  // namespace hdf5
 
 using namespace hdf5;
 
-TEST_F(Enum, DefaultConstruction) {
-  datatype::Enum type;
-  EXPECT_FALSE(type.is_valid());
-  EXPECT_EQ(type.get_class(), datatype::Class::NONE);
+SCENARIO("Construction of an enumeration type") {
+  GIVEN("a default constructed enumeration type") {
+    datatype::Enum type;
+    THEN("the type is invalid") { REQUIRE_FALSE(type.is_valid()); }
+    THEN("the class is NONE") {
+      REQUIRE(type.get_class() == datatype::Class::NONE);
+    }
+    THEN("requesting number of values fails") {
+      REQUIRE_THROWS_AS(type.number_of_values(), std::runtime_error);
+    }
+    THEN("cannot retrieve a name") {
+      REQUIRE_THROWS_AS(type.name(0), std::runtime_error);
+    }
+  }
+
+  GIVEN("a double base type") {
+    auto ft = datatype::create<double>();
+    THEN("the enumeration construction fails") {
+      REQUIRE_THROWS_AS((datatype::Enum(ft)), std::runtime_error);
+    }
+  }
+
+  GIVEN("a default generic type") {
+    datatype::Datatype dt;
+    THEN("enumeration construction must fail") {
+      REQUIRE_THROWS_AS(datatype::Enum::create_underlying(dt),
+                        std::runtime_error);
+    }
+  }
+
+  GIVEN("an integer base type") {
+    auto base_type = datatype::create<int>();
+    THEN("an enumeration type can be constructed") {
+      auto type = datatype::Enum::create_underlying(base_type);
+      AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }
+      AND_THEN("the type is of class ENUM") {
+        REQUIRE(type.get_class() == datatype::Class::ENUM);
+      }
+      AND_THEN("the number of values is 0") {
+        REQUIRE(type.number_of_values() == 0u);
+      }
+    }
+  }
 }
 
-TEST_F(Enum, Exceptions) {
-  auto ft = datatype::create<double>();
-  EXPECT_THROW((datatype::Enum(ft)), std::runtime_error);
-  EXPECT_THROW((datatype::Enum::create_underlying(datatype::Datatype())), std::runtime_error);
+SCENARIO("inserting a value to an enumeration") {
+  GIVEN("an integer based enumeration type") {
+    auto type = datatype::Enum::create_underlying(datatype::create<int>());
+    AND_GIVEN("a value 1") {
+      int val = 1;
+      THEN("we can insert this into the enumeration type") {
+        type.insert_underlying("val1", val);
+        AND_WHEN("we try to add the same value a second time, it fails") {
+          REQUIRE_THROWS_AS(type.insert_underlying("val2", val),
+                            std::runtime_error);
+        }
+        AND_THEN("the number of values would be 1") {
+          REQUIRE(type.number_of_values() == 1u);
+        }
+        AND_THEN("we can get the name of the first element") {
+          REQUIRE(type.name(0) == "val1");
+        }
+        AND_THEN("we fail to retrieve a name for a value not existing") {
+          REQUIRE_THROWS_AS(type.name(1), std::runtime_error);
+        }
+        AND_THEN("the value can be retrieved") {
+          int readback = 0;
+          type.underlying_value(0, readback);
+          REQUIRE(val == readback);
+          AND_THEN("we fail to read for a non existing value") {
+            REQUIRE_THROWS_AS(type.underlying_value(1, readback),
+                              std::runtime_error);
+          }
+        }
+        WHEN("we try to retrieve the value to the wrong type") {
+          double readback = 0.0;
+          THEN("we fail") {
+            REQUIRE_THROWS_AS(type.underlying_value(0, readback),
+                              std::runtime_error);
+          }
+        }
+      }
+    }
+    AND_GIVEN("given a double value") {
+      double val = 2.0;
+      THEN("trying to insert this value fails") {
+        REQUIRE_THROWS_AS(type.insert_underlying("val2", val),
+                          std::runtime_error);
+      }
+    }
+  }
 }
 
-TEST_F(Enum, IntConstruction) {
-  auto base_type = datatype::create<int>();
-  auto type = datatype::Enum::create_underlying(base_type);
-  EXPECT_TRUE(type.is_valid());
-  EXPECT_EQ(type.get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(type.number_of_values(), 0u);
-
-  ObjectHandle(static_cast<hid_t>(type)).close();
-  EXPECT_THROW((type.number_of_values()), std::runtime_error);
-}
-
-TEST_F(Enum, Insert) {
-  auto type = datatype::Enum::create_underlying(datatype::create<int>());
-
-  int val1 = 1;
-  type.insert_underlying("val1", val1);
-  EXPECT_EQ(type.number_of_values(), 1u);
-
-  // duplicate value
-  EXPECT_THROW((type.insert_underlying("val2", val1)), std::runtime_error);
-}
-
-TEST_F(Enum, InsertTypeMismatch) {
-  auto type = datatype::Enum::create_underlying(datatype::create<int>());
-
-  double val1 = 1;
-  EXPECT_THROW((type.insert_underlying("val1", val1)), std::runtime_error);
-}
-
-TEST_F(Enum, GetName) {
-  auto type = datatype::Enum::create_underlying(datatype::create<int>());
-  int val1 = 1;
-  type.insert_underlying("val1", val1);
-  EXPECT_EQ(type.name(0), "val1");
-
-  EXPECT_THROW((type.name(1)), std::runtime_error);
-
-  ObjectHandle(static_cast<hid_t>(type)).close();
-  EXPECT_THROW((type.name(0)), std::runtime_error);
-}
-
-TEST_F(Enum, GetValue) {
-  auto type = datatype::Enum::create_underlying(datatype::create<int>());
-  int val1 = 1;
-  type.insert_underlying("val1", val1);
-
-  int val2;
-  type.underlying_value(0, val2);
-  EXPECT_EQ(val2, val1);
-
-  EXPECT_THROW(type.underlying_value(1, val2), std::runtime_error);
-  double val3;
-  EXPECT_THROW(type.underlying_value(0, val3), std::runtime_error);
-}
-
+/*
 TEST_F(Enum, GetValueByName) {
   auto type = datatype::Enum::create_underlying(datatype::create<int>());
   type.insert_underlying("val1", (int)1);
@@ -167,119 +189,166 @@ TEST_F(Enum, GetValueByName) {
   double val3;
   EXPECT_THROW(type.underlying_value("val1", val3), std::runtime_error);
 }
+*/
 
-TEST_F(Enum, test_weak_enum) {
-  auto type = datatype::create<WeakFruit>();
-  EXPECT_EQ(type.name(0), "Apple");
-  EXPECT_EQ(type.value<WeakFruit>(0), WeakFruit::Apple);
-  EXPECT_EQ(type.name(1), "Pear");
-  EXPECT_EQ(type.value<WeakFruit>(1), WeakFruit::Pear);
-  EXPECT_EQ(type.name(2), "Orange");
-  EXPECT_EQ(type.value<WeakFruit>(2), WeakFruit::Orange);
+SCENARIO("Custom enumeration trait construction") {
+  GIVEN("the weak enumeration type") {
+    auto type = datatype::create<WeakFruit>();
+    THEN("we can read the names by index") {
+      REQUIRE(type.name(0) == "Apple");
+      REQUIRE(type.name(1) == "Pear");
+      REQUIRE(type.name(2) == "Orange");
+    }
+    THEN("we can read the values by index") {
+      REQUIRE(type.value<WeakFruit>(0) == WeakFruit::Apple);
+      REQUIRE(type.value<WeakFruit>(1) == WeakFruit::Pear);
+      REQUIRE(type.value<WeakFruit>(2) == WeakFruit::Orange);
+    }
+  }
 
-  WeakFruit write_fruit = WeakFruit::Apple;
-  WeakFruit read_fruit = WeakFruit::Orange;
+  GIVEN("the strong enumeration") {
+    auto type = datatype::create<StrongFruit>();
+    THEN("we can read the names by index") {
+      REQUIRE(type.name(0) == "Pineapple");
+      REQUIRE(type.name(1) == "Jackfruit");
+      REQUIRE(type.name(2) == "Durian");
+    }
+    THEN("we can read the values by index") {
+      REQUIRE(type.value<StrongFruit>(0) == StrongFruit::Pineapple);
+      REQUIRE(type.value<StrongFruit>(1) == StrongFruit::Jackfruit);
+      REQUIRE(type.value<StrongFruit>(2) == StrongFruit::Durian);
+    }
+  }
 
-  auto a = root_.attributes.create<WeakFruit>("fruit");
-  auto edt = datatype::Enum(a.datatype());
-  EXPECT_EQ(datatype::is_bool(edt), false);
-  a.write(write_fruit);
-  a.read(read_fruit);
-
-  EXPECT_EQ(write_fruit, read_fruit);
+#ifndef _MSC_VER
+  GIVEN("the EBool type") {
+    auto type = datatype::create<datatype::EBool>();
+    THEN("we can get the names by index") {
+      REQUIRE(type.name(0) == "FALSE");
+      REQUIRE(type.name(1) == "TRUE");
+    }
+    THEN("we can obtain the values by index") {
+      REQUIRE(type.value<datatype::EBool>(0) == datatype::EBool::FALSE);
+      REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::TRUE);
+    }
+  }
+#endif
 }
 
-TEST_F(Enum, test_strong_enum) {
-  auto type = datatype::create<StrongFruit>();
-  EXPECT_EQ(type.name(0), "Pineapple");
-  EXPECT_EQ(type.value<StrongFruit>(0), StrongFruit::Pineapple);
-  EXPECT_EQ(type.name(1), "Jackfruit");
-  EXPECT_EQ(type.value<StrongFruit>(1), StrongFruit::Jackfruit);
-  EXPECT_EQ(type.name(2), "Durian");
-  EXPECT_EQ(type.value<StrongFruit>(2), StrongFruit::Durian);
-
-  auto write_fruit = StrongFruit::Pineapple;
-  auto read_fruit = StrongFruit::Durian;
-
-  auto a = root_.attributes.create<StrongFruit>("fruit");
-  auto edt = datatype::Enum(a.datatype());
-  EXPECT_EQ(datatype::is_bool(edt), false);
-  a.write(write_fruit);
-  a.read(read_fruit);
-
-  EXPECT_EQ(write_fruit, read_fruit);
+SCENARIO("weak enumeration IO") {
+  auto file = file::create("weak_enum_io.h5", file::AccessFlags::TRUNCATE);
+  auto root = file.root();
+  GIVEN("create an enumeration attribute") {
+    auto a = root.attributes.create<WeakFruit>("fruit");
+    AND_GIVEN("an enumeration value") {
+      WeakFruit write_fruit = WeakFruit::Apple;
+      THEN("we can write this value") {
+        a.write(write_fruit);
+        AND_WHEN("we read the value back") {
+          WeakFruit read_fruit = WeakFruit::Orange;
+          a.read(read_fruit);
+          THEN("the values must match") { REQUIRE(write_fruit == read_fruit); }
+        }
+      }
+    }
+  }
 }
 
-TEST_F(Enum, test_ebool_true) {
+SCENARIO("strong enumeration IO") {
+  auto file = file::create("string_enum_io.h5", file::AccessFlags::TRUNCATE);
+  auto root = file.root();
+  GIVEN("create an enumeration attribute") {
+    auto a = root.attributes.create<StrongFruit>("fruit");
+    AND_GIVEN("an enumeration value") {
+      auto write_fruit = StrongFruit::Pineapple;
+      THEN("we can write this value to the attribute") {
+        a.write(write_fruit);
+        AND_WHEN("read the value back") {
+          auto read_fruit = StrongFruit::Durian;
+          a.read(read_fruit);
+          THEN("the values should match") {
+            REQUIRE(write_fruit == read_fruit);
+          }
+        }
+      }
+    }
+  }
+}
+
+#ifndef _MSC_VER
+SCENARIO("testing EBOOL IO") {
+  auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::TRUNCATE);
+  auto root = f.root();
   auto type = datatype::create<datatype::EBool>();
-  EXPECT_EQ(type.name(0), "FALSE");
-  EXPECT_EQ(type.value<datatype::EBool>(0), datatype::EBool::FALSE);
-  EXPECT_EQ(type.name(1), "TRUE");
-  EXPECT_EQ(type.value<datatype::EBool>(1), datatype::EBool::TRUE);
 
-  datatype::EBool write_ebool = datatype::EBool::TRUE;
-  datatype::EBool read_ebool = datatype::EBool::FALSE;
+  GIVEN("an EBOOL attribute") {
+    auto a = root.attributes.create<datatype::EBool>("TRUE");
+    AND_GIVEN("an actual true value") {
+      auto write_ebool = datatype::EBool::TRUE;
+      THEN("we can write this to the attribute") {
+        a.write(write_ebool);
+        AND_WHEN("we read the value back") {
+          auto read_ebool = datatype::EBool::FALSE;
+          a.read(read_ebool);
+          THEN("the values should match") {
+            REQUIRE(write_ebool == read_ebool);
+            REQUIRE(1 == read_ebool);
+            REQUIRE(true == read_ebool);
+          }
+        }
+      }
+    }
+  }
 
-  auto a = root_.attributes.create<datatype::EBool>("TRUE");
-  auto edt = datatype::Enum(a.datatype());
-  EXPECT_EQ(datatype::is_bool(edt), true);
-  a.write(write_ebool);
-  a.read(read_ebool);
+  GIVEN("another EBOOL attribute") {
+    auto a = root.attributes.create<datatype::EBool>("FALSE");
+    AND_GIVEN("an actual false value") {
+      auto write_ebool = datatype::EBool::FALSE;
+      THEN("we can write this to the attribute") {
+        a.write(write_ebool);
+        AND_WHEN("we read the value back") {
+          auto read_ebool = datatype::EBool::FALSE;
+          a.read(read_ebool);
+          THEN("the values should match") {
+            REQUIRE(write_ebool == read_ebool);
+            REQUIRE(0 == read_ebool);
+            REQUIRE(false == read_ebool);
+          }
+        }
+      }
+    }
+  }
 
-  EXPECT_EQ(write_ebool, read_ebool);
-  EXPECT_EQ(1, read_ebool);
-  EXPECT_EQ(true, read_ebool);
+  GIVEN("an EBool array attribute") {
+    auto a = root.attributes.create<datatype::EBool>("bool_array", {4});
+
+    AND_GIVEN("a vector of bool values") {
+      std::vector<datatype::EBool> ref = {
+          datatype::EBool::FALSE, datatype::EBool::TRUE, datatype::EBool::TRUE,
+          datatype::EBool::FALSE};
+      THEN("we can write the values") {
+        a.write(ref);
+        AND_WHEN("we read them back to EBool") {
+          std::vector<datatype::EBool> buffer(4);
+          a.read(buffer, a.datatype());
+          THEN("the values must match") {
+            REQUIRE_THAT(ref, Catch::Matchers::Equals(buffer));
+          }
+        }
+        AND_WHEN("we read them back to integer") {
+          std::vector<int> buffer_int(4);
+          a.read(buffer_int);
+          THEN("the values should match the integers") {
+            std::vector<int> ref_int = {0, 1, 1, 0};
+            REQUIRE_THAT(ref_int, Catch::Matchers::Equals(buffer_int));
+          }
+        }
+      }
+    }
+  }
 }
-
-TEST_F(Enum, test_ebool_false) {
-  auto type = datatype::create<datatype::EBool>();
-  EXPECT_EQ(type.name(0), "FALSE");
-  EXPECT_EQ(type.value<datatype::EBool>(0), datatype::EBool::FALSE);
-  EXPECT_EQ(type.name(1), "TRUE");
-  EXPECT_EQ(type.value<datatype::EBool>(1), datatype::EBool::TRUE);
-
-  datatype::EBool write_ebool = datatype::EBool::FALSE;
-  datatype::EBool read_ebool = datatype::EBool::TRUE;
-
-  auto a = root_.attributes.create<datatype::EBool>("FALSE");
-  auto edt = datatype::Enum(a.datatype());
-  EXPECT_EQ(datatype::is_bool(edt), true);
-  a.write(write_ebool);
-  a.read(read_ebool);
-
-  EXPECT_EQ(write_ebool, read_ebool);
-  EXPECT_EQ(0, read_ebool);
-  EXPECT_EQ(false, read_ebool);
-}
-
-TEST_F(Enum, test_ebool_array)
-{
-  auto a = root_.attributes.create<datatype::EBool>("bool_array", {4});
-  std::vector<datatype::EBool> buffer(4);
-  std::vector<datatype::EBool> buffer2(4);
-  std::vector<int> buffer_int(4);
-
-  std::vector<datatype::EBool> ref  = {datatype::EBool::FALSE,
-				       datatype::EBool::TRUE,
-				       datatype::EBool::TRUE,
-				       datatype::EBool::FALSE};
-  std::vector<int> ref_int  = {0, 1, 1, 0};
-
-  EXPECT_EQ(a.datatype().get_class(), datatype::Class::ENUM);
-  EXPECT_EQ(a.datatype().size(), 1ul);
-  auto edt = datatype::Enum(a.datatype());
-  EXPECT_EQ(datatype::is_bool(edt), true);
-  a.write(ref);
-
-  a.read(buffer, a.datatype());
-  EXPECT_EQ(buffer, ref);
-
-  a.read(buffer2);
-  EXPECT_EQ(buffer2, ref);
-
-  a.read(buffer_int);
-  EXPECT_EQ(buffer_int, ref_int);
-}
+#endif
+/*
 
 TEST_F(Enum, test_fake_bool) {
   auto type = datatype::create<FakeBool>();
@@ -289,3 +358,4 @@ TEST_F(Enum, test_fake_bool) {
   EXPECT_EQ(type.value<FakeBool>(0), FakeBool::TRUE);
   EXPECT_EQ(datatype::is_bool(type), false);
 }
+*/

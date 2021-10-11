@@ -57,6 +57,8 @@ class DLL_EXPORT Scalar : public Dataspace {
   //!
   Scalar(const Dataspace &space);
 
+  ~Scalar() override;
+
 };
 
 } // namespace dataspace
