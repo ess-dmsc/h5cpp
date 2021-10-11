@@ -157,7 +157,7 @@ SCENARIO("setting the btree rank on a FileCreationList") {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
-    REQUIRE_NOTHROW(fcpl.btree_rank(std::get<0>(p)));
+    REQUIRE_NOTHROW(fcpl.btree_rank(static_cast<unsigned int>(std::get<0>(p))));
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif 
@@ -184,7 +184,7 @@ SCENARIO("setting the btree symbols on a FileCreationList") {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #endif
-    REQUIRE_NOTHROW(fcpl.btree_symbols(std::get<0>(p)));
+    REQUIRE_NOTHROW(fcpl.btree_symbols(static_cast<unsigned int>(std::get<0>(p))));
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif 

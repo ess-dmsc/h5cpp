@@ -29,7 +29,6 @@
 #include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/error/error.hpp>
 
-#ifndef _MSC_VER
 namespace hdf5
 {
 namespace datatype
@@ -52,5 +51,3 @@ bool is_bool(const Enum & etype){
 
 } // namespace datatype
 } // namespace hdf5
-#endif
-

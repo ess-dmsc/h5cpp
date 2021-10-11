@@ -130,8 +130,8 @@ SCENARIO("setting the parameters on a GroupCreationList") {
     }
   }
   GIVEN("a links storage threshold of 100 and 60") {
-    int max_compact_threshold = 100;
-    int min_dense_threshold = 60;
+    unsigned int max_compact_threshold = 100;
+    unsigned int min_dense_threshold = 60;
     WHEN("we set the thresholds") {
       REQUIRE_NOTHROW(gcpl.link_storage_thresholds(100, 60));
       THEN("we can read tem back") {

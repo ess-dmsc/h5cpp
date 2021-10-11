@@ -87,7 +87,7 @@ SCENARIO("reading a file from a memory buffer")
     THEN("we can store this to buffer")
     {
       Bytes buffer(f.buffer_size());
-      REQUIRE(f.to_buffer(buffer) == f.buffer_size());
+      REQUIRE(f.to_buffer(buffer) == static_cast<size_t>(f.buffer_size()));
       AND_THEN("write this to a file")
       {
         bytes_to_file("test.h5", buffer);
