@@ -75,11 +75,11 @@ builders = pipeline_builder.createBuilders { container ->
     def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DWITH_BOOST=OFF'
+        cmake_options = '-DWITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DWITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'debian10':
@@ -358,7 +358,7 @@ def get_win10_pipeline()
                 dir("_build") {
                     try {
                         bat 'conan remote list'
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_windows_ess.txt -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
+                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_windows_ess.txt -DH5CPP_WITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
                     }
