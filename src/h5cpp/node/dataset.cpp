@@ -26,6 +26,7 @@
 // Created on: Sep 12, 2017
 //
 
+#include <cstdlib>
 #include <sstream>
 #include <stdexcept>
 #include <h5cpp/node/dataset.hpp>
@@ -240,7 +241,7 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
 #endif
-  if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(abs(delta))))
+  if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(std::abs(delta))))
   {
     std::stringstream ss;
     ss<<"Extent of dataset ["<<dataset.link().path()<<"] cannot be changed "
