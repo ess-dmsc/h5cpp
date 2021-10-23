@@ -74,6 +74,8 @@ class DLL_EXPORT Singleton
   //!
   //! Only works if auto_print is disabled. Returns a Stack (derived exception)
   //! as extracted from the HDF5 error stack of the most recent error condition(s).
+  //! 
+  //! After the stack is extracted it will removed from the error system.
   //!
   H5CError extract_stack();
 
