@@ -867,13 +867,17 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
   try{
     const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
       auto dims = hyper.block();
-      auto count = hyper.count();
-      for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	dims[i] *= count[i];
+      if(dims.size() > 1) {
+	auto count = hyper.count();
+	for(Dimensions::size_type i = 0; i != dims.size(); i++)
+	  dims[i] *= count[i];
 
-      dataspace::Simple selected_space(dims);
-      if (selected_space.size() == memory_space.size())
-	read(data,memory_type,selected_space,file_space,dtpl);
+	dataspace::Simple selected_space(dims);
+	if (selected_space.size() == memory_space.size())
+	  read(data,memory_type,selected_space,file_space,dtpl);
+	else
+	  read(data,memory_type,memory_space,file_space,dtpl);
+      }
       else
 	read(data,memory_type,memory_space,file_space,dtpl);
   }
@@ -921,17 +925,21 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
     try{
 
       const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
-      const dataspace::Simple & mem_space = dataspace::Simple(memory_space);
-
       auto dims = hyper.block();
-      auto count = hyper.count();
-      for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	dims[i] *= count[i];
-      dataspace::Simple selected_space(dims);
-      if(selected_space.rank() > 1 &&
-	 mem_space.rank() == 1 &&
-	 selected_space.size() == memory_space.size())
-	write(data,memory_type,selected_space,file_space,dtpl);
+      if(dims.size() > 1) {
+	const dataspace::Simple & mem_space = dataspace::Simple(memory_space);
+
+	auto count = hyper.count();
+	for(Dimensions::size_type i = 0; i != dims.size(); i++)
+	  dims[i] *= count[i];
+	dataspace::Simple selected_space(dims);
+	if(selected_space.rank() > 1 &&
+	   mem_space.rank() == 1 &&
+	   selected_space.size() == memory_space.size())
+	  write(data,memory_type,selected_space,file_space,dtpl);
+	else
+	  write(data,memory_type,memory_space,file_space,dtpl);
+      }
       else
 	write(data,memory_type,memory_space,file_space,dtpl);
 
