@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 28, 2017
 //
 #pragma once
@@ -50,12 +51,32 @@ enum class MPIChunkOption : std::underlying_type<H5FD_mpio_chunk_opt_t>::type
 std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option);
 #endif
 
+//!
+//! \brief class for a dataset transfer property list
+//!
 class DLL_EXPORT DatasetTransferList : public List {
  public:
+  //!
+  //! \brief constructor
+  //!
   DatasetTransferList();
+  //!
+  //! \brief destructor
+  //!
   ~DatasetTransferList() override;
 
-  explicit DatasetTransferList(ObjectHandle &&handle);
+  //!
+  //! \brief constructor
+  //!
+  //! Construct a property list from a handler object. This constructor is
+  //! particularly useful in situations where we retrieve the handler of
+  //! a property list from a C-API function.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param handle r-value reference to the handle object
+  //! \param do_check perform the object handle class type check
+  //!
+  explicit DatasetTransferList(ObjectHandle &&handle, bool do_check=true);
 
 #ifdef WITH_MPI
   void mpi_transfer_mode(MPITransferMode mode) const;
@@ -67,6 +88,31 @@ class DLL_EXPORT DatasetTransferList : public List {
 
 #endif
 };
+
+
+//!
+//! \brief class for adataset transfer property list holder
+//!
+class DLL_EXPORT DatasetTransferListHolder
+{
+ public:
+
+  //!
+  //! \brief reference to const static DatasetTransferList object
+  //!
+  //! Return a reference to const static DatasetTransferList object. The object
+  //! has to be constructed directly with H5P_DATASET_XFER because during
+  //! the construction kDatasetXfer does not exist.
+  //!
+  static const DatasetTransferList &cref() {
+    const static DatasetTransferList & dtpl_ = DatasetTransferList(ObjectHandle(H5Pcreate(H5P_DATASET_XFER)), false);
+    return dtpl_;
+  }
+  DatasetTransferListHolder(const DatasetTransferListHolder &) = delete;
+  DatasetTransferListHolder & operator = (const DatasetTransferListHolder &) = delete;
+
+};
+
 
 } // namespace property
 } // namespace hdf5
