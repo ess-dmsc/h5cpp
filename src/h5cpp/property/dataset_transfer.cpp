@@ -41,7 +41,7 @@ DatasetTransferList::~DatasetTransferList() {}
 
 DatasetTransferList::DatasetTransferList(ObjectHandle &&handle, bool do_check):
     List(std::move(handle)) {
- if (make_check && get_class() != kDatasetXfer) {
+ if (do_check && get_class() != kDatasetXfer) {
      std::stringstream ss;
      ss << "Cannot create property::DatasetTransferList from " << get_class();
      throw std::runtime_error(ss.str());
