@@ -78,25 +78,6 @@ class DLL_EXPORT DatasetTransferList : public List {
   //!
   explicit DatasetTransferList(ObjectHandle &&handle, bool do_check=true);
 
-#ifdef WITH_MPI
-  void mpi_transfer_mode(MPITransferMode mode) const;
-  MPITransferMode mpi_transfer_mode() const;
-
-  void mpi_chunk_option(MPIChunkOption option) const;
-  MPIChunkOption mpi_chunk_option() const;
-
-
-#endif
-};
-
-
-//!
-//! \brief class for adataset transfer property list holder
-//!
-class DLL_EXPORT DatasetTransferListHolder
-{
- public:
-
   //!
   //! \brief reference to const static DatasetTransferList object
   //!
@@ -108,11 +89,17 @@ class DLL_EXPORT DatasetTransferListHolder
     const static DatasetTransferList & dtpl_ = DatasetTransferList(ObjectHandle(H5Pcreate(H5P_DATASET_XFER)), false);
     return dtpl_;
   }
-  DatasetTransferListHolder(const DatasetTransferListHolder &) = delete;
-  DatasetTransferListHolder & operator = (const DatasetTransferListHolder &) = delete;
 
+#ifdef WITH_MPI
+  void mpi_transfer_mode(MPITransferMode mode) const;
+  MPITransferMode mpi_transfer_mode() const;
+
+  void mpi_chunk_option(MPIChunkOption option) const;
+  MPIChunkOption mpi_chunk_option() const;
+
+
+#endif
 };
-
 
 } // namespace property
 } // namespace hdf5

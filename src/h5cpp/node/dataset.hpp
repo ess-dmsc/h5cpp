@@ -217,7 +217,7 @@ class DLL_EXPORT Dataset : public Node
                const dataspace::Dataspace &mem_space,
                const dataspace::Dataspace &file_space,
                const property::DatasetTransferList &dtpl =
-                   property::DatasetTransferListHolder::cref()) const;
+                   property::DatasetTransferList::cref()) const;
 
     //!
     //! @brief write data to the dataset
@@ -229,7 +229,7 @@ class DLL_EXPORT Dataset : public Node
     void write(const T &data,const datatype::Datatype &mem_type,
                const dataspace::Dataspace &mem_space,
                const property::DatasetTransferList &dtpl =
-                   property::DatasetTransferListHolder::cref()) const;
+                   property::DatasetTransferList::cref()) const;
 
     //!
     //! \brief read data from the dataset
@@ -253,14 +253,14 @@ class DLL_EXPORT Dataset : public Node
               const dataspace::Dataspace &mem_space,
               const dataspace::Dataspace &file_space,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferListHolder::cref()) const;
+                  property::DatasetTransferList::cref()) const;
 
     template<typename T>
     void read(T &data,
               const datatype::Datatype &mem_type,
               const dataspace::Dataspace &mem_space,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferListHolder::cref()) const;
+                  property::DatasetTransferList::cref()) const;
 
 
     //!
@@ -275,10 +275,10 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
-                                   property::DatasetTransferListHolder::cref()) const;
+                                   property::DatasetTransferList::cref()) const;
 
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferListHolder::cref()) const;
+                                      property::DatasetTransferList::cref()) const;
 
     //!
     //! \brief write dataset chunk
@@ -297,7 +297,7 @@ class DLL_EXPORT Dataset : public Node
                        std::vector<long long unsigned int> offset,
                        std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferListHolder::cref())  const;
+                       property::DatasetTransferList::cref())  const;
 
 #if H5_VERSION_GE(1,10,2)
 
@@ -317,7 +317,7 @@ class DLL_EXPORT Dataset : public Node
       std::uint32_t read_chunk(T &data,
                        std::vector<long long unsigned int> offset,
                        const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferListHolder::cref())  const;
+                       property::DatasetTransferList::cref())  const;
 
 
     //!
@@ -345,7 +345,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
-                            property::DatasetTransferListHolder::cref()) const;
+                            property::DatasetTransferList::cref()) const;
 
     //!
     //! \brief write data to a selection
@@ -361,7 +361,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void write(const T &data,const dataspace::Selection &selection,
                const property::DatasetTransferList &dtpl =
-	            property::DatasetTransferListHolder::cref()) const;
+	            property::DatasetTransferList::cref()) const;
 
     //!
     //! \brief reading data from a selection
@@ -380,7 +380,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void read(T &data,const dataspace::Selection &selection,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferListHolder::cref()) const;
+                  property::DatasetTransferList::cref()) const;
 
     //!
     //! @brief reading data from a dataset
@@ -397,7 +397,7 @@ class DLL_EXPORT Dataset : public Node
               const datatype::Datatype &memory_type,
               const dataspace::Dataspace &memory_space,
               const dataspace::Selection &file_selection,
-              const property::DatasetTransferList &dtpl = property::DatasetTransferListHolder::cref()) const;
+              const property::DatasetTransferList &dtpl = property::DatasetTransferList::cref()) const;
 
     //!
     //! \brief get the dataset external filters for the instance
