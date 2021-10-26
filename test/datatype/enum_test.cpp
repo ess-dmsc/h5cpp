@@ -332,6 +332,7 @@ SCENARIO("strong enumeration IO") {
   }
 }
 
+#ifndef _MSC_VER
 SCENARIO("testing EBOOL IO") {
   auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::TRUNCATE);
   auto root = f.root();
@@ -475,6 +476,7 @@ SCENARIO("testing EBOOL IO with cref") {
     }
   }
 }
+#endif
 /*
 
 TEST_F(Enum, test_fake_bool) {

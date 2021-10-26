@@ -31,6 +31,7 @@
 #include <h5cpp/error/error.hpp>
 #include <sstream>
 
+#ifndef _MSC_VER
 namespace hdf5
 {
 namespace datatype
@@ -74,3 +75,4 @@ DLL_EXPORT bool is_bool(const Enum & etype);
 
 } // namespace datatype
 } // namespace hdf5
+#endif
