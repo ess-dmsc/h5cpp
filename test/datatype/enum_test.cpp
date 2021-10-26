@@ -279,6 +279,7 @@ SCENARIO("Custom enumeration trait construction with cref") {
     }
   }
 
+#ifndef _MSC_VER
   GIVEN("the EBool type") {
     auto type = datatype::cref<datatype::EBool>();
     THEN("we can get the names by index") {
@@ -290,6 +291,7 @@ SCENARIO("Custom enumeration trait construction with cref") {
       REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::TRUE);
     }
   }
+#endif
 }
 
 SCENARIO("weak enumeration IO") {
