@@ -194,7 +194,7 @@ template<typename T>
 size_t File::to_buffer(T &data) const
 {
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
   size_t databytesize = signed2unsigned<unsigned long long>(memory_space.size()) * memory_type.size();
   ssize_t s = 0;
   if(memory_type.get_class() == datatype::Class::INTEGER)

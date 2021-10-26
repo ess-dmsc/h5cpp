@@ -1,7 +1,8 @@
 //
-// (c) Copyright 2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,7 +20,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
+//         Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Jan 10, 2021
 //
 #pragma once
@@ -45,6 +48,11 @@ class TypeTrait<HKLPoint>
       type.insert("l",sizeof(int)*2,base_type);
       return type;
     }
+    const static TypeClass & cref(const HKLPoint & = HKLPoint())
+    {
+      const static TypeClass & cref_ = create();
+      return cref_;
+    }
 };
 
 }
@@ -63,6 +71,11 @@ class TypeTrait<HKLPointList>
     static TypeClass create(const HKLPointList & = HKLPointList())
     {
       return VLengthArray::create(TypeTrait<HKLPoint>::create());
+    }
+    const static TypeClass & cref(const HKLPointList & = HKLPointList())
+    {
+      const static TypeClass & cref_ = VLengthArray::create(TypeTrait<HKLPoint>::create());
+      return cref_;
     }
 };
 

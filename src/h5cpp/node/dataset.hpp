@@ -411,6 +411,7 @@ class DLL_EXPORT Dataset : public Node
     filter::ExternalFilters filters() const;
 
   private:
+    datatype::Datatype file_type;
     //!
     //! \brief static factory function for dataset creation
     //!
@@ -673,8 +674,6 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
                                   const dataspace::Dataspace &file_space,
                                   const property::DatasetTransferList &dtpl) const
 {
-  datatype::Datatype file_type = datatype();
-
   if(file_type.get_class() == datatype::Class::VARLENGTH)
   {
     write_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
@@ -718,7 +717,7 @@ void Dataset::write_chunk(const T &data,
                           const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto &  memory_type  = hdf5::datatype::cref(data);
   size_t databytesize = signed2unsigned<unsigned long long>(memory_space.size()) * memory_type.size();
 
   if(memory_type.get_class() == datatype::Class::INTEGER)
@@ -764,7 +763,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 			 std::vector<long long unsigned int> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
   std::uint32_t filter_mask;
   if(memory_type.get_class() == datatype::Class::INTEGER)
     {
@@ -807,7 +806,7 @@ template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
   auto file_space  = dataspace();
   file_space.selection.all();
 
@@ -831,7 +830,6 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
                            const dataspace::Dataspace &file_space,
                            const property::DatasetTransferList &dtpl) const
 {
-  datatype::Datatype file_type = datatype();
   if(file_type.get_class() == datatype::Class::VARLENGTH)
   {
     read_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
@@ -860,7 +858,7 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
                    const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
 
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
@@ -914,7 +912,7 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
                     const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
 
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::SET,selection);
@@ -955,7 +953,7 @@ template<typename T>
 void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 {
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
   auto file_space = dataspace();
   file_space.selection.all();
 

@@ -24,6 +24,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 6, 2017
 //
 
@@ -71,6 +72,11 @@ class TypeTrait<Pixel> {
     type.insert("green", 1, datatype::create<std::uint8_t>());
     type.insert("blue", 2, datatype::create<std::uint8_t>());
     return type;
+  }
+  const static TypeClass & cref(const Pixel& = Pixel())
+  {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -125,6 +131,19 @@ SCENARIO("Compount type construction") {
 SCENARIO("Creating a pixel datatype using the trait") {
   GIVEN("a pixel type") {
     auto type = datatype::create<Pixel>();
+    THEN("the compound type") { REQUIRE(type.size() == 3ul); }
+    THEN("the type contains an INTEGER") {
+      REQUIRE(type.has_class(datatype::Class::INTEGER));
+    }
+    THEN("the type does not contain a FLOAT") {
+      REQUIRE_FALSE(type.has_class(datatype::Class::FLOAT));
+    }
+  }
+}
+
+SCENARIO("Creating a pixel datatype using the trait with cref") {
+  GIVEN("a pixel type") {
+    auto & type = datatype::cref<Pixel>();
     THEN("the compound type") { REQUIRE(type.size() == 3ul); }
     THEN("the type contains an INTEGER") {
       REQUIRE(type.has_class(datatype::Class::INTEGER));
@@ -235,3 +254,4 @@ SCENARIO("testing IO with complex value") {
     }
   }
 }
+

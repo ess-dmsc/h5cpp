@@ -2,7 +2,7 @@
 // (c) Copyright 2017 DESY,ESS
 //               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5pp.
+// This file is part of h5cpp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,7 +20,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Authors:
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
+//         Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 23, 2017
 //
 #include <algorithm>
@@ -66,6 +68,16 @@ class TypeTrait<Vector<T>> {
   }
 
   static TypeClass create(const Vector<T>&) { return create(); }
+  const static TypeClass & cref(const Vector<T>&)
+  {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
+  const static TypeClass & cref()
+  {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 }  // namespace datatype

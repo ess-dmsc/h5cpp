@@ -142,7 +142,7 @@ File from_buffer(T &data, ImageFlagsBase flags)
   if ((flags & ImageFlags::DONT_COPY) && !(flags & ImageFlags::DONT_RELEASE))
     throw std::runtime_error("Invalid ImageFlags in from_buffer: the DONT_COPY flag without the DONT_RELEASE flag");
   auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
+  auto & memory_type  = hdf5::datatype::cref(data);
   size_t databytesize = memory_space.size() * memory_type.size();
   hid_t fid = 0;
   if(memory_type.get_class() == datatype::Class::INTEGER)

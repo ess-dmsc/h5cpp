@@ -23,6 +23,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 28, 2017
 //
 
@@ -52,6 +53,9 @@ hid_t hid(T&& t) {
 template <typename T> ds::Datatype create() {
   return ds::TypeTrait<T>::create();
 }
+template <typename T> ds::Datatype cref() {
+  return ds::TypeTrait<T>::create();
+}
 }  // namespace
 
 SCENARIO("tesing standard type straits", "[datatype][numeric]") {
@@ -72,6 +76,34 @@ SCENARIO("tesing standard type straits", "[datatype][numeric]") {
        ptype{create<double>(), ds::Class::FLOAT, H5T_NATIVE_DOUBLE},
        ptype{create<long double>(), ds::Class::FLOAT, H5T_NATIVE_LDOUBLE},
        ptype{create<bool>(), ds::Class::INTEGER, H5T_NATIVE_HBOOL}
+       }));
+
+  GIVEN("an HDF5 datat type") {
+    THEN("the type class is") { REQUIRE(dt(param).get_class() == cl(param)); }
+    THEN("the types are equivalent") {
+      REQUIRE(H5Tequal(static_cast<hid_t>(dt(param)), hid(param)));
+    }
+  }
+}
+
+SCENARIO("tesing standard type straits with cref", "[datatype][numeric]") {
+  using ptype = std::tuple<ds::Datatype, ds::Class, hid_t>;
+  auto param = GENERATE(table<ds::Datatype, ds::Class, hid_t>(
+      {ptype{cref<char>(), ds::Class::INTEGER, H5T_NATIVE_CHAR},
+       ptype{cref<unsigned char>(), ds::Class::INTEGER, H5T_NATIVE_UCHAR},
+       ptype{cref<signed char>(), ds::Class::INTEGER, H5T_NATIVE_SCHAR},
+       ptype{cref<short>(), ds::Class::INTEGER, H5T_NATIVE_SHORT},
+       ptype{cref<unsigned short>(), ds::Class::INTEGER, H5T_NATIVE_USHORT},
+       ptype{cref<int>(), ds::Class::INTEGER, H5T_NATIVE_INT},
+       ptype{cref<unsigned int>(), ds::Class::INTEGER, H5T_NATIVE_UINT},
+       ptype{cref<long>(), ds::Class::INTEGER, H5T_NATIVE_LONG},
+       ptype{cref<unsigned long>(), ds::Class::INTEGER, H5T_NATIVE_ULONG},
+       ptype{cref<long long>(), ds::Class::INTEGER, H5T_NATIVE_LLONG},
+       ptype{cref<unsigned long long>(), ds::Class::INTEGER, H5T_NATIVE_ULLONG},
+       ptype{cref<float>(), ds::Class::FLOAT, H5T_NATIVE_FLOAT},
+       ptype{cref<double>(), ds::Class::FLOAT, H5T_NATIVE_DOUBLE},
+       ptype{cref<long double>(), ds::Class::FLOAT, H5T_NATIVE_LDOUBLE},
+       ptype{cref<bool>(), ds::Class::INTEGER, H5T_NATIVE_HBOOL}
        }));
 
   GIVEN("an HDF5 datat type") {

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 28, 2017
 //
 #pragma once
@@ -37,6 +38,10 @@ namespace datatype {
 template<typename T>
 typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const T &v = T()) {
   return TypeTrait<typename std::remove_const<T>::type>::create(v);
+}
+template<typename T>
+static const typename TypeTrait<typename std::remove_const<T>::type>::TypeClass & cref(const T &v = T()) {
+  return TypeTrait<typename std::remove_const<T>::type>::cref(v);
 }
 
 } // namespace datatype

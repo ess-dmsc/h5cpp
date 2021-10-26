@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Authors: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+//          Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Jul 1, 2018
 //
 #pragma once
@@ -203,6 +204,10 @@ class TypeTrait<ArrayAdapter<T>>
     static TypeClass create(const ArrayAdapter<T> & = ArrayAdapter<T>())
     {
       return TypeTrait<T>::create();
+    }
+    const static TypeClass & cref(const ArrayAdapter<T> & = ArrayAdapter<T>()) {
+      const static TypeClass & cref_ = create();
+      return cref_;
     }
 
 };
