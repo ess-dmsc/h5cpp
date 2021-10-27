@@ -85,6 +85,7 @@ Dataset::Dataset(const Node &node):
     throw std::runtime_error(ss.str());
   }
   file_type = datatype();
+  file_type_class = file_type.get_class();
 }
 
 Dataset::Dataset(const Group &base,const Path &path,
@@ -96,6 +97,7 @@ Dataset::Dataset(const Group &base,const Path &path,
   Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
   {
   file_type = datatype();
+  file_type_class = file_type.get_class();
 }
 
 

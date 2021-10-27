@@ -412,6 +412,7 @@ class DLL_EXPORT Dataset : public Node
 
   private:
     datatype::Datatype file_type;
+    datatype::Class file_type_class;
     //!
     //! \brief static factory function for dataset creation
     //!
@@ -674,11 +675,11 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
                                   const dataspace::Dataspace &file_space,
                                   const property::DatasetTransferList &dtpl) const
 {
-  if(file_type.get_class() == datatype::Class::VARLENGTH)
+  if(file_type_class == datatype::Class::VARLENGTH)
   {
     write_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
   }
-  else if(file_type.get_class() == datatype::Class::STRING)
+  else if(file_type_class == datatype::Class::STRING)
   {
     datatype::String string_type(file_type);
     if(string_type.is_variable_length())
@@ -830,11 +831,11 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
                            const dataspace::Dataspace &file_space,
                            const property::DatasetTransferList &dtpl) const
 {
-  if(file_type.get_class() == datatype::Class::VARLENGTH)
+  if(file_type_class == datatype::Class::VARLENGTH)
   {
     read_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
   }
-  else if(file_type.get_class() == datatype::Class::STRING)
+  else if(file_type_class == datatype::Class::STRING)
   {
     datatype::String string_type(file_type);
     if(string_type.is_variable_length())
