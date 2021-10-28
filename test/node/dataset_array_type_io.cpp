@@ -68,12 +68,12 @@ class TypeTrait<Vector<T>> {
   }
 
   static TypeClass create(const Vector<T>&) { return create(); }
-  const static TypeClass & cref(const Vector<T>&)
+  const static TypeClass & get(const Vector<T>&)
   {
     const static TypeClass & cref_ = create();
     return cref_;
   }
-  const static TypeClass & cref()
+  const static TypeClass & get()
   {
     const static TypeClass & cref_ = create();
     return cref_;

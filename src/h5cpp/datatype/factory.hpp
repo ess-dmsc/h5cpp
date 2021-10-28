@@ -40,8 +40,8 @@ typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const 
   return TypeTrait<typename std::remove_const<T>::type>::create(v);
 }
 template<typename T>
-static const typename TypeTrait<typename std::remove_const<T>::type>::TypeClass & cref(const T &v = T()) {
-  return TypeTrait<typename std::remove_const<T>::type>::cref(v);
+static const typename TypeTrait<typename std::remove_const<T>::type>::TypeClass & get(const T &v = T()) {
+  return TypeTrait<typename std::remove_const<T>::type>::get(v);
 }
 
 } // namespace datatype

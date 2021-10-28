@@ -84,7 +84,7 @@ SCENARIO("constructing a tensor type with cref") {
   using datatype::Array;
   using datatype::Class;
   GIVEN("a base type") {
-    auto & base_type = datatype::cref<int>();
+    auto & base_type = datatype::get<int>();
     THEN("we can construct an array type") {
       auto type = Array::create(base_type, {3, 4});
       AND_THEN("we get a valid datatype") { REQUIRE(type.is_valid()); }
@@ -119,7 +119,7 @@ SCENARIO("constructing a vector type") {
 
 SCENARIO("constructing a vector type with cref") {
   GIVEN("a double base type") {
-    auto & base_type = datatype::cref<double>();
+    auto & base_type = datatype::get<double>();
     AND_GIVEN("a shape") {
       Dimensions s{4};
       THEN("we can construct a type") {

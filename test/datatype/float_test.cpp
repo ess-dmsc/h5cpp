@@ -74,7 +74,7 @@ TEMPLATE_TEST_CASE("testing with cref",
                    double,
                    long double) {
   GIVEN("a datatype instance") {
-    auto & t = datatype::cref<TestType>();
+    auto & t = datatype::get<TestType>();
     THEN("the factory function should return a const Float reference") {
       REQUIRE((std::is_same<decltype(t), const datatype::Float &>::value));
     }

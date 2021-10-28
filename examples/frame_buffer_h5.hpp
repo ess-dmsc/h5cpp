@@ -52,7 +52,7 @@ class TypeTrait<FrameBuffer<PixelType>>
       return TypeTrait<PixelType>::create();
     }
 
-    const static TypeClass & cref(const Type & = Type()) {
+    const static TypeClass & get(const Type & = Type()) {
       const static TypeClass & cref_ = create();
       return cref_;
     }

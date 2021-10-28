@@ -85,7 +85,7 @@ class DLL_EXPORT DatasetTransferList : public List {
   //! has to be constructed directly with H5P_DATASET_XFER because during
   //! the construction kDatasetXfer does not exist.
   //!
-  static const DatasetTransferList &cref() {
+  static const DatasetTransferList &get() {
     const static DatasetTransferList & dtpl_ = DatasetTransferList(ObjectHandle(H5Pcreate(H5P_DATASET_XFER)), false);
     return dtpl_;
   }

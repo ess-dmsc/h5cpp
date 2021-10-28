@@ -73,7 +73,7 @@ class TypeTrait<Pixel> {
     type.insert("blue", 2, datatype::create<std::uint8_t>());
     return type;
   }
-  const static TypeClass & cref(const Pixel& = Pixel())
+  const static TypeClass & get(const Pixel& = Pixel())
   {
     const static TypeClass & cref_ = create();
     return cref_;
@@ -143,7 +143,7 @@ SCENARIO("Creating a pixel datatype using the trait") {
 
 SCENARIO("Creating a pixel datatype using the trait with cref") {
   GIVEN("a pixel type") {
-    auto & type = datatype::cref<Pixel>();
+    auto & type = datatype::get<Pixel>();
     THEN("the compound type") { REQUIRE(type.size() == 3ul); }
     THEN("the type contains an INTEGER") {
       REQUIRE(type.has_class(datatype::Class::INTEGER));

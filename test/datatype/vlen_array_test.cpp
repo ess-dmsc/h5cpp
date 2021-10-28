@@ -85,7 +85,7 @@ SCENARIO("Variable length default construction with cref") {
   }
 
   GIVEN("a double scalar type") {
-    auto & ft = datatype::cref<double>();
+    auto & ft = datatype::get<double>();
     THEN("we cannot construct a variable length array from this") {
       REQUIRE_THROWS_AS((datatype::VLengthArray(ft)), std::runtime_error);
     }
@@ -100,7 +100,7 @@ SCENARIO("Variable length default construction with cref") {
   }
 
   GIVEN("a double base type") {
-    auto & base_type = datatype::cref<double>();
+    auto & base_type = datatype::get<double>();
     THEN("we can construct a variable array type from it") {
       auto type = datatype::VLengthArray::create(base_type);
       AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }

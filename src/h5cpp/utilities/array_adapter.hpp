@@ -205,7 +205,7 @@ class TypeTrait<ArrayAdapter<T>>
     {
       return TypeTrait<T>::create();
     }
-    const static TypeClass & cref(const ArrayAdapter<T> & = ArrayAdapter<T>()) {
+    const static TypeClass & get(const ArrayAdapter<T> & = ArrayAdapter<T>()) {
       const static TypeClass & cref_ = create();
       return cref_;
     }

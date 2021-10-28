@@ -49,7 +49,7 @@ class TypeTrait<WeakFruit> {
     type.insert("Orange", WeakFruit::Orange);
     return type;
   }
-  const static TypeClass & cref(const WeakFruit& = WeakFruit())
+  const static TypeClass & get(const WeakFruit& = WeakFruit())
   {
     const static TypeClass & cref_ = create();
     return cref_;
@@ -68,7 +68,7 @@ class TypeTrait<StrongFruit> {
     type.insert("Durian", StrongFruit::Durian);
     return type;
   }
-  const static TypeClass & cref(const StrongFruit& = StrongFruit())
+  const static TypeClass & get(const StrongFruit& = StrongFruit())
   {
     const static TypeClass & cref_ = create();
     return cref_;
@@ -86,7 +86,7 @@ class TypeTrait<FakeBool> {
     type.insert("FALSE", FakeBool::FALSE);
     return type;
   }
-  const static TypeClass & cref(const FakeBool& = FakeBool())
+  const static TypeClass & get(const FakeBool& = FakeBool())
   {
     const static TypeClass & cref_ = create();
     return cref_;
@@ -252,7 +252,7 @@ SCENARIO("Custom enumeration trait construction") {
 
 SCENARIO("Custom enumeration trait construction with cref") {
   GIVEN("the weak enumeration type") {
-    auto type = datatype::cref<WeakFruit>();
+    auto type = datatype::get<WeakFruit>();
     THEN("we can read the names by index") {
       REQUIRE(type.name(0) == "Apple");
       REQUIRE(type.name(1) == "Pear");
@@ -266,7 +266,7 @@ SCENARIO("Custom enumeration trait construction with cref") {
   }
 
   GIVEN("the strong enumeration") {
-    auto type = datatype::cref<StrongFruit>();
+    auto type = datatype::get<StrongFruit>();
     THEN("we can read the names by index") {
       REQUIRE(type.name(0) == "Pineapple");
       REQUIRE(type.name(1) == "Jackfruit");
@@ -281,7 +281,7 @@ SCENARIO("Custom enumeration trait construction with cref") {
 
 #ifndef _MSC_VER
   GIVEN("the EBool type") {
-    auto type = datatype::cref<datatype::EBool>();
+    auto type = datatype::get<datatype::EBool>();
     THEN("we can get the names by index") {
       REQUIRE(type.name(0) == "FALSE");
       REQUIRE(type.name(1) == "TRUE");
@@ -410,7 +410,7 @@ SCENARIO("testing EBOOL IO") {
 SCENARIO("testing EBOOL IO with cref") {
   auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::TRUNCATE);
   auto root = f.root();
-  auto type = datatype::cref<datatype::EBool>();
+  auto type = datatype::get<datatype::EBool>();
 
   GIVEN("an EBOOL attribute") {
     auto a = root.attributes.create<datatype::EBool>("TRUE");

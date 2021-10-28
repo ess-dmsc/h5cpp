@@ -212,7 +212,7 @@ template<typename T>
 size_t File::to_buffer(T &data) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::cref(data);
+  auto & mem_type  = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     return to_buffer_reshape(data, mem_type, mem_space);
   }

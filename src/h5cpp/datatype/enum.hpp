@@ -137,7 +137,7 @@ template<typename T>
 void Enum::check_type(const T& data) const
 {
   (void) data; //  < var unused, only for type inference
-  auto & mem_type = datatype::cref<T>();
+  auto & mem_type = datatype::get<T>();
   if (mem_type != super())
   {
     std::stringstream ss;

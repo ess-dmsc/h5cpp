@@ -69,7 +69,7 @@ class TypeTrait {
   //!
   //! \brief reference to const static type instance
   //!
-  const static TypeClass & cref(const T & = T());
+  const static TypeClass & get(const T & = T());
 };
 
 template<>
@@ -80,7 +80,7 @@ class TypeTrait<char> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_CHAR)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -94,7 +94,7 @@ class TypeTrait<unsigned char> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UCHAR)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -108,7 +108,7 @@ class TypeTrait<signed char> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SCHAR)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -122,7 +122,7 @@ class TypeTrait<short> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SHORT)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -136,7 +136,7 @@ class TypeTrait<unsigned short> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_USHORT)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -150,7 +150,7 @@ class TypeTrait<int> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -164,7 +164,7 @@ class TypeTrait<unsigned int> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UINT)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -178,7 +178,7 @@ class TypeTrait<long> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LONG)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -192,7 +192,7 @@ class TypeTrait<unsigned long> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULONG)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -206,7 +206,7 @@ class TypeTrait<long long> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LLONG)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -220,7 +220,7 @@ class TypeTrait<unsigned long long> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULLONG)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -238,7 +238,7 @@ class TypeTrait<datatype::float16_t> {
     type.ebias(15);
     return type;
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -252,7 +252,7 @@ class TypeTrait<float> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -266,7 +266,7 @@ class TypeTrait<double> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_DOUBLE)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -280,7 +280,7 @@ class TypeTrait<long double> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -294,7 +294,7 @@ class TypeTrait<std::string> {
   static TypeClass create(const Type & = Type()) {
     return datatype::String::variable();
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -308,7 +308,7 @@ class TypeTrait<std::vector<T>> {
   static TypeClass create(const Type & = Type()) {
     return TypeTrait<typename std::remove_const<T>::type>::create();
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -322,7 +322,7 @@ class TypeTrait<std::array<T, N>> {
   static TypeClass create(const Type & = Type()) {
     return TypeTrait<typename std::remove_const<T>::type>::create();
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = TypeTrait<typename std::remove_const<T>::type>::create();
     return cref_;
   }
@@ -344,7 +344,7 @@ class TypeTrait<std::basic_string<CharT>> {
     return type;
 
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -360,7 +360,7 @@ class TypeTrait<bool> {
   static TypeClass create(const Type & = Type()) {
     return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }
@@ -386,7 +386,7 @@ class TypeTrait<std::complex<T>>
 
       return type;
     }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = create();
     return cref_;
   }

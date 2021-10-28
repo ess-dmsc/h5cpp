@@ -73,7 +73,7 @@ class TypeTrait<Flip> {
     else
       return hdf5::datatype::create<std::int64_t>();
   }
-  const static TypeClass & cref(const Type & = Type()) {
+  const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = datatype::Datatype();
     return cref_;
   }

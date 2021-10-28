@@ -217,7 +217,7 @@ class DLL_EXPORT Dataset : public Node
                const dataspace::Dataspace &mem_space,
                const dataspace::Dataspace &file_space,
                const property::DatasetTransferList &dtpl =
-                   property::DatasetTransferList::cref()) const;
+                   property::DatasetTransferList::get()) const;
 
     //!
     //! @brief write data to the dataset
@@ -229,7 +229,7 @@ class DLL_EXPORT Dataset : public Node
     void write(const T &data,const datatype::Datatype &mem_type,
                const dataspace::Dataspace &mem_space,
                const property::DatasetTransferList &dtpl =
-                   property::DatasetTransferList::cref()) const;
+                   property::DatasetTransferList::get()) const;
 
     //!
     //! \brief read data from the dataset
@@ -253,21 +253,21 @@ class DLL_EXPORT Dataset : public Node
               const dataspace::Dataspace &mem_space,
               const dataspace::Dataspace &file_space,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferList::cref()) const;
+                  property::DatasetTransferList::get()) const;
 
     template<typename T>
     void read(T &data,
               const datatype::Datatype &mem_type,
               const dataspace::Dataspace &mem_space,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferList::cref()) const;
+                  property::DatasetTransferList::get()) const;
 
     template<typename T>
     void read_reshape(T &data,
 		      const datatype::Datatype &mem_type,
 		      const dataspace::Dataspace &mem_space,
 		      const property::DatasetTransferList &dtpl =
-		      property::DatasetTransferList::cref()) const;
+		      property::DatasetTransferList::get()) const;
 
 
     //!
@@ -282,7 +282,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
-                                   property::DatasetTransferList::cref()) const;
+                                   property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write entire dataset
@@ -302,7 +302,7 @@ class DLL_EXPORT Dataset : public Node
 		       const datatype::Datatype &mem_type,
 		       const dataspace::Dataspace &mem_space,
 		       const property::DatasetTransferList &dtpl =
-		       property::DatasetTransferList::cref()) const;
+		       property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write entire dataset
@@ -314,7 +314,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::cref()) const;
+                                      property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write dataset chunk
@@ -333,7 +333,7 @@ class DLL_EXPORT Dataset : public Node
                        std::vector<long long unsigned int> offset,
                        std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::cref())  const;
+                       property::DatasetTransferList::get())  const;
 
     //!
     //! \brief write dataset chunk
@@ -356,7 +356,7 @@ class DLL_EXPORT Dataset : public Node
                        std::vector<long long unsigned int> & offset,
                        std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::cref())  const;
+                       property::DatasetTransferList::get())  const;
 
 #if H5_VERSION_GE(1,10,2)
 
@@ -376,7 +376,7 @@ class DLL_EXPORT Dataset : public Node
       std::uint32_t read_chunk(T &data,
 			       std::vector<long long unsigned int> offset,
 			       const property::DatasetTransferList &dtpl =
-			       property::DatasetTransferList::cref())  const;
+			       property::DatasetTransferList::get())  const;
 
 
     //!
@@ -397,7 +397,7 @@ class DLL_EXPORT Dataset : public Node
 			       const datatype::Datatype &mem_type,
 			       std::vector<long long unsigned int> & offset,
 			       const property::DatasetTransferList &dtpl =
-			       property::DatasetTransferList::cref())  const;
+			       property::DatasetTransferList::get())  const;
 
 
     //!
@@ -425,7 +425,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
-                            property::DatasetTransferList::cref()) const;
+                            property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write data to a selection
@@ -441,7 +441,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void write(const T &data,const dataspace::Selection &selection,
                const property::DatasetTransferList &dtpl =
-	            property::DatasetTransferList::cref()) const;
+	            property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write data to a selection
@@ -463,7 +463,7 @@ class DLL_EXPORT Dataset : public Node
 		       const dataspace::Dataspace &mem_space,
 		       const dataspace::Selection &selection,
 		       const property::DatasetTransferList &dtpl =
-		       property::DatasetTransferList::cref()) const;
+		       property::DatasetTransferList::get()) const;
 
     //!
     //! \brief reading data from a selection
@@ -480,7 +480,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void read(T &data,const dataspace::Selection &selection,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferList::cref()) const;
+                  property::DatasetTransferList::get()) const;
 
     //!
     //! \brief reading data from a selection
@@ -504,7 +504,7 @@ class DLL_EXPORT Dataset : public Node
 		      const dataspace::Dataspace &mem_space,
 		      const dataspace::Selection &selection,
 		      const property::DatasetTransferList &dtpl =
-		      property::DatasetTransferList::cref()) const;
+		      property::DatasetTransferList::get()) const;
 
     //!
     //! @brief reading data from a dataset
@@ -521,7 +521,7 @@ class DLL_EXPORT Dataset : public Node
               const datatype::Datatype &memory_type,
               const dataspace::Dataspace &memory_space,
               const dataspace::Selection &file_selection,
-              const property::DatasetTransferList &dtpl = property::DatasetTransferList::cref()) const;
+              const property::DatasetTransferList &dtpl = property::DatasetTransferList::get()) const;
 
     //!
     //! \brief get the dataset external filters for the instance
@@ -842,7 +842,7 @@ void Dataset::write_chunk(const T &data,
                           const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto &  mem_type  = hdf5::datatype::cref(data);
+  auto &  mem_type  = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     write_chunk(data, mem_type, mem_space, offset, filter_mask, dtpl);
   }
@@ -905,7 +905,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 			 std::vector<long long unsigned int> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
-  auto & mem_type  = hdf5::datatype::cref(data);
+  auto & mem_type  = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     return read_chunk(data, mem_type, offset, dtpl);
   }
@@ -963,7 +963,7 @@ template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::cref(data);
+  auto & mem_type  = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     write_reshape(data, mem_type, mem_space, dtpl);
   }
@@ -1030,7 +1030,7 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
                    const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::cref(data);
+  auto & mem_type  = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     read_reshape(data, mem_type, mem_space, selection, dtpl);
   }
@@ -1100,7 +1100,7 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
                     const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type = hdf5::datatype::cref(data);
+  auto & mem_type = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     write_reshape(data, mem_type, mem_space, selection, dtpl);
   }
@@ -1157,7 +1157,7 @@ template<typename T>
 void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::cref(data);
+  auto & mem_type  = hdf5::datatype::get(data);
   if(static_cast<hid_t>(mem_type)){
     read_reshape(data, mem_type, mem_space, dtpl);
   }

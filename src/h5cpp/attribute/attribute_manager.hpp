@@ -231,7 +231,7 @@ template<typename T>
 Attribute AttributeManager::create(const std::string &name,
                                    const property::AttributeCreationList &acpl) const
 {
-  auto & type = datatype::cref<T>();
+  auto & type = datatype::get<T>();
   dataspace::Scalar space;
 
   return this->create(name,type,space,acpl);
@@ -242,7 +242,7 @@ Attribute AttributeManager::create(const std::string &name,
                                    const Dimensions &shape,
                                    const property::AttributeCreationList &acpl) const
 {
-  auto & type = datatype::cref<T>();
+  auto & type = datatype::get<T>();
   dataspace::Simple space(shape);
 
   return create(name,type,space,acpl);
@@ -252,7 +252,7 @@ Attribute AttributeManager::create(const std::string &name,
 template<typename T>
 Attribute AttributeManager::create_from(const std::string &name,const T &value)
 {
-  auto & type = datatype::cref<T>();
+  auto & type = datatype::get<T>();
   auto space = dataspace::create(value);
 
   Attribute a = create(name,type,space);

@@ -48,7 +48,7 @@ class TypeTrait<HKLPoint>
       type.insert("l",sizeof(int)*2,base_type);
       return type;
     }
-    const static TypeClass & cref(const HKLPoint & = HKLPoint())
+    const static TypeClass & get(const HKLPoint & = HKLPoint())
     {
       const static TypeClass & cref_ = create();
       return cref_;
@@ -72,7 +72,7 @@ class TypeTrait<HKLPointList>
     {
       return VLengthArray::create(TypeTrait<HKLPoint>::create());
     }
-    const static TypeClass & cref(const HKLPointList & = HKLPointList())
+    const static TypeClass & get(const HKLPointList & = HKLPointList())
     {
       const static TypeClass & cref_ = VLengthArray::create(TypeTrait<HKLPoint>::create());
       return cref_;

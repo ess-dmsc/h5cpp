@@ -43,7 +43,7 @@ class TypeTrait<Image<PixelT>>
       return TypeTrait<PixelT>::create();
     }
 
-    const static TypeClass & cref(const Type & = Type()) {
+    const static TypeClass & get(const Type & = Type()) {
       const static TypeClass & cref_ = create();
       return cref_;
     }
