@@ -55,9 +55,23 @@ SCENARIO("construction of datatypes") {
     }
     AND_GIVEN("a second default constructed type") {
       Datatype b;
-      THEN("assignemnt between the two will fail") {
-        REQUIRE_THROWS_AS(a = b, std::runtime_error);
-        REQUIRE_THROWS_AS(a = Datatype(b), std::runtime_error);
+      a = b;
+      THEN("this instance is not valid") { REQUIRE_FALSE(b.is_valid()); }
+      THEN("the type class is NONE") { REQUIRE(b.get_class() == Class::NONE); }
+      THEN("the super() method must fail") {
+	REQUIRE_THROWS_AS(b.super(), std::runtime_error);
+      }
+      THEN("the native_type() method must fail") {
+	REQUIRE_THROWS_AS(b.native_type(), std::runtime_error);
+      }
+      THEN("has_class() fails") {
+	REQUIRE_THROWS_AS(b.has_class(Class::INTEGER), std::runtime_error);
+      }
+      THEN("cannot get the size() of the type - fails with exception") {
+	REQUIRE_THROWS_AS(b.size(), std::runtime_error);
+      }
+      THEN("cannot set the size of the type - fails with exception") {
+	REQUIRE_THROWS_AS(b.size(1), std::runtime_error);
       }
     }
   }

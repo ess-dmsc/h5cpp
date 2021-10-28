@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 15, 2017
 //
 
@@ -47,24 +48,35 @@ Datatype::Datatype(ObjectHandle &&handle)
 }
 
 Datatype::Datatype(const Datatype &type) {
-  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-  if (0 > ret) {
-    error::Singleton::instance().throw_with_stack("Could not copy-construct Datatype");
+  if(static_cast<hid_t>(type.handle_)) {
+    hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+    if (0 > ret) {
+      error::Singleton::instance().throw_with_stack("Could not copy-construct Datatype");
+    }
+    handle_ = ObjectHandle(ret);
   }
-  handle_ = ObjectHandle(ret);
+  else
+    handle_ = ObjectHandle();
 }
 
 Datatype &Datatype::operator=(const Datatype &type) {
-  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-  if (0 > ret) {
-    error::Singleton::instance().throw_with_stack("Could not copy Datatype");
+  if(static_cast<hid_t>(type.handle_)) {
+    hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+    if (0 > ret) {
+      error::Singleton::instance().throw_with_stack("Could not copy Datatype");
+    }
+    handle_ = ObjectHandle(ret);
   }
-  handle_ = ObjectHandle(ret);
+  else
+    handle_ = ObjectHandle();
   return *this;
 }
 
 Class Datatype::get_class() const {
-  return static_cast<Class>(H5Tget_class(static_cast<hid_t>(*this)));
+  if(static_cast<hid_t>(handle_))
+    return static_cast<Class>(H5Tget_class(static_cast<hid_t>(*this)));
+  else
+    return Class::NONE;
 }
 
 Datatype Datatype::super() const {
@@ -123,7 +135,13 @@ bool Datatype::is_valid() const {
 }
 
 bool operator==(const Datatype &lhs, const Datatype &rhs) {
-  htri_t ret = H5Tequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
+  hid_t hlhs = static_cast<hid_t>(lhs);
+  hid_t hrhs = static_cast<hid_t>(rhs);
+  htri_t ret;
+  if (hlhs != 0 and hrhs != 0)
+    ret = H5Tequal(hlhs, hrhs);
+  else
+    ret = -1;
   if (0 > ret) {
     std::stringstream ss;
     ss << "Could not compare datatypes "

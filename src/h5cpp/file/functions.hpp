@@ -106,6 +106,11 @@ File from_buffer(T &data,
 template<typename T>
 File from_buffer(T &data,
 		 ImageFlagsBase flags);
+template<typename T>
+File from_buffer(T &data,
+		 const datatype::Datatype &mem_type,
+		 const dataspace::Dataspace &mem_space,
+		 ImageFlagsBase flags);
 
 template<typename T>
 File from_buffer(const T &data,
@@ -139,13 +144,28 @@ File from_buffer(const T &data, ImageFlagsBase flags)
 template<typename T>
 File from_buffer(T &data, ImageFlagsBase flags)
 {
+  auto mem_space = hdf5::dataspace::create(data);
+  auto & mem_type  = hdf5::datatype::cref(data);
+  if(static_cast<hid_t>(mem_type)){
+    return from_buffer(data, mem_type, mem_space, flags);
+  }
+  else {
+    auto mem_type = hdf5::datatype::create(data);
+    return from_buffer(data, mem_type, mem_space, flags);
+  }
+}
+
+template<typename T>
+File from_buffer(T &data,
+		 const datatype::Datatype &mem_type,
+		 const dataspace::Dataspace &mem_space,
+		 ImageFlagsBase flags)
+{
   if ((flags & ImageFlags::DONT_COPY) && !(flags & ImageFlags::DONT_RELEASE))
     throw std::runtime_error("Invalid ImageFlags in from_buffer: the DONT_COPY flag without the DONT_RELEASE flag");
-  auto memory_space = hdf5::dataspace::create(data);
-  auto & memory_type  = hdf5::datatype::cref(data);
-  size_t databytesize = memory_space.size() * memory_type.size();
+  size_t databytesize = mem_space.size() * mem_type.size();
   hid_t fid = 0;
-  if(memory_type.get_class() == datatype::Class::INTEGER)
+  if(mem_type.get_class() == datatype::Class::INTEGER)
     {
 
       fid = H5LTopen_file_image(dataspace::ptr(data), databytesize, flags);
