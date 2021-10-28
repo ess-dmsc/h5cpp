@@ -138,7 +138,7 @@ bool operator==(const Datatype &lhs, const Datatype &rhs) {
   hid_t hlhs = static_cast<hid_t>(lhs);
   hid_t hrhs = static_cast<hid_t>(rhs);
   htri_t ret;
-  if (hlhs != 0 and hrhs != 0)
+  if (hlhs != 0 && hrhs != 0)
     ret = H5Tequal(hlhs, hrhs);
   else
     ret = -1;
