@@ -34,20 +34,20 @@ struct Flip {
   Flip() {
     data_[0] = 0;
   }
-  Flip(long a) {
+  Flip(std::int32_t a) {
     data_[0] = a;
   }
 
-  const long* begin() const { return data_; }
+  const std::int32_t* begin() const { return data_; }
 
-  const long* end() const { return &data_[1]; }
+  const std::int32_t* end() const { return &data_[1]; }
 
   bool positive() const{
     return data_[0] > 0;
   }
-  
+
  private:
-  long data_[1];
+  std::int32_t data_[1];
 };
 
 bool operator==(const Flip& lhs, const Flip& rhs) {
@@ -69,9 +69,9 @@ class TypeTrait<Flip> {
 
   static TypeClass create(const Type & v= Type()) {
     if(v.positive())
-      return hdf5::datatype::create<std::uint64_t>();
+      return hdf5::datatype::create<std::uint32_t>();
     else
-      return hdf5::datatype::create<std::int64_t>();
+      return hdf5::datatype::create<std::int32_t>();
   }
   const static TypeClass & get(const Type & = Type()) {
     const static TypeClass & cref_ = datatype::Datatype();
@@ -108,7 +108,7 @@ SCENARIO("writing a vector with an dynamic element type") {
     }
   }
 
-  GIVEN("a dataset of the appropriate datatype") {
+  GIVEN("a dataset of the appropriate datatype with negative values") {
     node::Dataset mdset(f.root(), Path("mdata"), mtype, space);
     AND_GIVEN("a vector of data") {
       Elements mwrite{-2, -3};
