@@ -842,14 +842,8 @@ void Dataset::write_chunk(const T &data,
                           const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto &  mem_type  = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    write_chunk(data, mem_type, mem_space, offset, filter_mask, dtpl);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    write_chunk(data, mem_type, mem_space, offset, filter_mask, dtpl);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  write_chunk(data, mem_type_holder.get(data), mem_space, offset, filter_mask, dtpl);
 }
 
 template<typename T>
@@ -905,14 +899,8 @@ std::uint32_t Dataset::read_chunk(T &data,
 			 std::vector<long long unsigned int> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
-  auto & mem_type  = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    return read_chunk(data, mem_type, offset, dtpl);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    return read_chunk(data, mem_type, offset, dtpl);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  return read_chunk(data, mem_type_holder.get(data), offset, dtpl);
 }
 
 template<typename T>
@@ -963,14 +951,8 @@ template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    write_reshape(data, mem_type, mem_space, dtpl);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    write_reshape(data, mem_type, mem_space, dtpl);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  write_reshape(data, mem_type_holder.get(data), mem_space, dtpl);
 }
 
 template<typename T>
@@ -1029,14 +1011,8 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
                    const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    read_reshape(data, mem_type, mem_space, selection, dtpl);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    read_reshape(data, mem_type, mem_space, selection, dtpl);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  read_reshape(data, mem_type_holder.get(data), mem_space, selection, dtpl);
 }
 
 template<typename T>
@@ -1095,14 +1071,8 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
                     const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    write_reshape(data, mem_type, mem_space, selection, dtpl);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    write_reshape(data, mem_type, mem_space, selection, dtpl);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  write_reshape(data, mem_type_holder.get(data), mem_space, selection, dtpl);
 }
 
 template<typename T>
@@ -1146,14 +1116,8 @@ template<typename T>
 void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    read_reshape(data, mem_type, mem_space, dtpl);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    read_reshape(data, mem_type, mem_space, dtpl);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  read_reshape(data, mem_type_holder.get(data), mem_space, dtpl);
 }
 
 
