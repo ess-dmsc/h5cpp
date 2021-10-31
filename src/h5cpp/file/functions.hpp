@@ -145,14 +145,8 @@ template<typename T>
 File from_buffer(T &data, ImageFlagsBase flags)
 {
   auto mem_space = hdf5::dataspace::create(data);
-  auto & mem_type  = hdf5::datatype::get(data);
-  if(static_cast<hid_t>(mem_type)){
-    return from_buffer(data, mem_type, mem_space, flags);
-  }
-  else {
-    auto mem_type = hdf5::datatype::create(data);
-    return from_buffer(data, mem_type, mem_space, flags);
-  }
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  return from_buffer(data, mem_type_holder.get(data), mem_space, flags);
 }
 
 template<typename T>
