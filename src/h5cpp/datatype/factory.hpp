@@ -61,24 +61,23 @@ class DLL_EXPORT DatatypeHolder
   //! Otherwise it creates a new data type object and returns its reference.
   //!
   //! @param v provided datatype data
-  //! @param last return previously created object
   //! @return data type reference for data type object
   //!
   template<typename T>
-    const Datatype & get(const T & v = T(), bool last = false);
+    const Datatype & get(const T & v = T());
 
  private:
       Datatype instance;
 };
 
 template<typename T>
-const Datatype & DatatypeHolder::get(const T & v, bool last)
+const Datatype & DatatypeHolder::get(const T & v)
 {
   auto & type = hdf5::datatype::get(v);
   if(static_cast<hid_t>(type))
     return type;
 
-  if (!static_cast<hid_t>(instance) || !last)
+  if (!static_cast<hid_t>(instance))
     instance = hdf5::datatype::create(v);
   return instance;
 }
