@@ -161,6 +161,11 @@ class DLL_EXPORT Datatype
 
   ObjectHandle handle_;
 
+  //!
+  //! @brief helper for copy assignment and copy constructor
+  //!
+  void swap(const Datatype &type);
+
 };
 
 //!

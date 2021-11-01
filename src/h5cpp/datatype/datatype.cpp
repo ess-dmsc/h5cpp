@@ -48,18 +48,15 @@ Datatype::Datatype(ObjectHandle &&handle)
 }
 
 Datatype::Datatype(const Datatype &type) {
-  if(static_cast<hid_t>(type.handle_)) {
-    hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-    if (0 > ret) {
-      error::Singleton::instance().throw_with_stack("Could not copy-construct Datatype");
-    }
-    handle_ = ObjectHandle(ret);
-  }
-  else
-    handle_ = ObjectHandle();
+  swap(type);
 }
 
 Datatype &Datatype::operator=(const Datatype &type) {
+  swap(type);
+  return *this;
+}
+
+void Datatype::swap(const Datatype &type){
   if(static_cast<hid_t>(type.handle_)) {
     hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
     if (0 > ret) {
@@ -69,7 +66,6 @@ Datatype &Datatype::operator=(const Datatype &type) {
   }
   else
     handle_ = ObjectHandle();
-  return *this;
 }
 
 Class Datatype::get_class() const {
