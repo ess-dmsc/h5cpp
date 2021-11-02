@@ -75,7 +75,7 @@ class TypeTrait {
 template<typename T>
 class TypeTrait<std::vector<T>> {
  public:
-  using DataspaceType = Dataspace;
+  using DataspaceType = Simple;
 
   static Simple create(const std::vector<T> &value) {
     return Simple(hdf5::Dimensions{value.size()}, hdf5::Dimensions{value.size()});
@@ -149,7 +149,7 @@ typename TypeTrait<T>::DataspaceType create(const T &value) {
 //! \return a const reference of the appropriate dataspace type
 //!
 template<typename T>
-const typename TypeTrait<T>::DataspaceType & get(const T &value, DataspacePool & pool) {
+const typename dataspace::Dataspace & get(const T &value, DataspacePool & pool) {
   return TypeTrait<T>::get(value, pool);
 }
 
