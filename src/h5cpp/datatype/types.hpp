@@ -49,7 +49,7 @@ const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
 #endif
 
 //!
-//! \enum data type class
+//! \enum Class data type class
 //!
 //! Enumeration type describing the class a particular data type belongs to.
 //!

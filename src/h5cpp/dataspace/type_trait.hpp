@@ -145,6 +145,7 @@ typename TypeTrait<T>::DataspaceType create(const T &value) {
 //! \tparam T type for which to construct a dataspace
 //!
 //! \param value instance of T
+//! \param pool dataspace pool
 //! \return a const reference of the appropriate dataspace type
 //!
 template<typename T>
@@ -176,6 +177,7 @@ class DLL_EXPORT DataspaceHolder
   //! Otherwise it creates a new data space object and returns its reference.
   //!
   //! @param v provided dataspace data
+  //! \param pool dataspace pool
   //! @return data space reference for data space object
   //!
   template<typename T>

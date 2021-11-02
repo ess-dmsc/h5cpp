@@ -52,6 +52,7 @@ class DLL_EXPORT ExternalFilter : public Filter
     //!
     //! \param id the ID of the filter
     //! \param cd_values is a vector with compression options.
+    //! \param name external filter name
     //!
     ExternalFilter(FilterID id,
                    const std::vector<unsigned int> cd_values,

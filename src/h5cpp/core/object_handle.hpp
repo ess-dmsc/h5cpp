@@ -134,6 +134,9 @@ class DLL_EXPORT ObjectHandle
     //! \throws std::runtime_error if the passed id is invalid (<0)
     //!
     //! \param id HDF5 object ID.
+    //! \param policy with or w/o ward policy.
+    //!
+    explicit ObjectHandle(hid_t id, Policy policy=Policy::WITH_WARD);
     explicit ObjectHandle(hid_t id, Policy policy=Policy::WITH_WARD);
 
     //-----------------------------------------------------------------

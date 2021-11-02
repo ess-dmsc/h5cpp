@@ -91,6 +91,7 @@ class DLL_EXPORT Dataset : public Node
     //! \throws std::runtime_error in case of a failure
     //! \param base the base object for the dataset creation
     //! \param path the path to the new dataset
+    //! \param type optional reference to a datatype
     //! \param space optional reference to a dataspace (default is a scalar one)
     //! \param lcpl optional reference to a link creation property list
     //! \param dcpl optional reference to a dataset creation property list
