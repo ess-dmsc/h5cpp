@@ -137,7 +137,6 @@ class DLL_EXPORT ObjectHandle
     //! \param policy with or w/o ward policy.
     //!
     explicit ObjectHandle(hid_t id, Policy policy=Policy::WITH_WARD);
-    explicit ObjectHandle(hid_t id, Policy policy=Policy::WITH_WARD);
 
     //-----------------------------------------------------------------
     //!
