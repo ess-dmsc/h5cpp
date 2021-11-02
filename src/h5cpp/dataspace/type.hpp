@@ -35,7 +35,7 @@ namespace hdf5 {
 namespace dataspace {
 
 //!
-//! \brief determine the datatype instance
+//! \enum Type determine the datatype instance
 //!
 //! This enumeration type is primarily used to identify the particular type
 //! of dataspace when given only a reference to dataspace::Dataspace.

@@ -17,7 +17,7 @@ Enumerations
 
 .. doxygenenum:: hdf5::node::LinkType
 
-.. doxygenenum:: hdf5::node::operator<<(std::ostream &, const LinkType &)
+.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const LinkType &)
 
 Classes
 =======
