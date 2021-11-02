@@ -55,6 +55,13 @@ class DLL_EXPORT DataspacePool
   std::map<size_t, Dataspace> pool_map;
 };
 
+inline const Dataspace & DataspacePool::getSimple(size_t size)
+{
+  if(pool_map.count(size) < 1)
+    pool_map[size] = Simple(hdf5::Dimensions{size}, hdf5::Dimensions{size});
+  return pool_map[size];
+}
+
 } // namespace dataspace
 } // namespace hdf5
 
