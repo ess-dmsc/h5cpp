@@ -34,7 +34,7 @@ using namespace hdf5;
 SCENARIO("testing the type trait for dataspaces") {
   GIVEN("a vector of 20 elements") {
     std::vector<double> data(20);
-    auto space = dataspace::create(data);
+    dataspace::Simple space = dataspace::create(data);
     REQUIRE(space.type() == dataspace::Type::SIMPLE);
     Dimensions current_dims = space.current_dimensions(),
                max_dims = space.maximum_dimensions();
@@ -45,7 +45,7 @@ SCENARIO("testing the type trait for dataspaces") {
   }
   GIVEN("an integer scalar") {
     int data = 10;
-    auto space = dataspace::create(data);
+    dataspace::Scalar space = dataspace::create(data);
     REQUIRE(space.type() == dataspace::Type::SCALAR);
     REQUIRE(space.size() == 1l);
   }

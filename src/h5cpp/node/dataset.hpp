@@ -31,6 +31,7 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/dataspace/pool.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/core/variable_length_string.hpp>
@@ -282,7 +283,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
-                                   property::DatasetTransferList::get()) const;
+                                   property::DatasetTransferList::get());
 
     //!
     //! \brief write entire dataset
@@ -314,7 +315,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::get()) const;
+                                      property::DatasetTransferList::get());
 
     //!
     //! \brief write dataset chunk
@@ -333,7 +334,7 @@ class DLL_EXPORT Dataset : public Node
                        std::vector<long long unsigned int> offset,
                        std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::get())  const;
+                       property::DatasetTransferList::get());
 
     //!
     //! \brief write dataset chunk
@@ -425,7 +426,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
-                            property::DatasetTransferList::get()) const;
+                            property::DatasetTransferList::get());
 
     //!
     //! \brief write data to a selection
@@ -441,7 +442,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void write(const T &data,const dataspace::Selection &selection,
                const property::DatasetTransferList &dtpl =
-	            property::DatasetTransferList::get()) const;
+	            property::DatasetTransferList::get());
 
     //!
     //! \brief write data to a selection
@@ -480,7 +481,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void read(T &data,const dataspace::Selection &selection,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferList::get()) const;
+                  property::DatasetTransferList::get());
 
     //!
     //! \brief reading data from a selection
@@ -537,6 +538,7 @@ class DLL_EXPORT Dataset : public Node
   private:
     datatype::Datatype file_type;
     datatype::Class file_type_class;
+    dataspace::DataspacePool space_pool;
     //!
     //! \brief static factory function for dataset creation
     //!
@@ -839,11 +841,11 @@ template<typename T>
 void Dataset::write_chunk(const T &data,
                           std::vector<long long unsigned int> offset,
                           std::uint32_t filter_mask,
-                          const property::DatasetTransferList &dtpl) const
+                          const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  write_chunk(data, mem_type_holder.get(data), mem_space, offset, filter_mask, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  write_chunk(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), offset, filter_mask, dtpl);
 }
 
 template<typename T>
@@ -948,11 +950,11 @@ std::uint32_t Dataset::read_chunk(T &data,
 #endif
 
 template<typename T>
-void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
+void Dataset::write(const T &data,const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), dtpl);
 }
 
 template<typename T>
@@ -1008,11 +1010,11 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
 
 template<typename T>
 void Dataset::read(T &data,const dataspace::Selection &selection,
-                   const property::DatasetTransferList &dtpl) const
+                   const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  read_reshape(data, mem_type_holder.get(data), mem_space, selection, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), selection, dtpl);
 }
 
 template<typename T>
@@ -1068,11 +1070,11 @@ void Dataset::read(T &data,
 
 template<typename T>
 void Dataset::write(const T &data,const dataspace::Selection &selection,
-                    const property::DatasetTransferList &dtpl) const
+                    const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space, selection, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), selection, dtpl);
 }
 
 template<typename T>
@@ -1113,11 +1115,11 @@ void Dataset::write_reshape(const T &data,
 
 
 template<typename T>
-void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
+void Dataset::read(T &data,const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  read_reshape(data, mem_type_holder.get(data), mem_space, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), dtpl);
 }
 
 

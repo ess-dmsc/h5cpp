@@ -51,19 +51,27 @@ Dataspace::Dataspace(ObjectHandle &&handle)
 
 Dataspace::Dataspace(const Dataspace &space)
     : selection(*this) {
-  hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
-  if (0 > ret) {
-    error::Singleton::instance().throw_with_stack("could not copy-construct Dataspace");
+  if(static_cast<hid_t>(space.handle_)) {
+    hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
+    if (0 > ret) {
+      error::Singleton::instance().throw_with_stack("could not copy-construct Dataspace");
+    }
+    handle_ = ObjectHandle(ret);
   }
-  handle_ = ObjectHandle(ret);
+  else
+    handle_ = ObjectHandle();
 }
 
 Dataspace &Dataspace::operator=(const Dataspace &space) {
-  hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
-  if (0 > ret) {
+  if(static_cast<hid_t>(space.handle_)) {
+    hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
+    if (0 > ret) {
     error::Singleton::instance().throw_with_stack("could not copy Dataspace");
+    }
+    handle_ = ObjectHandle(ret);
   }
-  handle_ = ObjectHandle(ret);
+  else
+    handle_ = ObjectHandle();
   return *this;
 }
 
@@ -79,12 +87,15 @@ hssize_t Dataspace::size() const {
 }
 
 Type Dataspace::type() const {
-  H5S_class_t ret = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
-  if (ret == H5S_NO_CLASS) {
-    error::Singleton::instance().throw_with_stack("Failure to retrieve the dataspace type!");
+  if(static_cast<hid_t>(handle_)) {
+    H5S_class_t ret = H5Sget_simple_extent_type(static_cast<hid_t>(*this));
+    if (ret == H5S_NO_CLASS) {
+      error::Singleton::instance().throw_with_stack("Failure to retrieve the dataspace type!");
+    }
+    return static_cast<Type>(ret);
   }
+  return Type::NODATA;
 
-  return static_cast<Type>(ret);
 }
 
 hdf5::Dimensions Dataspace::current_dimensions() const

@@ -206,7 +206,7 @@ long long unsigned int Dataset::chunk_storage_size(
 
 #endif
 
-void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
+void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
 {
   write(std::string(data),dtpl);
 }
