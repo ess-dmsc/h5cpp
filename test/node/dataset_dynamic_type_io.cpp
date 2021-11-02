@@ -29,53 +29,52 @@
 #include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
-template <typename T>
-struct Vector {
+struct Flip {
  public:
-  Vector() {}
-  Vector(const std::initializer_list<T>& init_list) : data_() {
-    std::copy(init_list.begin(), init_list.end(), data_);
+  Flip() {
+    data_[0] = 0;
+  }
+  Flip(std::int32_t a) {
+    data_[0] = a;
   }
 
-  const T* begin() const { return data_; }
+  const std::int32_t* begin() const { return data_; }
 
-  const T* end() const { return &data_[3]; }
+  const std::int32_t* end() const { return &data_[1]; }
+
+  bool positive() const{
+    return data_[0] > 0;
+  }
 
  private:
-  T data_[3];
+  std::int32_t data_[1];
 };
 
-template <typename T>
-bool operator==(const Vector<T>& lhs, const Vector<T>& rhs) {
+bool operator==(const Flip& lhs, const Flip& rhs) {
   return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-template <typename T>
-bool operator!=(const Vector<T>& lhs, const Vector<T>& rhs) {
+bool operator!=(const Flip& lhs, const Flip& rhs) {
   return !(lhs == rhs);
 }
+
 namespace hdf5 {
 namespace datatype {
 
-template <typename T>
-class TypeTrait<Vector<T>> {
+template<>
+class TypeTrait<Flip> {
  public:
-  using TypeClass = Array;
+  using TypeClass = datatype::Datatype;
+  using Type = Flip;
 
-  static TypeClass create() {
-    auto base_type = TypeTrait<T>::create();
-    return Array::create(base_type, {3});
+  static TypeClass create(const Type & v= Type()) {
+    if(v.positive())
+      return hdf5::datatype::create<std::uint32_t>();
+    else
+      return hdf5::datatype::create<std::int32_t>();
   }
-
-  static TypeClass create(const Vector<T>&) { return create(); }
-  const static TypeClass & get(const Vector<T>&)
-  {
-    const static TypeClass & cref_ = create();
-    return cref_;
-  }
-  const static TypeClass & get()
-  {
-    const static TypeClass & cref_ = create();
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = datatype::Datatype();
     return cref_;
   }
 };
@@ -85,24 +84,40 @@ class TypeTrait<Vector<T>> {
 
 using namespace hdf5;
 
-SCENARIO("writing a vector with an array element type") {
-  using ElementType = Vector<int>;
+SCENARIO("writing a vector with an dynamic element type") {
+  using ElementType = Flip;
   using Elements = std::vector<ElementType>;
   auto f =
-      file::create("dataset_array_type_io.h5", file::AccessFlags::TRUNCATE);
+      file::create("dataset_dynamic_type_io.h5", file::AccessFlags::TRUNCATE);
   auto type = datatype::create<ElementType>();
+  auto mtype = datatype::create(Flip(-1));
   auto space = dataspace::Simple({2});
 
   GIVEN("a dataset of the appropriate datatype") {
     node::Dataset dset(f.root(), Path("data"), type, space);
     AND_GIVEN("a vector of data") {
-      Elements write{{1, 2, 3}, {4, 5, 6}};
+      Elements write{1, 2};
       THEN("we can write this data to the dataset") {
         dset.write(write);
         AND_THEN("we can read it back") {
           Elements read(2);
           dset.read(read);
           REQUIRE_THAT(read, Catch::Matchers::Equals(write));
+        }
+      }
+    }
+  }
+
+  GIVEN("a dataset of the appropriate datatype with negative values") {
+    node::Dataset mdset(f.root(), Path("mdata"), mtype, space);
+    AND_GIVEN("a vector of data") {
+      Elements mwrite{-2, -3};
+      THEN("we can write this data to the dataset") {
+        mdset.write(mwrite);
+        AND_THEN("we can read it back") {
+          Elements mread(2);
+          mdset.read(mread);
+          REQUIRE_THAT(mread, Catch::Matchers::Equals(mwrite));
         }
       }
     }

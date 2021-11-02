@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 
@@ -130,6 +131,53 @@ TEMPLATE_TEST_CASE("general integer properties",
   }
 }
 
+TEMPLATE_TEST_CASE("general integer properties with cref",
+                   "[datatype][numeric][integer]",
+                   unsigned char,
+                   char,
+                   short,
+                   unsigned short,
+                   int,
+                   unsigned int,
+                   long,
+                   unsigned long,
+                   long long,
+                   unsigned long long) {
+  GIVEN("a particular integer type") {
+    auto & t = datatype::get<TestType>();
+    THEN("the return type must be a const integer reference") {
+      REQUIRE((std::is_same<decltype(t), const datatype::Integer &>::value));
+    }
+    THEN("the type class is integer") {
+      REQUIRE(t.get_class() == datatype::Class::INTEGER);
+    }
+    THEN("the size should be the same as the memory size") {
+      REQUIRE(t.size() == sizeof(TestType));
+    }
+
+    WHEN("checking for the precission") {
+      REQUIRE(t.precision() == t.size() * 8lu);
+    }
+
+    WHEN("checking the byte order") {
+      using datatype::Order;
+      REQUIRE((t.order() == Order::LE || t.order() == Order::BE ||
+              t.order() == Order::VAX));
+    }
+
+    WHEN("checking for the offset") {
+      REQUIRE(t.offset() == 0lu);
+    }
+
+    WHEN("checking the padding") {
+      using datatype::Pad;
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+    }
+  }
+}
+
+
 TEMPLATE_TEST_CASE("signed integer properties",
                    "[datatype][numeric][integer]",
                    char,
@@ -151,6 +199,27 @@ TEMPLATE_TEST_CASE("signed integer properties",
   }
 }
 
+TEMPLATE_TEST_CASE("signed integer properties with cref",
+                   "[datatype][numeric][integer]",
+                   char,
+                   short,
+                   int,
+                   long,
+                   long long) {
+  GIVEN("an instance of a signed integer") {
+    auto & t = datatype::get<TestType>();
+    THEN("the signed property will be true") { REQUIRE(t.is_signed()); }
+    AND_THEN("we can make it unsigned") {
+      t.make_signed(false);
+      THEN("setting the flag") { REQUIRE_FALSE(t.is_signed()); }
+      AND_THEN("make it signed again") {
+        t.make_signed(true);
+        THEN("the flag will be true again") { REQUIRE(t.is_signed()); }
+      }
+    }
+  }
+}
+
 TEMPLATE_TEST_CASE("unsigned integer properties",
                    "[datatype][numeric][integer]",
                    unsigned char,
@@ -160,6 +229,27 @@ TEMPLATE_TEST_CASE("unsigned integer properties",
                    unsigned long long) {
   GIVEN("an instance of a unsigned integer") {
     auto t = datatype::create<TestType>();
+    THEN("the signed property will be true") { REQUIRE_FALSE(t.is_signed()); }
+    AND_THEN("we can make it signed") {
+      t.make_signed(true);
+      THEN("setting the flag") { REQUIRE(t.is_signed()); }
+      AND_THEN("make it unsigned again") {
+        t.make_signed(false);
+        THEN("the flag will be false again") { REQUIRE_FALSE(t.is_signed()); }
+      }
+    }
+  }
+}
+
+TEMPLATE_TEST_CASE("unsigned integer properties with cref",
+                   "[datatype][numeric][integer]",
+                   unsigned char,
+                   unsigned short,
+                   unsigned int,
+                   unsigned long,
+                   unsigned long long) {
+  GIVEN("an instance of a unsigned integer") {
+    auto & t = datatype::get<TestType>();
     THEN("the signed property will be true") { REQUIRE_FALSE(t.is_signed()); }
     AND_THEN("we can make it signed") {
       t.make_signed(true);

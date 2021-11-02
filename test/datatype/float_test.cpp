@@ -68,7 +68,132 @@ TEMPLATE_TEST_CASE("testing",
   }
 }
 
+TEMPLATE_TEST_CASE("testing with cref",
+                   "[datatype][numeric][lfoat]",
+                   float,
+                   double,
+                   long double) {
+  GIVEN("a datatype instance") {
+    auto & t = datatype::get<TestType>();
+    THEN("the factory function should return a const Float reference") {
+      REQUIRE((std::is_same<decltype(t), const datatype::Float &>::value));
+    }
+    THEN("the type class should be FLOAT") {
+      REQUIRE(t.get_class() == datatype::Class::FLOAT);
+    }
+    THEN("the size should be") { REQUIRE(t.size() == sizeof(TestType)); }
+
+  }
+}
+
 TEMPLATE_TEST_CASE("testing byte order for floats",
+                   "[datatype][numeric][float]",
+                   datatype::float16_t,
+                   float,
+                   double,
+                   long double) {
+  GIVEN("an instance of the actual type") {
+    auto t = datatype::create<TestType>();
+    WHEN("we check the precision of the type") {
+      REQUIRE((t.precision() == t.size() * 8lu || t.precision() == 80lu));
+    }
+    WHEN("checking the byte order it must be either") {
+      REQUIRE((t.order() == datatype::Order::LE ||
+               t.order() == datatype::Order::BE ||
+               t.order() == datatype::Order::VAX));
+
+      AND_THEN("we can set it to Big Endian") {
+        t.order(datatype::Order::BE);
+        REQUIRE(t.order() == datatype::Order::BE);
+      }
+      AND_THEN("we can set it to Little Endian") {
+        t.order(datatype::Order::LE);
+        REQUIRE(t.order() == datatype::Order::LE);
+      }
+    }
+    WHEN("checking the offset of the type") {
+      REQUIRE(t.offset() == 0lu);
+      AND_THEN("we can set it to 1") {
+        t.offset(1);
+        REQUIRE(t.offset() == 1lu);
+      }
+      AND_THEN("we can set it to 2") {
+        t.offset(2);
+        REQUIRE(t.offset() == 2lu);
+      }
+    }
+
+    WHEN("checking the padding we get") {
+      using datatype::Pad;
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      AND_THEN("we can set it to ZERO:ONE") {
+        t.pad(Pad::ZERO, Pad::ONE);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ONE}));
+      }
+      AND_THEN("we can set it to ONE:BACKGROUND") {
+        t.pad(Pad::ONE, Pad::BACKGROUND);
+        REQUIRE_THAT(t.pad(),
+                     Catch::Matchers::Equals(r{Pad::ONE, Pad::BACKGROUND}));
+      }
+    }
+
+    WHEN("checking the inpad") {
+      using datatype::Pad;
+      REQUIRE(t.inpad() == Pad::ZERO);
+      AND_THEN("set it to ONE") {
+        t.inpad(Pad::ONE);
+        REQUIRE(t.inpad() == Pad::ONE);
+      }
+      AND_THEN("set it to BACKGROUND") {
+        t.inpad(Pad::BACKGROUND);
+        REQUIRE(t.inpad() == Pad::BACKGROUND);
+      }
+    }
+
+    WHEN("checking the norm") {
+      using datatype::Norm;
+      REQUIRE((t.norm() == Norm::IMPLIED || t.norm() == Norm::NONE));
+      AND_THEN("set it to MSBSET") {
+        t.norm(Norm::MSBSET);
+        REQUIRE(t.norm() == Norm::MSBSET);
+      }
+      AND_THEN("set it to NONE") {
+        t.norm(Norm::NONE);
+        REQUIRE(t.norm() == Norm::NONE);
+      }
+    }
+
+    WHEN("checking the EBIAS") {
+      REQUIRE((t.ebias() == 2 * t.size() * t.size() * t.size() - 1 ||
+               t.ebias() == 4 * t.size() * t.size() * t.size() - 1));
+      AND_THEN("set it to 63") {
+        t.ebias(63);
+        REQUIRE(t.ebias() == 63lu);
+      }
+      AND_THEN("set it to 31") {
+        t.ebias(31);
+        REQUIRE(t.ebias() == 31lu);
+      }
+    }
+
+    WHEN("checking fields") {
+      using f = std::vector<size_t>;
+      REQUIRE(t.fields().size() == 5lu);
+      AND_THEN("set them to 15, 10,5, 0,10") {
+        auto fields = f{15lu, 10lu, 5lu, 0lu, 10lu};
+        t.fields(15lu, 10lu, 5lu, 0lu, 10lu);
+        REQUIRE_THAT(t.fields(), Catch::Matchers::Equals(fields));
+      }
+      AND_THEN("set them to 14, 9, 5, 0, 9") {
+        auto fields = f{15ul, 9ul, 5ul, 0ul, 9lu};
+        t.fields(15lu, 9lu, 5lu, 0lu, 9lu);
+        REQUIRE_THAT(t.fields(), Catch::Matchers::Equals(fields));
+      }
+    }
+  }
+}
+TEMPLATE_TEST_CASE("testing byte order for floats with cref",
                    "[datatype][numeric][float]",
                    datatype::float16_t,
                    float,

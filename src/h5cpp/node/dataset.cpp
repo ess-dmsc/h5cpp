@@ -75,7 +75,7 @@ Node Dataset::create_dataset(const Group &base,
 // implementation of public member functions
 //=============================================================================
 Dataset::Dataset(const Node &node):
-    Node(node)
+  Node(node) 
 {
   if(node.type()!=Type::DATASET)
   {
@@ -84,6 +84,8 @@ Dataset::Dataset(const Node &node):
     ss<<"Node ["<<node.link().path()<<"] is not a dataset!";
     throw std::runtime_error(ss.str());
   }
+  file_type = datatype();
+  file_type_class = file_type.get_class();
 }
 
 Dataset::Dataset(const Group &base,const Path &path,
@@ -92,8 +94,11 @@ Dataset::Dataset(const Group &base,const Path &path,
                  const property::LinkCreationList &lcpl,
                  const property::DatasetCreationList &dcpl,
                  const property::DatasetAccessList &dapl):
- Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
-{}
+  Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
+  {
+  file_type = datatype();
+  file_type_class = file_type.get_class();
+}
 
 
 dataspace::Dataspace Dataset::dataspace() const
@@ -117,7 +122,6 @@ datatype::Datatype Dataset::datatype() const
     ss<<"Failure retrieving datatype for dataset "<<link().path()<<"!";
     hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
-
   return datatype::Datatype(ObjectHandle(id));
 }
 

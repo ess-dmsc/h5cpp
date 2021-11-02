@@ -11,6 +11,7 @@ set(test_sources node_test.cpp
                  dataset_partial_io_test.cpp
                  dataset_extent_test.cpp
                  dataset_array_type_io.cpp
+                 dataset_dynamic_type_io.cpp
                  dataset_const_data.cpp
                  dataset_vlen_array_io.cpp
                  dataset_fixed_string_io.cpp

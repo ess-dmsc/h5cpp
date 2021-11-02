@@ -169,6 +169,24 @@ class DLL_EXPORT File
   size_t to_buffer(T &data) const;
 
   //!
+  //! \brief retrieve a copy of the image of an existing, open file
+  //!
+  //! It reshapes the mem_space if its rank does not match to the selection rank
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \tparam T source type
+  //! \param data reference to the source instance of T
+  //! \param mem_type reference to the memory data type
+  //! \param mem_space reference to the memory data space
+  //! \return size of used space in a buffer
+  //! \sa ImageFlags
+  //!
+  template<typename T>
+   size_t to_buffer_reshape(T &data,
+			    const datatype::Datatype &mem_type,
+			    const dataspace::Dataspace &mem_space) const;
+
+  //!
   //! \brief check validity of the instance
   //!
   //! Return true if the instance refers to a valid HDF5 file instance.
@@ -193,11 +211,19 @@ class DLL_EXPORT File
 template<typename T>
 size_t File::to_buffer(T &data) const
 {
-  auto memory_space = hdf5::dataspace::create(data);
-  auto memory_type  = hdf5::datatype::create(data);
-  size_t databytesize = signed2unsigned<unsigned long long>(memory_space.size()) * memory_type.size();
+  auto mem_space = hdf5::dataspace::create(data);
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  return to_buffer_reshape(data, mem_type_holder.get(data), mem_space);
+}
+
+template<typename T>
+size_t File::to_buffer_reshape(T &data,
+			       const datatype::Datatype &mem_type,
+			       const dataspace::Dataspace &mem_space) const
+{
+  size_t databytesize = signed2unsigned<unsigned long long>(mem_space.size()) * mem_type.size();
   ssize_t s = 0;
-  if(memory_type.get_class() == datatype::Class::INTEGER)
+  if(mem_type.get_class() == datatype::Class::INTEGER)
     {
       flush(Scope::GLOBAL);
       s = H5Fget_file_image(static_cast<hid_t>(*this), dataspace::ptr(data), databytesize);
