@@ -82,9 +82,6 @@ class TypeTrait<std::vector<T>> {
   }
 
   static const Dataspace & get(const std::vector<T> & value, DataspacePool & pool) {
-
-    //    static const Dataspace & cref_ = Dataspace();
-    //    return cref_;
     return pool.getSimple(value.size());
   }
 
