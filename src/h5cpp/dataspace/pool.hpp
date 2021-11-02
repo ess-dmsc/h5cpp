@@ -31,6 +31,9 @@
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/core/types.hpp>
 
+template class DLL_EXPORT std::allocator<std::pair<size_t, hdf5::dataspace::Dataspace>>;
+template class DLL_EXPORT std::map<size_t, hdf5::dataspace::Dataspace>;
+
 namespace hdf5 {
 namespace dataspace {
 
@@ -64,5 +67,3 @@ inline const Dataspace & DataspacePool::getSimple(size_t size)
 
 } // namespace dataspace
 } // namespace hdf5
-
-
