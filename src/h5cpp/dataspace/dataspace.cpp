@@ -51,28 +51,24 @@ Dataspace::Dataspace(ObjectHandle &&handle)
 
 Dataspace::Dataspace(const Dataspace &space)
     : selection(*this) {
-  if(static_cast<hid_t>(space.handle_)) {
-    hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
-    if (0 > ret) {
-      error::Singleton::instance().throw_with_stack("could not copy-construct Dataspace");
-    }
-    handle_ = ObjectHandle(ret);
-  }
-  else
-    handle_ = ObjectHandle();
+  swap(space);
 }
 
 Dataspace &Dataspace::operator=(const Dataspace &space) {
+  swap(space);
+  return *this;
+}
+
+void Dataspace::swap(const Dataspace &space) {
   if(static_cast<hid_t>(space.handle_)) {
     hid_t ret = H5Scopy(static_cast<hid_t>(space.handle_));
     if (0 > ret) {
-    error::Singleton::instance().throw_with_stack("could not copy Dataspace");
+      error::Singleton::instance().throw_with_stack("could not copy Dataspace");
     }
     handle_ = ObjectHandle(ret);
   }
   else
     handle_ = ObjectHandle();
-  return *this;
 }
 
 Dataspace::Dataspace(Type type)
