@@ -331,11 +331,11 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     template<typename T>
-      void write_chunk(const T &data,
-                       std::vector<long long unsigned int> offset,
-                       std::uint32_t filter_mask = 0,
-                       const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::get());
+    void write_chunk(const T &data,
+		     std::vector<unsigned long long> offset,
+		     std::uint32_t filter_mask = 0,
+		     const property::DatasetTransferList &dtpl =
+		     property::DatasetTransferList::get());
 
     //!
     //! \brief write dataset chunk
@@ -352,13 +352,13 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     template<typename T>
-      void write_chunk(const T &data,
-		       const datatype::Datatype &mem_type,
-		       const dataspace::Dataspace &mem_space,
-                       std::vector<long long unsigned int> & offset,
-                       std::uint32_t filter_mask = 0,
-                       const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::get())  const;
+    void write_chunk(const T &data,
+		     const datatype::Datatype &mem_type,
+		     const dataspace::Dataspace &mem_space,
+		     std::vector<unsigned long long> & offset,
+		     std::uint32_t filter_mask = 0,
+		     const property::DatasetTransferList &dtpl =
+		     property::DatasetTransferList::get())  const;
 
 #if H5_VERSION_GE(1,10,2)
 
@@ -376,7 +376,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
       std::uint32_t read_chunk(T &data,
-			       std::vector<long long unsigned int> offset,
+			       std::vector<unsigned long long> offset,
 			       const property::DatasetTransferList &dtpl =
 			       property::DatasetTransferList::get())  const;
 
@@ -397,7 +397,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
       std::uint32_t read_chunk(T &data,
 			       const datatype::Datatype &mem_type,
-			       std::vector<long long unsigned int> & offset,
+			       std::vector<unsigned long long> & offset,
 			       const property::DatasetTransferList &dtpl =
 			       property::DatasetTransferList::get())  const;
 
@@ -411,7 +411,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \return the size in bytes for the chunk.
     //!
-      long long unsigned int chunk_storage_size(std::vector<long long unsigned int> offset)  const;
+      unsigned long long chunk_storage_size(std::vector<unsigned long long> offset)  const;
 
 #endif
 
@@ -840,7 +840,7 @@ void Dataset::write(const T &data,
 
 template<typename T>
 void Dataset::write_chunk(const T &data,
-                          std::vector<long long unsigned int> offset,
+                          std::vector<unsigned long long> offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl)
 {
@@ -853,7 +853,7 @@ template<typename T>
 void Dataset::write_chunk(const T &data,
 			  const datatype::Datatype &mem_type,
 			  const dataspace::Dataspace &mem_space,
-			  std::vector<long long unsigned int> & offset,
+			  std::vector<unsigned long long> & offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl) const
 {
@@ -899,7 +899,7 @@ void Dataset::write_chunk(const T &data,
 
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
-			 std::vector<long long unsigned int> offset,
+			 std::vector<unsigned long long> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
@@ -909,7 +909,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
 				  const datatype::Datatype &mem_type,
-				  std::vector<long long unsigned int> & offset,
+				  std::vector<unsigned long long> & offset,
 				  const property::DatasetTransferList &dtpl) const
 {
   std::uint32_t filter_mask;

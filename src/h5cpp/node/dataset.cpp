@@ -189,10 +189,10 @@ void Dataset::refresh() const
 
 #if H5_VERSION_GE(1,10,2)
 
-long long unsigned int Dataset::chunk_storage_size(
-			 std::vector<long long unsigned int> offset) const
+unsigned long long Dataset::chunk_storage_size(
+			 std::vector<unsigned long long> offset) const
 {
-  long long unsigned int storage_size;
+  unsigned long long storage_size;
   if(H5Dget_chunk_storage_size(static_cast<hid_t>(*this),
 			       offset.data(),
 			       &storage_size)<0)
