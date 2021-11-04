@@ -149,6 +149,7 @@ class DLL_EXPORT AttributeManager
     //! \throws std::runtime_error in case of an error
     //! \tparam T element data type of the attribute
     //! \param name the name of the attribute
+    //! \param acpl attribute creation property list
     //! \return instance of the newly created attribute
     //!
     template<typename T>
@@ -166,6 +167,7 @@ class DLL_EXPORT AttributeManager
     //! \tparam T element data type
     //! \param name the name for the attribute
     //! \param shape the number of elements along each dimension
+    //! \param acpl attribute creation property list
     //! \return instance of the newly created attribute
     //!
     template<typename T>

@@ -31,6 +31,7 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/datatype/datatype.hpp>
+#include <h5cpp/dataspace/pool.hpp>
 #include <h5cpp/property/dataset_transfer.hpp>
 #include <h5cpp/core/types.hpp>
 #include <h5cpp/core/variable_length_string.hpp>
@@ -90,6 +91,7 @@ class DLL_EXPORT Dataset : public Node
     //! \throws std::runtime_error in case of a failure
     //! \param base the base object for the dataset creation
     //! \param path the path to the new dataset
+    //! \param type optional reference to a datatype
     //! \param space optional reference to a dataspace (default is a scalar one)
     //! \param lcpl optional reference to a link creation property list
     //! \param dcpl optional reference to a dataset creation property list
@@ -282,7 +284,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
-                                   property::DatasetTransferList::get()) const;
+                                   property::DatasetTransferList::get());
 
     //!
     //! \brief write entire dataset
@@ -314,7 +316,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::get()) const;
+                                      property::DatasetTransferList::get());
 
     //!
     //! \brief write dataset chunk
@@ -329,11 +331,11 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     template<typename T>
-      void write_chunk(const T &data,
-                       std::vector<long long unsigned int> offset,
-                       std::uint32_t filter_mask = 0,
-                       const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::get())  const;
+    void write_chunk(const T &data,
+		     std::vector<unsigned long long> offset,
+		     std::uint32_t filter_mask = 0,
+		     const property::DatasetTransferList &dtpl =
+		     property::DatasetTransferList::get());
 
     //!
     //! \brief write dataset chunk
@@ -350,13 +352,13 @@ class DLL_EXPORT Dataset : public Node
     //! \param dtpl reference to a dataset transfer property list
     //!
     template<typename T>
-      void write_chunk(const T &data,
-		       const datatype::Datatype &mem_type,
-		       const dataspace::Dataspace &mem_space,
-                       std::vector<long long unsigned int> & offset,
-                       std::uint32_t filter_mask = 0,
-                       const property::DatasetTransferList &dtpl =
-                       property::DatasetTransferList::get())  const;
+    void write_chunk(const T &data,
+		     const datatype::Datatype &mem_type,
+		     const dataspace::Dataspace &mem_space,
+		     std::vector<unsigned long long> & offset,
+		     std::uint32_t filter_mask = 0,
+		     const property::DatasetTransferList &dtpl =
+		     property::DatasetTransferList::get())  const;
 
 #if H5_VERSION_GE(1,10,2)
 
@@ -374,7 +376,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
       std::uint32_t read_chunk(T &data,
-			       std::vector<long long unsigned int> offset,
+			       std::vector<unsigned long long> offset,
 			       const property::DatasetTransferList &dtpl =
 			       property::DatasetTransferList::get())  const;
 
@@ -395,7 +397,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
       std::uint32_t read_chunk(T &data,
 			       const datatype::Datatype &mem_type,
-			       std::vector<long long unsigned int> & offset,
+			       std::vector<unsigned long long> & offset,
 			       const property::DatasetTransferList &dtpl =
 			       property::DatasetTransferList::get())  const;
 
@@ -409,7 +411,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \return the size in bytes for the chunk.
     //!
-      long long unsigned int chunk_storage_size(std::vector<long long unsigned int> offset)  const;
+      unsigned long long chunk_storage_size(std::vector<unsigned long long> offset)  const;
 
 #endif
 
@@ -425,7 +427,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
-                            property::DatasetTransferList::get()) const;
+                            property::DatasetTransferList::get());
 
     //!
     //! \brief write data to a selection
@@ -441,7 +443,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void write(const T &data,const dataspace::Selection &selection,
                const property::DatasetTransferList &dtpl =
-	            property::DatasetTransferList::get()) const;
+	            property::DatasetTransferList::get());
 
     //!
     //! \brief write data to a selection
@@ -480,7 +482,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void read(T &data,const dataspace::Selection &selection,
               const property::DatasetTransferList &dtpl =
-                  property::DatasetTransferList::get()) const;
+                  property::DatasetTransferList::get());
 
     //!
     //! \brief reading data from a selection
@@ -537,6 +539,7 @@ class DLL_EXPORT Dataset : public Node
   private:
     datatype::Datatype file_type;
     datatype::Class file_type_class;
+    dataspace::DataspacePool space_pool;
     //!
     //! \brief static factory function for dataset creation
     //!
@@ -837,20 +840,20 @@ void Dataset::write(const T &data,
 
 template<typename T>
 void Dataset::write_chunk(const T &data,
-                          std::vector<long long unsigned int> offset,
+                          std::vector<unsigned long long> offset,
                           std::uint32_t filter_mask,
-                          const property::DatasetTransferList &dtpl) const
+                          const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  write_chunk(data, mem_type_holder.get(data), mem_space, offset, filter_mask, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  write_chunk(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), offset, filter_mask, dtpl);
 }
 
 template<typename T>
 void Dataset::write_chunk(const T &data,
 			  const datatype::Datatype &mem_type,
 			  const dataspace::Dataspace &mem_space,
-			  std::vector<long long unsigned int> & offset,
+			  std::vector<unsigned long long> & offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl) const
 {
@@ -896,7 +899,7 @@ void Dataset::write_chunk(const T &data,
 
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
-			 std::vector<long long unsigned int> offset,
+			 std::vector<unsigned long long> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
@@ -906,7 +909,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
 				  const datatype::Datatype &mem_type,
-				  std::vector<long long unsigned int> & offset,
+				  std::vector<unsigned long long> & offset,
 				  const property::DatasetTransferList &dtpl) const
 {
   std::uint32_t filter_mask;
@@ -948,11 +951,11 @@ std::uint32_t Dataset::read_chunk(T &data,
 #endif
 
 template<typename T>
-void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
+void Dataset::write(const T &data,const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), dtpl);
 }
 
 template<typename T>
@@ -1008,11 +1011,11 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
 
 template<typename T>
 void Dataset::read(T &data,const dataspace::Selection &selection,
-                   const property::DatasetTransferList &dtpl) const
+                   const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  read_reshape(data, mem_type_holder.get(data), mem_space, selection, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), selection, dtpl);
 }
 
 template<typename T>
@@ -1068,11 +1071,11 @@ void Dataset::read(T &data,
 
 template<typename T>
 void Dataset::write(const T &data,const dataspace::Selection &selection,
-                    const property::DatasetTransferList &dtpl) const
+                    const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space, selection, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), selection, dtpl);
 }
 
 template<typename T>
@@ -1113,11 +1116,11 @@ void Dataset::write_reshape(const T &data,
 
 
 template<typename T>
-void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
+void Dataset::read(T &data,const property::DatasetTransferList &dtpl)
 {
-  auto mem_space = hdf5::dataspace::create(data);
   hdf5::datatype::DatatypeHolder mem_type_holder;
-  read_reshape(data, mem_type_holder.get(data), mem_space, dtpl);
+  hdf5::dataspace::DataspaceHolder mem_space_holder;
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), dtpl);
 }
 
 

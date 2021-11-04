@@ -22,16 +22,19 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 7, 2017
 //
 #pragma once
 
 #include <vector>
 #include <array>
+#include <map>
 
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/scalar.hpp>
 #include <h5cpp/dataspace/simple.hpp>
+#include <h5cpp/dataspace/pool.hpp>
 #include <h5cpp/core/types.hpp>
 
 namespace hdf5 {
@@ -55,6 +58,11 @@ class TypeTrait {
     return Scalar();
   }
 
+  const static DataspaceType & get(const T &, DataspacePool &) {
+    const static DataspaceType & cref_ = Scalar();
+    return cref_;
+  }
+
   static void *ptr(T &value) {
     return reinterpret_cast<void *>(&value);
   }
@@ -69,8 +77,12 @@ class TypeTrait<std::vector<T>> {
  public:
   using DataspaceType = Simple;
 
-  static DataspaceType create(const std::vector<T> &value) {
+  static Simple create(const std::vector<T> &value) {
     return Simple(hdf5::Dimensions{value.size()}, hdf5::Dimensions{value.size()});
+  }
+
+  static const Dataspace & get(const std::vector<T> & value, DataspacePool & pool) {
+    return pool.getSimple(value.size());
   }
 
   static void *ptr(std::vector<T> &data) {
@@ -89,6 +101,11 @@ class TypeTrait<std::array<T, N>> {
 
   static DataspaceType create(const std::array<T, N> &) {
     return Simple(hdf5::Dimensions{N}, hdf5::Dimensions{N});
+  }
+
+  const static DataspaceType & get(const std::array<T, N> &, DataspacePool &) {
+    const static DataspaceType & cref_ = Simple(hdf5::Dimensions{N}, hdf5::Dimensions{N});
+    return cref_;
   }
 
   static void *ptr(std::array<T, N> &value) {
@@ -116,6 +133,23 @@ typename TypeTrait<T>::DataspaceType create(const T &value) {
   return TypeTrait<T>::create(value);
 }
 
+//!
+//! \brief factory function for dataspace const references
+//!
+//! This factory function uses TypeTrait to create
+//! a new dataspace const reference for a particular instance of T.
+//!
+//! \tparam T type for which to construct a dataspace
+//!
+//! \param value instance of T
+//! \param pool dataspace pool
+//! \return a const reference of the appropriate dataspace type
+//!
+template<typename T>
+const typename dataspace::Dataspace & get(const T &value, DataspacePool & pool) {
+  return TypeTrait<T>::get(value, pool);
+}
+
 template<typename T>
 void *ptr(T &value) {
   return TypeTrait<T>::ptr(value);
@@ -126,7 +160,41 @@ const void *cptr(const T &value) {
   return TypeTrait<T>::cptr(value);
 }
 
+//!
+//! @brief data space object holder
+//!
+class DLL_EXPORT DataspaceHolder
+{
+  public:
+
+  //!
+  //! \brief factory holder method for getting reference of data spaces
+  //!
+  //! Returns data space reference for static data space object if available.
+  //! Otherwise it creates a new data space object and returns its reference.
+  //!
+  //! @param v provided dataspace data
+  //! \param pool dataspace pool
+  //! @return data space reference for data space object
+  //!
+  template<typename T>
+    const Dataspace & get(const T & v, DataspacePool & pool);
+
+ private:
+      Dataspace instance;
+};
+
+template<typename T>
+const Dataspace & DataspaceHolder::get(const T & v, DataspacePool & pool)
+{
+  auto & space = hdf5::dataspace::get(v, pool);
+  if(static_cast<hid_t>(space))
+    return space;
+
+  if (!static_cast<hid_t>(instance))
+    instance = hdf5::dataspace::create(v);
+  return instance;
+}
+
 } // namespace dataspace
 } // namespace hdf5
-
-

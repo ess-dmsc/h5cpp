@@ -14,3 +14,4 @@ of *h5cpp*.
    
    cpp_datastructures
    c_arrays
+   user_data

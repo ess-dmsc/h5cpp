@@ -51,6 +51,7 @@ class DLL_EXPORT Attribute
     //! \brief constructor
     //!
     //! \param handle rvalue reference to the attributes handle
+    //! \param parent_link like to the parent object
     //!
     Attribute(ObjectHandle &&handle,const node::Link &parent_link);
 

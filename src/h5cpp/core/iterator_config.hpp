@@ -33,7 +33,7 @@
 namespace hdf5 {
 
 //!
-//! @brief iteration order
+//! \enum IterationOrder iteration order
 //!
 //! This enumeration is used to control how an iterator traverses an iterable
 //! with a particular index.

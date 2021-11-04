@@ -37,8 +37,8 @@ SCENARIO("default constructed dataspace") {
     THEN("size() will fail") {
       REQUIRE_THROWS_AS(s.size(), std::runtime_error);
     }
-    THEN("type() will fail") {
-      REQUIRE_THROWS_AS(s.type(), std::runtime_error);
+    THEN("type() does not fail") {
+      REQUIRE(s.type() == Type::NODATA);
     }
     THEN("the dataspace will not be valid") { REQUIRE_FALSE(s.is_valid()); }
   }
@@ -67,9 +67,13 @@ SCENARIO("copy constructed dataspace") {
   GIVEN("a default constructed original dataspace") {
     Dataspace s;
     const Dataspace& ss = s;
-    THEN("copy construction will fail") {
-      REQUIRE_THROWS_AS(Dataspace(ss).is_valid(), std::runtime_error);
+    THEN("size() will fail") {
+      REQUIRE_THROWS_AS(ss.size(), std::runtime_error);
     }
+    THEN("type() does not fail") {
+      REQUIRE(ss.type() == Type::NODATA);
+    }
+    THEN("the dataspace will not be valid") { REQUIRE_FALSE(ss.is_valid()); }
   }
 
   GIVEN("a dataspace constructed from an hid_t") {
@@ -88,9 +92,14 @@ SCENARIO("copy assignemnt of a dataspace") {
   Dataspace s2;
   GIVEN("two default constructed dataspaces") {
     Dataspace s1;
-    THEN("assignment fails") {
-      REQUIRE_THROWS_AS((s2 = s1), std::runtime_error);
+    s2 = s1;
+    THEN("size() will fail") {
+      REQUIRE_THROWS_AS(s2.size(), std::runtime_error);
     }
+    THEN("type() does not fail") {
+      REQUIRE(s2.type() == Type::NODATA);
+    }
+    THEN("the dataspace will not be valid") { REQUIRE_FALSE(s2.is_valid()); }
   }
 
   GIVEN("a scalar dataspace from an hid_t") {
