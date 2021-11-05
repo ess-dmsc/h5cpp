@@ -1,6 +1,7 @@
 =====================
 Working with datasets
 =====================
+.. _design-read-write:
 
 Dataset creation
 ================

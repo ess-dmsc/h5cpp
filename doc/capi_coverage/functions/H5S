@@ -1,4 +1,6 @@
 H5Sclose
+H5Scombine_hyperslab
+H5Scombine_select
 H5Scopy
 H5Screate
 H5Screate_simple
@@ -20,11 +22,20 @@ H5Sget_simple_extent_npoints
 H5Sget_simple_extent_type
 H5Sis_regular_hyperslab
 H5Sis_simple
+H5Smodify_select
 H5Soffset_simple
+H5Sselect_adjust
 H5Sselect_all
+H5Sselect_copy
 H5Sselect_elements
 H5Sselect_hyperslab
+H5Sselect_intersect_block
 H5Sselect_none
+H5Sselect_project_intersection
+H5Sselect_shape_same
 H5Sselect_valid
+H5Ssel_iter_close
+H5Ssel_iter_create
+H5Ssel_iter_get_seq_list
 H5Sset_extent_none
 H5Sset_extent_simple
