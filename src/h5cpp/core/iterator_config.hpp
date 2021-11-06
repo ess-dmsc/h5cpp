@@ -47,7 +47,6 @@ enum class IterationOrder : std::underlying_type<H5_iter_order_t>::type
 
 //!
 //! @brief ouput stream for iteration order enumeration
-//! @relates IterationOrder
 //!
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const IterationOrder &order);
 

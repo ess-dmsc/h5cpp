@@ -5,12 +5,12 @@ Namespace :cpp:any:`hdf5::node`
 Enumerations
 ============
 
-:cpp:enum:`Type`
-----------------
+:cpp:enum:`NodeType`
+--------------------
 
-.. doxygenenum:: hdf5::node::Type
+.. doxygenenum:: hdf5::node::NodeType
 
-.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const Type &)
+.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const NodeType &)
 
 :cpp:enum:`LinkType`
 --------------------
@@ -112,8 +112,6 @@ Functions
 
 .. doxygenfunction:: hdf5::node::copy(const Node &, const Group &, const property::ObjectCopyList &, const property::LinkCreationList &)
 
-.. doxygenfunction:: hdf5::node::copy(const Node &, const Group &, const property::ObjectCopyList &, const property::LinkCreationList &)
-
 :cpp:func:`move`
 ----------------
 
@@ -135,7 +133,7 @@ Functions
 
 .. doxygenfunction:: hdf5::node::link(const Path &, const Group &, const Path &, const property::LinkCreationList &, const property::LinkAccessList &)
 
-.. doxygenfunction:: hdf5::node::link(const boost::filesystem::path &, const Path &, const Group &, const Path &, const property::LinkCreationList &, const property::LinkAccessList &)
+.. doxygenfunction:: hdf5::node::link(const fs::path &, const Path &, const Group &, const Path &, const property::LinkCreationList &, const property::LinkAccessList &)
 
 
 :cpp:func:`get_node`

@@ -1,0 +1,15 @@
+H5Mclose
+H5Mcreate
+H5Mcreate_anon
+H5Mdelete
+H5Mexists
+H5Mget
+H5Mget_access_plist
+H5Mget_count
+H5Mget_create_plist
+H5Mget_key_type
+H5Mget_val_type
+H5Miterate
+H5Miterate_by_name
+H5Mopen
+H5Mput

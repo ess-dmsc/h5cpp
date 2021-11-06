@@ -1,4 +1,3 @@
-H5O_mcdt_search_cb_t
 H5Oare_mdc_flushes_disabled
 H5Oclose
 H5Ocopy
@@ -12,11 +11,20 @@ H5Oget_comment_by_name
 H5Oget_info
 H5Oget_info_by_idx
 H5Oget_info_by_name
+H5Oget_native_info
+H5Oget_native_info_by_idx
+H5Oget_native_info_by_name
 H5Oincr_refcount
 H5Olink
 H5Oopen
 H5Oopen_by_addr
 H5Oopen_by_idx
+H5Oopen_by_token
 H5Orefresh
+H5Oset_comment
+H5Oset_comment_by_name
+H5Otoken_cmp
+H5Otoken_from_str
+H5Otoken_to_str
 H5Ovisit
 H5Ovisit_by_name

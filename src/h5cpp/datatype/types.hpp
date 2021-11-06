@@ -71,7 +71,6 @@ enum class Class : std::underlying_type<H5T_class_t>::type
 
 //!
 //! @brief stream output operator for the Class enumeration
-//! @relates Class
 //!
 //! @param stream reference to the output stream
 //! @param c reference to the class enumeration
