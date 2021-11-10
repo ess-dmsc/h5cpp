@@ -252,7 +252,7 @@ SCENARIO("Custom enumeration trait construction") {
 
 SCENARIO("Custom enumeration trait construction with cref") {
   GIVEN("the weak enumeration type") {
-    auto type = datatype::get<WeakFruit>();
+    auto type = datatype::Enum(datatype::get<WeakFruit>());
     THEN("we can read the names by index") {
       REQUIRE(type.name(0) == "Apple");
       REQUIRE(type.name(1) == "Pear");
@@ -266,7 +266,7 @@ SCENARIO("Custom enumeration trait construction with cref") {
   }
 
   GIVEN("the strong enumeration") {
-    auto type = datatype::get<StrongFruit>();
+    auto type = datatype::Enum(datatype::get<StrongFruit>());
     THEN("we can read the names by index") {
       REQUIRE(type.name(0) == "Pineapple");
       REQUIRE(type.name(1) == "Jackfruit");
@@ -281,7 +281,7 @@ SCENARIO("Custom enumeration trait construction with cref") {
 
 #ifndef _MSC_VER
   GIVEN("the EBool type") {
-    auto type = datatype::get<datatype::EBool>();
+    auto type = datatype::Enum(datatype::get<datatype::EBool>());
     THEN("we can get the names by index") {
       REQUIRE(type.name(0) == "FALSE");
       REQUIRE(type.name(1) == "TRUE");

@@ -233,10 +233,10 @@ template<typename T>
 Attribute AttributeManager::create(const std::string &name,
                                    const property::AttributeCreationList &acpl) const
 {
-  auto & type = datatype::get<T>();
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   dataspace::Scalar space;
 
-  return this->create(name,type,space,acpl);
+  return this->create(name,mem_type_holder.get<T>(),space,acpl);
 }
 
 template<typename T>
@@ -244,20 +244,20 @@ Attribute AttributeManager::create(const std::string &name,
                                    const Dimensions &shape,
                                    const property::AttributeCreationList &acpl) const
 {
-  auto & type = datatype::get<T>();
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   dataspace::Simple space(shape);
 
-  return create(name,type,space,acpl);
+  return create(name,mem_type_holder.get<T>(),space,acpl);
 
 }
 
 template<typename T>
 Attribute AttributeManager::create_from(const std::string &name,const T &value)
 {
-  auto & type = datatype::get<T>();
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   auto space = dataspace::create(value);
 
-  Attribute a = create(name,type,space);
+  Attribute a = create(name,mem_type_holder.get<T>(),space);
   a.write(value);
   return a;
 }
