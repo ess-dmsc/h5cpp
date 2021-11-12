@@ -63,9 +63,9 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it hast the value false") {
       auto attr = root_group.attributes["bool_scalar_false"];
       THEN("read as bool") {
-        REQUIRE(read_ebool(attr) == false);
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == false);
         REQUIRE(read_ebool(attr) == datatype::EBool::False);
-        REQUIRE(read_ebool(attr) == 0);
+        REQUIRE(static_cast<int>(read_ebool(attr)) == 0);
       }
     }
   }
