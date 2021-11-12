@@ -78,9 +78,9 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it has the value true") {
       auto attr = root_group.attributes["bool_simple_true"];
       THEN("read") {
-        REQUIRE(read_ebool(attr) == true);
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == true);
         REQUIRE(read_ebool(attr) == datatype::EBool::True);
-        REQUIRE(read_ebool(attr) == 1);
+        REQUIRE(static_cast<int>(read_ebool(attr)) == 1);
       }
 
       AND_THEN("the data type should be an enumeration type") {
@@ -92,9 +92,9 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it has the value false") {
       auto attr = root_group.attributes["bool_simple_false"];
       THEN("read") { 
-        REQUIRE(read_ebool(attr) == false);
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == false);
         REQUIRE(read_ebool(attr) == datatype::EBool::False);
-        REQUIRE(read_ebool(attr) == 0); }
+	REQUIRE(static_cast<int>(read_ebool(attr)) == 0); }
     }
   }
 

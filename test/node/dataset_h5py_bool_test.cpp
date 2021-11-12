@@ -57,8 +57,8 @@ SCENARIO("testing h5py compatiable booleans") {
       datatype::EBool buffer;
       WHEN("reading the data from the dataset") {
         dataset.read(buffer);
-        THEN("the result must be true") { REQUIRE(buffer == true); }
-        THEN("the result must be 1") { REQUIRE(buffer == 1); }
+        THEN("the result must be true") { REQUIRE(static_cast<bool>(buffer) == true); }
+        THEN("the result must be 1") { REQUIRE(static_cast<int>(buffer) == 1); }
         THEN("the result must be EBool::True") {
           REQUIRE(buffer == datatype::EBool::True);
         }
