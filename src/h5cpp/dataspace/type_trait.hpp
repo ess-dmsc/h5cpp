@@ -168,6 +168,18 @@ class DLL_EXPORT DataspaceHolder
   public:
 
   //!
+  //! \brief default constructor
+  //!
+  //! The default constructor. The dataspace pool is created internally
+  //!
+  DataspaceHolder() : pool_ref(pool_) {}
+  //!
+  //! \brief constructor
+  //!
+  //! \param pool dataspace pool
+  //!
+  DataspaceHolder(DataspacePool & pool) : pool_ref(pool) {}
+  //!
   //! \brief factory holder method for getting reference of data spaces
   //!
   //! Returns data space reference for static data space object if available.
@@ -178,16 +190,18 @@ class DLL_EXPORT DataspaceHolder
   //! @return data space reference for data space object
   //!
   template<typename T>
-    const Dataspace & get(const T & v, DataspacePool & pool);
+    const Dataspace & get(const T & v);
 
  private:
       Dataspace instance;
+      DataspacePool pool_;
+      DataspacePool & pool_ref;
 };
 
 template<typename T>
-const Dataspace & DataspaceHolder::get(const T & v, DataspacePool & pool)
+const Dataspace & DataspaceHolder::get(const T & v)
 {
-  auto & space = hdf5::dataspace::get(v, pool);
+  auto & space = hdf5::dataspace::get(v, pool_ref);
   if(static_cast<hid_t>(space))
     return space;
 
@@ -195,6 +209,7 @@ const Dataspace & DataspaceHolder::get(const T & v, DataspacePool & pool)
     instance = hdf5::dataspace::create(v);
   return instance;
 }
+
 
 } // namespace dataspace
 } // namespace hdf5

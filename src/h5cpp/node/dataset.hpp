@@ -285,6 +285,9 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void write(const T &data,const property::DatasetTransferList &dtpl =
                                    property::DatasetTransferList::get());
+    template<typename T>
+    void write(const T &data,const property::DatasetTransferList &dtpl =
+                                   property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write entire dataset
@@ -293,7 +296,7 @@ class DLL_EXPORT Dataset : public Node
     //! It reshapes the mem_space if its rank does not match to the selection rank
     //!
     //! \throws std::runtime_error in caes of a failure
-    //! \tparam T source type
+   //! \tparam T source type
     //! \param data reference to the source instance of T
     //! \param mem_type reference to the memory data type
     //! \param mem_space reference to the memory data space
@@ -317,6 +320,8 @@ class DLL_EXPORT Dataset : public Node
     //!
     void write(const char *data,const property::DatasetTransferList &dtpl =
                                       property::DatasetTransferList::get());
+    void write(const char *data,const property::DatasetTransferList &dtpl =
+                                      property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write dataset chunk
@@ -336,6 +341,13 @@ class DLL_EXPORT Dataset : public Node
 		     std::uint32_t filter_mask = 0,
 		     const property::DatasetTransferList &dtpl =
 		     property::DatasetTransferList::get());
+
+    template<typename T>
+    void write_chunk(const T &data,
+		     std::vector<unsigned long long> offset,
+		     std::uint32_t filter_mask = 0,
+		     const property::DatasetTransferList &dtpl =
+		     property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write dataset chunk
@@ -428,6 +440,9 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
     void read(T &data,const property::DatasetTransferList &dtpl =
                             property::DatasetTransferList::get());
+    template<typename T>
+    void read(T &data,const property::DatasetTransferList &dtpl =
+                            property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write data to a selection
@@ -444,6 +459,10 @@ class DLL_EXPORT Dataset : public Node
     void write(const T &data,const dataspace::Selection &selection,
                const property::DatasetTransferList &dtpl =
 	            property::DatasetTransferList::get());
+    template<typename T>
+    void write(const T &data,const dataspace::Selection &selection,
+               const property::DatasetTransferList &dtpl =
+	            property::DatasetTransferList::get()) const;
 
     //!
     //! \brief write data to a selection
@@ -483,6 +502,10 @@ class DLL_EXPORT Dataset : public Node
     void read(T &data,const dataspace::Selection &selection,
               const property::DatasetTransferList &dtpl =
                   property::DatasetTransferList::get());
+    template<typename T>
+    void read(T &data,const dataspace::Selection &selection,
+              const property::DatasetTransferList &dtpl =
+                  property::DatasetTransferList::get()) const;
 
     //!
     //! \brief reading data from a selection
@@ -845,8 +868,19 @@ void Dataset::write_chunk(const T &data,
                           const property::DatasetTransferList &dtpl)
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
+  hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
+  write_chunk(data, mem_type_holder.get(data), mem_space_holder.get(data), offset, filter_mask, dtpl);
+}
+
+template<typename T>
+void Dataset::write_chunk(const T &data,
+                          std::vector<unsigned long long> offset,
+                          std::uint32_t filter_mask,
+                          const property::DatasetTransferList &dtpl) const
+{
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder;
-  write_chunk(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), offset, filter_mask, dtpl);
+  write_chunk(data, mem_type_holder.get(data), mem_space_holder.get(data), offset, filter_mask, dtpl);
 }
 
 template<typename T>
@@ -954,8 +988,16 @@ template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl)
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
+  hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+}
+
+template<typename T>
+void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
+{
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), dtpl);
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
 }
 
 template<typename T>
@@ -1014,8 +1056,17 @@ void Dataset::read(T &data,const dataspace::Selection &selection,
                    const property::DatasetTransferList &dtpl)
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
+  hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), selection, dtpl);
+}
+
+template<typename T>
+void Dataset::read(T &data,const dataspace::Selection &selection,
+                   const property::DatasetTransferList &dtpl) const
+{
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder;
-  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), selection, dtpl);
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), selection, dtpl);
 }
 
 template<typename T>
@@ -1074,8 +1125,17 @@ void Dataset::write(const T &data,const dataspace::Selection &selection,
                     const property::DatasetTransferList &dtpl)
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
+  hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), selection, dtpl);
+}
+
+template<typename T>
+void Dataset::write(const T &data,const dataspace::Selection &selection,
+                    const property::DatasetTransferList &dtpl) const
+{
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), selection, dtpl);
+  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), selection, dtpl);
 }
 
 template<typename T>
@@ -1119,8 +1179,16 @@ template<typename T>
 void Dataset::read(T &data,const property::DatasetTransferList &dtpl)
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
+  hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+}
+
+template<typename T>
+void Dataset::read(T &data,const property::DatasetTransferList &dtpl) const
+{
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder;
-  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data, space_pool), dtpl);
+  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
 }
 
 

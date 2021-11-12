@@ -356,9 +356,9 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 template<typename T>
 void Attribute::write(const T &data) const
 {
-  auto & mem_type = datatype::get<T>(data);
+  hdf5::datatype::DatatypeHolder mem_type_holder;
 
-  write(data,mem_type);
+  write(data,mem_type_holder.get<T>());
 }
 
 template<typename T>
@@ -371,8 +371,8 @@ void Attribute::read(T &data) const
   }
   else
   {
-    auto & mem_type = datatype::get<T>(data);
-    read(data, mem_type, file_type);
+    hdf5::datatype::DatatypeHolder mem_type_holder;
+    read(data, mem_type_holder.get<T>(), file_type);
   }
 }
 

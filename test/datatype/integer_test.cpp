@@ -144,9 +144,9 @@ TEMPLATE_TEST_CASE("general integer properties with cref",
                    long long,
                    unsigned long long) {
   GIVEN("a particular integer type") {
-    auto & t = datatype::get<TestType>();
+    const auto t = datatype::Integer(datatype::get<TestType>());
     THEN("the return type must be a const integer reference") {
-      REQUIRE((std::is_same<decltype(t), const datatype::Integer &>::value));
+      REQUIRE((std::is_same<decltype(t), const datatype::Integer>::value));
     }
     THEN("the type class is integer") {
       REQUIRE(t.get_class() == datatype::Class::INTEGER);
@@ -207,7 +207,7 @@ TEMPLATE_TEST_CASE("signed integer properties with cref",
                    long,
                    long long) {
   GIVEN("an instance of a signed integer") {
-    auto & t = datatype::get<TestType>();
+    auto t = datatype::Integer(datatype::get<TestType>());
     THEN("the signed property will be true") { REQUIRE(t.is_signed()); }
     AND_THEN("we can make it unsigned") {
       t.make_signed(false);
@@ -249,7 +249,7 @@ TEMPLATE_TEST_CASE("unsigned integer properties with cref",
                    unsigned long,
                    unsigned long long) {
   GIVEN("an instance of a unsigned integer") {
-    auto & t = datatype::get<TestType>();
+    auto t = datatype::Integer(datatype::get<TestType>());
     THEN("the signed property will be true") { REQUIRE_FALSE(t.is_signed()); }
     AND_THEN("we can make it signed") {
       t.make_signed(true);
