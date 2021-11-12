@@ -32,9 +32,9 @@ namespace dataspace {
 
 std::ostream &operator<<(std::ostream &stream, const Type &t) {
   switch (t) {
-    case Type::SCALAR: return stream << "SCALAR";
-    case Type::SIMPLE: return stream << "SIMPLE";
-    case Type::NODATA: return stream << "NODATA";
+    case Type::Scalar: return stream << "SCALAR";
+    case Type::Simple: return stream << "SIMPLE";
+    case Type::NoData: return stream << "NODATA";
 #ifndef __clang__
     default:return stream;
 #endif
@@ -43,10 +43,10 @@ std::ostream &operator<<(std::ostream &stream, const Type &t) {
 
 std::ostream &operator<<(std::ostream &stream, const SelectionType &t) {
   switch (t) {
-    case SelectionType::NONE: return stream << "NONE";
-    case SelectionType::POINTS: return stream << "POINTS";
-    case SelectionType::HYPERSLAB: return stream << "HYPERSLAB";
-    case SelectionType::ALL: return stream << "ALL";
+    case SelectionType::None: return stream << "NONE";
+    case SelectionType::Points: return stream << "POINTS";
+    case SelectionType::Hyperslab: return stream << "HYPERSLAB";
+    case SelectionType::All: return stream << "ALL";
 #ifndef __clang__
     default:return stream;
 #endif
@@ -56,14 +56,14 @@ std::ostream &operator<<(std::ostream &stream, const SelectionType &t) {
 
 std::ostream &operator<<(std::ostream &stream, const SelectionOperation &o) {
   switch (o) {
-    case SelectionOperation::SET: return stream << "SET";
-    case SelectionOperation::OR: return stream << "OR";
-    case SelectionOperation::AND: return stream << "AND";
-    case SelectionOperation::XOR: return stream << "XOR";
-    case SelectionOperation::NOTB: return stream << "NOTB";
-    case SelectionOperation::NOTA: return stream << "NOTA";
-    case SelectionOperation::APPEND: return stream << "APPEND";
-    case SelectionOperation::PREPEND: return stream << "PREPEND";
+    case SelectionOperation::Set: return stream << "SET";
+    case SelectionOperation::Or: return stream << "OR";
+    case SelectionOperation::And: return stream << "AND";
+    case SelectionOperation::XOr: return stream << "XOR";
+    case SelectionOperation::NotB: return stream << "NOTB";
+    case SelectionOperation::NotA: return stream << "NOTA";
+    case SelectionOperation::Append: return stream << "APPEND";
+    case SelectionOperation::Prepend: return stream << "PREPEND";
 #ifndef __clang__
     default:return stream;
 #endif

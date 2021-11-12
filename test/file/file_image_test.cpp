@@ -73,7 +73,7 @@ SCENARIO("reading a file from a memory buffer")
 
   //create the file which we would like to read from a memory buffer
   {
-    auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+    auto f = file::create(filename, file::AccessFlags::Truncate);
     f.root()
         .attributes
         .create("HDF5_version", datatype::create<std::string>(),
@@ -138,7 +138,7 @@ SCENARIO("reading a file from a memory buffer")
       }
       AND_THEN("we cannot create a new instance without copying")
       {
-        REQUIRE_THROWS_AS(file::from_buffer(buffer, file::ImageFlags::DONT_COPY), std::runtime_error);
+        REQUIRE_THROWS_AS(file::from_buffer(buffer, file::ImageFlags::DontCopy), std::runtime_error);
       }
       WHEN("copy construct a const buffer from the original")
       {
@@ -146,16 +146,16 @@ SCENARIO("reading a file from a memory buffer")
         THEN("we cannot create a read write file from this")
         {
           REQUIRE_THROWS_AS(file::from_buffer(cbuffer,
-                                              file::ImageFlags::DONT_COPY |
-                                                  file::ImageFlags::DONT_RELEASE |
-                                                  file::ImageFlags::READWRITE),
+                                              file::ImageFlags::DontCopy |
+                                                  file::ImageFlags::DontRelease |
+                                                  file::ImageFlags::ReadWrite),
                             std::runtime_error);
         }
         THEN("we can create a read only file")
         {
           auto file2 = file::from_buffer(cbuffer,
-                                         file::ImageFlags::DONT_COPY |
-                                             file::ImageFlags::DONT_RELEASE);
+                                         file::ImageFlags::DontCopy |
+                                             file::ImageFlags::DontRelease);
           AND_THEN("we can read back the HDF5 version")
           {
             auto r2 = file2.root();

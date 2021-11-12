@@ -38,7 +38,7 @@ namespace property {
 Class::Class(ObjectHandle &&handle) :
     handle_(handle) {
   if (handle_.is_valid() &&
-      (handle_.get_type() != ObjectHandle::Type::PROPERTY_LIST_CLASS)) {
+      (handle_.get_type() != ObjectHandle::Type::PropertyListClass)) {
     std::stringstream ss;
     ss << "Could not construct property::Class from Handle, type="
        << handle_.get_type();
@@ -81,37 +81,37 @@ bool operator!=(const Class &lhs, const Class &rhs) {
 }
 
 const Class kAttributeCreate = Class(ObjectHandle(H5P_ATTRIBUTE_CREATE,
-                                                  ObjectHandle::Policy::WITHOUT_WARD));
+                                                  ObjectHandle::Policy::WithoutWard));
 const Class kDatasetAccess = Class(ObjectHandle(H5P_DATASET_ACCESS,
-                                                ObjectHandle::Policy::WITHOUT_WARD));
+                                                ObjectHandle::Policy::WithoutWard));
 const Class kDatasetCreate = Class(ObjectHandle(H5P_DATASET_CREATE,
-                                                ObjectHandle::Policy::WITHOUT_WARD));
+                                                ObjectHandle::Policy::WithoutWard));
 const Class kDatasetXfer = Class(ObjectHandle(H5P_DATASET_XFER,
-                                              ObjectHandle::Policy::WITHOUT_WARD));
+                                              ObjectHandle::Policy::WithoutWard));
 const Class kDatatypeAccess = Class(ObjectHandle(H5P_DATATYPE_ACCESS,
-                                                 ObjectHandle::Policy::WITHOUT_WARD));
+                                                 ObjectHandle::Policy::WithoutWard));
 const Class kDatatypeCreate = Class(ObjectHandle(H5P_DATATYPE_CREATE,
-                                                 ObjectHandle::Policy::WITHOUT_WARD));
+                                                 ObjectHandle::Policy::WithoutWard));
 const Class kFileAccess = Class(ObjectHandle(H5P_FILE_ACCESS,
-                                             ObjectHandle::Policy::WITHOUT_WARD));
+                                             ObjectHandle::Policy::WithoutWard));
 const Class kFileCreate = Class(ObjectHandle(H5P_FILE_CREATE,
-                                             ObjectHandle::Policy::WITHOUT_WARD));
+                                             ObjectHandle::Policy::WithoutWard));
 const Class kFileMount = Class(ObjectHandle(H5P_FILE_MOUNT,
-                                            ObjectHandle::Policy::WITHOUT_WARD));
+                                            ObjectHandle::Policy::WithoutWard));
 const Class kGroupAccess = Class(ObjectHandle(H5P_GROUP_ACCESS,
-                                              ObjectHandle::Policy::WITHOUT_WARD));
+                                              ObjectHandle::Policy::WithoutWard));
 const Class kGroupCreate = Class(ObjectHandle(H5P_GROUP_CREATE,
-                                              ObjectHandle::Policy::WITHOUT_WARD));
+                                              ObjectHandle::Policy::WithoutWard));
 const Class kLinkAccess = Class(ObjectHandle(H5P_LINK_ACCESS,
-                                             ObjectHandle::Policy::WITHOUT_WARD));
+                                             ObjectHandle::Policy::WithoutWard));
 const Class kLinkCreate = Class(ObjectHandle(H5P_LINK_CREATE,
-                                             ObjectHandle::Policy::WITHOUT_WARD));
+                                             ObjectHandle::Policy::WithoutWard));
 const Class kObjectCopy = Class(ObjectHandle(H5P_OBJECT_COPY,
-                                             ObjectHandle::Policy::WITHOUT_WARD));
+                                             ObjectHandle::Policy::WithoutWard));
 const Class kObjectCreate = Class(ObjectHandle(H5P_OBJECT_CREATE,
-                                               ObjectHandle::Policy::WITHOUT_WARD));
+                                               ObjectHandle::Policy::WithoutWard));
 const Class kStringCreate = Class(ObjectHandle(H5P_STRING_CREATE,
-                                               ObjectHandle::Policy::WITHOUT_WARD));
+                                               ObjectHandle::Policy::WithoutWard));
 
 std::ostream &operator<<(std::ostream &stream, const Class &c) {
   return stream << "AttributeClass(" << c.name() << ")";

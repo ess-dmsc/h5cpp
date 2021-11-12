@@ -71,7 +71,7 @@ class DLL_EXPORT ExternalFilter : public Filter
     //!             which is \e mandatory by default.
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::mandatory) const override;
+                            Availability flag=Availability::Mandatory) const override;
 
     //!
     //! \brief compression options

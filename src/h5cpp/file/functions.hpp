@@ -55,7 +55,7 @@ namespace file {
 //! \sa FileAccessList
 //!
 DLL_EXPORT File create(const fs::path &path,
-                       AccessFlags flags = AccessFlags::EXCLUSIVE,
+                       AccessFlags flags = AccessFlags::Exclusive,
                        const property::FileCreationList &fcpl = property::FileCreationList(),
                        const property::FileAccessList &fapl = property::FileAccessList());
 DLL_EXPORT File create(const fs::path &path,
@@ -75,7 +75,7 @@ DLL_EXPORT File create(const fs::path &path,
 //! \sa FileAccessList
 //!
 DLL_EXPORT File open(const fs::path &path,
-                     AccessFlags flags = AccessFlags::READONLY,
+                     AccessFlags flags = AccessFlags::ReadOnly,
                      const property::FileAccessList &fapl = property::FileAccessList());
 DLL_EXPORT File open(const fs::path &path,
                      AccessFlagsBase flags,
@@ -102,7 +102,7 @@ DLL_EXPORT bool is_hdf5_file(const fs::path &path);
 //!
 template<typename T>
 File from_buffer(T &data,
-		 ImageFlags flags = ImageFlags::READONLY);
+		 ImageFlags flags = ImageFlags::ReadOnly);
 template<typename T>
 File from_buffer(T &data,
 		 ImageFlagsBase flags);
@@ -114,7 +114,7 @@ File from_buffer(T &data,
 
 template<typename T>
 File from_buffer(const T &data,
-		 ImageFlags flags = ImageFlags::READONLY);
+		 ImageFlags flags = ImageFlags::ReadOnly);
 template<typename T>
 File from_buffer(const T &data,
 		 ImageFlagsBase flags);
@@ -136,7 +136,7 @@ File from_buffer(const T &data, ImageFlags flags)
 template<typename T>
 File from_buffer(const T &data, ImageFlagsBase flags)
 {
-  if((flags & ImageFlags::READWRITE) && (flags & ImageFlags::DONT_COPY))
+  if((flags & ImageFlags::ReadWrite) && (flags & ImageFlags::DontCopy))
     throw std::runtime_error("Invalid ImageFlags for const buffer: the DONT_COPY flag together with the READWRITE flag");
   return from_buffer(const_cast<T&>(data), static_cast<ImageFlagsBase>(flags));
 }
@@ -155,11 +155,11 @@ File from_buffer(T &data,
 		 const dataspace::Dataspace &mem_space,
 		 ImageFlagsBase flags)
 {
-  if ((flags & ImageFlags::DONT_COPY) && !(flags & ImageFlags::DONT_RELEASE))
+  if ((flags & ImageFlags::DontCopy) && !(flags & ImageFlags::DontRelease))
     throw std::runtime_error("Invalid ImageFlags in from_buffer: the DONT_COPY flag without the DONT_RELEASE flag");
   size_t databytesize = mem_space.size() * mem_type.size();
   hid_t fid = 0;
-  if(mem_type.get_class() == datatype::Class::INTEGER)
+  if(mem_type.get_class() == datatype::Class::Integer)
     {
 
       fid = H5LTopen_file_image(dataspace::ptr(data), databytesize, flags);

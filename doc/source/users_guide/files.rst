@@ -66,7 +66,7 @@ use
 
 .. code-block:: cpp
 
-   file::File f1 = file::create(file_path,file::AccessFlags::TRUNCATE);
+   file::File f1 = file::create(file_path,file::AccessFlags::Truncate);
    
 HDF5 uses property lists to pass additional information to API functions. 
 The :cpp:func:`hdf5::file::create` function accepts two additional arguments 
@@ -92,11 +92,11 @@ you have to provide a custom file access property list
    property::FileAccessList fapl;
    
    //we need to set the appropriate version flags
-   fapl.library_version_bounds(property::LibVersion::LATEST,
-                               property::LibVersion::LATEST);
+   fapl.library_version_bounds(property::LibVersion::Latest,
+                               property::LibVersion::Latest);
                                
    file::File f = file::create("swmr_file.h5",
-                               file::AccessFlags::TRUNCATE,
+                               file::AccessFlags::Truncate,
                                fcpl,fapl);
   
 Opening an existing file
@@ -126,7 +126,7 @@ of the file. To write to an existing file use
 
 .. code-block:: cpp
 
-   file::File f1 = file::open(file_path,file::AccessFlags::READWRITE);
+   file::File f1 = file::open(file_path,file::AccessFlags::ReadWrite);
    
 The only additional argument :cpp:func:`hdf5::file::open` takes is a 
 reference to file access property list. We have to use this to open a file 
@@ -137,12 +137,12 @@ SWMR. To open a file for writing in SWMR mode use
 
    property::FileAccessList fapl;
    //we need to set the appropriate version flags
-   fapl.library_version_bounds(property::LibVersion::LATEST,
-                               property::LibVersion::LATEST);
+   fapl.library_version_bounds(property::LibVersion::Latest,
+                               property::LibVersion::Latest);
    
    file::File write_fiel = file::open(file_path,
-                                      file::AccessFlags::READWRITE | 
-                                      file::AccessFlags::SWMR_WRITE,
+                                      file::AccessFlags::ReadWrite | 
+                                      file::AccessFlags::SWMRWrite,
                                       fapl);
                                       
 and to open a file for reading in SWMR mode use 
@@ -151,12 +151,12 @@ and to open a file for reading in SWMR mode use
 
    property::FileAccessList fapl;
    //we need to set the appropriate version flags
-   fapl.library_version_bounds(property::LibVersion::LATEST,
-                               property::LibVersion::LATEST);
+   fapl.library_version_bounds(property::LibVersion::Latest,
+                               property::LibVersion::Latest);
    
    file::File write_fiel = file::open(file_path,
-                                      file::AccessFlags::READONLY | 
-                                      file::AccessFlags::SWMR_READ,
+                                      file::AccessFlags::ReadOnly | 
+                                      file::AccessFlags::SWMRRead,
                                       fapl);
 
 Getting access to the object tree

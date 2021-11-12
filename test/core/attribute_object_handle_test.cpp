@@ -27,7 +27,7 @@
 
 
 AttributeObjectHandleTest::AttributeObjectHandleTest(const std::string &fname):
-  ObjectHandleTest(hdf5::ObjectHandle::Type::ATTRIBUTE),
+  ObjectHandleTest(hdf5::ObjectHandle::Type::Attribute),
   filename_(fname),
   environment_(filename_),
   group_(H5Gcreate(static_cast<hid_t>(environment_.file_handle()),"test",H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT))

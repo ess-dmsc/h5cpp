@@ -33,10 +33,10 @@ std::ostream &operator<<(std::ostream &stream,const NodeType &type)
 {
   switch(type)
   {
-    case NodeType::UNKNOWN: return stream<<"UNKNOWN";
-    case NodeType::GROUP: return stream<<"GROUP";
-    case NodeType::DATASET: return stream<<"DATASET";
-    case NodeType::DATATYPE: return stream<<"DATATYPE";
+    case NodeType::Unknown: return stream<<"UNKNOWN";
+    case NodeType::Group: return stream<<"GROUP";
+    case NodeType::Dataset: return stream<<"DATASET";
+    case NodeType::Datatype: return stream<<"DATATYPE";
     default:
       return stream;
   }
@@ -46,10 +46,10 @@ std::ostream &operator<<(std::ostream &stream,const LinkType &type)
 {
   switch(type)
   {
-    case LinkType::ERROR: return stream<<"ERROR";
-    case LinkType::EXTERNAL: return stream<<"EXTERNAL";
-    case LinkType::HARD: return stream<<"HARD";
-    case LinkType::SOFT: return stream<<"SOFT";
+    case LinkType::Error: return stream<<"ERROR";
+    case LinkType::External: return stream<<"EXTERNAL";
+    case LinkType::Hard: return stream<<"HARD";
+    case LinkType::Soft: return stream<<"SOFT";
     default:
       return stream;
   }

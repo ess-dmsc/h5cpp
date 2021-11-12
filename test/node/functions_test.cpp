@@ -43,7 +43,7 @@ class NodeFunctions : public BasicFixture {
     root_.create_dataset("dataset", datatype::create<int>(),
 dataspace::Simple({0}));
 
-    file2_ = hdf5::file::create("./file2.h5", file::AccessFlags::TRUNCATE);
+    file2_ = hdf5::file::create("./file2.h5", file::AccessFlags::Truncate);
     file2_target_ =
 file2_.root().create_group("group").create_group("contents"); file2_.close();
   }
@@ -56,7 +56,7 @@ file2_.root().create_group("group").create_group("contents"); file2_.close();
 */
 
 SCENARIO("testing node removal") {
-  auto file = file::create("node_test_1.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("node_test_1.h5", file::AccessFlags::Truncate);
   auto root = file.root();
 
   GIVEN("a group below the root group") {
@@ -94,7 +94,7 @@ SCENARIO("testing node removal") {
 
 SCENARIO("Testing node copying") {
   const std::string filename = "testing_node_copying.h5";
-  auto file = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto file = file::create(filename, file::AccessFlags::Truncate);
   auto root = file.root();
   GIVEN("a group below the root group") {
     auto g1 = root.create_group("group1");
@@ -135,7 +135,7 @@ SCENARIO("Testing node copying") {
 
 SCENARIO("testing moving nodes") {
   const std::string filename = "testing_moving_nodes.h5";
-  auto file = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto file = file::create(filename, file::AccessFlags::Truncate);
   auto root = file.root();
   GIVEN("/group1 below the root") {
     auto g1 = root.create_group("group1");
@@ -185,13 +185,13 @@ SCENARIO("testing external links") {
   const std::string filename = "testing_external_links.h5";
   auto dtype = datatype::create<double>();
   auto dspace = dataspace::Scalar{};
-  auto f1 = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f1 = file::create(filename, file::AccessFlags::Truncate);
   auto r1 = f1.root();
   r1.create_dataset("data", dtype, dspace);
   // create the second file where the targets of the external links are
   // located
   {
-    auto f = file::create("./node_test2.h5", file::AccessFlags::TRUNCATE);
+    auto f = file::create("./node_test2.h5", file::AccessFlags::Truncate);
     f.root().create_group("group2").create_dataset("content", dtype, dspace);
   }
 
@@ -240,7 +240,7 @@ SCENARIO("testing external links") {
 
 SCENARIO("testing soft links") {
   const std::string filename = "testing_soft_links.h5";
-  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f = file::create(filename, file::AccessFlags::Truncate);
   auto r = f.root();
 
   GIVEN("a group below root") {

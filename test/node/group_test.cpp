@@ -35,7 +35,7 @@ using namespace hdf5;
 
 SCENARIO("testing group constructors") {
   const std::string filename = "testing_group_constructors.h5";
-  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f = file::create(filename, file::AccessFlags::Truncate);
   auto dt = datatype::create<int>();
   auto ds = dataspace::Scalar{};
 
@@ -90,12 +90,12 @@ SCENARIO("testing group constructors") {
 
 SCENARIO("testing object creation and iteration") {
   const std::string filename = "testing_object_creation_and_iteration.h5";
-  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f = file::create(filename, file::AccessFlags::Truncate);
   auto root = f.root();
 
   THEN("the group must have the followin properties") {
     REQUIRE(root.is_valid());
-    REQUIRE(root.type() == node::Type::GROUP);
+    REQUIRE(root.type() == node::Type::Group);
     REQUIRE(root.link().path() == "/");
     REQUIRE(root.link().file().path() == filename);
     AND_THEN("for a non-existing child group") {
@@ -214,7 +214,7 @@ SCENARIO("testing object creation and iteration") {
 
 SCENARIO("Testing group creation with funny names") {
   const std::string filename = "testing_group_creation_with_funny_names.h5";
-  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f = file::create(filename, file::AccessFlags::Truncate);
   auto r = f.root();
   WHEN("creating a group with the name 's p a c e y'") {
     REQUIRE_NOTHROW(r.create_group("s p a c e y"));
@@ -273,7 +273,7 @@ SCENARIO("Testing group creation with funny names") {
 SCENARIO("testing group convenience functions") {
   auto dt = datatype::create<int>();
   auto ds = dataspace::Scalar{};
-  auto f = file::create("group_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("group_test.h5", file::AccessFlags::Truncate);
   auto r = f.root();
 
   GIVEN("a new group") {
@@ -322,7 +322,7 @@ SCENARIO("testing group convenience functions") {
       }
     }
     AND_GIVEN("a second file") {
-      auto f2 = file::create("group_test_2.h5", file::AccessFlags::TRUNCATE);
+      auto f2 = file::create("group_test_2.h5", file::AccessFlags::Truncate);
       auto r2 = f2.root();
       auto g2 = r2.create_group("group").create_group("contents");
       THEN("we can copy the dataset to the new group") {

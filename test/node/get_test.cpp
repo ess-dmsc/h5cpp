@@ -30,7 +30,7 @@ using namespace hdf5;
 
 SCENARIO("testing the get node function") {
   auto file =
-      file::create("GetNodeFunctionTest.h5", file::AccessFlags::TRUNCATE);
+      file::create("GetNodeFunctionTest.h5", file::AccessFlags::Truncate);
   auto root = file.root();
   auto sensors = root.create_group("run_1").create_group("sensors");
   sensors.create_group("temperature");

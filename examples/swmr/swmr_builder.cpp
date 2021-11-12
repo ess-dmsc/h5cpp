@@ -32,7 +32,7 @@ void SWMRBuilder::operator()(const node::Group &parent) const
 {
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1024*1024});
 
   auto type = datatype::create<double>();

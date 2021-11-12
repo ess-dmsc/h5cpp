@@ -29,7 +29,7 @@
 using namespace hdf5;
 
 SCENARIO("testing a chunked dataset") {
-  auto f = file::create("chunked_dataset_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("chunked_dataset_test.h5", file::AccessFlags::Truncate);
   auto type = datatype::create<int>();
   dataspace::Simple space{{0, 1024}, {dataspace::Simple::UNLIMITED, 1024}};
 
@@ -37,7 +37,7 @@ SCENARIO("testing a chunked dataset") {
     node::ChunkedDataset dataset(f.root(), "data", type, space, {1024, 1024});
     THEN("we can check the dataset creation list") {
       property::DatasetCreationList dcpl = dataset.creation_list();
-      REQUIRE(dcpl.layout() == property::DatasetLayout::CHUNKED);
+      REQUIRE(dcpl.layout() == property::DatasetLayout::Chunked);
     }
   }
 }

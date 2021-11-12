@@ -34,7 +34,7 @@ using namespace hdf5;
 
 SCENARIO("multidimensional attribute IO") {
   auto h5file = file::create("attribute_test_multidim_io.h5",
-                             file::AccessFlags::TRUNCATE);
+                             file::AccessFlags::Truncate);
   auto root = h5file.root();
 
   GIVEN("a 3 dimensional attribute for unsigned int 8") {

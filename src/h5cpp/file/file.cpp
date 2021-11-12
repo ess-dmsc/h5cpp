@@ -85,7 +85,7 @@ void File::close()
 {
   property::FileAccessList fapl = property::FileAccessList(ObjectHandle(H5Fget_access_plist(static_cast<hid_t>(*this))));
 
-  if(fapl.close_degree() == property::CloseDegree::STRONG)
+  if(fapl.close_degree() == property::CloseDegree::Strong)
   {
     hid_t mid= static_cast<hid_t>(*this);
     handle_.close();

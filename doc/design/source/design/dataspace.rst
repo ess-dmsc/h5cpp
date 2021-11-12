@@ -140,4 +140,4 @@ Using a point selection
 
     dataspace::points_t points{{3,2,3},{4,5,5}};
 
-    points.apply(dataspace::point_t::operator_t::SET,space);
+    points.apply(dataspace::point_t::operator_t::Set,space);

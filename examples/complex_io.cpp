@@ -32,7 +32,7 @@ using ComplexDouble = std::complex<double>;
 
 int main()
 {
-  file::File f = file::create("writing_complex.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("writing_complex.h5",file::AccessFlags::Truncate);
   node::Group root_group = f.root();
   node::Dataset dataset(root_group,"data",datatype::create<ComplexDouble>(),
                                                     dataspace::Scalar());

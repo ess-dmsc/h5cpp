@@ -33,7 +33,7 @@ using namespace hdf5;
 
 SCENARIO("reading and writing an HKL list") {
   using Catch::Matchers::Equals;
-  auto f = file::create("read_write_hkl_list.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("read_write_hkl_list.h5", file::AccessFlags::Truncate);
 
   GIVEN("a list of HKL Points") {
     HKLPoints write_points{{{1, 2, 3}, {3, 4, 5}, {6, 7, 8}}, {{4, 5, 6}}};

@@ -32,7 +32,7 @@ int main()
 {
   std::string file_name{"write_read_vector.h5"};
   {
-    file::File f = file::create(file_name,file::AccessFlags::TRUNCATE);
+    file::File f = file::create(file_name,file::AccessFlags::Truncate);
     node::Group root_group = f.root();
 
   std::vector<int> data{1,2,3,4,5,6,7};

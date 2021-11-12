@@ -27,7 +27,7 @@
 
 
 GroupObjectHandleTest::GroupObjectHandleTest(const std::string &filename):
-  ObjectHandleTest(hdf5::ObjectHandle::Type::GROUP),
+  ObjectHandleTest(hdf5::ObjectHandle::Type::Group),
   environment_(filename)
 {
   H5Gcreate(static_cast<hid_t>(environment_.file_handle()),"test",

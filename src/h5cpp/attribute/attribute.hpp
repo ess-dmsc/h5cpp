@@ -334,7 +334,7 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 
   check_size(dataspace::create(data),dataspace(),"write");
 
-  if(file_type.get_class()==datatype::Class::STRING)
+  if(file_type.get_class()==datatype::Class::String)
   {
     datatype::String string_type(file_type);
 
@@ -365,7 +365,7 @@ template<typename T>
 void Attribute::read(T &data) const
 {
   auto file_type = datatype();
-  if(file_type.get_class() == datatype::Class::STRING)
+  if(file_type.get_class() == datatype::Class::String)
   {
     read(data, file_type);
   }
@@ -388,7 +388,7 @@ void Attribute::read(T &data, const datatype::Datatype &mem_type, const datatype
 {
   check_size(dataspace::create(data),dataspace(),"read");
 
-  if(file_type.get_class()==datatype::Class::STRING)
+  if(file_type.get_class()==datatype::Class::String)
   {
     datatype::String string_type(file_type);
 

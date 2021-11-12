@@ -33,10 +33,10 @@ SCENARIO("testing LinkType stream io an integer conversion") {
   using node::LinkType;
   using r = std::tuple<LinkType,std::string,H5L_type_t>;
   auto d = GENERATE(table<LinkType,std::string,H5L_type_t>({
-    r{LinkType::ERROR, "ERROR", H5L_TYPE_ERROR},
-    r{LinkType::EXTERNAL, "EXTERNAL", H5L_TYPE_EXTERNAL},
-    r{LinkType::HARD, "HARD", H5L_TYPE_HARD},
-    r{LinkType::SOFT, "SOFT", H5L_TYPE_SOFT}
+    r{LinkType::Error, "ERROR", H5L_TYPE_ERROR},
+    r{LinkType::External, "EXTERNAL", H5L_TYPE_EXTERNAL},
+    r{LinkType::Hard, "HARD", H5L_TYPE_HARD},
+    r{LinkType::Soft, "SOFT", H5L_TYPE_SOFT}
   }));
   std::stringstream ss;
   WHEN("writing to stream") { 

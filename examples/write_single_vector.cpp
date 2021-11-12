@@ -38,7 +38,7 @@ int main()
   velocity = {30.2,-2.3,20.3};
   position = {203.33,203.21,1233.0};
 
-  file::File f = file::create("write_single_vector.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("write_single_vector.h5",file::AccessFlags::Truncate);
   node::Group root_group = f.root();
   auto type = datatype::create<DoubleVector>();
   dataspace::Scalar space;

@@ -78,13 +78,13 @@ SCENARIO("apply a point selection") {
   GIVEN("a simple dataspace of shape {10,1024}") { 
     dataspace::Simple space({10, 1024});
     THEN("the selection type for the dataspace must be ALL") { 
-      REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+      REQUIRE(space.selection.type() == dataspace::SelectionType::All);
     }
 
     AND_GIVEN("a selection of two points") { 
       dataspace::Points points({{1,1},{2,2}});
       THEN("applying this selection to the dataspace will fail") {
-        REQUIRE_THROWS_AS(space.selection(dataspace::SelectionOperation::OR, points), std::runtime_error);
+        REQUIRE_THROWS_AS(space.selection(dataspace::SelectionOperation::Or, points), std::runtime_error);
       }
     }
   }
@@ -109,13 +109,13 @@ SCENARIO("test case one for a point selection") {
   dataspace::Points points({{1,1}, {5,5}});
 
   // apply the selection to the dataspace
-  space.selection(dataspace::SelectionOperation::SET, points);
+  space.selection(dataspace::SelectionOperation::Set, points);
   REQUIRE(space.selection.size() == 2ul);
-  REQUIRE(space.selection.type() == dataspace::SelectionType::POINTS);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::Points);
 
   // remove the selection
   REQUIRE_NOTHROW(space.selection.all());
-  REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::All);
 }
 
 SCENARIO("test case two for point selection") {
@@ -128,16 +128,16 @@ SCENARIO("test case two for point selection") {
   points.add({4, 4});
 
   // TODO: why does this not throw when rank is not matching?
-  REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::SET, points));
+  REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::Set, points));
   REQUIRE(space.selection.size() == 4ul);
-  REQUIRE(space.selection.type() == dataspace::SelectionType::POINTS);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::Points);
 
   dataspace::Points points2(2);
   points2.add({5, 5});
   points2.add({6, 6});
 
   REQUIRE_NOTHROW(
-      space.selection(dataspace::SelectionOperation::APPEND, points2));
+      space.selection(dataspace::SelectionOperation::Append, points2));
   REQUIRE(space.selection.size() == 6ul);
-  REQUIRE(space.selection.type() == dataspace::SelectionType::POINTS);
+  REQUIRE(space.selection.type() == dataspace::SelectionType::Points);
 }

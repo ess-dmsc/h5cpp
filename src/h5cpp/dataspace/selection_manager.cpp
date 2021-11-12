@@ -50,11 +50,11 @@ size_t SelectionManager::size() const {
 
 SelectionType SelectionManager::type() const {
   switch (H5Sget_select_type(static_cast<hid_t>(space_))) {
-    case H5S_SEL_ERROR:return SelectionType::NONE;
-    case H5S_SEL_NONE:return SelectionType::NONE;
-    case H5S_SEL_POINTS:return SelectionType::POINTS;
-    case H5S_SEL_HYPERSLABS:return SelectionType::HYPERSLAB;
-    case H5S_SEL_ALL:return SelectionType::ALL;
+    case H5S_SEL_ERROR:return SelectionType::None;
+    case H5S_SEL_NONE:return SelectionType::None;
+    case H5S_SEL_POINTS:return SelectionType::Points;
+    case H5S_SEL_HYPERSLABS:return SelectionType::Hyperslab;
+    case H5S_SEL_ALL:return SelectionType::All;
     case H5S_SEL_N:assert(false); // Added H5S_SEL_N to silence compiler
   }
   return {};

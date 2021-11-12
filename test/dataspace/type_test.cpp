@@ -36,15 +36,15 @@ SCENARIO("Writing the dataspace type to a stream") {
   std::stringstream stream;
 
   WHEN("writing SCALAR to an output stream") {
-    stream << Type::SCALAR;
+    stream << Type::Scalar;
     THEN("the stream must contain") { REQUIRE(stream.str() == "SCALAR"); }
   }
   WHEN("writing SIMPLE to an output stream") {
-    stream << Type::SIMPLE;
+    stream << Type::Simple;
     THEN("the stream must contain") { REQUIRE(stream.str() == "SIMPLE"); }
   }
   WHEN("writing NODATA to an output stream") {
-    stream << Type::NODATA;
+    stream << Type::NoData;
     THEN("the stream must contain") { REQUIRE(stream.str() == "NODATA"); }
   }
 }
@@ -52,22 +52,22 @@ SCENARIO("Writing the dataspace type to a stream") {
 SCENARIO("Writing the selection type to a stream") {
   std::stringstream stream;
   WHEN("writing NONE to the stream") {
-    stream << SelectionType::NONE;
+    stream << SelectionType::None;
     THEN("the stream must contain") { REQUIRE(stream.str() == "NONE"); }
   }
 
   WHEN("writing POINTS to the stream") {
-    stream << SelectionType::POINTS;
+    stream << SelectionType::Points;
     THEN("the stream must contain") { REQUIRE(stream.str() == "POINTS"); }
   }
 
   WHEN("writing HYPERSLAB to the stream") {
-    stream << SelectionType::HYPERSLAB;
+    stream << SelectionType::Hyperslab;
     THEN("the stream must contain") { REQUIRE(stream.str() == "HYPERSLAB"); }
   }
 
   WHEN("writing ALL to the stream") {
-    stream << SelectionType::ALL;
+    stream << SelectionType::All;
     THEN("the stream must contain") { REQUIRE(stream.str() == "ALL"); }
   }
 }
@@ -76,42 +76,42 @@ SCENARIO("Writing the selection operation to a stream") {
   std::stringstream stream;
 
   WHEN("writing SET to the stream") {
-    stream << SelectionOperation::SET;
+    stream << SelectionOperation::Set;
     THEN("the stream must contain") { REQUIRE(stream.str() == "SET"); }
   }
 
   WHEN("writing OR to the stream") {
-    stream << SelectionOperation::OR;
+    stream << SelectionOperation::Or;
     THEN("the stream must contain") { REQUIRE(stream.str() == "OR"); }
   }
 
   WHEN("writing AND to the stream") {
-    stream << SelectionOperation::AND;
+    stream << SelectionOperation::And;
     THEN("the stream must contain") { REQUIRE(stream.str() == "AND"); }
   }
 
   WHEN("writing XOR to the stream") {
-    stream << SelectionOperation::XOR;
+    stream << SelectionOperation::XOr;
     THEN("the stream must contain") { REQUIRE(stream.str() == "XOR"); }
   }
 
   WHEN("writing NOTB to the stream") {
-    stream << SelectionOperation::NOTB;
+    stream << SelectionOperation::NotB;
     THEN("the stream must contain") { REQUIRE(stream.str() == "NOTB"); }
   }
 
   WHEN("writing NOTA to the stream") {
-    stream << SelectionOperation::NOTA;
+    stream << SelectionOperation::NotA;
     THEN("the stream must contain") { REQUIRE(stream.str() == "NOTA"); }
   }
 
   WHEN("writing APPEND to the stream") {
-    stream << SelectionOperation::APPEND;
+    stream << SelectionOperation::Append;
     THEN("the stream must contain") { REQUIRE(stream.str() == "APPEND"); }
   }
 
   WHEN("writing PREPEND to the stream") {
-    stream << SelectionOperation::PREPEND;
+    stream << SelectionOperation::Prepend;
     THEN("the stream mus contain") { REQUIRE(stream.str() == "PREPEND");}
   }
 }

@@ -188,18 +188,18 @@ void Hyperslab::apply(const Dataspace &space, SelectionOperation ops) const {
 
 Dataspace operator||(const Dataspace &space, const Hyperslab &selection) {
   Dataspace new_space(space);
-  new_space.selection(SelectionOperation::SET, selection);
+  new_space.selection(SelectionOperation::Set, selection);
   return new_space;
 }
 
 SelectionList operator|(const Hyperslab &a, const Hyperslab &b) {
-  return {{SelectionOperation::SET, Selection::SharedPointer(new Hyperslab(a))},
-          {SelectionOperation::OR, Selection::SharedPointer(new Hyperslab(b))}
+  return {{SelectionOperation::Set, Selection::SharedPointer(new Hyperslab(a))},
+          {SelectionOperation::Or, Selection::SharedPointer(new Hyperslab(b))}
   };
 }
 
 SelectionList &operator|(SelectionList &selections, const Hyperslab &b) {
-  selections.push_back({SelectionOperation::SET,
+  selections.push_back({SelectionOperation::Set,
                         Selection::SharedPointer(new Hyperslab(b))});
   return selections;
 }

@@ -39,7 +39,7 @@ Datatype::~Datatype() {
 Datatype::Datatype(ObjectHandle &&handle)
     : handle_(std::move(handle)) {
   if (handle_.is_valid() &&
-      (handle_.get_type() != ObjectHandle::Type::DATATYPE)) {
+      (handle_.get_type() != ObjectHandle::Type::Datatype)) {
     std::stringstream ss;
     ss << "Could not construct Datatype from Handle, type="
        << handle_.get_type();
@@ -72,7 +72,7 @@ Class Datatype::get_class() const {
   if(static_cast<hid_t>(handle_))
     return static_cast<Class>(H5Tget_class(static_cast<hid_t>(*this)));
   else
-    return Class::NONE;
+    return Class::None;
 }
 
 Datatype Datatype::super() const {

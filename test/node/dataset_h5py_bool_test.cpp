@@ -30,10 +30,9 @@
 
 using namespace hdf5;
 
-#ifndef _MSC_VER
 SCENARIO("testing h5py compatiable booleans") {
   auto h5py_file =
-      file::open("../h5py_test_boolattr.h5", file::AccessFlags::READONLY);
+      file::open("../h5py_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root_group = h5py_file.root();
 
   // =========================================================================
@@ -42,7 +41,7 @@ SCENARIO("testing h5py compatiable booleans") {
   GIVEN("given a dataset with a scalar dataspace storing true") {
     auto dataset = node::get_dataset(root_group, "ds_bool_scalar_true");
     THEN("the class of the datasets' datatype is ENUM") {
-      REQUIRE(dataset.datatype().get_class() == datatype::Class::ENUM);
+      REQUIRE(dataset.datatype().get_class() == datatype::Class::Enum);
       AND_THEN("the dataset has a bloolean datatype") {
         REQUIRE(datatype::is_bool(datatype::Enum(dataset.datatype())));
       }
@@ -60,8 +59,8 @@ SCENARIO("testing h5py compatiable booleans") {
         dataset.read(buffer);
         THEN("the result must be true") { REQUIRE(buffer == true); }
         THEN("the result must be 1") { REQUIRE(buffer == 1); }
-        THEN("the result must be EBool::TRUE") {
-          REQUIRE(buffer == datatype::EBool::TRUE);
+        THEN("the result must be EBool::True") {
+          REQUIRE(buffer == datatype::EBool::True);
         }
       }
     }
@@ -87,8 +86,8 @@ SCENARIO("testing h5py compatiable booleans") {
         dataset.read(buffer);
         THEN("the result must be false") { REQUIRE_FALSE(buffer); }
         THEN("the result must be 0") { REQUIRE(buffer == 0); }
-        THEN("the result must be EBool::FALSE") {
-          REQUIRE(buffer == datatype::EBool::FALSE);
+        THEN("the result must be EBool::False") {
+          REQUIRE(buffer == datatype::EBool::False);
         }
       }
     }
@@ -112,8 +111,8 @@ SCENARIO("testing h5py compatiable booleans") {
         dataset.read(buffer);
         THEN("the result must be true") { REQUIRE(buffer == true); }
         THEN("the result must be 1") { REQUIRE(buffer == 1); }
-        THEN("the result must be EBool::TRUE") {
-          REQUIRE(buffer == datatype::EBool::TRUE);
+        THEN("the result must be EBool::True") {
+          REQUIRE(buffer == datatype::EBool::True);
         }
       }
     }
@@ -139,8 +138,8 @@ SCENARIO("testing h5py compatiable booleans") {
         dataset.read(buffer);
         THEN("the result must be false") { REQUIRE_FALSE(buffer); }
         THEN("the result must be 0") { REQUIRE(buffer == 0); }
-        THEN("the result must be EBool::FALSE") {
-          REQUIRE(buffer == datatype::EBool::FALSE);
+        THEN("the result must be EBool::False") {
+          REQUIRE(buffer == datatype::EBool::False);
         }
       }
     }
@@ -152,7 +151,7 @@ SCENARIO("testing h5py compatiable booleans") {
   GIVEN("a dataset storing an array of bools") {
     auto dataset = node::get_dataset(root_group, "ds_bool_array");
     THEN("the datasets' data type will be ENUM") {
-      REQUIRE(dataset.datatype().get_class() == datatype::Class::ENUM);
+      REQUIRE(dataset.datatype().get_class() == datatype::Class::Enum);
       AND_THEN("the size of the datatype will be 1") {
         REQUIRE(dataset.datatype().size() == 1ul);
       }
@@ -181,8 +180,8 @@ SCENARIO("testing h5py compatiable booleans") {
       WHEN("reading the data from the dataset") {
         dataset.read(buffer);
         THEN("the result will be {FALSE, TRUE, TRUE, FALSE} ") {
-          EBools expected{datatype::EBool::FALSE, datatype::EBool::TRUE,
-                          datatype::EBool::TRUE, datatype::EBool::FALSE};
+          EBools expected{datatype::EBool::False, datatype::EBool::True,
+                          datatype::EBool::True, datatype::EBool::False};
           REQUIRE_THAT(buffer, Catch::Matchers::Equals(expected));
         }
       }
@@ -190,4 +189,3 @@ SCENARIO("testing h5py compatiable booleans") {
   }
 }
 
-#endif

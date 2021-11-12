@@ -39,12 +39,12 @@ SCENARIO("ScalaOffset filter tests") {
       REQUIRE(filter.is_encoding_enabled());
     }
     THEN("we can set the scale type to FLOAT_DSCALE") {
-      filter.scale_type(filter::SOScaleType::FLOAT_DSCALE);
-      REQUIRE(filter.scale_type() == filter::SOScaleType::FLOAT_DSCALE);
+      filter.scale_type(filter::SOScaleType::FloatDScale);
+      REQUIRE(filter.scale_type() == filter::SOScaleType::FloatDScale);
     }
     THEN("we can set the scale factor to FLOAT_ESCALE") {
-      filter.scale_type(filter::SOScaleType::FLOAT_ESCALE);
-      REQUIRE(filter.scale_type() == filter::SOScaleType::FLOAT_ESCALE);
+      filter.scale_type(filter::SOScaleType::FloatEScale);
+      REQUIRE(filter.scale_type() == filter::SOScaleType::FloatEScale);
     }
     THEN("we can set the scale factor to 4") {
       filter.scale_factor(4);
@@ -53,9 +53,9 @@ SCENARIO("ScalaOffset filter tests") {
   }
 
   GIVEN("a filter constructed for integer") {
-    filter::ScaleOffset scaleoffset(filter::SOScaleType::INT, 2);
+    filter::ScaleOffset scaleoffset(filter::SOScaleType::Int, 2);
     THEN("the filter has the following properties") {
-      REQUIRE(scaleoffset.scale_type() == filter::SOScaleType::INT);
+      REQUIRE(scaleoffset.scale_type() == filter::SOScaleType::Int);
       REQUIRE(scaleoffset.scale_factor() == 2);
     }
     AND_GIVEN("a dataset creation property list") {
@@ -72,7 +72,7 @@ SCENARIO("ScalaOffset filter tests") {
             REQUIRE(flags.size() == 1lu);
 
             // check here the filter parameters
-            REQUIRE(flags[0] == filter::Availability::optional);
+            REQUIRE(flags[0] == filter::Availability::Optional);
             using r = std::vector<unsigned int>;
             REQUIRE_THAT(filters[0].cd_values(), Catch::Matchers::Equals(r{2, 2}));
             REQUIRE(filters[0].is_decoding_enabled());

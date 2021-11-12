@@ -40,7 +40,7 @@ SCENARIO("default construction of a simple dataspace") {
 
     THEN("the size is 0") { REQUIRE(space.size() == 0); }
     THEN("the rank must be 0") { REQUIRE(space.rank() == 0u); }
-    THEN("the type must be Simple") { REQUIRE(space.type() == Type::SIMPLE); }
+    THEN("the type must be Simple") { REQUIRE(space.type() == Type::Simple); }
     THEN("the dimensions must be empty") {
       REQUIRE(space.current_dimensions().empty());
       REQUIRE(space.maximum_dimensions().empty());

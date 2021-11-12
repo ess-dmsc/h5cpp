@@ -35,7 +35,7 @@ using RGBImage = Image<RGBPixel>;
 
 int main()
 {
-  file::File f = file::create("writing_image.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("writing_image.h5",file::AccessFlags::Truncate);
   node::Group root_group = f.root();
 
   RGBImage image(2,3);

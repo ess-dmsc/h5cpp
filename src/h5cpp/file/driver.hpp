@@ -48,10 +48,10 @@ namespace file
 //!
 enum class DriverID : unsigned
 {
-  ePosix = 1,
-  eDirect = 2,
-  eMemory = 3,
-  eMPI = 4
+  Posix = 1,
+  Direct = 2,
+  Memory = 3,
+  MPI = 4
 };
 
 //!

@@ -34,13 +34,13 @@ std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags)
 {
   switch(flags)
   {
-    case AccessFlags::EXCLUSIVE: return stream<<"EXCLUSIVE";
-    case AccessFlags::READONLY: return stream<<"READONLY";
-    case AccessFlags::READWRITE: return stream<<"READWRITE";
-    case AccessFlags::TRUNCATE: return stream<<"TRUNCATE";
+    case AccessFlags::Exclusive: return stream<<"EXCLUSIVE";
+    case AccessFlags::ReadOnly: return stream<<"READONLY";
+    case AccessFlags::ReadWrite: return stream<<"READWRITE";
+    case AccessFlags::Truncate: return stream<<"TRUNCATE";
 #if H5_VERSION_GE(1,10,0)
-    case AccessFlags::SWMR_READ: return stream<<"SWMR READ";
-    case AccessFlags::SWMR_WRITE: return stream<<"SWMR WRITE";
+    case AccessFlags::SWMRRead: return stream<<"SWMR READ";
+    case AccessFlags::SWMRWrite: return stream<<"SWMR WRITE";
 #endif
     default:
       return stream;
@@ -82,11 +82,11 @@ std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags)
 {
   switch(flags)
   {
-    case ImageFlags::READONLY: return stream<<"READONLY";
-    case ImageFlags::READWRITE: return stream<<"READWRITE";
-    case ImageFlags::DONT_COPY: return stream<<"DONT COPY";
-    case ImageFlags::DONT_RELEASE: return stream<<"DONT RELEASE";
-    case ImageFlags::ALL: return stream<<"ALL";
+    case ImageFlags::ReadOnly: return stream<<"READONLY";
+    case ImageFlags::ReadWrite: return stream<<"READWRITE";
+    case ImageFlags::DontCopy: return stream<<"DONT COPY";
+    case ImageFlags::DontRelease: return stream<<"DONT RELEASE";
+    case ImageFlags::All: return stream<<"ALL";
     default:
       return stream;
   }
@@ -127,13 +127,13 @@ std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags)
 {
   switch(flags)
   {
-    case SearchFlags::ALL: return stream<<"ALL";
-    case SearchFlags::ATTRIBUTE: return stream<<"ATTRIBUTE";
-    case SearchFlags::DATASET: return stream<<"DATASET";
-    case SearchFlags::DATATYPE: return stream<<"DATATYPE";
-    case SearchFlags::FILE: return stream<<"FILE";
-    case SearchFlags::GROUP: return stream<<"GROUP";
-    case SearchFlags::LOCAL: return stream<<"LOCAL";
+    case SearchFlags::All: return stream<<"ALL";
+    case SearchFlags::Attribute: return stream<<"ATTRIBUTE";
+    case SearchFlags::Dataset: return stream<<"DATASET";
+    case SearchFlags::Datatype: return stream<<"DATATYPE";
+    case SearchFlags::File: return stream<<"FILE";
+    case SearchFlags::Group: return stream<<"GROUP";
+    case SearchFlags::Local: return stream<<"LOCAL";
     default:
       return stream;
   }
@@ -173,8 +173,8 @@ std::ostream &operator<<(std::ostream &stream,const Scope &scope)
 {
   switch(scope)
   {
-    case Scope::GLOBAL: return stream<<"GLOBAL";
-    case Scope::LOCAL: return stream<<"LOCAL";
+    case Scope::Global: return stream<<"GLOBAL";
+    case Scope::Local: return stream<<"LOCAL";
     default:
       return stream;
   }

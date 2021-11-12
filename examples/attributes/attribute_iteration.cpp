@@ -34,7 +34,7 @@ using namespace hdf5;
 //
 int main()
 {
-  file::File file = file::create("attribute_iteration.h5",file::AccessFlags::TRUNCATE);
+  file::File file = file::create("attribute_iteration.h5",file::AccessFlags::Truncate);
   node::Group root_group = file.root();
 
   root_group.attributes.create<int>("index");

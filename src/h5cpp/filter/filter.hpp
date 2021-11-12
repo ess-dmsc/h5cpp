@@ -66,7 +66,7 @@ class DLL_EXPORT Filter
     //!             which is \e mandatory by default.
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::mandatory) const = 0;
+                            Availability flag = Availability::Mandatory) const = 0;
 
     //!
     //! \brief get the ID of the filter

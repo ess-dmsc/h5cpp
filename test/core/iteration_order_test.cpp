@@ -32,12 +32,12 @@ SCENARIO("Testing basic behavior of the IterationOrder enumeration ") {
   GIVEN("DECREASING") { 
     THEN("stream output is DECREASING") {
       std::stringstream stream;
-      stream<<IterationOrder::DECREASING;
+      stream<<IterationOrder::Decreasing;
       REQUIRE(stream.str() == "DECREASING");
     }
 
     AND_THEN("the integer would be") { 
-      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::DECREASING) ==
+      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::Decreasing) ==
                     H5_ITER_DEC);
     }
 
@@ -46,12 +46,12 @@ SCENARIO("Testing basic behavior of the IterationOrder enumeration ") {
   GIVEN("INCREASING") { 
     THEN("stream outputis INCREASING") { 
       std::stringstream stream;
-      stream<<IterationOrder::INCREASING;
+      stream<<IterationOrder::Increasing;
       REQUIRE(stream.str() == "INCREASING");
     }
 
     AND_THEN("the integer is H5_ITER_DEC") { 
-      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::INCREASING) ==
+      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::Increasing) ==
                     H5_ITER_INC);
     }
   }
@@ -59,13 +59,13 @@ SCENARIO("Testing basic behavior of the IterationOrder enumeration ") {
   GIVEN("NATIVE") { 
     THEN("stream output is NATIVE") { 
       std::stringstream stream;    
-      stream<<IterationOrder::NATIVE;
+      stream<<IterationOrder::Native;
       REQUIRE(stream.str() ==  "NATIVE");
     }
 
     AND_THEN("the integer is H5_ITER_NATIVE") { 
 
-      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::NATIVE) == 
+      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::Native) == 
                     H5_ITER_NATIVE);
     }
   }

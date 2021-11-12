@@ -42,7 +42,7 @@ VirtualDataset::VirtualDataset(const Group &base,const Path &path,
                                    Dataset()
 {
   //ensure that the dataspace layout is virtual
-  dcpl.layout(property::DatasetLayout::VIRTUAL);
+  dcpl.layout(property::DatasetLayout::Virtual);
 
   // apply the maps to the datset creation list
   std::for_each(vds_maps.begin(),vds_maps.end(),

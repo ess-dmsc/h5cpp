@@ -34,42 +34,42 @@ SCENARIO("opening a file") {
 #if H5_VERSION_GE(1, 10, 0)
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-  file::create(filename, file::AccessFlags::TRUNCATE, fcpl, fapl);
+  fapl.library_version_bounds(property::LibVersion::Latest,
+                              property::LibVersion::Latest);
+  file::create(filename, file::AccessFlags::Truncate, fcpl, fapl);
 #else
-  file::create(filename, file::AccessFlags::TRUNCATE);
+  file::create(filename, file::AccessFlags::Truncate);
 #endif
 
   WHEN("using the default operation") {
     auto f = file::open(filename);
-    REQUIRE(f.intent() == file::AccessFlags::READONLY);
+    REQUIRE(f.intent() == file::AccessFlags::ReadOnly);
   }
 
   WHEN("opening in read/write mode") {
-    auto f = file::open(filename, file::AccessFlags::READWRITE);
-    REQUIRE(f.intent() == file::AccessFlags::READWRITE);
+    auto f = file::open(filename, file::AccessFlags::ReadWrite);
+    REQUIRE(f.intent() == file::AccessFlags::ReadWrite);
   }
 
   WHEN("opening a non-existing file") {
     REQUIRE_THROWS_AS(
-        file::open("nonexistent.qqq", file::AccessFlags::READWRITE),
+        file::open("nonexistent.qqq", file::AccessFlags::ReadWrite),
         std::runtime_error);
   }
 
 #if H5_VERSION_GE(1, 10, 0)
 
   WHEN("opening in SWMR read-mode") {
-    auto f = file::open(filename, file::AccessFlags::SWMR_READ);
-    REQUIRE(f.intent() == file::AccessFlags::SWMR_READ);
+    auto f = file::open(filename, file::AccessFlags::SWMRRead);
+    REQUIRE(f.intent() == file::AccessFlags::SWMRRead);
   }
 
   WHEN("opening in SWM  write-mode") {
-    auto f = file::open(filename, file::AccessFlags::READWRITE |
-                                            file::AccessFlags::SWMR_WRITE);
+    auto f = file::open(filename, file::AccessFlags::ReadWrite |
+                                            file::AccessFlags::SWMRWrite);
 
     REQUIRE(static_cast<file::AccessFlagsBase>(f.intent()) ==
-            (file::AccessFlags::SWMR_WRITE | file::AccessFlags::READWRITE));
+            (file::AccessFlags::SWMRWrite | file::AccessFlags::ReadWrite));
   }
 
 #endif

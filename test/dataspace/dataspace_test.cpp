@@ -38,7 +38,7 @@ SCENARIO("default constructed dataspace") {
       REQUIRE_THROWS_AS(s.size(), std::runtime_error);
     }
     THEN("type() does not fail") {
-      REQUIRE(s.type() == Type::NODATA);
+      REQUIRE(s.type() == Type::NoData);
     }
     THEN("the dataspace will not be valid") { REQUIRE_FALSE(s.is_valid()); }
   }
@@ -50,7 +50,7 @@ SCENARIO("dataspace constructed from an hid_t") {
     THEN("we can construct a dataspace") {
       Dataspace s{ObjectHandle(id)};
       AND_THEN("the dataspace size will be 1") { REQUIRE(s.size() == 1); }
-      AND_THEN("the type will be scalar") { REQUIRE(s.type() == Type::SCALAR); }
+      AND_THEN("the type will be scalar") { REQUIRE(s.type() == Type::Scalar); }
       AND_THEN("the dataspace will be valid") { REQUIRE(s.is_valid()); }
     }
   }
@@ -71,7 +71,7 @@ SCENARIO("copy constructed dataspace") {
       REQUIRE_THROWS_AS(ss.size(), std::runtime_error);
     }
     THEN("type() does not fail") {
-      REQUIRE(ss.type() == Type::NODATA);
+      REQUIRE(ss.type() == Type::NoData);
     }
     THEN("the dataspace will not be valid") { REQUIRE_FALSE(ss.is_valid()); }
   }
@@ -97,7 +97,7 @@ SCENARIO("copy assignemnt of a dataspace") {
       REQUIRE_THROWS_AS(s2.size(), std::runtime_error);
     }
     THEN("type() does not fail") {
-      REQUIRE(s2.type() == Type::NODATA);
+      REQUIRE(s2.type() == Type::NoData);
     }
     THEN("the dataspace will not be valid") { REQUIRE_FALSE(s2.is_valid()); }
   }

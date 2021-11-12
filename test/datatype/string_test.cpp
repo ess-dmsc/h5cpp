@@ -34,7 +34,7 @@ SCENARIO("testing variable length strings") {
   GIVEN("an instance of a variable length string type") {
     auto t = datatype::String::variable();
     THEN("the instance if of type STRING") {
-      REQUIRE(t.get_class() == datatype::Class::STRING);
+      REQUIRE(t.get_class() == datatype::Class::String);
     }
     THEN("the size of the type is H5T_VARIABLE") {
       REQUIRE(t.size() == size_t(H5T_VARIABLE));
@@ -59,7 +59,7 @@ SCENARIO("constructing a fixed length string") {
     auto t = datatype::String::fixed(3);
 
     THEN("the type class will be STRING") {
-      REQUIRE(t.get_class() == datatype::Class::STRING);
+      REQUIRE(t.get_class() == datatype::Class::String);
     }
     THEN("the variable length flag will be false") {
       REQUIRE_FALSE(t.is_variable_length());
@@ -106,8 +106,8 @@ SCENARIO("setting the encoding on a fixed length string") {
 
 SCENARIO("setting the string padding") {
   auto pad =
-      GENERATE(datatype::StringPad::SPACEPAD, datatype::StringPad::NULLTERM,
-               datatype::StringPad::NULLPAD);
+      GENERATE(datatype::StringPad::SpacePad, datatype::StringPad::NullTerm,
+               datatype::StringPad::NullPad);
   GIVEN("a fixed string type ") {
     auto t = datatype::String::fixed(3);
     WHEN("we set the padding") {

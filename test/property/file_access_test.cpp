@@ -41,8 +41,8 @@ SCENARIO("Writing file access associated enumerations to a stream") {
   GIVEN("library version values") {
     using r = std::tuple<pl::LibVersion, std::string>;
     auto versions = GENERATE(table<pl::LibVersion, std::string>(
-        {r{pl::LibVersion::EARLIEST, "EARLIEST"},
-         r{pl::LibVersion::LATEST, "LATEST"}}));
+        {r{pl::LibVersion::Earliest, "EARLIEST"},
+         r{pl::LibVersion::Latest, "LATEST"}}));
     THEN("writing this to the stream") {
       std::stringstream s;
       s << std::get<0>(versions);
@@ -52,9 +52,9 @@ SCENARIO("Writing file access associated enumerations to a stream") {
   GIVEN("closing degree values") {
     using r = std::tuple<pl::CloseDegree, std::string>;
     auto degrees = GENERATE(table<pl::CloseDegree, std::string>(
-        {r{pl::CloseDegree::WEAK, "WEAK"}, r{pl::CloseDegree::STRONG, "STRONG"},
-         r{pl::CloseDegree::SEMI, "SEMI"},
-         r{pl::CloseDegree::DEFAULT, "DEFAULT"}}));
+        {r{pl::CloseDegree::Weak, "WEAK"}, r{pl::CloseDegree::Strong, "STRONG"},
+         r{pl::CloseDegree::Semi, "SEMI"},
+         r{pl::CloseDegree::Default, "DEFAULT"}}));
     AND_WHEN("we write these values to the stream") {
       std::stringstream s;
       s << std::get<0>(degrees);
@@ -68,9 +68,9 @@ SCENARIO("FileAccessList creation") {
     pl::FileAccessList fapl;
     THEN("we expect") {
       REQUIRE(fapl.get_class() == pl::kFileAccess);
-      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::EARLIEST);
-      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::LATEST);
-      REQUIRE(fapl.close_degree() == pl::CloseDegree::DEFAULT);
+      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::Earliest);
+      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::Latest);
+      REQUIRE(fapl.close_degree() == pl::CloseDegree::Default);
     }
     WHEN("closing the object") {
       close(fapl);
@@ -79,7 +79,7 @@ SCENARIO("FileAccessList creation") {
         REQUIRE_THROWS_AS(fapl.library_version_bound_high(),
                           std::runtime_error);
         REQUIRE_THROWS_AS(fapl.close_degree(), std::runtime_error);
-        REQUIRE_THROWS_AS(fapl.close_degree(pl::CloseDegree::STRONG),
+        REQUIRE_THROWS_AS(fapl.close_degree(pl::CloseDegree::Strong),
                           std::runtime_error);
       }
     }
@@ -103,28 +103,28 @@ SCENARIO("Setting the library version on a file access property list") {
   GIVEN("a default constructed file access property list") {
     pl::FileAccessList fapl;
     WHEN("seting thel LATEST, LATEST ") {
-      REQUIRE_NOTHROW(fapl.library_version_bounds(pl::LibVersion::LATEST,
-                                                  pl::LibVersion::LATEST));
-      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::LATEST);
-      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::LATEST);
+      REQUIRE_NOTHROW(fapl.library_version_bounds(pl::LibVersion::Latest,
+                                                  pl::LibVersion::Latest));
+      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::Latest);
+      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::Latest);
     }
     WHEN("seting EARLIEST:LATEST") {
-      REQUIRE_NOTHROW(fapl.library_version_bounds(pl::LibVersion::EARLIEST,
-                                                  pl::LibVersion::LATEST));
-      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::EARLIEST);
-      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::LATEST);
+      REQUIRE_NOTHROW(fapl.library_version_bounds(pl::LibVersion::Earliest,
+                                                  pl::LibVersion::Latest));
+      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::Earliest);
+      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::Latest);
     }
     WHEN("setting EARLIEST:EARLIST") {
       THEN("the operation must fail") {
-        REQUIRE_THROWS_AS(fapl.library_version_bounds(pl::LibVersion::EARLIEST,
-                                                      pl::LibVersion::EARLIEST),
+        REQUIRE_THROWS_AS(fapl.library_version_bounds(pl::LibVersion::Earliest,
+                                                      pl::LibVersion::Earliest),
                           std::runtime_error);
       }
     }
     WHEN("setting LATEST:EARLIEST") {
       THEN("the operation must fail") {
-        REQUIRE_THROWS_AS(fapl.library_version_bounds(pl::LibVersion::LATEST,
-                                                      pl::LibVersion::EARLIEST),
+        REQUIRE_THROWS_AS(fapl.library_version_bounds(pl::LibVersion::Latest,
+                                                      pl::LibVersion::Earliest),
                           std::runtime_error);
       }
     }
@@ -135,20 +135,20 @@ SCENARIO("setting close degree on a file access property list") {
   GIVEN("a default constructed file access property list") {
     pl::FileAccessList fapl;
     THEN("setting the close degree to STRONG must work") {
-      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::STRONG));
-      REQUIRE(fapl.close_degree() == pl::CloseDegree::STRONG);
+      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::Strong));
+      REQUIRE(fapl.close_degree() == pl::CloseDegree::Strong);
     }
     THEN("setting the close degree to WEAK must work") {
-      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::WEAK));
-      REQUIRE(fapl.close_degree() == pl::CloseDegree::WEAK);
+      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::Weak));
+      REQUIRE(fapl.close_degree() == pl::CloseDegree::Weak);
     }
     THEN("setting the close degree to SEMI") {
-      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::SEMI));
-      REQUIRE(fapl.close_degree() == pl::CloseDegree::SEMI);
+      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::Semi));
+      REQUIRE(fapl.close_degree() == pl::CloseDegree::Semi);
     }
     THEN("setting the close degree to default") {
-      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::DEFAULT));
-      REQUIRE(fapl.close_degree() == pl::CloseDegree::DEFAULT);
+      REQUIRE_NOTHROW(fapl.close_degree(pl::CloseDegree::Default));
+      REQUIRE(fapl.close_degree() == pl::CloseDegree::Default);
     }
   }
 }

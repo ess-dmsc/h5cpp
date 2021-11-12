@@ -686,7 +686,7 @@ class DLL_EXPORT Dataset : public Node
                                    const property::DatasetTransferList &dtpl) const
     {
       VarLengthDataBuffer buffer;
-      if(file_space.selection.type() != dataspace::SelectionType::ALL)
+      if(file_space.selection.type() != dataspace::SelectionType::All)
       {
         buffer.resize(file_space.selection.size());
       }
@@ -825,11 +825,11 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
                                   const dataspace::Dataspace &file_space,
                                   const property::DatasetTransferList &dtpl) const
 {
-  if(file_type_class == datatype::Class::VARLENGTH)
+  if(file_type_class == datatype::Class::VarLength)
   {
     write_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
   }
-  else if(file_type_class == datatype::Class::STRING)
+  else if(file_type_class == datatype::Class::String)
   {
     datatype::String string_type(file_type);
     if(string_type.is_variable_length())
@@ -893,7 +893,7 @@ void Dataset::write_chunk(const T &data,
 {
   size_t databytesize = signed2unsigned<unsigned long long>(mem_space.size()) * mem_type.size();
 
-  if(mem_type.get_class() == datatype::Class::INTEGER)
+  if(mem_type.get_class() == datatype::Class::Integer)
     {
 #if H5_VERSION_GE(1,10,3)
       if(H5Dwrite_chunk(static_cast<hid_t>(*this),
@@ -947,7 +947,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 				  const property::DatasetTransferList &dtpl) const
 {
   std::uint32_t filter_mask;
-  if(mem_type.get_class() == datatype::Class::INTEGER)
+  if(mem_type.get_class() == datatype::Class::Integer)
     {
 #if H5_VERSION_GE(1,10,3)
       if(H5Dread_chunk(static_cast<hid_t>(*this),
@@ -1010,8 +1010,8 @@ void Dataset::write_reshape(const T &data,
   file_space.selection.all();
 
   if (file_space.size() == mem_space.size() &&
-      mem_space.type() == dataspace::Type::SIMPLE &&
-      file_space.type() == dataspace::Type::SIMPLE){
+      mem_space.type() == dataspace::Type::Simple &&
+      file_space.type() == dataspace::Type::Simple){
     const dataspace::Simple & mem_simple_space = dataspace::Simple(mem_space);
     const dataspace::Simple & file_simple_space = dataspace::Simple(file_space);
     if(file_simple_space.rank() > 1 && mem_simple_space.rank() == 1){
@@ -1028,11 +1028,11 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
                            const dataspace::Dataspace &file_space,
                            const property::DatasetTransferList &dtpl) const
 {
-  if(file_type_class == datatype::Class::VARLENGTH)
+  if(file_type_class == datatype::Class::VarLength)
   {
     read_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
   }
-  else if(file_type_class == datatype::Class::STRING)
+  else if(file_type_class == datatype::Class::String)
   {
     datatype::String string_type(file_type);
     if(string_type.is_variable_length())
@@ -1077,7 +1077,7 @@ void Dataset::read_reshape(T &data,
 			   const property::DatasetTransferList &dtpl) const
 {
   dataspace::Dataspace file_space = dataspace();
-  file_space.selection(dataspace::SelectionOperation::SET,selection);
+  file_space.selection(dataspace::SelectionOperation::Set,selection);
   try{
     const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
     auto dims = hyper.block();
@@ -1105,7 +1105,7 @@ void Dataset::read(T &data,
                    const property::DatasetTransferList &dtpl) const
 {
   dataspace::Dataspace file_space = dataspace();
-  file_space.selection(dataspace::SelectionOperation::SET,file_selection);
+  file_space.selection(dataspace::SelectionOperation::Set,file_selection);
   read(data,memory_type,memory_space,file_space,dtpl);
 }
 
@@ -1146,8 +1146,8 @@ void Dataset::write_reshape(const T &data,
 			    const property::DatasetTransferList &dtpl) const
 {
   dataspace::Dataspace file_space = dataspace();
-  file_space.selection(dataspace::SelectionOperation::SET,selection);
-  if (mem_space.type() != dataspace::Type::SIMPLE) {
+  file_space.selection(dataspace::SelectionOperation::Set,selection);
+  if (mem_space.type() != dataspace::Type::Simple) {
     write(data,mem_type,mem_space,file_space,dtpl);
   }
   else{

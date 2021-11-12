@@ -29,7 +29,7 @@
 using namespace hdf5;
 
 SCENARIO("testing the get_group function") {
-  auto f = file::create("get_group_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("get_group_test.h5", file::AccessFlags::Truncate);
 
   GIVEN("a default constructed node") {
     node::Node n;

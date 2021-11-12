@@ -88,7 +88,7 @@ SCENARIO("Compount type construction") {
     datatype::Compound type;
     THEN("the resulting type is invalid") { REQUIRE_FALSE(type.is_valid()); }
     THEN("it is of typeclass NONE") {
-      REQUIRE(type.get_class() == datatype::Class::NONE);
+      REQUIRE(type.get_class() == datatype::Class::None);
     }
     THEN("cannot retrieve fields") {
       REQUIRE_THROWS_AS(type.number_of_fields(), std::runtime_error);
@@ -133,10 +133,10 @@ SCENARIO("Creating a pixel datatype using the trait") {
     auto type = datatype::create<Pixel>();
     THEN("the compound type") { REQUIRE(type.size() == 3ul); }
     THEN("the type contains an INTEGER") {
-      REQUIRE(type.has_class(datatype::Class::INTEGER));
+      REQUIRE(type.has_class(datatype::Class::Integer));
     }
     THEN("the type does not contain a FLOAT") {
-      REQUIRE_FALSE(type.has_class(datatype::Class::FLOAT));
+      REQUIRE_FALSE(type.has_class(datatype::Class::Float));
     }
   }
 }
@@ -146,10 +146,10 @@ SCENARIO("Creating a pixel datatype using the trait with cref") {
     auto & type = datatype::get<Pixel>();
     THEN("the compound type") { REQUIRE(type.size() == 3ul); }
     THEN("the type contains an INTEGER") {
-      REQUIRE(type.has_class(datatype::Class::INTEGER));
+      REQUIRE(type.has_class(datatype::Class::Integer));
     }
     THEN("the type does not contain a FLOAT") {
-      REQUIRE_FALSE(type.has_class(datatype::Class::FLOAT));
+      REQUIRE_FALSE(type.has_class(datatype::Class::Float));
     }
   }
 }
@@ -170,10 +170,10 @@ SCENARIO("creating compound data type for a complex number type") {
           REQUIRE(type.number_of_fields() == 2ul);
         }
         THEN("the compound type will contain a field of float type") {
-          REQUIRE(type.has_class(datatype::Class::FLOAT));
+          REQUIRE(type.has_class(datatype::Class::Float));
         }
         THEN("the compound type will contain no interger field") {
-          REQUIRE_FALSE(type.has_class(datatype::Class::INTEGER));
+          REQUIRE_FALSE(type.has_class(datatype::Class::Integer));
         }
         THEN("the real field has index 0") {
           REQUIRE(type.field_index("real") == 0ul);
@@ -188,10 +188,10 @@ SCENARIO("creating compound data type for a complex number type") {
           REQUIRE(type.field_name(1) == "imag");
         }
         THEN("the type class of field 0 is FLOAT") {
-          REQUIRE(type.field_class(0) == datatype::Class::FLOAT);
+          REQUIRE(type.field_class(0) == datatype::Class::Float);
         }
         THEN("the type class of field 'real' is FLOAT") {
-          REQUIRE(type.field_class("real") == datatype::Class::FLOAT);
+          REQUIRE(type.field_class("real") == datatype::Class::Float);
         }
         THEN("the offset of the first field is 0") {
           REQUIRE(type.field_offset(0) == 0ul);
@@ -213,7 +213,7 @@ SCENARIO("creating compound data type for a complex number type") {
 }
 
 SCENARIO("testing IO with complex value") {
-  auto f = file::create("compound_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("compound_test.h5", file::AccessFlags::Truncate);
   auto root = f.root();
 
   GIVEN("a complex attribute") {

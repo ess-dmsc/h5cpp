@@ -71,7 +71,7 @@ const Paths paths_decreasing{Path("/standard/c_group"),
 
 SCENARIO("testing recursive node iteration") {
   auto f = file::create("recursive_node_iterator_test.h5",
-                        file::AccessFlags::TRUNCATE);
+                        file::AccessFlags::Truncate);
   auto r = node::Group(f.root(), "standard");
   node::Group(r, "c_group");
   node::Group b_group(r, "b_group");
@@ -100,9 +100,9 @@ SCENARIO("testing recursive node iteration") {
   GIVEN("the standard group as base") {
     node::Group base = node::get_node(f.root(), Path("standard"));
     AND_WHEN("configured to iterate by name index") {
-      base.iterator_config().index(IterationIndex::NAME);
+      base.iterator_config().index(IterationIndex::Name);
       AND_WHEN("configured for iteration in increasing order") {
-        base.iterator_config().order(IterationOrder::INCREASING);
+        base.iterator_config().order(IterationOrder::Increasing);
         THEN("we can iterate all child nodes") {
           Paths p;
           std::transform(RecursiveNodeIterator::begin(base),
@@ -121,7 +121,7 @@ SCENARIO("testing recursive node iteration") {
         }
       }
       AND_WHEN("configured for iteration in decreasing order") {
-        base.iterator_config().order(IterationOrder::DECREASING);
+        base.iterator_config().order(IterationOrder::Decreasing);
         THEN("we can iterate over all subgroups") {
           Paths p;
           std::transform(RecursiveNodeIterator::begin(base),

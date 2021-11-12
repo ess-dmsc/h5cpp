@@ -31,7 +31,7 @@ using namespace hdf5;
 
 SCENARIO("scalar attribute IO", "[hdf5],[attribute]") {
   auto h5file =
-      file::create("attribute_scalar_io_test.h5", file::AccessFlags::TRUNCATE);
+      file::create("attribute_scalar_io_test.h5", file::AccessFlags::Truncate);
   auto root = h5file.root();
 
   GIVEN("scalar unsigned int 8 IO") {

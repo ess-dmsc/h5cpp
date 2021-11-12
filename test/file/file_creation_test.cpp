@@ -39,7 +39,7 @@ SCENARIO("Creating files", "[h5cpp,file]") {
     auto f = file::create(file_path);
 
     THEN("it must be in read/write mode ") {
-      REQUIRE(f.intent() == file::AccessFlags::READWRITE);
+      REQUIRE(f.intent() == file::AccessFlags::ReadWrite);
       REQUIRE(f.path() == file_path);
     }
     f.close();  // close the file here - we no longer need ti
@@ -51,7 +51,7 @@ SCENARIO("Creating files", "[h5cpp,file]") {
     }
 
     WHEN("trying to create a new file with truncation") {
-      REQUIRE_NOTHROW(file::create(file_path, file::AccessFlags::TRUNCATE));
+      REQUIRE_NOTHROW(file::create(file_path, file::AccessFlags::Truncate));
     }
     fs::remove(file_path);
   }
@@ -60,17 +60,17 @@ SCENARIO("Creating files", "[h5cpp,file]") {
 #ifndef _MSC_VER
 SCENARIO("Opening the same file", "[h5cpp,file]") {
   {
-    file::create("test1.h5", file::AccessFlags::TRUNCATE);
+    file::create("test1.h5", file::AccessFlags::Truncate);
     fs::create_symlink("test1.h5", "test1_link.h5");
   }
   GIVEN("a single file") {
-    auto f1 = file::open("test1.h5", file::AccessFlags::READONLY);
+    auto f1 = file::open("test1.h5", file::AccessFlags::ReadOnly);
     THEN("opening the same file") {
-      auto f2 = file::open("test1.h5", file::AccessFlags::READONLY);
+      auto f2 = file::open("test1.h5", file::AccessFlags::ReadOnly);
       REQUIRE(f1.id() == f2.id());
     }
     THEN("opnening the symbolic link to the file yields") {
-      auto f2 = file::open("test1_link.h5", file::AccessFlags::READONLY);
+      auto f2 = file::open("test1_link.h5", file::AccessFlags::ReadOnly);
       REQUIRE(f1.id() == f2.id());
     }
   }
@@ -81,7 +81,7 @@ SCENARIO("Opening the same file", "[h5cpp,file]") {
 
 SCENARIO("Open multiple files in several modes", "[file,h5cpp]") {
   {
-    auto nexus_file = file::create("testclose.h5", file::AccessFlags::TRUNCATE);
+    auto nexus_file = file::create("testclose.h5", file::AccessFlags::Truncate);
     nexus_file.root()
         .attributes
         .create("HDF5_version", datatype::create<std::string>(),
@@ -90,18 +90,18 @@ SCENARIO("Open multiple files in several modes", "[file,h5cpp]") {
   }
 
   GIVEN("a file in read-only mode") {
-    auto f1 = file::open("testclose.h5", hdf5::file::AccessFlags::READONLY);
+    auto f1 = file::open("testclose.h5", hdf5::file::AccessFlags::ReadOnly);
     auto r1 = f1.root();
     // without this line works
 
     THEN("we can open a second file in read-only mode") {
       REQUIRE_NOTHROW(
-          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READONLY));
+          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::ReadOnly));
     }
 
     THEN("we cannot open a file in read write mode") {
       REQUIRE_THROWS_AS(
-          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READWRITE),
+          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::ReadWrite),
           std::runtime_error);
     }
 
@@ -112,7 +112,7 @@ SCENARIO("Open multiple files in several modes", "[file,h5cpp]") {
       f1.close();
       THEN("creating a new read/write file will fail") {
         REQUIRE_THROWS_AS(hdf5::file::open("testclose.h5",
-                                           hdf5::file::AccessFlags::READWRITE),
+                                           hdf5::file::AccessFlags::ReadWrite),
                           std::runtime_error);
       }
     }
@@ -122,18 +122,18 @@ SCENARIO("Open multiple files in several modes", "[file,h5cpp]") {
       f1.close();
       THEN("we are create create a new read/write file") {
         REQUIRE_NOTHROW(hdf5::file::open("testclose.h5",
-                                         hdf5::file::AccessFlags::READWRITE));
+                                         hdf5::file::AccessFlags::ReadWrite));
       }
     }
   }
 
   GIVEN("a file in read only mode with attributes") {
-    auto f1 = file::open("testclose.h5", hdf5::file::AccessFlags::READONLY);
+    auto f1 = file::open("testclose.h5", hdf5::file::AccessFlags::ReadOnly);
     auto r1 = f1.root();
 
     WHEN("opening the same file in a different block") {
       auto f2 =
-          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READONLY);
+          hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::ReadOnly);
       auto r2 = f2.root();
       auto attr = r2.attributes[0];
     }
@@ -142,6 +142,6 @@ SCENARIO("Open multiple files in several modes", "[file,h5cpp]") {
     f1.close();
 
     REQUIRE_NOTHROW(
-        hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::READWRITE));
+        hdf5::file::open("testclose.h5", hdf5::file::AccessFlags::ReadWrite));
   }
 }

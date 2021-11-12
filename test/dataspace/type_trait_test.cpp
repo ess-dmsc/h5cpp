@@ -35,7 +35,7 @@ SCENARIO("testing the type trait for dataspaces") {
   GIVEN("a vector of 20 elements") {
     std::vector<double> data(20);
     auto space = dataspace::create(data);
-    REQUIRE(space.type() == dataspace::Type::SIMPLE);
+    REQUIRE(space.type() == dataspace::Type::Simple);
     Dimensions current_dims = space.current_dimensions(),
                max_dims = space.maximum_dimensions();
     REQUIRE(current_dims.size() == 1ul);
@@ -46,7 +46,7 @@ SCENARIO("testing the type trait for dataspaces") {
   GIVEN("an integer scalar") {
     int data = 10;
     auto space = dataspace::create(data);
-    REQUIRE(space.type() == dataspace::Type::SCALAR);
+    REQUIRE(space.type() == dataspace::Type::Scalar);
     REQUIRE(space.size() == 1l);
   }
 }

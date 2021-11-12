@@ -68,20 +68,20 @@ class create {
 
   static property::DatasetCreationList dcpl() {
     property::DatasetCreationList dcpl;
-    dcpl.layout(property::DatasetLayout::CHUNKED);
+    dcpl.layout(property::DatasetLayout::Chunked);
     dcpl.chunk({1, xdim, ydim});
     return dcpl;
   }
   static property::FileAccessList fapl() {
     property::FileAccessList fapl;
 #if H5_VERSION_GE(1, 10, 0)
-    fapl.library_version_bounds(property::LibVersion::LATEST,
-                                property::LibVersion::LATEST);
+    fapl.library_version_bounds(property::LibVersion::Latest,
+                                property::LibVersion::Latest);
 #endif
     return fapl;
   }
   static file::File file() {
-    return file::create(filename, file::AccessFlags::TRUNCATE, fcpl(), fapl());
+    return file::create(filename, file::AccessFlags::Truncate, fcpl(), fapl());
   }
   static dataspace::Simple ds(Dimensions current) {
     Dimensions max(current.size());
@@ -124,7 +124,7 @@ SCENARIO("Testing IO performance using different memory and file spaces") {
             dataset.extent(0, 1);
             selection.offset({frame_index, 0, 0});
             auto file_space = dataset.dataspace();
-            file_space.selection(dataspace::SelectionOperation::SET, selection);
+            file_space.selection(dataspace::SelectionOperation::Set, selection);
             dataset.write(buffer_frame, dtype, ds_frame2, file_space, dtpl);
           }
         };
@@ -185,7 +185,7 @@ SCENARIO("Testing IO performance using different memory and file spaces") {
   // create_initial_datafile();
   /*
   GIVEN("The data file with the data to read") {
-    auto file = file::open(filename, file::AccessFlags::READONLY);
+    auto file = file::open(filename, file::AccessFlags::ReadOnly);
     auto dataset = file.root().get_dataset("/data");
     auto dtype = dataset.datatype();
   }*/

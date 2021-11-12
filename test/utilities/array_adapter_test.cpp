@@ -123,7 +123,7 @@ SCENARIO("Constructing datatypes from adapter types") {
     WHEN("we construct a datatype using the type trait") {
       auto dtype = datatype::TypeTrait<adapter_type>::create();
       THEN("the resulting type will be an integer type") {
-        REQUIRE(dtype.get_class() == datatype::Class::INTEGER);
+        REQUIRE(dtype.get_class() == datatype::Class::Integer);
         AND_THEN("the resulting integer type would be of size 4") {
           REQUIRE(dtype.size() == sizeof(int));
         }
@@ -135,7 +135,7 @@ SCENARIO("Constructing datatypes from adapter types") {
     WHEN("we construct a datatype using the type trait") {
       auto dtype = datatype::TypeTrait<adapter_type>::create();
       THEN("the resulting type will be an double type") {
-        REQUIRE(dtype.get_class() == datatype::Class::FLOAT);
+        REQUIRE(dtype.get_class() == datatype::Class::Float);
         AND_THEN("the resulting double type would be of size 8") {
           REQUIRE(dtype.size() == sizeof(double));
         }
@@ -149,7 +149,7 @@ SCENARIO("writing and reading data using an ArrayAdapter") {
   int write_buffer[] = {0, 10, 100, -4, 3, 20, 43};
   auto write_adapter = ArrayAdapter<int>(write_buffer, buffsize);
 
-  auto file = file::create("ArrayAdapterTest.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("ArrayAdapterTest.h5", file::AccessFlags::Truncate);
   auto root = file.root();
   auto space = dataspace::Simple(Dimensions{buffsize});
   auto type = datatype::create<int>();
@@ -195,7 +195,7 @@ SCENARIO("writing and reading data using an ArrayAdapter") {
 
 TEST_F(ArrayAdapterTest, attribute_io) {
   file::File file =
-      file::create("ArrayAdapterTest.h5", file::AccessFlags::TRUNCATE);
+      file::create("ArrayAdapterTest.h5", file::AccessFlags::Truncate);
   node::Group root = file.root();
   attribute::Attribute attribute = root.attributes.create(
       "iattr", datatype::create<int>(), dataspace::Simple(Dimensions{bufsize}));

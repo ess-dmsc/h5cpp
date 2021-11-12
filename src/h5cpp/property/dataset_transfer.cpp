@@ -58,9 +58,9 @@ std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode)
 {
   switch(mode)
   {
-    case MPITransferMode::INDEPENDENT:
+    case MPITransferMode::Independent:
       return stream<<"INDEPENDENT";
-    case MPITransferMode::COLLECTIVE:
+    case MPITransferMode::Collective:
       return stream<<"COLLECTIVE";
   }
 }
@@ -77,9 +77,9 @@ std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option)
 {
   switch(option)
   {
-    case MPIChunkOption::ONE_LINK_CHUNKED:
+    case MPIChunkOption::OneLinkChunked:
       return stream<<"ONE_LINK_CHUNKED";
-    case MPIChunkOption::MULTI_CHUNK:
+    case MPIChunkOption::MultiChunk:
       return stream<<"MULTI_CHUNK";
   }
 }
