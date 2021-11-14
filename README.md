@@ -123,7 +123,7 @@ Here is a small example of how to make use of the library in code:
 using namespace hdf5;
 
 // create a file
-file::File f = file::create("writing_vector.h5",file::AccessFlags::TRUNCATE);
+file::File f = file::create("writing_vector.h5",file::AccessFlags::Truncate);
 
 // create a group
 node::Group root_group = f.root();

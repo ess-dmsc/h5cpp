@@ -34,9 +34,9 @@ using namespace hdf5::dataspace;
 SCENARIO("testing data view") {
   auto space = Simple({1024, 512});
   auto selections = SelectionList{
-      {SelectionOperation::SET,
+      {SelectionOperation::Set,
        Selection::SharedPointer(new Hyperslab({0, 0}, {100, 100}))},
-      {SelectionOperation::OR,
+      {SelectionOperation::Or,
        Selection::SharedPointer(new Hyperslab({200, 200}, {100, 100}))}};
 
   GIVEN("a default constructed view") {

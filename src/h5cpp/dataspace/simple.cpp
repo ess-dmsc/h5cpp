@@ -33,17 +33,17 @@ namespace dataspace {
 const hsize_t Simple::UNLIMITED = H5S_UNLIMITED;
 
 Simple::Simple() :
-    Dataspace(Type::SIMPLE) {}
+    Dataspace(Type::Simple) {}
 
 Simple::Simple(const Dataspace &space) :
     Dataspace(space) {
-  if (space.type() != Type::SIMPLE) {
+  if (space.type() != Type::Simple) {
     error::Singleton::instance().throw_with_stack("Failed to construct a simple dataspace from this!");
   }
 }
 
 Simple::Simple(const Dimensions &current, const Dimensions &maximum) :
-    Dataspace(Type::SIMPLE) {
+    Dataspace(Type::Simple) {
   dimensions(current, maximum);
 }
 

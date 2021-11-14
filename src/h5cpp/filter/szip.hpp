@@ -54,7 +54,7 @@ class DLL_EXPORT SZip : public Filter
     void pixels_per_block(unsigned int pixels_per_block);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::mandatory) const override;
+                            Availability flag=Availability::Mandatory) const override;
 
     // Selects entropy coding method
     static const unsigned int EC_OPTION_MASK;

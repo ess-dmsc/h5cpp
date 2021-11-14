@@ -186,7 +186,7 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf
                  std::back_inserter(simple_dataspaces),
                  [](const Dataspace &space)
                  {
-                    return space.type() == Type::SIMPLE;
+                    return space.type() == Type::Simple;
                  });
                  
 

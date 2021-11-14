@@ -48,9 +48,9 @@ SCENARIO("testing the operators for selection operations") {
     }
     AND_GIVEN("a list of selections") {
       SelectionList selections{
-          {SelectionOperation::SET,
+          {SelectionOperation::Set,
            Selection::SharedPointer(new Hyperslab{{0, 0}, {100, 200}})},
-          {SelectionOperation::OR,
+          {SelectionOperation::Or,
            Selection::SharedPointer(new Hyperslab{{101, 201}, {100, 200}})}};
       WHEN("creating a new dataset from the selection") { 
         Simple new_space = space || selections;

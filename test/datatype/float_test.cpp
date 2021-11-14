@@ -52,7 +52,7 @@ TEMPLATE_TEST_CASE("testing",
       REQUIRE((std::is_same<decltype(t), datatype::Float>::value));
     }
     THEN("the type class should be FLOAT") {
-      REQUIRE(t.get_class() == datatype::Class::FLOAT);
+      REQUIRE(t.get_class() == datatype::Class::Float);
     }
     THEN("the size should be") { REQUIRE(t.size() == sizeof(TestType)); }
 
@@ -61,7 +61,7 @@ TEMPLATE_TEST_CASE("testing",
       THEN("we can create a new instance") {
         datatype::Float new_type(generic_type);
         AND_THEN("we this should be a FLOAT type as well") {
-          REQUIRE(new_type.get_class() == datatype::Class::FLOAT);
+          REQUIRE(new_type.get_class() == datatype::Class::Float);
         }
       }
     }
@@ -79,7 +79,7 @@ TEMPLATE_TEST_CASE("testing with cref",
       REQUIRE((std::is_same<decltype(t), const datatype::Float>::value));
     }
     THEN("the type class should be FLOAT") {
-      REQUIRE(t.get_class() == datatype::Class::FLOAT);
+      REQUIRE(t.get_class() == datatype::Class::Float);
     }
     THEN("the size should be") { REQUIRE(t.size() == sizeof(TestType)); }
 
@@ -100,7 +100,7 @@ TEMPLATE_TEST_CASE("testing byte order for floats",
     WHEN("checking the byte order it must be either") {
       REQUIRE((t.order() == datatype::Order::LE ||
                t.order() == datatype::Order::BE ||
-               t.order() == datatype::Order::VAX));
+               t.order() == datatype::Order::Vax));
 
       AND_THEN("we can set it to Big Endian") {
         t.order(datatype::Order::BE);
@@ -126,41 +126,41 @@ TEMPLATE_TEST_CASE("testing byte order for floats",
     WHEN("checking the padding we get") {
       using datatype::Pad;
       using r = std::vector<Pad>;
-      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::Zero}));
       AND_THEN("we can set it to ZERO:ONE") {
-        t.pad(Pad::ZERO, Pad::ONE);
-        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ONE}));
+        t.pad(Pad::Zero, Pad::One);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::One}));
       }
       AND_THEN("we can set it to ONE:BACKGROUND") {
-        t.pad(Pad::ONE, Pad::BACKGROUND);
+        t.pad(Pad::One, Pad::Background);
         REQUIRE_THAT(t.pad(),
-                     Catch::Matchers::Equals(r{Pad::ONE, Pad::BACKGROUND}));
+                     Catch::Matchers::Equals(r{Pad::One, Pad::Background}));
       }
     }
 
     WHEN("checking the inpad") {
       using datatype::Pad;
-      REQUIRE(t.inpad() == Pad::ZERO);
+      REQUIRE(t.inpad() == Pad::Zero);
       AND_THEN("set it to ONE") {
-        t.inpad(Pad::ONE);
-        REQUIRE(t.inpad() == Pad::ONE);
+        t.inpad(Pad::One);
+        REQUIRE(t.inpad() == Pad::One);
       }
       AND_THEN("set it to BACKGROUND") {
-        t.inpad(Pad::BACKGROUND);
-        REQUIRE(t.inpad() == Pad::BACKGROUND);
+        t.inpad(Pad::Background);
+        REQUIRE(t.inpad() == Pad::Background);
       }
     }
 
     WHEN("checking the norm") {
       using datatype::Norm;
-      REQUIRE((t.norm() == Norm::IMPLIED || t.norm() == Norm::NONE));
+      REQUIRE((t.norm() == Norm::Implied || t.norm() == Norm::None));
       AND_THEN("set it to MSBSET") {
-        t.norm(Norm::MSBSET);
-        REQUIRE(t.norm() == Norm::MSBSET);
+        t.norm(Norm::MSBSet);
+        REQUIRE(t.norm() == Norm::MSBSet);
       }
       AND_THEN("set it to NONE") {
-        t.norm(Norm::NONE);
-        REQUIRE(t.norm() == Norm::NONE);
+        t.norm(Norm::None);
+        REQUIRE(t.norm() == Norm::None);
       }
     }
 
@@ -207,7 +207,7 @@ TEMPLATE_TEST_CASE("testing byte order for floats with cref",
     WHEN("checking the byte order it must be either") {
       REQUIRE((t.order() == datatype::Order::LE ||
                t.order() == datatype::Order::BE ||
-               t.order() == datatype::Order::VAX));
+               t.order() == datatype::Order::Vax));
 
       AND_THEN("we can set it to Big Endian") {
         t.order(datatype::Order::BE);
@@ -233,41 +233,41 @@ TEMPLATE_TEST_CASE("testing byte order for floats with cref",
     WHEN("checking the padding we get") {
       using datatype::Pad;
       using r = std::vector<Pad>;
-      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::Zero}));
       AND_THEN("we can set it to ZERO:ONE") {
-        t.pad(Pad::ZERO, Pad::ONE);
-        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ONE}));
+        t.pad(Pad::Zero, Pad::One);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::One}));
       }
       AND_THEN("we can set it to ONE:BACKGROUND") {
-        t.pad(Pad::ONE, Pad::BACKGROUND);
+        t.pad(Pad::One, Pad::Background);
         REQUIRE_THAT(t.pad(),
-                     Catch::Matchers::Equals(r{Pad::ONE, Pad::BACKGROUND}));
+                     Catch::Matchers::Equals(r{Pad::One, Pad::Background}));
       }
     }
 
     WHEN("checking the inpad") {
       using datatype::Pad;
-      REQUIRE(t.inpad() == Pad::ZERO);
+      REQUIRE(t.inpad() == Pad::Zero);
       AND_THEN("set it to ONE") {
-        t.inpad(Pad::ONE);
-        REQUIRE(t.inpad() == Pad::ONE);
+        t.inpad(Pad::One);
+        REQUIRE(t.inpad() == Pad::One);
       }
       AND_THEN("set it to BACKGROUND") {
-        t.inpad(Pad::BACKGROUND);
-        REQUIRE(t.inpad() == Pad::BACKGROUND);
+        t.inpad(Pad::Background);
+        REQUIRE(t.inpad() == Pad::Background);
       }
     }
 
     WHEN("checking the norm") {
       using datatype::Norm;
-      REQUIRE((t.norm() == Norm::IMPLIED || t.norm() == Norm::NONE));
+      REQUIRE((t.norm() == Norm::Implied || t.norm() == Norm::None));
       AND_THEN("set it to MSBSET") {
-        t.norm(Norm::MSBSET);
-        REQUIRE(t.norm() == Norm::MSBSET);
+        t.norm(Norm::MSBSet);
+        REQUIRE(t.norm() == Norm::MSBSet);
       }
       AND_THEN("set it to NONE") {
-        t.norm(Norm::NONE);
-        REQUIRE(t.norm() == Norm::NONE);
+        t.norm(Norm::None);
+        REQUIRE(t.norm() == Norm::None);
       }
     }
 

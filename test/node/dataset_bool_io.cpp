@@ -29,7 +29,7 @@
 using namespace hdf5;
 
 SCENARIO("testing bool IO") {
-  auto f = file::create("DatasetBoolIO.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("DatasetBoolIO.h5", file::AccessFlags::Truncate);
   auto r = f.root();
   auto type = hdf5::datatype::create<bool>();
   hdf5::dataspace::Scalar space;

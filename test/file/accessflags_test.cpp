@@ -45,15 +45,15 @@ SCENARIO("test file access or operator")
     {
       THEN("we get H5F_ACC_RDWR | H5F_ACC_TRUNC")
       {
-        REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) == (H5F_ACC_RDWR | H5F_ACC_TRUNC));
+        REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::ReadWrite | file::AccessFlags::Truncate) == (H5F_ACC_RDWR | H5F_ACC_TRUNC));
       }
 
       AND_GIVEN("EXCLUSIVE")
       {
         THEN("we get ")
         {
-          REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE |
-                  file::AccessFlags::EXCLUSIVE) ==
+          REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::ReadWrite | file::AccessFlags::Truncate |
+                  file::AccessFlags::Exclusive) ==
                       (H5F_ACC_RDWR |
                   H5F_ACC_TRUNC | H5F_ACC_EXCL));
         }
@@ -66,7 +66,7 @@ SCENARIO("test file access or operator")
     {
       THEN("we get H5F_ACC_EXCL | H5F_ACC_RDONLY")
       {
-        REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::EXCLUSIVE | file::AccessFlags::READONLY) == (H5F_ACC_EXCL | H5F_ACC_RDONLY));
+        REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::Exclusive | file::AccessFlags::ReadOnly) == (H5F_ACC_EXCL | H5F_ACC_RDONLY));
       }
     }
   }
@@ -75,31 +75,31 @@ SCENARIO("test file access or operator")
 SCENARIO("Testing OR and AND operator combinations")
 {
   using file::AccessFlagsBase;
-  REQUIRE(static_cast<AccessFlagsBase>((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
-                file::AccessFlags::READWRITE) ==
+  REQUIRE(static_cast<AccessFlagsBase>((file::AccessFlags::ReadWrite | file::AccessFlags::Truncate) &
+                file::AccessFlags::ReadWrite) ==
             H5F_ACC_RDWR);
-  REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::TRUNCATE &
-                (file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE)) ==
+  REQUIRE(static_cast<AccessFlagsBase>(file::AccessFlags::Truncate &
+                (file::AccessFlags::ReadWrite | file::AccessFlags::Truncate)) ==
             H5F_ACC_TRUNC);
-  REQUIRE(static_cast<AccessFlagsBase>((file::AccessFlags::READWRITE | file::AccessFlags::TRUNCATE) &
-                (file::AccessFlags::READWRITE | file::AccessFlags::EXCLUSIVE)) ==
+  REQUIRE(static_cast<AccessFlagsBase>((file::AccessFlags::ReadWrite | file::AccessFlags::Truncate) &
+                (file::AccessFlags::ReadWrite | file::AccessFlags::Exclusive)) ==
             H5F_ACC_RDWR);
 }
 
 SCENARIO("Test access flags values")
 {
-  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::EXCLUSIVE) ==
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::Exclusive) ==
           H5F_ACC_EXCL);
-  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::READONLY) ==
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::ReadOnly) ==
           H5F_ACC_RDONLY);
-  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::READWRITE) ==
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::ReadWrite) ==
           H5F_ACC_RDWR);
-  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::TRUNCATE) ==
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::Truncate) ==
           H5F_ACC_TRUNC);
 #if H5_VERSION_GE(1, 10, 0)
-  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_WRITE) ==
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMRWrite) ==
           H5F_ACC_SWMR_WRITE);
-  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMR_READ) ==
+  REQUIRE(static_cast<file::AccessFlagsBase>(file::AccessFlags::SWMRRead) ==
           H5F_ACC_SWMR_READ);
 #endif
 }
@@ -108,87 +108,87 @@ SCENARIO("file access flags output", "[h5cpp,file]")
 {
   std::stringstream stream;
 
-  GIVEN("AccessFlags::EXCLUSIVE")
+  GIVEN("AccessFlags::Exclusive")
   {
     WHEN("written to output stream")
     {
-      stream << file::AccessFlags::EXCLUSIVE;
+      stream << file::AccessFlags::Exclusive;
       REQUIRE(stream.str() == "EXCLUSIVE");
     }
 
     WHEN("converted to integer")
     {
-      REQUIRE(to_int(file::AccessFlags::EXCLUSIVE) == H5F_ACC_EXCL);
+      REQUIRE(to_int(file::AccessFlags::Exclusive) == H5F_ACC_EXCL);
     }
   }
 
-  GIVEN("AccessFalgs::READONLY")
+  GIVEN("AccessFalgs::ReadOnly")
   {
     WHEN("written to output stream")
     {
-      stream << file::AccessFlags::READONLY;
+      stream << file::AccessFlags::ReadOnly;
       REQUIRE(stream.str() == "READONLY");
     }
 
     WHEN("converted to integer")
     {
-      REQUIRE(to_int(file::AccessFlags::READONLY) == H5F_ACC_RDONLY);
+      REQUIRE(to_int(file::AccessFlags::ReadOnly) == H5F_ACC_RDONLY);
     }
   }
 
-  GIVEN("AccessFlags::READWRITE")
+  GIVEN("AccessFlags::ReadWrite")
   {
     WHEN("output")
     {
-      stream << file::AccessFlags::READWRITE;
+      stream << file::AccessFlags::ReadWrite;
       REQUIRE(stream.str() == "READWRITE");
     }
 
     WHEN("converted to integer")
     {
-      REQUIRE(to_int(file::AccessFlags::READWRITE) == H5F_ACC_RDWR);
+      REQUIRE(to_int(file::AccessFlags::ReadWrite) == H5F_ACC_RDWR);
     }
   }
 
-  GIVEN("AccessFlags::TRUNCATE")
+  GIVEN("AccessFlags::Truncate")
   {
     WHEN("output")
     {
-      stream << file::AccessFlags::TRUNCATE;
+      stream << file::AccessFlags::Truncate;
       REQUIRE(stream.str() == "TRUNCATE");
     }
 
     WHEN("converted to integer")
     {
-      REQUIRE(to_int(file::AccessFlags::TRUNCATE) == H5F_ACC_TRUNC);
+      REQUIRE(to_int(file::AccessFlags::Truncate) == H5F_ACC_TRUNC);
     }
   }
 #if H5_VERSION_GE(1, 10, 0)
-  GIVEN("AccessFlags::SWMR_WRITE")
+  GIVEN("AccessFlags::SWMRWrite")
   {
     WHEN("written to stream")
     {
-      stream << file::AccessFlags::SWMR_WRITE;
+      stream << file::AccessFlags::SWMRWrite;
       REQUIRE(stream.str() == "SWMR WRITE");
     }
 
     WHEN("converted to integer")
     {
-      REQUIRE(to_int(file::AccessFlags::SWMR_WRITE) == H5F_ACC_SWMR_WRITE);
+      REQUIRE(to_int(file::AccessFlags::SWMRWrite) == H5F_ACC_SWMR_WRITE);
     }
   }
 
-  GIVEN("AccessFlags::SWMR_READ")
+  GIVEN("AccessFlags::SWMRRead")
   {
     WHEN("written to output stream")
     {
-      stream << file::AccessFlags::SWMR_READ;
+      stream << file::AccessFlags::SWMRRead;
       REQUIRE(stream.str() == "SWMR READ");
     }
 
     WHEN("converted to integer")
     {
-      REQUIRE(to_int(file::AccessFlags::SWMR_READ) == H5F_ACC_SWMR_READ);
+      REQUIRE(to_int(file::AccessFlags::SWMRRead) == H5F_ACC_SWMR_READ);
     }
   }
 #endif

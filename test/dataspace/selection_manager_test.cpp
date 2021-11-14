@@ -39,7 +39,7 @@ SCENARIO("test selection handling on dataspaces") {
       REQUIRE(space.selection.size() == 10ul * 1024ul);
     }
     THEN("the selection type must be all") {
-      REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+      REQUIRE(space.selection.type() == dataspace::SelectionType::All);
     }
     WHEN("calling none()") {
       REQUIRE_NOTHROW(space.selection.none());
@@ -50,7 +50,7 @@ SCENARIO("test selection handling on dataspaces") {
         REQUIRE(space.selection.size() == 0ul);
       }
       THEN("the selection type must be NONE") {
-        REQUIRE(space.selection.type() == dataspace::SelectionType::NONE);
+        REQUIRE(space.selection.type() == dataspace::SelectionType::None);
       }
     }
     WHEN("calling all()") {
@@ -62,7 +62,7 @@ SCENARIO("test selection handling on dataspaces") {
         REQUIRE(space.selection.size() == 10ul * 1024ul);
       }
       THEN("the selection type is ALL") {
-        REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+        REQUIRE(space.selection.type() == dataspace::SelectionType::All);
       }
     }
     WHEN("closing the dataspace") {

@@ -50,7 +50,7 @@ SCENARIO("instantiating a DatasetAccessList") {
         REQUIRE_THROWS_AS(dapl.chunk_cache_parameters(), std::runtime_error);
 #if H5_VERSION_GE(1, 10, 0)
         REQUIRE_THROWS_AS(dapl.virtual_view(), std::runtime_error);
-        REQUIRE_THROWS_AS(dapl.virtual_view(pl::VirtualDataView::FIRST_MISSING),
+        REQUIRE_THROWS_AS(dapl.virtual_view(pl::VirtualDataView::FirstMissing),
                           std::runtime_error);
 #endif
       }
@@ -75,8 +75,8 @@ SCENARIO("instantiating a DatasetAccessList") {
 SCENARIO("writing VirtualDataView to a stream") {
   using r = std::tuple<pl::VirtualDataView, std::string>;
   auto p = GENERATE(table<pl::VirtualDataView, std::string>(
-      {r{pl::VirtualDataView::FIRST_MISSING, "FIRST_MISSING"},
-       r{pl::VirtualDataView::LAST_AVAILABLE, "LAST_AVAILABLE"}}));
+      {r{pl::VirtualDataView::FirstMissing, "FIRST_MISSING"},
+       r{pl::VirtualDataView::LastAvailable, "LAST_AVAILABLE"}}));
   GIVEN("an output stream") {
     std::stringstream stream;
     WHEN("writing the value to the stream") {
@@ -109,8 +109,8 @@ SCENARIO("setting the chunk cache paranmeters on a DatasetAccessList") {
 SCENARIO("setting the virtual data view on a DatasetAccessList") {
   pl::DatasetAccessList dapl;
   GIVEN("the different view values") {
-    auto view = GENERATE(pl::VirtualDataView::FIRST_MISSING,
-                         pl::VirtualDataView::LAST_AVAILABLE);
+    auto view = GENERATE(pl::VirtualDataView::FirstMissing,
+                         pl::VirtualDataView::LastAvailable);
     WHEN("we set the view") {
       dapl.virtual_view(view);
       THEN("reading it back must yield the same result") {

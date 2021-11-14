@@ -60,8 +60,8 @@ class DLL_EXPORT ChunkCacheParameters {
 
 #if H5_VERSION_GE(1, 10, 0)
 enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type {
-  FIRST_MISSING = H5D_VDS_FIRST_MISSING,
-  LAST_AVAILABLE = H5D_VDS_LAST_AVAILABLE
+  FirstMissing = H5D_VDS_FIRST_MISSING,
+  LastAvailable = H5D_VDS_LAST_AVAILABLE
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,

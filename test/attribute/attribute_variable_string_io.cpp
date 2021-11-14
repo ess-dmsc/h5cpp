@@ -35,7 +35,7 @@ using strings = std::vector<std::string>;
 
 SCENARIO("variable string attribute IO") {
   auto file =
-      file::create("AttributeFixedStringIO.h5", file::AccessFlags::TRUNCATE);
+      file::create("AttributeFixedStringIO.h5", file::AccessFlags::Truncate);
   auto root_group = file.root();
   auto simple_space = dataspace::Simple{{6}};
   auto scalar_space = dataspace::Scalar();

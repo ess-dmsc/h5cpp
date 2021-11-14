@@ -61,21 +61,21 @@ template <typename T> ds::Datatype get() {
 SCENARIO("tesing standard type straits", "[datatype][numeric]") {
   using ptype = std::tuple<ds::Datatype, ds::Class, hid_t>;
   auto param = GENERATE(table<ds::Datatype, ds::Class, hid_t>(
-      {ptype{create<char>(), ds::Class::INTEGER, H5T_NATIVE_CHAR},
-       ptype{create<unsigned char>(), ds::Class::INTEGER, H5T_NATIVE_UCHAR},
-       ptype{create<signed char>(), ds::Class::INTEGER, H5T_NATIVE_SCHAR},
-       ptype{create<short>(), ds::Class::INTEGER, H5T_NATIVE_SHORT},
-       ptype{create<unsigned short>(), ds::Class::INTEGER, H5T_NATIVE_USHORT},
-       ptype{create<int>(), ds::Class::INTEGER, H5T_NATIVE_INT},
-       ptype{create<unsigned int>(), ds::Class::INTEGER, H5T_NATIVE_UINT},
-       ptype{create<long>(), ds::Class::INTEGER, H5T_NATIVE_LONG},
-       ptype{create<unsigned long>(), ds::Class::INTEGER, H5T_NATIVE_ULONG},
-       ptype{create<long long>(), ds::Class::INTEGER, H5T_NATIVE_LLONG},
-       ptype{create<unsigned long long>(), ds::Class::INTEGER, H5T_NATIVE_ULLONG},
-       ptype{create<float>(), ds::Class::FLOAT, H5T_NATIVE_FLOAT},
-       ptype{create<double>(), ds::Class::FLOAT, H5T_NATIVE_DOUBLE},
-       ptype{create<long double>(), ds::Class::FLOAT, H5T_NATIVE_LDOUBLE},
-       ptype{create<bool>(), ds::Class::INTEGER, H5T_NATIVE_HBOOL}
+      {ptype{create<char>(), ds::Class::Integer, H5T_NATIVE_CHAR},
+       ptype{create<unsigned char>(), ds::Class::Integer, H5T_NATIVE_UCHAR},
+       ptype{create<signed char>(), ds::Class::Integer, H5T_NATIVE_SCHAR},
+       ptype{create<short>(), ds::Class::Integer, H5T_NATIVE_SHORT},
+       ptype{create<unsigned short>(), ds::Class::Integer, H5T_NATIVE_USHORT},
+       ptype{create<int>(), ds::Class::Integer, H5T_NATIVE_INT},
+       ptype{create<unsigned int>(), ds::Class::Integer, H5T_NATIVE_UINT},
+       ptype{create<long>(), ds::Class::Integer, H5T_NATIVE_LONG},
+       ptype{create<unsigned long>(), ds::Class::Integer, H5T_NATIVE_ULONG},
+       ptype{create<long long>(), ds::Class::Integer, H5T_NATIVE_LLONG},
+       ptype{create<unsigned long long>(), ds::Class::Integer, H5T_NATIVE_ULLONG},
+       ptype{create<float>(), ds::Class::Float, H5T_NATIVE_FLOAT},
+       ptype{create<double>(), ds::Class::Float, H5T_NATIVE_DOUBLE},
+       ptype{create<long double>(), ds::Class::Float, H5T_NATIVE_LDOUBLE},
+       ptype{create<bool>(), ds::Class::Integer, H5T_NATIVE_HBOOL}
        }));
 
   GIVEN("an HDF5 datat type") {
@@ -89,21 +89,21 @@ SCENARIO("tesing standard type straits", "[datatype][numeric]") {
 SCENARIO("tesing standard type straits with cref", "[datatype][numeric]") {
   using ptype = std::tuple<ds::Datatype, ds::Class, hid_t>;
   auto param = GENERATE(table<ds::Datatype, ds::Class, hid_t>(
-      {ptype{get<char>(), ds::Class::INTEGER, H5T_NATIVE_CHAR},
-       ptype{get<unsigned char>(), ds::Class::INTEGER, H5T_NATIVE_UCHAR},
-       ptype{get<signed char>(), ds::Class::INTEGER, H5T_NATIVE_SCHAR},
-       ptype{get<short>(), ds::Class::INTEGER, H5T_NATIVE_SHORT},
-       ptype{get<unsigned short>(), ds::Class::INTEGER, H5T_NATIVE_USHORT},
-       ptype{get<int>(), ds::Class::INTEGER, H5T_NATIVE_INT},
-       ptype{get<unsigned int>(), ds::Class::INTEGER, H5T_NATIVE_UINT},
-       ptype{get<long>(), ds::Class::INTEGER, H5T_NATIVE_LONG},
-       ptype{get<unsigned long>(), ds::Class::INTEGER, H5T_NATIVE_ULONG},
-       ptype{get<long long>(), ds::Class::INTEGER, H5T_NATIVE_LLONG},
-       ptype{get<unsigned long long>(), ds::Class::INTEGER, H5T_NATIVE_ULLONG},
-       ptype{get<float>(), ds::Class::FLOAT, H5T_NATIVE_FLOAT},
-       ptype{get<double>(), ds::Class::FLOAT, H5T_NATIVE_DOUBLE},
-       ptype{get<long double>(), ds::Class::FLOAT, H5T_NATIVE_LDOUBLE},
-       ptype{get<bool>(), ds::Class::INTEGER, H5T_NATIVE_HBOOL}
+      {ptype{get<char>(), ds::Class::Integer, H5T_NATIVE_CHAR},
+       ptype{get<unsigned char>(), ds::Class::Integer, H5T_NATIVE_UCHAR},
+       ptype{get<signed char>(), ds::Class::Integer, H5T_NATIVE_SCHAR},
+       ptype{get<short>(), ds::Class::Integer, H5T_NATIVE_SHORT},
+       ptype{get<unsigned short>(), ds::Class::Integer, H5T_NATIVE_USHORT},
+       ptype{get<int>(), ds::Class::Integer, H5T_NATIVE_INT},
+       ptype{get<unsigned int>(), ds::Class::Integer, H5T_NATIVE_UINT},
+       ptype{get<long>(), ds::Class::Integer, H5T_NATIVE_LONG},
+       ptype{get<unsigned long>(), ds::Class::Integer, H5T_NATIVE_ULONG},
+       ptype{get<long long>(), ds::Class::Integer, H5T_NATIVE_LLONG},
+       ptype{get<unsigned long long>(), ds::Class::Integer, H5T_NATIVE_ULLONG},
+       ptype{get<float>(), ds::Class::Float, H5T_NATIVE_FLOAT},
+       ptype{get<double>(), ds::Class::Float, H5T_NATIVE_DOUBLE},
+       ptype{get<long double>(), ds::Class::Float, H5T_NATIVE_LDOUBLE},
+       ptype{get<bool>(), ds::Class::Integer, H5T_NATIVE_HBOOL}
        }));
 
   GIVEN("an HDF5 datat type") {

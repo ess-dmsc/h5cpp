@@ -47,8 +47,6 @@ void close(const T& object) {
 
 using UChars = std::vector<unsigned char>;
 
-#ifndef _MSC_VER
 #include <h5cpp/datatype/ebool.hpp>
 using EBools = std::vector<hdf5::datatype::EBool>;
-#endif
 

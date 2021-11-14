@@ -37,28 +37,28 @@
 std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type type) {
   using ptr_type = std::shared_ptr<ObjectHandleTest>;
   switch (type) {
-    case hdf5::ObjectHandle::Type::FILE:
+    case hdf5::ObjectHandle::Type::File:
       return std::make_shared<FileObjectHandleTest>("test.h5");
-    case hdf5::ObjectHandle::Type::DATATYPE:
+    case hdf5::ObjectHandle::Type::Datatype:
       return std::make_shared<DatatypeObjectHandleTest>();
-    case hdf5::ObjectHandle::Type::DATASPACE:
+    case hdf5::ObjectHandle::Type::Dataspace:
       return std::make_shared<DataspaceObjectHandleTest>();
-    case hdf5::ObjectHandle::Type::GROUP:
+    case hdf5::ObjectHandle::Type::Group:
       return std::make_shared<GroupObjectHandleTest>("object_handle_group_test.h5");
-    case hdf5::ObjectHandle::Type::DATASET:
+    case hdf5::ObjectHandle::Type::Dataset:
       return std::make_shared<DatasetObjectHandleTest>("object_handle_dataset_test.h5");
-    case hdf5::ObjectHandle::Type::ATTRIBUTE:
+    case hdf5::ObjectHandle::Type::Attribute:
       return std::make_shared<AttributeObjectHandleTest>(
           std::string{"object_handle_attribute_test.h5"});
-    case hdf5::ObjectHandle::Type::PROPERTY_LIST:
+    case hdf5::ObjectHandle::Type::PropertyList:
       return std::make_shared<PropertyListObjectHandleTest>();
-    case hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS:
+    case hdf5::ObjectHandle::Type::PropertyListClass:
       return std::make_shared<PropertyListClassObjectHandleTest>();
-    case hdf5::ObjectHandle::Type::ERROR_CLASS:
+    case hdf5::ObjectHandle::Type::ErrorClass:
       return std::make_shared<ErrorClassObjectHandleTest>();
-    case hdf5::ObjectHandle::Type::ERROR_MESSAGE:
+    case hdf5::ObjectHandle::Type::ErrorMessage:
       return std::make_shared<ErrorMessageObjectHandleTest>();
-    case hdf5::ObjectHandle::Type::ERROR_STACK:
+    case hdf5::ObjectHandle::Type::ErrorStack:
       return std::make_shared<ErrorStackObjectHandleTest>();
     default:
       return ptr_type(nullptr);
@@ -69,7 +69,7 @@ SCENARIO("testing object handle construction") {
     hdf5::ObjectHandle handle;
 
     REQUIRE_FALSE(handle.is_valid());
-    REQUIRE(handle.get_type() == hdf5::ObjectHandle::Type::BADOBJECT);
+    REQUIRE(handle.get_type() == hdf5::ObjectHandle::Type::BadObject);
     REQUIRE_THROWS_AS(handle.get_reference_count(), std::runtime_error);
     REQUIRE_THROWS_AS(handle.close(), std::runtime_error);
   }
@@ -84,12 +84,12 @@ SCENARIO("testing object handle construction") {
 TEST_CASE("testing handle behavior for different object types") {
   using Type = hdf5::ObjectHandle::Type;
   auto test = GENERATE(
-      //create_test(Type::FILE),          create_test(Type::DATATYPE),
-      //create_test(Type::DATASPACE),     create_test(Type::GROUP),
-      //create_test(Type::DATASET),       
-      create_test(Type::ATTRIBUTE),
-      create_test(Type::PROPERTY_LIST), create_test(Type::ERROR_MESSAGE),
-      create_test(Type::ERROR_CLASS),   create_test(Type::ERROR_STACK));
+      //create_test(Type::File),          create_test(Type::Datatype),
+      //create_test(Type::Dataspace),     create_test(Type::Group),
+      //create_test(Type::Dataset),       
+      create_test(Type::Attribute),
+      create_test(Type::PropertyList), create_test(Type::ErrorMessage),
+      create_test(Type::ErrorClass),   create_test(Type::ErrorStack));
 
   SECTION("testing operations") {
       test->test_copy_assignment();

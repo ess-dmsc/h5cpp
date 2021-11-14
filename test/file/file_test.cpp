@@ -33,25 +33,25 @@ SCENARIO("Testing basic file behavior", "[file,h5cpp]") {
 #if H5_VERSION_GE(1, 10, 0)
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-  file::create("file_test.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+  fapl.library_version_bounds(property::LibVersion::Latest,
+                              property::LibVersion::Latest);
+  file::create("file_test.h5", file::AccessFlags::Truncate, fcpl, fapl);
 #else
-  file::create("file_test.h5", file::AccessFlags::TRUNCATE);
+  file::create("file_test.h5", file::AccessFlags::Truncate);
 #endif
 
   GIVEN("An open file") {
-    file::File f= file::open("file_test.h5", file::AccessFlags::READWRITE);
+    file::File f= file::open("file_test.h5", file::AccessFlags::ReadWrite);
     THEN("we must produce the following results") {
       REQUIRE(f.is_valid());
-      REQUIRE(f.intent() == file::AccessFlags::READWRITE);
+      REQUIRE(f.intent() == file::AccessFlags::ReadWrite);
       REQUIRE(f.size() == 195ul);
       REQUIRE(f.id().file_name() == "file_test.h5");
       REQUIRE(f.path().string() == "file_test.h5");
       auto root = f.root();
       REQUIRE(root.link().path() == "/");
-      REQUIRE(f.count_open_objects(file::SearchFlags::GROUP) == 1ul);
-      REQUIRE_NOTHROW(f.flush(file::Scope::GLOBAL));
+      REQUIRE(f.count_open_objects(file::SearchFlags::Group) == 1ul);
+      REQUIRE_NOTHROW(f.flush(file::Scope::Global));
     }
     f.close();
   }
@@ -65,10 +65,10 @@ SCENARIO("Testing basic file behavior", "[file,h5cpp]") {
       REQUIRE_THROWS_AS(f.id(), std::runtime_error);
       REQUIRE_THROWS_AS(f.path(), std::runtime_error);
       REQUIRE_THROWS_AS(f.root(), std::runtime_error);
-      REQUIRE_THROWS_AS(f.count_open_objects(file::SearchFlags::ALL),
+      REQUIRE_THROWS_AS(f.count_open_objects(file::SearchFlags::All),
                         std::runtime_error);
-      REQUIRE_THROWS_AS(f.flush(file::Scope::GLOBAL), std::runtime_error);
-      REQUIRE_THROWS_AS(f.flush(file::Scope::LOCAL), std::runtime_error);
+      REQUIRE_THROWS_AS(f.flush(file::Scope::Global), std::runtime_error);
+      REQUIRE_THROWS_AS(f.flush(file::Scope::Local), std::runtime_error);
       REQUIRE_THROWS_AS(f.close(), std::runtime_error);
     }
 

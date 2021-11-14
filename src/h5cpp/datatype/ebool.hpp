@@ -31,7 +31,6 @@
 #include <h5cpp/error/error.hpp>
 #include <sstream>
 
-#ifndef _MSC_VER
 namespace hdf5
 {
 namespace datatype
@@ -41,8 +40,8 @@ namespace datatype
 //!
 enum EBool : int8_t
 {
-  TRUE = 1, //!< indicates a true value
-  FALSE = 0   //!< indicates a false value
+  False = 0,   //!< indicates a false value
+  True = 1 //!< indicates a true value
 };
 
 
@@ -54,8 +53,8 @@ class TypeTrait<datatype::EBool> {
 
   static TypeClass create(const Type & = Type()) {
     auto type = TypeClass::create(Type());
-    type.insert("FALSE", Type::FALSE);
-    type.insert("TRUE", Type::TRUE);
+    type.insert("FALSE", Type::False);
+    type.insert("TRUE", Type::True);
     return type;
   }
   const static TypeClass & get(const Type & = Type()) {
@@ -75,4 +74,3 @@ DLL_EXPORT bool is_bool(const Enum & etype);
 
 } // namespace datatype
 } // namespace hdf5
-#endif

@@ -43,7 +43,7 @@ auto current_dimension = [](const node::Dataset& dataset, size_t index = 0) {
 
 SCENARIO("testing the extent of a dataset") {
   using node::resize_by;
-  auto f = file::create("dataset_extent_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("dataset_extent_test.h5", file::AccessFlags::Truncate);
   auto r = f.root();
   dataspace::Simple inf_dataspace({0}, {dataspace::Simple::UNLIMITED});
   dataspace::Simple fin_dataspace({0}, {4096});
@@ -51,7 +51,7 @@ SCENARIO("testing the extent of a dataset") {
   auto create_dataset = [&r](const hdf5::Path& p,
                              const dataspace::Dataspace& ds) {
     auto dcpl = dataset_creation_list();
-    dcpl.layout(property::DatasetLayout::CHUNKED);
+    dcpl.layout(property::DatasetLayout::Chunked);
     dcpl.chunk({1024});
     return node::Dataset(r, p, int_dtype(), ds, link_creation_list(), dcpl,
                          dataset_access_list());

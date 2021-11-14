@@ -30,7 +30,7 @@ using namespace hdf5;
 
 SCENARIO("testing variable length string IO") {
   auto f = hdf5::file::create("DatasetVariableStringIO.h5",
-                              hdf5::file::AccessFlags::TRUNCATE);
+                              hdf5::file::AccessFlags::Truncate);
   auto string_type = hdf5::datatype::create<std::string>();
   hdf5::dataspace::Scalar scalar_space;
   hdf5::dataspace::Simple simple_space({7});

@@ -38,7 +38,7 @@ Integer::Integer(ObjectHandle &&handle) :
 
 Integer::Integer(const Datatype &datatype) :
     Datatype(datatype) {
-  if (get_class() != Class::INTEGER) {
+  if (get_class() != Class::Integer) {
     std::stringstream ss;
     ss << "Could not create Integer from " << get_class();
     throw std::runtime_error(ss.str());

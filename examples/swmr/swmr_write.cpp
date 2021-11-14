@@ -70,7 +70,7 @@ int main()
     dset.extent(0,1);                     //extend dataset
     selection.offset(0,index);             //update selection
     dset.write(buffer,selection);         //write data to selection
-    write_file.flush(file::Scope::GLOBAL); // flush file
+    write_file.flush(file::Scope::Global); // flush file
     std::cout<<"Writing "<<buffer<<std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }

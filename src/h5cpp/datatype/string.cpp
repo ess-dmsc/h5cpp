@@ -37,7 +37,7 @@ String::String(ObjectHandle &&handle) :
 String::String(const Datatype &type) :
     Datatype(type)
 {
-  if (get_class() != Class::STRING)
+  if (get_class() != Class::String)
   {
     std::stringstream ss;
     ss << "Cannot create datatype::String from " << get_class();

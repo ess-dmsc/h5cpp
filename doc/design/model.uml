@@ -127,25 +127,25 @@ spezialization of this type. </body>
         <ownedEnd xmi:type="uml:Property" xmi:id="_M8mBYJOaEeeoI7oI9Ds2zg" name="selectionmanager" type="_HsBfoJOaEeeoI7oI9Ds2zg" aggregation="composite" association="_M8kMMJOaEeeoI7oI9Ds2zg"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_W2AWgJOaEeeoI7oI9Ds2zg" name="Type">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ZIqVoJOaEeeoI7oI9Ds2zg" name="SCALAR"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_aMX1YJOaEeeoI7oI9Ds2zg" name="SIMPLE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_a0wrEJOaEeeoI7oI9Ds2zg" name="NODATA"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ZIqVoJOaEeeoI7oI9Ds2zg" name="Scalar"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_aMX1YJOaEeeoI7oI9Ds2zg" name="Simple"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_a0wrEJOaEeeoI7oI9Ds2zg" name="NoData"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_cT0qEJOaEeeoI7oI9Ds2zg" name="SelectionType">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ebYMcJOaEeeoI7oI9Ds2zg" name="NONE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_fXIqEJOaEeeoI7oI9Ds2zg" name="POINTS"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_gG9kgJOaEeeoI7oI9Ds2zg" name="HYPERSLAB"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_g9Mo8JOaEeeoI7oI9Ds2zg" name="ALL"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ebYMcJOaEeeoI7oI9Ds2zg" name="None"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_fXIqEJOaEeeoI7oI9Ds2zg" name="Points"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_gG9kgJOaEeeoI7oI9Ds2zg" name="Hyperslab"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_g9Mo8JOaEeeoI7oI9Ds2zg" name="All"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_hsZRQJOaEeeoI7oI9Ds2zg" name="SelectionOperation">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_jqkOIJOaEeeoI7oI9Ds2zg" name="SET"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_lcI5cJOaEeeoI7oI9Ds2zg" name="OR"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_mHj1AJOaEeeoI7oI9Ds2zg" name="AND"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_munN8JOaEeeoI7oI9Ds2zg" name="XOR"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ncaIEJOaEeeoI7oI9Ds2zg" name="NOTB"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oELSsJOaEeeoI7oI9Ds2zg" name="NOTA"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_o4BKcJOaEeeoI7oI9Ds2zg" name="APPEND"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_prwUgJOaEeeoI7oI9Ds2zg" name="PREPEND"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_jqkOIJOaEeeoI7oI9Ds2zg" name="Set"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_lcI5cJOaEeeoI7oI9Ds2zg" name="Or"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_mHj1AJOaEeeoI7oI9Ds2zg" name="And"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_munN8JOaEeeoI7oI9Ds2zg" name="XOr"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ncaIEJOaEeeoI7oI9Ds2zg" name="NotB"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oELSsJOaEeeoI7oI9Ds2zg" name="NtoA"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_o4BKcJOaEeeoI7oI9Ds2zg" name="Append"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_prwUgJOaEeeoI7oI9Ds2zg" name="Prepend"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_pLlxcJPAEeeoI7oI9Ds2zg" name="TypeTrait">
         <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_q941gJPAEeeoI7oI9Ds2zg" name="RedefinableTemplateSignature1" parameter="_rmmbUJPAEeeoI7oI9Ds2zg">
@@ -231,45 +231,45 @@ Just provide a specizlization of this trait for your type (class).</body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_NoDZYJO_EeeoI7oI9Ds2zg" name="Class">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_C0kzQJPAEeeoI7oI9Ds2zg" name="NONE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_DpXGMJPAEeeoI7oI9Ds2zg" name="INTEGER"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_EQ4ZMJPAEeeoI7oI9Ds2zg" name="FLOAT"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FxepQJPAEeeoI7oI9Ds2zg" name="TIME"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GmpWsJPAEeeoI7oI9Ds2zg" name="STRING"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HbmowJPAEeeoI7oI9Ds2zg" name="BITFIELD"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_IWqi0JPAEeeoI7oI9Ds2zg" name="OPAQUE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_JhfXMJPAEeeoI7oI9Ds2zg" name="COMPOUND"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_KXOsYJPAEeeoI7oI9Ds2zg" name="REFERENCE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_LBULMJPAEeeoI7oI9Ds2zg" name="ENUM"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_L44FUJPAEeeoI7oI9Ds2zg" name="VARLENGTH"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_MnI5gJPAEeeoI7oI9Ds2zg" name="ARRAY"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_C0kzQJPAEeeoI7oI9Ds2zg" name="None"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_DpXGMJPAEeeoI7oI9Ds2zg" name="Integer"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_EQ4ZMJPAEeeoI7oI9Ds2zg" name="Float"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FxepQJPAEeeoI7oI9Ds2zg" name="Time"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GmpWsJPAEeeoI7oI9Ds2zg" name="String"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HbmowJPAEeeoI7oI9Ds2zg" name="BitField"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_IWqi0JPAEeeoI7oI9Ds2zg" name="Opaque"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_JhfXMJPAEeeoI7oI9Ds2zg" name="Compound"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_KXOsYJPAEeeoI7oI9Ds2zg" name="Reference"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_LBULMJPAEeeoI7oI9Ds2zg" name="Enum"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_L44FUJPAEeeoI7oI9Ds2zg" name="VarLength"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_MnI5gJPAEeeoI7oI9Ds2zg" name="Array"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_QzvSQJO_EeeoI7oI9Ds2zg" name="Order">
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ASkwkJPAEeeoI7oI9Ds2zg" name="LE"/>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_A1EZoJPAEeeoI7oI9Ds2zg" name="BE"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_SEPQ0JO_EeeoI7oI9Ds2zg" name="Sign">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_8xR0EJO_EeeoI7oI9Ds2zg" name="TWOS_COMPLEMENT"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_9hODQJO_EeeoI7oI9Ds2zg" name="UNSIGNED"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_8xR0EJO_EeeoI7oI9Ds2zg" name="Twos_Complement"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_9hODQJO_EeeoI7oI9Ds2zg" name="Unsigned"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_UUli0JO_EeeoI7oI9Ds2zg" name="Norm">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_36NXcJO_EeeoI7oI9Ds2zg" name="IMPLIED"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_4sB18JO_EeeoI7oI9Ds2zg" name="MSBSET"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_5h68IJO_EeeoI7oI9Ds2zg" name="NONE"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_36NXcJO_EeeoI7oI9Ds2zg" name="Implied"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_4sB18JO_EeeoI7oI9Ds2zg" name="MSBSet"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_5h68IJO_EeeoI7oI9Ds2zg" name="None"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_VVDhUJO_EeeoI7oI9Ds2zg" name="Pad">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zK8zAJO_EeeoI7oI9Ds2zg" name="ZERO"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zw-4QJO_EeeoI7oI9Ds2zg" name="ONE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_0oXzQJO_EeeoI7oI9Ds2zg" name="BACKGROUND"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zK8zAJO_EeeoI7oI9Ds2zg" name="Zero"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zw-4QJO_EeeoI7oI9Ds2zg" name="One"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_0oXzQJO_EeeoI7oI9Ds2zg" name="Background"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_X5dXwJO_EeeoI7oI9Ds2zg" name="StringPad">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_uM2hUJO_EeeoI7oI9Ds2zg" name="NULLTERM"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_vIUrEJO_EeeoI7oI9Ds2zg" name="NULLPAD"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wCPVoJO_EeeoI7oI9Ds2zg" name="SPACEPAD"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_uM2hUJO_EeeoI7oI9Ds2zg" name="NullTerm"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_vIUrEJO_EeeoI7oI9Ds2zg" name="NullPad"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wCPVoJO_EeeoI7oI9Ds2zg" name="SpacePad"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_ZEAfUJO_EeeoI7oI9Ds2zg" name="Direction">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_q6BeoJO_EeeoI7oI9Ds2zg" name="ASCEND"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_rmLaAJO_EeeoI7oI9Ds2zg" name="DESCEND"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_q6BeoJO_EeeoI7oI9Ds2zg" name="Ascend"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_rmLaAJO_EeeoI7oI9Ds2zg" name="Descend"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_aLkkUJO_EeeoI7oI9Ds2zg" name="CharacterEncoding">
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_lIwqoJO_EeeoI7oI9Ds2zg" name="ASCII"/>
@@ -478,10 +478,10 @@ this for the container adapter.</body>
         <ownedEnd xmi:type="uml:Property" xmi:id="_pdDhYpbgEeeoI7oI9Ds2zg" name="iteratorconfig" type="_ed3XUJbdEeeoI7oI9Ds2zg" aggregation="composite" association="_pdC6UJbgEeeoI7oI9Ds2zg"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_9dV2oPHeEeak_6YPwcx0Tw" name="LinkType">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="HARD"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="SOFT"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="EXTERNAL"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="ERROR"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FDYa8PHfEeak_6YPwcx0Tw" name="Hard"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GWMGoPHfEeak_6YPwcx0Tw" name="Soft"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HfGPcPHfEeak_6YPwcx0Tw" name="External"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_XCvjgPHfEeak_6YPwcx0Tw" name="Error"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_jXRCUPhEEearHstUE6s_yg" name="Link">
         <ownedAttribute xmi:type="uml:Property" xmi:id="_qBcJYPhGEearHstUE6s_yg" name="_name" visibility="private" isReadOnly="true">
@@ -636,8 +636,8 @@ this for the container adapter.</body>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="__0K-kAMKEee3-49tdJOkXQ" name="message_t">
         <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_X3MrAAMREee3-49tdJOkXQ" name="type_t">
-          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_aKrJgAMREee3-49tdJOkXQ" name="MAJOR"/>
-          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_bFzVAAMREee3-49tdJOkXQ" name="MINOR"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_aKrJgAMREee3-49tdJOkXQ" name="Major"/>
+          <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_bFzVAAMREee3-49tdJOkXQ" name="Minor"/>
         </nestedClassifier>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_2OSv0AMSEee3-49tdJOkXQ" name="record_t">
@@ -813,12 +813,12 @@ this for the container adapter.</body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_zHFPUJRyEeeoI7oI9Ds2zg" name="AccessFlags">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_3jg-YJRyEeeoI7oI9Ds2zg" name="TRUNCATE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_4mjvwJRyEeeoI7oI9Ds2zg" name="EXCLUSIVE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_5dKnoJRyEeeoI7oI9Ds2zg" name="READWRITE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_6OU-0JRyEeeoI7oI9Ds2zg" name="READONLY"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_7CUAgJRyEeeoI7oI9Ds2zg" name="SWMR_READ"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_722b0JRyEeeoI7oI9Ds2zg" name="SWMR_WRITE"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_3jg-YJRyEeeoI7oI9Ds2zg" name="Truncate"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_4mjvwJRyEeeoI7oI9Ds2zg" name="Exclusive"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_5dKnoJRyEeeoI7oI9Ds2zg" name="ReadWrite"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_6OU-0JRyEeeoI7oI9Ds2zg" name="ReadOnly"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_7CUAgJRyEeeoI7oI9Ds2zg" name="SWMRRead"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_722b0JRyEeeoI7oI9Ds2zg" name="SWMRWrite"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_YckFwJR4EeeoI7oI9Ds2zg" name="package functions" visibility="package">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_cmTiUJR4EeeoI7oI9Ds2zg" name="create">
@@ -848,13 +848,13 @@ this for the container adapter.</body>
         </ownedOperation>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_qYoNQJR5EeeoI7oI9Ds2zg" name="SearchFlags">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_sUv7sJR5EeeoI7oI9Ds2zg" name="FILE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_tiCOMJR5EeeoI7oI9Ds2zg" name="DATASET"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_upEuwJR5EeeoI7oI9Ds2zg" name="GROUP"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zP8MMJR5EeeoI7oI9Ds2zg" name="DATATYPE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_0WlrMJR5EeeoI7oI9Ds2zg" name="ATTRIBUTE"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_17S_MJR5EeeoI7oI9Ds2zg" name="ALL"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_2vGasJR5EeeoI7oI9Ds2zg" name="LOCAL"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_sUv7sJR5EeeoI7oI9Ds2zg" name="File"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_tiCOMJR5EeeoI7oI9Ds2zg" name="Dataset"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_upEuwJR5EeeoI7oI9Ds2zg" name="Group"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_zP8MMJR5EeeoI7oI9Ds2zg" name="Datatype"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_0WlrMJR5EeeoI7oI9Ds2zg" name="Attribute"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_17S_MJR5EeeoI7oI9Ds2zg" name="All"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_2vGasJR5EeeoI7oI9Ds2zg" name="Local"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_ESB0MJR6EeeoI7oI9Ds2zg" name="AccessFlags operators">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_oIorIJR6EeeoI7oI9Ds2zg" name="operator&lt;&lt;">
@@ -906,8 +906,8 @@ this for the container adapter.</body>
       <packagedElement xmi:type="uml:Usage" xmi:id="_wUxwsJR7EeeoI7oI9Ds2zg" client="_zHFPUJRyEeeoI7oI9Ds2zg" supplier="_ESB0MJR6EeeoI7oI9Ds2zg"/>
       <packagedElement xmi:type="uml:Usage" xmi:id="_BXdOkJR8EeeoI7oI9Ds2zg" client="_qYoNQJR5EeeoI7oI9Ds2zg" supplier="_B_hJkJR7EeeoI7oI9Ds2zg"/>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_dmyBsJSVEeeoI7oI9Ds2zg" name="Scope">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_fM4c0JSVEeeoI7oI9Ds2zg" name="GLOBAL"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_gyV-wJSVEeeoI7oI9Ds2zg" name="LOCAL"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_fM4c0JSVEeeoI7oI9Ds2zg" name="Global"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_gyV-wJSVEeeoI7oI9Ds2zg" name="Local"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_indGQJSVEeeoI7oI9Ds2zg" name="Scope operations">
         <ownedOperation xmi:type="uml:Operation" xmi:id="_kKyhQJSVEeeoI7oI9Ds2zg" name="operator&lt;&lt;">
@@ -935,20 +935,20 @@ this for the container adapter.</body>
         <generalization xmi:type="uml:Generalization" xmi:id="_GXQ-MMLkEeeoBrECR30aeA" general="_5IWF0MLjEeeoBrECR30aeA"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_HXfFEMLkEeeoBrECR30aeA" name="DriverID">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_J6AsMMLkEeeoBrECR30aeA" name="POSIX"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K9b4EMLkEeeoBrECR30aeA" name="DIRECT"/>
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_L3GrAMLkEeeoBrECR30aeA" name="MEMORY"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_J6AsMMLkEeeoBrECR30aeA" name="Posix"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K9b4EMLkEeeoBrECR30aeA" name="Direct"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_L3GrAMLkEeeoBrECR30aeA" name="Memory"/>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Mv1CwMLkEeeoBrECR30aeA" name="MPI"/>
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_in-CgJO3EeeoI7oI9Ds2zg" name="IterationOrder">
-      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oSac0JO3EeeoI7oI9Ds2zg" name="INCREASING"/>
-      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_pg3M8JO3EeeoI7oI9Ds2zg" name="DECREASING"/>
-      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ra4poJO3EeeoI7oI9Ds2zg" name="NATIVE"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_oSac0JO3EeeoI7oI9Ds2zg" name="Increasing"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_pg3M8JO3EeeoI7oI9Ds2zg" name="Decreasing"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_ra4poJO3EeeoI7oI9Ds2zg" name="Native"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_uKHQAJO3EeeoI7oI9Ds2zg" name="IterationIndex">
-      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wHlCQJO3EeeoI7oI9Ds2zg" name="NAME"/>
-      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_w9q8wJO3EeeoI7oI9Ds2zg" name="CREATION_ORDER"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_wHlCQJO3EeeoI7oI9Ds2zg" name="Name"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_w9q8wJO3EeeoI7oI9Ds2zg" name="CreationOrder"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_ed3XUJbdEeeoI7oI9Ds2zg" name="IteratorConfig">
       <ownedOperation xmi:type="uml:Operation" xmi:id="_9vVHwJbgEeeoI7oI9Ds2zg" name="index">

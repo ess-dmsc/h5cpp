@@ -88,7 +88,7 @@ SCENARIO("writing a vector with an dynamic element type") {
   using ElementType = Flip;
   using Elements = std::vector<ElementType>;
   auto f =
-      file::create("dataset_dynamic_type_io.h5", file::AccessFlags::TRUNCATE);
+      file::create("dataset_dynamic_type_io.h5", file::AccessFlags::Truncate);
   auto type = datatype::create<ElementType>();
   auto mtype = datatype::create(Flip(-1));
   auto space = dataspace::Simple({2});

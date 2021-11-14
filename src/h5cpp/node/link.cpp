@@ -143,11 +143,11 @@ LinkTarget Link::target(const property::LinkAccessList &lapl) const
 {
   switch(type(lapl))
   {
-    case LinkType::HARD:
+    case LinkType::Hard:
       return LinkTarget(parent_path_+name_);
-    case LinkType::SOFT:
+    case LinkType::Soft:
       return get_soft_link_target(lapl);
-    case LinkType::EXTERNAL:
+    case LinkType::External:
       return get_external_link_target(lapl);
     default:
       throw std::runtime_error("Unkown link type - cannot determine target!");
@@ -159,16 +159,16 @@ LinkType Link::type(const property::LinkAccessList &lapl) const
 {
   //in the case of a default constructed instance the link type is ERROR
   if(!parent_file_.is_valid())
-    return LinkType::ERROR;
+    return LinkType::Error;
 
   H5L_info_t info = get_link_info(lapl);
   switch(info.type)
   {
-    case H5L_TYPE_HARD: return LinkType::HARD;
-    case H5L_TYPE_SOFT: return LinkType::SOFT;
-    case H5L_TYPE_EXTERNAL: return LinkType::EXTERNAL;
+    case H5L_TYPE_HARD: return LinkType::Hard;
+    case H5L_TYPE_SOFT: return LinkType::Soft;
+    case H5L_TYPE_EXTERNAL: return LinkType::External;
     default:
-      return LinkType::ERROR;
+      return LinkType::Error;
   }
 }
 

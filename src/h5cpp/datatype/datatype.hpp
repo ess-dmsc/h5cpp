@@ -121,7 +121,7 @@ class DLL_EXPORT Datatype
   //!
   //! @throws std::runtime_error in case of a failure
   //!
-  Datatype native_type(Direction dir = Direction::ASCEND) const;
+  Datatype native_type(Direction dir = Direction::Ascend) const;
 
   //!
   //! @brief search for a type class

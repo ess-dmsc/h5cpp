@@ -61,7 +61,7 @@ TEMPLATE_TEST_CASE("general integer properties",
       REQUIRE((std::is_same<decltype(t), datatype::Integer>::value));
     }
     THEN("the type class is integer") {
-      REQUIRE(t.get_class() == datatype::Class::INTEGER);
+      REQUIRE(t.get_class() == datatype::Class::Integer);
     }
     THEN("the size should be the same as the memory size") {
       REQUIRE(t.size() == sizeof(TestType));
@@ -72,7 +72,7 @@ TEMPLATE_TEST_CASE("general integer properties",
       THEN("we can create a new integer type from this reference") {
         datatype::Integer new_type(generic);
         AND_THEN("type type class would be Integer") {
-          REQUIRE(new_type.get_class() == datatype::Class::INTEGER);
+          REQUIRE(new_type.get_class() == datatype::Class::Integer);
         }
       }
     }
@@ -92,7 +92,7 @@ TEMPLATE_TEST_CASE("general integer properties",
     WHEN("checking the byte order") {
       using datatype::Order;
       REQUIRE((t.order() == Order::LE || t.order() == Order::BE ||
-              t.order() == Order::VAX));
+              t.order() == Order::Vax));
       AND_THEN("set the byte order to Big Endian") {
         t.order(Order::BE);
         REQUIRE(t.order() == datatype::Order::BE);
@@ -118,14 +118,14 @@ TEMPLATE_TEST_CASE("general integer properties",
     WHEN("checking the padding") {
       using datatype::Pad;
       using r = std::vector<Pad>;
-      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::Zero}));
       AND_THEN("set it to ZERO:ONE") { 
-        t.pad(Pad::ZERO,Pad::ONE);
-        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO,Pad::ONE}));
+        t.pad(Pad::Zero,Pad::One);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero,Pad::One}));
       }
       AND_THEN("set it to ONE:BACKGROUND") { 
-        t.pad(Pad::ONE,Pad::BACKGROUND);
-        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ONE,Pad::BACKGROUND}));
+        t.pad(Pad::One,Pad::Background);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::One,Pad::Background}));
       }
     }
   }
@@ -149,7 +149,7 @@ TEMPLATE_TEST_CASE("general integer properties with cref",
       REQUIRE((std::is_same<decltype(t), const datatype::Integer>::value));
     }
     THEN("the type class is integer") {
-      REQUIRE(t.get_class() == datatype::Class::INTEGER);
+      REQUIRE(t.get_class() == datatype::Class::Integer);
     }
     THEN("the size should be the same as the memory size") {
       REQUIRE(t.size() == sizeof(TestType));
@@ -162,7 +162,7 @@ TEMPLATE_TEST_CASE("general integer properties with cref",
     WHEN("checking the byte order") {
       using datatype::Order;
       REQUIRE((t.order() == Order::LE || t.order() == Order::BE ||
-              t.order() == Order::VAX));
+              t.order() == Order::Vax));
     }
 
     WHEN("checking for the offset") {
@@ -172,7 +172,7 @@ TEMPLATE_TEST_CASE("general integer properties with cref",
     WHEN("checking the padding") {
       using datatype::Pad;
       using r = std::vector<Pad>;
-      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::ZERO, Pad::ZERO}));
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::Zero}));
     }
   }
 }

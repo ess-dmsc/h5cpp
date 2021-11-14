@@ -186,7 +186,6 @@ class DLL_EXPORT DataspaceHolder
   //! Otherwise it creates a new data space object and returns its reference.
   //!
   //! @param v provided dataspace data
-  //! \param pool dataspace pool
   //! @return data space reference for data space object
   //!
   template<typename T>

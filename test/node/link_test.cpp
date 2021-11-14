@@ -33,14 +33,14 @@ SCENARIO("testing basic HDF5 link operations") {
   GIVEN("a default constructed link") {
     node::Link link;
     THEN("the type must be error") {
-      REQUIRE(link.type() == node::LinkType::ERROR);
+      REQUIRE(link.type() == node::LinkType::Error);
       AND_THEN("accessing the target must fail") {
         REQUIRE_THROWS_AS(link.target(), std::runtime_error);
       }
     }
   }
   GIVEN("a valid hdf5 file") {
-    auto f = file::create("link_test.h5", file::AccessFlags::TRUNCATE);
+    auto f = file::create("link_test.h5", file::AccessFlags::Truncate);
     WHEN("creating non-existing link (not in the file)") {
       node::Link l(f, "/", "name1");
       THEN("fetching the type will fail") {
@@ -72,14 +72,14 @@ SCENARIO("testing basic HDF5 link operations") {
       }
     }
     AND_GIVEN("a second HDF5 file") {
-      auto f2 = file::create("link_test2.h5", file::AccessFlags::TRUNCATE);
+      auto f2 = file::create("link_test2.h5", file::AccessFlags::Truncate);
       WHEN("creating an external link to an nonexisting object") {
         node::link("link_test2.h5", "data", f.root(), "external_data");
         THEN("the link exists") {
           auto l = f.root().links["external_data"];
           REQUIRE(l.exists());
           AND_THEN("the link is of external type ") {
-            REQUIRE(l.type() == node::LinkType::EXTERNAL);
+            REQUIRE(l.type() == node::LinkType::External);
           }
           AND_THEN("the link is not resolveable") {
             REQUIRE_FALSE(l.is_resolvable());
@@ -96,7 +96,7 @@ SCENARIO("testing basic HDF5 link operations") {
           auto l = root.links["linked"];
           THEN("the link must have the following properties") {
             REQUIRE(l.exists());
-            REQUIRE(l.type() == node::LinkType::SOFT);
+            REQUIRE(l.type() == node::LinkType::Soft);
             REQUIRE(l.is_resolvable());
           }
         }
@@ -105,7 +105,7 @@ SCENARIO("testing basic HDF5 link operations") {
           auto l = root.links["link"];
           THEN("the link must be") {
             REQUIRE(l.exists());
-            REQUIRE(l.type() == node::LinkType::SOFT);
+            REQUIRE(l.type() == node::LinkType::Soft);
             REQUIRE_FALSE(l.is_resolvable());
           }
         }

@@ -36,16 +36,16 @@ namespace property {
 #ifdef WITH_MPI
 enum class MPITransferMode : std::underlying_type<H5FD_mpio_xfer_t>::type
 {
-  INDEPENDENT = H5FD_MPIO_INDEPENDENT,
-  COLLECTIVE  = H5FD_MPIO_COLLECTIVE
+  Independent = H5FD_MPIO_INDEPENDENT,
+  Collective  = H5FD_MPIO_COLLECTIVE
 };
 
 std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode);
 
 enum class MPIChunkOption : std::underlying_type<H5FD_mpio_chunk_opt_t>::type
 {
-  ONE_LINK_CHUNKED = H5FD_MPIO_CHUNK_ONE_IO,
-  MULTI_CHUNK      = H5FD_MPIO_CHUNK_MULTI_IO
+  OneLinkChunked = H5FD_MPIO_CHUNK_ONE_IO,
+  MultiChunk     = H5FD_MPIO_CHUNK_MULTI_IO
 };
 
 std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option);

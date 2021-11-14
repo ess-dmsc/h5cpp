@@ -41,9 +41,9 @@ namespace property {
 //! \brief enumeration for the fill value status
 //!
 enum class DatasetFillValueStatus : std::underlying_type<H5D_fill_value_t>::type {
-  UNDEFINED = H5D_FILL_VALUE_UNDEFINED,
-  DEFAULT = H5D_FILL_VALUE_DEFAULT,
-  USER_DEFINED = H5D_FILL_VALUE_USER_DEFINED
+  Undefined = H5D_FILL_VALUE_UNDEFINED,
+  Default = H5D_FILL_VALUE_DEFAULT,
+  UserDefined = H5D_FILL_VALUE_USER_DEFINED
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetFillValueStatus &status);
@@ -52,9 +52,9 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetFillValue
 //! \brief enumeration for the fill time of a dataset
 //!
 enum class DatasetFillTime : std::underlying_type<H5D_fill_time_t>::type {
-  IFSET = H5D_FILL_TIME_IFSET,
-  ALLOC = H5D_FILL_TIME_ALLOC,
-  NEVER = H5D_FILL_TIME_NEVER
+  IfSet = H5D_FILL_TIME_IFSET,
+  Alloc = H5D_FILL_TIME_ALLOC,
+  Never = H5D_FILL_TIME_NEVER
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetFillTime &time);
@@ -70,22 +70,22 @@ enum class DatasetAllocTime : std::underlying_type<H5D_alloc_time_t>::type {
   //!
   //! \brief choose the default allocation strategy for the particular layout
   //!
-      DEFAULT = H5D_ALLOC_TIME_DEFAULT,
+      Default = H5D_ALLOC_TIME_DEFAULT,
 
   //!
   //! \brief all space is allocated when the dataset is created
   //!
-      EARLY = H5D_ALLOC_TIME_EARLY,
+      Early = H5D_ALLOC_TIME_EARLY,
 
   //!
   //! \brief space is allocated as data is written to the file
   //!
-      INCR = H5D_ALLOC_TIME_INCR,
+      Incr = H5D_ALLOC_TIME_INCR,
 
   //!
   //! \brief all space is allocated at the first write to the dataset
   //!
-      LATE = H5D_ALLOC_TIME_LATE
+      Late = H5D_ALLOC_TIME_LATE
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetAllocTime &time);
@@ -94,11 +94,11 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const DatasetAllocTime
 //! \brief enumeration describing the layout of a dataset
 //!
 enum class DatasetLayout : std::underlying_type<H5D_layout_t>::type {
-  COMPACT = H5D_COMPACT,
-  CONTIGUOUS = H5D_CONTIGUOUS,
-  CHUNKED = H5D_CHUNKED,
+  Compact = H5D_COMPACT,
+  Contiguous = H5D_CONTIGUOUS,
+  Chunked = H5D_CHUNKED,
 #if H5_VERSION_GE(1, 10, 0)
-  VIRTUAL = H5D_VIRTUAL
+  Virtual = H5D_VIRTUAL
 #endif
 };
 

@@ -37,7 +37,7 @@ SCENARIO("Variable length default construction") {
     datatype::VLengthArray type;
     THEN("the type is invalid") { REQUIRE_FALSE(type.is_valid()); }
     THEN("the class is NONE") {
-      REQUIRE(type.get_class() == datatype::Class::NONE);
+      REQUIRE(type.get_class() == datatype::Class::None);
     }
   }
 
@@ -62,10 +62,10 @@ SCENARIO("Variable length default construction") {
       auto type = datatype::VLengthArray::create(base_type);
       AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }
       AND_THEN("the type class is") {
-        REQUIRE(type.get_class() == datatype::Class::VARLENGTH);
+        REQUIRE(type.get_class() == datatype::Class::VarLength);
       }
       AND_THEN("the super type is FLOAT") {
-        REQUIRE(type.super().get_class() == datatype::Class::FLOAT);
+        REQUIRE(type.super().get_class() == datatype::Class::Float);
         REQUIRE(type.super() == base_type);
       }
       AND_THEN("the types' size would be") {
@@ -80,7 +80,7 @@ SCENARIO("Variable length default construction with cref") {
     datatype::VLengthArray type;
     THEN("the type is invalid") { REQUIRE_FALSE(type.is_valid()); }
     THEN("the class is NONE") {
-      REQUIRE(type.get_class() == datatype::Class::NONE);
+      REQUIRE(type.get_class() == datatype::Class::None);
     }
   }
 
@@ -105,10 +105,10 @@ SCENARIO("Variable length default construction with cref") {
       auto type = datatype::VLengthArray::create(base_type);
       AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }
       AND_THEN("the type class is") {
-        REQUIRE(type.get_class() == datatype::Class::VARLENGTH);
+        REQUIRE(type.get_class() == datatype::Class::VarLength);
       }
       AND_THEN("the super type is FLOAT") {
-        REQUIRE(type.super().get_class() == datatype::Class::FLOAT);
+        REQUIRE(type.super().get_class() == datatype::Class::Float);
         REQUIRE(type.super() == base_type);
       }
       AND_THEN("the types' size would be") {

@@ -31,26 +31,26 @@ using namespace hdf5;
 SCENARIO("testing the Scope enumeration", "[h5cpp, file]") {
   std::stringstream stream;
 
-  GIVEN("Scope::GLOBAL") {
+  GIVEN("Scope::Global") {
     WHEN("written to outpt stream") {
-      stream << file::Scope::GLOBAL;
+      stream << file::Scope::Global;
       REQUIRE(stream.str() == "GLOBAL");
     }
 
     WHEN("converted to integer") {
-      REQUIRE(static_cast<file::ScopeBase>(file::Scope::LOCAL) ==
+      REQUIRE(static_cast<file::ScopeBase>(file::Scope::Local) ==
               H5F_SCOPE_LOCAL);
     }
   }
 
-  GIVEN("Scope::LOCAL") {
+  GIVEN("Scope::Local") {
     WHEN("written to output stream") {
-      stream << file::Scope::LOCAL;
+      stream << file::Scope::Local;
       REQUIRE(stream.str() == "LOCAL");
     }
 
     WHEN("converted to integer") {
-      REQUIRE(static_cast<file::ScopeBase>(file::Scope::GLOBAL) ==
+      REQUIRE(static_cast<file::ScopeBase>(file::Scope::Global) ==
               H5F_SCOPE_GLOBAL);
     }
   }

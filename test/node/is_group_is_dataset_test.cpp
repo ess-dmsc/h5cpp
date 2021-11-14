@@ -29,7 +29,7 @@
 using namespace hdf5;
 
 SCENARIO("testing the is_group and is_dataset functions") {
-  auto f = file::create("is_group_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("is_group_test.h5", file::AccessFlags::Truncate);
   GIVEN("a default constructed node") {
     node::Node n;
     THEN("is_group and is_dataset will throw an exception") {

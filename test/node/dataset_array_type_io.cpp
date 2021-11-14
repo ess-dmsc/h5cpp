@@ -89,7 +89,7 @@ SCENARIO("writing a vector with an array element type") {
   using ElementType = Vector<int>;
   using Elements = std::vector<ElementType>;
   auto f =
-      file::create("dataset_array_type_io.h5", file::AccessFlags::TRUNCATE);
+      file::create("dataset_array_type_io.h5", file::AccessFlags::Truncate);
   auto type = datatype::create<ElementType>();
   auto space = dataspace::Simple({2});
 

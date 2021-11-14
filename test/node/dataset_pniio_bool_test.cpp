@@ -33,7 +33,7 @@ using namespace hdf5;
 #ifndef _MSC_VER
 SCENARIO("testing pniio bool compatibility") {
   auto file =
-      file::open("../pniio_test_boolattr.h5", file::AccessFlags::READONLY);
+      file::open("../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root = file.root();
 
   GIVEN("a datast with a scalar dataspace storing a true value") {
@@ -53,7 +53,7 @@ SCENARIO("testing pniio bool compatibility") {
         dataset.read(buffer, dataset.datatype(), dataspace::Simple{{1}},
                      dataset.dataspace());
         THEN("the buffer must be TRUE") {
-          REQUIRE(buffer == datatype::EBool::TRUE);
+          REQUIRE(buffer == datatype::EBool::True);
         }
       }
     }
@@ -76,7 +76,7 @@ SCENARIO("testing pniio bool compatibility") {
         dataset.read(buffer, dataset.datatype(), dataspace::Simple{{1}},
                      dataset.dataspace());
         THEN("the buffer must be FALSE") {
-          REQUIRE(buffer == datatype::EBool::FALSE);
+          REQUIRE(buffer == datatype::EBool::False);
         }
       }
     }
@@ -85,7 +85,7 @@ SCENARIO("testing pniio bool compatibility") {
   GIVEN("a dataset storing a bool array") {
     auto dataset = node::get_dataset(root, "ds_bool_array");
     THEN("the datasets' datatype must be of class INTEGER") {
-      REQUIRE(dataset.datatype().get_class() == datatype::Class::INTEGER);
+      REQUIRE(dataset.datatype().get_class() == datatype::Class::Integer);
       AND_THEN("the size of the datasets' datatype must be 1") {
         REQUIRE(dataset.datatype().size() == 1);
       }
@@ -105,8 +105,8 @@ SCENARIO("testing pniio bool compatibility") {
         dataset.read(buffer, dataset.datatype(), dataspace::Simple{{4}},
                      dataset.dataspace());
         THEN("the result must be {FALSE, TRUE, TRUE, FALSE}") {
-          EBools expected{datatype::EBool::FALSE, datatype::EBool::TRUE,
-                          datatype::EBool::TRUE, datatype::EBool::FALSE};
+          EBools expected{datatype::EBool::False, datatype::EBool::True,
+                          datatype::EBool::True, datatype::EBool::False};
           REQUIRE_THAT(buffer, Catch::Matchers::Equals(expected));
         }
       }

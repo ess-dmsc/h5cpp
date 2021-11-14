@@ -39,12 +39,12 @@ SCENARIO("wrting the CopyFlag to a stream")
   using property::CopyFlag;
   using r = std::tuple<property::CopyFlag, std::string>;
   auto flags = GENERATE(table<property::CopyFlag, std::string>(
-      {r{CopyFlag::SHALLOW_HIERARCHY, "SHALLOW_HIERARCHY"},
-       r{CopyFlag::EXPAND_SOFT_LINKS, "EXPAND_SOFT_LINKS"},
-       r{CopyFlag::EXPAND_EXTERNAL_LINKS, "EXPAND_EXTERNAL_LINKS"},
-       r{CopyFlag::EXPAND_REFERENCES, "EXPAND_REFERENCES"},
-       r{CopyFlag::WITHOUT_ATTRIBUTES, "WITHOUT_ATTRIBUTES"},
-       r{CopyFlag::MERGE_COMMITTED_TYPES, "MERGE_COMMITTED_TYPES"}}));
+      {r{CopyFlag::ShallowHierarchy, "SHALLOW_HIERARCHY"},
+       r{CopyFlag::ExpandSoftLinks, "EXPAND_SOFT_LINKS"},
+       r{CopyFlag::ExpandExternalLinks, "EXPAND_EXTERNAL_LINKS"},
+       r{CopyFlag::ExpandReferences, "EXPAND_REFERENCES"},
+       r{CopyFlag::WithoutAttributes, "WITHOUT_ATTRIBUTES"},
+       r{CopyFlag::MergeCommittedTypes, "MERGE_COMMITTED_TYPES"}}));
   THEN("we get")
   {
     stream << std::get<0>(flags);
@@ -58,7 +58,7 @@ SCENARIO("Copy flags operators")
   using property::CopyFlags;
   GIVEN("SHALLOW_HIERARCHY | EXPAND_SOFT_LINKS")
   {
-    auto flags = CopyFlag::SHALLOW_HIERARCHY | CopyFlag::EXPAND_SOFT_LINKS;
+    auto flags = CopyFlag::ShallowHierarchy | CopyFlag::ExpandSoftLinks;
     THEN("we expect")
     {
       REQUIRE(flags.shallow_hierarchy());
@@ -74,7 +74,7 @@ SCENARIO("Copy flags operators")
     CopyFlags flags;
     WHEN("using the unary | operator on such flags")
     {
-      flags |= property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+      flags |= property::CopyFlag::ExpandExternalLinks;
       THEN("the approriate flag will be set")
       {
         REQUIRE(flags.expand_external_links());
@@ -84,7 +84,7 @@ SCENARIO("Copy flags operators")
 
   GIVEN("EXPAND_SOFT_LINKS | EXPAND_EXTERNAL_LINKS")
   {
-    auto flags = CopyFlag::EXPAND_SOFT_LINKS | CopyFlag::EXPAND_EXTERNAL_LINKS;
+    auto flags = CopyFlag::ExpandSoftLinks | CopyFlag::ExpandExternalLinks;
     THEN("we expect")
     {
       REQUIRE_FALSE(flags.shallow_hierarchy());
@@ -97,7 +97,7 @@ SCENARIO("Copy flags operators")
   }
   GIVEN("EXPAND_EXTERNAL_LINKS | EXPAND_REFERENCES")
   {
-    auto flags = CopyFlag::EXPAND_EXTERNAL_LINKS | CopyFlag::EXPAND_REFERENCES;
+    auto flags = CopyFlag::ExpandExternalLinks | CopyFlag::ExpandReferences;
     THEN("we expect")
     {
       REQUIRE_FALSE(flags.shallow_hierarchy());
@@ -111,7 +111,7 @@ SCENARIO("Copy flags operators")
 
   GIVEN("EXPAND_REFERENCES | WITHOUT_ATTRIBUTES")
   {
-    auto flags = CopyFlag::EXPAND_REFERENCES | CopyFlag::WITHOUT_ATTRIBUTES;
+    auto flags = CopyFlag::ExpandReferences | CopyFlag::WithoutAttributes;
     THEN("we expect")
     {
       REQUIRE_FALSE(flags.shallow_hierarchy());
@@ -125,7 +125,7 @@ SCENARIO("Copy flags operators")
 
   GIVEN("WITHOUT_ATTRIBUTES | MERGE_COMMITTED_TYPES")
   {
-    auto flags = CopyFlag::WITHOUT_ATTRIBUTES | CopyFlag::MERGE_COMMITTED_TYPES;
+    auto flags = CopyFlag::WithoutAttributes | CopyFlag::MergeCommittedTypes;
 
     THEN("we expect")
     {
@@ -140,7 +140,7 @@ SCENARIO("Copy flags operators")
 
   GIVEN("MERGE_COMMITTED_TYPES | SHALLOW_HIERARCHY")
   {
-    auto flags = CopyFlag::MERGE_COMMITTED_TYPES | CopyFlag::SHALLOW_HIERARCHY;
+    auto flags = CopyFlag::MergeCommittedTypes | CopyFlag::ShallowHierarchy;
 
     THEN("we expect")
     {
@@ -154,8 +154,8 @@ SCENARIO("Copy flags operators")
   }
   GIVEN("EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS | WITHOUT_ATTRIBUTES")
   {
-    auto flags = CopyFlag::EXPAND_EXTERNAL_LINKS | CopyFlag::EXPAND_SOFT_LINKS |
-                 CopyFlag::WITHOUT_ATTRIBUTES;
+    auto flags = CopyFlag::ExpandExternalLinks | CopyFlag::ExpandSoftLinks |
+                 CopyFlag::WithoutAttributes;
     REQUIRE(flags.without_attributes());
     REQUIRE(flags.expand_soft_links());
     REQUIRE(flags.expand_external_links());
@@ -163,9 +163,9 @@ SCENARIO("Copy flags operators")
 
   GIVEN("(EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS) & EXPAND_EXTERNAL_LINKS ")
   {
-    auto flags = (CopyFlag::EXPAND_EXTERNAL_LINKS |
-                  CopyFlag::EXPAND_SOFT_LINKS) &
-                 CopyFlag::EXPAND_EXTERNAL_LINKS;
+    auto flags = (CopyFlag::ExpandExternalLinks |
+                  CopyFlag::ExpandSoftLinks) &
+                 CopyFlag::ExpandExternalLinks;
     THEN("we get for the resulting flags")
     {
       REQUIRE_FALSE(flags.expand_soft_links());
@@ -175,9 +175,9 @@ SCENARIO("Copy flags operators")
   GIVEN("EXPAND_EXTERNAL_LINKS & EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS")
   {
     CopyFlags flags =
-        CopyFlag::EXPAND_EXTERNAL_LINKS &
-        (CopyFlag::EXPAND_EXTERNAL_LINKS |
-         CopyFlag::EXPAND_SOFT_LINKS);
+        CopyFlag::ExpandExternalLinks &
+        (CopyFlag::ExpandExternalLinks |
+         CopyFlag::ExpandSoftLinks);
     THEN("we get for the result flags")
     {
       REQUIRE_FALSE(flags.expand_soft_links());
@@ -188,10 +188,10 @@ SCENARIO("Copy flags operators")
   GIVEN("(EXPAND_EXTERNAL_LINKS | EXPAND_SOFT_LINKS) & WITHOUT_ATTRIBUTES | EXPAND_SOFT_LINKS")
   {
     auto flags =
-        (CopyFlag::EXPAND_EXTERNAL_LINKS |
-         CopyFlag::EXPAND_SOFT_LINKS) &
-        (CopyFlag::WITHOUT_ATTRIBUTES |
-         CopyFlag::EXPAND_SOFT_LINKS);
+        (CopyFlag::ExpandExternalLinks |
+         CopyFlag::ExpandSoftLinks) &
+        (CopyFlag::WithoutAttributes |
+         CopyFlag::ExpandSoftLinks);
     THEN("we get for the resulting flags")
     {
       REQUIRE(flags.expand_soft_links());
@@ -261,7 +261,7 @@ SCENARIO("CopyFlag construction and handling")
   GIVEN("default constructed flags")
   {
     property::CopyFlags flags;
-    flags |= property::CopyFlag::EXPAND_EXTERNAL_LINKS;
+    flags |= property::CopyFlag::ExpandExternalLinks;
     REQUIRE(flags.expand_external_links());
   }
 }
@@ -276,7 +276,7 @@ SCENARIO("ObjectCopy property list construction")
     AND_GIVEN("the flags")
     {
       auto flags =
-          CopyFlag::EXPAND_SOFT_LINKS | CopyFlag::EXPAND_EXTERNAL_LINKS;
+          CopyFlag::ExpandSoftLinks | CopyFlag::ExpandExternalLinks;
       THEN("we can apply the flags to the list")
       {
         REQUIRE_NOTHROW(ocpl.flags(flags));
@@ -284,7 +284,7 @@ SCENARIO("ObjectCopy property list construction")
         {
           REQUIRE(ocpl.flags().expand_soft_links());
           REQUIRE_NOTHROW(
-              ocpl.flags(property::CopyFlag::EXPAND_EXTERNAL_LINKS));
+              ocpl.flags(property::CopyFlag::ExpandExternalLinks));
           REQUIRE(ocpl.flags().expand_external_links());
         }
       }
@@ -296,7 +296,7 @@ SCENARIO("ObjectCopy property list construction")
           REQUIRE_THROWS_AS(ocpl.flags(flags), std::runtime_error);
           REQUIRE_THROWS_AS(ocpl.flags(), std::runtime_error);
           REQUIRE_THROWS_AS(
-              ocpl.flags(property::CopyFlag::EXPAND_EXTERNAL_LINKS),
+              ocpl.flags(property::CopyFlag::ExpandExternalLinks),
               std::runtime_error);
         }
       }

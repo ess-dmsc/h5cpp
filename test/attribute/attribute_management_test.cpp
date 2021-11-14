@@ -28,14 +28,14 @@
 using namespace hdf5;
 
 SCENARIO("testing attribute manageument functionality") { 
-  auto file = file::create("attribute_management_test.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("attribute_management_test.h5", file::AccessFlags::Truncate);
   auto root = file.root();
   using datatype::Class;
   root.attributes.create<int>("index");
   root.attributes.create<float>("elasticity", {6, 6});
   root.attributes.create<std::uint32_t>("counter");
-  root.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root.attributes.iterator_config().order(IterationOrder::INCREASING);
+  root.attributes.iterator_config().index(IterationIndex::CreationOrder);
+  root.attributes.iterator_config().order(IterationOrder::Increasing);
 
   GIVEN("that we want to remove an attribute") { 
 

@@ -77,7 +77,7 @@ Node Dataset::create_dataset(const Group &base,
 Dataset::Dataset(const Node &node):
   Node(node) 
 {
-  if(node.type()!=Type::DATASET)
+  if(node.type()!=Type::Dataset)
   {
     std::stringstream ss;
     ss<<"Construction of a Dataset from a Node failed since ";
@@ -221,7 +221,7 @@ filter::ExternalFilters Dataset::filters() const
 void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
 {
   dataspace::Dataspace space = dataset.dataspace();
-  if(space.type()!=dataspace::Type::SIMPLE)
+  if(space.type()!=dataspace::Type::Simple)
   {
     std::stringstream ss;
     ss<<"Dataset ["<<dataset.link().path()<<"] does not use a simple dataspace"

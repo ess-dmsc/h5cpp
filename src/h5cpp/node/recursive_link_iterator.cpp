@@ -74,7 +74,7 @@ RecursiveLinkIterator &RecursiveLinkIterator::operator++()
   //if we are currently sitting on a group we have to enter the group if it
   // has some links attached to it
   if(current_iterator_->is_resolvable() &&
-     (**current_iterator_).type() == Type::GROUP)
+     (**current_iterator_).type() == Type::Group)
   {
     Group new_top(**current_iterator_);
     if(new_top.links.size())

@@ -52,7 +52,7 @@ Group::Group(const Node &node):
     nodes(*this),
     iter_config_(IteratorConfig())
 {
-  if(node.type()!=Type::GROUP)
+  if(node.type()!=Type::Group)
   {
     std::stringstream ss;
     ss<<"Construction of a Group from a Node failed since ";

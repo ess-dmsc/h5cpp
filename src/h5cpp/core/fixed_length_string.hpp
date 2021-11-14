@@ -44,7 +44,7 @@ class FixedLengthStringBuffer : public  std::vector<CharT>
                                                  const dataspace::Dataspace &dataspace)
     {
       FixedLengthStringBuffer<CharT> buffer;
-      if(dataspace.selection.type() == dataspace::SelectionType::ALL)
+      if(dataspace.selection.type() == dataspace::SelectionType::All)
         buffer =  FixedLengthStringBuffer<CharT>(datatype.size()*static_cast<size_t>(dataspace.size()));
       else
         buffer = FixedLengthStringBuffer<CharT>(datatype.size()*dataspace.selection.size());

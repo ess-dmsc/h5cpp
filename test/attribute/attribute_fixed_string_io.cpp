@@ -33,13 +33,13 @@ using namespace hdf5;
 
 SCENARIO("Working with attributes and fixed UTF8 strings") {
   auto h5file =
-      file::create("attribute_fixed_string_IO.h5", file::AccessFlags::TRUNCATE);
+      file::create("attribute_fixed_string_IO.h5", file::AccessFlags::Truncate);
   auto root_group = h5file.root();
   auto simple_space = dataspace::Simple{{2, 3}};
   auto scalar_space = dataspace::Scalar();
   auto string_type = datatype::String::fixed(5);
   string_type.encoding(datatype::CharacterEncoding::UTF8);
-  string_type.padding(datatype::StringPad::NULLTERM);
+  string_type.padding(datatype::StringPad::NullTerm);
 
   GIVEN("an attribute with a scalar dataspace") {
     auto a = root_group.attributes.create("strattr", string_type, scalar_space);
@@ -57,7 +57,7 @@ SCENARIO("Working with attributes and fixed UTF8 strings") {
         AND_GIVEN("a custom string type") {
           auto read_type = datatype::String::fixed(20);
           read_type.encoding(datatype::CharacterEncoding::UTF8);
-          read_type.padding(datatype::StringPad::NULLPAD);
+          read_type.padding(datatype::StringPad::NullPad);
           THEN("we can read the data using this type") {
             std::string read;
             REQUIRE_NOTHROW(a.read(read, read_type));

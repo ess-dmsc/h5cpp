@@ -36,10 +36,10 @@ namespace node {
  */
 enum class NodeType : std::underlying_type<H5O_type_t>::type
 {
-  UNKNOWN = H5O_TYPE_UNKNOWN,
-  GROUP   = H5O_TYPE_GROUP,
-  DATASET = H5O_TYPE_DATASET,
-  DATATYPE = H5O_TYPE_NAMED_DATATYPE
+  Unknown = H5O_TYPE_UNKNOWN,
+  Group   = H5O_TYPE_GROUP,
+  Dataset = H5O_TYPE_DATASET,
+  Datatype = H5O_TYPE_NAMED_DATATYPE
 };
 
 /**
@@ -63,9 +63,6 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const NodeType &type);
  */
 using Type = NodeType;
 
-#ifdef _MSC_VER
-#undef ERROR
-#endif
 /**
  * @brief link type enumeration
  * 
@@ -73,10 +70,10 @@ using Type = NodeType;
  */
 enum class LinkType : std::underlying_type<H5L_type_t>::type
 {
-  HARD = H5L_TYPE_HARD,
-  SOFT = H5L_TYPE_SOFT,
-  EXTERNAL = H5L_TYPE_EXTERNAL,
-  ERROR = H5L_TYPE_ERROR
+  Hard = H5L_TYPE_HARD,
+  Soft = H5L_TYPE_SOFT,
+  External = H5L_TYPE_EXTERNAL,
+  Error = H5L_TYPE_ERROR
 };
 
 /**

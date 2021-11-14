@@ -29,17 +29,15 @@
 
 using namespace hdf5;
 
-#ifndef _MSC_VER
-
 SCENARIO("Reading bool attributes created by the PNIIO library") {
   auto h5file =
-      file::open("../pniio_test_boolattr.h5", file::AccessFlags::READONLY);
+      file::open("../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root = h5file.root();
 
   GIVEN("a scalar bool attribute with value true") {
     auto attr = root.attributes["bool_true"];
     THEN("the datatype will be integer") {
-      REQUIRE(attr.datatype().get_class() == datatype::Class::INTEGER);
+      REQUIRE(attr.datatype().get_class() == datatype::Class::Integer);
       AND_THEN("of size 1") { REQUIRE(attr.datatype().size() == 1ul); }
     }
 
@@ -52,9 +50,9 @@ SCENARIO("Reading bool attributes created by the PNIIO library") {
     THEN("we can read its value as EBool value") {
       datatype::EBool buffer;
       attr.read(buffer, attr.datatype());
-      REQUIRE(buffer == true);
-      REQUIRE(buffer == 1);
-      REQUIRE(buffer == datatype::EBool::TRUE);
+      REQUIRE(static_cast<bool>(buffer) == true);
+      REQUIRE(static_cast<int>(buffer) == 1);
+      REQUIRE(buffer == datatype::EBool::True);
     }
   }
 
@@ -69,9 +67,9 @@ SCENARIO("Reading bool attributes created by the PNIIO library") {
     THEN("we can read its value as EBOOL value") {
       datatype::EBool buffer;
       REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
-      REQUIRE(buffer == false);
-      REQUIRE(buffer == 0);
-      REQUIRE(buffer == datatype::EBool::FALSE);
+      REQUIRE(static_cast<bool>(buffer) == false);
+      REQUIRE(static_cast<int>(buffer) == 0);
+      REQUIRE(buffer == datatype::EBool::False);
     }
   }
 
@@ -91,10 +89,8 @@ SCENARIO("Reading bool attributes created by the PNIIO library") {
       using bools = std::vector<EBool>;
       bools buffer(4);
       REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
-      bools expected = {EBool::FALSE, EBool::TRUE, EBool::TRUE, EBool::FALSE};
+      bools expected = {EBool::False, EBool::True, EBool::True, EBool::False};
       REQUIRE_THAT(expected, Catch::Matchers::Equals(buffer));
     }
   }
 }
-
-#endif

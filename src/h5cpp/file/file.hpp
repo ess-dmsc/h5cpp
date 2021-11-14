@@ -223,9 +223,9 @@ size_t File::to_buffer_reshape(T &data,
 {
   size_t databytesize = signed2unsigned<unsigned long long>(mem_space.size()) * mem_type.size();
   ssize_t s = 0;
-  if(mem_type.get_class() == datatype::Class::INTEGER)
+  if(mem_type.get_class() == datatype::Class::Integer)
     {
-      flush(Scope::GLOBAL);
+      flush(Scope::Global);
       s = H5Fget_file_image(static_cast<hid_t>(*this), dataspace::ptr(data), databytesize);
       if (s < 0)
 	{

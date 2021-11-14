@@ -69,7 +69,7 @@ void MemoryDriver::operator()(const property::FileAccessList &fapl) const
 
 DriverID MemoryDriver::id() const noexcept
 {
-  return DriverID::eMemory;
+  return DriverID::Memory;
 }
 
 }

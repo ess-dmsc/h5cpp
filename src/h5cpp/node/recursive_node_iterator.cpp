@@ -74,7 +74,7 @@ RecursiveNodeIterator &RecursiveNodeIterator::operator++()
   // if we are actually on a group node we have to enter the node if
   // it has children
   //
-  if(current_iterator_->type()==Type::GROUP)
+  if(current_iterator_->type()==Type::Group)
   {
     Group new_top(*current_iterator_);
     if(new_top.nodes.size())

@@ -59,7 +59,7 @@ void tensor_attribute(const node::Node node)
 
 int main()
 {
-  file::File file = file::create("attribute_io.h5",file::AccessFlags::TRUNCATE);
+  file::File file = file::create("attribute_io.h5",file::AccessFlags::Truncate);
   node::Group root_group = file.root();
 
   author_attribute(root_group);

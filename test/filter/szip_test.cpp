@@ -64,7 +64,7 @@ SCENARIO("using the SZIP filter") {
                 auto flags = filters.fill(dcpl);
                 REQUIRE(filters.size() == 1lu);
                 REQUIRE(flags.size() == 1lu);
-                REQUIRE(flags[0] == filter::Availability::optional);
+                REQUIRE(flags[0] == filter::Availability::Optional);
                 REQUIRE_THAT(filters[0].cd_values(),
                              Catch::Matchers::Equals(
                                  std::vector<unsigned int>{133, 16}));

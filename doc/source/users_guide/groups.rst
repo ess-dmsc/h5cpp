@@ -55,7 +55,7 @@ collect all the datasets immediately attached to a particular group
                 std::back_inserter(datasets),
                 [](const hdf5::node::Node &node)
                 {
-                  return node.type()==hdf5::node::Type::DATASET;
+                  return node.type()==hdf5::node::Type::Dataset;
                 });
 
 For recursive iteration we currently cannot use the for-each construction
@@ -72,7 +72,7 @@ example we look for all datasets below a particular group and its subgroups
                 std::back_inserter(datasets),
                 [](const hdf5::node::Node &node)
                 {
-                  return node.type()==hdf5::node::Type::DATASET;
+                  return node.type()==hdf5::node::Type::Dataset;
                 });
 
 the major difference here is to use :cpp:class:`RecursiveNodeIterator` and

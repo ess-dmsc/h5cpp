@@ -32,18 +32,18 @@ namespace datatype {
 
 std::ostream &operator<<(std::ostream &stream, const Class &c) {
   switch (c) {
-    case Class::NONE: return stream << "NONE";
-    case Class::INTEGER: return stream << "INTEGER";
-    case Class::FLOAT: return stream << "FLOAT";
-    case Class::TIME: return stream << "TIME";
-    case Class::STRING: return stream << "STRING";
-    case Class::BITFIELD: return stream << "BITFIELD";
-    case Class::OPAQUE: return stream << "OPAQUE";
-    case Class::COMPOUND: return stream << "COMPOUND";
-    case Class::REFERENCE: return stream << "REFERENCE";
-    case Class::ENUM: return stream << "ENUM";
-    case Class::VARLENGTH: return stream << "VARLENGTH";
-    case Class::ARRAY: return stream << "ARRAY";
+    case Class::None: return stream << "NONE";
+    case Class::Integer: return stream << "INTEGER";
+    case Class::Float: return stream << "FLOAT";
+    case Class::Time: return stream << "TIME";
+    case Class::String: return stream << "STRING";
+    case Class::BitField: return stream << "BITFIELD";
+    case Class::Opaque: return stream << "OPAQUE";
+    case Class::Compound: return stream << "COMPOUND";
+    case Class::Reference: return stream << "REFERENCE";
+    case Class::Enum: return stream << "ENUM";
+    case Class::VarLength: return stream << "VARLENGTH";
+    case Class::Array: return stream << "ARRAY";
     default:return stream;
   }
 }
@@ -58,43 +58,43 @@ std::ostream &operator<<(std::ostream &stream, const Order &o) {
 
 std::ostream &operator<<(std::ostream &stream, const Sign &s) {
   switch (s) {
-    case Sign::TWOS_COMPLEMENT: return stream << "TWOS COMPLEMENT";
-    case Sign::UNSIGNED: return stream << "UNSIGNED";
+    case Sign::Twos_Complement: return stream << "TWOS COMPLEMENT";
+    case Sign::Unsigned: return stream << "UNSIGNED";
     default:return stream;
   }
 }
 
 std::ostream &operator<<(std::ostream &stream, const Norm &n) {
   switch (n) {
-    case Norm::IMPLIED: return stream << "IMPLIED";
-    case Norm::MSBSET: return stream << "MSBSET";
-    case Norm::NONE: return stream << "NONE";
+    case Norm::Implied: return stream << "IMPLIED";
+    case Norm::MSBSet: return stream << "MSBSET";
+    case Norm::None: return stream << "NONE";
     default:return stream;
   }
 }
 
 std::ostream &operator<<(std::ostream &stream, const Pad &p) {
   switch (p) {
-    case Pad::BACKGROUND: return stream << "BACKGROUND";
-    case Pad::ONE: return stream << "ONE";
-    case Pad::ZERO: return stream << "ZERO";
+    case Pad::Background: return stream << "BACKGROUND";
+    case Pad::One: return stream << "ONE";
+    case Pad::Zero: return stream << "ZERO";
     default:return stream;
   }
 }
 
 std::ostream &operator<<(std::ostream &stream, const StringPad &pad) {
   switch (pad) {
-    case StringPad::NULLPAD: return stream << "NULLPAD";
-    case StringPad::NULLTERM: return stream << "NULLTERM";
-    case StringPad::SPACEPAD: return stream << "SPACEPAD";
+    case StringPad::NullPad: return stream << "NULLPAD";
+    case StringPad::NullTerm: return stream << "NULLTERM";
+    case StringPad::SpacePad: return stream << "SPACEPAD";
     default:return stream;
   }
 }
 
 std::ostream &operator<<(std::ostream &stream, const Direction &d) {
   switch (d) {
-    case Direction::ASCEND: return stream << "ASCEND";
-    case Direction::DESCEND: return stream << "DESCEND";
+    case Direction::Ascend: return stream << "ASCEND";
+    case Direction::Descend: return stream << "DESCEND";
     default:return stream;
   }
 }

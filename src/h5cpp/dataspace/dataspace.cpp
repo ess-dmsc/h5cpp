@@ -41,7 +41,7 @@ Dataspace::Dataspace()
 Dataspace::Dataspace(ObjectHandle &&handle)
     : selection(*this), handle_(std::move(handle)) {
   if (handle_.is_valid() &&
-      (handle_.get_type() != ObjectHandle::Type::DATASPACE)) {
+      (handle_.get_type() != ObjectHandle::Type::Dataspace)) {
     std::stringstream ss;
     ss << "Could not construct Dataspace from Handle, type="
        << handle_.get_type();
@@ -90,7 +90,7 @@ Type Dataspace::type() const {
     }
     return static_cast<Type>(ret);
   }
-  return Type::NODATA;
+  return Type::NoData;
 
 }
 

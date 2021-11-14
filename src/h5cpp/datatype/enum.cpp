@@ -40,7 +40,7 @@ Enum::Enum(ObjectHandle&& handle) :
 Enum::Enum(const Datatype& type) :
     Datatype(type)
 {
-  if (get_class() != Class::ENUM)
+  if (get_class() != Class::Enum)
   {
     std::stringstream ss;
     ss << "Cannot create Enum datatype from " << get_class();

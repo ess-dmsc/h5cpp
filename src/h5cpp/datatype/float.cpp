@@ -38,7 +38,7 @@ Float::Float(ObjectHandle &&handle) :
 
 Float::Float(const Datatype &datatype) :
     Datatype(datatype) {
-  if (datatype.get_class() != Class::FLOAT) {
+  if (datatype.get_class() != Class::Float) {
     std::stringstream ss;
     ss << "Cannot create datatype::Float from " << get_class();
     throw std::runtime_error(ss.str());

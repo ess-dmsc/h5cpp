@@ -36,7 +36,7 @@ using namespace hdf5;
 
 SCENARIO("testing symbolic link creation") {
   auto f = file::create("symbolic_link_creation_test.h5",
-                        file::AccessFlags::TRUNCATE);
+                        file::AccessFlags::Truncate);
   property::LinkCreationList lcpl;
   lcpl.enable_intermediate_group_creation();
 
@@ -45,7 +45,7 @@ SCENARIO("testing symbolic link creation") {
     THEN("we can create new linke to this group") {
       node::link(data, f.root(), Path("data_link"));
       auto l = f.root().links["data_link"];
-      REQUIRE(l.type() == node::LinkType::SOFT);
+      REQUIRE(l.type() == node::LinkType::Soft);
       REQUIRE(l.target().object_path() == Path("/data"));
     }
     AND_GIVEN("a second hierarchy of groups") {
@@ -64,7 +64,7 @@ TEST_F(SymbolicLinkCreationTest, on_different_level) {
   link(data, file.root(), Path("links/datalinks/new_data"));
   Link l = hdf5::node::get_node(file.root(), Path("links/datalinks/new_data"))
                .link();
-  EXPECT_EQ(l.type(), hdf5::node::LinkType::SOFT);
+  EXPECT_EQ(l.type(), hdf5::node::LinkType::Soft);
   EXPECT_EQ(l.target().object_path(), Path("/data"));
 }
 **/

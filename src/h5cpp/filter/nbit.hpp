@@ -57,7 +57,7 @@ class DLL_EXPORT NBit : public Filter
     //! \param flag availability flag
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::mandatory) const override;
+                            Availability flag = Availability::Mandatory) const override;
 };
 
 } // namespace filter

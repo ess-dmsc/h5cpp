@@ -60,8 +60,8 @@ SCENARIO("DatasetTransferList creation") {
 SCENARIO("testing the MPI transfer mode enumeration") { 
   using r = std::tuple<pl::MPITransferMode,std::string>;
   auto p = GENERATE(table<pl::MPITransferMode,std::string>({
-    r{pl::MPITransferMode::INDEPENDENT, "INDEPENDENT"},
-    r{pl::MPITransferMode::COLLECTIVE, "COLLECTIVE"}
+    r{pl::MPITransferMode::Independent, "INDEPENDENT"},
+    r{pl::MPITransferMode::Collective, "COLLECTIVE"}
   }));
   GIVEN("a stream") { 
     std::stringstream stream;
@@ -74,7 +74,7 @@ SCENARIO("testing the MPI transfer mode enumeration") {
   GIVEN("a dataset transfer property list") { 
     pl::DatasetTransferList dtpl;
     THEN("the default transfer mode is INDEPENDENT") { 
-      REQUIRE(dtpl.mpi_transfer_mode() == pl::MPITransferMode::INDEPENDENT);
+      REQUIRE(dtpl.mpi_transfer_mode() == pl::MPITransferMode::Independent);
     }
     THEN("we can set the transfer mode") { 
       dtpl.mpi_transfer_mode(std::get<0>(p));
@@ -96,8 +96,8 @@ SCENARIO("testing the MPI transfer mode enumeration") {
 SCENARIO("testing the MPI chunk optimization enumeration") { 
   using r = std::tuple<pl::MPIChunkOption,std::string>;
   auto p = GENERATE(table<pl::MPIChunkOption,std::string>({
-    r{pl::MPIChunkOption::ONE_LINK_CHUNKED, "ONE_LINK_CHUNKED"},
-    r{pl::MPIChunkOption::MULTI_CHUNK, "MULTI_CHUNK"}
+    r{pl::MPIChunkOption::OneLinkChunked, "ONE_LINK_CHUNKED"},
+    r{pl::MPIChunkOption::MultiChunk, "MULTI_CHUNK"}
   }));
   GIVEN("a stream") { 
     std::stringstream stream;
