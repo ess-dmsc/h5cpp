@@ -30,7 +30,6 @@
 
 using namespace hdf5;
 
-#ifndef _MSC_VER
 SCENARIO("testing pniio bool compatibility") {
   auto file =
       file::open("../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
@@ -113,4 +112,3 @@ SCENARIO("testing pniio bool compatibility") {
     }
   }
 }
-#endif

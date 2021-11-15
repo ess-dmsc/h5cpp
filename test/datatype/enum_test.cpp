@@ -235,7 +235,6 @@ SCENARIO("Custom enumeration trait construction") {
     }
   }
 
-#ifndef _MSC_VER
   GIVEN("the EBool type") {
     auto type = datatype::create<datatype::EBool>();
     THEN("we can get the names by index") {
@@ -247,7 +246,6 @@ SCENARIO("Custom enumeration trait construction") {
       REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::True);
     }
   }
-#endif
 }
 
 SCENARIO("Custom enumeration trait construction with cref") {
@@ -279,7 +277,6 @@ SCENARIO("Custom enumeration trait construction with cref") {
     }
   }
 
-#ifndef _MSC_VER
   GIVEN("the EBool type") {
     auto type = datatype::Enum(datatype::get<datatype::EBool>());
     THEN("we can get the names by index") {
@@ -291,7 +288,6 @@ SCENARIO("Custom enumeration trait construction with cref") {
       REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::True);
     }
   }
-#endif
 }
 
 SCENARIO("weak enumeration IO") {
@@ -334,7 +330,6 @@ SCENARIO("strong enumeration IO") {
   }
 }
 
-#ifndef _MSC_VER
 SCENARIO("testing EBOOL IO") {
   auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::Truncate);
   auto root = f.root();
@@ -478,7 +473,6 @@ SCENARIO("testing EBOOL IO with cref") {
     }
   }
 }
-#endif
 /*
 
 TEST_F(Enum, test_fake_bool) {

@@ -301,7 +301,6 @@ SCENARIO("checking copies and files of identical structure") {
   fs::remove(path3);
 }
 
-#ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE2 -> FILE1
 //   only file_number and object_address are equal
 //   file_name is not equal
@@ -336,7 +335,6 @@ SCENARIO("testing symbolic links") {
   fs::remove(path1);
   fs::remove(path2);
 }
-#endif
 
 void external_link(const fs::path& target_file,
                    const std::string& target_path,
@@ -384,7 +382,6 @@ SCENARIO("testing with external links") {
   fs::remove(path2);
 }
 
-#ifndef _MSC_VER
 // Symbolic link (in OS) is made FILE3 -> FILE1
 // External link is made file2/group3 -> File3/group1
 //   only file_number and object_address are equal
@@ -438,7 +435,6 @@ SCENARIO("testing wiht external synmbolic link") {
   fs::remove(path2);
   fs::remove(path3);
 }
-#endif
 
 SCENARIO("opening an instance serveral time") {
   static const fs::path path1 = fs::absolute("open_several_times_1.h5");

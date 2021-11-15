@@ -29,7 +29,6 @@
 
 using namespace hdf5;
 
-#ifndef _MSC_VER
 SCENARIO("testing h5py compatible string IO") {
   auto f = file::open("../h5py_test_data.h5", file::AccessFlags::ReadOnly);
   auto r = f.root();
@@ -95,4 +94,3 @@ SCENARIO("testing h5py compatible string IO") {
     }
   }
 }
-#endif
