@@ -76,7 +76,7 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("write the sign enumeration") {
     using ptype = std::tuple<Sign, std::string>;
     auto param = GENERATE(table<Sign, std::string>(
-        {ptype{Sign::Twos_Complement, "TWOS COMPLEMENT"},
+        {ptype{Sign::TwosComplement, "TWOS COMPLEMENT"},
          ptype{Sign::Unsigned, "UNSIGNED"}}));
     WHEN("writing the sign to the stream") {
       stream << value(param);

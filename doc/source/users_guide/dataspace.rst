@@ -47,11 +47,11 @@ the dataspace there is currently
 
 .. cpp:enum-class:: Type
 
-    .. cpp:enumerator:: SIMPLE 
+    .. cpp:enumerator:: Simple
     
         for a simple datatype
         
-    .. cpp:enumerator:: SCALAR
+    .. cpp:enumerator:: Scalar
     
         for a scalar datatype
 
