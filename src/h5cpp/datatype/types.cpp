@@ -58,7 +58,7 @@ std::ostream &operator<<(std::ostream &stream, const Order &o) {
 
 std::ostream &operator<<(std::ostream &stream, const Sign &s) {
   switch (s) {
-    case Sign::Twos_Complement: return stream << "TWOS COMPLEMENT";
+    case Sign::TwosComplement: return stream << "TWOS COMPLEMENT";
     case Sign::Unsigned: return stream << "UNSIGNED";
     default:return stream;
   }

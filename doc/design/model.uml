@@ -249,7 +249,7 @@ Just provide a specizlization of this trait for your type (class).</body>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_A1EZoJPAEeeoI7oI9Ds2zg" name="BE"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_SEPQ0JO_EeeoI7oI9Ds2zg" name="Sign">
-        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_8xR0EJO_EeeoI7oI9Ds2zg" name="Twos_Complement"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_8xR0EJO_EeeoI7oI9Ds2zg" name="TwosComplement"/>
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_9hODQJO_EeeoI7oI9Ds2zg" name="Unsigned"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Enumeration" xmi:id="_UUli0JO_EeeoI7oI9Ds2zg" name="Norm">

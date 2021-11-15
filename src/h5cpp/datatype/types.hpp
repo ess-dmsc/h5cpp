@@ -99,7 +99,7 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Order &o);
 //!
 enum class Sign : std::underlying_type<H5T_sign_t>::type
 {
-  Twos_Complement = H5T_SGN_2, //!< indicates a signed type
+  TwosComplement = H5T_SGN_2, //!< indicates a signed type
   Unsigned = H5T_SGN_NONE      //!< indicates an unsigned type
 };
 
