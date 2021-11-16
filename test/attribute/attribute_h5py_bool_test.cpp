@@ -51,7 +51,7 @@ SCENARIO("Reading bool attributes written by h5py") {
       THEN("read") {
         REQUIRE(static_cast<bool>(read_ebool(attr)) == true);
         REQUIRE(read_ebool(attr) == datatype::EBool::True);
-        REQUIRE(static_cast<int>(read_ebool(attr)) == 1);
+        REQUIRE(read_ebool(attr) == 1);
       }
 
       AND_THEN("the data type should be an enumeration type") {
@@ -65,7 +65,7 @@ SCENARIO("Reading bool attributes written by h5py") {
       THEN("read as bool") {
         REQUIRE(static_cast<bool>(read_ebool(attr)) == false);
         REQUIRE(read_ebool(attr) == datatype::EBool::False);
-        REQUIRE(static_cast<int>(read_ebool(attr)) == 0);
+        REQUIRE(read_ebool(attr) == 0);
       }
     }
   }
@@ -80,7 +80,7 @@ SCENARIO("Reading bool attributes written by h5py") {
       THEN("read") {
         REQUIRE(static_cast<bool>(read_ebool(attr)) == true);
         REQUIRE(read_ebool(attr) == datatype::EBool::True);
-        REQUIRE(static_cast<int>(read_ebool(attr)) == 1);
+        REQUIRE(read_ebool(attr) == 1);
       }
 
       AND_THEN("the data type should be an enumeration type") {
@@ -94,7 +94,7 @@ SCENARIO("Reading bool attributes written by h5py") {
       THEN("read") { 
         REQUIRE(static_cast<bool>(read_ebool(attr)) == false);
         REQUIRE(read_ebool(attr) == datatype::EBool::False);
-	REQUIRE(static_cast<int>(read_ebool(attr)) == 0); }
+	REQUIRE(read_ebool(attr) == 0); }
     }
   }
 
