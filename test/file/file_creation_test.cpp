@@ -57,6 +57,7 @@ SCENARIO("Creating files", "[h5cpp,file]") {
   }
 }
 
+#ifndef _MSC_VER
 SCENARIO("Opening the same file", "[h5cpp,file]") {
   {
     file::create("test1.h5", file::AccessFlags::Truncate);
@@ -76,6 +77,7 @@ SCENARIO("Opening the same file", "[h5cpp,file]") {
   fs::remove("test1.h5");
   fs::remove("test1_link.h5");
 }
+#endif
 
 SCENARIO("Open multiple files in several modes", "[file,h5cpp]") {
   {

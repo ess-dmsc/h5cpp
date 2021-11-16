@@ -347,7 +347,7 @@ SCENARIO("testing EBOOL IO") {
           THEN("the values should match") {
             REQUIRE(write_ebool == read_ebool);
             REQUIRE(1 == read_ebool);
-            REQUIRE(true == read_ebool);
+            REQUIRE(true == static_cast<bool>(read_ebool));
           }
         }
       }
@@ -366,7 +366,7 @@ SCENARIO("testing EBOOL IO") {
           THEN("the values should match") {
             REQUIRE(write_ebool == read_ebool);
             REQUIRE(0 == read_ebool);
-            REQUIRE(false == read_ebool);
+            REQUIRE(false == static_cast<bool>(read_ebool));
           }
         }
       }
@@ -419,7 +419,7 @@ SCENARIO("testing EBOOL IO with cref") {
           THEN("the values should match") {
             REQUIRE(write_ebool == read_ebool);
             REQUIRE(1 == read_ebool);
-            REQUIRE(true == read_ebool);
+            REQUIRE(true == static_cast<bool>(read_ebool));
           }
         }
       }
@@ -438,7 +438,7 @@ SCENARIO("testing EBOOL IO with cref") {
           THEN("the values should match") {
             REQUIRE(write_ebool == read_ebool);
             REQUIRE(0 == read_ebool);
-            REQUIRE(false == read_ebool);
+            REQUIRE(false == static_cast<bool>(read_ebool));
           }
         }
       }
