@@ -45,9 +45,6 @@ SCENARIO("default construction of a scalar dataspace") {
     Scalar space;
     THEN("the size is 1") { REQUIRE(space.size() == 1); }
     THEN("type must be scalar") { REQUIRE(space.type() == Type::Scalar); }
-    THEN("the dimensions must be empty") {
-      REQUIRE(space.current_dimensions().empty());
-    }
   }
 }
 
@@ -58,9 +55,6 @@ SCENARIO("construction from a hid_t") {
       Scalar space{ObjectHandle(id)};
       AND_THEN("the size is 1") { REQUIRE(space.size() == 1); }
       AND_THEN("type must be scalar") { REQUIRE(space.type() == Type::Scalar); }
-      AND_THEN("the dimensions must be empty") {
-        REQUIRE(space.current_dimensions().empty());
-      }
     }
   }
 
