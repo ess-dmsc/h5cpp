@@ -19,7 +19,8 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Authors: Eugen Wintersberger <eugen.wintersberger@gmail.com>
+//          Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Jul 1, 2018
 //
 #pragma once
@@ -204,6 +205,10 @@ class TypeTrait<ArrayAdapter<T>>
     {
       return TypeTrait<T>::create();
     }
+    const static TypeClass & get(const ArrayAdapter<T> & = ArrayAdapter<T>()) {
+      const static TypeClass & cref_ = create();
+      return cref_;
+    }
 
 };
 
@@ -228,6 +233,12 @@ class TypeTrait<ArrayAdapter<T>>
     {
       Dimensions adapter_dimensions = get_dimensions(adapter);
       return Simple(adapter_dimensions,adapter_dimensions);
+    }
+
+    const static DataspaceType & get(const ArrayAdapter<T> &adapter, dataspace::DataspacePool &) {
+      Dimensions adapter_dimensions = get_dimensions(adapter);
+      const static DataspaceType & cref_ = Simple(adapter_dimensions,adapter_dimensions);
+      return cref_;
     }
 
     static void* ptr(ArrayAdapter<T> &adapter)

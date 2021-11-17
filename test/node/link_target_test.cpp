@@ -83,7 +83,7 @@ SCENARIO("testing lint targets") {
 
   GIVEN("an open HDF5 file") {
     auto h5file = hdf5::file::create("LinkTargetTest.h5",
-                                     hdf5::file::AccessFlags::TRUNCATE);
+                                     hdf5::file::AccessFlags::Truncate);
     auto root_group = h5file.root();
     hdf5::node::Group(root_group, "original");
     hdf5::node::link("/original", root_group, "internal_link");
@@ -92,7 +92,7 @@ SCENARIO("testing lint targets") {
       auto link = root_group.links["original"];
       THEN("the link is resolvable") { REQUIRE(link.is_resolvable()); }
       THEN("the type of the link is HARD") {
-        REQUIRE(link.type() == hdf5::node::LinkType::HARD);
+        REQUIRE(link.type() == hdf5::node::LinkType::Hard);
       }
       WHEN("fetching the target for the link") {
         auto target = link.target();
@@ -123,7 +123,7 @@ SCENARIO("testing lint targets") {
 
     AND_GIVEN("another open HDF5 file") {
       auto f = hdf5::file::create("LinkTargetTestExternal.h5",
-                                  hdf5::file::AccessFlags::TRUNCATE);
+                                  hdf5::file::AccessFlags::Truncate);
       hdf5::node::Group(f.root(), "external_group");
       hdf5::node::link("LinkTargetTestExternal.h5", "/external_group",
                        root_group, "external_link");

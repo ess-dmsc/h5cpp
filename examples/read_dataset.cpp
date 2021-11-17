@@ -29,7 +29,7 @@
 using namespace hdf5;
 
 void createFile() {
-  file::File File = file::create("SomeFile.hdf5", file::AccessFlags::TRUNCATE);
+  file::File File = file::create("SomeFile.hdf5", file::AccessFlags::Truncate);
   node::Group RootGroup = File.root();
 
   std::vector<int> Data{1, 2, 3, 4, 5, 6};

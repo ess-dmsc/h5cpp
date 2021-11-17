@@ -35,18 +35,18 @@ namespace property {
 
 std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
   switch (version) {
-    case LibVersion::EARLIEST: return stream << "EARLIEST";
-    case LibVersion::LATEST: return stream << "LATEST";
+    case LibVersion::Earliest: return stream << "EARLIEST";
+    case LibVersion::Latest: return stream << "LATEST";
     default:return stream;
   }
 }
 
 std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
   switch (version) {
-    case CloseDegree::WEAK: return stream << "WEAK";
-    case CloseDegree::SEMI: return stream << "SEMI";
-    case CloseDegree::STRONG: return stream << "STRONG";
-    case CloseDegree::DEFAULT: return stream << "DEFAULT";
+    case CloseDegree::Weak: return stream << "WEAK";
+    case CloseDegree::Semi: return stream << "SEMI";
+    case CloseDegree::Strong: return stream << "STRONG";
+    case CloseDegree::Default: return stream << "DEFAULT";
     default:return stream;
   }
 }

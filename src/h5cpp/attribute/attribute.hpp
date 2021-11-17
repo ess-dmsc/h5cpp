@@ -51,6 +51,7 @@ class DLL_EXPORT Attribute
     //! \brief constructor
     //!
     //! \param handle rvalue reference to the attributes handle
+    //! \param parent_link like to the parent object
     //!
     Attribute(ObjectHandle &&handle,const node::Link &parent_link);
 
@@ -333,7 +334,7 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 
   check_size(dataspace::create(data),dataspace(),"write");
 
-  if(file_type.get_class()==datatype::Class::STRING)
+  if(file_type.get_class()==datatype::Class::String)
   {
     datatype::String string_type(file_type);
 
@@ -355,23 +356,23 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 template<typename T>
 void Attribute::write(const T &data) const
 {
-  auto mem_type = datatype::create<T>(data);
+  hdf5::datatype::DatatypeHolder mem_type_holder;
 
-  write(data,mem_type);
+  write(data,mem_type_holder.get<T>());
 }
 
 template<typename T>
 void Attribute::read(T &data) const
 {
   auto file_type = datatype();
-  if(file_type.get_class() == datatype::Class::STRING)
+  if(file_type.get_class() == datatype::Class::String)
   {
     read(data, file_type);
   }
   else
   {
-    auto mem_type = datatype::create<T>(data);
-    read(data, mem_type, file_type);
+    hdf5::datatype::DatatypeHolder mem_type_holder;
+    read(data, mem_type_holder.get<T>(), file_type);
   }
 }
 
@@ -387,7 +388,7 @@ void Attribute::read(T &data, const datatype::Datatype &mem_type, const datatype
 {
   check_size(dataspace::create(data),dataspace(),"read");
 
-  if(file_type.get_class()==datatype::Class::STRING)
+  if(file_type.get_class()==datatype::Class::String)
   {
     datatype::String string_type(file_type);
 

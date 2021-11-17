@@ -35,7 +35,7 @@ namespace filter {
 
 ScaleOffset::ScaleOffset():
     Filter(H5Z_FILTER_SCALEOFFSET),
-    scale_type_(SOScaleType::FLOAT_DSCALE),
+    scale_type_(SOScaleType::FloatDScale),
     scale_factor_(1)
 {}
 
@@ -79,9 +79,9 @@ void ScaleOffset::operator()(const property::DatasetCreationList &dcpl,
 
 std::ostream &operator<<(std::ostream &stream, const SOScaleType &scale_type) {
   switch (scale_type) {
-    case SOScaleType::FLOAT_DSCALE: return stream << "FLOAT_DSCALE";
-    case SOScaleType::FLOAT_ESCALE: return stream << "FLOAT_ESCALE";
-    case SOScaleType::INT: return stream << "INT";
+    case SOScaleType::FloatDScale: return stream << "FLOAT_DSCALE";
+    case SOScaleType::FloatEScale: return stream << "FLOAT_ESCALE";
+    case SOScaleType::Int: return stream << "INT";
     default:return stream;
   }
 }

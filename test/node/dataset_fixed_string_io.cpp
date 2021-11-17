@@ -32,14 +32,14 @@ using strings = std::vector<std::string>;
 
 SCENARIO("testing fixed string IO") {
   auto f = hdf5::file::create("DatasetFixedStringIO.h5",
-                              file::AccessFlags::TRUNCATE);
+                              file::AccessFlags::Truncate);
   auto string_type = datatype::String::fixed(5);
   dataspace::Scalar scalar_space;
   dataspace::Simple simple_space{{2, 3}};
   property::DatasetTransferList dtpl;
 
   string_type.encoding(hdf5::datatype::CharacterEncoding::UTF8);
-  string_type.padding(hdf5::datatype::StringPad::NULLTERM);
+  string_type.padding(hdf5::datatype::StringPad::NullTerm);
 
   GIVEN("a scalar dataset of a fixed string type") {
     node::Dataset dataset(f.root(), "data", string_type, scalar_space);
@@ -78,7 +78,7 @@ SCENARIO("testing fixed string IO") {
         }
         GIVEN("a 10 characters fixed length string type") {
           auto read_type = datatype::String::fixed(10);
-          read_type.padding(datatype::StringPad::SPACEPAD);
+          read_type.padding(datatype::StringPad::SpacePad);
           read_type.encoding(datatype::CharacterEncoding::UTF8);
           std::string buffer;
           THEN("we can read the first element with a hyperslab") {
@@ -94,7 +94,7 @@ SCENARIO("testing fixed string IO") {
         }
         GIVEN("a 6 character fixed length string type") {
           auto read_type = datatype::String::fixed(6);
-          read_type.padding(datatype::StringPad::SPACEPAD);
+          read_type.padding(datatype::StringPad::SpacePad);
           read_type.encoding(datatype::CharacterEncoding::UTF8);
           strings buffer(4);
           AND_GIVEN("a 4 element hyperslab selection") {

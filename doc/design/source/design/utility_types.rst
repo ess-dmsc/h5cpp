@@ -231,7 +231,7 @@ For the iteration direction the following values are available
 Views
 =====
 
-Views are the general concept in *h5++* to expose STL compatible container
+Views are the general concept in *h5cpp* to expose STL compatible container
 interfaces of different types from a single class. 
 The :cpp:any:`h5::utilities` namespace contains the base class for all 
 view types :cpp:class:`h5::utilities::view_t`.

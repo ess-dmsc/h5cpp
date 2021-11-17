@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 14, 2017
 //
 #pragma once
@@ -147,6 +149,7 @@ class DLL_EXPORT AttributeManager
     //! \throws std::runtime_error in case of an error
     //! \tparam T element data type of the attribute
     //! \param name the name of the attribute
+    //! \param acpl attribute creation property list
     //! \return instance of the newly created attribute
     //!
     template<typename T>
@@ -164,6 +167,7 @@ class DLL_EXPORT AttributeManager
     //! \tparam T element data type
     //! \param name the name for the attribute
     //! \param shape the number of elements along each dimension
+    //! \param acpl attribute creation property list
     //! \return instance of the newly created attribute
     //!
     template<typename T>
@@ -229,10 +233,10 @@ template<typename T>
 Attribute AttributeManager::create(const std::string &name,
                                    const property::AttributeCreationList &acpl) const
 {
-  auto type = datatype::create<T>();
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   dataspace::Scalar space;
 
-  return this->create(name,type,space,acpl);
+  return this->create(name,mem_type_holder.get<T>(),space,acpl);
 }
 
 template<typename T>
@@ -240,20 +244,20 @@ Attribute AttributeManager::create(const std::string &name,
                                    const Dimensions &shape,
                                    const property::AttributeCreationList &acpl) const
 {
-  auto type = datatype::create<T>();
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   dataspace::Simple space(shape);
 
-  return create(name,type,space,acpl);
+  return create(name,mem_type_holder.get<T>(),space,acpl);
 
 }
 
 template<typename T>
 Attribute AttributeManager::create_from(const std::string &name,const T &value)
 {
-  auto type = datatype::create<T>();
+  hdf5::datatype::DatatypeHolder mem_type_holder;
   auto space = dataspace::create(value);
 
-  Attribute a = create(name,type,space);
+  Attribute a = create(name,mem_type_holder.get<T>(),space);
   a.write(value);
   return a;
 }

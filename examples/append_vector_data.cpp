@@ -36,7 +36,7 @@ node::Dataset create_dataset(const node::Group parent_group,const Bins bins)
 {
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({100,bins.size()});
 
   dataspace::Simple space{{0,bins.size()},{dataspace::Simple::UNLIMITED,NBINS}};
@@ -56,7 +56,7 @@ void print_data(const std::string &prefix,const Bins &bins)
 int main()
 {
   file::File f = file::create("append_vector_data.h5",
-                              file::AccessFlags::TRUNCATE);
+                              file::AccessFlags::Truncate);
   node::Group root_group = f.root();
   Bins data(NBINS);
   node::Dataset dataset = create_dataset(root_group,data);

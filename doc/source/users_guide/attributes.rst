@@ -41,7 +41,7 @@ A multidimensional attribute can be created using
 
    Attribute attribute = dataset.attributes.create<float>("orientation_matrix",{3,3});
    
-which would lead to a 3x3 matrix attribute of type :cpp:type:`float`. 
+which would lead to a 3x3 matrix attribute of type `float`.
 There exists also a non template version of :cpp:func:`create` which 
 exposes all the flexibility HDF5 provides. So we could write the last 
 example also with 

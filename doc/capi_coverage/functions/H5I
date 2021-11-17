@@ -10,6 +10,7 @@ H5Iget_type_ref
 H5Iinc_ref
 H5Iinc_type_ref
 H5Iis_valid
+H5Iiterate
 H5Inmembers
 H5Iobject_verify
 H5Iregister

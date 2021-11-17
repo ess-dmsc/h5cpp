@@ -47,9 +47,9 @@ SCENARIO("stream output of dataset property list related enumeration types") {
   WHEN("writing DatasetFillValueStatus to a stream") {
     using rtype = stream_record<FillValueStatus>;
     auto records = GENERATE(table<FillValueStatus, std::string>(
-        {rtype{FillValueStatus::UNDEFINED, "UNDEFINED"},
-         rtype{FillValueStatus::DEFAULT, "DEFAULT"},
-         rtype{FillValueStatus::USER_DEFINED, "USER_DEFINED"}}));
+        {rtype{FillValueStatus::Undefined, "UNDEFINED"},
+         rtype{FillValueStatus::Default, "DEFAULT"},
+         rtype{FillValueStatus::UserDefined, "USER_DEFINED"}}));
     stream << std::get<0>(records);
     THEN("the content of the stream will be") {
       REQUIRE(std::get<1>(records) == stream.str());
@@ -59,8 +59,8 @@ SCENARIO("stream output of dataset property list related enumeration types") {
   WHEN("writing DatasetFillTime to the stream") {
     using rtype = stream_record<FillTime>;
     auto records = GENERATE(table<prop::DatasetFillTime, std::string>(
-        {rtype{FillTime::IFSET, "IFSET"}, rtype{FillTime::ALLOC, "ALLOC"},
-         rtype{FillTime::NEVER, "NEVER"}}));
+        {rtype{FillTime::IfSet, "IFSET"}, rtype{FillTime::Alloc, "ALLOC"},
+         rtype{FillTime::Never, "NEVER"}}));
     stream << std::get<0>(records);
     THEN("the content of the stream will be") {
       REQUIRE(std::get<1>(records) == stream.str());
@@ -70,9 +70,9 @@ SCENARIO("stream output of dataset property list related enumeration types") {
   WHEN("writing the AllocationTime enumeration to a stream") {
     using r = stream_record<AllocationTime>;
     auto params = GENERATE(table<AllocationTime, std::string>(
-        {r{AllocationTime::DEFAULT, "DEFAULT"},
-         r{AllocationTime::EARLY, "EARLY"}, r{AllocationTime::INCR, "INCR"},
-         r{AllocationTime::LATE, "LATE"}}));
+        {r{AllocationTime::Default, "DEFAULT"},
+         r{AllocationTime::Early, "EARLY"}, r{AllocationTime::Incr, "INCR"},
+         r{AllocationTime::Late, "LATE"}}));
     stream << std::get<0>(params);
     THEN("the content of the stream will be") {
       REQUIRE(std::get<1>(params) == stream.str());
@@ -83,15 +83,15 @@ SCENARIO("stream output of dataset property list related enumeration types") {
     using r = stream_record<Layout>;
 #if H5_VERSION_GE(1, 10, 0)
     auto params = GENERATE(table<Layout, std::string>({
-      r{Layout::COMPACT, "COMPACT"}, r{Layout::CONTIGUOUS, "CONTIGUOUS"}, r {
-        Layout::CHUNKED, "CHUNKED"
+      r{Layout::Compact, "COMPACT"}, r{Layout::Contiguous, "CONTIGUOUS"}, r {
+        Layout::Chunked, "CHUNKED"
       }
-      , r { Layout::VIRTUAL, "VIRTUAL" }
+      , r { Layout::Virtual, "VIRTUAL" }
     }));
 #else
 	auto params = GENERATE(table<Layout, std::string>({
-  r{Layout::COMPACT, "COMPACT"}, r{Layout::CONTIGUOUS, "CONTIGUOUS"}, r {
-	Layout::CHUNKED, "CHUNKED"
+  r{Layout::Compact, "COMPACT"}, r{Layout::Contiguous, "CONTIGUOUS"}, r {
+	Layout::Chunked, "CHUNKED"
   } }));
 #endif
 	
@@ -107,23 +107,23 @@ SCENARIO("construction of a DatasetCreationList") {
     prop::DatasetCreationList pl;
     THEN("the list will he the following properties") {
       REQUIRE(pl.get_class() == prop::kDatasetCreate);
-      REQUIRE(pl.layout() == prop::DatasetLayout::CONTIGUOUS);
-      REQUIRE(pl.fill_time() == prop::DatasetFillTime::IFSET);
-      REQUIRE(pl.allocation_time() == prop::DatasetAllocTime::LATE);
-      REQUIRE(pl.fill_value_status() == prop::DatasetFillValueStatus::DEFAULT);
+      REQUIRE(pl.layout() == prop::DatasetLayout::Contiguous);
+      REQUIRE(pl.fill_time() == prop::DatasetFillTime::IfSet);
+      REQUIRE(pl.allocation_time() == prop::DatasetAllocTime::Late);
+      REQUIRE(pl.fill_value_status() == prop::DatasetFillValueStatus::Default);
     }
     WHEN("we close the actual creation list") {
       close(pl);
       THEN("all requests to the methods will raise an exception") {
-        REQUIRE_THROWS_AS(pl.layout(prop::DatasetLayout::CHUNKED),
+        REQUIRE_THROWS_AS(pl.layout(prop::DatasetLayout::Chunked),
                           std::runtime_error);
         REQUIRE_THROWS_AS(pl.layout(), std::runtime_error);
         REQUIRE_THROWS_AS(pl.chunk({1}), std::runtime_error);
         REQUIRE_THROWS_AS(pl.chunk(), std::runtime_error);
-        REQUIRE_THROWS_AS(pl.fill_time(prop::DatasetFillTime::IFSET),
+        REQUIRE_THROWS_AS(pl.fill_time(prop::DatasetFillTime::IfSet),
                           std::runtime_error);
         REQUIRE_THROWS_AS(pl.fill_time(), std::runtime_error);
-        REQUIRE_THROWS_AS(pl.allocation_time(prop::DatasetAllocTime::LATE),
+        REQUIRE_THROWS_AS(pl.allocation_time(prop::DatasetAllocTime::Late),
                           std::runtime_error);
         REQUIRE_THROWS_AS(pl.allocation_time(), std::runtime_error);
         REQUIRE_THROWS_AS(pl.fill_value(1024), std::runtime_error);
@@ -149,10 +149,10 @@ SCENARIO("construction of a DatasetCreationList") {
 SCENARIO("setting the layout on a DatasetCreation property list") {
   prop::DatasetCreationList pl;
 #if H5_VERSION_GE(1, 10, 0)
-  auto layouts = GENERATE(Layout::CONTIGUOUS, Layout::CHUNKED, Layout::COMPACT,
-                          Layout::VIRTUAL);
+  auto layouts = GENERATE(Layout::Contiguous, Layout::Chunked, Layout::Compact,
+                          Layout::Virtual);
 #else
-  auto layouts = GENERATE(Layout::CONTIGUOUS, Layout::CHUNKED, Layout::COMPACT);
+  auto layouts = GENERATE(Layout::Contiguous, Layout::Chunked, Layout::Compact);
 #endif
   
   WHEN("setting the layout") {
@@ -163,7 +163,7 @@ SCENARIO("setting the layout on a DatasetCreation property list") {
 
 SCENARIO("setting the fill time on a DatasetCreation property list") {
   prop::DatasetCreationList pl;
-  auto times = GENERATE(FillTime::ALLOC, FillTime::IFSET, FillTime::NEVER);
+  auto times = GENERATE(FillTime::Alloc, FillTime::IfSet, FillTime::Never);
   WHEN("setting the fill time to") {
     pl.fill_time(times);
     THEN("the fill time is") { REQUIRE(pl.fill_time() == times); }
@@ -174,10 +174,10 @@ SCENARIO("setting the allocation time on a DatasetCreation property list") {
   prop::DatasetCreationList pl;
   using r = std::tuple<AllocationTime, AllocationTime>;
   auto times = GENERATE(table<AllocationTime, AllocationTime>(
-      {r{AllocationTime::LATE, AllocationTime::LATE},
-       r{AllocationTime::DEFAULT, AllocationTime::LATE},
-       r{AllocationTime::EARLY, AllocationTime::EARLY},
-       r{AllocationTime::INCR, AllocationTime::INCR}}));
+      {r{AllocationTime::Late, AllocationTime::Late},
+       r{AllocationTime::Default, AllocationTime::Late},
+       r{AllocationTime::Early, AllocationTime::Early},
+       r{AllocationTime::Incr, AllocationTime::Incr}}));
   WHEN("setting the allocation time") {
     pl.allocation_time(std::get<0>(times));
     THEN("the allocation time will be") {
@@ -209,7 +209,7 @@ SCENARIO("setting the fill value on a DatasetCreation property list") {
         REQUIRE(fill_value == pl.fill_value<int>());
       }
       THEN("the fill value status is user defined") {
-        REQUIRE(FillValueStatus::USER_DEFINED == pl.fill_value_status());
+        REQUIRE(FillValueStatus::UserDefined == pl.fill_value_status());
       }
     }
     GIVEN("an integer HDF5 datatype") {

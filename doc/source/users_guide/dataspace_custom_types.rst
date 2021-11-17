@@ -47,6 +47,12 @@ a type trait as follows
         {
           return Simple({3,3});
         }
+
+        const static DataspaceType & get(const Matrix &)
+        {
+          const static DataspaceType & cref_ = Simple({3,3});
+	  return cref_;
+        }
     
         static void *ptr(Matrix &value)
         {

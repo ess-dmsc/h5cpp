@@ -34,7 +34,7 @@
 using namespace hdf5;
 
 TEST_CASE("testing attribute construction","[h5cpp],[attribute],[create]") { 
-  auto file = file::create("attribute_test.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("attribute_test.h5", file::AccessFlags::Truncate);
   auto root = file.root();
 
   SECTION("default construction") { 
@@ -49,17 +49,17 @@ TEST_CASE("testing attribute construction","[h5cpp],[attribute],[create]") {
 
     attribute::Attribute a;
     REQUIRE_NOTHROW(a = root.attributes.create<int>("test"));
-    REQUIRE(a.dataspace().type() == dataspace::Type::SCALAR);
+    REQUIRE(a.dataspace().type() == dataspace::Type::Scalar);
     REQUIRE(a.parent_link().path() =="/");
 
     dataspace::Scalar space(a.dataspace());
-    REQUIRE(a.datatype().get_class() == datatype::Class::INTEGER);
+    REQUIRE(a.datatype().get_class() == datatype::Class::Integer);
     REQUIRE(a.name() == "test");
     REQUIRE(root.attributes.size() == 1ul);
 
     REQUIRE_NOTHROW(a = root.attributes.create<float>("test2"));
-    REQUIRE(a.dataspace().type() == dataspace::Type::SCALAR);
-    REQUIRE(a.datatype().get_class() == datatype::Class::FLOAT);
+    REQUIRE(a.dataspace().type() == dataspace::Type::Scalar);
+    REQUIRE(a.datatype().get_class() == datatype::Class::Float);
     REQUIRE(a.name() == "test2");
     REQUIRE(root.attributes.size() == 2ul);
 
@@ -74,7 +74,7 @@ TEST_CASE("testing attribute construction","[h5cpp],[attribute],[create]") {
     REQUIRE_NOTHROW(a = root.attributes.create<int>("test",{1}));
     REQUIRE(a.dataspace().size() == 1L);
     REQUIRE(a.name() == "test");
-    REQUIRE(a.dataspace().type() == dataspace::Type::SIMPLE);
+    REQUIRE(a.dataspace().type() == dataspace::Type::Simple);
     dataspace::Simple space(a.dataspace());
     REQUIRE(space.rank() == 1u);
     REQUIRE(space.current_dimensions()[0] == 1ul);

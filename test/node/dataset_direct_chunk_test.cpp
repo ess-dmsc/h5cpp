@@ -58,12 +58,12 @@ SCENARIO("testing dataset access via chunks") {
 #if H5_VERSION_GE(1, 10, 0)
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
-  auto f = file::create("dataset_direct_chunk.h5", file::AccessFlags::TRUNCATE,
+  fapl.library_version_bounds(property::LibVersion::Latest,
+                              property::LibVersion::Latest);
+  auto f = file::create("dataset_direct_chunk.h5", file::AccessFlags::Truncate,
                         fcpl, fapl);
 #else
-  auto f = file::create("dataset_direct_chunk.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("dataset_direct_chunk.h5", file::AccessFlags::Truncate);
 #endif
   auto root = f.root();
   auto space = unlimited_space({0, xdim, ydim});
@@ -75,7 +75,7 @@ SCENARIO("testing dataset access via chunks") {
   property::DatasetAccessList dapl;
   property::DatasetTransferList dtpl;
   property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1, xdim, ydim});
 
   UShorts frame(xdim * ydim);
@@ -127,7 +127,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk) {
     data2.extent(0, 1);
     framespace.offset({i, 0, 0});
     dataspace::Dataspace file_space = data2.dataspace();
-    file_space.selection(dataspace::SelectionOperation::SET, framespace);
+    file_space.selection(dataspace::SelectionOperation::Set, framespace);
     data2.write(frame, dtype, memspace, file_space, dtpl);
   }
 
@@ -146,7 +146,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate) {
   property::DatasetCreationList dcpl;
   filter::Deflate filter(2u);
   filter(dcpl);
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1, sxdim});
   node::Dataset data3 =
       node::Dataset(root, "data3", datatype::create<unsigned short int>(),
@@ -156,7 +156,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate) {
     data3.extent(0, 1);
     sframespace.offset({i, 0});
     dataspace::Dataspace file_space = data3.dataspace();
-    file_space.selection(dataspace::SelectionOperation::SET, sframespace);
+    file_space.selection(dataspace::SelectionOperation::Set, sframespace);
     if (i % 2)
       data3.write(sframe, dtype, smemspace, file_space, dtpl);
     else
@@ -198,7 +198,7 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate) {
   property::DatasetCreationList dcpl;
   filter::Deflate filter(2u);
   filter(dcpl);
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1, sxdim});
   node::Dataset data4 =
       node::Dataset(root, "data4", datatype::create<unsigned short int>(),

@@ -51,12 +51,12 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("type class enumerations") {
     using ptype = std::tuple<Class, std::string>;
     auto param = GENERATE(table<Class, std::string>(
-        {ptype{Class::NONE, "NONE"}, ptype{Class::INTEGER, "INTEGER"},
-         ptype{Class::FLOAT, "FLOAT"}, ptype{Class::TIME, "TIME"},
-         ptype{Class::STRING, "STRING"}, ptype{Class::BITFIELD, "BITFIELD"},
-         ptype{Class::OPAQUE, "OPAQUE"}, ptype{Class::COMPOUND, "COMPOUND"},
-         ptype{Class::REFERENCE, "REFERENCE"}, ptype{Class::ENUM, "ENUM"},
-         ptype{Class::VARLENGTH, "VARLENGTH"}, ptype{Class::ARRAY, "ARRAY"}}));
+        {ptype{Class::None, "NONE"}, ptype{Class::Integer, "INTEGER"},
+         ptype{Class::Float, "FLOAT"}, ptype{Class::Time, "TIME"},
+         ptype{Class::String, "STRING"}, ptype{Class::BitField, "BITFIELD"},
+         ptype{Class::Opaque, "OPAQUE"}, ptype{Class::Compound, "COMPOUND"},
+         ptype{Class::Reference, "REFERENCE"}, ptype{Class::Enum, "ENUM"},
+         ptype{Class::VarLength, "VARLENGTH"}, ptype{Class::Array, "ARRAY"}}));
     WHEN("writting the type class to the stream") {
       stream << value(param);
       THEN("result will be") { REQUIRE(stream.str() == str(param)); }
@@ -76,8 +76,8 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("write the sign enumeration") {
     using ptype = std::tuple<Sign, std::string>;
     auto param = GENERATE(table<Sign, std::string>(
-        {ptype{Sign::TWOS_COMPLEMENT, "TWOS COMPLEMENT"},
-         ptype{Sign::UNSIGNED, "UNSIGNED"}}));
+        {ptype{Sign::TwosComplement, "TWOS COMPLEMENT"},
+         ptype{Sign::Unsigned, "UNSIGNED"}}));
     WHEN("writing the sign to the stream") {
       stream << value(param);
       THEN("the result will be") { REQUIRE(stream.str() == str(param)); }
@@ -87,8 +87,8 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("write the Norm enumeration") {
     using ptype = std::tuple<Norm, std::string>;
     auto param = GENERATE(table<Norm, std::string>(
-        {ptype{Norm::IMPLIED, "IMPLIED"}, ptype{Norm::MSBSET, "MSBSET"},
-         ptype{Norm::NONE, "NONE"}}));
+        {ptype{Norm::Implied, "IMPLIED"}, ptype{Norm::MSBSet, "MSBSET"},
+         ptype{Norm::None, "NONE"}}));
     WHEN("writing the norm to the stream") {
       stream << value(param);
       THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
@@ -98,8 +98,8 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("write Pad enumeration") {
     using ptype = std::tuple<Pad, std::string>;
     auto param = GENERATE(table<Pad, std::string>(
-        {ptype{Pad::BACKGROUND, "BACKGROUND"}, ptype{Pad::ONE, "ONE"},
-         ptype{Pad::ZERO, "ZERO"}}));
+        {ptype{Pad::Background, "BACKGROUND"}, ptype{Pad::One, "ONE"},
+         ptype{Pad::Zero, "ZERO"}}));
     WHEN("writing the pad to the stream") {
       stream << value(param);
       THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
@@ -109,9 +109,9 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("wirting the string padding to the stream") {
     using ptype = std::tuple<StringPad, std::string>;
     auto param = GENERATE(table<StringPad, std::string>(
-        {ptype{StringPad::NULLPAD, "NULLPAD"},
-         ptype{StringPad::NULLTERM, "NULLTERM"},
-         ptype{StringPad::SPACEPAD, "SPACEPAD"}}));
+        {ptype{StringPad::NullPad, "NULLPAD"},
+         ptype{StringPad::NullTerm, "NULLTERM"},
+         ptype{StringPad::SpacePad, "SPACEPAD"}}));
     WHEN("writing the string padding to the stream") {
       stream << value(param);
       THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }
@@ -121,8 +121,8 @@ SCENARIO("Enumeration stream IO") {
   GIVEN("writing the direction to the stream") {
     using ptype = std::tuple<Direction, std::string>;
     auto param = GENERATE(
-        table<Direction, std::string>({ptype{Direction::ASCEND, "ASCEND"},
-                                       ptype{Direction::DESCEND, "DESCEND"}}));
+        table<Direction, std::string>({ptype{Direction::Ascend, "ASCEND"},
+                                       ptype{Direction::Descend, "DESCEND"}}));
     WHEN("writing the direction to the stream") {
       stream << value(param);
       THEN("the restult will be") { REQUIRE(stream.str() == str(param)); }

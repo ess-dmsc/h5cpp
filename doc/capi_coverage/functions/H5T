@@ -1,8 +1,6 @@
 H5Tarray_create
-H5Tarray_create2
 H5Tclose
 H5Tcommit
-H5Tcommit2
 H5Tcommit_anon
 H5Tcommitted
 H5Tcompiler_conv
@@ -20,7 +18,6 @@ H5Tequal
 H5Tfind
 H5Tflush
 H5Tget_array_dims
-H5Tget_array_dims2
 H5Tget_array_ndims
 H5Tget_class
 H5Tget_create_plist
@@ -50,8 +47,8 @@ H5Tinsert
 H5Tis_variable_str
 H5Tlock
 H5Topen
-H5Topen2
 H5Tpack
+H5Treclaim
 H5Trefresh
 H5Tregister
 H5Tset_cset

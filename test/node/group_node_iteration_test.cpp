@@ -38,14 +38,14 @@ SCENARIO("testing node iteration over a group") {
   property::LinkCreationList lcpl;
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
-  fapl.library_version_bounds(property::LibVersion::LATEST,
-                              property::LibVersion::LATEST);
+  fapl.library_version_bounds(property::LibVersion::Latest,
+                              property::LibVersion::Latest);
 
   property::GroupCreationList gcpl;
   gcpl.link_creation_order(property::CreationOrder().enable_indexed());
   fcpl.link_creation_order(property::CreationOrder().enable_indexed());
   auto f = file::create("group_node_iteration_test.h5",
-                        file::AccessFlags::TRUNCATE, fcpl, fapl);
+                        file::AccessFlags::Truncate, fcpl, fapl);
   auto r = f.root();
   auto g1 = r.create_group("g1", lcpl, gcpl);
   auto g2 = r.create_group("g2", lcpl, gcpl);
@@ -72,18 +72,18 @@ SCENARIO("testing node iteration over a group") {
   auto path = [&name](const tr& l) { return "/" + name(l); };
 
   WHEN("access by index in decreasing order using the name as key") {
-    r.iterator_config().index(hdf5::IterationIndex::NAME);
-    r.iterator_config().order(hdf5::IterationOrder::DECREASING);
-    std::vector<tr> values{tr{Type::GROUP, LinkType::SOFT, "g3_soft_link"},
-                      tr{Type::GROUP, LinkType::HARD, "g3"},
-                      tr{Type::GROUP, LinkType::SOFT, "g2_soft_link"},
-                      tr{Type::GROUP, LinkType::HARD, "g2"},
-                      tr{Type::GROUP, LinkType::SOFT, "g1_soft_link"},
-                      tr{Type::GROUP, LinkType::HARD, "g1"},
-                      tr{Type::DATASET, LinkType::SOFT, "d2_soft_link"},
-                      tr{Type::DATASET, LinkType::HARD, "d2"},
-                      tr{Type::DATASET, LinkType::SOFT, "d1_soft_link"},
-                      tr{Type::DATASET, LinkType::HARD, "d1"}};
+    r.iterator_config().index(hdf5::IterationIndex::Name);
+    r.iterator_config().order(hdf5::IterationOrder::Decreasing);
+    std::vector<tr> values{tr{Type::Group, LinkType::Soft, "g3_soft_link"},
+                      tr{Type::Group, LinkType::Hard, "g3"},
+                      tr{Type::Group, LinkType::Soft, "g2_soft_link"},
+                      tr{Type::Group, LinkType::Hard, "g2"},
+                      tr{Type::Group, LinkType::Soft, "g1_soft_link"},
+                      tr{Type::Group, LinkType::Hard, "g1"},
+                      tr{Type::Dataset, LinkType::Soft, "d2_soft_link"},
+                      tr{Type::Dataset, LinkType::Hard, "d2"},
+                      tr{Type::Dataset, LinkType::Soft, "d1_soft_link"},
+                      tr{Type::Dataset, LinkType::Hard, "d1"}};
     THEN("we can access the nodes by their numeric index") {
       for (size_t index = 0; index < r.nodes.size(); ++index) {
         REQUIRE(r.nodes[index].type() == node_type(values[index]));
@@ -131,18 +131,18 @@ SCENARIO("testing node iteration over a group") {
   }
 
   WHEN("access by index in increasing order using the creation order as key") {
-    r.iterator_config().index(hdf5::IterationIndex::CREATION_ORDER);
-    r.iterator_config().order(hdf5::IterationOrder::INCREASING);
-    std::vector<tr> values{tr{Type::GROUP, LinkType::HARD, "g1"},
-                           tr{Type::GROUP, LinkType::HARD, "g2"},
-                           tr{Type::GROUP, LinkType::HARD, "g3"},
-                           tr{Type::DATASET, LinkType::HARD, "d1"},
-                           tr{Type::DATASET, LinkType::HARD, "d2"},
-                           tr{Type::GROUP, LinkType::SOFT, "g1_soft_link"},
-                           tr{Type::GROUP, LinkType::SOFT, "g2_soft_link"},
-                           tr{Type::GROUP, LinkType::SOFT, "g3_soft_link"},
-                           tr{Type::DATASET, LinkType::SOFT, "d1_soft_link"},
-                           tr{Type::DATASET, LinkType::SOFT, "d2_soft_link"}};
+    r.iterator_config().index(hdf5::IterationIndex::CreationOrder);
+    r.iterator_config().order(hdf5::IterationOrder::Increasing);
+    std::vector<tr> values{tr{Type::Group, LinkType::Hard, "g1"},
+                           tr{Type::Group, LinkType::Hard, "g2"},
+                           tr{Type::Group, LinkType::Hard, "g3"},
+                           tr{Type::Dataset, LinkType::Hard, "d1"},
+                           tr{Type::Dataset, LinkType::Hard, "d2"},
+                           tr{Type::Group, LinkType::Soft, "g1_soft_link"},
+                           tr{Type::Group, LinkType::Soft, "g2_soft_link"},
+                           tr{Type::Group, LinkType::Soft, "g3_soft_link"},
+                           tr{Type::Dataset, LinkType::Soft, "d1_soft_link"},
+                           tr{Type::Dataset, LinkType::Soft, "d2_soft_link"}};
     THEN("we can access the element by numeric index") {
       for (size_t index = 0; index < r.nodes.size(); ++index) {
         REQUIRE(r.nodes[index].type() == node_type(values[index]));

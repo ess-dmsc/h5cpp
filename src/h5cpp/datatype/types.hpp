@@ -44,34 +44,29 @@ const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
 #pragma clang diagnostic pop
 #endif
 
-#ifdef _MSC_VER
-#undef OPAQUE
-#endif
-
 //!
-//! \enum data type class
+//! \enum Class data type class
 //!
 //! Enumeration type describing the class a particular data type belongs to.
 //!
 enum class Class : std::underlying_type<H5T_class_t>::type
 {
-  NONE = H5T_NO_CLASS,         //!< indicates a non-type
-  INTEGER = H5T_INTEGER,       //!< indicates an integer type
-  FLOAT = H5T_FLOAT,           //!< indicates a float type
-  TIME = H5T_TIME,             //!< indicates a time type
-  STRING = H5T_STRING,         //!< indicates a string type
-  BITFIELD = H5T_BITFIELD,     //!< indicates a bitfield type
-  OPAQUE = H5T_OPAQUE,         //!< indicates an opaque type
-  COMPOUND = H5T_COMPOUND,     //!< indicates a compound type
-  REFERENCE = H5T_REFERENCE,   //!< indicates a reference type
-  ENUM = H5T_ENUM,             //!< indicates an enumeration type
-  VARLENGTH = H5T_VLEN,        //!< indicates a variable length type
-  ARRAY = H5T_ARRAY            //!< indicates an array type
+  None = H5T_NO_CLASS,         //!< indicates a non-type
+  Integer = H5T_INTEGER,       //!< indicates an integer type
+  Float = H5T_FLOAT,           //!< indicates a float type
+  Time = H5T_TIME,             //!< indicates a time type
+  String = H5T_STRING,         //!< indicates a string type
+  BitField = H5T_BITFIELD,     //!< indicates a bitfield type
+  Opaque = H5T_OPAQUE,         //!< indicates an opaque type
+  Compound = H5T_COMPOUND,     //!< indicates a compound type
+  Reference = H5T_REFERENCE,   //!< indicates a reference type
+  Enum = H5T_ENUM,             //!< indicates an enumeration type
+  VarLength = H5T_VLEN,        //!< indicates a variable length type
+  Array = H5T_ARRAY            //!< indicates an array type
 };
 
 //!
 //! @brief stream output operator for the Class enumeration
-//! @relates Class
 //!
 //! @param stream reference to the output stream
 //! @param c reference to the class enumeration
@@ -86,8 +81,8 @@ enum class Order : std::underlying_type<H5T_order_t>::type
 {
   LE = H5T_ORDER_LE, //!< littlen endian type
   BE = H5T_ORDER_BE,  //!< big endian type
-  VAX = H5T_ORDER_VAX, //  VAX mixed byte order
-  NONE = H5T_ORDER_NONE  // None
+  Vax = H5T_ORDER_VAX, //  VAX mixed byte order
+  None = H5T_ORDER_NONE  // None
 };
 
 //!
@@ -104,8 +99,8 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Order &o);
 //!
 enum class Sign : std::underlying_type<H5T_sign_t>::type
 {
-  TWOS_COMPLEMENT = H5T_SGN_2, //!< indicates a signed type
-  UNSIGNED = H5T_SGN_NONE      //!< indicates an unsigned type
+  TwosComplement = H5T_SGN_2, //!< indicates a signed type
+  Unsigned = H5T_SGN_NONE      //!< indicates an unsigned type
 };
 
 //!
@@ -122,9 +117,9 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Sign &s);
 //!
 enum class Norm : std::underlying_type<H5T_norm_t>::type
 {
-  IMPLIED = H5T_NORM_IMPLIED,
-  MSBSET = H5T_NORM_MSBSET,
-  NONE = H5T_NORM_NONE
+  Implied = H5T_NORM_IMPLIED,
+  MSBSet = H5T_NORM_MSBSET,
+  None = H5T_NORM_NONE
 };
 
 //!
@@ -141,9 +136,9 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Norm &n);
 //!
 enum class Pad : std::underlying_type<H5T_pad_t>::type
 {
-  ZERO = H5T_PAD_ZERO,
-  ONE = H5T_PAD_ONE,
-  BACKGROUND = H5T_PAD_BACKGROUND
+  Zero = H5T_PAD_ZERO,
+  One = H5T_PAD_ONE,
+  Background = H5T_PAD_BACKGROUND
 };
 
 //!
@@ -160,9 +155,9 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const Pad &p);
 //!
 enum class StringPad : std::underlying_type<H5T_str_t>::type
 {
-  NULLTERM = H5T_STR_NULLTERM, //!< indicates a null terminated string type
-  NULLPAD = H5T_STR_NULLPAD,   //!< indicates a null padded string type
-  SPACEPAD = H5T_STR_SPACEPAD  //!< indicates a space padded string type
+  NullTerm = H5T_STR_NULLTERM, //!< indicates a null terminated string type
+  NullPad = H5T_STR_NULLPAD,   //!< indicates a null padded string type
+  SpacePad = H5T_STR_SPACEPAD  //!< indicates a space padded string type
 };
 
 //!
@@ -176,8 +171,8 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const StringPad &pad);
 
 enum class Direction : std::underlying_type<H5T_direction_t>::type
 {
-  ASCEND = H5T_DIR_ASCEND,
-  DESCEND = H5T_DIR_DESCEND
+  Ascend = H5T_DIR_ASCEND,
+  Descend = H5T_DIR_DESCEND
 };
 
 //!

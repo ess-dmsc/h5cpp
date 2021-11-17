@@ -4,6 +4,8 @@ H5close
 H5dont_atexit
 H5free_memory
 H5garbage_collect
+H5get_alloc_stats
+H5get_free_list_sizes
 H5get_libversion
 H5is_library_threadsafe
 H5open

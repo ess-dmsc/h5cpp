@@ -64,7 +64,7 @@ node::Dataset create_vector_dataset(const std::string &name,const node::Group &p
 {
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk(Dimensions{1024});
 
   auto datatype = datatype::TypeTrait<DoubleVector>::create();
@@ -79,7 +79,7 @@ int main()
   Positions positions(10);
   Velocities velocities(10);
 
-  file::File file = file::create("write_vector_list.h5",file::AccessFlags::TRUNCATE);
+  file::File file = file::create("write_vector_list.h5",file::AccessFlags::Truncate);
   node::Group root_group = file.root();
 
   VectorAppender positions_appender(create_vector_dataset("positions",root_group),"position");

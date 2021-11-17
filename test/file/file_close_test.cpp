@@ -50,7 +50,7 @@ SCENARIO("Closing file") {
     hdf5::property::FileAccessList fapl;
     hdf5::property::FileCreationList fcpl;
     auto f =
-        file::create(filename, file::AccessFlags::TRUNCATE, fcpl, fapl);
+        file::create(filename, file::AccessFlags::Truncate, fcpl, fapl);
     f.root()
         .attributes
         .create("HDF5_version", datatype::create<std::string>(),
@@ -60,17 +60,17 @@ SCENARIO("Closing file") {
 
   GIVEN("A strong closing policy") {
     hdf5::property::FileAccessList fapl;
-    fapl.close_degree(hdf5::property::CloseDegree::STRONG);
-    REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::STRONG);
+    fapl.close_degree(hdf5::property::CloseDegree::Strong);
+    REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::Strong);
     THEN("the all remaining objects will be close along with the file") {
       auto file = hdf5::file::open(filename,
-                                   hdf5::file::AccessFlags::READONLY, fapl);
+                                   hdf5::file::AccessFlags::ReadOnly, fapl);
       auto root_group = file.root();
 
       auto attr = root_group.attributes[0];
-      REQUIRE(file.count_open_objects(file::SearchFlags::ALL) == 3u);
+      REQUIRE(file.count_open_objects(file::SearchFlags::All) == 3u);
 
-      // with CloseDegree::STRONG it closes also root_group and attr
+      // with CloseDegree::Strong it closes also root_group and attr
       REQUIRE_NOTHROW(file.close());
       REQUIRE_FALSE(root_group.is_valid());
       REQUIRE_FALSE(attr.is_valid());
@@ -79,28 +79,28 @@ SCENARIO("Closing file") {
       // everything is close so file can be reopen in a different mode, i.e.
       // READWRITE
       REQUIRE_NOTHROW(
-          hdf5::file::open(filename, hdf5::file::AccessFlags::READWRITE));
+          hdf5::file::open(filename, hdf5::file::AccessFlags::ReadWrite));
     }
   }
 
   GIVEN("the default closing policy") {
     hdf5::property::FileAccessList fapl;
-    REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::DEFAULT);
+    REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::Default);
     auto file = hdf5::file::open(filename,
-                                 hdf5::file::AccessFlags::READONLY, fapl);
+                                 hdf5::file::AccessFlags::ReadOnly, fapl);
     auto root_group = file.root();
 
     auto attr = root_group.attributes[0];
-    REQUIRE(file.count_open_objects(file::SearchFlags::ALL) == 3ul);
+    REQUIRE(file.count_open_objects(file::SearchFlags::All) == 3ul);
 
-    // without CloseDegree::STRONG root_group and attr are still open
+    // without CloseDegree::Strong root_group and attr are still open
     REQUIRE_NOTHROW(file.close());
     REQUIRE(root_group.is_valid());
     REQUIRE(attr.is_valid());
 
     // file cannot be reopen in a different mode, i.e. READWRITE
     REQUIRE_THROWS_AS(
-        hdf5::file::open(filename, hdf5::file::AccessFlags::READWRITE),
+        hdf5::file::open(filename, hdf5::file::AccessFlags::ReadWrite),
         std::runtime_error);
   }
 }

@@ -26,7 +26,7 @@
 #include "object_handle_test.hpp"
 
 DatasetObjectHandleTest::DatasetObjectHandleTest(const std::string &filename):
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATASET),
+  ObjectHandleTest(hdf5::ObjectHandle::Type::Dataset),
   filename_(filename),
   environment_(filename_),
   dtype_(H5Tcopy(H5T_NATIVE_DOUBLE)),

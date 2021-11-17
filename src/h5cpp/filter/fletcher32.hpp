@@ -56,9 +56,10 @@ class DLL_EXPORT Fletcher32 : public Filter
     //!
     //! \throws std::runtime_error in case of a failure
     //! \param dcpl reference to the dataset creation property list
+    //! \param flag availability flag
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::mandatory) const override;
+                            Availability flag = Availability::Mandatory) const override;
 };
 #ifdef __clang__
 #pragma clang diagnostic pop

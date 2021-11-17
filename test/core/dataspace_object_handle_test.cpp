@@ -26,7 +26,7 @@
 #include "object_handle_test.hpp"
 
 DataspaceObjectHandleTest::DataspaceObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATASPACE)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::Dataspace)
 {
 
 }

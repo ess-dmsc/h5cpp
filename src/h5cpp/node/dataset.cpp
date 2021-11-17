@@ -75,15 +75,17 @@ Node Dataset::create_dataset(const Group &base,
 // implementation of public member functions
 //=============================================================================
 Dataset::Dataset(const Node &node):
-    Node(node)
+  Node(node) 
 {
-  if(node.type()!=Type::DATASET)
+  if(node.type()!=Type::Dataset)
   {
     std::stringstream ss;
     ss<<"Construction of a Dataset from a Node failed since ";
     ss<<"Node ["<<node.link().path()<<"] is not a dataset!";
     throw std::runtime_error(ss.str());
   }
+  file_type = datatype();
+  file_type_class = file_type.get_class();
 }
 
 Dataset::Dataset(const Group &base,const Path &path,
@@ -92,8 +94,11 @@ Dataset::Dataset(const Group &base,const Path &path,
                  const property::LinkCreationList &lcpl,
                  const property::DatasetCreationList &dcpl,
                  const property::DatasetAccessList &dapl):
- Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
-{}
+  Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
+  {
+  file_type = datatype();
+  file_type_class = file_type.get_class();
+}
 
 
 dataspace::Dataspace Dataset::dataspace() const
@@ -117,7 +122,6 @@ datatype::Datatype Dataset::datatype() const
     ss<<"Failure retrieving datatype for dataset "<<link().path()<<"!";
     hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
-
   return datatype::Datatype(ObjectHandle(id));
 }
 
@@ -185,10 +189,10 @@ void Dataset::refresh() const
 
 #if H5_VERSION_GE(1,10,2)
 
-long long unsigned int Dataset::chunk_storage_size(
-			 std::vector<long long unsigned int> offset) const
+unsigned long long Dataset::chunk_storage_size(
+			 std::vector<unsigned long long> offset) const
 {
-  long long unsigned int storage_size;
+  unsigned long long storage_size;
   if(H5Dget_chunk_storage_size(static_cast<hid_t>(*this),
 			       offset.data(),
 			       &storage_size)<0)
@@ -202,7 +206,7 @@ long long unsigned int Dataset::chunk_storage_size(
 
 #endif
 
-void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
+void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
 {
   write(std::string(data),dtpl);
 }
@@ -217,7 +221,7 @@ filter::ExternalFilters Dataset::filters() const
 void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
 {
   dataspace::Dataspace space = dataset.dataspace();
-  if(space.type()!=dataspace::Type::SIMPLE)
+  if(space.type()!=dataspace::Type::Simple)
   {
     std::stringstream ss;
     ss<<"Dataset ["<<dataset.link().path()<<"] does not use a simple dataspace"

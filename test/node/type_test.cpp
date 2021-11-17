@@ -35,10 +35,10 @@ SCENARIO("testing node::Type stream output") {
   std::stringstream ss;
   using r = std::tuple<Type, std::string, H5O_type_t>;
   auto d = GENERATE(table<Type, std::string, H5O_type_t>(
-      {r{Type::DATASET, "DATASET", H5O_TYPE_DATASET},
-       r{Type::DATATYPE, "DATATYPE", H5O_TYPE_NAMED_DATATYPE},
-       r{Type::GROUP, "GROUP", H5O_TYPE_GROUP},
-       r{Type::UNKNOWN, "UNKNOWN", H5O_TYPE_UNKNOWN}}));
+      {r{Type::Dataset, "DATASET", H5O_TYPE_DATASET},
+       r{Type::Datatype, "DATATYPE", H5O_TYPE_NAMED_DATATYPE},
+       r{Type::Group, "GROUP", H5O_TYPE_GROUP},
+       r{Type::Unknown, "UNKNOWN", H5O_TYPE_UNKNOWN}}));
   WHEN("writing the enumeration to the stream") {
     ss << std::get<0>(d);
     THEN("the output should be") { REQUIRE(ss.str() == std::get<1>(d)); }
@@ -52,10 +52,10 @@ SCENARIO("testing node::NodeType stream output") {
   using node::NodeType;
   using r = std::tuple<NodeType, std::string, H5O_type_t>;
   auto d = GENERATE(table<NodeType, std::string, H5O_type_t>(
-      {r{NodeType::DATASET, "DATASET", H5O_TYPE_DATASET},
-       r{NodeType::DATATYPE, "DATATYPE", H5O_TYPE_NAMED_DATATYPE},
-       r{NodeType::GROUP, "GROUP", H5O_TYPE_GROUP},
-       r{NodeType::UNKNOWN, "UNKNOWN", H5O_TYPE_UNKNOWN}}));
+      {r{NodeType::Dataset, "DATASET", H5O_TYPE_DATASET},
+       r{NodeType::Datatype, "DATATYPE", H5O_TYPE_NAMED_DATATYPE},
+       r{NodeType::Group, "GROUP", H5O_TYPE_GROUP},
+       r{NodeType::Unknown, "UNKNOWN", H5O_TYPE_UNKNOWN}}));
   std::stringstream ss;
   WHEN("writing the enumeration to the stream") {
     ss << std::get<0>(d);

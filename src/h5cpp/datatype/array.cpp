@@ -37,7 +37,7 @@ Array::Array(ObjectHandle &&handle) :
 
 Array::Array(const Datatype &type) :
     Datatype(type) {
-  if (get_class() != Class::ARRAY) {
+  if (get_class() != Class::Array) {
     std::stringstream ss;
     ss << "Cannot create Array from " << get_class();
     throw std::runtime_error(ss.str());
@@ -84,7 +84,7 @@ VLengthArray::VLengthArray(ObjectHandle &&handle) :
 
 VLengthArray::VLengthArray(const Datatype &type) :
     Datatype(type) {
-  if (get_class() != Class::VARLENGTH) {
+  if (get_class() != Class::VarLength) {
     std::stringstream ss;
     ss << "Cannot create VLengthArray from " << get_class();
     throw std::runtime_error(ss.str());

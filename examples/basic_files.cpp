@@ -30,7 +30,7 @@ using namespace hdf5;
 
 int main()
 {
-  file::File f = file::create("basic_files.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("basic_files.h5",file::AccessFlags::Truncate);
   node::Group root_group = f.root();
 
   return 0;

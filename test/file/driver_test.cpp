@@ -34,7 +34,7 @@ SCENARIO("Construction of a memory driver instance", "[file,h5cpp,driver]") {
   GIVEN("a default constructed instance") {
     file::MemoryDriver m;
     THEN("all parameters should have their default values") {
-      REQUIRE(m.id() == file::DriverID::eMemory);
+      REQUIRE(m.id() == file::DriverID::Memory);
       REQUIRE_FALSE(m.backing_store());
       REQUIRE(m.increment() == 1024ul * 1024ul);
     }
@@ -70,7 +70,7 @@ SCENARIO("Applying the memory driver") {
     THEN("a file can be constructed") {
       property::FileCreationList fcpl;
       m(fapl);
-      file::create("memory_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+      file::create("memory_file.h5", file::AccessFlags::Truncate, fcpl, fapl);
     }
   }
 
@@ -86,20 +86,20 @@ SCENARIO("Applying the memory driver") {
 TEST_CASE("Default construction of drivers"){
 #ifdef H5_HAVE_DIRECT
     SECTION("the direct driver"){file::DirectDriver m;
-REQUIRE(m.id() == file::DriverID::eDirect);
+REQUIRE(m.id() == file::DriverID::Direct);
 }
 #endif
 
 SECTION("the posix driver") {
   file::PosixDriver m;
-  REQUIRE(m.id() == file::DriverID::ePosix);
+  REQUIRE(m.id() == file::DriverID::Posix);
 }
 
 #ifdef WITH_MPI
 
 SECTION("the MPI driver") {
   file::MPIDriver m(MPI_COMM_WORLD, MPI_INFO_NULL);
-  REQUIRE(m.id() == file::DriverID::eMPI);
+  REQUIRE(m.id() == file::DriverID::MPI);
 }
 
 #endif
@@ -112,7 +112,7 @@ SCENARIO("Applying a POSIX file driver", "[h5cpp, file]") {
     property::FileAccessList fapl;
     THEN("the driver can be applied and a new file be created") {
       m(fapl);
-      file::create("posix_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+      file::create("posix_file.h5", file::AccessFlags::Truncate, fcpl, fapl);
     }
   }
 
@@ -140,7 +140,7 @@ SCENARIO("Applying the MPI file driver", "[h5cpp,file]") {
     property::FileAccessList fapl;
     THEN("the driver can be applied") {
       m(fapl);
-      file::create("posix_file.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+      file::create("posix_file.h5", file::AccessFlags::Truncate, fcpl, fapl);
     }
   }
 

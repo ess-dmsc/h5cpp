@@ -33,7 +33,7 @@ node::Dataset create_dataset(const node::Group parent_group)
   property::DatasetCreationList dcpl;
 
   // in order to append data we have to use a chunked layout of the dataset
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk(Dimensions{1024});
 
   // create dataspace (infinitely extensible) and datatype
@@ -47,7 +47,7 @@ node::Dataset create_dataset(const node::Group parent_group)
 int main()
 {
   file::File f = file::create("append_scalar_data.h5",
-                              file::AccessFlags::TRUNCATE);
+                              file::AccessFlags::Truncate);
   node::Group root_group = f.root();
 
   //

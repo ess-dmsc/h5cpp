@@ -33,10 +33,10 @@ using namespace hdf5;
 
 SCENARIO("writing and reading with selections") {
   const std::string filename = "writing_and_reading_with_selections.h5";
-  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f = file::create(filename, file::AccessFlags::Truncate);
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1024});
 
   auto dataspace =
@@ -99,7 +99,7 @@ using double_vector = std::vector<double>;
 SCENARIO("reading from empty datasets") {
   using Catch::Matchers::Equals;
   const std::string filename = "reading_from_empty_datasets.h5";
-  auto f = file::create(filename, file::AccessFlags::TRUNCATE);
+  auto f = file::create(filename, file::AccessFlags::Truncate);
   auto r = f.root();
   dataspace::Simple space{{0}, {dataspace::Simple::UNLIMITED}};
   property::LinkCreationList lcpl;

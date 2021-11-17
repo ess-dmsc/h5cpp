@@ -66,7 +66,7 @@ SCENARIO("External filter BitShuffle with LZ4") {
             auto flags = filters.fill(dcpl);
             REQUIRE(filters.size() == 1lu);
             REQUIRE(flags.size() == 1lu);
-            REQUIRE(flags[0] == filter::Availability::mandatory);
+            REQUIRE(flags[0] == filter::Availability::Mandatory);
             REQUIRE_THAT(filters[0].cd_values(), Equals(params));
             REQUIRE(filters[0].id() == static_cast<int>(FILTER_BITSHUFFLE));
             REQUIRE(filters[0].name() ==
@@ -96,7 +96,7 @@ SCENARIO("deflate filter as external filter") {
           AND_THEN("we ge the following parameters") {
             REQUIRE(filters.size() == 1lu);
             REQUIRE(flags.size() == 1lu);
-            REQUIRE(flags[0] == filter::Availability::mandatory);
+            REQUIRE(flags[0] == filter::Availability::Mandatory);
             REQUIRE_THAT(filters[0].cd_values(), Equals(params));
             REQUIRE(filters[0].id() == static_cast<int>(H5Z_FILTER_DEFLATE));
             REQUIRE(filters[0].name() == "deflate");
@@ -128,8 +128,8 @@ SCENARIO("deflate and shuffle filters as external filter") {
             AND_THEN("we get") {
               REQUIRE(filters.size() == 2lu);
               REQUIRE(flags.size() == 2lu);
-              REQUIRE(flags[0] == filter::Availability::mandatory);
-              REQUIRE(flags[1] == filter::Availability::optional);
+              REQUIRE(flags[0] == filter::Availability::Mandatory);
+              REQUIRE(flags[1] == filter::Availability::Optional);
               REQUIRE_THAT(filters[0].cd_values(), Equals(deflate_params));
               REQUIRE(filters[0].id() == static_cast<int>(H5Z_FILTER_DEFLATE));
               REQUIRE(filters[0].name() == "deflate");

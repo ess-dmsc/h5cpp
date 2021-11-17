@@ -31,7 +31,7 @@ using namespace hdf5;
 
 #ifndef _MSC_VER
 SCENARIO("testing h5py compatible string IO") {
-  auto f = file::open("../h5py_test_data.h5", file::AccessFlags::READONLY);
+  auto f = file::open("../h5py_test_data.h5", file::AccessFlags::ReadOnly);
   auto r = f.root();
 
   GIVEN("a dataset with a fixed size string") {
@@ -39,7 +39,7 @@ SCENARIO("testing h5py compatible string IO") {
     AND_GIVEN("a fixed size string memory data type") {
       dataspace::Scalar memory_space;
       auto memory_type = datatype::String::fixed(20);
-      memory_type.padding(datatype::StringPad::SPACEPAD);
+      memory_type.padding(datatype::StringPad::SpacePad);
       THEN("we can read the content from the dataset to a buffer") {
         std::string buffer;
         dataset.read(buffer, memory_type, memory_space, dataset.dataspace());
@@ -83,7 +83,7 @@ SCENARIO("testing h5py compatible string IO") {
                            "a                   ", "test                "};
     AND_GIVEN("a fixed size string type") {
       datatype::String memory_type = datatype::String::fixed(20);
-      memory_type.padding(datatype::StringPad::SPACEPAD);
+      memory_type.padding(datatype::StringPad::SpacePad);
       AND_GIVEN("a 2x3 simple dataspace") {
         dataspace::Simple memory_space{{2, 3}};
         THEN("we can read the data back to a buffer") {

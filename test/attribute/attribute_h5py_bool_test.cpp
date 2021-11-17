@@ -28,7 +28,6 @@
 
 using namespace hdf5;
 
-#ifndef _MSC_VER
 namespace { 
 static datatype::EBool read_ebool(const attribute::Attribute& attr) {
   datatype::EBool buffer;
@@ -40,7 +39,7 @@ static datatype::EBool read_ebool(const attribute::Attribute& attr) {
 
 SCENARIO("Reading bool attributes written by h5py") {
   auto h5py_file =
-      file::open("./../h5py_test_boolattr.h5", file::AccessFlags::READONLY);
+      file::open("./../h5py_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root_group = h5py_file.root();
 
   // ==========================================================================
@@ -50,13 +49,13 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it has the value true") {
       auto attr = root_group.attributes["bool_scalar_true"];
       THEN("read") {
-        REQUIRE(read_ebool(attr) == true);
-        REQUIRE(read_ebool(attr) == datatype::EBool::TRUE);
-        REQUIRE(read_ebool(attr) == 1);
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == true);
+        REQUIRE(read_ebool(attr) == datatype::EBool::True);
+        REQUIRE(static_cast<int>(read_ebool(attr)) == 1);
       }
 
       AND_THEN("the data type should be an enumeration type") {
-        REQUIRE(attr.datatype().get_class() == datatype::Class::ENUM);
+        REQUIRE(attr.datatype().get_class() == datatype::Class::Enum);
         REQUIRE(datatype::is_bool(datatype::Enum(attr.datatype())));
       }
     }
@@ -64,9 +63,9 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it hast the value false") {
       auto attr = root_group.attributes["bool_scalar_false"];
       THEN("read as bool") {
-        REQUIRE(read_ebool(attr) == false);
-        REQUIRE(read_ebool(attr) == datatype::EBool::FALSE);
-        REQUIRE(read_ebool(attr) == 0);
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == false);
+        REQUIRE(read_ebool(attr) == datatype::EBool::False);
+        REQUIRE(static_cast<int>(read_ebool(attr)) == 0);
       }
     }
   }
@@ -79,13 +78,13 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it has the value true") {
       auto attr = root_group.attributes["bool_simple_true"];
       THEN("read") {
-        REQUIRE(read_ebool(attr) == true);
-        REQUIRE(read_ebool(attr) == datatype::EBool::TRUE);
-        REQUIRE(read_ebool(attr) == 1);
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == true);
+        REQUIRE(read_ebool(attr) == datatype::EBool::True);
+        REQUIRE(static_cast<int>(read_ebool(attr)) == 1);
       }
 
       AND_THEN("the data type should be an enumeration type") {
-        REQUIRE(attr.datatype().get_class() == datatype::Class::ENUM);
+        REQUIRE(attr.datatype().get_class() == datatype::Class::Enum);
         REQUIRE(datatype::is_bool(datatype::Enum(attr.datatype())));
       }
     }
@@ -93,9 +92,9 @@ SCENARIO("Reading bool attributes written by h5py") {
     AND_GIVEN("it has the value false") {
       auto attr = root_group.attributes["bool_simple_false"];
       THEN("read") { 
-        REQUIRE(read_ebool(attr) == false);
-        REQUIRE(read_ebool(attr) == datatype::EBool::FALSE);
-        REQUIRE(read_ebool(attr) == 0); }
+        REQUIRE(static_cast<bool>(read_ebool(attr)) == false);
+        REQUIRE(read_ebool(attr) == datatype::EBool::False);
+	REQUIRE(static_cast<int>(read_ebool(attr)) == 0); }
     }
   }
 
@@ -123,9 +122,8 @@ SCENARIO("Reading bool attributes written by h5py") {
     }
 
     AND_THEN("we get for the data type") {
-      REQUIRE(attr.datatype().get_class() == datatype::Class::ENUM);
+      REQUIRE(attr.datatype().get_class() == datatype::Class::Enum);
       REQUIRE(attr.datatype().size() == 1);
     }
   }
 }
-#endif

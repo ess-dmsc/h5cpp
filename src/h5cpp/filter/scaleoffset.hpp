@@ -40,9 +40,9 @@ namespace filter {
 //! and links.
 //!
 enum class SOScaleType: std::underlying_type<H5Z_SO_scale_type_t>::type {
-  FLOAT_DSCALE = H5Z_SO_FLOAT_DSCALE,  // Floating-point type, using variable MinBits method
-  FLOAT_ESCALE = H5Z_SO_FLOAT_ESCALE,  // Floating-point type, using fixed MinBits method
-  INT = H5Z_SO_INT                     // Integer type
+  FloatDScale = H5Z_SO_FLOAT_DSCALE,  // Floating-point type, using variable MinBits method
+  FloatEScale = H5Z_SO_FLOAT_ESCALE,  // Floating-point type, using fixed MinBits method
+  Int = H5Z_SO_INT                     // Integer type
 };
 
 
@@ -69,7 +69,7 @@ class DLL_EXPORT ScaleOffset : public Filter
     void scale_factor(int scale_factor);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::mandatory) const override;
+                            Availability flag=Availability::Mandatory) const override;
 
 };
 #ifdef __clang__

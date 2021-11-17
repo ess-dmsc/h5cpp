@@ -38,7 +38,7 @@ Compound::Compound(ObjectHandle &&handle) :
 
 Compound::Compound(const Datatype &type) :
     Datatype(type) {
-  if (get_class() != Class::COMPOUND) {
+  if (get_class() != Class::Compound) {
     std::stringstream ss;
     ss << "Cannot create Compound datatype from " << get_class();
     throw std::runtime_error(ss.str());
@@ -46,7 +46,7 @@ Compound::Compound(const Datatype &type) :
 }
 
 Compound Compound::create(size_t size) {
-  hid_t ret = H5Tcreate(static_cast<H5T_class_t>(Class::COMPOUND), size);
+  hid_t ret = H5Tcreate(static_cast<H5T_class_t>(Class::Compound), size);
   if (ret < 0) {
     std::stringstream ss;
     ss << "Could not create Compound datatype of size=" << size;

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: May 14, 2018
 //
 #pragma once
@@ -136,8 +137,8 @@ template<typename T>
 void Enum::check_type(const T& data) const
 {
   (void) data; //  < var unused, only for type inference
-  auto mem_type = datatype::create<T>();
-  if (mem_type != super())
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  if (mem_type_holder.get<T>() != super())
   {
     std::stringstream ss;
     ss << "Attempt to insert enum value of mismatching type";

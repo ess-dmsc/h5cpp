@@ -26,7 +26,7 @@
 #include "object_handle_test.hpp"
 
 ErrorMessageObjectHandleTest::ErrorMessageObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::ERROR_MESSAGE)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::ErrorMessage)
 {
 
 }
@@ -38,7 +38,7 @@ hid_t ErrorMessageObjectHandleTest::create_object()
 }
 
 ErrorStackObjectHandleTest::ErrorStackObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::ERROR_STACK)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::ErrorStack)
 {
 
 }
@@ -49,7 +49,7 @@ hid_t ErrorStackObjectHandleTest::create_object()
 }
 
 ErrorClassObjectHandleTest::ErrorClassObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::ERROR_CLASS)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::ErrorClass)
 {
 
 }

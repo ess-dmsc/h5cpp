@@ -31,7 +31,7 @@
 using namespace hdf5;
 
 SCENARIO("testing a Node instance") {
-  auto f = file::create("node_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("node_test.h5", file::AccessFlags::Truncate);
   GIVEN("a default constructed node") {
     node::Node n;
     AND_GIVEN("a second default constructed node") {

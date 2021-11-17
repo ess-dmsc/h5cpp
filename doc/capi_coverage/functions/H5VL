@@ -1,0 +1,11 @@
+H5VLclose
+H5VLget_connector_id
+H5VLget_connector_id_by_name
+H5VLget_connector_id_by_value
+H5VLget_connector_name
+H5VLis_connector_registered_by_name
+H5VLis_connector_registered_by_value
+H5VLquery_optional
+H5VLregister_connector_by_name
+H5VLregister_connector_by_value
+H5VLunregister_connector

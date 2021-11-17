@@ -21,56 +21,53 @@
 //
 // Authors:
 //   Jan Kotanski <jan.kotanski@desy.de>
-// Created on: Sep 18, 2018
+// Created on: Nov 1, 2021
 //
 #pragma once
 
-#include <h5cpp/datatype/datatype.hpp>
-#include <h5cpp/datatype/factory.hpp>
-#include <h5cpp/datatype/enum.hpp>
-#include <h5cpp/error/error.hpp>
-#include <sstream>
+#include <map>
 
-namespace hdf5
-{
-namespace datatype
-{
+#include <h5cpp/dataspace/dataspace.hpp>
+#include <h5cpp/dataspace/simple.hpp>
+#include <h5cpp/core/types.hpp>
+
+namespace hdf5 {
+namespace dataspace {
+
 //!
-//! \brief enumeration bool type
+//! @brief data space object pool
 //!
-enum EBool : int8_t
+class DLL_EXPORT DataspacePool
 {
-  False = 0,   //!< indicates a false value
-  True = 1 //!< indicates a true value
+  public:
+
+  //!
+  //! \brief pool of reference of Simple data spaces
+  //!
+  //! Returns data space reference for static data space object
+  //!
+  //! @param size dimension of 1D Simple Dataspace to get or create
+  //! @return data space reference for data space object
+  //!
+  const Dataspace & getSimple(size_t size);
+
+ private:
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4251)
+#endif
+  std::map<size_t, Dataspace> pool_map;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 };
 
+inline const Dataspace & DataspacePool::getSimple(size_t size)
+{
+  if(pool_map.count(size) < 1)
+    pool_map[size] = Simple(hdf5::Dimensions{size}, hdf5::Dimensions{size});
+  return pool_map[size];
+}
 
-template<>
-class TypeTrait<datatype::EBool> {
- public:
-  using TypeClass = datatype::Enum;
-  using Type = datatype::EBool;
-
-  static TypeClass create(const Type & = Type()) {
-    auto type = TypeClass::create(Type());
-    type.insert("FALSE", Type::False);
-    type.insert("TRUE", Type::True);
-    return type;
-  }
-  const static TypeClass & get(const Type & = Type()) {
-    const static TypeClass & cref_ = create();
-    return cref_;
-  }
-};
-
-
-//!
-//! @brief check if Enum is EBool
-//!
-//! @param etype object
-//! @return if Enum is EBool flag
-//!
-DLL_EXPORT bool is_bool(const Enum & etype);
-
-} // namespace datatype
+} // namespace dataspace
 } // namespace hdf5

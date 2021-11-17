@@ -5,7 +5,7 @@ Class diagrams
 Basic objects - facing the dangling ID problem
 ==============================================
 
-.. figure:: images/base_classes_uml.png
+.. figure:: ../images/base_classes_uml.png
    :width: 75%
    :align: center
 
@@ -29,7 +29,7 @@ for a raw HDF5 id. It has to major duties
 Property lists - compile time checks
 ====================================
 
-.. figure:: images/property_lists_uml.png
+.. figure:: ../images/property_lists_uml.png
    :width: 100%
    :align: center
 
@@ -77,7 +77,7 @@ to find.
 Attribute management
 ====================
 
-.. figure:: images/attribute_manager_uml.png
+.. figure:: ../images/attribute_manager_uml.png
    :width: 50%
    :align: center
 
@@ -90,7 +90,7 @@ STL compliant interface to the attached attributes.
 Managing selections
 ===================
 
-.. figure:: images/hyperslab_uml.png
+.. figure:: ../images/hyperslab_uml.png
    :width: 100%
    :align: center
 

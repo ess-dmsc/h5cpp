@@ -133,11 +133,11 @@ For point selections there are two simple operations
 +-----------+-----------------------------------------------+--------------------+-+
 | operation | enumeration                                   | description        | |
 +===========+===============================================+====================+=+
-| append    | :cpp:enumerator:`SelectionOperation::APPEND`  | add a point to     | |
+| append    | :cpp:enumerator:`SelectionOperation::Append`  | add a point to     | |
 |           |                                               | to the end of the  | |
 |           |                                               | list of points     | |
 +-----------+-----------------------------------------------+--------------------+-+
-| prepend   | :cpp:enumerator:`SelectionOperation::PREPEND` | add a point to the | |
+| prepend   | :cpp:enumerator:`SelectionOperation::Prepend` | add a point to the | |
 |           |                                               | beginning of the   | |
 |           |                                               | list of points     | |
 +-----------+-----------------------------------------------+--------------------+-+
@@ -149,33 +149,33 @@ For hyperslab selections we have
 +-----------+--------------------------------------------+-----------------------+-+
 | operation | enumeration                                | description           | |
 +===========+============================================+=======================+=+
-| *set*     | :cpp:enumerator:`SelectionOperation::SET`  | replace all previous  | |
+| *set*     | :cpp:enumerator:`SelectionOperation::Set`  | replace all previous  | |
 |           |                                            | selections with the   | |
 |           |                                            | current one.          | |
 +-----------+--------------------------------------------+-----------------------+-+
-| *or*      | :cpp:enumerator:`SelectionOperation::OR`   | select elements       | |
+| *or*      | :cpp:enumerator:`SelectionOperation::Or`   | select elements       | |
 |           |                                            | which are in the      | |
 |           |                                            | current or the        | |
 |           |                                            | previous selection.   | |
 +-----------+--------------------------------------------+-----------------------+-+
-| *and*     | :cpp:enumerator:`SelectionOperation::AND`  | select elements whcih | |
+| *and*     | :cpp:enumerator:`SelectionOperation::And`  | select elements whcih | |
 |           |                                            | are in the current    | |
 |           |                                            | and the previous      | |
 |           |                                            | selection.            | |
 +-----------+--------------------------------------------+-----------------------+-+
-| *xor*     | :cpp:enumerator:`SelectionOperation::XOR`  | select elements which | |
+| *xor*     | :cpp:enumerator:`SelectionOperation::XOr`  | select elements which | |
 |           |                                            | are either in the     | |
 |           |                                            | current or the        | |
 |           |                                            | the previous          | |
 |           |                                            | selection but on in   | |
 |           |                                            | both.                 | |
 +-----------+--------------------------------------------+-----------------------+-+
-| *notB*    | :cpp:enumerator:`SelectionOperation::NOTB` | select elements whcih | |
+| *notB*    | :cpp:enumerator:`SelectionOperation::NotB` | select elements whcih | |
 |           |                                            | are in the current    | |
 |           |                                            | but not in the        | |
 |           |                                            | previous selection.   | |
 +-----------+--------------------------------------------+-----------------------+-+
-| *notA*    | :cpp:enumerator:`SelectionOperation::NOTA` | select elements which | |
+| *notA*    | :cpp:enumerator:`SelectionOperation::NotA` | select elements which | |
 |           |                                            | are in the previous   | |
 |           |                                            | but not in the        | |
 |           |                                            | current one.          | |
@@ -211,9 +211,9 @@ Consider this example
 .. code-block:: cpp
 
     dataspace::SelectionList selections;
-    selections.push_back({dataspace::SelectionOperation::SET,
+    selections.push_back({dataspace::SelectionOperation::Set,
                           Selection::SharedPointer(new dataspace::Hyperslab({0,0},{100,100}))});
-    selections.push_back({dataspace::SelectionOperation::OR,
+    selections.push_back({dataspace::SelectionOperation::Or,
                           Selection::SharedPointer(new dataspace::Hyperslab({200,129},{100,100}))});
                           
     dataspace::Simple space = ...;
@@ -259,7 +259,7 @@ A selection can be applied like this
 
    dataspace::Dataspace file_space = dataset.dataspace();
    dataspace::Hyperslab slab(...);
-   file_space.selection(dataspace::SelectionOperation::SET,slab);
+   file_space.selection(dataspace::SelectionOperation::Set,slab);
    
 .. important::
 

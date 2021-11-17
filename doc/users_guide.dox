@@ -4,7 +4,7 @@ Througout this manual we assume that every source snippet has somewhere
 
 
 \code{.cpp}
-#include<h5++/h5++.hpp>
+#include<h5cpp/h5cpp.hpp>
 
 namespace h5 = h5cpp;
 \endcode

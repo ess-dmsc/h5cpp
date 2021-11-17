@@ -50,7 +50,7 @@ static names_t attr_names(const node::Node &node)
 
 SCENARIO("Accessing attribute names")
 {
-  auto file = file::create("attribute_name_access_test.h5", file::AccessFlags::TRUNCATE);
+  auto file = file::create("attribute_name_access_test.h5", file::AccessFlags::Truncate);
   auto root = file.root();
   using datatype::Class;
   root.attributes.create<int>("index");
@@ -65,9 +65,9 @@ SCENARIO("Accessing attribute names")
     }
     AND_THEN("the attributes have the following types")
     {
-      REQUIRE(type_class(root.attributes["index"]) == Class::INTEGER);
-      REQUIRE(type_class(root.attributes["elasticity"]) == Class::FLOAT);
-      REQUIRE(type_class(root.attributes["counter"]) == Class::INTEGER);
+      REQUIRE(type_class(root.attributes["index"]) == Class::Integer);
+      REQUIRE(type_class(root.attributes["elasticity"]) == Class::Float);
+      REQUIRE(type_class(root.attributes["counter"]) == Class::Integer);
     }
 
     AND_THEN("we get in case of illegal access")
@@ -79,11 +79,11 @@ SCENARIO("Accessing attribute names")
 
   GIVEN("Using the creation order as an index")
   {
-    root.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
+    root.attributes.iterator_config().index(IterationIndex::CreationOrder);
 
     AND_GIVEN("increasing ordering")
     {
-      root.attributes.iterator_config().order(IterationOrder::INCREASING);
+      root.attributes.iterator_config().order(IterationOrder::Increasing);
       THEN("we expect the following attributes names")
       {
         REQUIRE(root.attributes[0].name() == "index");
@@ -99,7 +99,7 @@ SCENARIO("Accessing attribute names")
 
     AND_GIVEN("decreasing ordering")
     {
-      root.attributes.iterator_config().order(IterationOrder::DECREASING);
+      root.attributes.iterator_config().order(IterationOrder::Decreasing);
       THEN("the names are")
       {
         REQUIRE(root.attributes[2].name() == "index");
@@ -116,10 +116,10 @@ SCENARIO("Accessing attribute names")
 
   GIVEN("using the attribute name as an index")
   {
-    root.attributes.iterator_config().index(IterationIndex::NAME);
+    root.attributes.iterator_config().index(IterationIndex::Name);
     AND_GIVEN("increasing ordering")
     {
-      root.attributes.iterator_config().order(IterationOrder::INCREASING);
+      root.attributes.iterator_config().order(IterationOrder::Increasing);
       THEN("the names are")
       {
         REQUIRE(root.attributes[2].name() == "index");
@@ -135,7 +135,7 @@ SCENARIO("Accessing attribute names")
 
     AND_GIVEN("decreasing ordering")
     {
-      root.attributes.iterator_config().order(IterationOrder::DECREASING);
+      root.attributes.iterator_config().order(IterationOrder::Decreasing);
 
       THEN("the attribute names are")
       {
@@ -203,8 +203,8 @@ SCENARIO("Accessing attribute names")
 
 TEST_F(AttributeName, test_iterator_random_access)
 {
-  root_.attributes.iterator_config().index(IterationIndex::NAME);
-  root_.attributes.iterator_config().order(IterationOrder::DECREASING);
+  root_.attributes.iterator_config().index(IterationIndex::Name);
+  root_.attributes.iterator_config().order(IterationOrder::Decreasing);
 
   std::vector<std::string> ref_names{"index", "elasticity", "counter"};
 

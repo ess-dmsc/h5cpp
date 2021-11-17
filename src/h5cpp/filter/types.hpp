@@ -46,8 +46,8 @@ using FilterID = H5Z_filter_t;
 //!
 enum class Availability : unsigned int
 {
-  mandatory = H5Z_FLAG_MANDATORY,
-  optional  = H5Z_FLAG_OPTIONAL
+  Mandatory = H5Z_FLAG_MANDATORY,
+  Optional  = H5Z_FLAG_OPTIONAL
 };
 
 

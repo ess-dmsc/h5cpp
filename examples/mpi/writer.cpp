@@ -46,7 +46,7 @@ int main(int argc,char **argv)
     property::FileAccessList fapl;
     fapl.driver(file::MPIDriver(MPI_COMM_WORLD,MPI_INFO_NULL));
 
-    file::File f = file::create("mpi_write.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
+    file::File f = file::create("mpi_write.h5",file::AccessFlags::Truncate,fcpl,fapl);
     node::Group root_group = f.root();
 
     node::Dataset dataset = root_group.create_dataset("mpi_ids",

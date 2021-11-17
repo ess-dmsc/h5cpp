@@ -155,6 +155,11 @@ class DLL_EXPORT Dataspace {
  private:
   ObjectHandle handle_;
 
+  //!
+  //! @brief helper for copy assignment and copy constructor
+  //!
+  void swap(const Dataspace &space);
+
 };
 
 } // namespace dataspace

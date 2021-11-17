@@ -41,7 +41,7 @@ SCENARIO("Testing files for being an HDF5 file") {
   }
 
   GIVEN("an HDF5 file") {
-    file::create("is_hdf5_test.h5", file::AccessFlags::TRUNCATE);
+    file::create("is_hdf5_test.h5", file::AccessFlags::Truncate);
     THEN("the test for an HDF5 file must succeed") {
       REQUIRE(file::is_hdf5_file("is_hdf5_test.h5"));
     }

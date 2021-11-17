@@ -34,72 +34,72 @@ TEST(ImageFlags, test_output_stream)
   std::stringstream stream;
 
   stream.str(std::string());
-  stream<<file::ImageFlags::READONLY;
+  stream<<file::ImageFlags::ReadOnly;
   EXPECT_EQ(stream.str(), "READONLY");
 
   stream.str(std::string());
-  stream<<file::ImageFlags::DONT_COPY;
+  stream<<file::ImageFlags::DontCopy;
   EXPECT_EQ(stream.str(), "DONT COPY");
 
   stream.str(std::string());
-  stream<<file::ImageFlags::READWRITE;
+  stream<<file::ImageFlags::ReadWrite;
   EXPECT_EQ(stream.str(), "READWRITE");
 
   stream.str(std::string());
-  stream<<file::ImageFlags::DONT_RELEASE;
+  stream<<file::ImageFlags::DontRelease;
   EXPECT_EQ(stream.str(), "DONT RELEASE");
   
   stream.str(std::string());
-  stream<<file::ImageFlags::ALL;
+  stream<<file::ImageFlags::All;
   EXPECT_EQ(stream.str(), "ALL");
 
 }
 
 TEST(ImageFlags, test_or_flags) {
-  EXPECT_EQ(file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE,
+  EXPECT_EQ(file::ImageFlags::DontCopy | file::ImageFlags::DontRelease,
             H5LT_FILE_IMAGE_DONT_COPY | H5LT_FILE_IMAGE_DONT_RELEASE);
 
-  EXPECT_EQ(file::ImageFlags::READONLY | file::ImageFlags::READWRITE,
+  EXPECT_EQ(file::ImageFlags::ReadOnly | file::ImageFlags::ReadWrite,
             H5LT_FILE_IMAGE_OPEN_RW);
-  EXPECT_EQ(file::ImageFlags::ALL | file::ImageFlags::READWRITE,
+  EXPECT_EQ(file::ImageFlags::All | file::ImageFlags::ReadWrite,
 	    H5LT_FILE_IMAGE_ALL);
 }
 
 TEST(ImageFlags, test_or_left_three)
 {
-  EXPECT_EQ(file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE |
-            file::ImageFlags::READWRITE,
+  EXPECT_EQ(file::ImageFlags::DontCopy | file::ImageFlags::DontRelease |
+            file::ImageFlags::ReadWrite,
             H5LT_FILE_IMAGE_DONT_COPY | H5LT_FILE_IMAGE_DONT_RELEASE |
             H5LT_FILE_IMAGE_OPEN_RW);
-  EXPECT_EQ(file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE |
-            file::ImageFlags::READWRITE,
+  EXPECT_EQ(file::ImageFlags::DontCopy | file::ImageFlags::DontRelease |
+            file::ImageFlags::ReadWrite,
             H5LT_FILE_IMAGE_ALL);
 }
 
 TEST(ImageFlags, test_and_or_comb)
 {
-  EXPECT_EQ((file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE) &
-            file::ImageFlags::DONT_COPY,
+  EXPECT_EQ((file::ImageFlags::DontCopy | file::ImageFlags::DontRelease) &
+            file::ImageFlags::DontCopy,
             H5LT_FILE_IMAGE_DONT_COPY);
-  EXPECT_EQ(file::ImageFlags::DONT_RELEASE &
-	    (file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE),
+  EXPECT_EQ(file::ImageFlags::DontRelease &
+	    (file::ImageFlags::DontCopy | file::ImageFlags::DontRelease),
             H5LT_FILE_IMAGE_DONT_RELEASE);
-  EXPECT_EQ((file::ImageFlags::DONT_COPY | file::ImageFlags::DONT_RELEASE) &
-	    (file::ImageFlags::DONT_COPY | file::ImageFlags::READWRITE),
+  EXPECT_EQ((file::ImageFlags::DontCopy | file::ImageFlags::DontRelease) &
+	    (file::ImageFlags::DontCopy | file::ImageFlags::ReadWrite),
             H5LT_FILE_IMAGE_DONT_COPY);
 }
 
 TEST(ImageFlags, test_values)
 {
-  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::READONLY),
+  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::ReadOnly),
                     0x0000);
-  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::READWRITE),
+  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::ReadWrite),
                     H5LT_FILE_IMAGE_OPEN_RW);
-  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::DONT_COPY),
+  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::DontCopy),
                     H5LT_FILE_IMAGE_DONT_COPY);
-  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::DONT_RELEASE),
+  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::DontRelease),
                     H5LT_FILE_IMAGE_DONT_RELEASE);
-  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::ALL),
+  EXPECT_EQ(static_cast<file::ImageFlagsBase>(file::ImageFlags::All),
                     H5LT_FILE_IMAGE_ALL);
 }
 

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 28, 2017
 //
 
@@ -38,13 +39,13 @@ DatasetTransferList::DatasetTransferList() :
 
 DatasetTransferList::~DatasetTransferList() {}
 
-DatasetTransferList::DatasetTransferList(ObjectHandle &&handle) :
+DatasetTransferList::DatasetTransferList(ObjectHandle &&handle, bool do_check):
     List(std::move(handle)) {
-  if (get_class() != kDatasetXfer) {
-    std::stringstream ss;
-    ss << "Cannot create property::DatasetTransferList from " << get_class();
-    throw std::runtime_error(ss.str());
-  }
+ if (do_check && get_class() != kDatasetXfer) {
+     std::stringstream ss;
+     ss << "Cannot create property::DatasetTransferList from " << get_class();
+     throw std::runtime_error(ss.str());
+ }
 }
 
 #ifdef WITH_MPI
@@ -57,9 +58,9 @@ std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode)
 {
   switch(mode)
   {
-    case MPITransferMode::INDEPENDENT:
+    case MPITransferMode::Independent:
       return stream<<"INDEPENDENT";
-    case MPITransferMode::COLLECTIVE:
+    case MPITransferMode::Collective:
       return stream<<"COLLECTIVE";
   }
 }
@@ -76,9 +77,9 @@ std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option)
 {
   switch(option)
   {
-    case MPIChunkOption::ONE_LINK_CHUNKED:
+    case MPIChunkOption::OneLinkChunked:
       return stream<<"ONE_LINK_CHUNKED";
-    case MPIChunkOption::MULTI_CHUNK:
+    case MPIChunkOption::MultiChunk:
       return stream<<"MULTI_CHUNK";
   }
 }

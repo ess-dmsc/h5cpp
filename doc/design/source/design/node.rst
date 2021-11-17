@@ -47,7 +47,7 @@ defines the following values
 | :cpp:enumerator:`node_t::type_t::GROUP`          | if the instance is a |
 |                                                  | group                |
 +--------------------------------------------------+----------------------+
-| :cpp:enumerator:`node_t::type_t::DATASET`        | if the instance is a |
+| :cpp:enumerator:`node_t::type_t::Dataset`        | if the instance is a |
 |                                                  | dataset              |
 +--------------------------------------------------+----------------------+
 | :cpp:enumerator:`node_t::type_t::NAMED_DATATYPE` | if the instance is a |

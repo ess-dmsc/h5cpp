@@ -37,7 +37,7 @@ SCENARIO("construction of datatypes") {
   GIVEN("a default constructed datatype") {
     Datatype a;
     THEN("this instance is not valid") { REQUIRE_FALSE(a.is_valid()); }
-    THEN("the type class is NONE") { REQUIRE(a.get_class() == Class::NONE); }
+    THEN("the type class is NONE") { REQUIRE(a.get_class() == Class::None); }
     THEN("the super() method must fail") {
       REQUIRE_THROWS_AS(a.super(), std::runtime_error);
     }
@@ -45,7 +45,7 @@ SCENARIO("construction of datatypes") {
       REQUIRE_THROWS_AS(a.native_type(), std::runtime_error);
     }
     THEN("has_class() fails") {
-      REQUIRE_THROWS_AS(a.has_class(Class::INTEGER), std::runtime_error);
+      REQUIRE_THROWS_AS(a.has_class(Class::Integer), std::runtime_error);
     }
     THEN("cannot get the size() of the type - fails with exception") {
       REQUIRE_THROWS_AS(a.size(), std::runtime_error);
@@ -55,9 +55,23 @@ SCENARIO("construction of datatypes") {
     }
     AND_GIVEN("a second default constructed type") {
       Datatype b;
-      THEN("assignemnt between the two will fail") {
-        REQUIRE_THROWS_AS(a = b, std::runtime_error);
-        REQUIRE_THROWS_AS(a = Datatype(b), std::runtime_error);
+      a = b;
+      THEN("this instance is not valid") { REQUIRE_FALSE(b.is_valid()); }
+      THEN("the type class is NONE") { REQUIRE(b.get_class() == Class::None); }
+      THEN("the super() method must fail") {
+	REQUIRE_THROWS_AS(b.super(), std::runtime_error);
+      }
+      THEN("the native_type() method must fail") {
+	REQUIRE_THROWS_AS(b.native_type(), std::runtime_error);
+      }
+      THEN("has_class() fails") {
+	REQUIRE_THROWS_AS(b.has_class(Class::Integer), std::runtime_error);
+      }
+      THEN("cannot get the size() of the type - fails with exception") {
+	REQUIRE_THROWS_AS(b.size(), std::runtime_error);
+      }
+      THEN("cannot set the size of the type - fails with exception") {
+	REQUIRE_THROWS_AS(b.size(1), std::runtime_error);
       }
     }
   }
@@ -72,12 +86,12 @@ SCENARIO("construction of datatypes") {
   GIVEN("an integer dataytpe") {
     Datatype a(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
     THEN("its type class will be integer") {
-      REQUIRE(a.get_class() == Class::INTEGER);
+      REQUIRE(a.get_class() == Class::Integer);
     }
     THEN("we can copy construct a new type from this") {
       Datatype b = a;
       AND_THEN("the new type is of class integer") {
-        REQUIRE(b.get_class() == Class::INTEGER);
+        REQUIRE(b.get_class() == Class::Integer);
       }
       AND_THEN("the two types are different objects") {
         REQUIRE(static_cast<hid_t>(a) != static_cast<hid_t>(b));
@@ -131,16 +145,16 @@ SCENARIO("Properties of numeric types") {
 
   using ptype = std::tuple<hid_t, Class, size_t>;
   auto p = GENERATE(table<hid_t, Class, size_t>(
-      {ptype{h5t.native_uint8, Class::INTEGER, 1},
-       ptype{h5t.native_int8, Class::INTEGER, 1},
-       ptype{h5t.native_uint16, Class::INTEGER, 2},
-       ptype{h5t.native_int16, Class::INTEGER, 2},
-       ptype{h5t.native_uint32, Class::INTEGER, 4},
-       ptype{h5t.native_int32, Class::INTEGER, 4},
-       ptype{h5t.native_uint64, Class::INTEGER, 8},
-       ptype{h5t.native_int64, Class::INTEGER, 8},
-       ptype{h5t.native_float32, Class::FLOAT, 4},
-       ptype{h5t.native_float64, Class::FLOAT, 8}}));
+      {ptype{h5t.native_uint8, Class::Integer, 1},
+       ptype{h5t.native_int8, Class::Integer, 1},
+       ptype{h5t.native_uint16, Class::Integer, 2},
+       ptype{h5t.native_int16, Class::Integer, 2},
+       ptype{h5t.native_uint32, Class::Integer, 4},
+       ptype{h5t.native_int32, Class::Integer, 4},
+       ptype{h5t.native_uint64, Class::Integer, 8},
+       ptype{h5t.native_int64, Class::Integer, 8},
+       ptype{h5t.native_float32, Class::Float, 4},
+       ptype{h5t.native_float64, Class::Float, 8}}));
 
   GIVEN("an integer type") {
     auto a = create(std::get<0>(p));
@@ -158,42 +172,42 @@ TEST(Datatype, Classes) {
 
 
   a = Datatype(ObjectHandle(H5Tcreate(H5T_STRING, 1)));
-  EXPECT_EQ(a.get_class(), Class::STRING);
+  EXPECT_EQ(a.get_class(), Class::String);
 }
 
   a = Datatype(ObjectHandle(H5Tcreate(H5T_COMPOUND, 8)));
-  EXPECT_EQ(a.get_class(), Class::COMPOUND);
+  EXPECT_EQ(a.get_class(), Class::Compound);
   EXPECT_THROW(a.super(), std::runtime_error);
   H5Tinsert(static_cast<hid_t>(a), "hello", 0, H5T_NATIVE_INT);
-  EXPECT_TRUE(a.has_class(Class::INTEGER));
-  EXPECT_FALSE(a.has_class(Class::FLOAT));
+  EXPECT_TRUE(a.has_class(Class::Integer));
+  EXPECT_FALSE(a.has_class(Class::Float));
 
   a = Datatype(ObjectHandle(H5Tcreate(H5T_OPAQUE, 1)));
-  EXPECT_EQ(a.get_class(), Class::OPAQUE);
+  EXPECT_EQ(a.get_class(), Class::Opaque);
 
   a = Datatype(ObjectHandle(H5Tcreate(H5T_ENUM, 1)));
-  EXPECT_EQ(a.get_class(), Class::ENUM);
+  EXPECT_EQ(a.get_class(), Class::Enum);
   auto b = a.super();
-  EXPECT_EQ(b.get_class(), Class::INTEGER);
+  EXPECT_EQ(b.get_class(), Class::Integer);
 
   a = Datatype(ObjectHandle(H5Tvlen_create(H5T_NATIVE_INT)));
-  EXPECT_EQ(a.get_class(), Class::VARLENGTH);
+  EXPECT_EQ(a.get_class(), Class::VarLength);
 
   hsize_t arrsize = 2;
   a = Datatype(ObjectHandle(H5Tarray_create(H5T_NATIVE_INT, 1, &arrsize)));
-  EXPECT_EQ(a.get_class(), Class::ARRAY);
+  EXPECT_EQ(a.get_class(), Class::Array);
 
   // TODO: reenable tests when relevant library functionality is implemented
   //  a = Datatype(ObjectHandle((H5T_BITFIELD)));
   //  a = Datatype(ObjectHandle(H5Tcopy(H5T_BITFIELD)));
-  //  EXPECT_TRUE(a.native_type().get_class()==Class::BITFIELD);
+  //  EXPECT_TRUE(a.native_type().get_class()==Class::BitField);
 
   //  a = Datatype(ObjectHandle(H5Tcopy(H5T_REFERENCE)));
-  //  EXPECT_TRUE(a.get_class()==Class::REFERENCE);
+  //  EXPECT_TRUE(a.get_class()==Class::Reference);
 
   //  a =
-  // Datatype(ObjectHandle(H5Tcreate(static_cast<H5T_class_t>(Class::TIME),1)));
-  //  EXPECT_TRUE(a.get_class()==Class::TIME);
+  // Datatype(ObjectHandle(H5Tcreate(static_cast<H5T_class_t>(Class::Time),1)));
+  //  EXPECT_TRUE(a.get_class()==Class::Time);
 }
 
 TEST(Datatype, Size) {

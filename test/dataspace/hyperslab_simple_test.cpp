@@ -233,7 +233,7 @@ SCENARIO("Testing the hyperslab functionality") {
     AND_GIVEN("a selection") {
       dataspace::Hyperslab slice{{0, 0}, {1, 1024}};
       WHEN("applying the selection") {
-        space.selection(dataspace::SelectionOperation::SET, slice);
+        space.selection(dataspace::SelectionOperation::Set, slice);
         THEN("the selection size is") {
           REQUIRE(space.selection.size() == 1024ul);
         }
@@ -242,7 +242,7 @@ SCENARIO("Testing the hyperslab functionality") {
     AND_GIVEN("a scattered selection") {
       dataspace::Hyperslab selection{{1, 1}, {3, 10}, {2, 4}};
       WHEN("applying the selection") {
-        space.selection(dataspace::SelectionOperation::SET, selection);
+        space.selection(dataspace::SelectionOperation::Set, selection);
         THEN("the selection size is 30") {
           REQUIRE(space.selection.size() == 30ul);
         }
@@ -255,7 +255,7 @@ SCENARIO("Testing the hyperslab functionality") {
     AND_GIVEN("a hpyerslab selection") {
       dataspace::Hyperslab selection{{1, 1}, {3, 10}, {2, 4}};
       WHEN("applying the selection to the dataspace") {
-        space.selection(dataspace::SelectionOperation::SET, selection);
+        space.selection(dataspace::SelectionOperation::Set, selection);
         THEN("the selection size is 30") {
           REQUIRE(space.selection.size() == 30ul);
         }
@@ -272,7 +272,7 @@ SCENARIO("Testing the hyperslab functionality") {
         ObjectHandle(static_cast<hid_t>(space)).close();
         THEN("appliying the selection will fail") {
           REQUIRE_THROWS_AS(
-              selection.apply(space, dataspace::SelectionOperation::SET),
+              selection.apply(space, dataspace::SelectionOperation::Set),
               std::runtime_error);
         }
       }
@@ -282,23 +282,23 @@ SCENARIO("Testing the hyperslab functionality") {
   GIVEN("the first hyperslab test case") {
     dataspace::Simple space({10, 20});
     dataspace::Hyperslab slab({1, 1}, {5, 5}, {1, 1}, {1, 1});
-    space.selection(dataspace::SelectionOperation::SET, slab);
+    space.selection(dataspace::SelectionOperation::Set, slab);
     REQUIRE(space.selection.size() == 25ul);
-    REQUIRE(space.selection.type() == dataspace::SelectionType::HYPERSLAB);
+    REQUIRE(space.selection.type() == dataspace::SelectionType::Hyperslab);
 
     REQUIRE_NOTHROW(space.selection.all());
-    REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+    REQUIRE(space.selection.type() == dataspace::SelectionType::All);
   }
 
   GIVEN("the second hyperslab test case") {
     dataspace::Simple space({10, 1024, 1024});
-    REQUIRE(space.selection.type() == dataspace::SelectionType::ALL);
+    REQUIRE(space.selection.type() == dataspace::SelectionType::All);
 
     dataspace::Hyperslab frame({0, 0, 0}, {1, 1024, 1024}, {1, 1, 1},
                                {1, 1, 1});
-    REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::SET, frame));
+    REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::Set, frame));
     frame.offset(0, 9);
-    REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::OR, frame));
+    REQUIRE_NOTHROW(space.selection(dataspace::SelectionOperation::Or, frame));
     REQUIRE(space.selection.size() == 2ul * 1024ul * 1024ul);
   }
 }

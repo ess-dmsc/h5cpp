@@ -27,7 +27,7 @@
 
 
 DatatypeObjectHandleTest::DatatypeObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::DATATYPE)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::Datatype)
 {
 
 }

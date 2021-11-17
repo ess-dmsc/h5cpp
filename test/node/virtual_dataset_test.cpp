@@ -60,7 +60,7 @@ namespace {
 
   static void create_module_file(const fs::path& filename, const DataVector& data) {
     file::File f =
-        file::create(filename, file::AccessFlags::TRUNCATE, gfcpl, gfapl);
+        file::create(filename, file::AccessFlags::Truncate, gfcpl, gfapl);
     node::Dataset dataset(f.root(), Path("module_data"), module_type,
                           module_space);
     dataset.write(data);
@@ -83,7 +83,7 @@ SCENARIO("testing virtual datasets") {
   create_module_file("vds_source_1.h5", data_module_1);
   create_module_file("vds_source_2.h5", data_module_2);
   create_module_file("vds_source_3.h5", data_module_3);
-  auto f = file::create("VirtualDatasetTest.h5", file::AccessFlags::TRUNCATE,
+  auto f = file::create("VirtualDatasetTest.h5", file::AccessFlags::Truncate,
                         gfcpl, gfapl);
 
   GIVEN("a virtual data map connecting the individual modules") {

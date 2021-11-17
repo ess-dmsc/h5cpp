@@ -32,24 +32,24 @@ SCENARIO("testing the iteration index") {
   GIVEN("CREATION_ORDER") { 
     THEN("stream output is CREATION_ORDER") { 
       std::stringstream stream;
-      stream<<IterationIndex::CREATION_ORDER;
+      stream<<IterationIndex::CreationOrder;
       REQUIRE(stream.str() == "CREATION_ORDER");
     }
 
     AND_THEN("integer would be") { 
-      REQUIRE(static_cast<H5_index_t>(IterationIndex::CREATION_ORDER) == H5_INDEX_CRT_ORDER);
+      REQUIRE(static_cast<H5_index_t>(IterationIndex::CreationOrder) == H5_INDEX_CRT_ORDER);
     }
   }
 
   GIVEN("NAME") { 
     THEN("stream output would be NAME"){
       std::stringstream stream;
-      stream<<IterationIndex::NAME;
+      stream<<IterationIndex::Name;
       REQUIRE(stream.str() == "NAME");
     } 
 
     AND_THEN("integer would be") { 
-      REQUIRE(static_cast<H5_index_t>(IterationIndex::NAME) == H5_INDEX_NAME);
+      REQUIRE(static_cast<H5_index_t>(IterationIndex::Name) == H5_INDEX_NAME);
     }
 
   }

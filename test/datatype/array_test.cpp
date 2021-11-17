@@ -23,6 +23,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 23, 2017
 //
 #include <catch2/catch.hpp>
@@ -36,7 +37,7 @@ SCENARIO("array type default construction") {
     datatype::Array type;
     THEN("the type would be invalid") { REQUIRE_FALSE(type.is_valid()); }
     THEN("the class would be none") {
-      REQUIRE(type.get_class() == datatype::Class::NONE);
+      REQUIRE(type.get_class() == datatype::Class::None);
     }
     THEN("we cannot obtain the rank") {
       REQUIRE_THROWS_AS(type.dimensions(), std::runtime_error);
@@ -67,7 +68,27 @@ SCENARIO("constructing a tensor type") {
     THEN("we can construct an array type") {
       auto type = Array::create(base_type, {3, 4});
       AND_THEN("we get a valid datatype") { REQUIRE(type.is_valid()); }
-      AND_THEN("is array class") { REQUIRE(type.get_class() == Class::ARRAY); }
+      AND_THEN("is array class") { REQUIRE(type.get_class() == Class::Array); }
+      AND_THEN("the size is 12") { REQUIRE(type.size() == 12 * sizeof(int)); }
+      AND_THEN("the rank is 2") { REQUIRE(type.rank() == 2ul); }
+      AND_THEN("the dimensions are") {
+        auto dims = type.dimensions();
+        REQUIRE(dims[0] == 3ul);
+        REQUIRE(dims[1] == 4ul);
+      }
+    }
+  }
+}
+
+SCENARIO("constructing a tensor type with cref") {
+  using datatype::Array;
+  using datatype::Class;
+  GIVEN("a base type") {
+    auto & base_type = datatype::get<int>();
+    THEN("we can construct an array type") {
+      auto type = Array::create(base_type, {3, 4});
+      AND_THEN("we get a valid datatype") { REQUIRE(type.is_valid()); }
+      AND_THEN("is array class") { REQUIRE(type.get_class() == Class::Array); }
       AND_THEN("the size is 12") { REQUIRE(type.size() == 12 * sizeof(int)); }
       AND_THEN("the rank is 2") { REQUIRE(type.rank() == 2ul); }
       AND_THEN("the dimensions are") {
@@ -88,7 +109,24 @@ SCENARIO("constructing a vector type") {
         auto type = datatype::Array::create(base_type, s);
         AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }
         AND_THEN("is an array class") {
-          REQUIRE(type.get_class() == datatype::Class::ARRAY);
+          REQUIRE(type.get_class() == datatype::Class::Array);
+        }
+        AND_THEN("get the size") { REQUIRE(type.size() == 4 * sizeof(double)); }
+      }
+    }
+  }
+}
+
+SCENARIO("constructing a vector type with cref") {
+  GIVEN("a double base type") {
+    auto & base_type = datatype::get<double>();
+    AND_GIVEN("a shape") {
+      Dimensions s{4};
+      THEN("we can construct a type") {
+        auto type = datatype::Array::create(base_type, s);
+        AND_THEN("the type is valid") { REQUIRE(type.is_valid()); }
+        AND_THEN("is an array class") {
+          REQUIRE(type.get_class() == datatype::Class::Array);
         }
         AND_THEN("get the size") { REQUIRE(type.size() == 4 * sizeof(double)); }
       }

@@ -30,7 +30,7 @@
 using namespace hdf5;
 
 SCENARIO("dataset construction") {
-  auto f = file::create("dataset_test.h5", file::AccessFlags::TRUNCATE);
+  auto f = file::create("dataset_test.h5", file::AccessFlags::Truncate);
   auto r = f.root();
 
   GIVEN("a default constructed dataset") {
@@ -56,8 +56,8 @@ SCENARIO("dataset construction") {
       THEN("we can construct a dataset from this below the root group") {
         node::Dataset dset(r, "data", dt, ds);
         WHEN("checking the dataset properties") {
-          REQUIRE(dset.dataspace().type() == dataspace::Type::SCALAR);
-          REQUIRE(dset.datatype().get_class() == datatype::Class::INTEGER);
+          REQUIRE(dset.dataspace().type() == dataspace::Type::Scalar);
+          REQUIRE(dset.datatype().get_class() == datatype::Class::Integer);
         }
         WHEN("trying to set the extend") {
           THEN("the operation must fail") {

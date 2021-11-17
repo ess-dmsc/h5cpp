@@ -47,11 +47,11 @@ the dataspace there is currently
 
 .. cpp:enum-class:: Type
 
-    .. cpp:enumerator:: SIMPLE 
+    .. cpp:enumerator:: Simple
     
         for a simple datatype
         
-    .. cpp:enumerator:: SCALAR
+    .. cpp:enumerator:: Scalar
     
         for a scalar datatype
 
@@ -186,7 +186,7 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf
                  std::back_inserter(simple_dataspaces),
                  [](const Dataspace &space)
                  {
-                    return space.type() == Type::SIMPLE;
+                    return space.type() == Type::Simple;
                  });
                  
 

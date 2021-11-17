@@ -38,7 +38,7 @@ ChunkedDataset::ChunkedDataset(const Group &base,const Path &path,
 {
   //create a local copy for the dataset creation property list
   property::DatasetCreationList local_dcpl(dcpl);
-  local_dcpl.layout(property::DatasetLayout::CHUNKED);
+  local_dcpl.layout(property::DatasetLayout::Chunked);
   local_dcpl.chunk(chunk_shape);
 
   Dataset::operator=(Dataset(base,path,type,space,lcpl,local_dcpl,dapl));

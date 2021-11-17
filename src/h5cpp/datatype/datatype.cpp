@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 15, 2017
 //
 
@@ -38,7 +39,7 @@ Datatype::~Datatype() {
 Datatype::Datatype(ObjectHandle &&handle)
     : handle_(std::move(handle)) {
   if (handle_.is_valid() &&
-      (handle_.get_type() != ObjectHandle::Type::DATATYPE)) {
+      (handle_.get_type() != ObjectHandle::Type::Datatype)) {
     std::stringstream ss;
     ss << "Could not construct Datatype from Handle, type="
        << handle_.get_type();
@@ -47,24 +48,31 @@ Datatype::Datatype(ObjectHandle &&handle)
 }
 
 Datatype::Datatype(const Datatype &type) {
-  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-  if (0 > ret) {
-    error::Singleton::instance().throw_with_stack("Could not copy-construct Datatype");
-  }
-  handle_ = ObjectHandle(ret);
+  swap(type);
 }
 
 Datatype &Datatype::operator=(const Datatype &type) {
-  hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
-  if (0 > ret) {
-    error::Singleton::instance().throw_with_stack("Could not copy Datatype");
-  }
-  handle_ = ObjectHandle(ret);
+  swap(type);
   return *this;
 }
 
+void Datatype::swap(const Datatype &type) {
+  if(static_cast<hid_t>(type.handle_)) {
+    hid_t ret = H5Tcopy(static_cast<hid_t>(type.handle_));
+    if (0 > ret) {
+      error::Singleton::instance().throw_with_stack("Could not copy Datatype");
+    }
+    handle_ = ObjectHandle(ret);
+  }
+  else
+    handle_ = ObjectHandle();
+}
+
 Class Datatype::get_class() const {
-  return static_cast<Class>(H5Tget_class(static_cast<hid_t>(*this)));
+  if(static_cast<hid_t>(handle_))
+    return static_cast<Class>(H5Tget_class(static_cast<hid_t>(*this)));
+  else
+    return Class::None;
 }
 
 Datatype Datatype::super() const {
@@ -123,7 +131,13 @@ bool Datatype::is_valid() const {
 }
 
 bool operator==(const Datatype &lhs, const Datatype &rhs) {
-  htri_t ret = H5Tequal(static_cast<hid_t>(lhs), static_cast<hid_t>(rhs));
+  hid_t hlhs = static_cast<hid_t>(lhs);
+  hid_t hrhs = static_cast<hid_t>(rhs);
+  htri_t ret;
+  if (hlhs != 0 && hrhs != 0)
+    ret = H5Tequal(hlhs, hrhs);
+  else
+    ret = -1;
   if (0 > ret) {
     std::stringstream ss;
     ss << "Could not compare datatypes "
