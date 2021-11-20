@@ -1178,9 +1178,15 @@ void Dataset::write_reshape(const T &data,
 template<typename T>
 void Dataset::read(T &data,const property::DatasetTransferList &dtpl)
 {
-  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
-  read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+  if(file_type_class == datatype::Class::String){
+    // in hdf5 1.12.1 UFT8 data cannot be read to an ASCII buffer
+    read_reshape(data, file_type, mem_space_holder.get(data), dtpl);
+  }
+  else {
+    hdf5::datatype::DatatypeHolder mem_type_holder;
+    read_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+  }
 }
 
 template<typename T>

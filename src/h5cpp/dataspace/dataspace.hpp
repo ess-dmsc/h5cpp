@@ -93,13 +93,6 @@ class DLL_EXPORT Dataspace {
   virtual hssize_t size() const;
 
   //!
-  //! \brief current dimensions of a dataspace
-  //!
-  //! Return the current dimensions of a dataspace.
-  //!
-  hdf5::Dimensions current_dimensions() const;
-
-  //!
   //! \brief allows explicit conversion to hid_t
   //!
   //! This function is mainly used by \c static_cast for explicit

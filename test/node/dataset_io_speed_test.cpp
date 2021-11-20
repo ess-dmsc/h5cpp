@@ -31,8 +31,6 @@
 #include <h5cpp/node/group.hpp>
 using namespace hdf5;
 
-#ifndef _MSC_VER
-
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
@@ -190,4 +188,3 @@ SCENARIO("Testing IO performance using different memory and file spaces") {
     auto dtype = dataset.datatype();
   }*/
 }
-#endif

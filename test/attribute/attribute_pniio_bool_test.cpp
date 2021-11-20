@@ -51,7 +51,7 @@ SCENARIO("Reading bool attributes created by the PNIIO library") {
       datatype::EBool buffer;
       attr.read(buffer, attr.datatype());
       REQUIRE(static_cast<bool>(buffer) == true);
-      REQUIRE(static_cast<int>(buffer) == 1);
+      REQUIRE(buffer == 1);
       REQUIRE(buffer == datatype::EBool::True);
     }
   }
@@ -68,7 +68,7 @@ SCENARIO("Reading bool attributes created by the PNIIO library") {
       datatype::EBool buffer;
       REQUIRE_NOTHROW(attr.read(buffer, attr.datatype()));
       REQUIRE(static_cast<bool>(buffer) == false);
-      REQUIRE(static_cast<int>(buffer) == 0);
+      REQUIRE(buffer == 0);
       REQUIRE(buffer == datatype::EBool::False);
     }
   }
