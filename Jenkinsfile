@@ -269,8 +269,8 @@ builders = pipeline_builder.createBuilders { container ->
                                passwordVariable: 'PASSWORD'
                            )]) {
             withEnv(["PROJECT=${pipeline_builder.project}", "RLVERSION=${rlversion}"]) {
-                sh 'cd ../$PROJECT && git checkout -b docs_stable && ./push_to_repo.sh $USERNAME $PASSWORD'
                 sh 'cd ../$PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
+                sh 'cd ../$PROJECT && git checkout docs_stable && git merge master && ./push_to_repo.sh $USERNAME $PASSWORD'
             }
           }
         }
