@@ -179,7 +179,7 @@ builders = pipeline_builder.createBuilders { container ->
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip3 --proxy=${http_proxy} install --user sphinx breathe
+        pip3 --proxy=${http_proxy} install --user sphinx==4.0.3 breathe
         export PATH=$PATH:~/.local/bin
         cd build
         make html
@@ -197,12 +197,50 @@ builders = pipeline_builder.createBuilders { container ->
           git checkout gh-pages
           git pull
           shopt -u dotglob && rm -rf ./*
-          mv -f ../build/doc/build/* ./
-          mv -f ../build/doc/doxygen_html ./doxygen
+          mkdir -p ./latest
+          mv -f ../build/doc/build/* ./latest/
+          mv -f ../build/doc/doxygen_html ./latest/doxygen
+          mv -f ../build/doc/index.html ./
           find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
           find ./ -name "Makefile" -exec rm -rf {} \\;
           find ./ -name "*.cmake" -exec rm -rf {} \\;
-          rm -rf ./_sources
+          rm -rf ./latest/_sources
+          git add -A
+          git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
+        """
+
+        container.copyFrom("docs", "docs")
+        dir("docs") {
+          withCredentials([usernamePassword(
+            credentialsId: 'cow-bot-username-with-token',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
+            withEnv(["PROJECT=${pipeline_builder.project}"]) {
+              sh '../$PROJECT/push_to_repo.sh $USERNAME $PASSWORD'
+            }
+          }
+        }
+      } else if (pipeline_builder.branch ==~ '/^docs_*/') {
+        def version = pipeline_builder.branch.substring(5)
+        container.copyTo(pipeline_builder.project, "docs")
+        container.setupLocalGitUser("docs")
+        container.sh """
+          cd docs
+
+          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+
+          git fetch
+          git checkout gh-pages
+          git pull
+          shopt -u dotglob && rm -rf ./*
+          mkdir -p ./${version}
+          mv -f ../build/doc/build/* ./${version}/
+          mv -f ../build/doc/doxygen_html ./${version}/doxygen
+          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
+          find ./ -name "Makefile" -exec rm -rf {} \\;
+          find ./ -name "*.cmake" -exec rm -rf {} \\;
+          rm -rf ./${version}/_sources
           git add -A
           git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'
         """
