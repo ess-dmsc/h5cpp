@@ -261,7 +261,7 @@ builders = pipeline_builder.createBuilders { container ->
         container.copyFrom("build", "build")
         archiveArtifacts artifacts: 'build/doc/build/'
 
-        if (pipeline_builder.branch ==~ '/^v?(\d+\.)?(\d+\.)?(\*|\d+)$/') {
+        if (pipeline_builder.branch ==~ '/^v?(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$/') {
           def rlversion = pipeline_builder.branch
           withCredentials([usernamePassword(
                                credentia lsId: 'cow-bot-username-with-token',
