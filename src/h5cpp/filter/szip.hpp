@@ -57,9 +57,9 @@ class DLL_EXPORT SZip : public Filter
                             Availability flag=Availability::Mandatory) const override;
 
     // Selects entropy coding method
-    static const unsigned int EC_OPTION_MASK;
+    static const unsigned int ec_option_mask;
     // Selects nearest neighbor coding method.
-    static const unsigned int NN_OPTION_MASK;
+    static const unsigned int nn_option_mask;
 };
 #ifdef __clang__
 #pragma clang diagnostic pop

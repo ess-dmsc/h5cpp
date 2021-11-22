@@ -68,7 +68,7 @@ node::Dataset create_vector_dataset(const std::string &name,const node::Group &p
   dcpl.chunk(Dimensions{1024});
 
   auto datatype = datatype::TypeTrait<DoubleVector>::create();
-  dataspace::Simple dataspace({0},{dataspace::Simple::UNLIMITED});
+  dataspace::Simple dataspace({0},{dataspace::Simple::unlimited});
 
   return node::Dataset(parent_group,name,datatype,dataspace,lcpl,dcpl);
 }

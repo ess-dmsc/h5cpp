@@ -46,7 +46,7 @@ using UShorts = std::vector<unsigned short int>;
 static hdf5::dataspace::Simple unlimited_space(const hdf5::Dimensions& current) {
   using hdf5::dataspace::Simple;
   hdf5::Dimensions limits(current.size());
-  std::fill(std::begin(limits), std::end(limits), Simple::UNLIMITED);
+  std::fill(std::begin(limits), std::end(limits), Simple::unlimited);
 
   return Simple(current, limits);
 }

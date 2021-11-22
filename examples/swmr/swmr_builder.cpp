@@ -36,7 +36,7 @@ void SWMRBuilder::operator()(const node::Group &parent) const
   dcpl.chunk({1024*1024});
 
   auto type = datatype::create<double>();
-  dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
+  dataspace::Simple space({0},{dataspace::Simple::unlimited});
 
   node::Dataset(parent,"data",type,space,lcpl,dcpl);
 
