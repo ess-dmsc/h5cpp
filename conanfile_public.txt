@@ -1,11 +1,13 @@
 [requires]
 boost/1.69.0
-hdf5/1.10.6
+# hdf5/1.10.6
+hdf5/1.12.0
 zlib/1.2.11
 bzip2/1.0.8
 
 [generators]
-cmake
+cmake_paths
+cmake_find_package
 
 [options]
 boost:shared=True
