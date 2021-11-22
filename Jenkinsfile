@@ -264,7 +264,7 @@ builders = pipeline_builder.createBuilders { container ->
         if (pipeline_builder.branch ==~ '/^v?(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$/') {
           def rlversion = pipeline_builder.branch
           withCredentials([usernamePassword(
-                               credentia lsId: 'cow-bot-username-with-token',
+                               credentialsId: 'cow-bot-username-with-token',
                                usernameVariable: 'USERNAME',
                                passwordVariable: 'PASSWORD'
                            )]) {
