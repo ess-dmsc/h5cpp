@@ -204,13 +204,13 @@ appraoch. It would mean that <a class="reference internal" href="../api_referenc
 and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Gruop</span></code> would have to provide a common,
 group-like interface.</p>
 <p>In order to avoid code duplications we <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::file::File</span></code></a>
-would have to derive from <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8NodeType5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a> making it
+would have to derive from <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a> making it
 also a valid group object. From the point of semantics this is simply
 wrong. A file is not a group.</p>
 <p>Though the approach choosen here requires a single line of code more to
 obtain the root group of a file before doing any useful work on the file,
 however, I think a clean difference between <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::file::File</span></code></a>
-and <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8NodeType5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a> is worth the additional effort.</p>
+and <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a> is worth the additional effort.</p>
 </div>
 </section>
 </section>
@@ -239,13 +239,6 @@ and <a class="reference internal" href="../api_reference/namespace_node.html#_CP
   <h4>Next topic</h4>
   <p class="topless"><a href="dataspace.html"
                         title="next chapter">Dataspaces</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/users_guide/files.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -255,7 +248,19 @@ and <a class="reference internal" href="../api_reference/namespace_node.html#_CP
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -277,10 +282,10 @@ and <a class="reference internal" href="../api_reference/namespace_node.html#_CP
         <li class="nav-item nav-item-this"><a href="">Working with files</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-23 12:41:03 from  (9a010a5)</li>
+<li>generated on 2021-11-26 15:15:23 from  (e1382f8)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 12:41:03 from  (9a010a5).
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-26 15:15:23 from  (e1382f8).
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
 

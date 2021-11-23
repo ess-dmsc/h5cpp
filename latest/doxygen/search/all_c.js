@@ -8,7 +8,7 @@ var searchData=
   ['nbit_2ehpp',['nbit.hpp',['../nbit_8hpp.html',1,'']]],
   ['never',['Never',['../namespacehdf5_1_1property.html#a0cb4bd964375e9a85b42002ea4ba984ba6e7b34fa59e1bd229b207892956dc41c',1,'hdf5::property']]],
   ['nfilters',['nfilters',['../classhdf5_1_1property_1_1DatasetCreationList.html#ae3328d7d40f72f3a44737eda62232a19',1,'hdf5::property::DatasetCreationList']]],
-  ['nn_5foption_5fmask',['NN_OPTION_MASK',['../classhdf5_1_1filter_1_1SZip.html#a21378f85210547234eb147cc4d672e60',1,'hdf5::filter::SZip']]],
+  ['nn_5foption_5fmask',['nn_option_mask',['../classhdf5_1_1filter_1_1SZip.html#a9ad80303528169b4ab7001ad71d5e147',1,'hdf5::filter::SZip']]],
   ['nodata',['NoData',['../namespacehdf5_1_1dataspace.html#a3b7b3b477367d968955f89ebac18f67aacbf169aecd4365561eb6b245659f55d8',1,'hdf5::dataspace']]],
   ['node',['Node',['../classhdf5_1_1node_1_1Node.html',1,'hdf5::node::Node'],['../classhdf5_1_1attribute_1_1AttributeManager.html#ab49a2ad0b448786178706ec30e6a3b21',1,'hdf5::attribute::AttributeManager::node()'],['../classhdf5_1_1node_1_1Node.html#aafe1af2e21832e77d862f918bebaf76b',1,'hdf5::node::Node::Node(ObjectHandle &amp;&amp;handle, const Link &amp;link)'],['../classhdf5_1_1node_1_1Node.html#a0d7a908c195b4be32aabfd17575119c7',1,'hdf5::node::Node::Node()'],['../classhdf5_1_1node_1_1Node.html#a6ce4439c7f45cc88b570d63fd0ee6c0f',1,'hdf5::node::Node::Node(const Node &amp;)']]],
   ['node_2ehpp',['node.hpp',['../node_8hpp.html',1,'']]],

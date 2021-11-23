@@ -5,12 +5,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Working with groups &#8212; h5cpp 0.4.1 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -47,15 +48,15 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="working-with-groups">
+  <section id="working-with-groups">
 <h1>Working with groups<a class="headerlink" href="#working-with-groups" title="Permalink to this headline">¶</a></h1>
 <p>Groups are the basic containers within an HDF5 file. The entry point to the
 HDF5 node hierarchy is the root group of a file. It can be accessed from the
 <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">root()</span></code> method of a <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::file::File</span></code></a> instance.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">hdf5</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">file</span><span class="o">::</span><span class="n">File</span> <span class="n">f</span> <span class="o">=</span> <span class="p">....;</span>
-<span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">root_group</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">root</span><span class="p">();</span>
+<span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span><span class="w"></span>
+<span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">root_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">root</span><span class="p">();</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Groups act like STL container in a very general sense. With an HDF5 group you
@@ -65,7 +66,7 @@ objects referenced by those links. You can access links via the publik
 <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">hdf5::node::Group::nodes</span></code> member. They are instances of
 <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8LinkViewE" title="hdf5::node::LinkView"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::LinkView</span></code></a> and <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8NodeViewE" title="hdf5::node::NodeView"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::NodeView</span></code></a>
 respectively.</p>
-<div class="section" id="iterating-over-nodes">
+<section id="iterating-over-nodes">
 <h2>Iterating over nodes<a class="headerlink" href="#iterating-over-nodes" title="Permalink to this headline">¶</a></h2>
 <p>There are basically two ways how to iterate over the children of a group</p>
 <ul class="simple">
@@ -74,116 +75,116 @@ respectively.</p>
 </ul>
 <p>The former one works like expected from an STL container either with the
 for-each construction</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">node</span><span class="p">:</span> <span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">)</span>
-<span class="p">{</span>
- <span class="p">...</span>
-<span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="nl">node</span><span class="p">:</span><span class="w"> </span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w"> </span><span class="p">...</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>or with the standard iterator interface using <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">begin()</span></code> and <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">end()</span></code>
 member functions to obtain the iterators. In the following example we
 collect all the datasets immediately attached to a particular group</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="o">&gt;</span> <span class="n">datasets</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="o">&gt;</span><span class="w"> </span><span class="n">datasets</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
-             <span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span>
-             <span class="p">[](</span><span class="k">const</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span>
-             <span class="p">{</span>
-               <span class="k">return</span> <span class="n">node</span><span class="p">.</span><span class="n">type</span><span class="p">()</span><span class="o">==</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">DATASET</span><span class="p">;</span>
-             <span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"></span>
+<span class="w">             </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span><span class="w"></span>
+<span class="w">             </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Node</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="k">return</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">type</span><span class="p">()</span><span class="o">==</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">DATASET</span><span class="p">;</span><span class="w"></span>
+<span class="w">             </span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
 <p>For recursive iteration we currently cannot use the for-each construction
 but we can definitely use the iterator interface. To extend the above
 example we look for all datasets below a particular group and its subgroups</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="o">&gt;</span> <span class="n">datasets</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="o">&gt;</span><span class="w"> </span><span class="n">datasets</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveNodeIterator</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">group</span><span class="p">),</span>
-             <span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveNodeIterator</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">group</span><span class="p">),</span>
-             <span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span>
-             <span class="p">[](</span><span class="k">const</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span>
-             <span class="p">{</span>
-               <span class="k">return</span> <span class="n">node</span><span class="p">.</span><span class="n">type</span><span class="p">()</span><span class="o">==</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">DATASET</span><span class="p">;</span>
-             <span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveNodeIterator</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">group</span><span class="p">),</span><span class="w"></span>
+<span class="w">             </span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveNodeIterator</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">group</span><span class="p">),</span><span class="w"></span>
+<span class="w">             </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span><span class="w"></span>
+<span class="w">             </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Node</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="k">return</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="n">type</span><span class="p">()</span><span class="o">==</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Type</span><span class="o">::</span><span class="n">DATASET</span><span class="p">;</span><span class="w"></span>
+<span class="w">             </span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
 <p>the major difference here is to use <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">RecursiveNodeIterator</span></code> and
 its static factory functions <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">begin()</span></code> and <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">end()</span></code>.</p>
-</div>
-<div class="section" id="iterating-over-links">
+</section>
+<section id="iterating-over-links">
 <h2>Iterating over links<a class="headerlink" href="#iterating-over-links" title="Permalink to this headline">¶</a></h2>
 <p>Iteration over links works pretty much the same as iteration over nodes.
 In order to iterate over the links <em>immediately</em> attached to a group we could
 use the following code snippet</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">links</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">group</span><span class="p">.</span><span class="n">links</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
-             <span class="p">[](</span><span class="k">const</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Link</span> <span class="o">&amp;</span><span class="n">link</span><span class="p">)</span>
-             <span class="p">{</span>
-               <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">link</span><span class="p">.</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-             <span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">links</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">group</span><span class="p">.</span><span class="n">links</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"></span>
+<span class="w">             </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Link</span><span class="w"> </span><span class="o">&amp;</span><span class="n">link</span><span class="p">)</span><span class="w"></span>
+<span class="w">             </span><span class="p">{</span><span class="w"></span>
+<span class="w">               </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">link</span><span class="p">.</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">             </span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
 <p>to print the paths of all these links. For <em>immediate</em> links we also could
 have used the for-each construction</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">link</span><span class="p">:</span> <span class="n">group</span><span class="p">.</span><span class="n">links</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">link</span><span class="p">.</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="nl">link</span><span class="p">:</span><span class="w"> </span><span class="n">group</span><span class="p">.</span><span class="n">links</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">link</span><span class="p">.</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>to achive the same goal. For recurive iteration we have to use the
 <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node21RecursiveLinkIteratorE" title="hdf5::node::RecursiveLinkIterator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::RecursiveLinkIterator</span></code></a> pretty much the same way as
 we did for nodes in the previous section</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveLinkIterator</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">group</span><span class="p">),</span>
-              <span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveLinkIterator</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">group</span><span class="p">),</span>
-              <span class="n">p</span><span class="p">](</span><span class="k">const</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Link</span> <span class="o">&amp;</span><span class="n">link</span><span class="p">)</span>
-              <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">link</span><span class="p">.</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveLinkIterator</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">group</span><span class="p">),</span><span class="w"></span>
+<span class="w">              </span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">RecursiveLinkIterator</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">group</span><span class="p">),</span><span class="w"></span>
+<span class="w">              </span><span class="n">p</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Link</span><span class="w"> </span><span class="o">&amp;</span><span class="n">link</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">{</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">link</span><span class="p">.</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="accessing-a-groups-children-and-links">
+</section>
+<section id="accessing-a-groups-children-and-links">
 <h2>Accessing a groups children and links<a class="headerlink" href="#accessing-a-groups-children-and-links" title="Permalink to this headline">¶</a></h2>
 <p>The immediate links and nodes of a group can be accessed either</p>
 <ul class="simple">
 <li><p>by their name</p></li>
 <li><p>or by their index</p></li>
 </ul>
-<div class="section" id="access-by-name">
+<section id="access-by-name">
 <h3>Access by name<a class="headerlink" href="#access-by-name" title="Permalink to this headline">¶</a></h3>
 <p>Links and nodes can be accessed by their name. We can use the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">exists()</span></code>
 method provided by the two view classes to determine whether a link with a
 particular name exists.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="k">if</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">link</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;data&quot;</span><span class="p">))</span>
-<span class="p">{</span>
-   <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">link</span><span class="p">[</span><span class="s">&quot;data&quot;</span><span class="p">].</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="k">if</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">link</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;data&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">link</span><span class="p">[</span><span class="s">&quot;data&quot;</span><span class="p">].</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The same procedure applies to nodes too.</p>
-</div>
-<div class="section" id="access-by-index">
+</section>
+<section id="access-by-index">
 <h3>Access by index<a class="headerlink" href="#access-by-index" title="Permalink to this headline">¶</a></h3>
 <p>Both, the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">LinkView</span></code> and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">NodeView</span></code> class provide a
 <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">size()</span></code> method which returns the number of links or nodes immediately
 attached to a group. We could use this to access links or nodes by their
 index</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">index</span><span class="o">&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="o">++</span><span class="n">index</span><span class="p">)</span>
-<span class="p">{</span>
-   <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">index</span><span class="p">].</span><span class="n">link</span><span class="p">().</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">index</span><span class="o">&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="o">++</span><span class="n">index</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">   </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">index</span><span class="p">].</span><span class="n">link</span><span class="p">().</span><span class="n">path</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition-todo admonition" id="id1">
@@ -191,9 +192,9 @@ index</p>
 <p>Need to write some comment about order controll for iteration and index
 access. This should go to the <em>advanced</em> topics section of the users guide.</p>
 </div>
-</div>
-</div>
-<div class="section" id="iterators">
+</section>
+</section>
+<section id="iterators">
 <h2>Iterators<a class="headerlink" href="#iterators" title="Permalink to this headline">¶</a></h2>
 <p>Two iterator types are provided</p>
 <ul class="simple">
@@ -206,20 +207,20 @@ created by the <code class="xref cpp cpp-class docutils literal notranslate"><sp
 an instance of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">group_t</span></code>.</p></li>
 </ul>
 <blockquote>
-<div><p>Both iterator types satisfy the <a href="#id2"><span class="problematic" id="id3">`C++ ForwardIterator concept`_</span></a>. Thus they are
+<div><p>Both iterator types satisfy the <cite>C++ ForwardIterator concept</cite>. Thus they are
 both read only iterators (one cannot change an object stored in the file
 via the iterator interface). Of course it is possible to read and write
 data to an object referenced by an iterator.</p>
 </div></blockquote>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="o">&gt;</span> <span class="n">datasets</span><span class="p">;</span>
-<span class="n">h5</span><span class="o">::</span><span class="n">group_t</span> <span class="n">g</span> <span class="o">=</span> <span class="p">....;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">datasets</span><span class="p">;</span><span class="w"></span>
+<span class="n">h5</span><span class="o">::</span><span class="n">group_t</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">g</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span>
-             <span class="p">[](</span><span class="k">const</span> <span class="k">auto</span> <span class="o">&amp;</span><span class="n">o</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">h5</span><span class="o">::</span><span class="n">is_dataset</span><span class="p">(</span><span class="n">o</span><span class="p">);</span> <span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">g</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">g</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span><span class="w"></span>
+<span class="w">             </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">h5</span><span class="o">::</span><span class="n">is_dataset</span><span class="p">(</span><span class="n">o</span><span class="p">);</span><span class="w"> </span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -249,13 +250,6 @@ data to an object referenced by an iterator.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="attributes.html"
                         title="next chapter">Working with attributes</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/users_guide/groups.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -265,7 +259,19 @@ data to an object referenced by an iterator.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -287,11 +293,11 @@ data to an object referenced by an iterator.</p>
         <li class="nav-item nav-item-this"><a href="">Working with groups</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554)</li>
+<li>generated on 2021-11-29 14:41:19 from  (819c23c)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-29 14:41:19 from  (819c23c).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
 
   </body>

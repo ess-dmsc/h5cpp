@@ -1,11 +1,7 @@
-<map id="/home/jkotan/sources/h5cpp/src/h5cpp/datatype/float.hpp" name="/home/jkotan/sources/h5cpp/src/h5cpp/datatype/float.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="340,5,533,61"/>
-<area shape="rect" id="node2" href="$datatype_8hpp.html" title=" " alt="" coords="233,109,446,136"/>
-<area shape="rect" id="node8" href="$windows_8hpp.html" title=" " alt="" coords="492,259,675,285"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,259,97,285"/>
-<area shape="rect" id="node4" href="$hdf5__capi_8hpp.html" title=" " alt="" coords="131,259,319,285"/>
-<area shape="rect" id="node6" href="$object__handle_8hpp.html" title=" " alt="" coords="345,184,561,211"/>
-<area shape="rect" id="node9" href="$datatype_2types_8hpp.html" title=" " alt="" coords="129,184,320,211"/>
-<area shape="rect" id="node5" title=" " alt="" coords="193,333,256,360"/>
-<area shape="rect" id="node7" title=" " alt="" coords="373,259,453,285"/>
+<map id="/home/jenkins/h5cpp/src/h5cpp/datatype/float.hpp" name="/home/jenkins/h5cpp/src/h5cpp/datatype/float.hpp">
+<area shape="rect" id="node2" href="$datatype_8hpp.html" title="h5cpp/datatype/datatype.hpp" alt="" coords="233,109,446,136"/>
+<area shape="rect" id="node8" href="$windows_8hpp.html" title="h5cpp/core/windows.hpp" alt="" coords="492,259,675,285"/>
+<area shape="rect" id="node4" href="$hdf5__capi_8hpp.html" title="h5cpp/core/hdf5_capi.hpp" alt="" coords="131,259,319,285"/>
+<area shape="rect" id="node6" href="$object__handle_8hpp.html" title="h5cpp/core/object_handle.hpp" alt="" coords="345,184,561,211"/>
+<area shape="rect" id="node9" href="$datatype_2types_8hpp.html" title="h5cpp/datatype/types.hpp" alt="" coords="129,184,320,211"/>
 </map>

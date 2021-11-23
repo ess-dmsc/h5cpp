@@ -5,12 +5,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Working with selections &#8212; h5cpp 0.4.1 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -48,15 +49,15 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="working-with-selections">
+  <section id="working-with-selections">
 <h1>Working with selections<a class="headerlink" href="#working-with-selections" title="Permalink to this headline">¶</a></h1>
 <p>Selections in HDF5 allow the user to read or write only specific data to or
 from a file. This is particularly useful if the total size of a dataset
 is too large to fit into memory or only the specific data is required
 to performa particular action.</p>
-<div class="figure align-center">
+<figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hdf5_selections.svg"><img alt="../_images/hdf5_selections.svg" src="../_images/hdf5_selections.svg" width="60%" /></a>
-</div>
+</figure>
 <p>HDF5 provides two types of selections</p>
 <ul class="simple">
 <li><p><em>hyperslabs</em> (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace9HyperslabE" title="hdf5::dataspace::Hyperslab"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Hyperslab</span></code></a>) which are
@@ -76,7 +77,7 @@ the assembly of rather complex selections from simple ones. It is important to
 note here that it is currently not possible to mix <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Points</span></code> and
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Hyperslab</span></code> selections. One reason for this is that each of the
 two classes uses a different set of operators for combination.</p>
-<div class="section" id="hyperslab-selections">
+<section id="hyperslab-selections">
 <h2>Hyperslab selections<a class="headerlink" href="#hyperslab-selections" title="Permalink to this headline">¶</a></h2>
 <p>Hyperslabs allow fairly complex multidimensional selections in a dataspace
 which are characterized by 4 quantities</p>
@@ -89,9 +90,9 @@ in a signle block</p></li>
 </ul>
 <p>Lets have a look on the following example with a original dataspace of shape
 (9,10).</p>
-<div class="figure align-center">
+<figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hyperslab_1.svg"><img alt="../_images/hyperslab_1.svg" src="../_images/hyperslab_1.svg" width="65%" /></a>
-</div>
+</figure>
 <p>The selected elements are denoted by the red rectangles. Such a hyperslab would
 have the following parameters</p>
 <ul class="simple">
@@ -101,12 +102,12 @@ have the following parameters</p>
 <li><p><em>stride</em> = [2,1]</p></li>
 </ul>
 <p>To construct such a hyperslab you could use</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">});</span>
-<span class="n">Dimensions</span> <span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
-<span class="n">Dimensions</span> <span class="n">block</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
-<span class="n">Dimensions</span> <span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
-<span class="n">Dimensions</span> <span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">});</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">block</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span><span class="w"></span>
 </pre></div>
 </div>
 <p>For details of how to manipulate or alter an instance of
@@ -115,39 +116,39 @@ have the following parameters</p>
 which cover common but quite simplier selection scenarios.
 The first one covers the selection of a single contiguous region of data
 within the dataset. For our above example that could look somehow like this</p>
-<div class="figure align-center">
+<figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hyperslab_2.svg"><img alt="../_images/hyperslab_2.svg" src="../_images/hyperslab_2.svg" width="65%" /></a>
-</div>
+</figure>
 <p>For such a purpose there is a two argument constructor which takes only
 the <em>offset</em> and the <em>block</em> - everything else is set internally to 1</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span> <span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
-<span class="n">Dimensions</span> <span class="n">block</span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Hypeslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">};</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span><span class="w"> </span><span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">block</span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span><span class="w"></span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hypeslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">};</span><span class="w"></span>
 </pre></div>
 </div>
 <p>In some applications domains such a selection would be called a
 <em>region of interest</em> or <em>ROI</em>.</p>
 <p>The second selection scenario is a number of blocks of size 1 along each
 dimension separated by a particular stride.</p>
-<div class="figure align-center">
+<figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hyperslab_3.svg"><img alt="../_images/hyperslab_3.svg" src="../_images/hyperslab_3.svg" width="65%" /></a>
-</div>
+</figure>
 <p>The constructor call for such a selection would look like this</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span> <span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
-<span class="n">Dimensions</span> <span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
-<span class="n">Dimensions</span> <span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span><span class="w"> </span><span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span><span class="w"></span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="point-selections">
+</section>
+<section id="point-selections">
 <h2>Point selections<a class="headerlink" href="#point-selections" title="Permalink to this headline">¶</a></h2>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p>write this section</p>
 </div>
-</div>
-<div class="section" id="selection-operations-and-containers">
+</section>
+<section id="selection-operations-and-containers">
 <h2>Selection operations and containers<a class="headerlink" href="#selection-operations-and-containers" title="Permalink to this headline">¶</a></h2>
 <p>Point as well as hyperslab selections can be combined by means of different
 logical operations. All available operations for selections are represented
@@ -280,20 +281,20 @@ We thus need a pointer to reference the particular selection.</p>
 troubles with resouce leaks.</p>
 </div>
 <p>Consider this example</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionList</span> <span class="n">selections</span><span class="p">;</span>
-<span class="n">selections</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">SET</span><span class="p">,</span>
-                      <span class="n">Selection</span><span class="o">::</span><span class="n">SharedPointer</span><span class="p">(</span><span class="k">new</span> <span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">}))});</span>
-<span class="n">selections</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">OR</span><span class="p">,</span>
-                      <span class="n">Selection</span><span class="o">::</span><span class="n">SharedPointer</span><span class="p">(</span><span class="k">new</span> <span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">({</span><span class="mi">200</span><span class="p">,</span><span class="mi">129</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">}))});</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionList</span><span class="w"> </span><span class="n">selections</span><span class="p">;</span><span class="w"></span>
+<span class="n">selections</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">SET</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Selection</span><span class="o">::</span><span class="n">SharedPointer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">}))});</span><span class="w"></span>
+<span class="n">selections</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">OR</span><span class="p">,</span><span class="w"></span>
+<span class="w">                      </span><span class="n">Selection</span><span class="o">::</span><span class="n">SharedPointer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">({</span><span class="mi">200</span><span class="p">,</span><span class="mi">129</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">}))});</span><span class="w"></span>
 
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span> <span class="o">=</span> <span class="p">...;</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="n">space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">selection</span><span class="p">:</span> <span class="n">selections</span><span class="p">)</span>
-    <span class="n">selection</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">apply</span><span class="p">(</span><span class="n">space</span><span class="p">,</span><span class="n">selection</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="nl">selection</span><span class="p">:</span><span class="w"> </span><span class="n">selections</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">selection</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">apply</span><span class="p">(</span><span class="n">space</span><span class="p">,</span><span class="n">selection</span><span class="p">.</span><span class="n">first</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="applying-a-selection">
+</section>
+<section id="applying-a-selection">
 <h2>Applying a selection<a class="headerlink" href="#applying-a-selection" title="Permalink to this headline">¶</a></h2>
 <p>There are two interfaces which can be used to add a selection to an existing
 dataspace:</p>
@@ -309,18 +310,18 @@ modified</p></li>
 <li><p>and <em>copying</em> application where a new dataspace with the selections
 applied is created from an original one.</p></li>
 </ul>
-<div class="section" id="using-the-selectionmanager-interface">
+<section id="using-the-selectionmanager-interface">
 <h3>Using the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code> interface<a class="headerlink" href="#using-the-selectionmanager-interface" title="Permalink to this headline">¶</a></h3>
 <p>In order to apply a selection you can use the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code>
 interface provided by a <a class="reference internal" href="dataspace.html#_CPPv49Dataspace" title="Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Dataspace</span></code></a> via the public member
 <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">Dataspace::selection</span></code>.</p>
-<div class="figure align-center">
+<figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hdf5_selection_manager.svg"><img alt="../_images/hdf5_selection_manager.svg" src="../_images/hdf5_selection_manager.svg" width="75%" /></a>
-</div>
+</figure>
 <p>A selection can be applied like this</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Dataspace</span> <span class="n">file_space</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">dataspace</span><span class="p">();</span>
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span> <span class="n">slab</span><span class="p">(...);</span>
-<span class="n">file_space</span><span class="p">.</span><span class="n">selection</span><span class="p">(</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">SET</span><span class="p">,</span><span class="n">slab</span><span class="p">);</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Dataspace</span><span class="w"> </span><span class="n">file_space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">.</span><span class="n">dataspace</span><span class="p">();</span><span class="w"></span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="w"> </span><span class="nf">slab</span><span class="p">(...);</span><span class="w"></span>
+<span class="n">file_space</span><span class="p">.</span><span class="n">selection</span><span class="p">(</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">SET</span><span class="p">,</span><span class="n">slab</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="admonition important">
@@ -331,13 +332,13 @@ If no selection is applied then both methods return the same value.
 However, if a selection is applied <a class="reference internal" href="dataspace.html#_CPPv4N9Dataspace4sizeEv" title="Dataspace::size"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">Dataspace::size()</span></code></a> still returns
 the total number of elements described by the dataspace while
 <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">SelectionManager::size()</span></code> returns the number of selected elements.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span><span class="p">({</span><span class="mi">1024</span><span class="p">});</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>           <span class="c1">// would print 1024</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// would print 1024</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">1024</span><span class="p">});</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w">           </span><span class="c1">// would print 1024</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="c1">// would print 1024</span>
 
-<span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">none</span><span class="p">();</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>           <span class="c1">// would print 1024</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// would print 0</span>
+<span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">none</span><span class="p">();</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w">           </span><span class="c1">// would print 1024</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="c1">// would print 0</span>
 </pre></div>
 </div>
 </div>
@@ -345,8 +346,8 @@ the total number of elements described by the dataspace while
 the different selections are combined with each other to form the set of
 selected elements can be controlled by <em>selection operations</em> which
 are determined by the <code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">SelectionOperation</span></code> enumerations.</p>
-</div>
-<div class="section" id="operators">
+</section>
+<section id="operators">
 <h3>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h3>
 <p>Selections can be applied directly to a dataspace using operators. In this
 case we have to distinguish two cases</p>
@@ -355,15 +356,15 @@ case we have to distinguish two cases</p>
 <li><p>and <em>constructing</em> operations which create a new dataspace.</p></li>
 </ul>
 <p>Copying usage of operators</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">orig_space</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="n">orig_space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="n">function</span><span class="p">(</span><span class="n">orig_space</span> <span class="o">|</span> <span class="n">Hyperslab</span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">23</span><span class="p">}}</span>
-                    <span class="o">|</span> <span class="n">Hyperslab</span><span class="p">{{</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">},{</span><span class="mi">300</span><span class="p">,</span><span class="mi">342</span><span class="p">}});</span>
+<span class="n">function</span><span class="p">(</span><span class="n">orig_space</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Hyperslab</span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">23</span><span class="p">}}</span><span class="w"></span>
+<span class="w">                    </span><span class="o">|</span><span class="w"> </span><span class="n">Hyperslab</span><span class="p">{{</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">},{</span><span class="mi">300</span><span class="p">,</span><span class="mi">342</span><span class="p">}});</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -393,13 +394,6 @@ case we have to distinguish two cases</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="groups.html"
                         title="next chapter">Working with groups</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/users_guide/dataspace_selections.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -409,7 +403,19 @@ case we have to distinguish two cases</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -432,11 +438,11 @@ case we have to distinguish two cases</p>
         <li class="nav-item nav-item-this"><a href="">Working with selections</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554)</li>
+<li>generated on 2021-11-29 14:41:19 from  (819c23c)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-29 14:41:19 from  (819c23c).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
 
   </body>

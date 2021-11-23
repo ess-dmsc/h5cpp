@@ -1,15 +1,10 @@
-<map id="/home/jkotan/sources/h5cpp/src/h5cpp/node/link_view.hpp" name="/home/jkotan/sources/h5cpp/src/h5cpp/node/link_view.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="529,5,696,61"/>
-<area shape="rect" id="node2" href="$group__view_8hpp.html" title=" " alt="" coords="442,109,645,136"/>
-<area shape="rect" id="node7" href="$windows_8hpp.html" title=" " alt="" coords="479,527,661,553"/>
-<area shape="rect" id="node3" href="$node_2types_8hpp.html" title=" " alt="" coords="77,452,242,479"/>
-<area shape="rect" id="node8" href="$link__access_8hpp.html" title=" " alt="" coords="449,184,597,225"/>
-<area shape="rect" id="node4" title=" " alt="" coords="277,527,357,553"/>
-<area shape="rect" id="node5" href="$hdf5__capi_8hpp.html" title=" " alt="" coords="5,527,193,553"/>
-<area shape="rect" id="node6" title=" " alt="" coords="68,601,131,628"/>
-<area shape="rect" id="node9" title=" " alt="" coords="424,281,583,307"/>
-<area shape="rect" id="node10" href="$property__list_8hpp.html" title=" " alt="" coords="221,273,399,315"/>
-<area shape="rect" id="node11" title=" " alt="" coords="412,370,504,397"/>
-<area shape="rect" id="node12" href="$object__handle_8hpp.html" title=" " alt="" coords="266,452,482,479"/>
-<area shape="rect" id="node13" href="$property__class_8hpp.html" title=" " alt="" coords="158,363,337,404"/>
+<map id="/home/jenkins/h5cpp/src/h5cpp/node/link_view.hpp" name="/home/jenkins/h5cpp/src/h5cpp/node/link_view.hpp">
+<area shape="rect" id="node2" href="$group__view_8hpp.html" title="h5cpp/node/group_view.hpp" alt="" coords="442,109,645,136"/>
+<area shape="rect" id="node7" href="$windows_8hpp.html" title="h5cpp/core/windows.hpp" alt="" coords="479,527,661,553"/>
+<area shape="rect" id="node3" href="$node_2types_8hpp.html" title="h5cpp/node/types.hpp" alt="" coords="77,452,242,479"/>
+<area shape="rect" id="node8" href="$link__access_8hpp.html" title="h5cpp/property/link\l_access.hpp" alt="" coords="449,184,597,225"/>
+<area shape="rect" id="node5" href="$hdf5__capi_8hpp.html" title="h5cpp/core/hdf5_capi.hpp" alt="" coords="5,527,193,553"/>
+<area shape="rect" id="node10" href="$property__list_8hpp.html" title="h5cpp/property/property\l_list.hpp" alt="" coords="221,273,399,315"/>
+<area shape="rect" id="node12" href="$object__handle_8hpp.html" title="h5cpp/core/object_handle.hpp" alt="" coords="266,452,482,479"/>
+<area shape="rect" id="node13" href="$property__class_8hpp.html" title="h5cpp/property/property\l_class.hpp" alt="" coords="158,363,337,404"/>
 </map>

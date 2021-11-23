@@ -6,7 +6,7 @@ var searchData=
   ['uninitialized',['Uninitialized',['../classhdf5_1_1ObjectHandle.html#aae7eecf0ec230b238865afff0cf4c579af704f57ea420275ad51bf55b7dec2c96',1,'hdf5::ObjectHandle']]],
   ['uniquepointer',['UniquePointer',['../classhdf5_1_1IOWriteBuffer.html#ad854a68a092c1db4f9eebbb6cba969d2',1,'hdf5::IOWriteBuffer::UniquePointer()'],['../classhdf5_1_1IOReadBuffer.html#ad792059f5f0fbf3a13f5aa4f24c94e0c',1,'hdf5::IOReadBuffer::UniquePointer()'],['../classhdf5_1_1dataspace_1_1Selection.html#af5485bcf195aa3c6e121cadd142bd8e2',1,'hdf5::dataspace::Selection::UniquePointer()'],['../classhdf5_1_1file_1_1Driver.html#a9a5aad76d971d16a5cde3072ae56cce2',1,'hdf5::file::Driver::UniquePointer()']]],
   ['unknown',['Unknown',['../namespacehdf5_1_1node.html#a8c9eab5788591df18cacf72403d7fa67a88183b946cc5f0e8c96b2e66e1c74a7e',1,'hdf5::node']]],
-  ['unlimited',['UNLIMITED',['../classhdf5_1_1dataspace_1_1Simple.html#abda0a301591a8ace80c82e2625914dc9',1,'hdf5::dataspace::Simple']]],
+  ['unlimited',['unlimited',['../classhdf5_1_1dataspace_1_1Simple.html#a723ff309c89181df1b924f6d75c881c3',1,'hdf5::dataspace::Simple']]],
   ['unsigned',['Unsigned',['../namespacehdf5_1_1datatype.html#a327c023333168c4edd831891badbc143aa1a914735b205424ba6c40b85528d78a',1,'hdf5::datatype']]],
   ['unsigned2signed',['unsigned2signed',['../utilities_8hpp.html#a93190161ceb5f76c4003f10fc1b520aa',1,'utilities.hpp']]],
   ['user_5fblock',['user_block',['../classhdf5_1_1property_1_1FileCreationList.html#ad4ebddce25f8d1629a3cf43d4213c30c',1,'hdf5::property::FileCreationList::user_block(hsize_t size) const'],['../classhdf5_1_1property_1_1FileCreationList.html#a84ca20420dfb3035e5be96ebb07adbf4',1,'hdf5::property::FileCreationList::user_block() const']]],

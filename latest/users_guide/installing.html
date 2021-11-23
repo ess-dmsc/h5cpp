@@ -129,7 +129,8 @@ package sources you need to login as <cite>root</cite> user. Use <strong class="
 <strong class="command">sudo su</strong> on Debian and Ubuntu respectively.
 The first task is to add the GPG key of the HDRI repository to your local
 keyring</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ curl http://repos.pni-hdri.de/debian_repo.pub.gpg <span class="p">|</span> apt-key add -
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ curl -s http://repos.pni-hdri.de/debian_repo.pub.gpg  <span class="p">|</span> gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg --import
+$ chmod <span class="m">644</span> /etc/apt/trusted.gpg.d/debian-hdri-repo.gpg
 </pre></div>
 </div>
 <p>The return value of this command line should be <cite>OK</cite>.
@@ -143,7 +144,7 @@ For Debian (Buster) use</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ wget http://repos.pni-hdri.de/focal-pni-hdri.list
 </pre></div>
 </div>
-<p>Similarly, proceed for Bullseye, Buster, Stretch, Groovy, Focal or Bionic.
+<p>Similarly, proceed for Bullseye, Buster, Stretch, Impish, Focal or Bionic.
 Once you have downloaded the file use</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ apt-get update
 </pre></div>
@@ -182,13 +183,6 @@ start with working right after the installation has finished.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="using.html"
                         title="next chapter">Using the library</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/users_guide/installing.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -198,7 +192,19 @@ start with working right after the installation has finished.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -220,10 +226,10 @@ start with working right after the installation has finished.</p>
         <li class="nav-item nav-item-this"><a href="">Installing the library</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-23 12:41:03 from  (9a010a5)</li>
+<li>generated on 2021-11-26 15:15:23 from  (e1382f8)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 12:41:03 from  (9a010a5).
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-26 15:15:23 from  (e1382f8).
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
 

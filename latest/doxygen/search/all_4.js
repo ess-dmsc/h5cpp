@@ -5,7 +5,7 @@ var searchData=
   ['ebias',['ebias',['../classhdf5_1_1datatype_1_1Float.html#a9ceb2e6bae3e7a302b69c91baa183797',1,'hdf5::datatype::Float::ebias() const'],['../classhdf5_1_1datatype_1_1Float.html#abcefcb373b645a87e9bd800e33138a7c',1,'hdf5::datatype::Float::ebias(size_t ebias) const']]],
   ['ebool',['EBool',['../namespacehdf5_1_1datatype.html#ad8015187079bdba1474aba8a08037879',1,'hdf5::datatype']]],
   ['ebool_2ehpp',['ebool.hpp',['../ebool_8hpp.html',1,'']]],
-  ['ec_5foption_5fmask',['EC_OPTION_MASK',['../classhdf5_1_1filter_1_1SZip.html#a6c3474b2501c3c2527bc44083bad7b09',1,'hdf5::filter::SZip']]],
+  ['ec_5foption_5fmask',['ec_option_mask',['../classhdf5_1_1filter_1_1SZip.html#ae03887bdac6a6e98609f23e41903416c',1,'hdf5::filter::SZip']]],
   ['empty',['empty',['../classhdf5_1_1error_1_1H5CError.html#a21b0a2accee53cb7e5178620886aae38',1,'hdf5::error::H5CError']]],
   ['enable_5findexed',['enable_indexed',['../classhdf5_1_1property_1_1CreationOrder.html#a4f0d47504ef6cbadbde170771dd6e226',1,'hdf5::property::CreationOrder']]],
   ['enable_5fintermediate_5fgroup_5fcreation',['enable_intermediate_group_creation',['../classhdf5_1_1property_1_1LinkCreationList.html#a3fd6be9b0506ee6395aa289ef80c83f0',1,'hdf5::property::LinkCreationList']]],

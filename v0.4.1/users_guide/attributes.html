@@ -5,12 +5,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Working with attributes &#8212; h5cpp 0.4.1 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -47,7 +48,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="working-with-attributes">
+  <section id="working-with-attributes">
 <h1>Working with attributes<a class="headerlink" href="#working-with-attributes" title="Permalink to this headline">¶</a></h1>
 <p>Every node can be augumented with attributes. Attributes behave a bit like
 datasets but lack some of the features the latter provides</p>
@@ -63,115 +64,115 @@ container interface to attributes which is somehow similar to that of
 <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8LinkViewE" title="hdf5::node::LinkView"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::LinkView</span></code></a> or <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8NodeViewE" title="hdf5::node::NodeView"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::NodeView</span></code></a>.</p>
 <p>An attribute itself is represented by an instance of
 <a class="reference internal" href="../api_reference/namespace_attribute.html#_CPPv4N4hdf59attribute9AttributeE" title="hdf5::attribute::Attribute"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::attribute::Attribute</span></code></a>.</p>
-<div class="section" id="basic-attribute-management">
+<section id="basic-attribute-management">
 <h2>Basic attribute management<a class="headerlink" href="#basic-attribute-management" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="creating-attributes">
+<section id="creating-attributes">
 <h3>Creating attributes<a class="headerlink" href="#creating-attributes" title="Permalink to this headline">¶</a></h3>
 <p>Attribute creation is done via the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">create()</span></code> member function
 of the attribute manager interface.
 To create a simple scalar string attribute you could use</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">attribute</span><span class="o">::</span><span class="n">Attribute</span><span class="p">;</span>
-<span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span> <span class="n">dataset</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">attribute</span><span class="o">::</span><span class="n">Attribute</span><span class="p">;</span><span class="w"></span>
+<span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="w"> </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="n">Attribute</span> <span class="n">attribute</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;author&quot;</span><span class="p">);</span>
+<span class="n">Attribute</span><span class="w"> </span><span class="n">attribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;author&quot;</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
 <p>A multidimensional attribute can be created using</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Attribute</span> <span class="n">attribute</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;orientation_matrix&quot;</span><span class="p">,{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">});</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Attribute</span><span class="w"> </span><span class="n">attribute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">create</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="s">&quot;orientation_matrix&quot;</span><span class="p">,{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
 <p>which would lead to a 3x3 matrix attribute of type <cite>float</cite>.
 There exists also a non template version of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">create()</span></code> which
 exposes all the flexibility HDF5 provides. So we could write the last
 example also with</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span><span class="p">{{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">}};</span>
-<span class="k">auto</span> <span class="n">type</span> <span class="o">=</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">datatype</span><span class="o">::</span><span class="n">create</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span>
-<span class="n">Attribute</span> <span class="n">attr</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;orientation_matrix&quot;</span><span class="p">,</span><span class="n">type</span><span class="p">,</span><span class="n">space</span><span class="p">);</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="n">space</span><span class="p">{{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">}};</span><span class="w"></span>
+<span class="k">auto</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">datatype</span><span class="o">::</span><span class="n">create</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="n">Attribute</span><span class="w"> </span><span class="n">attr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;orientation_matrix&quot;</span><span class="p">,</span><span class="n">type</span><span class="p">,</span><span class="n">space</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="removing-attributes">
+</section>
+<section id="removing-attributes">
 <h3>Removing attributes<a class="headerlink" href="#removing-attributes" title="Permalink to this headline">¶</a></h3>
 <p>Attributes can be removed using the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">remove()</span></code> member functions of
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::attribute::Manager</span></code>. This function takes either the index
 of the name of an attribute as its key</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span> <span class="n">dataset</span> <span class="o">=</span> <span class="p">...</span> <span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="w"> </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
 
-<span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//remove attribute with index 1</span>
-<span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;temperature&quot;</span><span class="p">);</span> <span class="c1">//remove attribute &quot;temperature&quot;</span>
+<span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">//remove attribute with index 1</span>
+<span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;temperature&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">//remove attribute &quot;temperature&quot;</span>
 </pre></div>
 </div>
 <p>Both methods throw <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">std::runtime_error</span></code> in the case of a failure.</p>
-</div>
-<div class="section" id="attribute-inquery">
+</section>
+<section id="attribute-inquery">
 <h3>Attribute inquery<a class="headerlink" href="#attribute-inquery" title="Permalink to this headline">¶</a></h3>
 <p>If we would like to know how many attributes are attached to a node we could
 use the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">size()</span></code> member function of the manager interface.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Number of attributes: &quot;</span><span class="o">&lt;&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;Number of attributes: &quot;</span><span class="o">&lt;&lt;</span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">exists()</span></code> method checks for the existence of a particular
 attribute with a given name</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="k">if</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;NX_class&quot;</span><span class="p">))</span>
-<span class="p">{</span>
- <span class="p">....</span>
-<span class="p">}</span>
+<span class="k">if</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="s">&quot;NX_class&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w"> </span><span class="p">....</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="accessing-attributes">
+</section>
+</section>
+<section id="accessing-attributes">
 <h2>Accessing attributes<a class="headerlink" href="#accessing-attributes" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="element-wise-access">
+<section id="element-wise-access">
 <h3>Element wise access<a class="headerlink" href="#element-wise-access" title="Permalink to this headline">¶</a></h3>
 <p>Like nodes or links, attributes can be either accessed via their name
 or by their index.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span> <span class="n">dataset</span> <span class="o">=</span> <span class="p">...;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="w"> </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="s">&quot;temperature&quot;</span><span class="p">].</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="s">&quot;temperature&quot;</span><span class="p">].</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">dataset</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="iteartor-access">
+</section>
+<section id="iteartor-access">
 <h3>Iteartor access<a class="headerlink" href="#iteartor-access" title="Permalink to this headline">¶</a></h3>
 <p>Iterating over attributes</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">....;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span><span class="w"></span>
 
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">attribute</span><span class="p">:</span> <span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">attribute</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="nl">attribute</span><span class="p">:</span><span class="w"> </span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">attribute</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 </div>
 <p>or alternatively</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span> <span class="n">group</span> <span class="o">=</span> <span class="p">....;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span><span class="w"></span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">attribtues</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span>
-              <span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
-              <span class="p">[](</span><span class="k">const</span> <span class="n">hdf5</span><span class="o">::</span><span class="n">attribute</span><span class="o">::</span><span class="n">Attribute</span> <span class="o">&amp;</span><span class="n">attr</span><span class="p">)</span>
-              <span class="p">{</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">attr</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">group</span><span class="p">.</span><span class="n">attribtues</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"></span>
+<span class="w">              </span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"></span>
+<span class="w">              </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">attribute</span><span class="o">::</span><span class="n">Attribute</span><span class="w"> </span><span class="o">&amp;</span><span class="n">attr</span><span class="p">)</span><span class="w"></span>
+<span class="w">              </span><span class="p">{</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">attr</span><span class="p">.</span><span class="n">name</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="reading-and-writing-data">
+</section>
+</section>
+<section id="reading-and-writing-data">
 <h2>Reading and writing data<a class="headerlink" href="#reading-and-writing-data" title="Permalink to this headline">¶</a></h2>
 <p>As proposed in <span class="xref std std-ref">design-read-write</span> <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">attribute_t</span></code> provides
 <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">read()</span></code> and <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">write()</span></code> methods to read and write data.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">attribute_t</span> <span class="n">attr</span> <span class="o">=</span> <span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="s">&quot;NX_class&quot;</span><span class="p">];</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">attribute_t</span><span class="w"> </span><span class="n">attr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">.</span><span class="n">attributes</span><span class="p">[</span><span class="s">&quot;NX_class&quot;</span><span class="p">];</span><span class="w"></span>
 
-<span class="n">attr</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;NXdetector&quot;</span><span class="p">);</span>
+<span class="n">attr</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;NXdetector&quot;</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">string</span> <span class="n">nx_class</span><span class="p">;</span>
-<span class="n">attr</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">nx_class</span><span class="p">);</span>
+<span class="n">string</span><span class="w"> </span><span class="n">nx_class</span><span class="p">;</span><span class="w"></span>
+<span class="n">attr</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">nx_class</span><span class="p">);</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -205,13 +206,6 @@ or by their index.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../api_reference/index.html"
                         title="next chapter">API reference</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/users_guide/attributes.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -221,7 +215,19 @@ or by their index.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -243,11 +249,11 @@ or by their index.</p>
         <li class="nav-item nav-item-this"><a href="">Working with attributes</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554)</li>
+<li>generated on 2021-11-29 14:41:19 from  (819c23c)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-29 14:41:19 from  (819c23c).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
 
   </body>

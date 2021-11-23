@@ -1,52 +1,57 @@
-<map id="/home/jkotan/sources/h5cpp/src/h5cpp/node/recursive_link_iterator.hpp" name="/home/jkotan/sources/h5cpp/src/h5cpp/node/recursive_link_iterator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="3094,5,3294,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="2386,184,2473,211"/>
-<area shape="rect" id="node3" href="$group_8hpp.html" title=" " alt="" coords="2497,184,2664,211"/>
-<area shape="rect" id="node8" href="$windows_8hpp.html" title=" " alt="" coords="2065,959,2248,985"/>
-<area shape="rect" id="node48" href="$link__iterator_8hpp.html" title=" " alt="" coords="3335,109,3543,136"/>
-<area shape="rect" id="node4" href="$node_8hpp.html" title=" " alt="" coords="2618,341,2780,367"/>
-<area shape="rect" id="node18" href="$group__access_8hpp.html" title=" " alt="" coords="3316,601,3477,643"/>
-<area shape="rect" id="node24" href="$iterator__config_8hpp.html" title=" " alt="" coords="1309,601,1454,643"/>
-<area shape="rect" id="node25" href="$link__view_8hpp.html" title=" " alt="" coords="3502,259,3693,285"/>
-<area shape="rect" id="node27" href="$node__view_8hpp.html" title=" " alt="" coords="3416,519,3614,546"/>
-<area shape="rect" id="node28" href="$dataset_8hpp.html" title=" " alt="" coords="1592,259,1771,285"/>
-<area shape="rect" id="node29" href="$dataspace_8hpp.html" title=" " alt="" coords="952,609,1182,635"/>
-<area shape="rect" id="node33" href="$datatype_8hpp.html" title=" " alt="" coords="286,787,499,814"/>
-<area shape="rect" id="node38" href="$link__creation_8hpp.html" title=" " alt="" coords="1874,333,2022,375"/>
-<area shape="rect" id="node40" href="$dataset__creation_8hpp.html" title=" " alt="" coords="499,601,672,643"/>
-<area shape="rect" id="node45" href="$dataset__access_8hpp.html" title=" " alt="" coords="2534,601,2707,643"/>
-<area shape="rect" id="node46" href="$group__creation_8hpp.html" title=" " alt="" coords="8,601,169,643"/>
-<area shape="rect" id="node47" href="$object__copy_8hpp.html" title=" " alt="" coords="680,423,844,464"/>
-<area shape="rect" id="node5" href="$object__handle_8hpp.html" title=" " alt="" coords="1371,877,1587,903"/>
-<area shape="rect" id="node9" href="$path_8hpp.html" title=" " alt="" coords="3086,609,3240,635"/>
-<area shape="rect" id="node12" href="$node_2types_8hpp.html" title=" " alt="" coords="2744,877,2910,903"/>
-<area shape="rect" id="node13" href="$link_8hpp.html" title=" " alt="" coords="2977,430,3130,457"/>
-<area shape="rect" id="node16" href="$object__id_8hpp.html" title=" " alt="" coords="2320,698,2504,725"/>
-<area shape="rect" id="node22" href="$attribute__manager_8hpp.html" title=" " alt="" coords="2219,512,2400,553"/>
-<area shape="rect" id="node6" href="$hdf5__capi_8hpp.html" title=" " alt="" coords="920,959,1108,985"/>
-<area shape="rect" id="node7" title=" " alt="" coords="1439,959,1519,985"/>
-<area shape="rect" id="node10" title=" " alt="" coords="2102,698,2144,725"/>
-<area shape="rect" id="node11" title=" " alt="" coords="2219,787,2278,814"/>
-<area shape="rect" id="node14" href="$file_8hpp.html" title=" " alt="" coords="2984,519,3123,546"/>
-<area shape="rect" id="node19" href="$link__access_8hpp.html" title=" " alt="" coords="3210,691,3358,732"/>
-<area shape="rect" id="node15" title=" " alt="" coords="3036,787,3194,814"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1563,787,1638,814"/>
-<area shape="rect" id="node20" href="$property__list_8hpp.html" title=" " alt="" coords="652,780,831,821"/>
-<area shape="rect" id="node21" title=" " alt="" coords="346,959,438,985"/>
-<area shape="rect" id="node23" href="$core_2types_8hpp.html" title=" " alt="" coords="1141,698,1302,725"/>
-<area shape="rect" id="node26" href="$group__view_8hpp.html" title=" " alt="" coords="3552,609,3755,635"/>
-<area shape="rect" id="node32" href="$hyperslab_8hpp.html" title=" " alt="" coords="1865,609,2093,635"/>
-<area shape="rect" id="node35" href="$dataset__transfer_8hpp.html" title=" " alt="" coords="740,691,914,732"/>
-<area shape="rect" id="node36" href="$variable__length__string_8hpp.html" title=" " alt="" coords="2076,333,2226,375"/>
-<area shape="rect" id="node37" href="$fixed__length__string_8hpp.html" title=" " alt="" coords="1510,512,1688,553"/>
-<area shape="rect" id="node44" href="$error_8hpp.html" title=" " alt="" coords="1530,698,1689,725"/>
-<area shape="rect" id="node30" href="$type_8hpp.html" title=" " alt="" coords="798,877,992,903"/>
-<area shape="rect" id="node31" href="$selection__manager_8hpp.html" title=" " alt="" coords="1058,780,1252,821"/>
-<area shape="rect" id="node34" href="$datatype_2types_8hpp.html" title=" " alt="" coords="532,877,722,903"/>
-<area shape="rect" id="node39" href="$string__creation_8hpp.html" title=" " alt="" coords="1713,691,1874,732"/>
-<area shape="rect" id="node41" href="$object__creation_8hpp.html" title=" " alt="" coords="66,691,230,732"/>
-<area shape="rect" id="node43" href="$datatype_2type__trait_8hpp.html" title=" " alt="" coords="408,691,564,732"/>
-<area shape="rect" id="node42" href="$creation__order_8hpp.html" title=" " alt="" coords="25,869,202,911"/>
-<area shape="rect" id="node49" href="$iterator_8hpp.html" title=" " alt="" coords="3695,184,3868,211"/>
-<area shape="rect" id="node50" title=" " alt="" coords="3820,259,3906,285"/>
+<map id="/home/jenkins/h5cpp/src/h5cpp/node/recursive_link_iterator.hpp" name="/home/jenkins/h5cpp/src/h5cpp/node/recursive_link_iterator.hpp">
+<area shape="rect" id="node3" href="$group_8hpp.html" title="h5cpp/node/group.hpp" alt="" coords="1914,184,2081,211"/>
+<area shape="rect" id="node9" href="$windows_8hpp.html" title="h5cpp/core/windows.hpp" alt="" coords="2021,1197,2203,1224"/>
+<area shape="rect" id="node71" href="$link__iterator_8hpp.html" title="h5cpp/node/link_iterator.hpp" alt="" coords="125,109,331,136"/>
+<area shape="rect" id="node4" href="$node_8hpp.html" title="h5cpp/node/node.hpp" alt="" coords="2651,341,2813,367"/>
+<area shape="rect" id="node20" href="$group__access_8hpp.html" title="h5cpp/property/group\l_access.hpp" alt="" coords="1002,765,1163,807"/>
+<area shape="rect" id="node27" href="$datatype_8hpp.html" title="h5cpp/datatype/datatype.hpp" alt="" coords="4800,1041,5013,1067"/>
+<area shape="rect" id="node29" href="$dataspace_8hpp.html" title="h5cpp/dataspace/dataspace.hpp" alt="" coords="3631,773,3862,799"/>
+<area shape="rect" id="node54" href="$iterator__config_8hpp.html" title="h5cpp/core/iterator\l_config.hpp" alt="" coords="3410,765,3555,807"/>
+<area shape="rect" id="node57" href="$link__view_8hpp.html" title="h5cpp/node/link_view.hpp" alt="" coords="375,259,566,285"/>
+<area shape="rect" id="node59" href="$node__view_8hpp.html" title="h5cpp/node/node_view.hpp" alt="" coords="1102,683,1301,710"/>
+<area shape="rect" id="node60" href="$dataset_8hpp.html" title="h5cpp/node/dataset.hpp" alt="" coords="2445,259,2624,285"/>
+<area shape="rect" id="node64" href="$link__creation_8hpp.html" title="h5cpp/property/link\l_creation.hpp" alt="" coords="1979,423,2127,464"/>
+<area shape="rect" id="node65" href="$dataset__creation_8hpp.html" title="h5cpp/property/dataset\l_creation.hpp" alt="" coords="4385,587,4559,628"/>
+<area shape="rect" id="node68" href="$dataset__access_8hpp.html" title="h5cpp/property/dataset\l_access.hpp" alt="" coords="1959,765,2132,807"/>
+<area shape="rect" id="node69" href="$group__creation_8hpp.html" title="h5cpp/property/group\l_creation.hpp" alt="" coords="2258,765,2419,807"/>
+<area shape="rect" id="node70" href="$object__copy_8hpp.html" title="h5cpp/property/object\l_copy.hpp" alt="" coords="2086,333,2250,375"/>
+<area shape="rect" id="node5" href="$object__handle_8hpp.html" title="h5cpp/core/object_handle.hpp" alt="" coords="3944,1123,4160,1149"/>
+<area shape="rect" id="node10" href="$path_8hpp.html" title="h5cpp/core/path.hpp" alt="" coords="1239,773,1393,799"/>
+<area shape="rect" id="node13" href="$node_2types_8hpp.html" title="h5cpp/node/types.hpp" alt="" coords="3232,1041,3397,1067"/>
+<area shape="rect" id="node14" href="$link_8hpp.html" title="h5cpp/node/link.hpp" alt="" coords="2623,594,2777,621"/>
+<area shape="rect" id="node18" href="$object__id_8hpp.html" title="h5cpp/core/object_id.hpp" alt="" coords="3932,862,4116,889"/>
+<area shape="rect" id="node25" href="$attribute__manager_8hpp.html" title="h5cpp/attribute/attribute\l_manager.hpp" alt="" coords="3349,423,3531,464"/>
+<area shape="rect" id="node6" href="$hdf5__capi_8hpp.html" title="h5cpp/core/hdf5_capi.hpp" alt="" coords="3711,1197,3899,1224"/>
+<area shape="rect" id="node15" href="$file_8hpp.html" title="h5cpp/file/file.hpp" alt="" coords="2639,683,2777,710"/>
+<area shape="rect" id="node21" href="$link__access_8hpp.html" title="h5cpp/property/link\l_access.hpp" alt="" coords="1891,855,2039,896"/>
+<area shape="rect" id="node16" href="$file_2types_8hpp.html" title="h5cpp/file/types.hpp" alt="" coords="3513,1123,3666,1149"/>
+<area shape="rect" id="node22" href="$property__list_8hpp.html" title="h5cpp/property/property\l_list.hpp" alt="" coords="2587,944,2765,985"/>
+<area shape="rect" id="node24" href="$property__class_8hpp.html" title="h5cpp/property/property\l_class.hpp" alt="" coords="2928,1033,3107,1075"/>
+<area shape="rect" id="node26" href="$attribute_8hpp.html" title="h5cpp/attribute/attribute.hpp" alt="" coords="3738,512,3947,539"/>
+<area shape="rect" id="node31" href="$core_2types_8hpp.html" title="h5cpp/core/types.hpp" alt="" coords="3746,862,3907,889"/>
+<area shape="rect" id="node37" href="$factory_8hpp.html" title="h5cpp/datatype/factory.hpp" alt="" coords="4583,594,4782,621"/>
+<area shape="rect" id="node44" href="$scalar_8hpp.html" title="h5cpp/dataspace/scalar.hpp" alt="" coords="3327,683,3529,710"/>
+<area shape="rect" id="node45" href="$simple_8hpp.html" title="h5cpp/dataspace/simple.hpp" alt="" coords="3756,683,3964,710"/>
+<area shape="rect" id="node55" href="$attribute__creation_8hpp.html" title="h5cpp/property/attribute\l_creation.hpp" alt="" coords="2495,765,2675,807"/>
+<area shape="rect" id="node43" href="$dataspace_2type__trait_8hpp.html" title="h5cpp/dataspace/type\l_trait.hpp" alt="" coords="3841,587,4007,628"/>
+<area shape="rect" id="node46" href="$dataset__transfer_8hpp.html" title="h5cpp/property/dataset\l_transfer.hpp" alt="" coords="2425,587,2599,628"/>
+<area shape="rect" id="node47" href="$variable__length__string_8hpp.html" title="h5cpp/core/variable\l_length_string.hpp" alt="" coords="4242,855,4393,896"/>
+<area shape="rect" id="node48" href="$fixed__length__string_8hpp.html" title="h5cpp/core/fixed_length\l_string.hpp" alt="" coords="4495,676,4673,717"/>
+<area shape="rect" id="node49" href="$error_8hpp.html" title="h5cpp/error/error.hpp" alt="" coords="2141,683,2299,710"/>
+<area shape="rect" id="node28" href="$datatype_2types_8hpp.html" title="h5cpp/datatype/types.hpp" alt="" coords="4235,1123,4426,1149"/>
+<area shape="rect" id="node30" href="$type_8hpp.html" title="h5cpp/dataspace/type.hpp" alt="" coords="4502,1123,4695,1149"/>
+<area shape="rect" id="node36" href="$selection__manager_8hpp.html" title="h5cpp/dataspace/selection\l_manager.hpp" alt="" coords="3573,1033,3768,1075"/>
+<area shape="rect" id="node38" href="$datatype_2type__trait_8hpp.html" title="h5cpp/datatype/type\l_trait.hpp" alt="" coords="4773,855,4929,896"/>
+<area shape="rect" id="node39" href="$integer_8hpp.html" title="h5cpp/datatype/integer.hpp" alt="" coords="5096,951,5296,978"/>
+<area shape="rect" id="node40" href="$float_8hpp.html" title="h5cpp/datatype/float.hpp" alt="" coords="4685,951,4869,978"/>
+<area shape="rect" id="node41" href="$string_8hpp.html" title="h5cpp/datatype/string.hpp" alt="" coords="4469,951,4661,978"/>
+<area shape="rect" id="node50" href="$h5c__error_8hpp.html" title="h5cpp/error/h5c_error.hpp" alt="" coords="1469,773,1657,799"/>
+<area shape="rect" id="node51" href="$descriptor_8hpp.html" title="h5cpp/error/descriptor.hpp" alt="" coords="3352,862,3544,889"/>
+<area shape="rect" id="node56" href="$string__creation_8hpp.html" title="h5cpp/property/string\l_creation.hpp" alt="" coords="2659,855,2821,896"/>
+<area shape="rect" id="node58" href="$group__view_8hpp.html" title="h5cpp/node/group_view.hpp" alt="" coords="1681,773,1884,799"/>
+<area shape="rect" id="node61" href="$hyperslab_8hpp.html" title="h5cpp/dataspace/hyperslab.hpp" alt="" coords="1351,594,1579,621"/>
+<area shape="rect" id="node62" href="$selection_8hpp.html" title="h5cpp/dataspace/selection.hpp" alt="" coords="1425,683,1647,710"/>
+<area shape="rect" id="node66" href="$object__creation_8hpp.html" title="h5cpp/property/object\l_creation.hpp" alt="" coords="2369,855,2533,896"/>
+<area shape="rect" id="node67" href="$creation__order_8hpp.html" title="h5cpp/property/creation\l_order.hpp" alt="" coords="2321,1033,2498,1075"/>
+<area shape="rect" id="node72" href="$iterator_8hpp.html" title="h5cpp/core/iterator.hpp" alt="" coords="95,773,267,799"/>
 </map>

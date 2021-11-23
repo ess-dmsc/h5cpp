@@ -60,8 +60,8 @@ dataset.</p>
 <p>Currently two of the three dataspaces available in HDF5 are implemented
 in <em>h5cpp</em></p>
 <ul class="simple">
-<li><p>a <em>scalar</em> dataspace (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace4Type6ScalarE" title="hdf5::dataspace::Scalar"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Scalar</span></code></a>)</p></li>
-<li><p>and a <em>simple</em> dataspace (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace4Type6SimpleE" title="hdf5::dataspace::Simple"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Simple</span></code></a>).</p></li>
+<li><p>a <em>scalar</em> dataspace (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace6ScalarE" title="hdf5::dataspace::Scalar"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Scalar</span></code></a>)</p></li>
+<li><p>and a <em>simple</em> dataspace (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace6SimpleE" title="hdf5::dataspace::Simple"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Simple</span></code></a>).</p></li>
 </ul>
 <p>Dataspaces and related classes can be cound in namespace
 <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::dataspace</span></code>. As shown above all dataspace classes derive from
@@ -132,7 +132,7 @@ Such a dataspace has two basic properties</p>
 <li><p>and the <em>dimensions</em> which is the number of elements along each dimension.</p></li>
 </ul>
 <p>In <em>h5cpp</em> a simple dataspace can be constructed using the
-<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace4Type6SimpleE" title="hdf5::dataspace::Simple"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Simple</span></code></a> class. There are basically three
+<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace6SimpleE" title="hdf5::dataspace::Simple"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Simple</span></code></a> class. There are basically three
 configurations we could use</p>
 <ul class="simple">
 <li><p>a dataspace of fixed size</p></li>
@@ -168,7 +168,7 @@ extensible dataspace with fixed bounds we could use</p>
 along a dimension we could use</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">1</span><span class="p">},{</span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="o">::</span><span class="n">UNLIMITED</span><span class="p">});</span><span class="w"></span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">1</span><span class="p">},{</span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="o">::</span><span class="n">unlimited</span><span class="p">});</span><span class="w"></span>
 </pre></div>
 </div>
 <figure class="align-center">
@@ -251,13 +251,6 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="dataspace_custom_types.html"
                         title="next chapter">Using dataspaces with custom types</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/users_guide/dataspace.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -267,7 +260,19 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
         </div>
       </div>
       <div class="clearer"></div>
@@ -289,10 +294,10 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf</p>
         <li class="nav-item nav-item-this"><a href="">Dataspaces</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-23 12:41:03 from  (9a010a5)</li>
+<li>generated on 2021-11-26 15:15:23 from  (e1382f8)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 12:41:03 from  (9a010a5).
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-26 15:15:23 from  (e1382f8).
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
     </div>
 
