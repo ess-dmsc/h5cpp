@@ -323,13 +323,39 @@ node ("fedora") {
                     sh "git fetch"
                     sh "git checkout gh-pages"
                     sh "git pull"
-                    sh "shopt -u dotglob && rm -rf ./latest/*"
+                    sh "mkdir -p latest && shopt -u dotglob && rm -rf ./latest/*"
                     sh "mv -f ../build/doc/build/* ./latest/"
                     sh "mv -f ../build/doc/doxygen_html ./latest/doxygen"
                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
                     sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
                     sh 'rm -rf ./latest/_sources'
+                    sh "git add -A"
+                    sh "git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
+
+                    withCredentials([usernamePassword(
+                        credentialsId: 'cow-bot-username',
+                        usernameVariable: 'USERNAME',
+                        passwordVariable: 'PASSWORD'
+                    )]) {
+                        sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
+                    }
+                } else if (env.BRANCH_NAME ~== '/^docs_*/') {
+                    def version = pipeline_builder.branch.substring(5)
+                    sh "git config user.email 'dm-jenkins-integration@esss.se'"
+                    sh "git config user.name 'cow-bot'"
+                    sh "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+
+                    sh "git fetch"
+                    sh "git checkout gh-pages"
+                    sh "git pull"
+                    sh "mkdir -p ${version} shopt -u dotglob && rm -rf ./${version}/*"
+                    sh "mv -f ../build/doc/build/* ./latest/"
+                    sh "mv -f ../build/doc/doxygen_html ./${version}/doxygen"
+                    sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
+                    sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
+                    sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
+                    sh 'rm -rf ./${version}/_sources'
                     sh "git add -A"
                     sh "git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
 
