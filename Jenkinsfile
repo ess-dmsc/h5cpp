@@ -196,7 +196,7 @@ builders = pipeline_builder.createBuilders { container ->
           git fetch
           git checkout gh-pages
           git pull
-          shopt -u dotglob && rm -rf ./*
+          shopt -u dotglob && rm -rf ./latest/*
           mkdir -p ./latest
           mv -f ../build/doc/build/* ./latest/
           mv -f ../build/doc/doxygen_html ./latest/doxygen
@@ -233,7 +233,7 @@ builders = pipeline_builder.createBuilders { container ->
           git fetch
           git checkout gh-pages
           git pull
-          shopt -u dotglob && rm -rf ./*
+          shopt -u dotglob && rm -rf ./${version}/*
           mkdir -p ./${version}
           mv -f ../build/doc/build/* ./${version}/
           mv -f ../build/doc/doxygen_html ./${version}/doxygen
