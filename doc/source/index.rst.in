@@ -1,4 +1,4 @@
-.. h5++ documentation master file, created by
+.. h5cpp documentation master file, created by
    sphinx-quickstart on Wed Jan 25 14:34:54 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -26,3 +26,10 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+Documentation for other h5cpp versions
+======================================
+
+`v:latest <../latest/index.html>`_,
+`v:stable <../stable/index.html>`_,
+`v0.4.1 <../v0.4.1/index.html>`_,
+`v0.3.3 <../v0.3.3/index.html>`_
