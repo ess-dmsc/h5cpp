@@ -350,7 +350,7 @@ node ("fedora") {
                     sh "git checkout gh-pages"
                     sh "git pull"
                     sh "mkdir -p ${version} shopt -u dotglob && rm -rf ./${version}/*"
-                    sh "mv -f ../build/doc/build/* ./latest/"
+                    sh "mv -f ../build/doc/build/* ./${version}/"
                     sh "mv -f ../build/doc/doxygen_html ./${version}/doxygen"
                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
