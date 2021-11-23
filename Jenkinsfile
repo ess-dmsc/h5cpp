@@ -340,7 +340,7 @@ node ("fedora") {
                     )]) {
                         sh "../code/push_to_repo.sh ${USERNAME} ${PASSWORD}"
                     }
-                } else if (env.BRANCH_NAME ~== '/^docs_*/') {
+                } else if (env.BRANCH_NAME ==~ '/^docs_*/') {
                     def version = pipeline_builder.branch.substring(5)
                     sh "git config user.email 'dm-jenkins-integration@esss.se'"
                     sh "git config user.name 'cow-bot'"
