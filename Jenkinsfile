@@ -225,7 +225,7 @@ builders = pipeline_builder.createBuilders { container ->
             }
           }
         }
-      } else if (pipeline_builder.branch ==~ '/^docs_*/') {
+      } else if (pipeline_builder.branch.startsWith('docs_') ) {
         def version = pipeline_builder.branch.substring(5)
         container.copyTo(pipeline_builder.project, "docs")
         container.setupLocalGitUser("docs")
