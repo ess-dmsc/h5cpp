@@ -323,13 +323,13 @@ node ("fedora") {
                     sh "git fetch"
                     sh "git checkout gh-pages"
                     sh "git pull"
-                    sh "shopt -u dotglob && rm -rf ./*"
-                    sh "mv -f ../build/doc/build/* ./"
-                    sh "mv -f ../build/doc/doxygen_html ./doxygen"
+                    sh "shopt -u dotglob && rm -rf ./latest/*"
+                    sh "mv -f ../build/doc/build/* ./latest/"
+                    sh "mv -f ../build/doc/doxygen_html ./latest/doxygen"
                     sh 'find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;'
                     sh 'find ./ -name "Makefile" -exec rm -rf {} \\;'
                     sh 'find ./ -name "*.cmake" -exec rm -rf {} \\;'
-                    sh 'rm -rf ./_sources'
+                    sh 'rm -rf ./latest/_sources'
                     sh "git add -A"
                     sh "git commit --amend -m 'Auto-publishing docs from Jenkins build ${BUILD_NUMBER} for branch ${BRANCH_NAME}'"
 
