@@ -196,8 +196,7 @@ builders = pipeline_builder.createBuilders { container ->
           git fetch
           git checkout gh-pages
           git pull
-          shopt -u dotglob && rm -rf ./latest/*
-          mkdir -p ./latest
+          mkdir -p ./latest && shopt -u dotglob && rm -rf ./latest/*
           mv -f ../build/doc/build/* ./latest/
           mv -f ../build/doc/doxygen_html ./latest/doxygen
           mv -f ../build/doc/index.html ./
@@ -233,8 +232,7 @@ builders = pipeline_builder.createBuilders { container ->
           git fetch
           git checkout gh-pages
           git pull
-          shopt -u dotglob && rm -rf ./${version}/*
-          mkdir -p ./${version}
+          mkdir -p ./${version} && shopt -u dotglob && rm -rf ./${version}/*
           mv -f ../build/doc/build/* ./${version}/
           mv -f ../build/doc/doxygen_html ./${version}/doxygen
           find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
