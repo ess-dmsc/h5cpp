@@ -36,9 +36,9 @@ using namespace hdf5;
 
 struct DatasetWriteSpeedTest : public testing::Test
 {
-  long long unsigned int xdim = 867;
-  long long unsigned int ydim = 700;
-  long long unsigned int nframe = 33;
+  unsigned long long xdim = 867;
+  unsigned long long ydim = 700;
+  unsigned long long nframe = 33;
   hdf5::file::File f;
   hdf5::node::Group root;
   hdf5::dataspace::Simple space;
@@ -105,7 +105,7 @@ TEST_F(DatasetWriteSpeedTest, write_hyperslab)
   auto dtype = datatype::create<unsigned short int>();
   node::Dataset data0 = node::Dataset(root, "data0", dtype, space, lcpl, dcpl, dapl);
   gettimeofday(&stime0, NULL);
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data0.extent(0, 1);
     framespace.offset({i, 0, 0});
     dataspace::Dataspace file_space = data0.dataspace();
@@ -122,7 +122,7 @@ TEST_F(DatasetWriteSpeedTest, write_hyperslab)
 
   gettimeofday(&stime1, NULL);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data1.extent(0, 1);
     framespace.offset({i, 0, 0});
 
@@ -142,7 +142,7 @@ TEST_F(DatasetWriteSpeedTest, write_hyperslab)
 
   std::vector<unsigned short int> read_value(xdim * ydim);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data1.extent(0, 1);
     framespace.offset({i, 0, 0});
     data1.read(read_value, framespace);
@@ -162,7 +162,7 @@ TEST_F(DatasetWriteSpeedTest, write)
   auto dtype = datatype::create<unsigned short int>();
   node::Dataset data2 = node::Dataset(root, "data2", dtype, space, lcpl, dcpl, dapl);
   gettimeofday(&stime0, NULL);
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data2.extent(0, 1);
     framespace.offset({i, 0, 0});
     dataspace::Dataspace file_space = data2.dataspace();
@@ -193,7 +193,7 @@ TEST_F(DatasetWriteSpeedTest, write)
 
   std::vector<unsigned short int> read_value(xdim * ydim);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data3.extent(0, 1);
     framespace.offset({i, 0, 0});
     data3.read(read_value, framespace);

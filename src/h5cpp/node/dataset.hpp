@@ -84,6 +84,7 @@ class DLL_EXPORT Dataset : public Node
     //! \throws std::runtime_error in case of a failure
     //! \param base the base object for the dataset creation
     //! \param path the path to the new dataset
+    //! \param type optional reference to a datatype
     //! \param space optional reference to a dataspace (default is a scalar one)
     //! \param lcpl optional reference to a link creation property list
     //! \param dcpl optional reference to a dataset creation property list
@@ -281,7 +282,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
       void write_chunk(const T &data,
-                       std::vector<long long unsigned int> offset,
+                       std::vector<unsigned long long> offset,
                        std::uint32_t filter_mask = 0,
                        const property::DatasetTransferList &dtpl =
                        property::DatasetTransferList())  const;
@@ -302,7 +303,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
       std::uint32_t read_chunk(T &data,
-                       std::vector<long long unsigned int> offset,
+                       std::vector<unsigned long long> offset,
                        const property::DatasetTransferList &dtpl =
                        property::DatasetTransferList())  const;
 
@@ -318,7 +319,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \return the size in bytes for the chunk.
     //!
-      long long unsigned int chunk_storage_size(						std::vector<long long unsigned int> offset)  const;
+      unsigned long long chunk_storage_size(						std::vector<unsigned long long> offset)  const;
 
 #endif
 
@@ -697,7 +698,7 @@ void Dataset::write(const T &data,
 
 template<typename T>
 void Dataset::write_chunk(const T &data,
-                          std::vector<long long unsigned int> offset,
+                          std::vector<unsigned long long> offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl) const
 {
@@ -745,7 +746,7 @@ void Dataset::write_chunk(const T &data,
 
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
-			 std::vector<long long unsigned int> offset,
+			 std::vector<unsigned long long> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
   auto memory_type  = hdf5::datatype::create(data);

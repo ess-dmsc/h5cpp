@@ -121,8 +121,8 @@ class DLL_EXPORT AttributeManager
     //! \brief rename an attribute
     //!
     //! \throws std::runtime_error in case of a failure
-    //! \param old _name the old name of the attribute
-    //! \param the new name of the attribute
+    //! \param old_name old name of the attribute
+    //! \param new_name new name of the attribute
     //!
     void rename(const std::string &old_name,const std::string &new_name) const;
 
@@ -147,6 +147,7 @@ class DLL_EXPORT AttributeManager
     //! \throws std::runtime_error in case of an error
     //! \tparam T element data type of the attribute
     //! \param name the name of the attribute
+    //! \param acpl attribute creation property list
     //! \return instance of the newly created attribute
     //!
     template<typename T>
@@ -164,6 +165,7 @@ class DLL_EXPORT AttributeManager
     //! \tparam T element data type
     //! \param name the name for the attribute
     //! \param shape the number of elements along each dimension
+    //! \param acpl attribute creation property list
     //! \return instance of the newly created attribute
     //!
     template<typename T>

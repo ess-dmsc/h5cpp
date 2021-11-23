@@ -135,7 +135,7 @@ class DLL_EXPORT Float : public Datatype {
   //!
   //! @param spos  floating-point sign bit
   //! @param epos  exponent bit-position
-  //! @param ssize size of exponent in bits
+  //! @param esize size of exponent in bits
   //! @param mpos  mantissa bit-position
   //! @param msize size of mantissa in bits
   //! @throws std::runtime_error in case of a failure

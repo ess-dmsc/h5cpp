@@ -34,10 +34,10 @@ using namespace hdf5;
 
 struct DatasetDirectChunkTest : public testing::Test
 {
-  long long unsigned int xdim = 867;
-  long long unsigned int ydim = 700;
-  long long unsigned int sxdim = 17;
-  long long unsigned int nframe = 33;
+  unsigned long long xdim = 867;
+  unsigned long long ydim = 700;
+  unsigned long long sxdim = 17;
+  unsigned long long nframe = 33;
   hdf5::file::File f;
   hdf5::node::Group root;
   hdf5::dataspace::Simple space;
@@ -110,14 +110,14 @@ TEST_F(DatasetDirectChunkTest, write_chunk)
 				      datatype::create<unsigned short int>(),
 				      space, lcpl, dcpl, dapl);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data1.extent(0, 1);
     data1.write_chunk(frame, {i, 0, 0});
   }
 
   std::vector<unsigned short int> read_value(xdim * ydim);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     framespace.offset({i, 0, 0});
     data1.read(read_value, framespace);
     EXPECT_EQ(frame, read_value);
@@ -136,7 +136,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk)
 				      datatype::create<unsigned short int>(),
 				      space, lcpl, dcpl, dapl);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data2.extent(0, 1);
     framespace.offset({i, 0, 0});
     dataspace::Dataspace file_space = data2.dataspace();
@@ -148,7 +148,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk)
   std::uint32_t filter_mask = 0;
 
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     filter_mask = data2.read_chunk(read_value, {i, 0, 0});
     EXPECT_EQ(frame, read_value);
     EXPECT_EQ(filter_mask, H5P_DEFAULT);
@@ -169,7 +169,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate)
   				      datatype::create<unsigned short int>(),
   				      sspace, lcpl, dcpl, dapl);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data3.extent(0, 1);
     sframespace.offset({i, 0});
     dataspace::Dataspace file_space = data3.dataspace();
@@ -180,8 +180,8 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate)
       data3.write(tframe, dtype, smemspace, file_space, dtpl);
   }
 
-  long long unsigned int tcxdim = data3.chunk_storage_size({0, 0});
-  long long unsigned int scxdim= data3.chunk_storage_size({1, 0});
+  unsigned long long tcxdim = data3.chunk_storage_size({0, 0});
+  unsigned long long scxdim= data3.chunk_storage_size({1, 0});
   std::vector<unsigned short int> sread_value(scxdim/2);
   std::vector<unsigned short int> tread_value(tcxdim/2);
   std::vector<unsigned short int> scpvalue =  {
@@ -193,7 +193,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate)
 						26176, 2054, 24932, 0, 20993, 7424};
   std::uint32_t filter_mask = 0;
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     if(i % 2)
       {
 	filter_mask = data3.read_chunk(sread_value, {i, 0});
@@ -234,7 +234,7 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
 					       26176, 2054, 24932, 0, 20993, 7424};
 
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     data4.extent(0, 1);
     if(i % 2)
       data4.write_chunk(scpframe, {i, 0});
@@ -243,7 +243,7 @@ TEST_F(DatasetDirectChunkTest, write_chunk_deflate)
   }
   std::vector<unsigned short int> read_value(sxdim);
 
-  for(long long unsigned int i = 0; i != nframe; i++){
+  for(unsigned long long i = 0; i != nframe; i++){
     sframespace.offset({i, 0});
     data4.read(read_value, sframespace);
     if(i % 2)

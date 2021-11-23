@@ -52,9 +52,9 @@ class DatasetReadSpeedTest : public testing::Test
     property::LinkCreationList lcpl;
     property::DatasetAccessList dapl;
     node::Group root = f.root();
-    long long unsigned int xdim = 867;
-    long long unsigned int ydim = 700;
-    long long unsigned int nframe = 33;
+    unsigned long long xdim = 867;
+    unsigned long long ydim = 700;
+    unsigned long long nframe = 33;
 
      dataspace::Simple space {{0, xdim, ydim}, {dataspace::Simple::UNLIMITED,
 	   dataspace::Simple::UNLIMITED,
@@ -67,7 +67,7 @@ class DatasetReadSpeedTest : public testing::Test
 				       space,lcpl,dcpl,dapl);
     std::vector<unsigned short int> frame(xdim*ydim);
     dataspace::Hyperslab framespace{{0, 0, 0}, {1, xdim, ydim}};
-    for(long long unsigned int i = 0; i != nframe; i++){
+    for(unsigned long long i = 0; i != nframe; i++){
       data.extent(0, 1);
       framespace.offset({i, 0, 0});
       data.write(frame, framespace);

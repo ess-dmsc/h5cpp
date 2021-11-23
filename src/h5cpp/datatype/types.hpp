@@ -38,7 +38,7 @@ namespace datatype {
 const decltype(H5T_VARIABLE) kVariable = H5T_VARIABLE;
 
 //!
-//! \enum data type class
+//! \enum Class data type class
 //!
 //! Enumeration type describing the class a particular data type belongs to.
 //!
@@ -60,7 +60,6 @@ enum class Class : std::underlying_type<H5T_class_t>::type
 
 //!
 //! @brief stream output operator for the Class enumeration
-//! @relates Class
 //!
 //! @param stream reference to the output stream
 //! @param c reference to the class enumeration

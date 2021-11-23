@@ -15,9 +15,9 @@ The :cpp:class:`File` class
 Functions
 ---------
 
-.. doxygenfunction:: hdf5::file::create(const boost::filesystem::path &, AccessFlags, const property::FileCreationList &, const property::FileAccessList &)
+.. doxygenfunction:: hdf5::file::create(const fs::path &, AccessFlags, const property::FileCreationList &, const property::FileAccessList &)
 
-.. doxygenfunction:: hdf5::file::open(const boost::filesystem::path &, AccessFlags, const property::FileAccessList &)
+.. doxygenfunction:: hdf5::file::open(const fs::path &, AccessFlags, const property::FileAccessList &)
 
 .. doxygenfunction:: hdf5::file::is_hdf5_file
 

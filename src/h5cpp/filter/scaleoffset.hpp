@@ -75,7 +75,7 @@ class DLL_EXPORT ScaleOffset : public Filter
 //! @brief stream output operator for CharacterEncoding enumerations
 //!
 //! @param stream reference to an output stream
-//! @param enc reference to a CharacterEncoding enumeration instance
+//! @param scale_type reference to a SOScaleType enumeration instance
 //! @return modified output stream
 //!
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const SOScaleType &scale_type);

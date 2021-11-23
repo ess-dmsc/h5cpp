@@ -62,7 +62,6 @@ struct VarLengthStringTrait
     //! writing data to disk. The buffer must be allocated within this
     //! function to ensure that all the input data fits into it.
     //!
-    //! \param data the input data
     //! \return an instance of the variable length string buffer
     //!
     static BufferType to_buffer(const T &)

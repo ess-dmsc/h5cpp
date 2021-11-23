@@ -60,7 +60,7 @@ class DLL_EXPORT Filter
     //! \throws std::runtime_error in case of a failure
     //! \param dcpl reference to the dataset creation property list
     //! \param flag determines the availability requirement for a filter
-    //!             which is \i mandatory by default.
+    //!             which is \e mandatory by default.
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
                             Availability flag = Availability::MANDATORY) const = 0;
