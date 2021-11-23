@@ -6,6 +6,7 @@ configure_file(users_guide.dox users_guide.dox COPYONLY)
 configure_file(groups.dox groups.dox COPYONLY)
 configure_file(mainpage.dox mainpage.dox COPYONLY)
 configure_file(namespaces.dox namespaces.dox COPYONLY)
+configure_file(index.html index.html COPYONLY)
 set_source_files_properties(Doxyfile groups.dox mainpage.dox namespaces.dox users_guide.dox
 	PROPERTIES GENERATED TRUE)
 
@@ -41,7 +42,7 @@ if(NOT WIN32)
 endif(NOT WIN32)
 
 add_custom_command(OUTPUT sphinx.stamp
-    COMMAND sphinx-build -bhtml source build 
+    COMMAND sphinx-build -bhtml source build
     COMMAND echo "timestamp" > sphinx.stamp
     DEPENDS ${CMAKE_SPHINX_SOURCES} doxygen.stamp capi_coverage
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/doc
@@ -56,4 +57,3 @@ add_dependencies(html users_guide)
 set(CLEANFILES doxygen.stamp sphinx.stamp html latex build)
 set_directory_properties(PROPERTIES
     ADDITIONAL_MAKE_CLEAN_FILES ${CLEANFILES})
-
