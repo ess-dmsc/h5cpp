@@ -66,6 +66,7 @@ H5CError Singleton::extract_stack()
   {
     throw std::runtime_error("Could not extract error stack");
   }
+  clear_stack();
 
   return H5CError(ret);
 }

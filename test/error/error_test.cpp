@@ -28,7 +28,6 @@
 #include <catch2/catch.hpp>
 #include <string>
 #include "../h5cpp_test_helpers.hpp"
-// #include "../gtest_print.hpp"
 
 #include <cstring>
 
@@ -100,11 +99,24 @@ TEST_CASE_METHOD(ErrorTestCase,
   error::Singleton::instance().clear_stack();
 }
 
+SCENARIO("testing error sequence behavior","[hdf5][error]") { 
+  WHEN("an error occurs") { 
+    provoke_h5_error();
+    THEN("we can extract the error stack once") { 
+      auto stack = error::Singleton::instance().extract_stack();
+      AND_THEN("the size of the stack will be 2") { 
+        REQUIRE(stack.contents().size() == 2ul);
+      }
+      AND_WHEN("we extrac the stack again") { 
+        stack = error::Singleton::instance().extract_stack();
+        THEN("the resulting stack wil be empty") { 
+          REQUIRE(stack.empty());
+        }
+      }
+    }
+  }
+}
 TEST_CASE_METHOD(ErrorTestCase, "testing sequential", "[h5cpp][error]") {
-  provoke_h5_error();
-  REQUIRE(error::Singleton::instance().extract_stack().contents().size() ==
-          2ul);
-  REQUIRE(error::Singleton::instance().extract_stack().empty());
 
   provoke_h5_error();
   REQUIRE(error::Singleton::instance().extract_stack().contents().size() ==

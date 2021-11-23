@@ -12,6 +12,7 @@ container_build_nodes = [
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
   'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
   'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
@@ -87,6 +88,10 @@ builders = pipeline_builder.createBuilders { container ->
         break
       case 'debian10-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_prefix = ''
+        break
+      case 'debian10-release-hdf5-1.12':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_1.12.0.txt'
         cmake_prefix = ''
         break
       case 'ubuntu1804':
