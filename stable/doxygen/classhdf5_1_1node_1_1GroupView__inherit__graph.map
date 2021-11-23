@@ -1,0 +1,5 @@
+<map id="hdf5::node::GroupView" name="hdf5::node::GroupView">
+<area shape="rect" id="node1" title="base class for group views" alt="" coords="93,5,263,32"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1node_1_1LinkView.html" title=" " alt="" coords="5,80,164,107"/>
+<area shape="rect" id="node3" href="$classhdf5_1_1node_1_1NodeView.html" title=" " alt="" coords="189,80,354,107"/>
+</map>

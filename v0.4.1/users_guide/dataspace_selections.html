@@ -1,0 +1,443 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Working with selections &#8212; h5cpp 0.4.1 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with groups" href="groups.html" />
+    <link rel="prev" title="Using dataspaces with custom types" href="dataspace_custom_types.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="groups.html" title="Working with groups"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dataspace_custom_types.html" title="Using dataspaces with custom types"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dataspace.html" accesskey="U">Dataspaces</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Working with selections</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="working-with-selections">
+<h1>Working with selections<a class="headerlink" href="#working-with-selections" title="Permalink to this headline">¶</a></h1>
+<p>Selections in HDF5 allow the user to read or write only specific data to or
+from a file. This is particularly useful if the total size of a dataset
+is too large to fit into memory or only the specific data is required
+to performa particular action.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/hdf5_selections.svg"><img alt="../_images/hdf5_selections.svg" src="../_images/hdf5_selections.svg" width="60%" /></a>
+</div>
+<p>HDF5 provides two types of selections</p>
+<ul class="simple">
+<li><p><em>hyperslabs</em> (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace9HyperslabE" title="hdf5::dataspace::Hyperslab"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Hyperslab</span></code></a>) which are
+multidimensional selections that maybe can be compared to the complex array
+slicing and indexing features that numpy arrays allow in Python</p></li>
+<li><p><em>point selections</em> (<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Points</span></code>) which allow picking
+individual elements from a dataset.</p></li>
+</ul>
+<p>All selections derive from <a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace9SelectionE" title="hdf5::dataspace::Selection"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Selection</span></code></a>. This
+class basically provides a single method to apply a selection on a dataspace.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Currently only hyperslabs are implemented in <em>h5cpp</em>.</p>
+</div>
+<p>Furthermore, selections can be combined by means of operators. This allows
+the assembly of rather complex selections from simple ones. It is important to
+note here that it is currently not possible to mix <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Points</span></code> and
+<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Hyperslab</span></code> selections. One reason for this is that each of the
+two classes uses a different set of operators for combination.</p>
+<div class="section" id="hyperslab-selections">
+<h2>Hyperslab selections<a class="headerlink" href="#hyperslab-selections" title="Permalink to this headline">¶</a></h2>
+<p>Hyperslabs allow fairly complex multidimensional selections in a dataspace
+which are characterized by 4 quantities</p>
+<ul class="simple">
+<li><p><em>offset</em> the starting index of the hyperslab in the selection</p></li>
+<li><p><em>block</em> the number of elements along each dimension of the original dataspace
+in a signle block</p></li>
+<li><p><em>count</em> the number of blocks along each dimension</p></li>
+<li><p><em>stride</em> the offset between each block.</p></li>
+</ul>
+<p>Lets have a look on the following example with a original dataspace of shape
+(9,10).</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/hyperslab_1.svg"><img alt="../_images/hyperslab_1.svg" src="../_images/hyperslab_1.svg" width="65%" /></a>
+</div>
+<p>The selected elements are denoted by the red rectangles. Such a hyperslab would
+have the following parameters</p>
+<ul class="simple">
+<li><p><em>offset</em> = [1,1]</p></li>
+<li><p><em>block</em> = [1,2]</p></li>
+<li><p><em>count</em> = [3,3]</p></li>
+<li><p><em>stride</em> = [2,1]</p></li>
+</ul>
+<p>To construct such a hyperslab you could use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">});</span>
+<span class="n">Dimensions</span> <span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">Dimensions</span> <span class="n">block</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
+<span class="n">Dimensions</span> <span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Dimensions</span> <span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>For details of how to manipulate or alter an instance of
+<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">dataspace::Hyperslab</span></code> see the API documentation for details.</p>
+<p>As this is quite some code there are two more additional constructors
+which cover common but quite simplier selection scenarios.
+The first one covers the selection of a single contiguous region of data
+within the dataset. For our above example that could look somehow like this</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/hyperslab_2.svg"><img alt="../_images/hyperslab_2.svg" src="../_images/hyperslab_2.svg" width="65%" /></a>
+</div>
+<p>For such a purpose there is a two argument constructor which takes only
+the <em>offset</em> and the <em>block</em> - everything else is set internally to 1</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span> <span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">Dimensions</span> <span class="n">block</span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">};</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hypeslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">};</span>
+</pre></div>
+</div>
+<p>In some applications domains such a selection would be called a
+<em>region of interest</em> or <em>ROI</em>.</p>
+<p>The second selection scenario is a number of blocks of size 1 along each
+dimension separated by a particular stride.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/hyperslab_3.svg"><img alt="../_images/hyperslab_3.svg" src="../_images/hyperslab_3.svg" width="65%" /></a>
+</div>
+<p>The constructor call for such a selection would look like this</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span> <span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">Dimensions</span> <span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Dimensions</span> <span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="point-selections">
+<h2>Point selections<a class="headerlink" href="#point-selections" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>write this section</p>
+</div>
+</div>
+<div class="section" id="selection-operations-and-containers">
+<h2>Selection operations and containers<a class="headerlink" href="#selection-operations-and-containers" title="Permalink to this headline">¶</a></h2>
+<p>Point as well as hyperslab selections can be combined by means of different
+logical operations. All available operations for selections are represented
+by the <code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">SelectionOperation</span></code> enumeration class.
+There are two independent sets of operations available for hyperslab and point
+selections.</p>
+<p>For point selections there are two simple operations</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 59%" />
+<col style="width: 25%" />
+<col style="width: 1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>operation</p></th>
+<th class="head"><p>enumeration</p></th>
+<th class="head"><p>description</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>append</p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::APPEND</span></code></p></td>
+<td><p>add a point to
+to the end of the
+list of points</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>prepend</p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::PREPEND</span></code></p></td>
+<td><p>add a point to the
+beginning of the
+list of points</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>It is crucial to understand that selection operators combine a new
+selection whith what is already selected in the dataspace.
+For hyperslab selections we have</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 56%" />
+<col style="width: 29%" />
+<col style="width: 1%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>operation</p></th>
+<th class="head"><p>enumeration</p></th>
+<th class="head"><p>description</p></th>
+<th class="head"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>set</em></p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::SET</span></code></p></td>
+<td><p>replace all previous
+selections with the
+current one.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><em>or</em></p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::OR</span></code></p></td>
+<td><p>select elements
+which are in the
+current or the
+previous selection.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><em>and</em></p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::AND</span></code></p></td>
+<td><p>select elements whcih
+are in the current
+and the previous
+selection.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><em>xor</em></p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::XOR</span></code></p></td>
+<td><p>select elements which
+are either in the
+current or the
+the previous
+selection but on in
+both.</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><em>notB</em></p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::NOTB</span></code></p></td>
+<td><p>select elements whcih
+are in the current
+but not in the
+previous selection.</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><em>notA</em></p></td>
+<td><p><code class="xref cpp cpp-enumerator docutils literal notranslate"><span class="pre">SelectionOperation::NOTA</span></code></p></td>
+<td><p>select elements which
+are in the previous
+but not in the
+current one.</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Add here some images showing how these operators work.</p>
+</div>
+<p>Selections can be stored along with their operations in a list for later usage.
+For this purpose <em>h5cpp</em> defines three utility types</p>
+<ul class="simple">
+<li><p><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">Selection::SharedPointer</span></code> which is a smart-pointer to a
+selection</p></li>
+<li><p><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SelectionPair</span></code> whose first element is a
+<code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">SelectionOperation</span></code> enumeration and its second is
+<code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">Selection::SharedPointer</span></code> refering to the selection of
+interest</p></li>
+<li><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionList</span></code> which is an STL list of
+<code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SelectionPair</span></code> instances.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As selections use virtual functions to apply themselves to a given
+dataspace we cannot simply store a value of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Selection</span></code>.
+We thus need a pointer to reference the particular selection.</p>
+<p>However, since we are using a smart pointer we never run into
+troubles with resouce leaks.</p>
+</div>
+<p>Consider this example</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionList</span> <span class="n">selections</span><span class="p">;</span>
+<span class="n">selections</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">SET</span><span class="p">,</span>
+                      <span class="n">Selection</span><span class="o">::</span><span class="n">SharedPointer</span><span class="p">(</span><span class="k">new</span> <span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">({</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">}))});</span>
+<span class="n">selections</span><span class="p">.</span><span class="n">push_back</span><span class="p">({</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">OR</span><span class="p">,</span>
+                      <span class="n">Selection</span><span class="o">::</span><span class="n">SharedPointer</span><span class="p">(</span><span class="k">new</span> <span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">({</span><span class="mi">200</span><span class="p">,</span><span class="mi">129</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">}))});</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span> <span class="o">=</span> <span class="p">...;</span>
+
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="nl">selection</span><span class="p">:</span> <span class="n">selections</span><span class="p">)</span>
+    <span class="n">selection</span><span class="p">.</span><span class="n">second</span><span class="o">-&gt;</span><span class="n">apply</span><span class="p">(</span><span class="n">space</span><span class="p">,</span><span class="n">selection</span><span class="p">.</span><span class="n">first</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="applying-a-selection">
+<h2>Applying a selection<a class="headerlink" href="#applying-a-selection" title="Permalink to this headline">¶</a></h2>
+<p>There are two interfaces which can be used to add a selection to an existing
+dataspace:</p>
+<ul class="simple">
+<li><p>the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code> interface provided by the public
+<code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">selection</span></code> member of every <a class="reference internal" href="dataspace.html#_CPPv49Dataspace" title="Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Dataspace</span></code></a> instance</p></li>
+<li><p>by means of arithmetic operators.</p></li>
+</ul>
+<p>Furthermore, we have to distinguish between</p>
+<ul class="simple">
+<li><p><em>modifying</em> selection application where an existing dataspace is
+modified</p></li>
+<li><p>and <em>copying</em> application where a new dataspace with the selections
+applied is created from an original one.</p></li>
+</ul>
+<div class="section" id="using-the-selectionmanager-interface">
+<h3>Using the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code> interface<a class="headerlink" href="#using-the-selectionmanager-interface" title="Permalink to this headline">¶</a></h3>
+<p>In order to apply a selection you can use the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code>
+interface provided by a <a class="reference internal" href="dataspace.html#_CPPv49Dataspace" title="Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Dataspace</span></code></a> via the public member
+<code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">Dataspace::selection</span></code>.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="../_images/hdf5_selection_manager.svg"><img alt="../_images/hdf5_selection_manager.svg" src="../_images/hdf5_selection_manager.svg" width="75%" /></a>
+</div>
+<p>A selection can be applied like this</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Dataspace</span> <span class="n">file_space</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">dataspace</span><span class="p">();</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span> <span class="n">slab</span><span class="p">(...);</span>
+<span class="n">file_space</span><span class="p">.</span><span class="n">selection</span><span class="p">(</span><span class="n">dataspace</span><span class="o">::</span><span class="n">SelectionOperation</span><span class="o">::</span><span class="n">SET</span><span class="p">,</span><span class="n">slab</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Both, <a class="reference internal" href="dataspace.html#_CPPv49Dataspace" title="Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Dataspace</span></code></a> and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code> have a
+<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">size()</span></code> method. However, their return value is rather different.
+If no selection is applied then both methods return the same value.
+However, if a selection is applied <a class="reference internal" href="dataspace.html#_CPPv4N9Dataspace4sizeEv" title="Dataspace::size"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">Dataspace::size()</span></code></a> still returns
+the total number of elements described by the dataspace while
+<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">SelectionManager::size()</span></code> returns the number of selected elements.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">space</span><span class="p">({</span><span class="mi">1024</span><span class="p">});</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>           <span class="c1">// would print 1024</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// would print 1024</span>
+
+<span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">none</span><span class="p">();</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>           <span class="c1">// would print 1024</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">space</span><span class="p">.</span><span class="n">selection</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// would print 0</span>
+</pre></div>
+</div>
+</div>
+<p>Multiple selections can be applied onto a single dataspace. The way how
+the different selections are combined with each other to form the set of
+selected elements can be controlled by <em>selection operations</em> which
+are determined by the <code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">SelectionOperation</span></code> enumerations.</p>
+</div>
+<div class="section" id="operators">
+<h3>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h3>
+<p>Selections can be applied directly to a dataspace using operators. In this
+case we have to distinguish two cases</p>
+<ul class="simple">
+<li><p><em>modifying</em> operations where an existing dataspace is modified</p></li>
+<li><p>and <em>constructing</em> operations which create a new dataspace.</p></li>
+</ul>
+<p>Copying usage of operators</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dataspace</span><span class="o">::</span><span class="n">Simple</span> <span class="n">orig_space</span> <span class="o">=</span> <span class="p">...;</span>
+
+<span class="n">function</span><span class="p">(</span><span class="n">orig_space</span> <span class="o">|</span> <span class="n">Hyperslab</span><span class="p">{{</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">},{</span><span class="mi">100</span><span class="p">,</span><span class="mi">23</span><span class="p">}}</span>
+                    <span class="o">|</span> <span class="n">Hyperslab</span><span class="p">{{</span><span class="mi">200</span><span class="p">,</span><span class="mi">300</span><span class="p">},{</span><span class="mi">300</span><span class="p">,</span><span class="mi">342</span><span class="p">}});</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with selections</a><ul>
+<li><a class="reference internal" href="#hyperslab-selections">Hyperslab selections</a></li>
+<li><a class="reference internal" href="#point-selections">Point selections</a></li>
+<li><a class="reference internal" href="#selection-operations-and-containers">Selection operations and containers</a></li>
+<li><a class="reference internal" href="#applying-a-selection">Applying a selection</a><ul>
+<li><a class="reference internal" href="#using-the-selectionmanager-interface">Using the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SelectionManager</span></code> interface</a></li>
+<li><a class="reference internal" href="#operators">Operators</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dataspace_custom_types.html"
+                        title="previous chapter">Using dataspaces with custom types</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="groups.html"
+                        title="next chapter">Working with groups</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/users_guide/dataspace_selections.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="groups.html" title="Working with groups"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dataspace_custom_types.html" title="Using dataspaces with custom types"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dataspace.html" >Dataspaces</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Working with selections</a></li> 
+      </ul>
+    </div>
+<li>generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-23 10:27:20 from docs_v0.4.1 (a2d55554).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+
+  </body>
+</html>
