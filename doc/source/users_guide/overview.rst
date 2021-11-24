@@ -114,12 +114,12 @@ represent the following HDF5 objects:
 +-----------------------------------+----------------------------+
 | :cpp:class:`hdf5::node::Group`    | an HDF5 group              |
 +-----------------------------------+----------------------------+
-| :cpp:class:`hdf5::node::Datatype` | an HDF5 committed datatype |
+| :any:`hdf5::node::Datatype`       | an HDF5 committed datatype |
 +-----------------------------------+----------------------------+
 
 .. important::
 
-   Do not confuse :cpp:class:`hdf5::node::Datatype` with
+   Do not confuse :any:`hdf5::node::Datatype` with
    :cpp:class:`hdf5::datatype::Datatype`. Thoug the former one is constructed
    from the latter one, the latter one cannot be accessed via a path.
    A committed datatype is a means to store complex datatype within a file.
