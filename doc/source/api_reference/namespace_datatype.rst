@@ -8,8 +8,6 @@ Enumerations
 :cpp:enum:`Class`
 -----------------
 
-.. doxygenenum:: hdf5::datatype::Class
-
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Class &)
 
 :cpp:enum:`Order`
@@ -68,13 +66,13 @@ Classes
 
 .. doxygenclass:: hdf5::datatype::Datatype
    :members:
-   
+
 :cpp:class:`Array`
 ------------------
 
 .. doxygenclass:: hdf5::datatype::Array
    :members:
-   
+
 :cpp:class:`VLengthArray`
 -------------------------
 
@@ -83,25 +81,25 @@ Classes
 
 :cpp:class:`Compound`
 ---------------------
-   
+
 .. doxygenclass:: hdf5::datatype::Compound
    :members:
-   
+
 :cpp:class:`Float`
 ------------------
-   
+
 .. doxygenclass:: hdf5::datatype::Float
    :members:
 
 :cpp:class:`Integer`
 --------------------
-   
+
 .. doxygenclass:: hdf5::datatype::Integer
    :members:
 
 :cpp:class:`String`
 -------------------
-   
+
 .. doxygenclass:: hdf5::datatype::String
    :members:
 
@@ -110,3 +108,11 @@ Type traits
 
 .. doxygenclass:: hdf5::datatype::TypeTrait
    :members:
+
+Enumerations
+============
+
+:cpp:enum:`Class`
+-----------------
+
+.. doxygenenum:: hdf5::datatype::Class

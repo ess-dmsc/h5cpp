@@ -2,23 +2,6 @@
 Namespace :cpp:any:`hdf5::node`
 ===============================
 
-Enumerations
-============
-
-:cpp:enum:`NodeType`
---------------------
-
-.. doxygenenum:: hdf5::node::NodeType
-
-.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const NodeType &)
-
-:cpp:enum:`LinkType`
---------------------
-
-.. doxygenenum:: hdf5::node::LinkType
-
-.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const LinkType &)
-
 Classes
 =======
 
@@ -37,7 +20,7 @@ Classes
 
 .. doxygenclass:: hdf5::node::Link
    :members:
-   
+
 .. doxygenfunction:: hdf5::node::operator!=(const Link &, const Link &)
 
 .. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const Link &)
@@ -47,63 +30,63 @@ Classes
 
 .. doxygenclass:: hdf5::node::LinkTarget
    :members:
-   
+
 :cpp:class:`Group`
 ------------------
 
 .. doxygenclass:: hdf5::node::Group
    :members:
-   
+
 :cpp:class:`GroupView`
 ----------------------
 
 .. doxygenclass:: hdf5::node::GroupView
    :members:
-   
+
 :cpp:class:`NodeView`
 ---------------------
 
 .. doxygenclass:: hdf5::node::NodeView
    :members:
-   
+
 .. doxygenclass:: hdf5::node::NodeIterator
    :members:
-   
+
 .. doxygenclass:: hdf5::node::RecursiveNodeIterator
    :members:
-   
+
 :cpp:class:`LinkView`
 ---------------------
 
 .. doxygenclass:: hdf5::node::LinkView
    :members:
-   
+
 .. doxygenclass:: hdf5::node::LinkIterator
    :members:
-   
+
 .. doxygenclass:: hdf5::node::RecursiveLinkIterator
    :members:
-   
+
 :cpp:class:`Dataset`
 --------------------
 
 .. doxygenclass:: hdf5::node::Dataset
    :members:
-   
-   
+
+
 :cpp:class:`ChunkedDataset`
 ---------------------------
 
 .. doxygenclass:: hdf5::node::ChunkedDataset
    :members:
-   
-   
+
+
 :cpp:class:`VirtualDataset`
 ---------------------------
 
 .. doxygenclass:: hdf5::node::VirtualDataset
    :members:
-   
+
 Functions
 =========
 
@@ -167,5 +150,19 @@ Functions
 .. doxygenfunction:: hdf5::node::is_dataset
 
 
-   
- 
+Enumerations
+============
+
+:cpp:enum:`NodeType`
+--------------------
+
+.. doxygenenum:: hdf5::node::NodeType
+
+.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const NodeType &)
+
+:cpp:enum:`LinkType`
+--------------------
+
+.. doxygenenum:: hdf5::node::LinkType
+
+.. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const LinkType &)
