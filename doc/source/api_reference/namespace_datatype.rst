@@ -2,6 +2,57 @@
 Namespace :cpp:any:`hdf5::datatype`
 ===================================
 
+Classes
+=======
+
+:cpp:class:`Datatype`
+---------------------
+
+.. doxygenclass:: hdf5::datatype::Datatype
+   :members:
+
+:cpp:class:`Array`
+------------------
+
+.. doxygenclass:: hdf5::datatype::Array
+   :members:
+
+:cpp:class:`VLengthArray`
+-------------------------
+
+.. doxygenclass:: hdf5::datatype::VLengthArray
+   :members:
+
+:cpp:class:`Compound`
+---------------------
+
+.. doxygenclass:: hdf5::datatype::Compound
+   :members:
+
+:cpp:class:`Float`
+------------------
+
+.. doxygenclass:: hdf5::datatype::Float
+   :members:
+
+:cpp:class:`Integer`
+--------------------
+
+.. doxygenclass:: hdf5::datatype::Integer
+   :members:
+
+:cpp:class:`String`
+-------------------
+
+.. doxygenclass:: hdf5::datatype::String
+   :members:
+
+Type traits
+===========
+
+.. doxygenclass:: hdf5::datatype::TypeTrait
+   :members:
+
 Enumerations
 ============
 
@@ -57,60 +108,6 @@ Enumerations
 .. doxygenenum:: hdf5::datatype::CharacterEncoding
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const CharacterEncoding &)
-
-Classes
-=======
-
-:cpp:class:`Datatype`
----------------------
-
-.. doxygenclass:: hdf5::datatype::Datatype
-   :members:
-
-:cpp:class:`Array`
-------------------
-
-.. doxygenclass:: hdf5::datatype::Array
-   :members:
-
-:cpp:class:`VLengthArray`
--------------------------
-
-.. doxygenclass:: hdf5::datatype::VLengthArray
-   :members:
-
-:cpp:class:`Compound`
----------------------
-
-.. doxygenclass:: hdf5::datatype::Compound
-   :members:
-
-:cpp:class:`Float`
-------------------
-
-.. doxygenclass:: hdf5::datatype::Float
-   :members:
-
-:cpp:class:`Integer`
---------------------
-
-.. doxygenclass:: hdf5::datatype::Integer
-   :members:
-
-:cpp:class:`String`
--------------------
-
-.. doxygenclass:: hdf5::datatype::String
-   :members:
-
-Type traits
-===========
-
-.. doxygenclass:: hdf5::datatype::TypeTrait
-   :members:
-
-Enumerations
-============
 
 :cpp:enum:`Class`
 -----------------
