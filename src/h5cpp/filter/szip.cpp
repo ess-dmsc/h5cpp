@@ -77,8 +77,8 @@ void SZip::operator()(const property::DatasetCreationList &dcpl,
   }
 }
 
-const unsigned int SZip::EC_OPTION_MASK = H5_SZIP_EC_OPTION_MASK;
-const unsigned int SZip::NN_OPTION_MASK = H5_SZIP_NN_OPTION_MASK;
+const unsigned int SZip::ec_option_mask = H5_SZIP_EC_OPTION_MASK;
+const unsigned int SZip::nn_option_mask = H5_SZIP_NN_OPTION_MASK;
 
 
 } // namespace filter

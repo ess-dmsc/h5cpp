@@ -98,7 +98,7 @@ SCENARIO("construction of a simple dataspace from dimensions") {
     }
 
     AND_GIVEN("maximum dimensions") {
-      Dimensions max = {100, 200, dataspace::Simple::UNLIMITED};
+      Dimensions max = {100, 200, dataspace::Simple::unlimited};
       THEN("we can construct a dataspace with maximum dimensions") {
         Simple space(dimensions, max);
         AND_THEN("the size is") { REQUIRE(space.size() == 10 * 20 * 30); }

@@ -43,7 +43,7 @@ file::File create_file(MPI_Comm comm,MPI_Info info)
 node::Dataset create_dataset(const node::Group &base)
 {
   auto file_type = datatype::create<int>();
-  dataspace::Simple file_space{{0},{dataspace::Simple::UNLIMITED}};
+  dataspace::Simple file_space{{0},{dataspace::Simple::unlimited}};
 
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;

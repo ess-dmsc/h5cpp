@@ -41,7 +41,7 @@ SCENARIO("writing and reading with selections") {
 
   auto dataspace =
       [](size_t size) {
-        return dataspace::Simple{{size}, {dataspace::Simple::UNLIMITED}};
+        return dataspace::Simple{{size}, {dataspace::Simple::unlimited}};
       };
 
   GIVEN("an empty dataset") {
@@ -101,7 +101,7 @@ SCENARIO("reading from empty datasets") {
   const std::string filename = "reading_from_empty_datasets.h5";
   auto f = file::create(filename, file::AccessFlags::Truncate);
   auto r = f.root();
-  dataspace::Simple space{{0}, {dataspace::Simple::UNLIMITED}};
+  dataspace::Simple space{{0}, {dataspace::Simple::unlimited}};
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
   dcpl.chunk({1});

@@ -37,7 +37,7 @@ node::Dataset create_dataset(const node::Group parent_group)
   dcpl.chunk(Dimensions{1024});
 
   // create dataspace (infinitely extensible) and datatype
-  dataspace::Simple space({0},{dataspace::Simple::UNLIMITED});
+  dataspace::Simple space({0},{dataspace::Simple::unlimited});
   auto type = datatype::create<int>();
 
   // finally create the dataset

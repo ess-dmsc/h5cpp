@@ -30,7 +30,7 @@
 namespace hdf5 {
 namespace dataspace {
   
-const hsize_t Simple::UNLIMITED = H5S_UNLIMITED;
+const hsize_t Simple::unlimited = H5S_UNLIMITED;
 
 Simple::Simple() :
     Dataspace(Type::Simple) {}

@@ -31,7 +31,7 @@ using namespace hdf5;
 SCENARIO("testing a chunked dataset") {
   auto f = file::create("chunked_dataset_test.h5", file::AccessFlags::Truncate);
   auto type = datatype::create<int>();
-  dataspace::Simple space{{0, 1024}, {dataspace::Simple::UNLIMITED, 1024}};
+  dataspace::Simple space{{0, 1024}, {dataspace::Simple::unlimited, 1024}};
 
   WHEN("using a constructor") {
     node::ChunkedDataset dataset(f.root(), "data", type, space, {1024, 1024});

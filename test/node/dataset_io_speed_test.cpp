@@ -83,7 +83,7 @@ class create {
   }
   static dataspace::Simple ds(Dimensions current) {
     Dimensions max(current.size());
-    std::fill(std::begin(max), std::end(max), dataspace::Simple::UNLIMITED);
+    std::fill(std::begin(max), std::end(max), dataspace::Simple::unlimited);
     return dataspace::Simple(current, max);
   }
 

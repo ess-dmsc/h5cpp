@@ -38,13 +38,13 @@ SCENARIO("using the SZIP filter") {
     }
   }
   GIVEN("a non-default instance") {
-    filter::SZip szip(filter::SZip::EC_OPTION_MASK, 16);
+    filter::SZip szip(filter::SZip::ec_option_mask, 16);
     THEN("the configuration will be") {
-      REQUIRE(szip.options_mask() == filter::SZip::EC_OPTION_MASK);
+      REQUIRE(szip.options_mask() == filter::SZip::ec_option_mask);
       REQUIRE(szip.pixels_per_block() == 16u);
       AND_THEN("we can set the mask to NN_OPTION_MASK") {
-        szip.options_mask(filter::SZip::NN_OPTION_MASK);
-        REQUIRE(szip.options_mask() == filter::SZip::NN_OPTION_MASK);
+        szip.options_mask(filter::SZip::nn_option_mask);
+        REQUIRE(szip.options_mask() == filter::SZip::nn_option_mask);
       }
       AND_THEN("we can set the pixels per block to 32") {
         szip.pixels_per_block(32);

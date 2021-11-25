@@ -133,7 +133,7 @@ along a dimension we could use
 
     using namespace hdf5;
     
-    dataspace::Simple space({1},{dataspace::Simple::UNLIMITED}); 
+    dataspace::Simple space({1},{dataspace::Simple::unlimited}); 
     
 .. figure:: ../images/dynamic_dataspace_unbounded.svg
    :align: center

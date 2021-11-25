@@ -45,7 +45,7 @@ SCENARIO("testing the extent of a dataset") {
   using node::resize_by;
   auto f = file::create("dataset_extent_test.h5", file::AccessFlags::Truncate);
   auto r = f.root();
-  dataspace::Simple inf_dataspace({0}, {dataspace::Simple::UNLIMITED});
+  dataspace::Simple inf_dataspace({0}, {dataspace::Simple::unlimited});
   dataspace::Simple fin_dataspace({0}, {4096});
 
   auto create_dataset = [&r](const hdf5::Path& p,

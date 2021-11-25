@@ -30,7 +30,7 @@
 using namespace hdf5;
 
 using Bins = std::vector<int>;
-#define NBINS 6
+static const int nbins = 6;
 
 node::Dataset create_dataset(const node::Group parent_group,const Bins bins)
 {
@@ -39,7 +39,7 @@ node::Dataset create_dataset(const node::Group parent_group,const Bins bins)
   dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({100,bins.size()});
 
-  dataspace::Simple space{{0,bins.size()},{dataspace::Simple::UNLIMITED,NBINS}};
+  dataspace::Simple space{{0,bins.size()},{dataspace::Simple::unlimited,nbins}};
   auto type = datatype::create(bins);
 
   return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
@@ -58,7 +58,7 @@ int main()
   file::File f = file::create("append_vector_data.h5",
                               file::AccessFlags::Truncate);
   node::Group root_group = f.root();
-  Bins data(NBINS);
+  Bins data(nbins);
   node::Dataset dataset = create_dataset(root_group,data);
 
   //
