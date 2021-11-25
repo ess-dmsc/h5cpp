@@ -1,0 +1,14 @@
+<p>
+  <h3 class='versions'>{{ ('Versions') }}</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="{{ pathto(master_doc, 1)|e }}/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="{{ pathto(master_doc, 1)|e }}/../../stable/index.html">v:stable</a></li>
+      {% if docs_versions %}
+      {%- for ver in docs_versions %}
+      <li><a class="reference external" href="{{ pathto(master_doc, 1)|e }}/../../{{ ver }}/index.html">{{ ver }}</a></li>
+      {%- endfor %}
+      {% endif %}
+    </ul>
+  </p>
+</p>
