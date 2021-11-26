@@ -114,7 +114,8 @@ keyring
 
 .. code-block:: bash
 
-   $ curl http://repos.pni-hdri.de/debian_repo.pub.gpg | apt-key add -
+   $ curl -s http://repos.pni-hdri.de/debian_repo.pub.gpg  | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg --import
+   $ chmod 644 /etc/apt/trusted.gpg.d/debian-hdri-repo.gpg
 
 
 The return value of this command line should be `OK`.
@@ -132,7 +133,7 @@ and for Ubuntu (Focal)
 
    $ wget http://repos.pni-hdri.de/focal-pni-hdri.list
 
-Similarly, proceed for Bullseye, Buster, Stretch, Groovy, Focal or Bionic.
+Similarly, proceed for Bullseye, Buster, Stretch, Impish, Focal or Bionic.
 Once you have downloaded the file use
 
 .. code-block:: bash
