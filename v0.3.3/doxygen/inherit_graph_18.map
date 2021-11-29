@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhdf5_1_1file_1_1Driver.html" title="abstract class for file drivers " alt="" coords="5,31,132,57"/>
-<area shape="rect" id="node2" href="$classhdf5_1_1file_1_1MemoryDriver.html" title="memory file driver " alt="" coords="180,5,360,32"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1file_1_1PosixDriver.html" title="hdf5::file::PosixDriver" alt="" coords="189,56,351,83"/>
-</map>

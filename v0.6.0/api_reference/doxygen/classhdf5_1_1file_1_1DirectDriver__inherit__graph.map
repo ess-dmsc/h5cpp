@@ -1,0 +1,4 @@
+<map id="hdf5::file::DirectDriver" name="hdf5::file::DirectDriver">
+<area shape="rect" id="node1" title="direct write without buffering (for hdf5 compiled with H5_HAVE_DIRECT)" alt="" coords="5,80,172,107"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1file_1_1Driver.html" title="abstract class for file drivers" alt="" coords="25,5,152,32"/>
+</map>
