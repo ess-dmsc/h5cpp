@@ -203,7 +203,7 @@ builders = pipeline_builder.createBuilders { container ->
           git pull
           mkdir -p ./latest && shopt -u dotglob && rm -rf ./latest/*
           mv -f ../build/doc/build/* ./latest/
-          mv -f ../build/doc/doxygen_html ./latest/doxygen
+          mv -f ../build/doc/doxygen_html ./latest/api_reference/doxygen
           mv -f ../build/doc/index.html ./
           find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
           find ./ -name "Makefile" -exec rm -rf {} \\;
@@ -239,7 +239,7 @@ builders = pipeline_builder.createBuilders { container ->
           git pull
           mkdir -p ./${version} && shopt -u dotglob &&  rm -rf ./${version}/*
           mv -f ../build/doc/build/* ./${version}/
-          mv -f ../build/doc/doxygen_html ./${version}/doxygen
+          mv -f ../build/doc/doxygen_html ./${version}/api_reference/doxygen
           find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
           find ./ -name "Makefile" -exec rm -rf {} \\;
           find ./ -name "*.cmake" -exec rm -rf {} \\;
