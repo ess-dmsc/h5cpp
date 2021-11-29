@@ -1,0 +1,4 @@
+<map id="hdf5::file::MPIDriver" name="hdf5::file::MPIDriver">
+<area shape="rect" id="node1" title="class for the MPI driver (for hdf5 with compiled MPI)" alt="" coords="5,80,156,107"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1file_1_1Driver.html" title="abstract class for file drivers" alt="" coords="17,5,144,32"/>
+</map>

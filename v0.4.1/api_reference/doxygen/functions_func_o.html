@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -45,6 +53,20 @@ $(function() {
 </script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_func_o.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -121,13 +143,13 @@ $(function() {
 </li>
 <li>operator!=()
 : <a class="el" href="classhdf5_1_1attribute_1_1AttributeIterator.html#a4a1d8ef8a7d1d22671774021f1e5ff4f">hdf5::attribute::AttributeIterator</a>
-, <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#aa2ec141a9dc45c16ddd9e9d06f13a8c5">hdf5::datatype::Datatype</a>
+, <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#a657d821b88efd07d5a2628af42c0e205">hdf5::datatype::Datatype</a>
 , <a class="el" href="classhdf5_1_1node_1_1LinkIterator.html#af63ec23faab2b945c005569d1c93aae9">hdf5::node::LinkIterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1NodeIterator.html#ab7c17477c7d348bcf20cf2a0faf86a33">hdf5::node::NodeIterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1RecursiveLinkIterator.html#a499fa04a10576ffefc71dbde8812dfbd">hdf5::node::RecursiveLinkIterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1RecursiveNodeIterator.html#a4de4f6f80fc42e0d760d069a0f886b0f">hdf5::node::RecursiveNodeIterator</a>
 , <a class="el" href="classhdf5_1_1ObjectId.html#a05da3d5f0115ca9c2538f44aef5595e7">hdf5::ObjectId</a>
-, <a class="el" href="classhdf5_1_1Version.html#aa0d8d4700c5b1ad3fca134ec6728e6b4">hdf5::Version</a>
+, <a class="el" href="classhdf5_1_1Version.html#a1a485f7ff5cdebd33260e845bed8ea11">hdf5::Version</a>
 </li>
 <li>operator()()
 : <a class="el" href="classhdf5_1_1dataspace_1_1SelectionManager.html#a24ea1a0df15f7ebbf6f0d6c2008e5ef7">hdf5::dataspace::SelectionManager</a>
@@ -186,10 +208,10 @@ $(function() {
 <li>operator&lt;()
 : <a class="el" href="classhdf5_1_1Iterator.html#ae17ba93aed9b53e50537d59dc201d385">hdf5::Iterator</a>
 , <a class="el" href="classhdf5_1_1ObjectId.html#aeff7d000e67cf20631997ac034748ad4">hdf5::ObjectId</a>
-, <a class="el" href="classhdf5_1_1Version.html#a20bbd7ace71009a63c7fb100cda23b4e">hdf5::Version</a>
+, <a class="el" href="classhdf5_1_1Version.html#adc797b5d541f21afc837d22e8391d440">hdf5::Version</a>
 </li>
 <li>operator&lt;&lt;()
-: <a class="el" href="classhdf5_1_1Version.html#a16ae5a7654b55ec9977210f476161961">hdf5::Version</a>
+: <a class="el" href="classhdf5_1_1Version.html#a932c1e06eed83805bdd251a46df0770b">hdf5::Version</a>
 </li>
 <li>operator&lt;=()
 : <a class="el" href="classhdf5_1_1Iterator.html#aac3b016879a611394e344cd843389e0e">hdf5::Iterator</a>
@@ -209,22 +231,22 @@ $(function() {
 </li>
 <li>operator==()
 : <a class="el" href="classhdf5_1_1attribute_1_1AttributeIterator.html#ab8dbfcae9b91a6bd3767b4f479b4af78">hdf5::attribute::AttributeIterator</a>
-, <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#a7460f189ea858237ccd151bd46ae9efd">hdf5::datatype::Datatype</a>
+, <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#aaa4939a416f1c94119e43a40a1e87e38">hdf5::datatype::Datatype</a>
 , <a class="el" href="classhdf5_1_1Iterator.html#af7736acc56065dff7369d4f679b250c0">hdf5::Iterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1LinkIterator.html#a4ce7c354a41e5e61e1d537402b2bad89">hdf5::node::LinkIterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1NodeIterator.html#acd6a2a53092a1e56cd2f73bd69b31d0e">hdf5::node::NodeIterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1RecursiveLinkIterator.html#af3d967cdc032af402402d0741e21d15b">hdf5::node::RecursiveLinkIterator</a>
 , <a class="el" href="classhdf5_1_1node_1_1RecursiveNodeIterator.html#acbe8cc119cc61f628580c1fe2ed425a8">hdf5::node::RecursiveNodeIterator</a>
 , <a class="el" href="classhdf5_1_1ObjectId.html#acc8fd07eee3a1947ca4e28f8cb35c362">hdf5::ObjectId</a>
-, <a class="el" href="classhdf5_1_1Version.html#af6966f6435886b9423d952ec92857a67">hdf5::Version</a>
+, <a class="el" href="classhdf5_1_1Version.html#ab0d57d80b26422325a83a3cb688f1cf2">hdf5::Version</a>
 </li>
 <li>operator&gt;()
 : <a class="el" href="classhdf5_1_1Iterator.html#a6dc39f0b06960d60034290072dc17b89">hdf5::Iterator</a>
-, <a class="el" href="classhdf5_1_1Version.html#a5a6946fbd47cd7f042aed060e374bb1c">hdf5::Version</a>
+, <a class="el" href="classhdf5_1_1Version.html#a81888bc36cda2cb15d4dc2ed4a9d6aac">hdf5::Version</a>
 </li>
 <li>operator&gt;=()
 : <a class="el" href="classhdf5_1_1Iterator.html#a57663b1fa7f36e8b75fcac6059ef9642">hdf5::Iterator</a>
-, <a class="el" href="classhdf5_1_1Version.html#a8f7f4e211a03af5831318601a470cf3e">hdf5::Version</a>
+, <a class="el" href="classhdf5_1_1Version.html#a8a5b2ee58bc3ea250d65cd0d6af223a2">hdf5::Version</a>
 </li>
 <li>operator[]()
 : <a class="el" href="classhdf5_1_1attribute_1_1AttributeManager.html#af71d77603c6d2e553608d852d708e0ca">hdf5::attribute::AttributeManager</a>
@@ -246,11 +268,14 @@ $(function() {
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:21 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

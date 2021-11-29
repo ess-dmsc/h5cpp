@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('dir_d1a887fa607686ade3f10448a64f823e.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,18 +81,17 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_d1a887fa607686ade3f10448a64f823e.html">node</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="contents">
 <h3>node &rarr; attribute Relation</h3><table class="dirtab"><tr class="dirtab"><th class="dirtab">File in h5cpp/src/h5cpp/node</th><th class="dirtab">Includes file in h5cpp/src/h5cpp/attribute</th></tr><tr class="dirtab"><td class="dirtab"><a class="el" href="node_8hpp.html">node.hpp</a></td><td class="dirtab"><a class="el" href="attribute__manager_8hpp.html">attribute_manager.hpp</a></td></tr></table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:21 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_d1a887fa607686ade3f10448a64f823e.html">node</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

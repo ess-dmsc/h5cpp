@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classhdf5_1_1Path.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="classhdf5_1_1Path.html">Path</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -155,11 +173,11 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a2809608034e048f8f951e4dc1a3201b1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> friend bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1Path.html#a2809608034e048f8f951e4dc1a3201b1">operator==</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
-<tr class="memdesc:a2809608034e048f8f951e4dc1a3201b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks two paths for equality  <a href="#a2809608034e048f8f951e4dc1a3201b1">More...</a><br /></td></tr>
-<tr class="separator:a2809608034e048f8f951e4dc1a3201b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a605bbe15c78139b5eab36dbe1c089919"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> friend <a class="el" href="classhdf5_1_1Path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1Path.html#a605bbe15c78139b5eab36dbe1c089919">common_base</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
-<tr class="separator:a605bbe15c78139b5eab36dbe1c089919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea1bcdabacf6091fe2de76a20d2589da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1Path.html#aea1bcdabacf6091fe2de76a20d2589da">operator==</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
+<tr class="memdesc:aea1bcdabacf6091fe2de76a20d2589da"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks two paths for equality  <a href="#aea1bcdabacf6091fe2de76a20d2589da">More...</a><br /></td></tr>
+<tr class="separator:aea1bcdabacf6091fe2de76a20d2589da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6186dfde749de03eea27ba9843614ac9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1Path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1Path.html#a6186dfde749de03eea27ba9843614ac9">common_base</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
+<tr class="separator:a6186dfde749de03eea27ba9843614ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Every object within an HDF5 file can be addressed via a path. Such a path is a list of link names separated by a slash /. While HDF5s C-API uses a simple string to represent a path, the C++ wrapper provides a class for this purpose.</p>
@@ -665,8 +683,8 @@ Friends</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a605bbe15c78139b5eab36dbe1c089919"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a605bbe15c78139b5eab36dbe1c089919">&#9670;&nbsp;</a></span>common_base</h2>
+<a id="a6186dfde749de03eea27ba9843614ac9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6186dfde749de03eea27ba9843614ac9">&#9670;&nbsp;</a></span>common_base</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -675,7 +693,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> friend <a class="el" href="classhdf5_1_1Path.html">Path</a> common_base </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1Path.html">Path</a> common_base </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -701,8 +719,8 @@ Friends</h2></td></tr>
 
 </div>
 </div>
-<a id="a2809608034e048f8f951e4dc1a3201b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2809608034e048f8f951e4dc1a3201b1">&#9670;&nbsp;</a></span>operator==</h2>
+<a id="aea1bcdabacf6091fe2de76a20d2589da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea1bcdabacf6091fe2de76a20d2589da">&#9670;&nbsp;</a></span>operator==</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -711,7 +729,7 @@ Friends</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> friend bool operator== </td>
+          <td class="memname">bool operator== </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -742,11 +760,15 @@ Friends</h2></td></tr>
 <li>/home/jenkins/h5cpp/src/h5cpp/core/<a class="el" href="path_8hpp_source.html">path.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="classhdf5_1_1Path.html">Path</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

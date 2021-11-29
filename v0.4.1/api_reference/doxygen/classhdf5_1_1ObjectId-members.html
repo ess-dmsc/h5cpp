@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classhdf5_1_1ObjectId.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="classhdf5_1_1ObjectId.html">ObjectId</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">hdf5::ObjectId Member List</div>  </div>
@@ -81,14 +99,17 @@ $(function() {
   <tr><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html#ae368d327f541a33075e18178e2d48ddb">ObjectId</a>(const ObjectId &amp;id)=default</td><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html">hdf5::ObjectId</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html#a05da3d5f0115ca9c2538f44aef5595e7">operator!=</a>(const ObjectId &amp;other) const</td><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html">hdf5::ObjectId</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html#aeff7d000e67cf20631997ac034748ad4">operator&lt;</a>(const ObjectId &amp;other) const</td><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html">hdf5::ObjectId</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html#a8a0bfd618a7552bf3c3f60f9245ceea9">operator&lt;&lt;</a>(std::ostream &amp;os, const ObjectId &amp;p)</td><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html">hdf5::ObjectId</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html#ae19ecb30fd5d5f0b707f4a264188aa6e">operator&lt;&lt;</a>(std::ostream &amp;os, const ObjectId &amp;p)</td><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html">hdf5::ObjectId</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
   <tr><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html#acc8fd07eee3a1947ca4e28f8cb35c362">operator==</a>(const ObjectId &amp;other) const</td><td class="entry"><a class="el" href="classhdf5_1_1ObjectId.html">hdf5::ObjectId</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

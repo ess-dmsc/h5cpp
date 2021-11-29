@@ -1,0 +1,167 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>User defined data types &#8212; h5cpp 0.6.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HDF5 handlers in h5cpp" href="hdf5_handlers.html" />
+    <link rel="prev" title="C-style arrays" href="c_arrays.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="hdf5_handlers.html" title="HDF5 handlers in h5cpp"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="c_arrays.html" title="C-style arrays"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Advanced topics</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="io.html" accesskey="U">Advanced IO</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">User defined data types</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="user-defined-data-types">
+<h1>User defined data types<a class="headerlink" href="#user-defined-data-types" title="Permalink to this heading">¶</a></h1>
+<p>At some point in time one may wants to write data from a user defined
+data type. Namely we want to write data from a C++ class (typically the fields
+stored as members of the class).
+In this case we have to distinguish two situations</p>
+<ul class="simple">
+<li><p>classes whose members are only POD types</p></li>
+<li><p>classes with STL containers, strings, or any other dynamic non-POD type.</p></li>
+</ul>
+<p>The former case is simple the latter one rather complicated. In general,
+what we have to do is that for every type which should be used in an
+IO operation (a call to <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">read()</span></code> or <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">write()</span></code> of an
+attribute or dataset) two things must be available</p>
+<ul class="simple">
+<li><p>a dataspace trait</p></li>
+<li><p>and a datatype trait</p></li>
+</ul>
+<section id="types-with-pod-members-only">
+<h2>Types with POD members only<a class="headerlink" href="#types-with-pod-members-only" title="Permalink to this heading">¶</a></h2>
+<p>As an example for this situation</p>
+</section>
+<section id="typs-with-non-trivial-members">
+<h2>Typs with non-trivial members<a class="headerlink" href="#typs-with-non-trivial-members" title="Permalink to this heading">¶</a></h2>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Need to handle this situation.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">User defined data types</a><ul>
+<li><a class="reference internal" href="#types-with-pod-members-only">Types with POD members only</a></li>
+<li><a class="reference internal" href="#typs-with-non-trivial-members">Typs with non-trivial members</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="c_arrays.html"
+                          title="previous chapter">C-style arrays</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="hdf5_handlers.html"
+                          title="next chapter">HDF5 handlers in <em>h5cpp</em></a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="hdf5_handlers.html" title="HDF5 handlers in h5cpp"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="c_arrays.html" title="C-style arrays"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Advanced topics</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="io.html" >Advanced IO</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">User defined data types</a></li> 
+      </ul>
+    </div>
+<li>generated on 2024-11-11 07:33:31 from  (14c82c4)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2024-11-11 07:33:31 from  (14c82c4).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
+    </div>
+
+  </body>
+</html>

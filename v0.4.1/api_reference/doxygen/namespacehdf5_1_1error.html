@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('namespacehdf5_1_1error.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1error.html">error</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -86,22 +104,22 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a516f27ba0e658bb87e532060bf456508"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1error.html#a516f27ba0e658bb87e532060bf456508">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="structhdf5_1_1error_1_1Descriptor.html">Descriptor</a> &amp;desc)</td></tr>
-<tr class="memdesc:a516f27ba0e658bb87e532060bf456508"><td class="mdescLeft">&#160;</td><td class="mdescRight">output operator for <a class="el" href="structhdf5_1_1error_1_1Descriptor.html" title="HDF5 error descriptor. ">Descriptor</a>  <a href="#a516f27ba0e658bb87e532060bf456508">More...</a><br /></td></tr>
-<tr class="separator:a516f27ba0e658bb87e532060bf456508"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78bb44f5e0ec56a8e1f7db1e728f9807"><td class="memItemLeft" align="right" valign="top">std::string <a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1error.html#a78bb44f5e0ec56a8e1f7db1e728f9807">print_nested</a> (const std::exception &amp;exception, int level=0)</td></tr>
-<tr class="memdesc:a78bb44f5e0ec56a8e1f7db1e728f9807"><td class="mdescLeft">&#160;</td><td class="mdescRight">indented output of nested exceptions and included error stack  <a href="#a78bb44f5e0ec56a8e1f7db1e728f9807">More...</a><br /></td></tr>
-<tr class="separator:a78bb44f5e0ec56a8e1f7db1e728f9807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a382d9ee326ade5457cdffd52f1052876"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1error.html#a382d9ee326ade5457cdffd52f1052876">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="structhdf5_1_1error_1_1Descriptor.html">Descriptor</a> &amp;desc)</td></tr>
+<tr class="memdesc:a382d9ee326ade5457cdffd52f1052876"><td class="mdescLeft">&#160;</td><td class="mdescRight">output operator for <a class="el" href="structhdf5_1_1error_1_1Descriptor.html" title="HDF5 error descriptor. ">Descriptor</a>  <a href="#a382d9ee326ade5457cdffd52f1052876">More...</a><br /></td></tr>
+<tr class="separator:a382d9ee326ade5457cdffd52f1052876"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0978a208f0286dc73c8f9bf9798e449b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1error.html#a0978a208f0286dc73c8f9bf9798e449b">print_nested</a> (const std::exception &amp;exception, int level=0)</td></tr>
+<tr class="memdesc:a0978a208f0286dc73c8f9bf9798e449b"><td class="mdescLeft">&#160;</td><td class="mdescRight">indented output of nested exceptions and included error stack  <a href="#a0978a208f0286dc73c8f9bf9798e449b">More...</a><br /></td></tr>
+<tr class="separator:a0978a208f0286dc73c8f9bf9798e449b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a516f27ba0e658bb87e532060bf456508"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a516f27ba0e658bb87e532060bf456508">&#9670;&nbsp;</a></span>operator<<()</h2>
+<a id="a382d9ee326ade5457cdffd52f1052876"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a382d9ee326ade5457cdffd52f1052876">&#9670;&nbsp;</a></span>operator<<()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::error::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::error::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -122,14 +140,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a78bb44f5e0ec56a8e1f7db1e728f9807"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78bb44f5e0ec56a8e1f7db1e728f9807">&#9670;&nbsp;</a></span>print_nested()</h2>
+<a id="a0978a208f0286dc73c8f9bf9798e449b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0978a208f0286dc73c8f9bf9798e449b">&#9670;&nbsp;</a></span>print_nested()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string <a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> hdf5::error::print_nested </td>
+          <td class="memname">std::string hdf5::error::print_nested </td>
           <td>(</td>
           <td class="paramtype">const std::exception &amp;&#160;</td>
           <td class="paramname"><em>exception</em>, </td>
@@ -159,11 +177,15 @@ Functions</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:21 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1error.html">error</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

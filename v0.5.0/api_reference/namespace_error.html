@@ -1,0 +1,305 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Namespace hdf5::error &#8212; h5cpp 0.5.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced topics" href="../advanced/index.html" />
+    <link rel="prev" title="Namespace hdf5::property" href="namespace_property.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../advanced/index.html" title="Advanced topics"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="namespace_property.html" title="Namespace hdf5::property"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::error</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="namespace-hdf5-error">
+<h1>Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::error</span></code><a class="headerlink" href="#namespace-hdf5-error" title="Permalink to this headline">¶</a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<section id="singleton">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Singleton</span></code><a class="headerlink" href="#singleton" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error9SingletonE">
+<span id="_CPPv3N4hdf55error9SingletonE"></span><span id="_CPPv2N4hdf55error9SingletonE"></span><span id="hdf5::error::Singleton"></span><span class="target" id="classhdf5_1_1error_1_1Singleton"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Singleton</span></span></span><a class="headerlink" href="#_CPPv4N4hdf55error9SingletonE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>singleton class for HDF5 error handling </p>
+<p>This class facilitates handling of errors originating in the underlying C-API and HDF5 library. <a class="reference internal" href="#classhdf5_1_1error_1_1Singleton"><span class="std std-ref">Singleton</span></a> pattern assures a unique point of access to HDF5’s active error stack. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error9Singleton10auto_printEb">
+<span id="_CPPv3N4hdf55error9Singleton10auto_printEb"></span><span id="_CPPv2N4hdf55error9Singleton10auto_printEb"></span><span id="hdf5::error::Singleton::auto_print__b"></span><span class="target" id="classhdf5_1_1error_1_1Singleton_1a2774afc1943f3d7941a8bf677eba2210"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">auto_print</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enable</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error9Singleton10auto_printEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>toggle automatic printing of error stack </p>
+<p>By default, HDF5 prints the error stack to sterr upon the occurrence of every error. Turning this off redirects the stack to be passed out to the client using nested exceptions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>enable</strong> – set to true if autoprinting should be enabled, false otherwise </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf55error9Singleton10auto_printEv">
+<span id="_CPPv3NK4hdf55error9Singleton10auto_printEv"></span><span id="_CPPv2NK4hdf55error9Singleton10auto_printEv"></span><span id="hdf5::error::Singleton::auto_printC"></span><span class="target" id="classhdf5_1_1error_1_1Singleton_1a61e47b7d61b1a2b0d358653f5b70a626"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">auto_print</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf55error9Singleton10auto_printEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>indicates if automatic printing of error stack is on </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error9Singleton13extract_stackEv">
+<span id="_CPPv3N4hdf55error9Singleton13extract_stackEv"></span><span id="_CPPv2N4hdf55error9Singleton13extract_stackEv"></span><span id="hdf5::error::Singleton::extract_stack"></span><span class="target" id="classhdf5_1_1error_1_1Singleton_1aa3d01c4068b0b171fad20706e398c619"></span><a class="reference internal" href="#_CPPv4N4hdf55error8H5CErrorE" title="hdf5::error::H5CError"><span class="n"><span class="pre">H5CError</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">extract_stack</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error9Singleton13extract_stackEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>returns most recent error stack as Stack </p>
+<p>Only works if auto_print is disabled. Returns a Stack (derived exception) as extracted from the HDF5 error stack of the most recent error condition(s).</p>
+<p>After the stack is extracted it will removed from the error system. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error9Singleton16throw_with_stackERKNSt6stringE">
+<span id="_CPPv3N4hdf55error9Singleton16throw_with_stackERKNSt6stringE"></span><span id="_CPPv2N4hdf55error9Singleton16throw_with_stackERKNSt6stringE"></span><span id="hdf5::error::Singleton::throw_with_stack__ssCR"></span><span class="target" id="classhdf5_1_1error_1_1Singleton_1ab791c5b73c27c12e7fe06bcde7a38281"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">throw_with_stack</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">message</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error9Singleton16throw_with_stackERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>throws an exception, potentially nested with error stack </p>
+<p>If auto_print is enabled, throws std::runtime_error. If auto_print is disabled, it also extracts the error stack and throws a nested exception, with the Stack object one level deeper. This function is to be used by most other functions implementing this HDF5 wrapper.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – a user-supplied message for the exception </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error9Singleton11clear_stackEv">
+<span id="_CPPv3N4hdf55error9Singleton11clear_stackEv"></span><span id="_CPPv2N4hdf55error9Singleton11clear_stackEv"></span><span id="hdf5::error::Singleton::clear_stack"></span><span class="target" id="classhdf5_1_1error_1_1Singleton_1a081adf40727e735363933f02528411c2"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear_stack</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error9Singleton11clear_stackEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>clears HDF5 error stack </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error9Singleton8instanceEv">
+<span id="_CPPv3N4hdf55error9Singleton8instanceEv"></span><span id="_CPPv2N4hdf55error9Singleton8instanceEv"></span><span id="hdf5::error::Singleton::instance"></span><span class="target" id="classhdf5_1_1error_1_1Singleton_1a11471ede4dcfe6c55bd02149f95494d4"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf55error9SingletonE" title="hdf5::error::Singleton"><span class="n"><span class="pre">Singleton</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">instance</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error9Singleton8instanceEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>reference to singleton </p>
+<p>Use this static function to access the singleton </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="h5cerror">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">H5CError</span></code><a class="headerlink" href="#h5cerror" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error8H5CErrorE">
+<span id="_CPPv3N4hdf55error8H5CErrorE"></span><span id="_CPPv2N4hdf55error8H5CErrorE"></span><span id="hdf5::error::H5CError"></span><span class="target" id="classhdf5_1_1error_1_1H5CError"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">H5CError</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">runtime_error</span></span><a class="headerlink" href="#_CPPv4N4hdf55error8H5CErrorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>runtime exception containing an HDF5 error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a> </p>
+<p>This is an exception class specifically for passing on an HDF5 error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a>. The error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a> is accessible as a standard list of <a class="reference internal" href="#structhdf5_1_1error_1_1Descriptor"><span class="std std-ref">Descriptor</span></a> objects. Upon construction, the object also generates a string containing the a printout of the <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error8H5CError8H5CErrorERKNSt4listI10DescriptorEE">
+<span id="_CPPv3N4hdf55error8H5CError8H5CErrorERKNSt4listI10DescriptorEE"></span><span id="_CPPv2N4hdf55error8H5CError8H5CErrorERKNSt4listI10DescriptorEE"></span><span id="hdf5::error::H5CError::H5CError__std::list:Descriptor:CR"></span><span class="target" id="classhdf5_1_1error_1_1H5CError_1a5686056c3f7cae8ea1cb75168a0a459d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">H5CError</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf55error10DescriptorE" title="hdf5::error::Descriptor"><span class="n"><span class="pre">Descriptor</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">H5CError</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error8H5CError8H5CErrorERKNSt4listI10DescriptorEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor </p>
+<p>Constructs a runtime exception object containing an HDF5 error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a>. Should only be used internally by the library.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>H5CError</strong> – a linked list of HDF5 error descriptors </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf55error8H5CError4whatEv">
+<span id="_CPPv3NK4hdf55error8H5CError4whatEv"></span><span id="_CPPv2NK4hdf55error8H5CError4whatEv"></span><span id="hdf5::error::H5CError::whatC"></span><span class="target" id="classhdf5_1_1error_1_1H5CError_1a38f8d402ae978bbe0511f1a181537be3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">what</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf55error8H5CError4whatEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>printout of error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a> </p>
+<p>Returns the pre-generated string containing a printout of the error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf55error8H5CError8contentsEv">
+<span id="_CPPv3NK4hdf55error8H5CError8contentsEv"></span><span id="_CPPv2NK4hdf55error8H5CError8contentsEv"></span><span id="hdf5::error::H5CError::contentsC"></span><span class="target" id="classhdf5_1_1error_1_1H5CError_1a72221c607aed136d2585befe09982e9d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf55error10DescriptorE" title="hdf5::error::Descriptor"><span class="n"><span class="pre">Descriptor</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">contents</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf55error8H5CError8contentsEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>access to error <a class="reference internal" href="#classhdf5_1_1error_1_1H5CError"><span class="std std-ref">H5CError</span></a> </p>
+<p>Returns reference to list of error descriptors. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf55error8H5CError5emptyEv">
+<span id="_CPPv3NK4hdf55error8H5CError5emptyEv"></span><span id="_CPPv2NK4hdf55error8H5CError5emptyEv"></span><span id="hdf5::error::H5CError::emptyC"></span><span class="target" id="classhdf5_1_1error_1_1H5CError_1a21b0a2accee53cb7e5178620886aae38"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">empty</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf55error8H5CError5emptyEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>what it says </p>
+<p>Convenience function </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="descriptor">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Descriptor</span></code><a class="headerlink" href="#descriptor" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error10DescriptorE">
+<span id="_CPPv3N4hdf55error10DescriptorE"></span><span id="_CPPv2N4hdf55error10DescriptorE"></span><span id="hdf5::error::Descriptor"></span><span class="target" id="structhdf5_1_1error_1_1Descriptor"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Descriptor</span></span></span><a class="headerlink" href="#_CPPv4N4hdf55error10DescriptorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HDF5 error descriptor. </p>
+<p>This is a descriptor for an error from the HDF5 error stack. It contains information about where in the underlying HDF5 library an error occurred. Such information may be passed on to the user of the library along with thrown exceptions, but only in the case that automatic error stack printing is turned off. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error10Descriptor10DescriptorERK12H5E_error2_t">
+<span id="_CPPv3N4hdf55error10Descriptor10DescriptorERK12H5E_error2_t"></span><span id="_CPPv2N4hdf55error10Descriptor10DescriptorERK12H5E_error2_t"></span><span id="hdf5::error::Descriptor::Descriptor__H5E_error2_tCR"></span><span class="target" id="structhdf5_1_1error_1_1Descriptor_1a42dc6590254e823b4fcf038ea8ab424d"></span><span class="sig-name descname"><span class="n"><span class="pre">Descriptor</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">H5E_error2_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">descr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error10Descriptor10DescriptorERK12H5E_error2_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor </p>
+<p>Constructs a mostly human-readable descriptor from the underlying C-API handle. Only used by the library internally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>descr</strong> – reference to C-API error entry </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55errorlsERNSt7ostreamERK10Descriptor">
+<span id="_CPPv3N4hdf55errorlsERNSt7ostreamERK10Descriptor"></span><span id="_CPPv2N4hdf55errorlsERNSt7ostreamERK10Descriptor"></span><span id="hdf5::error::lshift-operator__osR.DescriptorCR"></span><span class="target" id="namespacehdf5_1_1error_1a382d9ee326ade5457cdffd52f1052876"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf55error10DescriptorE" title="hdf5::error::Descriptor"><span class="n"><span class="pre">Descriptor</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">desc</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55errorlsERNSt7ostreamERK10Descriptor" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>output operator for <a class="reference internal" href="#structhdf5_1_1error_1_1Descriptor"><span class="std std-ref">Descriptor</span></a> </p>
+</dd></dl>
+
+</section>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<section id="print-nested">
+<h3><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">print_nested()</span></code><a class="headerlink" href="#print-nested" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf55error12print_nestedERKNSt9exceptionE6size_t">
+<span id="_CPPv3N4hdf55error12print_nestedERKNSt9exceptionE6size_t"></span><span id="_CPPv2N4hdf55error12print_nestedERKNSt9exceptionE6size_t"></span><span id="hdf5::error::print_nested__std::exceptionCR.s"></span><span class="target" id="namespacehdf5_1_1error_1a7948a64e95c494db15313c2adc5f5afc"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">print_nested</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">exception</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">exception</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">level</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf55error12print_nestedERKNSt9exceptionE6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>indented output of nested exceptions and included error stack </p>
+<p>This recursive function is provided for formatted output of nested exceptions and, if included, the extracted error stack. For each level of nesting and for each level of the error stack, the output is on a new line and incrementally indented.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exception</strong> – the exception to print</p></li>
+<li><p><strong>level</strong> – indentation level </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::error</span></code></a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#singleton"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Singleton</span></code></a></li>
+<li><a class="reference internal" href="#h5cerror"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">H5CError</span></code></a></li>
+<li><a class="reference internal" href="#descriptor"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Descriptor</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#print-nested"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">print_nested()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="namespace_property.html"
+                        title="previous chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::property</span></code></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../advanced/index.html"
+                        title="next chapter">Advanced topics</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../advanced/index.html" title="Advanced topics"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="namespace_property.html" title="Namespace hdf5::property"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::error</span></code></a></li> 
+      </ul>
+    </div>
+<li>generated on 2022-05-02 08:12:16 from  (a233624)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2022-05-02 08:12:16 from  (a233624).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+    </div>
+
+  </body>
+</html>

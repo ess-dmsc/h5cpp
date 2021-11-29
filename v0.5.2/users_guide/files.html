@@ -1,0 +1,302 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Working with files &#8212; h5cpp 0.5.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dataspaces" href="dataspace.html" />
+    <link rel="prev" title="Design overview" href="overview.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dataspace.html" title="Dataspaces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Design overview"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Working with files</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="working-with-files">
+<h1>Working with files<a class="headerlink" href="#working-with-files" title="Permalink to this headline">¶</a></h1>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>For the time being, <em>h5cpp</em> provides no interface to the metadata
+cache. This feature might be added in future.</p>
+</div>
+<p>The first things you have to do when using HDF5 is to create a new file or
+open an already existing one. This chapter deals with this very basic topic.
+Unlike in the C-API filenames are not represented by mere strings but by
+instances of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">boost::filesystem::path</span></code>. This avoids problems
+when using different seperator characters in a path on different platforms.
+Additionally a file system path has a particular semantic which is not
+reflecetd by a simple string.</p>
+<section id="identifying-an-hdf5-file">
+<h2>Identifying an HDF5 file<a class="headerlink" href="#identifying-an-hdf5-file" title="Permalink to this headline">¶</a></h2>
+<p>Before opening an HDF5 file we should check whether or not the filesystem object
+referenced by <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">boost::filesystem::path</span></code> is indeed an HDF5 file.
+The simpliest way to achieve this goal is to use the
+<a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file12is_hdf5_fileERKN2fs4pathE" title="hdf5::file::is_hdf5_file"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hdf5::file::is_hdf5_file()</span></code></a> utiltiy function function.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">boost</span><span class="o">::</span><span class="n">filesystem</span><span class="o">::</span><span class="n">path</span><span class="w"> </span><span class="n">file_path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">hdf5</span><span class="o">::</span><span class="n">file</span><span class="o">::</span><span class="n">is_hdf5_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="c1">//deal with the error situation</span>
+<span class="p">}</span>
+
+<span class="c1">//continue with opening the file</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-files">
+<h2>Creating files<a class="headerlink" href="#creating-files" title="Permalink to this headline">¶</a></h2>
+<p>The first thing one may wants to do is to create a new file. Use the
+<a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE" title="hdf5::file::create"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hdf5::file::create()</span></code></a> function</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;boost/filesystem.hpp&gt;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">boost</span><span class="o">::</span><span class="nn">filesystem</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">//creating a new file</span>
+<span class="w">  </span><span class="n">fs</span><span class="o">::</span><span class="n">path</span><span class="w"> </span><span class="n">file_path</span><span class="p">(</span><span class="s">&quot;data.h5&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">file_path</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">//do something with the file</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>By default, the <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE" title="hdf5::file::create"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hdf5::file::create()</span></code></a> function will throw an
+exception if the file already exists. To overwrite an already existing file
+use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">Truncate</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>HDF5 uses property lists to pass additional information to API functions.
+The <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE" title="hdf5::file::create"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hdf5::file::create()</span></code></a> function accepts two additional arguments</p>
+<ul class="simple">
+<li><p>a reference to a file creation property list
+(<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::property::FileCreateList</span></code>)</p></li>
+<li><p>and a reference to a file access property list
+(<a class="reference internal" href="../api_reference/namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::property::FileAccessList</span></code></a>)</p></li>
+</ul>
+<p>There are several situations when you have to use these property lists to
+create a file. The most common might be</p>
+<ul class="simple">
+<li><p>you want better control over object and link iteration</p></li>
+<li><p>you want to use the SWMR feature introduced with HDF5 1.10.</p></li>
+</ul>
+<p>We will deal with the iterator problem a bit later. For now we have a look
+on the SWMR feature. Provided you link <em>h5cpp</em> against HDF5 1.10.0 or higher
+you have to provide a custom file access property list</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">property</span><span class="o">::</span><span class="n">FileCreationList</span><span class="w"> </span><span class="n">fcpl</span><span class="p">;</span><span class="w"> </span><span class="c1">//can use the default here</span>
+<span class="n">property</span><span class="o">::</span><span class="n">FileAccessList</span><span class="w"> </span><span class="n">fapl</span><span class="p">;</span>
+
+<span class="c1">//we need to set the appropriate version flags</span>
+<span class="n">fapl</span><span class="p">.</span><span class="n">library_version_bounds</span><span class="p">(</span><span class="n">property</span><span class="o">::</span><span class="n">LibVersion</span><span class="o">::</span><span class="n">Latest</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">property</span><span class="o">::</span><span class="n">LibVersion</span><span class="o">::</span><span class="n">Latest</span><span class="p">);</span>
+
+<span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="s">&quot;swmr_file.h5&quot;</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">Truncate</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">fcpl</span><span class="p">,</span><span class="n">fapl</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="opening-an-existing-file">
+<h2>Opening an existing file<a class="headerlink" href="#opening-an-existing-file" title="Permalink to this headline">¶</a></h2>
+<p>To open a file use the <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE" title="hdf5::file::open"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hdf5::file::open()</span></code></a> function</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;boost/filesystem.hpp&gt;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">fs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">boost</span><span class="o">::</span><span class="nn">filesystem</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="c1">//creating a new file</span>
+<span class="w">  </span><span class="n">fs</span><span class="o">::</span><span class="n">path</span><span class="w"> </span><span class="n">file_path</span><span class="p">(</span><span class="s">&quot;data.h5&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">//do something with the file</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>By default, files are opened in read only mode to avoid accidental modification
+of the file. To write to an existing file use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">ReadWrite</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The only additional argument <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE" title="hdf5::file::open"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hdf5::file::open()</span></code></a> takes is a
+reference to file access property list. We have to use this to open a file
+for SWMR access. However, in addition we need some custom flags to use
+SWMR. To open a file for writing in SWMR mode use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">property</span><span class="o">::</span><span class="n">FileAccessList</span><span class="w"> </span><span class="n">fapl</span><span class="p">;</span>
+<span class="c1">//we need to set the appropriate version flags</span>
+<span class="n">fapl</span><span class="p">.</span><span class="n">library_version_bounds</span><span class="p">(</span><span class="n">property</span><span class="o">::</span><span class="n">LibVersion</span><span class="o">::</span><span class="n">Latest</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">property</span><span class="o">::</span><span class="n">LibVersion</span><span class="o">::</span><span class="n">Latest</span><span class="p">);</span>
+
+<span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">write_fiel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span>
+<span class="w">                                   </span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">ReadWrite</span><span class="w"> </span><span class="o">|</span>
+<span class="w">                                   </span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">SWMRWrite</span><span class="p">,</span>
+<span class="w">                                   </span><span class="n">fapl</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>and to open a file for reading in SWMR mode use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">property</span><span class="o">::</span><span class="n">FileAccessList</span><span class="w"> </span><span class="n">fapl</span><span class="p">;</span>
+<span class="c1">//we need to set the appropriate version flags</span>
+<span class="n">fapl</span><span class="p">.</span><span class="n">library_version_bounds</span><span class="p">(</span><span class="n">property</span><span class="o">::</span><span class="n">LibVersion</span><span class="o">::</span><span class="n">Latest</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">property</span><span class="o">::</span><span class="n">LibVersion</span><span class="o">::</span><span class="n">Latest</span><span class="p">);</span>
+
+<span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">write_fiel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">file</span><span class="o">::</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span>
+<span class="w">                                   </span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">ReadOnly</span><span class="w"> </span><span class="o">|</span>
+<span class="w">                                   </span><span class="n">file</span><span class="o">::</span><span class="n">AccessFlags</span><span class="o">::</span><span class="n">SWMRRead</span><span class="p">,</span>
+<span class="w">                                   </span><span class="n">fapl</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-access-to-the-object-tree">
+<h2>Getting access to the object tree<a class="headerlink" href="#getting-access-to-the-object-tree" title="Permalink to this headline">¶</a></h2>
+<p>Unlike in the C-API an instance of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::File</span></code> is not a valid
+parent object. For this purpose the root group of the file must be obtained
+using the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">File::root()</span></code> method of a file instance</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hdf5</span><span class="o">::</span><span class="n">file</span><span class="o">::</span><span class="n">File</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span>
+<span class="n">hdf5</span><span class="o">::</span><span class="n">node</span><span class="o">::</span><span class="n">Group</span><span class="w"> </span><span class="n">root_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">root</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition-rational admonition">
+<p class="admonition-title">Rational</p>
+<p>Though in the C-API the ID of a group and a file can both act as valid
+parent object, this approach does not run well with an object oriented
+appraoch. It would mean that <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::file::File</span></code></a>
+and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Gruop</span></code> would have to provide a common,
+group-like interface.</p>
+<p>In order to avoid code duplications we <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::file::File</span></code></a>
+would have to derive from <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a> making it
+also a valid group object. From the point of semantics this is simply
+wrong. A file is not a group.</p>
+<p>Though the approach choosen here requires a single line of code more to
+obtain the root group of a file before doing any useful work on the file,
+however, I think a clean difference between <a class="reference internal" href="../api_reference/namespace_file.html#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::file::File</span></code></a>
+and <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a> is worth the additional effort.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Working with files</a><ul>
+<li><a class="reference internal" href="#identifying-an-hdf5-file">Identifying an HDF5 file</a></li>
+<li><a class="reference internal" href="#creating-files">Creating files</a></li>
+<li><a class="reference internal" href="#opening-an-existing-file">Opening an existing file</a></li>
+<li><a class="reference internal" href="#getting-access-to-the-object-tree">Getting access to the object tree</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="overview.html"
+                          title="previous chapter">Design overview</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dataspace.html"
+                          title="next chapter">Dataspaces</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="dataspace.html" title="Dataspaces"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Design overview"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Working with files</a></li> 
+      </ul>
+    </div>
+<li>generated on 2023-05-12 05:18:52 from  (64c6a86)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-05-12 05:18:52 from  (64c6a86).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+
+  </body>
+</html>

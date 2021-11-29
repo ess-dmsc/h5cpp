@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('namespacehdf5.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,7 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
@@ -163,37 +185,37 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a128e16442c7f0c291a722a4c39c73f69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a128e16442c7f0c291a722a4c39c73f69">operator+</a> (const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;a, ssize_t b)</td></tr>
-<tr class="separator:a128e16442c7f0c291a722a4c39c73f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2354870a07c85f20841503335d58692"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ab2354870a07c85f20841503335d58692">operator+</a> (ssize_t a, const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;b)</td></tr>
-<tr class="separator:ab2354870a07c85f20841503335d58692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af84a283e290728f195cfcd96495dedfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#af84a283e290728f195cfcd96495dedfd">operator-</a> (const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;a, ssize_t b)</td></tr>
-<tr class="separator:af84a283e290728f195cfcd96495dedfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abebae16715139392a385576dbb698e6f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#abebae16715139392a385576dbb698e6f">operator-</a> (const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;a, const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;b)</td></tr>
-<tr class="separator:abebae16715139392a385576dbb698e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dbb79fb7b2c8543df022e45d9b60ccf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a7dbb79fb7b2c8543df022e45d9b60ccf">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5.html#aca505212816c1372e937e610ce4598db">IterationOrder</a> &amp;order)</td></tr>
-<tr class="memdesc:a7dbb79fb7b2c8543df022e45d9b60ccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">ouput stream for iteration order enumeration  <a href="#a7dbb79fb7b2c8543df022e45d9b60ccf">More...</a><br /></td></tr>
-<tr class="separator:a7dbb79fb7b2c8543df022e45d9b60ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4aa4200edf254216cbeeae87e7f1009"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac4aa4200edf254216cbeeae87e7f1009">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5.html#a41ea73d2835a63a72a7cf6fe6899c3d2">IterationIndex</a> &amp;index)</td></tr>
-<tr class="separator:ac4aa4200edf254216cbeeae87e7f1009"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93f8d066940d1be28dd32af5552ff696"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a93f8d066940d1be28dd32af5552ff696">operator==</a> (const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;lhs, const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;rhs)</td></tr>
-<tr class="memdesc:a93f8d066940d1be28dd32af5552ff696"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality operator  <a href="#a93f8d066940d1be28dd32af5552ff696">More...</a><br /></td></tr>
-<tr class="separator:a93f8d066940d1be28dd32af5552ff696"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca1a01fb00d3c07ca1573520dbc1d24a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#aca1a01fb00d3c07ca1573520dbc1d24a">operator!=</a> (const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;lhs, const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;rhs)</td></tr>
-<tr class="memdesc:aca1a01fb00d3c07ca1573520dbc1d24a"><td class="mdescLeft">&#160;</td><td class="mdescRight">not equal to operator  <a href="#aca1a01fb00d3c07ca1573520dbc1d24a">More...</a><br /></td></tr>
-<tr class="separator:aca1a01fb00d3c07ca1573520dbc1d24a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac951a0ef5a540c590e031a1721787936"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac951a0ef5a540c590e031a1721787936">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="classhdf5_1_1ObjectHandle.html#aae7eecf0ec230b238865afff0cf4c579">ObjectHandle::Type</a> &amp;type)</td></tr>
-<tr class="memdesc:ac951a0ef5a540c590e031a1721787936"><td class="mdescLeft">&#160;</td><td class="mdescRight">output operator for Types  <a href="#ac951a0ef5a540c590e031a1721787936">More...</a><br /></td></tr>
-<tr class="separator:ac951a0ef5a540c590e031a1721787936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac10b030e4ea2e79ecb36206365b2bfa8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac10b030e4ea2e79ecb36206365b2bfa8">operator!=</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
-<tr class="separator:ac10b030e4ea2e79ecb36206365b2bfa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9a3f946676679380838fecc54c99821"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ab9a3f946676679380838fecc54c99821">operator+</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
-<tr class="separator:ab9a3f946676679380838fecc54c99821"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0348e6c8dae367a6bad51549fbda26c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a0348e6c8dae367a6bad51549fbda26c2">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;path)</td></tr>
-<tr class="separator:a0348e6c8dae367a6bad51549fbda26c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaebf9037d0eaa95e0a4e6bcd6733a25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#aeaebf9037d0eaa95e0a4e6bcd6733a25">operator&lt;=</a> (const <a class="el" href="classhdf5_1_1Version.html">Version</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Version.html">Version</a> &amp;rhs)</td></tr>
-<tr class="memdesc:aeaebf9037d0eaa95e0a4e6bcd6733a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if the left version is smaller or equal to the right  <a href="#aeaebf9037d0eaa95e0a4e6bcd6733a25">More...</a><br /></td></tr>
-<tr class="separator:aeaebf9037d0eaa95e0a4e6bcd6733a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3059b2df48ebb4e80d5ca322803280d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1Iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ad3059b2df48ebb4e80d5ca322803280d">operator+</a> (const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;a, ssize_t b)</td></tr>
+<tr class="separator:ad3059b2df48ebb4e80d5ca322803280d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a38b751c150adf0b5a72d1b14eeebfa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1Iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a9a38b751c150adf0b5a72d1b14eeebfa">operator+</a> (ssize_t a, const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;b)</td></tr>
+<tr class="separator:a9a38b751c150adf0b5a72d1b14eeebfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a30368bcc5c3b635b8093d03aeda75"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1Iterator.html">Iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac4a30368bcc5c3b635b8093d03aeda75">operator-</a> (const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;a, ssize_t b)</td></tr>
+<tr class="separator:ac4a30368bcc5c3b635b8093d03aeda75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ccfa55e98245ba81c01a9863c52cfa"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a26ccfa55e98245ba81c01a9863c52cfa">operator-</a> (const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;a, const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;b)</td></tr>
+<tr class="separator:a26ccfa55e98245ba81c01a9863c52cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb47cb0b9a489034e5efdc6f81ed3878"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#afb47cb0b9a489034e5efdc6f81ed3878">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5.html#aca505212816c1372e937e610ce4598db">IterationOrder</a> &amp;order)</td></tr>
+<tr class="memdesc:afb47cb0b9a489034e5efdc6f81ed3878"><td class="mdescLeft">&#160;</td><td class="mdescRight">ouput stream for iteration order enumeration  <a href="#afb47cb0b9a489034e5efdc6f81ed3878">More...</a><br /></td></tr>
+<tr class="separator:afb47cb0b9a489034e5efdc6f81ed3878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7fd22cd1c8fb981a97c12f9a1913273"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ab7fd22cd1c8fb981a97c12f9a1913273">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5.html#a41ea73d2835a63a72a7cf6fe6899c3d2">IterationIndex</a> &amp;index)</td></tr>
+<tr class="separator:ab7fd22cd1c8fb981a97c12f9a1913273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dd92c38ceaa3522fa6fa9f9a7184dbe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a7dd92c38ceaa3522fa6fa9f9a7184dbe">operator==</a> (const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;lhs, const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a7dd92c38ceaa3522fa6fa9f9a7184dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality operator  <a href="#a7dd92c38ceaa3522fa6fa9f9a7184dbe">More...</a><br /></td></tr>
+<tr class="separator:a7dd92c38ceaa3522fa6fa9f9a7184dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a617c44763236eb7aedf81499ea635985"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a617c44763236eb7aedf81499ea635985">operator!=</a> (const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;lhs, const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a617c44763236eb7aedf81499ea635985"><td class="mdescLeft">&#160;</td><td class="mdescRight">not equal to operator  <a href="#a617c44763236eb7aedf81499ea635985">More...</a><br /></td></tr>
+<tr class="separator:a617c44763236eb7aedf81499ea635985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85ed2946111b0c34f03151b267dd1952"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a85ed2946111b0c34f03151b267dd1952">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="classhdf5_1_1ObjectHandle.html#aae7eecf0ec230b238865afff0cf4c579">ObjectHandle::Type</a> &amp;type)</td></tr>
+<tr class="memdesc:a85ed2946111b0c34f03151b267dd1952"><td class="mdescLeft">&#160;</td><td class="mdescRight">output operator for Types  <a href="#a85ed2946111b0c34f03151b267dd1952">More...</a><br /></td></tr>
+<tr class="separator:a85ed2946111b0c34f03151b267dd1952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac878f51e35f027e80676af46f131dd77"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac878f51e35f027e80676af46f131dd77">operator!=</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
+<tr class="separator:ac878f51e35f027e80676af46f131dd77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a941332fa3b8c78c70ee4396f95b82a5c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1Path.html">Path</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a941332fa3b8c78c70ee4396f95b82a5c">operator+</a> (const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;rhs)</td></tr>
+<tr class="separator:a941332fa3b8c78c70ee4396f95b82a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c7ea7237a70a603f3b66afcc2f9b35a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a4c7ea7237a70a603f3b66afcc2f9b35a">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;path)</td></tr>
+<tr class="separator:a4c7ea7237a70a603f3b66afcc2f9b35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3300d8bc7afac1de9ec9e9cac8c5e71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac3300d8bc7afac1de9ec9e9cac8c5e71">operator&lt;=</a> (const <a class="el" href="classhdf5_1_1Version.html">Version</a> &amp;lhs, const <a class="el" href="classhdf5_1_1Version.html">Version</a> &amp;rhs)</td></tr>
+<tr class="memdesc:ac3300d8bc7afac1de9ec9e9cac8c5e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">checks if the left version is smaller or equal to the right  <a href="#ac3300d8bc7afac1de9ec9e9cac8c5e71">More...</a><br /></td></tr>
+<tr class="separator:ac3300d8bc7afac1de9ec9e9cac8c5e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb68b5ff57174d06f80ba41deab3212d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:afb68b5ff57174d06f80ba41deab3212d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespacehdf5.html#acb01335e2a3077183db1006de13ba194">Dimensions</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#afb68b5ff57174d06f80ba41deab3212d">get_dimensions</a> (const <a class="el" href="classhdf5_1_1ArrayAdapter.html">ArrayAdapter</a>&lt; T &gt; adapter)</td></tr>
 <tr class="memdesc:afb68b5ff57174d06f80ba41deab3212d"><td class="mdescLeft">&#160;</td><td class="mdescRight">get dimensions for an array adapter instance  <a href="#afb68b5ff57174d06f80ba41deab3212d">More...</a><br /></td></tr>
@@ -347,14 +369,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aca1a01fb00d3c07ca1573520dbc1d24a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca1a01fb00d3c07ca1573520dbc1d24a">&#9670;&nbsp;</a></span>operator!=() <span class="overload">[1/2]</span></h2>
+<a id="a617c44763236eb7aedf81499ea635985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a617c44763236eb7aedf81499ea635985">&#9670;&nbsp;</a></span>operator!=() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool hdf5::operator!= </td>
+          <td class="memname">bool hdf5::operator!= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -376,14 +398,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac10b030e4ea2e79ecb36206365b2bfa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac10b030e4ea2e79ecb36206365b2bfa8">&#9670;&nbsp;</a></span>operator!=() <span class="overload">[2/2]</span></h2>
+<a id="ac878f51e35f027e80676af46f131dd77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac878f51e35f027e80676af46f131dd77">&#9670;&nbsp;</a></span>operator!=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool hdf5::operator!= </td>
+          <td class="memname">bool hdf5::operator!= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -404,14 +426,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a128e16442c7f0c291a722a4c39c73f69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a128e16442c7f0c291a722a4c39c73f69">&#9670;&nbsp;</a></span>operator+() <span class="overload">[1/3]</span></h2>
+<a id="ad3059b2df48ebb4e80d5ca322803280d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3059b2df48ebb4e80d5ca322803280d">&#9670;&nbsp;</a></span>operator+() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> hdf5::operator+ </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> hdf5::operator+ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -432,14 +454,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab2354870a07c85f20841503335d58692"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2354870a07c85f20841503335d58692">&#9670;&nbsp;</a></span>operator+() <span class="overload">[2/3]</span></h2>
+<a id="a9a38b751c150adf0b5a72d1b14eeebfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a38b751c150adf0b5a72d1b14eeebfa">&#9670;&nbsp;</a></span>operator+() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> hdf5::operator+ </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> hdf5::operator+ </td>
           <td>(</td>
           <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -460,14 +482,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab9a3f946676679380838fecc54c99821"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9a3f946676679380838fecc54c99821">&#9670;&nbsp;</a></span>operator+() <span class="overload">[3/3]</span></h2>
+<a id="a941332fa3b8c78c70ee4396f95b82a5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a941332fa3b8c78c70ee4396f95b82a5c">&#9670;&nbsp;</a></span>operator+() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Path.html">Path</a> hdf5::operator+ </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1Path.html">Path</a> hdf5::operator+ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Path.html">Path</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -488,14 +510,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="af84a283e290728f195cfcd96495dedfd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af84a283e290728f195cfcd96495dedfd">&#9670;&nbsp;</a></span>operator-() <span class="overload">[1/2]</span></h2>
+<a id="ac4a30368bcc5c3b635b8093d03aeda75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4a30368bcc5c3b635b8093d03aeda75">&#9670;&nbsp;</a></span>operator-() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> hdf5::operator- </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> hdf5::operator- </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -516,14 +538,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="abebae16715139392a385576dbb698e6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abebae16715139392a385576dbb698e6f">&#9670;&nbsp;</a></span>operator-() <span class="overload">[2/2]</span></h2>
+<a id="a26ccfa55e98245ba81c01a9863c52cfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26ccfa55e98245ba81c01a9863c52cfa">&#9670;&nbsp;</a></span>operator-() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> ssize_t hdf5::operator- </td>
+          <td class="memname">ssize_t hdf5::operator- </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Iterator.html">Iterator</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -544,14 +566,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a7dbb79fb7b2c8543df022e45d9b60ccf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dbb79fb7b2c8543df022e45d9b60ccf">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/4]</span></h2>
+<a id="afb47cb0b9a489034e5efdc6f81ed3878"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb47cb0b9a489034e5efdc6f81ed3878">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -572,14 +594,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac4aa4200edf254216cbeeae87e7f1009"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4aa4200edf254216cbeeae87e7f1009">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/4]</span></h2>
+<a id="ab7fd22cd1c8fb981a97c12f9a1913273"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7fd22cd1c8fb981a97c12f9a1913273">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -600,14 +622,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac951a0ef5a540c590e031a1721787936"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac951a0ef5a540c590e031a1721787936">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[3/4]</span></h2>
+<a id="a85ed2946111b0c34f03151b267dd1952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85ed2946111b0c34f03151b267dd1952">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -628,14 +650,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a0348e6c8dae367a6bad51549fbda26c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0348e6c8dae367a6bad51549fbda26c2">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[4/4]</span></h2>
+<a id="a4c7ea7237a70a603f3b66afcc2f9b35a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c7ea7237a70a603f3b66afcc2f9b35a">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -656,14 +678,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="aeaebf9037d0eaa95e0a4e6bcd6733a25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeaebf9037d0eaa95e0a4e6bcd6733a25">&#9670;&nbsp;</a></span>operator<=()</h2>
+<a id="ac3300d8bc7afac1de9ec9e9cac8c5e71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3300d8bc7afac1de9ec9e9cac8c5e71">&#9670;&nbsp;</a></span>operator<=()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool hdf5::operator&lt;= </td>
+          <td class="memname">bool hdf5::operator&lt;= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1Version.html">Version</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -691,14 +713,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a93f8d066940d1be28dd32af5552ff696"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93f8d066940d1be28dd32af5552ff696">&#9670;&nbsp;</a></span>operator==()</h2>
+<a id="a7dd92c38ceaa3522fa6fa9f9a7184dbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dd92c38ceaa3522fa6fa9f9a7184dbe">&#9670;&nbsp;</a></span>operator==()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool hdf5::operator== </td>
+          <td class="memname">bool hdf5::operator== </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1ObjectHandle.html">ObjectHandle</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -721,11 +743,15 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>
