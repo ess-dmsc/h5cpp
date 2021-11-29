@@ -1,0 +1,229 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Class diagrams &#8212; h5cpp 0.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Adapters and the return value problem" href="adapters.html" />
+    <link rel="prev" title="Dealing with links and paths" href="links_and_paths.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="adapters.html" title="Adapters and the return value problem"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="links_and_paths.html" title="Dealing with links and paths"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Class diagrams</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="class-diagrams">
+<h1>Class diagrams<a class="headerlink" href="#class-diagrams" title="Permalink to this headline">¶</a></h1>
+<section id="basic-objects-facing-the-dangling-id-problem">
+<h2>Basic objects - facing the dangling ID problem<a class="headerlink" href="#basic-objects-facing-the-dangling-id-problem" title="Permalink to this headline">¶</a></h2>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/base_classes_uml.png"><img alt="../_images/base_classes_uml.png" src="../_images/base_classes_uml.png" style="width: 75%;" /></a>
+<figcaption>
+<p><span class="caption-text">The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">id_t</span></code> type ensures that every every object is closed
+whenever it looses scope.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>A major problem with the C-API for HDF5 is the high risk of resource leakage
+due to unclosed objects. Every object opened is reference by an id. If the
+object is not closed it remains open until the program terminates.
+A consequence is that even the file within which the object resides cannot be
+closed and reopened again as long as any of the objects within it is
+referenced.</p>
+<p>As a soluction the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">id_t</span></code> class should act as a kind of guard object
+for a raw HDF5 id. It has to major duties</p>
+<ul class="simple">
+<li><p>managing the reference count when an object is moved or copied</p></li>
+<li><p>ensure that the ID is destroyed when an object looses scope.</p></li>
+</ul>
+</section>
+<section id="property-lists-compile-time-checks">
+<h2>Property lists - compile time checks<a class="headerlink" href="#property-lists-compile-time-checks" title="Permalink to this headline">¶</a></h2>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/property_lists_uml.png"><img alt="../_images/property_lists_uml.png" src="../_images/property_lists_uml.png" style="width: 100%;" /></a>
+</figure>
+<p>Many functions of the C-API rely on property lists to control their behavior.
+As shown in the figure above there are quite a lot of these property lists
+around. The base class <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">property_list_t</span></code> provides the basic
+interface (for instance to include the ID of the property list instance) while
+the derived types provide</p>
+<ul class="simple">
+<li><p>methods to set and get properties of the particular list type</p></li>
+<li><p>ensure type safety for functions which require a particular type of property
+list.</p></li>
+</ul>
+<p>For instance in the C-API the function to create a group has the following
+signature:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hid_t</span><span class="w"> </span><span class="n">H5Gcreate</span><span class="p">(</span><span class="n">hid_t</span><span class="w"> </span><span class="n">loc_id</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">hid_t</span><span class="w"> </span><span class="n">lcpl_id</span><span class="p">,</span><span class="w"> </span><span class="n">hid_t</span><span class="w"> </span><span class="n">gcpl_id</span><span class="p">,</span><span class="w"> </span><span class="n">hid_t</span><span class="w"> </span><span class="n">gapl_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Where the last three arguments refer to three property lists of type</p>
+<ul class="simple">
+<li><p>link creation property list</p></li>
+<li><p>group creation property list</p></li>
+<li><p>group access property list.</p></li>
+</ul>
+<p>However, the argument passed is always of type <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">hid_t</span></code>. Thus, if a
+property list of a wrong type is passed this will be recognized only at
+runtime. A reasonable replacement for this function in C++ could have
+a signature like this</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">group_t</span><span class="w"> </span><span class="n">create_group</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">object_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">parent</span><span class="p">,</span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">name</span><span class="p">,</span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">link_create_plist_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lcpl</span><span class="p">,</span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">group_create_plist_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">gcpl</span><span class="p">,</span>
+<span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="n">group_access_plist_t</span><span class="w"> </span><span class="o">&amp;</span><span class="n">gapl</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With this approach the correct property list type can be checked at compile
+time and thus eliminate another source of runtime errors which are maybe hard
+to find.</p>
+</section>
+<section id="attribute-management">
+<h2>Attribute management<a class="headerlink" href="#attribute-management" title="Permalink to this headline">¶</a></h2>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/attribute_manager_uml.png"><img alt="../_images/attribute_manager_uml.png" src="../_images/attribute_manager_uml.png" style="width: 50%;" /></a>
+</figure>
+<p>Types that can have attribute (<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">group_t</span></code> and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">dataset_t</span></code>)
+have a public attribute of type <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">attribute_manager_t</span></code> providing an
+STL compliant interface to the attached attributes.</p>
+</section>
+<section id="managing-selections">
+<h2>Managing selections<a class="headerlink" href="#managing-selections" title="Permalink to this headline">¶</a></h2>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/hyperslab_uml.png"><img alt="../_images/hyperslab_uml.png" src="../_images/hyperslab_uml.png" style="width: 100%;" /></a>
+</figure>
+<p>A selection (hyperslab) is represented by an instance of
+<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hyperslab_t</span></code>. It provides the same IO functionality as a field or
+attribute but, as expected, reads or writes the data to the selection.</p>
+<p>Every instance of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hyperslab</span></code> holds a reference to the dataset it
+belongs to. An important implementation detail of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hyperslab_t</span></code> must
+be that the selection should only be applied during reading or writing.
+In any case once these operations are finished the selection has to be removed
+in order to avoid complications with subsequent selections.
+The selection must also be removed from the dataset when either a read or write
+operations fails. A good approach would be something like  a guard object as it
+is used for the C++ mutex types in the threading interface.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Class diagrams</a><ul>
+<li><a class="reference internal" href="#basic-objects-facing-the-dangling-id-problem">Basic objects - facing the dangling ID problem</a></li>
+<li><a class="reference internal" href="#property-lists-compile-time-checks">Property lists - compile time checks</a></li>
+<li><a class="reference internal" href="#attribute-management">Attribute management</a></li>
+<li><a class="reference internal" href="#managing-selections">Managing selections</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="links_and_paths.html"
+                          title="previous chapter">Dealing with links and paths</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="adapters.html"
+                          title="next chapter">Adapters and the return value problem</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="adapters.html" title="Adapters and the return value problem"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="links_and_paths.html" title="Dealing with links and paths"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Class diagrams</a></li> 
+      </ul>
+    </div>
+<li>generated on 2023-05-12 05:17:10 from  (2b31077)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-05-12 05:17:10 from  (2b31077).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+
+  </body>
+</html>
