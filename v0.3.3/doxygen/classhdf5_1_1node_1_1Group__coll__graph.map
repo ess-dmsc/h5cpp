@@ -1,7 +1,0 @@
-<map id="hdf5::node::Group" name="hdf5::node::Group">
-<area shape="rect" id="node2" href="$classhdf5_1_1node_1_1Node.html" title="hdf5::node::Node" alt="" coords="29,109,162,136"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1attribute_1_1AttributeManager.html" title="provides STL interface for attributes " alt="" coords="5,5,185,47"/>
-<area shape="rect" id="node4" href="$classhdf5_1_1node_1_1LinkView.html" title="hdf5::node::LinkView" alt="" coords="187,109,345,136"/>
-<area shape="rect" id="node5" href="$classhdf5_1_1node_1_1GroupView.html" title="base class for group views " alt="" coords="274,13,445,39"/>
-<area shape="rect" id="node6" href="$classhdf5_1_1node_1_1NodeView.html" title="hdf5::node::NodeView" alt="" coords="370,109,535,136"/>
-</map>
