@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classhdf5_1_1datatype_1_1Datatype.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1datatype.html">datatype</a></li><li class="navelem"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -90,7 +108,7 @@ Inheritance diagram for hdf5::datatype::Datatype:</div>
 <area shape="rect" id="node7" href="classhdf5_1_1datatype_1_1String.html" title="string datatype " alt="" coords="264,259,427,285"/>
 <area shape="rect" id="node8" href="classhdf5_1_1datatype_1_1VLengthArray.html" title="variable length array type " alt="" coords="239,309,452,336"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -143,12 +161,12 @@ Public Member Functions</h2></td></tr>
 Related Functions</h2></td></tr>
 <tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
 </td></tr>
-<tr class="memitem:a7460f189ea858237ccd151bd46ae9efd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#a7460f189ea858237ccd151bd46ae9efd">operator==</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
-<tr class="memdesc:a7460f189ea858237ccd151bd46ae9efd"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality check for datatypes  <a href="#a7460f189ea858237ccd151bd46ae9efd">More...</a><br /></td></tr>
-<tr class="separator:a7460f189ea858237ccd151bd46ae9efd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2ec141a9dc45c16ddd9e9d06f13a8c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#aa2ec141a9dc45c16ddd9e9d06f13a8c5">operator!=</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
-<tr class="memdesc:aa2ec141a9dc45c16ddd9e9d06f13a8c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">inequality check for datatypes  <a href="#aa2ec141a9dc45c16ddd9e9d06f13a8c5">More...</a><br /></td></tr>
-<tr class="separator:aa2ec141a9dc45c16ddd9e9d06f13a8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4939a416f1c94119e43a40a1e87e38"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#aaa4939a416f1c94119e43a40a1e87e38">operator==</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
+<tr class="memdesc:aaa4939a416f1c94119e43a40a1e87e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality check for datatypes  <a href="#aaa4939a416f1c94119e43a40a1e87e38">More...</a><br /></td></tr>
+<tr class="separator:aaa4939a416f1c94119e43a40a1e87e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a657d821b88efd07d5a2628af42c0e205"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#a657d821b88efd07d5a2628af42c0e205">operator!=</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a657d821b88efd07d5a2628af42c0e205"><td class="mdescLeft">&#160;</td><td class="mdescRight">inequality check for datatypes  <a href="#a657d821b88efd07d5a2628af42c0e205">More...</a><br /></td></tr>
+<tr class="separator:a657d821b88efd07d5a2628af42c0e205"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9c1eb0238d20386f8ec288698e237947"></a>
@@ -529,8 +547,8 @@ Related Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="aa2ec141a9dc45c16ddd9e9d06f13a8c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2ec141a9dc45c16ddd9e9d06f13a8c5">&#9670;&nbsp;</a></span>operator!=()</h2>
+<a id="a657d821b88efd07d5a2628af42c0e205"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a657d821b88efd07d5a2628af42c0e205">&#9670;&nbsp;</a></span>operator!=()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -539,7 +557,7 @@ Related Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool operator!= </td>
+          <td class="memname">bool operator!= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -574,8 +592,8 @@ Related Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7460f189ea858237ccd151bd46ae9efd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7460f189ea858237ccd151bd46ae9efd">&#9670;&nbsp;</a></span>operator==()</h2>
+<a id="aaa4939a416f1c94119e43a40a1e87e38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa4939a416f1c94119e43a40a1e87e38">&#9670;&nbsp;</a></span>operator==()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -584,7 +602,7 @@ Related Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool operator== </td>
+          <td class="memname">bool operator== </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -623,11 +641,15 @@ Related Functions</h2></td></tr>
 <li>/home/jenkins/h5cpp/src/h5cpp/datatype/<a class="el" href="datatype_8hpp_source.html">datatype.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:21 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1datatype.html">datatype</a></li><li class="navelem"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>
