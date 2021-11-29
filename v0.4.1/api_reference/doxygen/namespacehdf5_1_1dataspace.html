@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('namespacehdf5_1_1dataspace.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1dataspace.html">dataspace</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -152,16 +170,16 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac135727b56cdd11589df27b88b2ab75b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#ac135727b56cdd11589df27b88b2ab75b">operator||</a> (const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> &amp;space, const <a class="el" href="classhdf5_1_1dataspace_1_1Hyperslab.html">Hyperslab</a> &amp;selection)</td></tr>
-<tr class="separator:ac135727b56cdd11589df27b88b2ab75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32dbb50d9b097285c32c7d293c6267e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#a32dbb50d9b097285c32c7d293c6267e5">operator||</a> (const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> &amp;space, const <a class="el" href="namespacehdf5_1_1dataspace.html#a342c8cab63f884e78dc97f56999f64dd">SelectionList</a> &amp;selections)</td></tr>
-<tr class="separator:a32dbb50d9b097285c32c7d293c6267e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0ca0d8782ffd3c5ad88196afa58f865"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#ab0ca0d8782ffd3c5ad88196afa58f865">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5_1_1dataspace.html#a3b7b3b477367d968955f89ebac18f67a">Type</a> &amp;t)</td></tr>
-<tr class="separator:ab0ca0d8782ffd3c5ad88196afa58f865"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17faaee9b64e348cebc9260e4fe94130"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#a17faaee9b64e348cebc9260e4fe94130">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5_1_1dataspace.html#affaef713c8ccd6878e2b219802c8b111">SelectionType</a> &amp;t)</td></tr>
-<tr class="separator:a17faaee9b64e348cebc9260e4fe94130"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d3901cc840966d98e8e2978a9f02fce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#a3d3901cc840966d98e8e2978a9f02fce">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5_1_1dataspace.html#a51c9e85b5ad41a0b2e3b4fd1ee9c5751">SelectionOperation</a> &amp;o)</td></tr>
-<tr class="separator:a3d3901cc840966d98e8e2978a9f02fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20fb3487bf4c980d57323d191c0daa12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#a20fb3487bf4c980d57323d191c0daa12">operator||</a> (const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> &amp;space, const <a class="el" href="classhdf5_1_1dataspace_1_1Hyperslab.html">Hyperslab</a> &amp;selection)</td></tr>
+<tr class="separator:a20fb3487bf4c980d57323d191c0daa12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca79ce7fda5310b8a131598deb077501"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#aca79ce7fda5310b8a131598deb077501">operator||</a> (const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> &amp;space, const <a class="el" href="namespacehdf5_1_1dataspace.html#a342c8cab63f884e78dc97f56999f64dd">SelectionList</a> &amp;selections)</td></tr>
+<tr class="separator:aca79ce7fda5310b8a131598deb077501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae322fbb017abb57350cdf930fa8445ea"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#ae322fbb017abb57350cdf930fa8445ea">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5_1_1dataspace.html#a3b7b3b477367d968955f89ebac18f67a">Type</a> &amp;t)</td></tr>
+<tr class="separator:ae322fbb017abb57350cdf930fa8445ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a832ef23049f321788ff357e3c7c9cd04"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#a832ef23049f321788ff357e3c7c9cd04">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5_1_1dataspace.html#affaef713c8ccd6878e2b219802c8b111">SelectionType</a> &amp;t)</td></tr>
+<tr class="separator:a832ef23049f321788ff357e3c7c9cd04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a474c22b1cb9a27187d5430f1fe92c55f"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#a474c22b1cb9a27187d5430f1fe92c55f">operator&lt;&lt;</a> (std::ostream &amp;stream, const <a class="el" href="namespacehdf5_1_1dataspace.html#a51c9e85b5ad41a0b2e3b4fd1ee9c5751">SelectionOperation</a> &amp;o)</td></tr>
+<tr class="separator:a474c22b1cb9a27187d5430f1fe92c55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0d7db43071de8786f76b675e2b83b4a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae0d7db43071de8786f76b675e2b83b4a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classhdf5_1_1dataspace_1_1TypeTrait.html">TypeTrait</a>&lt; T &gt;::DataspaceType&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1dataspace.html#ae0d7db43071de8786f76b675e2b83b4a">create</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:ae0d7db43071de8786f76b675e2b83b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">factory function for dataspaces  <a href="#ae0d7db43071de8786f76b675e2b83b4a">More...</a><br /></td></tr>
@@ -363,14 +381,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ab0ca0d8782ffd3c5ad88196afa58f865"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0ca0d8782ffd3c5ad88196afa58f865">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/3]</span></h2>
+<a id="ae322fbb017abb57350cdf930fa8445ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae322fbb017abb57350cdf930fa8445ea">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::dataspace::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::dataspace::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -391,14 +409,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a17faaee9b64e348cebc9260e4fe94130"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17faaee9b64e348cebc9260e4fe94130">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/3]</span></h2>
+<a id="a832ef23049f321788ff357e3c7c9cd04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a832ef23049f321788ff357e3c7c9cd04">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::dataspace::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::dataspace::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -419,14 +437,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a3d3901cc840966d98e8e2978a9f02fce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d3901cc840966d98e8e2978a9f02fce">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[3/3]</span></h2>
+<a id="a474c22b1cb9a27187d5430f1fe92c55f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a474c22b1cb9a27187d5430f1fe92c55f">&#9670;&nbsp;</a></span>operator<<() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream&amp; hdf5::dataspace::operator&lt;&lt; </td>
+          <td class="memname">std::ostream&amp; hdf5::dataspace::operator&lt;&lt; </td>
           <td>(</td>
           <td class="paramtype">std::ostream &amp;&#160;</td>
           <td class="paramname"><em>stream</em>, </td>
@@ -447,14 +465,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a32dbb50d9b097285c32c7d293c6267e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32dbb50d9b097285c32c7d293c6267e5">&#9670;&nbsp;</a></span>operator||() <span class="overload">[1/2]</span></h2>
+<a id="aca79ce7fda5310b8a131598deb077501"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca79ce7fda5310b8a131598deb077501">&#9670;&nbsp;</a></span>operator||() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> hdf5::dataspace::operator|| </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> hdf5::dataspace::operator|| </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> &amp;&#160;</td>
           <td class="paramname"><em>space</em>, </td>
@@ -475,14 +493,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ac135727b56cdd11589df27b88b2ab75b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac135727b56cdd11589df27b88b2ab75b">&#9670;&nbsp;</a></span>operator||() <span class="overload">[2/2]</span></h2>
+<a id="a20fb3487bf4c980d57323d191c0daa12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20fb3487bf4c980d57323d191c0daa12">&#9670;&nbsp;</a></span>operator||() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> hdf5::dataspace::operator|| </td>
+          <td class="memname"><a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> hdf5::dataspace::operator|| </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">Dataspace</a> &amp;&#160;</td>
           <td class="paramname"><em>space</em>, </td>
@@ -524,11 +542,15 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1dataspace.html">dataspace</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

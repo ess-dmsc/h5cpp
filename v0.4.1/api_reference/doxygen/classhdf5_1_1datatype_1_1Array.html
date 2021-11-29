@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classhdf5_1_1datatype_1_1Array.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1datatype.html">datatype</a></li><li class="navelem"><a class="el" href="classhdf5_1_1datatype_1_1Array.html">Array</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -84,7 +102,7 @@ Inheritance diagram for hdf5::datatype::Array:</div>
 <map name="hdf5_1_1datatype_1_1Array_inherit__map" id="hdf5_1_1datatype_1_1Array_inherit__map">
 <area shape="rect" id="node2" href="classhdf5_1_1datatype_1_1Datatype.html" title="base class for all data types " alt="" coords="5,5,191,32"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for hdf5::datatype::Array:</div>
 <div class="dyncontent">
@@ -92,7 +110,7 @@ Collaboration diagram for hdf5::datatype::Array:</div>
 <map name="hdf5_1_1datatype_1_1Array_coll__map" id="hdf5_1_1datatype_1_1Array_coll__map">
 <area shape="rect" id="node2" href="classhdf5_1_1datatype_1_1Datatype.html" title="base class for all data types " alt="" coords="5,5,191,32"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -165,12 +183,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header related_classhdf5_1_1datatype_1_1Datatype"><td colspan="2" onclick="javascript:toggleInherit('related_classhdf5_1_1datatype_1_1Datatype')"><img src="closed.png" alt="-"/>&#160;Related Functions inherited from <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">hdf5::datatype::Datatype</a></td></tr>
-<tr class="memitem:a7460f189ea858237ccd151bd46ae9efd inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#a7460f189ea858237ccd151bd46ae9efd">operator==</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
-<tr class="memdesc:a7460f189ea858237ccd151bd46ae9efd inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality check for datatypes  <a href="classhdf5_1_1datatype_1_1Datatype.html#a7460f189ea858237ccd151bd46ae9efd">More...</a><br /></td></tr>
-<tr class="separator:a7460f189ea858237ccd151bd46ae9efd inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2ec141a9dc45c16ddd9e9d06f13a8c5 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#aa2ec141a9dc45c16ddd9e9d06f13a8c5">operator!=</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
-<tr class="memdesc:aa2ec141a9dc45c16ddd9e9d06f13a8c5 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="mdescLeft">&#160;</td><td class="mdescRight">inequality check for datatypes  <a href="classhdf5_1_1datatype_1_1Datatype.html#aa2ec141a9dc45c16ddd9e9d06f13a8c5">More...</a><br /></td></tr>
-<tr class="separator:aa2ec141a9dc45c16ddd9e9d06f13a8c5 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa4939a416f1c94119e43a40a1e87e38 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#aaa4939a416f1c94119e43a40a1e87e38">operator==</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
+<tr class="memdesc:aaa4939a416f1c94119e43a40a1e87e38 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="mdescLeft">&#160;</td><td class="mdescRight">equality check for datatypes  <a href="classhdf5_1_1datatype_1_1Datatype.html#aaa4939a416f1c94119e43a40a1e87e38">More...</a><br /></td></tr>
+<tr class="separator:aaa4939a416f1c94119e43a40a1e87e38 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a657d821b88efd07d5a2628af42c0e205 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1datatype_1_1Datatype.html#a657d821b88efd07d5a2628af42c0e205">operator!=</a> (const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;lhs, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">Datatype</a> &amp;rhs)</td></tr>
+<tr class="memdesc:a657d821b88efd07d5a2628af42c0e205 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="mdescLeft">&#160;</td><td class="mdescRight">inequality check for datatypes  <a href="classhdf5_1_1datatype_1_1Datatype.html#a657d821b88efd07d5a2628af42c0e205">More...</a><br /></td></tr>
+<tr class="separator:a657d821b88efd07d5a2628af42c0e205 inherit related_classhdf5_1_1datatype_1_1Datatype"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This datatype allows storing multidimensional data as a single element in an dataspace layout. Typical applications would be to use this for tensors and vectors. This is a fixed size data type. All instances (elements) of this type stored in an attribute or dataset are of equal size. </p>
@@ -325,11 +343,15 @@ Additional Inherited Members</h2></td></tr>
 <li>/home/jenkins/h5cpp/src/h5cpp/datatype/<a class="el" href="array_8hpp_source.html">array.hpp</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:21 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1datatype.html">datatype</a></li><li class="navelem"><a class="el" href="classhdf5_1_1datatype_1_1Array.html">Array</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

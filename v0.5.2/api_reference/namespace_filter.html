@@ -1,0 +1,834 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Namespace hdf5::filter &#8212; h5cpp 0.5.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Namespace hdf5::node" href="namespace_node.html" />
+    <link rel="prev" title="Namespace hdf5::file" href="namespace_file.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="namespace_node.html" title="Namespace hdf5::node"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="namespace_file.html" title="Namespace hdf5::file"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::filter</span></code></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="namespace-hdf5-filter">
+<h1>Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::filter</span></code><a class="headerlink" href="#namespace-hdf5-filter" title="Permalink to this headline">¶</a></h1>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h2>
+<section id="filter">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Filter</span></code><a class="headerlink" href="#filter" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter6FilterE">
+<span id="_CPPv3N4hdf56filter6FilterE"></span><span id="_CPPv2N4hdf56filter6FilterE"></span><span id="hdf5::filter::Filter"></span><span class="target" id="classhdf5_1_1filter_1_1Filter"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Filter</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter6FilterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>abstract filter class </p>
+<p>Base class for all filters. These classes are primarily intended to allow easy configuration of filters. They basically only store the fitlers parameters and apply them to the dataset creation property list. </p>
+<p>Subclassed by <a class="reference internal" href="#classhdf5_1_1filter_1_1Deflate"><span class="std std-ref">hdf5::filter::Deflate</span></a>, <a class="reference internal" href="#classhdf5_1_1filter_1_1ExternalFilter"><span class="std std-ref">hdf5::filter::ExternalFilter</span></a>, <a class="reference internal" href="#classhdf5_1_1filter_1_1Fletcher32"><span class="std std-ref">hdf5::filter::Fletcher32</span></a>, <a class="reference internal" href="#classhdf5_1_1filter_1_1NBit"><span class="std std-ref">hdf5::filter::NBit</span></a>, <a class="reference internal" href="#classhdf5_1_1filter_1_1SZip"><span class="std std-ref">hdf5::filter::SZip</span></a>, <a class="reference internal" href="#classhdf5_1_1filter_1_1ScaleOffset"><span class="std std-ref">hdf5::filter::ScaleOffset</span></a>, <a class="reference internal" href="#classhdf5_1_1filter_1_1Shuffle"><span class="std std-ref">hdf5::filter::Shuffle</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter6Filter6FilterEv">
+<span id="_CPPv3N4hdf56filter6Filter6FilterEv"></span><span id="_CPPv2N4hdf56filter6Filter6FilterEv"></span><span id="hdf5::filter::Filter::Filter"></span><span class="target" id="classhdf5_1_1filter_1_1Filter_1a1fd69b539137a5dda261992c80877678"></span><span class="sig-name descname"><span class="n"><span class="pre">Filter</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter6Filter6FilterEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+<p>Required for compliance with STL containers. Can use the default implementation. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter6FilterclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter6FilterclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter6FilterclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::Filter::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1Filter_1a6f700de14953196fe8d6c5ac70c2c8b7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter6FilterclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies a filter to a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – determines the availability requirement for a filter which is <em>mandatory</em> by default. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter6Filter2idEv">
+<span id="_CPPv3NK4hdf56filter6Filter2idEv"></span><span id="_CPPv2NK4hdf56filter6Filter2idEv"></span><span id="hdf5::filter::Filter::idC"></span><span class="target" id="classhdf5_1_1filter_1_1Filter_1a0922f296e404a30e8f9e5ba9c35ab716"></span><span class="n"><span class="pre">FilterID</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter6Filter2idEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get the ID of the filter </p>
+<p>Return the actual ID of a filter. As we do not store any particular HDF5 state in this class this function does not throw and is a constexpr. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter6Filter19is_encoding_enabledEv">
+<span id="_CPPv3NK4hdf56filter6Filter19is_encoding_enabledEv"></span><span id="_CPPv2NK4hdf56filter6Filter19is_encoding_enabledEv"></span><span id="hdf5::filter::Filter::is_encoding_enabledC"></span><span class="target" id="classhdf5_1_1filter_1_1Filter_1a6b449a50f8242b7aa84feda5f736aee9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_encoding_enabled</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter6Filter19is_encoding_enabledEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get the the config flag if encoding enabled </p>
+<p>Return the actual config encoding enabled flag of the filter. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter6Filter19is_decoding_enabledEv">
+<span id="_CPPv3NK4hdf56filter6Filter19is_decoding_enabledEv"></span><span id="_CPPv2NK4hdf56filter6Filter19is_decoding_enabledEv"></span><span id="hdf5::filter::Filter::is_decoding_enabledC"></span><span class="target" id="classhdf5_1_1filter_1_1Filter_1ab2725cab507b50ba3353518c3e3139d2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_decoding_enabled</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter6Filter19is_decoding_enabledEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get the the config flag if decoding enabled </p>
+<p>Return the actual config decoding enabled flag of the filter. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="externalfilter">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ExternalFilter</span></code><a class="headerlink" href="#externalfilter" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter14ExternalFilterE">
+<span id="_CPPv3N4hdf56filter14ExternalFilterE"></span><span id="_CPPv2N4hdf56filter14ExternalFilterE"></span><span id="hdf5::filter::ExternalFilter"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilter"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ExternalFilter</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter14ExternalFilterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter14ExternalFilter14ExternalFilterE8FilterIDKNSt6vectorIjEERKNSt6stringE">
+<span id="_CPPv3N4hdf56filter14ExternalFilter14ExternalFilterE8FilterIDKNSt6vectorIjEERKNSt6stringE"></span><span id="_CPPv2N4hdf56filter14ExternalFilter14ExternalFilterE8FilterIDKNSt6vectorIjEERKNSt6stringE"></span><span id="hdf5::filter::ExternalFilter::ExternalFilter__FilterID.std::vector:unsigned-i:C.ssCR"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilter_1a6d355d02b235669308bb998341ede57d"></span><span class="sig-name descname"><span class="n"><span class="pre">ExternalFilter</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FilterID</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">cd_values</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter14ExternalFilter14ExternalFilterE8FilterIDKNSt6vectorIjEERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>construtor </p>
+<p>This constructor of External <a class="reference internal" href="#classhdf5_1_1filter_1_1Filter"><span class="std std-ref">Filter</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> – the ID of the filter </p></li>
+<li><p><strong>cd_values</strong> – is a vector with compression options. </p></li>
+<li><p><strong>name</strong> – external filter name </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter14ExternalFilterclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter14ExternalFilterclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter14ExternalFilterclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::ExternalFilter::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilter_1aa9879bafc0f2a38924a11aa6935c65de"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter14ExternalFilterclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies a filter to a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – determines the availability requirement for a filter which is <em>mandatory</em> by default. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter14ExternalFilter9cd_valuesEv">
+<span id="_CPPv3NK4hdf56filter14ExternalFilter9cd_valuesEv"></span><span id="_CPPv2NK4hdf56filter14ExternalFilter9cd_valuesEv"></span><span id="hdf5::filter::ExternalFilter::cd_valuesC"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilter_1abdc7f316d8d34bd2aca4bec150e18f9a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cd_values</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter14ExternalFilter9cd_valuesEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compression options </p>
+<p>Provides compression options of the external filter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>compression options </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter14ExternalFilter4nameEv">
+<span id="_CPPv3NK4hdf56filter14ExternalFilter4nameEv"></span><span id="_CPPv2NK4hdf56filter14ExternalFilter4nameEv"></span><span id="hdf5::filter::ExternalFilter::nameC"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilter_1a36a4db92f5dbc0108aea1a1ebfe51f0f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter14ExternalFilter4nameEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>compression options </p>
+<p>Provides the external filter name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>filter name </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="externalfilters">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ExternalFilters</span></code><a class="headerlink" href="#externalfilters" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter15ExternalFiltersE">
+<span id="_CPPv3N4hdf56filter15ExternalFiltersE"></span><span id="_CPPv2N4hdf56filter15ExternalFiltersE"></span><span id="hdf5::filter::ExternalFilters"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilters"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ExternalFilters</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter14ExternalFilterE" title="hdf5::filter::ExternalFilter"><span class="n"><span class="pre">ExternalFilter</span></span></a><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N4hdf56filter15ExternalFiltersE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>utility container for external filters </p>
+<p>This is a one to one derived type from std::vector in order to provide a convenient container for external filters. The interface is exactly the same as for std::vector. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter15ExternalFilters4fillERKN8property19DatasetCreationListE6size_t6size_t">
+<span id="_CPPv3N4hdf56filter15ExternalFilters4fillERKN8property19DatasetCreationListE6size_t6size_t"></span><span id="_CPPv2N4hdf56filter15ExternalFilters4fillERKN8property19DatasetCreationListE6size_t6size_t"></span><span id="hdf5::filter::ExternalFilters::fill__property::DatasetCreationListCR.s.s"></span><span class="target" id="classhdf5_1_1filter_1_1ExternalFilters_1ae199966348ac3f44ca03b939d9bc5ea4"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">fill</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_cd_number</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">16</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">max_name_size</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">257</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter15ExternalFilters4fillERKN8property19DatasetCreationListE6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Fills a filter list with filters from a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>max_cd_number</strong> – maximal numer of cd_values </p></li>
+<li><p><strong>max_name_size</strong> – maximal fileter name size </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>filter flags </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<section id="is-filter-available">
+<h3><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">is_filter_available()</span></code><a class="headerlink" href="#is-filter-available" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter19is_filter_availableE8FilterID">
+<span id="_CPPv3N4hdf56filter19is_filter_availableE8FilterID"></span><span id="_CPPv2N4hdf56filter19is_filter_availableE8FilterID"></span><span id="hdf5::filter::is_filter_available__FilterID"></span><span class="target" id="namespacehdf5_1_1filter_1a0c072238cece2c04b510f79348ab78e1"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">is_filter_available</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FilterID</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">id</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter19is_filter_availableE8FilterID" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>is filter available </p>
+<p>Checks if external filter is installed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> – the ID of the filter </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>status flag if the filter available </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h2>
+<section id="availability">
+<h3><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">Availability</span></code><a class="headerlink" href="#availability" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter12AvailabilityE">
+<span id="_CPPv3N4hdf56filter12AvailabilityE"></span><span id="_CPPv2N4hdf56filter12AvailabilityE"></span><span class="target" id="namespacehdf5_1_1filter_1a23e7a93694ab3e81531c8d4f7cb7c789"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Availability</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><a class="headerlink" href="#_CPPv4N4hdf56filter12AvailabilityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>availability requirement of a filter </p>
+<p>When a filter is applied to a dataset creation property list the user in general must declare a degree of availability for the filter. A filter can be either <strong>optional</strong> or <strong>mandatory</strong>. In the former case the filter is simply omitted if not available (for instance an external filter) in the latter case the operation fails if the filter is not available.</p>
+<p>This enumeration type is used to mark a filter as optional or mandatory. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter12Availability9MandatoryE">
+<span id="_CPPv3N4hdf56filter12Availability9MandatoryE"></span><span id="_CPPv2N4hdf56filter12Availability9MandatoryE"></span><span class="target" id="namespacehdf5_1_1filter_1a23e7a93694ab3e81531c8d4f7cb7c789ae89ab59baea830bd940c300886c50efe"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Mandatory</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter12Availability8OptionalE">
+<span id="_CPPv3N4hdf56filter12Availability8OptionalE"></span><span id="_CPPv2N4hdf56filter12Availability8OptionalE"></span><span class="target" id="namespacehdf5_1_1filter_1a23e7a93694ab3e81531c8d4f7cb7c789aebb061953c0454b2c8ee7b0ac615ebcd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Optional</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter12Availability8OptionalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="filter-classes">
+<h2>Filter classes<a class="headerlink" href="#filter-classes" title="Permalink to this headline">¶</a></h2>
+<section id="deflate">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Deflate</span></code><a class="headerlink" href="#deflate" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter7DeflateE">
+<span id="_CPPv3N4hdf56filter7DeflateE"></span><span id="_CPPv2N4hdf56filter7DeflateE"></span><span id="hdf5::filter::Deflate"></span><span class="target" id="classhdf5_1_1filter_1_1Deflate"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Deflate</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter7DeflateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter7Deflate7DeflateEv">
+<span id="_CPPv3N4hdf56filter7Deflate7DeflateEv"></span><span id="_CPPv2N4hdf56filter7Deflate7DeflateEv"></span><span id="hdf5::filter::Deflate::Deflate"></span><span class="target" id="classhdf5_1_1filter_1_1Deflate_1a7b90aea618f4ebfe1f4660a0b3eb1164"></span><span class="sig-name descname"><span class="n"><span class="pre">Deflate</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter7Deflate7DeflateEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter7Deflate7DeflateEj">
+<span id="_CPPv3N4hdf56filter7Deflate7DeflateEj"></span><span id="_CPPv2N4hdf56filter7Deflate7DeflateEj"></span><span id="hdf5::filter::Deflate::Deflate__unsigned-i"></span><span class="target" id="classhdf5_1_1filter_1_1Deflate_1a03524e25631e6ee0f24ca7ab09755033"></span><span class="sig-name descname"><span class="n"><span class="pre">Deflate</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter7Deflate7DeflateEj" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor with level value </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter7Deflate5levelEv">
+<span id="_CPPv3NK4hdf56filter7Deflate5levelEv"></span><span id="_CPPv2NK4hdf56filter7Deflate5levelEv"></span><span id="hdf5::filter::Deflate::levelC"></span><span class="target" id="classhdf5_1_1filter_1_1Deflate_1a6f57c9545ed8aab2a3cfe7b1c5119a50"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">level</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter7Deflate5levelEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get the level value </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter7Deflate5levelEj">
+<span id="_CPPv3N4hdf56filter7Deflate5levelEj"></span><span id="_CPPv2N4hdf56filter7Deflate5levelEj"></span><span id="hdf5::filter::Deflate::level__unsigned-i"></span><span class="target" id="classhdf5_1_1filter_1_1Deflate_1a33020e95c92b43ad86e1a6c2539e68bd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">level</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter7Deflate5levelEj" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set the level value </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter7DeflateclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter7DeflateclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter7DeflateclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::Deflate::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1Deflate_1ad80cfe84df6feaa630a5fcc904b3ffa4"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter7DeflateclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies a filter to a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – determines the availability requirement for a filter which is <em>mandatory</em> by default. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="shuffle">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Shuffle</span></code><a class="headerlink" href="#shuffle" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter7ShuffleE">
+<span id="_CPPv3N4hdf56filter7ShuffleE"></span><span id="_CPPv2N4hdf56filter7ShuffleE"></span><span id="hdf5::filter::Shuffle"></span><span class="target" id="classhdf5_1_1filter_1_1Shuffle"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Shuffle</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter7ShuffleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter7Shuffle7ShuffleEv">
+<span id="_CPPv3N4hdf56filter7Shuffle7ShuffleEv"></span><span id="_CPPv2N4hdf56filter7Shuffle7ShuffleEv"></span><span id="hdf5::filter::Shuffle::Shuffle"></span><span class="target" id="classhdf5_1_1filter_1_1Shuffle_1aa0798ea9e04de0b07041361f01b20e1c"></span><span class="sig-name descname"><span class="n"><span class="pre">Shuffle</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter7Shuffle7ShuffleEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter7ShuffleclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter7ShuffleclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter7ShuffleclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::Shuffle::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1Shuffle_1a90a0cfd64a6f97610180145a99b37f23"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter7ShuffleclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies a filter to a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – determines the availability requirement for a filter which is <em>mandatory</em> by default. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="fletcher32">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Fletcher32</span></code><a class="headerlink" href="#fletcher32" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter10Fletcher32E">
+<span id="_CPPv3N4hdf56filter10Fletcher32E"></span><span id="_CPPv2N4hdf56filter10Fletcher32E"></span><span id="hdf5::filter::Fletcher32"></span><span class="target" id="classhdf5_1_1filter_1_1Fletcher32"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Fletcher32</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter10Fletcher32E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classhdf5_1_1filter_1_1Fletcher32"><span class="std std-ref">Fletcher32</span></a> checksum filter. </p>
+<p>If applied to a dataset creation property list this filter will setup the fletcher32 checksum filter. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter10Fletcher3210Fletcher32Ev">
+<span id="_CPPv3N4hdf56filter10Fletcher3210Fletcher32Ev"></span><span id="_CPPv2N4hdf56filter10Fletcher3210Fletcher32Ev"></span><span id="hdf5::filter::Fletcher32::Fletcher32"></span><span class="target" id="classhdf5_1_1filter_1_1Fletcher32_1a60a280bc283f62228fba5d4a69e57bb1"></span><span class="sig-name descname"><span class="n"><span class="pre">Fletcher32</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter10Fletcher3210Fletcher32Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter10Fletcher32clERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter10Fletcher32clERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter10Fletcher32clERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::Fletcher32::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1Fletcher32_1abfedc105389fb41f2d13ee852522ef67"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter10Fletcher32clERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies the filter to a dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – availability flag </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="szip">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SZip</span></code><a class="headerlink" href="#szip" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZipE">
+<span id="_CPPv3N4hdf56filter4SZipE"></span><span id="_CPPv2N4hdf56filter4SZipE"></span><span id="hdf5::filter::SZip"></span><span class="target" id="classhdf5_1_1filter_1_1SZip"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SZip</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter4SZipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filter4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filter4SZip10OptionMaskE"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aa5d912b35976b39a581b8f3864624eae"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OptionMask</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>encoding method </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip10OptionMask4NoneE">
+<span id="_CPPv3N4hdf56filter4SZip10OptionMask4NoneE"></span><span id="_CPPv2N4hdf56filter4SZip10OptionMask4NoneE"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aa5d912b35976b39a581b8f3864624eaea6adf97f83acf6453d4a6a4b1070f3754"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">None</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip10OptionMask4NoneE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>without coding </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip10OptionMask8AllowK13E">
+<span id="_CPPv3N4hdf56filter4SZip10OptionMask8AllowK13E"></span><span id="_CPPv2N4hdf56filter4SZip10OptionMask8AllowK13E"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aa5d912b35976b39a581b8f3864624eaea420882a7d7de0f502cdbea902f49b686"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">AllowK13</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip10OptionMask8AllowK13E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>allow K13 coding method </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip10OptionMask4ChipE">
+<span id="_CPPv3N4hdf56filter4SZip10OptionMask4ChipE"></span><span id="_CPPv2N4hdf56filter4SZip10OptionMask4ChipE"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aa5d912b35976b39a581b8f3864624eaeae61e34b450f37e2668daf2318dcaf978"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Chip</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip10OptionMask4ChipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>chip coding method </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip10OptionMask13EntropyCodingE">
+<span id="_CPPv3N4hdf56filter4SZip10OptionMask13EntropyCodingE"></span><span id="_CPPv2N4hdf56filter4SZip10OptionMask13EntropyCodingE"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aa5d912b35976b39a581b8f3864624eaea12364a2e31a1fb766e83135bc77b20c9"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EntropyCoding</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip10OptionMask13EntropyCodingE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>entropy coding method </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip10OptionMask15NearestNeighborE">
+<span id="_CPPv3N4hdf56filter4SZip10OptionMask15NearestNeighborE"></span><span id="_CPPv2N4hdf56filter4SZip10OptionMask15NearestNeighborE"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aa5d912b35976b39a581b8f3864624eaeaaa020331bb30d2fa2ecf7c3a0777823f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NearestNeighbor</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip10OptionMask15NearestNeighborE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>nearest neighbor coding method </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip14OptionMaskBaseE">
+<span id="_CPPv3N4hdf56filter4SZip14OptionMaskBaseE"></span><span id="_CPPv2N4hdf56filter4SZip14OptionMaskBaseE"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1a5b565226a49df3e14f543e6c8c671ac0"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">OptionMaskBase</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>option mask base type </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip4SZipEv">
+<span id="_CPPv3N4hdf56filter4SZip4SZipEv"></span><span id="_CPPv2N4hdf56filter4SZip4SZipEv"></span><span id="hdf5::filter::SZip::SZip"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1a0740bfa7a1de1daf2c6759cbf97781fc"></span><span class="sig-name descname"><span class="n"><span class="pre">SZip</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip4SZipEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip4SZipE10OptionMaskj">
+<span id="_CPPv3N4hdf56filter4SZip4SZipE10OptionMaskj"></span><span id="_CPPv2N4hdf56filter4SZip4SZipE10OptionMaskj"></span><span id="hdf5::filter::SZip::SZip__OptionMask.unsigned-i"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1a0f47671d49d0ebbce4e52d11b88e6ce5"></span><span class="sig-name descname"><span class="n"><span class="pre">SZip</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">option_mask</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pixels_per_block</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip4SZipE10OptionMaskj" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor option mask and pixels per block </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip4SZipE14OptionMaskBasej">
+<span id="_CPPv3N4hdf56filter4SZip4SZipE14OptionMaskBasej"></span><span id="_CPPv2N4hdf56filter4SZip4SZipE14OptionMaskBasej"></span><span id="hdf5::filter::SZip::SZip__OptionMaskBase.unsigned-i"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1acd00e227f4f6323aa1e79eb772501e11"></span><span class="sig-name descname"><span class="n"><span class="pre">SZip</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">option_mask</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pixels_per_block</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip4SZipE14OptionMaskBasej" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor option mask and pixels per block </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter4SZip11option_maskEv">
+<span id="_CPPv3NK4hdf56filter4SZip11option_maskEv"></span><span id="_CPPv2NK4hdf56filter4SZip11option_maskEv"></span><span id="hdf5::filter::SZip::option_maskC"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1a13c4e516ffff82b41891c8995653a1bc"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">option_mask</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter4SZip11option_maskEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get the option mask </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip11option_maskE14OptionMaskBase">
+<span id="_CPPv3N4hdf56filter4SZip11option_maskE14OptionMaskBase"></span><span id="_CPPv2N4hdf56filter4SZip11option_maskE14OptionMaskBase"></span><span id="hdf5::filter::SZip::option_mask__OptionMaskBase"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1a30f127156af0247c59c899f79fb8bb54"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">option_mask</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">option_mask</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip11option_maskE14OptionMaskBase" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set the option mask </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip11option_maskE10OptionMask">
+<span id="_CPPv3N4hdf56filter4SZip11option_maskE10OptionMask"></span><span id="_CPPv2N4hdf56filter4SZip11option_maskE10OptionMask"></span><span id="hdf5::filter::SZip::option_mask__OptionMask"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1a36e09ff1899958d672f0b301416c655c"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">option_mask</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">option_mask</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip11option_maskE10OptionMask" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set the option mask </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter4SZip16pixels_per_blockEv">
+<span id="_CPPv3NK4hdf56filter4SZip16pixels_per_blockEv"></span><span id="_CPPv2NK4hdf56filter4SZip16pixels_per_blockEv"></span><span id="hdf5::filter::SZip::pixels_per_blockC"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1ab5fec1b3fc8f21cb0056c8ecb4d6f37e"></span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pixels_per_block</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter4SZip16pixels_per_blockEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get pixels per block </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4SZip16pixels_per_blockEj">
+<span id="_CPPv3N4hdf56filter4SZip16pixels_per_blockEj"></span><span id="_CPPv2N4hdf56filter4SZip16pixels_per_blockEj"></span><span id="hdf5::filter::SZip::pixels_per_block__unsigned-i"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1ad5a241cf7ec9c27535d42d8869bfcaf4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pixels_per_block</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">pixels_per_block</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4SZip16pixels_per_blockEj" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set pixels per block </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter4SZipclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter4SZipclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter4SZipclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::SZip::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1SZip_1aed0349202b9c08ce4923772f7eb0720a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter4SZipclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies a filter to a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – determines the availability requirement for a filter which is <em>mandatory</em> by default. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::or-operator__SZip::OptionMaskCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1a8c627e2b4beb8bab28faf70942da6fa8"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterorERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filterorERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filterorERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::or-operator__SZip::OptionMaskBaseCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1ad0c02e42de0fe380ae2dd8cee7d45f02"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterorERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE">
+<span id="_CPPv3N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="_CPPv2N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="hdf5::filter::or-operator__SZip::OptionMaskCR.SZip::OptionMaskBaseCR"></span><span class="target" id="namespacehdf5_1_1filter_1a50172c1c49961ba2f66b8eedf2e2f0d4"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterorERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::and-operator__SZip::OptionMaskCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1a9c1c19da6c061d104cd4a1a33ab0fb53"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filteranERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filteranERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filteranERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::and-operator__SZip::OptionMaskBaseCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1a3f3530ab935b69abf5c7bae64e74e360"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filteranERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE">
+<span id="_CPPv3N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="_CPPv2N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="hdf5::filter::and-operator__SZip::OptionMaskCR.SZip::OptionMaskBaseCR"></span><span class="target" id="namespacehdf5_1_1filter_1af1f67ef98c13e37df0660d7f31ccc38c"></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filteranERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::eq-operator__SZip::OptionMaskCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1ae64efaaba8def547470a509e2016aa5b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filtereqERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filtereqERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filtereqERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::eq-operator__SZip::OptionMaskBaseCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1ab4e64c778cfc59a18fb7dee5da0d9f96"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filtereqERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE">
+<span id="_CPPv3N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="_CPPv2N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="hdf5::filter::eq-operator__SZip::OptionMaskCR.SZip::OptionMaskBaseCR"></span><span class="target" id="namespacehdf5_1_1filter_1adf09ded6b1f2b02ee953e204c845995e"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filtereqERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::neq-operator__SZip::OptionMaskCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1a0d5882cd43c80a79ff55b15b38ea0ca0"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterneERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filterneERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filterneERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::neq-operator__SZip::OptionMaskBaseCR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1ada2a80a6fece319bdf0dc1eb5bbd816b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterneERKN4SZip14OptionMaskBaseERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE">
+<span id="_CPPv3N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="_CPPv2N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE"></span><span id="hdf5::filter::neq-operator__SZip::OptionMaskCR.SZip::OptionMaskBaseCR"></span><span class="target" id="namespacehdf5_1_1filter_1a61142c3267e9bb6e07bb3c86ab49391b"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip14OptionMaskBaseE" title="hdf5::filter::SZip::OptionMaskBase"><span class="n"><span class="pre">OptionMaskBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterneERKN4SZip10OptionMaskERKN4SZip14OptionMaskBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterlsERNSt7ostreamERKN4SZip10OptionMaskE">
+<span id="_CPPv3N4hdf56filterlsERNSt7ostreamERKN4SZip10OptionMaskE"></span><span id="_CPPv2N4hdf56filterlsERNSt7ostreamERKN4SZip10OptionMaskE"></span><span id="hdf5::filter::lshift-operator__osR.SZip::OptionMaskCR"></span><span class="target" id="namespacehdf5_1_1filter_1a1f036c975751412f788985478ab17c9d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZipE" title="hdf5::filter::SZip"><span class="n"><span class="pre">SZip</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter4SZip10OptionMaskE" title="hdf5::filter::SZip::OptionMask"><span class="n"><span class="pre">OptionMask</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterlsERNSt7ostreamERKN4SZip10OptionMaskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</section>
+<section id="nbit">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">NBit</span></code><a class="headerlink" href="#nbit" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4NBitE">
+<span id="_CPPv3N4hdf56filter4NBitE"></span><span id="_CPPv2N4hdf56filter4NBitE"></span><span id="hdf5::filter::NBit"></span><span class="target" id="classhdf5_1_1filter_1_1NBit"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NBit</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter4NBitE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#classhdf5_1_1filter_1_1NBit"><span class="std std-ref">NBit</span></a> checksum filter. </p>
+<p>If applied to a dataset creation property list this filter will setup the nbit checksum filter. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter4NBit4NBitEv">
+<span id="_CPPv3N4hdf56filter4NBit4NBitEv"></span><span id="_CPPv2N4hdf56filter4NBit4NBitEv"></span><span id="hdf5::filter::NBit::NBit"></span><span class="target" id="classhdf5_1_1filter_1_1NBit_1ad2ed88d7770d0c704e5027bc9f224722"></span><span class="sig-name descname"><span class="n"><span class="pre">NBit</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter4NBit4NBitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter4NBitclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter4NBitclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter4NBitclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::NBit::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1NBit_1a0c5be19e8d99ff7b2b64d125fd1678d0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter4NBitclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies the filter to a dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – availability flag </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="scaleoffset">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ScaleOffset</span></code><a class="headerlink" href="#scaleoffset" title="Permalink to this headline">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffsetE">
+<span id="_CPPv3N4hdf56filter11ScaleOffsetE"></span><span id="_CPPv2N4hdf56filter11ScaleOffsetE"></span><span id="hdf5::filter::ScaleOffset"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ScaleOffset</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter6FilterE" title="hdf5::filter::Filter"><span class="n"><span class="pre">Filter</span></span></a><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset9ScaleTypeE">
+<span id="_CPPv3N4hdf56filter11ScaleOffset9ScaleTypeE"></span><span id="_CPPv2N4hdf56filter11ScaleOffset9ScaleTypeE"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1af41c90da85ccd5e6bc82435102d1ad84"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ScaleType</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">H5Z_SO_scale_type_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>character set encoding used by string types and links </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset9ScaleType11FloatDScaleE">
+<span id="_CPPv3N4hdf56filter11ScaleOffset9ScaleType11FloatDScaleE"></span><span id="_CPPv2N4hdf56filter11ScaleOffset9ScaleType11FloatDScaleE"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1af41c90da85ccd5e6bc82435102d1ad84a5a241260e4da6eea19926ef626b259ec"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatDScale</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleType11FloatDScaleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>floating-point type, using variable MinBits method </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset9ScaleType11FloatEScaleE">
+<span id="_CPPv3N4hdf56filter11ScaleOffset9ScaleType11FloatEScaleE"></span><span id="_CPPv2N4hdf56filter11ScaleOffset9ScaleType11FloatEScaleE"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1af41c90da85ccd5e6bc82435102d1ad84a8d0379fd58454a8231a7b69ff08415d4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FloatEScale</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleType11FloatEScaleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>floating-point type, using fixed MinBits method </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset9ScaleType3IntE">
+<span id="_CPPv3N4hdf56filter11ScaleOffset9ScaleType3IntE"></span><span id="_CPPv2N4hdf56filter11ScaleOffset9ScaleType3IntE"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1af41c90da85ccd5e6bc82435102d1ad84a1686a6c336b71b36d77354cea19a8b52"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Int</span></span></span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleType3IntE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>integer type </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset11ScaleOffsetEv">
+<span id="_CPPv3N4hdf56filter11ScaleOffset11ScaleOffsetEv"></span><span id="_CPPv2N4hdf56filter11ScaleOffset11ScaleOffsetEv"></span><span id="hdf5::filter::ScaleOffset::ScaleOffset"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1a0bb19f353f1d6f1cb36c5f3e4eb8e931"></span><span class="sig-name descname"><span class="n"><span class="pre">ScaleOffset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset11ScaleOffsetEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset11ScaleOffsetEN11ScaleOffset9ScaleTypeEi">
+<span id="_CPPv3N4hdf56filter11ScaleOffset11ScaleOffsetEN11ScaleOffset9ScaleTypeEi"></span><span id="_CPPv2N4hdf56filter11ScaleOffset11ScaleOffsetEN11ScaleOffset9ScaleTypeEi"></span><span id="hdf5::filter::ScaleOffset::ScaleOffset__ScaleOffset::ScaleType.i"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1a4dca607020b162afc29628b2ce09214a"></span><span class="sig-name descname"><span class="n"><span class="pre">ScaleOffset</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffset11ScaleOffsetEN11ScaleOffset9ScaleTypeEi" title="hdf5::filter::ScaleOffset::ScaleOffset"><span class="n"><span class="pre">ScaleOffset</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ScaleType</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">scale_type</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">scale_factor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset11ScaleOffsetEN11ScaleOffset9ScaleTypeEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor with scale type and scale factor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter11ScaleOffset10scale_typeEv">
+<span id="_CPPv3NK4hdf56filter11ScaleOffset10scale_typeEv"></span><span id="_CPPv2NK4hdf56filter11ScaleOffset10scale_typeEv"></span><span id="hdf5::filter::ScaleOffset::scale_typeC"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1a2f2d9168cea8ae0722d1dd53e4614e0e"></span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffsetE" title="hdf5::filter::ScaleOffset"><span class="n"><span class="pre">ScaleOffset</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleTypeE" title="hdf5::filter::ScaleOffset::ScaleType"><span class="n"><span class="pre">ScaleType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scale_type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter11ScaleOffset10scale_typeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get scale type </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset10scale_typeEN11ScaleOffset9ScaleTypeE">
+<span id="_CPPv3N4hdf56filter11ScaleOffset10scale_typeEN11ScaleOffset9ScaleTypeE"></span><span id="_CPPv2N4hdf56filter11ScaleOffset10scale_typeEN11ScaleOffset9ScaleTypeE"></span><span id="hdf5::filter::ScaleOffset::scale_type__ScaleOffset::ScaleType"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1a2ccdba54af948ea73c85596bc56fe688"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scale_type</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffsetE" title="hdf5::filter::ScaleOffset"><span class="n"><span class="pre">ScaleOffset</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleTypeE" title="hdf5::filter::ScaleOffset::ScaleType"><span class="n"><span class="pre">ScaleType</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">scale_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset10scale_typeEN11ScaleOffset9ScaleTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set scale type </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter11ScaleOffset12scale_factorEv">
+<span id="_CPPv3NK4hdf56filter11ScaleOffset12scale_factorEv"></span><span id="_CPPv2NK4hdf56filter11ScaleOffset12scale_factorEv"></span><span id="hdf5::filter::ScaleOffset::scale_factorC"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1ad852a1237b82cf7650030823f10556ec"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scale_factor</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter11ScaleOffset12scale_factorEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get scale factor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filter11ScaleOffset12scale_factorEi">
+<span id="_CPPv3N4hdf56filter11ScaleOffset12scale_factorEi"></span><span id="_CPPv2N4hdf56filter11ScaleOffset12scale_factorEi"></span><span id="hdf5::filter::ScaleOffset::scale_factor__i"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1a912a8ec51654e36e8c71986d26c45071"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">scale_factor</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">scale_factor</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filter11ScaleOffset12scale_factorEi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set scale factor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf56filter11ScaleOffsetclERKN8property19DatasetCreationListE12Availability">
+<span id="_CPPv3NK4hdf56filter11ScaleOffsetclERKN8property19DatasetCreationListE12Availability"></span><span id="_CPPv2NK4hdf56filter11ScaleOffsetclERKN8property19DatasetCreationListE12Availability"></span><span id="hdf5::filter::ScaleOffset::call-operator__property::DatasetCreationListCR.AvailabilityC"></span><span class="target" id="classhdf5_1_1filter_1_1ScaleOffset_1ae6291ce920718dedaceae68570b98e7d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property19DatasetCreationListE" title="hdf5::property::DatasetCreationList"><span class="n"><span class="pre">DatasetCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">dcpl</span></span>, <a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flag</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter12AvailabilityE" title="hdf5::filter::Availability"><span class="n"><span class="pre">Availability</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter12Availability9MandatoryE" title="hdf5::filter::Availability::Mandatory"><span class="n"><span class="pre">Mandatory</span></span></a><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf56filter11ScaleOffsetclERKN8property19DatasetCreationListE12Availability" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>apply filter </p>
+<p>Applies a filter to a particular dataset creation property list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws</dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>dcpl</strong> – reference to the dataset creation property list </p></li>
+<li><p><strong>flag</strong> – determines the availability requirement for a filter which is <em>mandatory</em> by default. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf56filterlsERNSt7ostreamERKN11ScaleOffset9ScaleTypeE">
+<span id="_CPPv3N4hdf56filterlsERNSt7ostreamERKN11ScaleOffset9ScaleTypeE"></span><span id="_CPPv2N4hdf56filterlsERNSt7ostreamERKN11ScaleOffset9ScaleTypeE"></span><span id="hdf5::filter::lshift-operator__osR.ScaleOffset::ScaleTypeCR"></span><span class="target" id="namespacehdf5_1_1filter_1adb9efa5d37b39275604be4563a73053f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffsetE" title="hdf5::filter::ScaleOffset"><span class="n"><span class="pre">ScaleOffset</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf56filter11ScaleOffset9ScaleTypeE" title="hdf5::filter::ScaleOffset::ScaleType"><span class="n"><span class="pre">ScaleType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">scale_type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf56filterlsERNSt7ostreamERKN11ScaleOffset9ScaleTypeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>stream output operator for CharacterEncoding enumerations </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> – reference to an output stream </p></li>
+<li><p><strong>scale_type</strong> – reference to the scala type to write </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>modified output stream </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::filter</span></code></a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+<li><a class="reference internal" href="#filter"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Filter</span></code></a></li>
+<li><a class="reference internal" href="#externalfilter"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ExternalFilter</span></code></a></li>
+<li><a class="reference internal" href="#externalfilters"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ExternalFilters</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#is-filter-available"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">is_filter_available()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#enumerations">Enumerations</a><ul>
+<li><a class="reference internal" href="#availability"><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">Availability</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#filter-classes">Filter classes</a><ul>
+<li><a class="reference internal" href="#deflate"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Deflate</span></code></a></li>
+<li><a class="reference internal" href="#shuffle"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Shuffle</span></code></a></li>
+<li><a class="reference internal" href="#fletcher32"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Fletcher32</span></code></a></li>
+<li><a class="reference internal" href="#szip"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SZip</span></code></a></li>
+<li><a class="reference internal" href="#nbit"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">NBit</span></code></a></li>
+<li><a class="reference internal" href="#scaleoffset"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ScaleOffset</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="namespace_file.html"
+                          title="previous chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::file</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="namespace_node.html"
+                          title="next chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node</span></code></a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="namespace_node.html" title="Namespace hdf5::node"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="namespace_file.html" title="Namespace hdf5::file"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::filter</span></code></a></li> 
+      </ul>
+    </div>
+<li>generated on 2023-05-12 05:18:52 from  (64c6a86)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-05-12 05:18:52 from  (64c6a86).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+
+  </body>
+</html>
