@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('iterator_8hpp.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_5e1aa55d9c57bf68c6348065f9cbd5c4.html">core</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -110,21 +128,25 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a128e16442c7f0c291a722a4c39c73f69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a128e16442c7f0c291a722a4c39c73f69">hdf5::operator+</a> (const Iterator &amp;a, ssize_t b)</td></tr>
-<tr class="separator:a128e16442c7f0c291a722a4c39c73f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2354870a07c85f20841503335d58692"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ab2354870a07c85f20841503335d58692">hdf5::operator+</a> (ssize_t a, const Iterator &amp;b)</td></tr>
-<tr class="separator:ab2354870a07c85f20841503335d58692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af84a283e290728f195cfcd96495dedfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#af84a283e290728f195cfcd96495dedfd">hdf5::operator-</a> (const Iterator &amp;a, ssize_t b)</td></tr>
-<tr class="separator:af84a283e290728f195cfcd96495dedfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abebae16715139392a385576dbb698e6f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#abebae16715139392a385576dbb698e6f">hdf5::operator-</a> (const Iterator &amp;a, const Iterator &amp;b)</td></tr>
-<tr class="separator:abebae16715139392a385576dbb698e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3059b2df48ebb4e80d5ca322803280d"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ad3059b2df48ebb4e80d5ca322803280d">hdf5::operator+</a> (const Iterator &amp;a, ssize_t b)</td></tr>
+<tr class="separator:ad3059b2df48ebb4e80d5ca322803280d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a38b751c150adf0b5a72d1b14eeebfa"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a9a38b751c150adf0b5a72d1b14eeebfa">hdf5::operator+</a> (ssize_t a, const Iterator &amp;b)</td></tr>
+<tr class="separator:a9a38b751c150adf0b5a72d1b14eeebfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a30368bcc5c3b635b8093d03aeda75"><td class="memItemLeft" align="right" valign="top">Iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#ac4a30368bcc5c3b635b8093d03aeda75">hdf5::operator-</a> (const Iterator &amp;a, ssize_t b)</td></tr>
+<tr class="separator:ac4a30368bcc5c3b635b8093d03aeda75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ccfa55e98245ba81c01a9863c52cfa"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5.html#a26ccfa55e98245ba81c01a9863c52cfa">hdf5::operator-</a> (const Iterator &amp;a, const Iterator &amp;b)</td></tr>
+<tr class="separator:a26ccfa55e98245ba81c01a9863c52cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_5e1aa55d9c57bf68c6348065f9cbd5c4.html">core</a></li><li class="navelem"><a class="el" href="iterator_8hpp.html">iterator.hpp</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

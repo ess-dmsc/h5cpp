@@ -59,7 +59,7 @@
 yet.</p>
 </div>
 <p>The only thing we have right now is some pseudocode</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">.</span><span class="n">create_dataset</span><span class="p">(...);</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">.</span><span class="n">create_dataset</span><span class="p">(...);</span>
 </pre></div>
 </div>
 </section>
@@ -77,13 +77,13 @@ for people how know the C-API.</p>
 <h2>Reading and writing data<a class="headerlink" href="#reading-and-writing-data" title="Permalink to this headline">¶</a></h2>
 <p>To read and write an entire dataset use the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">read()</span></code> and
 <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">write()</span></code> methods (see also <a class="reference internal" href="#design-read-write"><span class="std std-ref">Dataset creation</span></a>).</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;temperatures&quot;</span><span class="p">];</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;temperatures&quot;</span><span class="p">];</span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">temperatures</span><span class="p">;</span><span class="w"></span>
-<span class="n">dset</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">temperatures</span><span class="p">);</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">temperatures</span><span class="p">;</span>
+<span class="n">dset</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">temperatures</span><span class="p">);</span>
 
 <span class="c1">//or for writing</span>
-<span class="n">dset</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">temperatures</span><span class="p">)</span><span class="w"></span>
+<span class="n">dset</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">temperatures</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="partial-io">
@@ -91,24 +91,24 @@ for people how know the C-API.</p>
 <p>In many cases the the total amount of data stored in a single dataset might be
 to large to fit in your machines memory. In such situations we have to read
 the data in smaller pieces. This can be done using partial IO.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;images&quot;</span><span class="p">];</span><span class="w"></span>
-<span class="n">dims_t</span><span class="w"> </span><span class="n">cdims</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">dset</span><span class="p">.</span><span class="n">current_dimensions</span><span class="p">();</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;images&quot;</span><span class="p">];</span>
+<span class="n">dims_t</span><span class="w"> </span><span class="n">cdims</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">dset</span><span class="p">.</span><span class="n">current_dimensions</span><span class="p">();</span>
 
-<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint16</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="n">cdims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">cdims</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">uint16</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="n">cdims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">cdims</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
 
-<span class="n">index_range_t</span><span class="w"> </span><span class="nf">rx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cdims</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="n">ry</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cdims</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="n">index_range_t</span><span class="w"> </span><span class="nf">rx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cdims</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="w"> </span><span class="n">ry</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">cdims</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
 
-<span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">frame_index</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">frame_index</span><span class="o">&lt;</span><span class="n">cdims</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="n">frame_index</span><span class="o">++</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
+<span class="k">for</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">frame_index</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">frame_index</span><span class="o">&lt;</span><span class="n">cdims</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="n">frame_index</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
 
 <span class="w">    </span><span class="c1">//the dataset_t::operator()(....) uses a variadic template to</span>
 <span class="w">    </span><span class="c1">//gather all the indexes and returns an instance of hyperslab_t</span>
 <span class="w">    </span><span class="c1">//which by itself provides the read and write methods to</span>
 <span class="w">    </span><span class="c1">//read and write data to the selection determined by the hyperslab.</span>
-<span class="w">    </span><span class="n">dset</span><span class="p">(</span><span class="n">frame_index</span><span class="p">,</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">).</span><span class="n">read</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">dset</span><span class="p">(</span><span class="n">frame_index</span><span class="p">,</span><span class="n">r1</span><span class="p">,</span><span class="n">r2</span><span class="p">).</span><span class="n">read</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
 
 <span class="w">    </span><span class="c1">//do something with the frame</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -117,66 +117,66 @@ the data in smaller pieces. This can be done using partial IO.</p>
 <h2>Dataset container adapter<a class="headerlink" href="#dataset-container-adapter" title="Permalink to this headline">¶</a></h2>
 <p>To simplify the above concept of looping along a particular dimension of
 a dataset one could use the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">container_adapter</span></code></p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">container_adapter_t</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">public</span><span class="o">:</span><span class="w"></span>
-<span class="w">        </span><span class="k">using</span><span class="w"> </span><span class="n">const_iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">container_adapter_t</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="k">using</span><span class="w"> </span><span class="n">const_iterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
 
-<span class="w">        </span><span class="n">hyperslab_t</span><span class="w"> </span><span class="k">operator</span><span class="p">[](</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">hyperslab_t</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">hyperslab_t</span><span class="w"> </span><span class="k">operator</span><span class="p">[](</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="w">        </span><span class="n">hyperslab_t</span><span class="w"> </span><span class="nf">at</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 
-<span class="w">        </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kt">size_t</span><span class="w"> </span><span class="nf">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
 
-<span class="w">        </span><span class="k">template</span><span class="o">&lt;</span><span class="w"></span>
-<span class="w">                 </span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span><span class="w"></span>
-<span class="w">                 </span><span class="k">typename</span> <span class="nc">std</span><span class="o">::</span><span class="n">enable_if</span><span class="o">&lt;!</span><span class="n">is_container</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">type</span><span class="o">=</span><span class="mi">0</span><span class="w"></span>
-<span class="w">                </span><span class="o">&gt;</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">push_back</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">template</span><span class="o">&lt;</span>
+<span class="w">                 </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span>
+<span class="w">                 </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">enable_if</span><span class="o">&lt;!</span><span class="n">is_container</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">type</span><span class="o">=</span><span class="mi">0</span>
+<span class="w">                </span><span class="o">&gt;</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">push_back</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
 
-<span class="w">        </span><span class="k">template</span><span class="o">&lt;</span><span class="w"></span>
-<span class="w">                 </span><span class="k">typename</span> <span class="nc">T</span><span class="p">,</span><span class="w"></span>
-<span class="w">                 </span><span class="k">typename</span> <span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">is_container</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span><span class="w"></span>
-<span class="w">                </span><span class="o">&gt;</span><span class="w"></span>
-<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">push_back</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">template</span><span class="o">&lt;</span>
+<span class="w">                 </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span>
+<span class="w">                 </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">is_container</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span>
+<span class="w">                </span><span class="o">&gt;</span>
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">push_back</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
 
-<span class="w">        </span><span class="n">const_iterator</span><span class="w"> </span><span class="nf">begin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">const_iterator</span><span class="w"> </span><span class="nf">end</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w"></span>
-<span class="p">};</span><span class="w"></span>
+<span class="w">        </span><span class="n">const_iterator</span><span class="w"> </span><span class="nf">begin</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="w">        </span><span class="n">const_iterator</span><span class="w"> </span><span class="nf">end</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
 </pre></div>
 </div>
 <p>The container adapter for datasets provides an STL compliant container
 interface for a multidimensional dataset along one dimension.</p>
 <p>Reading data from</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">frame_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">frame_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint16_t</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;detector_data&quot;</span><span class="p">];</span><span class="w"></span>
+<span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;detector_data&quot;</span><span class="p">];</span>
 
 <span class="c1">//container adapter for dataset d along the first dimension</span>
-<span class="n">container_adapter_t</span><span class="w"> </span><span class="nf">frames</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="n">frame_t</span><span class="w"> </span><span class="n">frame</span><span class="p">;</span><span class="w"></span>
+<span class="n">container_adapter_t</span><span class="w"> </span><span class="nf">frames</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">frame_t</span><span class="w"> </span><span class="n">frame</span><span class="p">;</span>
 
-<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="nl">slab</span><span class="p">:</span><span class="w"> </span><span class="n">frames</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
+<span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">slab</span><span class="o">:</span><span class="w"> </span><span class="n">frames</span><span class="p">)</span>
+<span class="p">{</span>
 <span class="w">    </span><span class="c1">//process the frame</span>
-<span class="w">    </span><span class="n">slab</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">slab</span><span class="p">.</span><span class="n">read</span><span class="p">(</span><span class="n">frame</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <section id="appending-data">
 <h3>Appending data<a class="headerlink" href="#appending-data" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">container_adapter</span></code> template also provides a
 <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">push_back()</span></code> method.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">frame_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">frame_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;detector_data&quot;</span><span class="p">];</span><span class="w"></span>
-<span class="n">container_adapter_t</span><span class="w"> </span><span class="nf">frames</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
-<span class="n">frame_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w"></span>
+<span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;detector_data&quot;</span><span class="p">];</span>
+<span class="n">container_adapter_t</span><span class="w"> </span><span class="nf">frames</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">frame_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
 
-<span class="k">while</span><span class="p">(</span><span class="n">measurement_running</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
+<span class="k">while</span><span class="p">(</span><span class="n">measurement_running</span><span class="p">)</span>
+<span class="p">{</span>
 <span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.....;</span><span class="w"> </span><span class="c1">//read some data</span>
 <span class="w">    </span><span class="n">frames</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">data</span><span class="p">);</span><span class="w">  </span><span class="c1">//store data in the dataset</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -184,40 +184,40 @@ interface for a multidimensional dataset along one dimension.</p>
 <section id="stream-io">
 <h2>Stream IO<a class="headerlink" href="#stream-io" title="Permalink to this headline">¶</a></h2>
 <p>It would be nice to have something like IO streams for datasets.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;temperatures&quot;</span><span class="p">];</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">dataset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;temperatures&quot;</span><span class="p">];</span>
 
 <span class="c1">//create a new stream along the first dimension of a dataset</span>
-<span class="n">h5</span><span class="o">::</span><span class="n">dataset_stream_t</span><span class="w"> </span><span class="nf">stream</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="n">h5</span><span class="o">::</span><span class="n">dataset_stream_t</span><span class="w"> </span><span class="nf">stream</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 
-<span class="k">while</span><span class="p">(</span><span class="n">measurement_running</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_temperature</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="n">stream</span><span class="o">&lt;&lt;</span><span class="n">temperature</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">while</span><span class="p">(</span><span class="n">measurement_running</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_temperature</span><span class="p">();</span>
+<span class="w">    </span><span class="n">stream</span><span class="o">&lt;&lt;</span><span class="n">temperature</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Or the other way around for reading</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">datset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;temperature&quot;</span><span class="p">];</span><span class="w"></span>
-<span class="n">h5</span><span class="o">::</span><span class="n">dataset_stream_t</span><span class="w"> </span><span class="nf">stream</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">h5</span><span class="o">::</span><span class="n">dataset_t</span><span class="w"> </span><span class="n">datset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">group</span><span class="p">[</span><span class="s">&quot;temperature&quot;</span><span class="p">];</span>
+<span class="n">h5</span><span class="o">::</span><span class="n">dataset_stream_t</span><span class="w"> </span><span class="nf">stream</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
 
-<span class="kt">double</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span><span class="w"></span>
-<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">stream</span><span class="p">.</span><span class="n">eof</span><span class="p">())</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">stream</span><span class="o">&gt;&gt;</span><span class="n">temperature</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="kt">double</span><span class="w"> </span><span class="n">temperature</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">stream</span><span class="p">.</span><span class="n">eof</span><span class="p">())</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">stream</span><span class="o">&gt;&gt;</span><span class="n">temperature</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>A possible implementation could be done based upon the
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">container_adapter_t</span></code></p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">dataset_stream_t</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">private</span><span class="o">:</span><span class="w"></span>
-<span class="w">        </span><span class="n">container_adapter</span><span class="w"> </span><span class="n">_adapter</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="kt">size_t</span><span class="w"> </span><span class="n">_position</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="k">public</span><span class="o">:</span><span class="w"></span>
-<span class="w">        </span><span class="n">dataset_stream_t</span><span class="p">();</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">dataset_stream_t</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">private</span><span class="o">:</span>
+<span class="w">        </span><span class="n">container_adapter</span><span class="w"> </span><span class="n">_adapter</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">size_t</span><span class="w"> </span><span class="n">_position</span><span class="p">;</span>
+<span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<span class="w">        </span><span class="n">dataset_stream_t</span><span class="p">();</span>
 
-<span class="p">};</span><span class="w"></span>
+<span class="p">};</span>
 </pre></div>
 </div>
 </section>
@@ -230,8 +230,9 @@ interface for a multidimensional dataset along one dimension.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Working with datasets</a><ul>
 <li><a class="reference internal" href="#dataset-creation">Dataset creation</a></li>
 <li><a class="reference internal" href="#extending-the-size-of-a-dataset">Extending the size of a dataset</a></li>
@@ -248,17 +249,22 @@ interface for a multidimensional dataset along one dimension.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="attributes.html"
-                        title="previous chapter">Working with attributes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="links_and_paths.html"
-                        title="next chapter">Dealing with links and paths</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="attributes.html"
+                          title="previous chapter">Working with attributes</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="links_and_paths.html"
+                          title="next chapter">Dealing with links and paths</a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -270,6 +276,10 @@ interface for a multidimensional dataset along one dimension.</p>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
       <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
       <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
       
@@ -297,11 +307,11 @@ interface for a multidimensional dataset along one dimension.</p>
         <li class="nav-item nav-item-this"><a href="">Working with datasets</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-26 15:15:23 from  (e1382f8)</li>
+<li>generated on 2023-11-01 16:21:37 from  (63190ec)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-26 15:15:23 from  (e1382f8).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-11-01 16:21:37 from  (63190ec).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
 
   </body>

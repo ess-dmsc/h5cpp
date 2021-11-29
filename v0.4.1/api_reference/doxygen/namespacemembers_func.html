@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -45,6 +53,20 @@ $(function() {
 </script>
 <div id="main-nav"></div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('namespacemembers_func.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -64,7 +86,7 @@ $(function() {
 
 <h3><a id="index_c"></a>- c -</h3><ul>
 <li>copy()
-: <a class="el" href="namespacehdf5_1_1node.html#acf2c2537b49482eeffbb43de3b62230c">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a0123859016585a8ab1b8da5f5f3086d7">hdf5::node</a>
 </li>
 <li>cptr()
 : <a class="el" href="namespacehdf5_1_1dataspace.html#a65316521d4c45cede8784a434775e5a0">hdf5::dataspace</a>
@@ -72,7 +94,7 @@ $(function() {
 <li>create()
 : <a class="el" href="namespacehdf5_1_1dataspace.html#ae0d7db43071de8786f76b675e2b83b4a">hdf5::dataspace</a>
 , <a class="el" href="namespacehdf5_1_1datatype.html#a810ef3567fff3acd93094cd70921598d">hdf5::datatype</a>
-, <a class="el" href="namespacehdf5_1_1file.html#aaf815eb143df89dd8d64cff1ef1d8461">hdf5::file</a>
+, <a class="el" href="namespacehdf5_1_1file.html#a7a841a4004bc79599e97c93a53d753eb">hdf5::file</a>
 </li>
 </ul>
 
@@ -86,102 +108,102 @@ $(function() {
 
 <h3><a id="index_g"></a>- g -</h3><ul>
 <li>get_dataset()
-: <a class="el" href="namespacehdf5_1_1node.html#a6a4ad5dfd7d6d92f1baba07006fc8158">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a6f632646f9466dcd09f1a8b137ef58d2">hdf5::node</a>
 </li>
 <li>get_dimensions()
 : <a class="el" href="namespacehdf5.html#afb68b5ff57174d06f80ba41deab3212d">hdf5</a>
 </li>
 <li>get_group()
-: <a class="el" href="namespacehdf5_1_1node.html#a78459e747c5f2062dd809d3f0051271e">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a50ef15ff5e27e2f750404c8add17c248">hdf5::node</a>
 </li>
 <li>get_node()
-: <a class="el" href="namespacehdf5_1_1node.html#a584f6dc8496c136e2f8ee4788126be72">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a736c0eb0387c7891439a29b75db177b8">hdf5::node</a>
 </li>
 <li>get_real_base()
-: <a class="el" href="namespacehdf5_1_1node.html#ad9246ff9b914d4309d9dd82146a9e322">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a76333a27330c1627dc114cd6abb4a56f">hdf5::node</a>
 </li>
 </ul>
 
 
 <h3><a id="index_i"></a>- i -</h3><ul>
 <li>is_bool()
-: <a class="el" href="namespacehdf5_1_1datatype.html#ac5ef8ca822b427733737d55e757a3d93">hdf5::datatype</a>
+: <a class="el" href="namespacehdf5_1_1datatype.html#a5409bd098548daacffae8ffbd0303280">hdf5::datatype</a>
 </li>
 <li>is_dataset()
-: <a class="el" href="namespacehdf5_1_1node.html#a4c6741cdb496900bb5e8a15d36dd1fbc">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#aa828834df48905d5c10de6749ee03c19">hdf5::node</a>
 </li>
 <li>is_filter_available()
-: <a class="el" href="namespacehdf5_1_1filter.html#aa9cbbd65e5b7759bca051896730e86e6">hdf5::filter</a>
+: <a class="el" href="namespacehdf5_1_1filter.html#a0c072238cece2c04b510f79348ab78e1">hdf5::filter</a>
 </li>
 <li>is_group()
-: <a class="el" href="namespacehdf5_1_1node.html#ad1f9ebdd9ef51e8dad2f343d7719acfb">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a159ba2479d424380babfdb2770e56fcd">hdf5::node</a>
 </li>
 <li>is_hdf5_file()
-: <a class="el" href="namespacehdf5_1_1file.html#ace5d180a5566fec65d89b4ddc2dbe0ab">hdf5::file</a>
+: <a class="el" href="namespacehdf5_1_1file.html#ab766b54e586a0625592371d7480b08be">hdf5::file</a>
 </li>
 </ul>
 
 
 <h3><a id="index_l"></a>- l -</h3><ul>
 <li>link()
-: <a class="el" href="namespacehdf5_1_1node.html#a067c5c00507be0cdc6305122e5da86f7">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a5b832aeb06dd52714d925cf42c0a37ed">hdf5::node</a>
 </li>
 </ul>
 
 
 <h3><a id="index_m"></a>- m -</h3><ul>
 <li>move()
-: <a class="el" href="namespacehdf5_1_1node.html#a4a2b7795548b82560a68feadb559adb7">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a188748c376b25ea4d760e8fde415b1ab">hdf5::node</a>
 </li>
 </ul>
 
 
 <h3><a id="index_o"></a>- o -</h3><ul>
 <li>open()
-: <a class="el" href="namespacehdf5_1_1file.html#a35f675769ec5ed3c22c278368b4737d8">hdf5::file</a>
+: <a class="el" href="namespacehdf5_1_1file.html#ae0c7e3923c2f7a520d3cf96e34d97c28">hdf5::file</a>
 </li>
 <li>operator!=()
-: <a class="el" href="namespacehdf5_1_1node.html#af057ccc451420cc1fe7a16eeddb92bd0">hdf5::node</a>
-, <a class="el" href="namespacehdf5.html#ac10b030e4ea2e79ecb36206365b2bfa8">hdf5</a>
-, <a class="el" href="namespacehdf5_1_1property.html#af7eb3e703c686a30ebc9e7986f6bae3a">hdf5::property</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a6fb7e68691b6d9e848016ff5cb1abb8e">hdf5::node</a>
+, <a class="el" href="namespacehdf5.html#ac878f51e35f027e80676af46f131dd77">hdf5</a>
+, <a class="el" href="namespacehdf5_1_1property.html#aebc353f41c6dcb50e1a701ad25ae8270">hdf5::property</a>
 </li>
 <li>operator+()
-: <a class="el" href="namespacehdf5.html#a128e16442c7f0c291a722a4c39c73f69">hdf5</a>
+: <a class="el" href="namespacehdf5.html#ad3059b2df48ebb4e80d5ca322803280d">hdf5</a>
 </li>
 <li>operator-()
-: <a class="el" href="namespacehdf5.html#af84a283e290728f195cfcd96495dedfd">hdf5</a>
+: <a class="el" href="namespacehdf5.html#ac4a30368bcc5c3b635b8093d03aeda75">hdf5</a>
 </li>
 <li>operator&lt;&lt;()
-: <a class="el" href="namespacehdf5_1_1dataspace.html#ab0ca0d8782ffd3c5ad88196afa58f865">hdf5::dataspace</a>
-, <a class="el" href="namespacehdf5_1_1datatype.html#aaaa08d5b0023602ac2361896230f7c45">hdf5::datatype</a>
-, <a class="el" href="namespacehdf5_1_1error.html#a516f27ba0e658bb87e532060bf456508">hdf5::error</a>
-, <a class="el" href="namespacehdf5_1_1file.html#a62f4c01d7843cd6f01bd0c1e8e097f73">hdf5::file</a>
-, <a class="el" href="namespacehdf5_1_1filter.html#a57abaa508ed3d3e3cd2ee05060970425">hdf5::filter</a>
-, <a class="el" href="namespacehdf5_1_1node.html#acb7fecc42561c9b3c7304f3ccabb6dc1">hdf5::node</a>
-, <a class="el" href="namespacehdf5.html#a0348e6c8dae367a6bad51549fbda26c2">hdf5</a>
-, <a class="el" href="namespacehdf5_1_1property.html#a33a6f4a1bbaa61bfa568eedc2a6a1c50">hdf5::property</a>
+: <a class="el" href="namespacehdf5_1_1dataspace.html#ae322fbb017abb57350cdf930fa8445ea">hdf5::dataspace</a>
+, <a class="el" href="namespacehdf5_1_1datatype.html#aa8912030d7923121856f4b2461971525">hdf5::datatype</a>
+, <a class="el" href="namespacehdf5_1_1error.html#a382d9ee326ade5457cdffd52f1052876">hdf5::error</a>
+, <a class="el" href="namespacehdf5_1_1file.html#a4ed2a23ad41f7e8a067f37e62c66eaf6">hdf5::file</a>
+, <a class="el" href="namespacehdf5_1_1filter.html#ab1cdd290064193c404bff860c6e9c842">hdf5::filter</a>
+, <a class="el" href="namespacehdf5_1_1node.html#aeca4e55d2f7a5fe95afefb00b04a6f58">hdf5::node</a>
+, <a class="el" href="namespacehdf5.html#a4c7ea7237a70a603f3b66afcc2f9b35a">hdf5</a>
+, <a class="el" href="namespacehdf5_1_1property.html#a75b1d516ef25a961e1587c67a6b5e5cb">hdf5::property</a>
 </li>
 <li>operator&lt;=()
-: <a class="el" href="namespacehdf5.html#aeaebf9037d0eaa95e0a4e6bcd6733a25">hdf5</a>
+: <a class="el" href="namespacehdf5.html#ac3300d8bc7afac1de9ec9e9cac8c5e71">hdf5</a>
 </li>
 <li>operator==()
-: <a class="el" href="namespacehdf5_1_1node.html#a126ee071ab8ad7f3109749dc01986b95">hdf5::node</a>
-, <a class="el" href="namespacehdf5.html#a93f8d066940d1be28dd32af5552ff696">hdf5</a>
-, <a class="el" href="namespacehdf5_1_1property.html#ad26ded8eaf653de5c10dcb09eefe76ae">hdf5::property</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a0aa7aa98cc117ccd75028ee2007ae87b">hdf5::node</a>
+, <a class="el" href="namespacehdf5.html#a7dd92c38ceaa3522fa6fa9f9a7184dbe">hdf5</a>
+, <a class="el" href="namespacehdf5_1_1property.html#a4c03513cea9e4c97b4ee3ff3ed1b153f">hdf5::property</a>
 </li>
 <li>operator|()
-: <a class="el" href="namespacehdf5_1_1file.html#ab302851031a824477d48133e9a8bc5ef">hdf5::file</a>
-, <a class="el" href="namespacehdf5_1_1property.html#a8a6db04f934859b8ce6393f32aa4678d">hdf5::property</a>
+: <a class="el" href="namespacehdf5_1_1file.html#afc02873d197b5b3d47ee9f9af7726c88">hdf5::file</a>
+, <a class="el" href="namespacehdf5_1_1property.html#a728e1db7f96dd42b7876412a249219a7">hdf5::property</a>
 </li>
 <li>operator||()
-: <a class="el" href="namespacehdf5_1_1dataspace.html#a32dbb50d9b097285c32c7d293c6267e5">hdf5::dataspace</a>
+: <a class="el" href="namespacehdf5_1_1dataspace.html#aca79ce7fda5310b8a131598deb077501">hdf5::dataspace</a>
 </li>
 </ul>
 
 
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>print_nested()
-: <a class="el" href="namespacehdf5_1_1error.html#a78bb44f5e0ec56a8e1f7db1e728f9807">hdf5::error</a>
+: <a class="el" href="namespacehdf5_1_1error.html#a0978a208f0286dc73c8f9bf9798e449b">hdf5::error</a>
 </li>
 <li>ptr()
 : <a class="el" href="namespacehdf5_1_1dataspace.html#ac795e06a088bf8cec065e7771ebff6ec">hdf5::dataspace</a>
@@ -191,18 +213,21 @@ $(function() {
 
 <h3><a id="index_r"></a>- r -</h3><ul>
 <li>remove()
-: <a class="el" href="namespacehdf5_1_1node.html#a2cb3a4bcd3b5d9a73dd5814d62f33bdc">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a99a142ad79b9e346add8f9108b62dd73">hdf5::node</a>
 </li>
 <li>resize_by()
-: <a class="el" href="namespacehdf5_1_1node.html#a3c00cdc49974def0e5a652055b2f7da8">hdf5::node</a>
+: <a class="el" href="namespacehdf5_1_1node.html#a19d748e13b28d1f32ea174d002ec6b3d">hdf5::node</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:21 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

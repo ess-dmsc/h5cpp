@@ -1,0 +1,234 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>C API Usage &#8212; h5cpp 0.5.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Usage of H5 functions" href="H5.html" />
+    <link rel="prev" title="HDF5 handlers in h5cpp" href="../advanced/hdf5_handlers.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="H5.html" title="Usage of H5 functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../advanced/hdf5_handlers.html" title="HDF5 handlers in h5cpp"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">C API Usage</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="c-api-usage">
+<h1>C API Usage<a class="headerlink" href="#c-api-usage" title="Permalink to this headline">¶</a></h1>
+<table class="colwidths-given docutils align-default" id="id1">
+<caption><span class="caption-text">Wrapped C API functions</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>API</p></th>
+<th class="head"><p>wrapped</p></th>
+<th class="head"><p>total</p></th>
+<th class="head"><p>percent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="H5.html#capi-h5"><span class="std std-ref">H5</span></a></p></td>
+<td><p>4</p></td>
+<td><p>15</p></td>
+<td><p>27%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5A.html#capi-h5a"><span class="std std-ref">H5A</span></a></p></td>
+<td><p>16</p></td>
+<td><p>29</p></td>
+<td><p>55%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5D.html#capi-h5d"><span class="std std-ref">H5D</span></a></p></td>
+<td><p>14</p></td>
+<td><p>32</p></td>
+<td><p>44%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5E.html#capi-h5e"><span class="std std-ref">H5E</span></a></p></td>
+<td><p>9</p></td>
+<td><p>20</p></td>
+<td><p>45%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5F.html#capi-h5f"><span class="std std-ref">H5F</span></a></p></td>
+<td><p>12</p></td>
+<td><p>65</p></td>
+<td><p>18%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5G.html#capi-h5g"><span class="std std-ref">H5G</span></a></p></td>
+<td><p>5</p></td>
+<td><p>21</p></td>
+<td><p>24%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5I.html#capi-h5i"><span class="std std-ref">H5I</span></a></p></td>
+<td><p>5</p></td>
+<td><p>20</p></td>
+<td><p>25%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5L.html#capi-h5l"><span class="std std-ref">H5L</span></a></p></td>
+<td><p>9</p></td>
+<td><p>22</p></td>
+<td><p>41%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5M.html#capi-h5m"><span class="std std-ref">H5M</span></a></p></td>
+<td><p>0</p></td>
+<td><p>15</p></td>
+<td><p>0%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5O.html#capi-h5o"><span class="std std-ref">H5O</span></a></p></td>
+<td><p>6</p></td>
+<td><p>30</p></td>
+<td><p>20%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5P.html#capi-h5p"><span class="std std-ref">H5P</span></a></p></td>
+<td><p>91</p></td>
+<td><p>232</p></td>
+<td><p>39%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5PL.html#capi-h5pl"><span class="std std-ref">H5PL</span></a></p></td>
+<td><p>0</p></td>
+<td><p>9</p></td>
+<td><p>0%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5R.html#capi-h5r"><span class="std std-ref">H5R</span></a></p></td>
+<td><p>0</p></td>
+<td><p>18</p></td>
+<td><p>0%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5S.html#capi-h5s"><span class="std std-ref">H5S</span></a></p></td>
+<td><p>14</p></td>
+<td><p>41</p></td>
+<td><p>34%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5T.html#capi-h5t"><span class="std std-ref">H5T</span></a></p></td>
+<td><p>49</p></td>
+<td><p>68</p></td>
+<td><p>72%</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="H5VL.html#capi-h5vl"><span class="std std-ref">H5VL</span></a></p></td>
+<td><p>0</p></td>
+<td><p>11</p></td>
+<td><p>0%</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="H5Z.html#capi-h5z"><span class="std std-ref">H5Z</span></a></p></td>
+<td><p>2</p></td>
+<td><p>4</p></td>
+<td><p>50%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Total</p></td>
+<td><p>236</p></td>
+<td><p>652</p></td>
+<td><p>36%</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../advanced/hdf5_handlers.html"
+                          title="previous chapter">HDF5 handlers in <em>h5cpp</em></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="H5.html"
+                          title="next chapter">Usage of H5 functions</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="H5.html" title="Usage of H5 functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../advanced/hdf5_handlers.html" title="HDF5 handlers in h5cpp"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">C API Usage</a></li> 
+      </ul>
+    </div>
+<li>generated on 2023-05-12 05:18:52 from  (64c6a86)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-05-12 05:18:52 from  (64c6a86).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+
+  </body>
+</html>

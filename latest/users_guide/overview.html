@@ -57,7 +57,7 @@ onto C++ classes.</p>
 <h2><em>h5cpp</em> namespaces<a class="headerlink" href="#h5cpp-namespaces" title="Permalink to this headline">¶</a></h2>
 <p>In order to use <em>h5cpp</em> you need to include the <code class="file docutils literal notranslate"><span class="pre">hdf5.hpp</span></code> header file
 like this</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span><span class="cp"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span>
 </pre></div>
 </div>
 <p>This will pull in everything you need. The entire library is organized in
@@ -111,11 +111,11 @@ functionality to deal with nodes.</p></td>
 ignore for now.</p>
 <p>The most important classes in the top-level namspace might be
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::Dimensions</span></code> which is a type alias of the form</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Dimensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hsize_t</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Dimensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hsize_t</span><span class="o">&gt;</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>in order to get rid of the rather nasty</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hsize_t</span><span class="w"> </span><span class="o">*</span><span class="n">dims</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hsize_t</span><span class="w"> </span><span class="o">*</span><span class="n">dims</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>which is heavily used throughout the C-API and thus a rather potential source
@@ -165,14 +165,14 @@ represent the following HDF5 objects:</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a></p></td>
 <td><p>an HDF5 group</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8NodeType8DatatypeE" title="hdf5::node::Datatype"><code class="xref any cpp cpp-enumerator docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code></p></td>
 <td><p>an HDF5 committed datatype</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Do not confuse <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node8NodeType8DatatypeE" title="hdf5::node::Datatype"><code class="xref any cpp cpp-enumerator docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code></a> with
+<p>Do not confuse <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code> with
 <a class="reference internal" href="../api_reference/namespace_datatype.html#_CPPv4N4hdf58datatype8DatatypeE" title="hdf5::datatype::Datatype"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::datatype::Datatype</span></code></a>. Thoug the former one is constructed
 from the latter one, the latter one cannot be accessed via a path.
 A committed datatype is a means to store complex datatype within a file.</p>
@@ -440,8 +440,9 @@ quite simliar but attributes have some limitations)</p></li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Design overview</a><ul>
 <li><a class="reference internal" href="#h5cpp-namespaces"><em>h5cpp</em> namespaces</a></li>
 <li><a class="reference internal" href="#a-high-level-view-on-hdf5">A high level view on HDF5</a><ul>
@@ -459,17 +460,22 @@ quite simliar but attributes have some limitations)</p></li>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="using.html"
-                        title="previous chapter">Using the library</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="files.html"
-                        title="next chapter">Working with files</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="using.html"
+                          title="previous chapter">Using the library</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="files.html"
+                          title="next chapter">Working with files</a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -481,6 +487,10 @@ quite simliar but attributes have some limitations)</p></li>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
       <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
       <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
       
@@ -508,11 +518,11 @@ quite simliar but attributes have some limitations)</p></li>
         <li class="nav-item nav-item-this"><a href="">Design overview</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-26 15:15:23 from  (e1382f8)</li>
+<li>generated on 2023-11-01 16:21:37 from  (63190ec)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-26 15:15:23 from  (e1382f8).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-11-01 16:21:37 from  (63190ec).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
 
   </body>
