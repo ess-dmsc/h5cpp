@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('dataset__creation_8hpp.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_d6cbb9fb09e52a374b35ab50b6f37df8.html">property</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -177,21 +195,25 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a33a6f4a1bbaa61bfa568eedc2a6a1c50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#a33a6f4a1bbaa61bfa568eedc2a6a1c50">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetFillValueStatus &amp;status)</td></tr>
-<tr class="separator:a33a6f4a1bbaa61bfa568eedc2a6a1c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18bc36a4a76a12f69ecf7b8dcf11e58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#ae18bc36a4a76a12f69ecf7b8dcf11e58">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetFillTime &amp;time)</td></tr>
-<tr class="separator:ae18bc36a4a76a12f69ecf7b8dcf11e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b0cd616ceff608799dad007234f8afe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#a5b0cd616ceff608799dad007234f8afe">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetAllocTime &amp;time)</td></tr>
-<tr class="separator:a5b0cd616ceff608799dad007234f8afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb116f079b9c4e0c41ed63bf1d35e87e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#adb116f079b9c4e0c41ed63bf1d35e87e">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetLayout &amp;layout)</td></tr>
-<tr class="separator:adb116f079b9c4e0c41ed63bf1d35e87e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75b1d516ef25a961e1587c67a6b5e5cb"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#a75b1d516ef25a961e1587c67a6b5e5cb">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetFillValueStatus &amp;status)</td></tr>
+<tr class="separator:a75b1d516ef25a961e1587c67a6b5e5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c5e1c62c41e87d7526d315fde4eae0a"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#a3c5e1c62c41e87d7526d315fde4eae0a">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetFillTime &amp;time)</td></tr>
+<tr class="separator:a3c5e1c62c41e87d7526d315fde4eae0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b0cf72a70110b917ff4ac69a7641e31"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#a5b0cf72a70110b917ff4ac69a7641e31">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetAllocTime &amp;time)</td></tr>
+<tr class="separator:a5b0cf72a70110b917ff4ac69a7641e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae568096d2e6176f40ed606dda0b2d7da"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1property.html#ae568096d2e6176f40ed606dda0b2d7da">hdf5::property::operator&lt;&lt;</a> (std::ostream &amp;stream, const DatasetLayout &amp;layout)</td></tr>
+<tr class="separator:ae568096d2e6176f40ed606dda0b2d7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_d6cbb9fb09e52a374b35ab50b6f37df8.html">property</a></li><li class="navelem"><a class="el" href="dataset__creation_8hpp.html">dataset_creation.hpp</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

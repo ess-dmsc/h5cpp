@@ -2,19 +2,18 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Design overview &#8212; h5cpp 0.4.1 documentation</title>
+    <title>Design overview &#8212; h5cpp 0.6.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,7 +36,7 @@
         <li class="right" >
           <a href="using.html" title="Using the library"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Design overview</a></li> 
       </ul>
@@ -49,15 +48,15 @@
           <div class="body" role="main">
             
   <section id="design-overview">
-<span id="id1"></span><h1>Design overview<a class="headerlink" href="#design-overview" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Design overview<a class="headerlink" href="#design-overview" title="Permalink to this heading">¶</a></h1>
 <p>This chapter will provide you with a short introduction in to HDF5 and its
-unerlying concepts as well as <em>h5cpp</em>’s approach how to map these concepts
+underlying concepts as well as <em>h5cpp</em>’s approach of how to map these concepts
 onto C++ classes.</p>
 <section id="h5cpp-namespaces">
-<h2><em>h5cpp</em> namespaces<a class="headerlink" href="#h5cpp-namespaces" title="Permalink to this headline">¶</a></h2>
+<h2><em>h5cpp</em> namespaces<a class="headerlink" href="#h5cpp-namespaces" title="Permalink to this heading">¶</a></h2>
 <p>In order to use <em>h5cpp</em> you need to include the <code class="file docutils literal notranslate"><span class="pre">hdf5.hpp</span></code> header file
 like this</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span><span class="cp"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span>
 </pre></div>
 </div>
 <p>This will pull in everything you need. The entire library is organized in
@@ -68,10 +67,6 @@ several namespaces with a top level namespace <code class="xref cpp cpp-any docu
 <p>Every namespace contains classes associated with a particular aspect of the
 library and HDF5.</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 37%" />
-<col style="width: 63%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>namespace</p></th>
 <th class="head"><p>description</p></th>
@@ -106,26 +101,26 @@ functionality to deal with nodes.</p></td>
 </tr>
 </tbody>
 </table>
-<p>The top level namespace contains also some more esoteric classes like
+<p>The top level namespace also contains some more esoteric classes like
 <a class="reference internal" href="../api_reference/namespace_hdf5.html#_CPPv4N4hdf58ObjectIdE" title="hdf5::ObjectId"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::ObjectId</span></code></a> or <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ObjectHandle</span></code> which we can savely
 ignore for now.</p>
-<p>The most important classes in the top-level namspace might be
+<p>The most important classes in the top-level namespace might be
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::Dimensions</span></code> which is a type alias of the form</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Dimensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hsize_t</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Dimensions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">hsize_t</span><span class="o">&gt;</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>in order to get rid of the rather nasty</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hsize_t</span><span class="w"> </span><span class="o">*</span><span class="n">dims</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">hsize_t</span><span class="w"> </span><span class="o">*</span><span class="n">dims</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>which is heavily used throughout the C-API and thus a rather potential source
-for memory leaks. Using <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">std::vector</span></code> serves the same purpose but
-is far less easier to use and avoids problems with memory leaks.</p>
+<p>which is heavily used throughout the C-API and is a potential source
+of memory leaks. Using <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">std::vector</span></code> serves the same purpose but
+is far easier to use and avoids problems with memory leaks.</p>
 </section>
 <section id="a-high-level-view-on-hdf5">
-<h2>A high level view on HDF5<a class="headerlink" href="#a-high-level-view-on-hdf5" title="Permalink to this headline">¶</a></h2>
+<h2>A high level view on HDF5<a class="headerlink" href="#a-high-level-view-on-hdf5" title="Permalink to this heading">¶</a></h2>
 <section id="nodes-links-and-paths">
-<h3>Nodes, links, and paths<a class="headerlink" href="#nodes-links-and-paths" title="Permalink to this headline">¶</a></h3>
+<h3>Nodes, links, and paths<a class="headerlink" href="#nodes-links-and-paths" title="Permalink to this heading">¶</a></h3>
 <p>An HDF5 tree can be considered a tree of objects connected by links.</p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hdf5_basic_tree.svg"><img alt="../_images/hdf5_basic_tree.svg" src="../_images/hdf5_basic_tree.svg" width="60%" /></a>
@@ -134,12 +129,12 @@ is far less easier to use and avoids problems with memory leaks.</p>
 of objects</p>
 <ol class="arabic simple">
 <li><p>container objects (<em>Group</em>) which can store links to other object</p></li>
-<li><p>leafe like objects which cannot hold links to other objects
+<li><p>leaf like objects which cannot hold links to other objects
 (<em>Datasets</em> and <em>committed Datatypes</em>).</p></li>
 </ol>
 <p>Technically, we can refer to all of these objects as <em>nodes</em> and thus consider
 an HDF5 tree as a collection of <em>nodes</em> connected by <em>links</em>. <em>h5cpp</em> maps
-this hierachy of node types rather straight forward onto C++ classes like this</p>
+this hierarchy of node types rather straightforwardly onto C++ classes like this</p>
 <figure class="align-center" id="id5">
 <a class="reference internal image-reference" href="../_images/node_types.svg"><img alt="../_images/node_types.svg" src="../_images/node_types.svg" width="60%" /></a>
 <figcaption>
@@ -149,10 +144,6 @@ this hierachy of node types rather straight forward onto C++ classes like this</
 <p>with <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Node</span></code></a> being the top level class. The other classes
 represent the following HDF5 objects:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 56%" />
-<col style="width: 44%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p><em>h5cpp</em> class</p></th>
 <th class="head"><p>HDF5 type</p></th>
@@ -165,15 +156,15 @@ represent the following HDF5 objects:</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Group</span></code></a></p></td>
 <td><p>an HDF5 group</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code></p></td>
+<tr class="row-even"><td><p><code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code></p></td>
 <td><p>an HDF5 committed datatype</p></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Do not confuse <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code> with
-<a class="reference internal" href="../api_reference/namespace_datatype.html#_CPPv4N4hdf58datatype8DatatypeE" title="hdf5::datatype::Datatype"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::datatype::Datatype</span></code></a>. Thoug the former one is constructed
+<p>Do not confuse <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node::Datatype</span></code> with
+<a class="reference internal" href="../api_reference/namespace_datatype.html#_CPPv4N4hdf58datatype8DatatypeE" title="hdf5::datatype::Datatype"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::datatype::Datatype</span></code></a>. Though the former one is constructed
 from the latter one, the latter one cannot be accessed via a path.
 A committed datatype is a means to store complex datatype within a file.</p>
 </div>
@@ -182,7 +173,7 @@ to a node</p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../_images/hdf5_attributes.svg"><img alt="../_images/hdf5_attributes.svg" src="../_images/hdf5_attributes.svg" width="50%" /></a>
 </figure>
-<p>As attributes are common to all node types the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Manager</span></code> interface
+<p>As attributes are common to all node types, the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Manager</span></code> interface
 providing access to them is already exposed on the <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Node</span></code> class.</p>
 <figure class="align-center" id="id6">
 <a class="reference internal image-reference" href="../_images/node.svg"><img alt="../_images/node.svg" src="../_images/node.svg" width="60%" /></a>
@@ -199,7 +190,7 @@ of <a class="reference internal" href="../api_reference/namespace_node.html#_CPP
 <p>There are actually three kinds of links connecting objects within a file</p>
 <ul class="simple">
 <li><p><em>hard links</em> which are created when a new object is created in a file</p></li>
-<li><p><em>soft links</em> which can be used liks symbolic links on a file system to
+<li><p><em>soft links</em> which can be used like symbolic links on a file system to
 provide alternative means of access to an object</p></li>
 <li><p><em>external links</em> providing a means to reference objects from a different
 file.</p></li>
@@ -211,9 +202,9 @@ has taken a rather pragmatic approach how to solve it as will be shown later.</p
 <p>Furthermore it is important to note that <em>Nodes</em> in an HDF5 file do not have
 names. This is an unfortunate widespread misconception about HDF5. <em>Nodes</em>
 can be accessed via a list of named links starting at the root node (root group)
-of a file but the <em>Nodes</em> themeselfes have no idea about a name.
-Which would not even make sense if we take the ambiguity shown above into
-account. Which of the three link chains leading to the <em>Dataset</em> instance
+of a file but the <em>Nodes</em> themselves have no idea about a name.
+In fact, this would not even make sense if we take the ambiguity shown above into
+account - which of the three link chains leading to the <em>Dataset</em> instance
 would be the correct name of the <em>Dataset</em>?</p>
 <p>We have chosen a rather pragmatic approach to solve this naming problem
 in <em>h5cpp</em>. However, before we can discuss this we have to take a little
@@ -228,7 +219,7 @@ paths to the <em>Dataset</em> would be</p>
 /plot/y
 </pre></div>
 </div>
-<p>Like for a Unix filesystem path an HDF5 path can be either absolute (starting
+<p>Like for a Unix filesystem path, an HDF5 path can be either absolute (starting
 with a <code class="docutils literal notranslate"><span class="pre">/</span></code> and thus at the root node of a given file) or relative to a
 particular node (no <code class="docutils literal notranslate"><span class="pre">/</span></code> at the beginning).</p>
 <p>To represent links <em>h5cpp</em> provides the <a class="reference internal" href="../api_reference/namespace_node.html#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::node::Link</span></code></a> class</p>
@@ -245,7 +236,7 @@ defining its name as the link (and thus the path) used to access the object.
 With this we are now able to ask a node for its name (path) and expect
 the path used to access the node.</p>
 <section id="node-ids">
-<h4>Node IDs<a class="headerlink" href="#node-ids" title="Permalink to this headline">¶</a></h4>
+<h4>Node IDs<a class="headerlink" href="#node-ids" title="Permalink to this heading">¶</a></h4>
 <p>After having solved the naming problem there is still an issue we have to solve.
 In the figure above we have seen that there are many paths that could lead to
 the same object. Now, if we do a recursive traversal over all nodes in a file
@@ -272,10 +263,10 @@ re-opening the same object <em>h5cpp</em>’s unique ID remains always the same.
 <p>What you should take from this section are</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt>an HDF5 file constists of <em>Nodes</em> which are</dt><dd><ul>
+<dt>an HDF5 file consists of <em>Nodes</em> which are</dt><dd><ul>
 <li><p><em>Groups</em></p></li>
 <li><p><em>Datasets</em></p></li>
-<li><p><em>commited Datatypes</em></p></li>
+<li><p><em>committed Datatypes</em></p></li>
 </ul>
 </dd>
 </dl>
@@ -300,14 +291,14 @@ even over file boundaries</p></li>
 </section>
 </section>
 <section id="data-io">
-<h3>Data IO<a class="headerlink" href="#data-io" title="Permalink to this headline">¶</a></h3>
+<h3>Data IO<a class="headerlink" href="#data-io" title="Permalink to this heading">¶</a></h3>
 <p>Until now we have only considered structural aspects of an HDF5 file. The
 second and most probably most important topic is data IO.
 To understand how data IO works in HDF5 we first have to introduce a bit
 terminology.</p>
 <p>From a rather high level point of view the smallest unit of information which
 can be accessed by HDF5 is a <em>data element</em>. Such a <em>data element</em> can be
-everything ranging from a  single integer number up to complex types
+everything ranging from a single integer number up to complex types
 consisting of nested C-structs or C++ classes. A <em>data element</em> is stored in
 memory and/or on disk as a set of bits. In order to interpret these bits
 correctly and reassemble the stored <em>data element</em> we need some information
@@ -327,7 +318,7 @@ Currently there are only two <em>dataspaces</em> available in HDF5</p>
 <ul class="simple">
 <li><p>a <em>scalar</em> space which can store only a single element</p></li>
 <li><p>and a <em>simple</em> space which is a regular n-dimensional array
-(as the one above).</p></li>
+(like the one above).</p></li>
 </ul>
 <p><em>Dataspaces</em> and <em>datatypes</em> are the fundamental building blocks of all
 objects that can store data within an HDF5 file</p>
@@ -360,20 +351,20 @@ both to satisfiy the above constraints.</p>
 <p>We will have a look now how data transfer roughly works by using the above
 example. For the dataset under consideration we have</p>
 <ul class="simple">
-<li><p>a datatype comprising 3 double valus (3x8Bytes) and thus a total size of
-24 Bytes</p></li>
+<li><p>a datatype comprising 3 double values (3x8 bytes) and thus a total size of
+24 bytes</p></li>
 <li><p>and a dataspace of shape (3,5) where the last index varies fastest.</p></li>
 </ul>
 <p>The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MemoryStorage</span></code> of such a dataset would look like this</p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../_images/memory_storage_example.svg"><img alt="../_images/memory_storage_example.svg" src="../_images/memory_storage_example.svg" width="65%" /></a>
 </figure>
-<p>Every data element occupies 24Byte. The numbers on the very left denote the
-memory offset in byte for the very left byte in the block. In the above figure
+<p>Every data element occupies 24 bytes. The numbers on the very left denote the
+memory offset in bytes for the very left byte in the block. In the above figure
 the elements are represented in a 3x5 matrix to preserve space but in memory
-they would be aligend simply one after the other.
+they would be aligned one after the other.
 It is the dataspace which associates the linear region of memory with a
-particular shape. By default C-style ordering, last index variest fastest,
+particular shape. By default C-style ordering, last index varies fastest,
 is used. As a matter of fact it is the job of the dataspace to map the
 multidimensional index of a particular element onto a linear address in the
 storage area.</p>
@@ -393,7 +384,7 @@ from the disk.</p>
 <p>add a figure here!</p>
 </div>
 <section id="selections-and-partial-io">
-<h4>Selections and partial IO<a class="headerlink" href="#selections-and-partial-io" title="Permalink to this headline">¶</a></h4>
+<h4>Selections and partial IO<a class="headerlink" href="#selections-and-partial-io" title="Permalink to this heading">¶</a></h4>
 <p>One of the nice features of HDF5 is that we do not have to read or write the
 entire data from or to the disk. This is paticularly usefull if the total
 amount of data available in a dataset would not fit in the memory of the
@@ -408,7 +399,7 @@ slices on numpy arrays in Python.</p></li>
 </ul>
 <p>With a point selection we could for instance read the elements
 (0,2), (1,3) and (2,0) and store them in a either a new memory storage of
-size 3 (which would be 72Bytes in total) or in a more sophisticated setup
+size 3 (which would be 72 bytes in total) or in a more sophisticated setup
 we could map them on points (0),(5) and (11) in a 1D array in memory.</p>
 <div class="admonition-todo admonition" id="id4">
 <p class="admonition-title">Todo</p>
@@ -440,8 +431,9 @@ quite simliar but attributes have some limitations)</p></li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Design overview</a><ul>
 <li><a class="reference internal" href="#h5cpp-namespaces"><em>h5cpp</em> namespaces</a></li>
 <li><a class="reference internal" href="#a-high-level-view-on-hdf5">A high level view on HDF5</a><ul>
@@ -459,28 +451,38 @@ quite simliar but attributes have some limitations)</p></li>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="using.html"
-                        title="previous chapter">Using the library</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="files.html"
-                        title="next chapter">Working with files</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="using.html"
+                          title="previous chapter">Using the library</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="files.html"
+                          title="next chapter">Working with files</a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script><p>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
   <h3 class='versions'>Versions</h3>
   <p>
     <ul>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
       <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
       <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
       
@@ -503,16 +505,16 @@ quite simliar but attributes have some limitations)</p></li>
         <li class="right" >
           <a href="using.html" title="Using the library"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Design overview</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-29 14:55:56 from  (819c23c)</li>
+<li>generated on 2024-11-11 06:44:04 from  (b494fa8)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-29 14:55:56 from  (819c23c).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2024-11-11 06:44:04 from  (b494fa8).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
     </div>
 
   </body>

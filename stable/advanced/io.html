@@ -2,19 +2,18 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Advanced IO &#8212; h5cpp 0.4.1 documentation</title>
+    <title>Advanced IO &#8212; h5cpp 0.6.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,7 +36,7 @@
         <li class="right" >
           <a href="index.html" title="Advanced topics"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Advanced topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Advanced IO</a></li> 
       </ul>
@@ -49,7 +48,7 @@
           <div class="body" role="main">
             
   <section id="advanced-io">
-<h1>Advanced IO<a class="headerlink" href="#advanced-io" title="Permalink to this headline">¶</a></h1>
+<h1>Advanced IO<a class="headerlink" href="#advanced-io" title="Permalink to this heading">¶</a></h1>
 <p>This section deals with advanced IO topics. IO is a complex subject and it
 would be hard to discuss all nouances in the users guide where we want to
 point out only the major aspects. Once you have mastered the users guide
@@ -59,6 +58,7 @@ of <em>h5cpp</em>.</p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cpp_datastructures.html">C++ data structures and HDF5</a></li>
 <li class="toctree-l1"><a class="reference internal" href="c_arrays.html">C-style arrays</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_data.html">User defined data types</a></li>
 </ul>
 </div>
 </section>
@@ -70,28 +70,37 @@ of <em>h5cpp</em>.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Advanced topics</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="cpp_datastructures.html"
-                        title="next chapter">C++ data structures and HDF5</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Advanced topics</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cpp_datastructures.html"
+                          title="next chapter">C++ data structures and HDF5</a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script><p>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
   <h3 class='versions'>Versions</h3>
   <p>
     <ul>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
       <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
       <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
       
@@ -114,16 +123,16 @@ of <em>h5cpp</em>.</p>
         <li class="right" >
           <a href="index.html" title="Advanced topics"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Advanced topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Advanced IO</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-29 14:55:56 from  (819c23c)</li>
+<li>generated on 2024-11-11 06:44:04 from  (b494fa8)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-29 14:55:56 from  (819c23c).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2024-11-11 06:44:04 from  (b494fa8).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
     </div>
 
   </body>

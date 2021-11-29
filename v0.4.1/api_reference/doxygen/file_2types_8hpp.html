@@ -9,10 +9,18 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-bizflat.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -44,6 +52,21 @@ $(function() {
 });
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('file_2types_8hpp.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -58,11 +81,6 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_ed1ec10db63024690c03800941cf6217.html">file</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
@@ -171,39 +189,43 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a663c92336aaf3f4fb157e00f8aaf0271"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a663c92336aaf3f4fb157e00f8aaf0271">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const AccessFlags &amp;flags)</td></tr>
-<tr class="separator:a663c92336aaf3f4fb157e00f8aaf0271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab302851031a824477d48133e9a8bc5ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> AccessFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#ab302851031a824477d48133e9a8bc5ef">hdf5::file::operator|</a> (const AccessFlags &amp;lhs, const AccessFlags &amp;rhs)</td></tr>
-<tr class="separator:ab302851031a824477d48133e9a8bc5ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cebca87754c346ab9158d7df0c532cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> AccessFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a0cebca87754c346ab9158d7df0c532cb">hdf5::file::operator|</a> (const AccessFlagsBase &amp;lhs, const AccessFlags &amp;rhs)</td></tr>
-<tr class="separator:a0cebca87754c346ab9158d7df0c532cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8522336538f7eec1386597143f12b8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> AccessFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#ab8522336538f7eec1386597143f12b8e">hdf5::file::operator|</a> (const AccessFlags &amp;lhs, const AccessFlagsBase &amp;rhs)</td></tr>
-<tr class="separator:ab8522336538f7eec1386597143f12b8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c0c4aa3cb4c4a5481e7af257a1bedb0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a0c0c4aa3cb4c4a5481e7af257a1bedb0">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const ImageFlags &amp;flags)</td></tr>
-<tr class="separator:a0c0c4aa3cb4c4a5481e7af257a1bedb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bca8188341dd2c4cba756bbbcae55c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> ImageFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a0bca8188341dd2c4cba756bbbcae55c8">hdf5::file::operator|</a> (const ImageFlags &amp;lhs, const ImageFlags &amp;rhs)</td></tr>
-<tr class="separator:a0bca8188341dd2c4cba756bbbcae55c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0f934002d37ec7ac276d8b543d7cc77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> ImageFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#ab0f934002d37ec7ac276d8b543d7cc77">hdf5::file::operator|</a> (const ImageFlagsBase &amp;lhs, const ImageFlags &amp;rhs)</td></tr>
-<tr class="separator:ab0f934002d37ec7ac276d8b543d7cc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa96161ac6a6dead4e81831cccbeac7fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> ImageFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#aa96161ac6a6dead4e81831cccbeac7fc">hdf5::file::operator|</a> (const ImageFlags &amp;lhs, const ImageFlagsBase &amp;rhs)</td></tr>
-<tr class="separator:aa96161ac6a6dead4e81831cccbeac7fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac58da98f84add96bfbfe9814f8503007"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#ac58da98f84add96bfbfe9814f8503007">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const SearchFlags &amp;flags)</td></tr>
-<tr class="separator:ac58da98f84add96bfbfe9814f8503007"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af42b06cfc24b5fe455742c002daa1c70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> SearchFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#af42b06cfc24b5fe455742c002daa1c70">hdf5::file::operator|</a> (const SearchFlags &amp;lhs, const SearchFlags &amp;rhs)</td></tr>
-<tr class="separator:af42b06cfc24b5fe455742c002daa1c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ec6bf197a3beec1e1eadc817caacd1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> SearchFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a9ec6bf197a3beec1e1eadc817caacd1a">hdf5::file::operator|</a> (const SearchFlags &amp;lhs, const SearchFlagsBase &amp;rhs)</td></tr>
-<tr class="separator:a9ec6bf197a3beec1e1eadc817caacd1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa228740df645a59922fe338cda413adf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> SearchFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#aa228740df645a59922fe338cda413adf">hdf5::file::operator|</a> (const SearchFlagsBase &amp;lhs, const SearchFlags &amp;rhs)</td></tr>
-<tr class="separator:aa228740df645a59922fe338cda413adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62f4c01d7843cd6f01bd0c1e8e097f73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="windows_8hpp.html#a1ca888bd091694c05472e1b91df1a97b">DLL_EXPORT</a> std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a62f4c01d7843cd6f01bd0c1e8e097f73">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const Scope &amp;scope)</td></tr>
-<tr class="separator:a62f4c01d7843cd6f01bd0c1e8e097f73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a976ae5247206ef88d3da2839cb9d028d"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a976ae5247206ef88d3da2839cb9d028d">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const AccessFlags &amp;flags)</td></tr>
+<tr class="separator:a976ae5247206ef88d3da2839cb9d028d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc02873d197b5b3d47ee9f9af7726c88"><td class="memItemLeft" align="right" valign="top">AccessFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#afc02873d197b5b3d47ee9f9af7726c88">hdf5::file::operator|</a> (const AccessFlags &amp;lhs, const AccessFlags &amp;rhs)</td></tr>
+<tr class="separator:afc02873d197b5b3d47ee9f9af7726c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8115f7b4ed4dbeb68509fdfb00e0c25"><td class="memItemLeft" align="right" valign="top">AccessFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#ac8115f7b4ed4dbeb68509fdfb00e0c25">hdf5::file::operator|</a> (const AccessFlagsBase &amp;lhs, const AccessFlags &amp;rhs)</td></tr>
+<tr class="separator:ac8115f7b4ed4dbeb68509fdfb00e0c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13f5f05ba8e4b630fbe1210abaaa1197"><td class="memItemLeft" align="right" valign="top">AccessFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a13f5f05ba8e4b630fbe1210abaaa1197">hdf5::file::operator|</a> (const AccessFlags &amp;lhs, const AccessFlagsBase &amp;rhs)</td></tr>
+<tr class="separator:a13f5f05ba8e4b630fbe1210abaaa1197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a90200e80c5e8b709aafd65598195f1"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a8a90200e80c5e8b709aafd65598195f1">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const ImageFlags &amp;flags)</td></tr>
+<tr class="separator:a8a90200e80c5e8b709aafd65598195f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc1215df6f2551a74e7db1a4bb64259f"><td class="memItemLeft" align="right" valign="top">ImageFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#acc1215df6f2551a74e7db1a4bb64259f">hdf5::file::operator|</a> (const ImageFlags &amp;lhs, const ImageFlags &amp;rhs)</td></tr>
+<tr class="separator:acc1215df6f2551a74e7db1a4bb64259f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d10881eb8698e195551d9a23cd47209"><td class="memItemLeft" align="right" valign="top">ImageFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a9d10881eb8698e195551d9a23cd47209">hdf5::file::operator|</a> (const ImageFlagsBase &amp;lhs, const ImageFlags &amp;rhs)</td></tr>
+<tr class="separator:a9d10881eb8698e195551d9a23cd47209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff5896c16f34aa73ccfd5503146fc6bf"><td class="memItemLeft" align="right" valign="top">ImageFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#aff5896c16f34aa73ccfd5503146fc6bf">hdf5::file::operator|</a> (const ImageFlags &amp;lhs, const ImageFlagsBase &amp;rhs)</td></tr>
+<tr class="separator:aff5896c16f34aa73ccfd5503146fc6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a380ace429daf49540c9ecaff940e42bf"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a380ace429daf49540c9ecaff940e42bf">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const SearchFlags &amp;flags)</td></tr>
+<tr class="separator:a380ace429daf49540c9ecaff940e42bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4031fe654458efd83c55685c083f6667"><td class="memItemLeft" align="right" valign="top">SearchFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a4031fe654458efd83c55685c083f6667">hdf5::file::operator|</a> (const SearchFlags &amp;lhs, const SearchFlags &amp;rhs)</td></tr>
+<tr class="separator:a4031fe654458efd83c55685c083f6667"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af62df4bbcda9fa27333061dc408fc877"><td class="memItemLeft" align="right" valign="top">SearchFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#af62df4bbcda9fa27333061dc408fc877">hdf5::file::operator|</a> (const SearchFlags &amp;lhs, const SearchFlagsBase &amp;rhs)</td></tr>
+<tr class="separator:af62df4bbcda9fa27333061dc408fc877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab13dbf5d1ef6737747bcdc91463c2979"><td class="memItemLeft" align="right" valign="top">SearchFlagsBase&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#ab13dbf5d1ef6737747bcdc91463c2979">hdf5::file::operator|</a> (const SearchFlagsBase &amp;lhs, const SearchFlags &amp;rhs)</td></tr>
+<tr class="separator:ab13dbf5d1ef6737747bcdc91463c2979"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ed2a23ad41f7e8a067f37e62c66eaf6"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehdf5_1_1file.html#a4ed2a23ad41f7e8a067f37e62c66eaf6">hdf5::file::operator&lt;&lt;</a> (std::ostream &amp;stream, const Scope &amp;scope)</td></tr>
+<tr class="separator:a4ed2a23ad41f7e8a067f37e62c66eaf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 14:46:20 for h5cpp by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.13
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_a3efa7e6ab889eb01dd85fb8b932b29d.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_4a247c9285ec7d78ff827f68bbf02ca6.html">src</a></li><li class="navelem"><a class="el" href="dir_79dffd69eef941331ca179b5d26816c7.html">h5cpp</a></li><li class="navelem"><a class="el" href="dir_ed1ec10db63024690c03800941cf6217.html">file</a></li><li class="navelem"><a class="el" href="file_2types_8hpp.html">types.hpp</a></li>
+    <li class="footer">Generated on Tue Feb 15 2022 15:34:29 for h5cpp by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
+  </ul>
+</div>
 </body>
 </html>

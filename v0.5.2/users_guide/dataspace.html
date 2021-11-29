@@ -1,0 +1,314 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Dataspaces &#8212; h5cpp 0.5.2 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using dataspaces with custom types" href="dataspace_custom_types.html" />
+    <link rel="prev" title="Working with files" href="files.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dataspace_custom_types.html" title="Using dataspaces with custom types"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Working with files"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Dataspaces</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="dataspaces">
+<h1>Dataspaces<a class="headerlink" href="#dataspaces" title="Permalink to this headline">¶</a></h1>
+<p>An important concept in HDF5 are dataspaces. A dataspace describes the layout
+of dataelements (which are described by a datatype) on disk as well as
+in memory. In addition dataspaces are used to discribe selections in a
+dataset.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/hdf5_dataspaces.svg"><img alt="../_images/hdf5_dataspaces.svg" src="../_images/hdf5_dataspaces.svg" width="75%" /></a>
+</figure>
+<p>Currently two of the three dataspaces available in HDF5 are implemented
+in <em>h5cpp</em></p>
+<ul class="simple">
+<li><p>a <em>scalar</em> dataspace (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace6ScalarE" title="hdf5::dataspace::Scalar"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Scalar</span></code></a>)</p></li>
+<li><p>and a <em>simple</em> dataspace (<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace6SimpleE" title="hdf5::dataspace::Simple"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Simple</span></code></a>).</p></li>
+</ul>
+<p>Dataspaces and related classes can be cound in namespace
+<code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::dataspace</span></code>. As shown above all dataspace classes derive from
+a common base class <a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace9DataspaceE" title="hdf5::dataspace::Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Dataspace</span></code></a> which can be passed
+around whenever a dataspace is needed and the particular type is not relevant.</p>
+<section id="dataspace-inquery">
+<h2>Dataspace inquery<a class="headerlink" href="#dataspace-inquery" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace9DataspaceE" title="hdf5::dataspace::Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Dataspace</span></code></a> class provides a couple of
+common inquery methods.</p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv49Dataspace">
+<span id="_CPPv39Dataspace"></span><span id="_CPPv29Dataspace"></span><span id="Dataspace"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Dataspace</span></span></span><a class="headerlink" href="#_CPPv49Dataspace" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9Dataspace4sizeEv">
+<span id="_CPPv3N9Dataspace4sizeEv"></span><span id="_CPPv2N9Dataspace4sizeEv"></span><span id="Dataspace::size"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9Dataspace4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>returns the number of elements which can be stored in a dataspace
+independent of whether a selection has been applied or not.</p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9Dataspace4typeEv">
+<span id="_CPPv3N9Dataspace4typeEv"></span><span id="_CPPv2N9Dataspace4typeEv"></span><span id="Dataspace::type"></span><a class="reference internal" href="#_CPPv44Type" title="Type"><span class="n"><span class="pre">Type</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">type</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9Dataspace4typeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>returns the type of the dataspace instance</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The <a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace4TypeE" title="hdf5::dataspace::Type"><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">hdf5::dataspace::Type</span></code></a> identifies the particular type of
+the dataspace there is currently</p>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv44Type">
+<span id="_CPPv34Type"></span><span id="_CPPv24Type"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Type</span></span></span><a class="headerlink" href="#_CPPv44Type" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4Type6SimpleE">
+<span id="_CPPv3N4Type6SimpleE"></span><span id="_CPPv2N4Type6SimpleE"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Simple</span></span></span><a class="headerlink" href="#_CPPv4N4Type6SimpleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>for a simple datatype</p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4Type6ScalarE">
+<span id="_CPPv3N4Type6ScalarE"></span><span id="_CPPv2N4Type6ScalarE"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Scalar</span></span></span><a class="headerlink" href="#_CPPv4N4Type6ScalarE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>for a scalar datatype</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>See <a class="reference internal" href="#dataspace-conversion"><span class="std std-ref">Dataspace conversion</span></a> for a good example of how to use the
+<a class="reference internal" href="#_CPPv4N9Dataspace4typeEv" title="Dataspace::type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">Dataspace::type()</span></code></a> and the <a class="reference internal" href="#_CPPv44Type" title="Type"><code class="xref cpp cpp-enum docutils literal notranslate"><span class="pre">Type</span></code></a> enumeration.</p>
+</section>
+<section id="the-scalar-dataspace">
+<span id="dataspace-scalar"></span><h2>The scalar dataspace<a class="headerlink" href="#the-scalar-dataspace" title="Permalink to this headline">¶</a></h2>
+<p>A scalar dataspace can, as the name already suggests, store a single data
+element. Its construction is thus fairly easy</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Scalar</span><span class="w"> </span><span class="n">space</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>A valid scalar dataspace can easily instantiated using the default constructor
+as there is nothing special to be set.</p>
+</section>
+<section id="the-simple-dataspace">
+<span id="dataspace-simple"></span><h2>The simple dataspace<a class="headerlink" href="#the-simple-dataspace" title="Permalink to this headline">¶</a></h2>
+<p>A simple dataspace can describe a multidimensional array of data elements.
+Such a dataspace has two basic properties</p>
+<ul class="simple">
+<li><p>the <em>rank</em> of the dataspace which is the number of dimensions</p></li>
+<li><p>and the <em>dimensions</em> which is the number of elements along each dimension.</p></li>
+</ul>
+<p>In <em>h5cpp</em> a simple dataspace can be constructed using the
+<a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace6SimpleE" title="hdf5::dataspace::Simple"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Simple</span></code></a> class. There are basically three
+configurations we could use</p>
+<ul class="simple">
+<li><p>a dataspace of fixed size</p></li>
+<li><p>an extensible dataspace with bounded maximum dimensions</p></li>
+<li><p>an extensible dataspace with unbounded maximum dimensions</p></li>
+</ul>
+<p>To create a simple dataspace with fixed dimensions use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">});</span>
+
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">space</span><span class="p">.</span><span class="n">current_dimensions</span><span class="p">();</span><span class="w"> </span><span class="c1">// {2,3}</span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">maximum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">space</span><span class="p">.</span><span class="n">maximum_dimensions</span><span class="p">();</span><span class="w"> </span><span class="c1">// {2,3} too</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/static_dataspace.svg"><img alt="../_images/static_dataspace.svg" src="../_images/static_dataspace.svg" width="20%" /></a>
+</figure>
+<p>which will result in a dataspace of rank 2 with 6 elements. To build  an
+extensible dataspace with fixed bounds we could use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},{</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">});</span>
+
+<span class="n">space</span><span class="p">.</span><span class="n">current_dimensions</span><span class="p">();</span><span class="w"> </span><span class="c1">// {2,3}</span>
+<span class="n">space</span><span class="p">.</span><span class="n">maximum_dimensions</span><span class="p">();</span><span class="w"> </span><span class="c1">// {10,10}</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/dynamic_dataspace_bounded.svg"><img alt="../_images/dynamic_dataspace_bounded.svg" src="../_images/dynamic_dataspace_bounded.svg" width="40%" /></a>
+</figure>
+<p>Finally, for an extensible dataspace with an unlimited number of elements
+along a dimension we could use</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">1</span><span class="p">},{</span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="o">::</span><span class="n">unlimited</span><span class="p">});</span>
+</pre></div>
+</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/dynamic_dataspace_unbounded.svg"><img alt="../_images/dynamic_dataspace_unbounded.svg" src="../_images/dynamic_dataspace_unbounded.svg" width="30%" /></a>
+</figure>
+<p>The initial size of the dataspace  would be 1. However, we could extend it
+as much as we want (basically can). We will see later how to use this feature
+along with datasets.</p>
+<p>A simple dataspace can be completely modified during the lifetime of an
+instance. For instance</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">3</span><span class="p">});</span><span class="w"> </span><span class="c1">// rank=1,size=3</span>
+<span class="n">space</span><span class="p">.</span><span class="n">dimensions</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">},{</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">});</span><span class="w"> </span><span class="c1">// rank=2,size=6</span>
+</pre></div>
+</div>
+</section>
+<section id="dataspace-conversion">
+<span id="id1"></span><h2>Dataspace conversion<a class="headerlink" href="#dataspace-conversion" title="Permalink to this headline">¶</a></h2>
+<p>For all dataspace classes it is possible to construct a new instance from
+an instance of <a class="reference internal" href="../api_reference/namespace_dataspace.html#_CPPv4N4hdf59dataspace9DataspaceE" title="hdf5::dataspace::Dataspace"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hdf5::dataspace::Dataspace</span></code></a> as they provide a
+special conversion copy constructor</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
+
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Dataspace</span><span class="w"> </span><span class="o">&amp;</span><span class="n">general_dataspace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">simple_dataspace</span><span class="p">(</span><span class="n">general_dataspace</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Using the inquery functions one could for instance use this along with an
+STL container to obtain all simple dataspaces in a collection sdfsdfsf</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="o">::</span><span class="nn">dataspace</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Dataspace</span><span class="o">&gt;</span><span class="w"> </span><span class="n">all_dataspaces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">...;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Simple</span><span class="o">&gt;</span><span class="w"> </span><span class="n">simple_dataspaces</span><span class="p">;</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">all_dataspaces</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">all_dataspaces</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span>
+<span class="w">             </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">simple_dataspaces</span><span class="p">),</span>
+<span class="w">             </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="n">Dataspace</span><span class="w"> </span><span class="o">&amp;</span><span class="n">space</span><span class="p">)</span>
+<span class="w">             </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">space</span><span class="p">.</span><span class="n">type</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Type</span><span class="o">::</span><span class="n">Simple</span><span class="p">;</span>
+<span class="w">             </span><span class="p">});</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="dataspace_custom_types.html">Using dataspaces with custom types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataspace_selections.html">Working with selections</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataspace_selections.html#hyperslab-selections">Hyperslab selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataspace_selections.html#point-selections">Point selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataspace_selections.html#selection-operations-and-containers">Selection operations and containers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataspace_selections.html#applying-a-selection">Applying a selection</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Dataspaces</a><ul>
+<li><a class="reference internal" href="#dataspace-inquery">Dataspace inquery</a></li>
+<li><a class="reference internal" href="#the-scalar-dataspace">The scalar dataspace</a></li>
+<li><a class="reference internal" href="#the-simple-dataspace">The simple dataspace</a></li>
+<li><a class="reference internal" href="#dataspace-conversion">Dataspace conversion</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="files.html"
+                          title="previous chapter">Working with files</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dataspace_custom_types.html"
+                          title="next chapter">Using dataspaces with custom types</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="dataspace_custom_types.html" title="Using dataspaces with custom types"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="files.html" title="Working with files"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.5.2 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Dataspaces</a></li> 
+      </ul>
+    </div>
+<li>generated on 2023-05-12 05:18:52 from  (64c6a86)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2023-05-12 05:18:52 from  (64c6a86).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,10 @@
+<map id="hdf5::filter::Filter" name="hdf5::filter::Filter">
+<area shape="rect" id="node1" title="abstract filter class" alt="" coords="5,157,136,184"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1filter_1_1Deflate.html" title=" " alt="" coords="204,5,348,32"/>
+<area shape="rect" id="node3" href="$classhdf5_1_1filter_1_1ExternalFilter.html" title=" " alt="" coords="184,56,368,83"/>
+<area shape="rect" id="node4" href="$classhdf5_1_1filter_1_1Fletcher32.html" title="Fletcher32 checksum filter." alt="" coords="193,107,359,133"/>
+<area shape="rect" id="node5" href="$classhdf5_1_1filter_1_1NBit.html" title="NBit checksum filter." alt="" coords="213,157,339,184"/>
+<area shape="rect" id="node6" href="$classhdf5_1_1filter_1_1ScaleOffset.html" title=" " alt="" coords="191,208,361,235"/>
+<area shape="rect" id="node7" href="$classhdf5_1_1filter_1_1Shuffle.html" title=" " alt="" coords="205,259,347,285"/>
+<area shape="rect" id="node8" href="$classhdf5_1_1filter_1_1SZip.html" title=" " alt="" coords="213,309,339,336"/>
+</map>

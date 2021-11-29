@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhdf5_1_1Iterator.html" title="hdf5::Iterator" alt="" coords="5,71,112,98"/>
-<area shape="rect" id="node2" href="$classhdf5_1_1attribute_1_1AttributeIterator.html" title="hdf5::attribute::Attribute\lIterator" alt="" coords="161,5,341,47"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1node_1_1LinkIterator.html" title="hdf5::node::LinkIterator" alt="" coords="163,71,338,98"/>
-<area shape="rect" id="node4" href="$classhdf5_1_1node_1_1NodeIterator.html" title="bidirectional NodeIterator " alt="" coords="160,122,341,149"/>
-</map>

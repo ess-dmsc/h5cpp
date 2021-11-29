@@ -2,19 +2,18 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>C++ data structures and HDF5 &#8212; h5cpp (latest) documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -50,7 +49,7 @@
           <div class="body" role="main">
             
   <section id="c-data-structures-and-hdf5">
-<span id="advanced-cpp-datastructures"></span><h1>C++ data structures and HDF5<a class="headerlink" href="#c-data-structures-and-hdf5" title="Permalink to this headline">¶</a></h1>
+<span id="advanced-cpp-datastructures"></span><h1>C++ data structures and HDF5<a class="headerlink" href="#c-data-structures-and-hdf5" title="Permalink to this heading">¶</a></h1>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p>Add here some content about C++ data structures and about the principal
@@ -67,7 +66,7 @@ used with C-style data structures. These are</p>
 classes. But also more elaborate compound types could be built in particular
 when making use of STL containers.</p>
 <section id="stl-containers">
-<h2>STL containers<a class="headerlink" href="#stl-containers" title="Permalink to this headline">¶</a></h2>
+<h2>STL containers<a class="headerlink" href="#stl-containers" title="Permalink to this heading">¶</a></h2>
 <p>Recall now the concept of the memory storage introduced in the users guide
 (see <a class="reference internal" href="../users_guide/overview.html#design-overview"><span class="std std-ref">Design overview</span></a> for details). Except for three situations
 where which will be covered also in the advanced chapter of the
@@ -85,29 +84,29 @@ method would reference a block of memory that entirely satisifies the
 requirements for memory storage.</p>
 <p>However, already defining a vector of vectors would make no longer be
 compliant with a memor storage. Cnsider the following example</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">BinType</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span><span class="w"></span>
-<span class="k">using</span><span class="w"> </span><span class="n">MCAReadout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BinType</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
-<span class="k">using</span><span class="w"> </span><span class="n">MCAStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">MCAReadout</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">BinType</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">MCAReadout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">BinType</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="n">MCAStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">MCAReadout</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nbins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span><span class="w"></span>
-<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nmcas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nbins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1024</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nmcas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
 
-<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">hdf5</span><span class="p">;</span>
 
 <span class="c1">// create the dataset</span>
-<span class="n">node</span><span class="o">::</span><span class="n">Gruop</span><span class="w"> </span><span class="n">data_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span><span class="w"></span>
-<span class="k">auto</span><span class="w"> </span><span class="n">file_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datatype</span><span class="o">::</span><span class="n">create</span><span class="o">&lt;</span><span class="n">BinType</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
-<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">file_space</span><span class="p">({</span><span class="n">nmcas</span><span class="p">,</span><span class="n">nbins</span><span class="p">})</span><span class="w"></span>
-<span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_gruop</span><span class="p">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;mcas&quot;</span><span class="p">,</span><span class="n">file_type</span><span class="p">,</span><span class="n">file_space</span><span class="p">);</span><span class="w"></span>
+<span class="n">node</span><span class="o">::</span><span class="n">Gruop</span><span class="w"> </span><span class="n">data_group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">....;</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">file_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datatype</span><span class="o">::</span><span class="n">create</span><span class="o">&lt;</span><span class="n">BinType</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="n">file_space</span><span class="p">({</span><span class="n">nmcas</span><span class="p">,</span><span class="n">nbins</span><span class="p">})</span>
+<span class="n">node</span><span class="o">::</span><span class="n">Dataset</span><span class="w"> </span><span class="n">dset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data_gruop</span><span class="p">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s">&quot;mcas&quot;</span><span class="p">,</span><span class="n">file_type</span><span class="p">,</span><span class="n">file_space</span><span class="p">);</span>
 
 <span class="c1">// create the data</span>
-<span class="n">MCAStack</span><span class="w"> </span><span class="n">mcas</span><span class="p">;</span><span class="w"></span>
-<span class="n">MCAReader</span><span class="w"> </span><span class="n">reader</span><span class="p">;</span><span class="w"></span>
-<span class="n">std</span><span class="o">::</span><span class="n">generate_n</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">mcas</span><span class="p">),</span><span class="n">nmcas</span><span class="p">,</span><span class="n">reader</span><span class="p">);</span><span class="w"></span>
+<span class="n">MCAStack</span><span class="w"> </span><span class="n">mcas</span><span class="p">;</span>
+<span class="n">MCAReader</span><span class="w"> </span><span class="n">reader</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">generate_n</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">mcas</span><span class="p">),</span><span class="n">nmcas</span><span class="p">,</span><span class="n">reader</span><span class="p">);</span>
 
 
 <span class="c1">//now lets try to write the data</span>
-<span class="n">dset</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">mcas</span><span class="p">);</span><span class="w"></span>
+<span class="n">dset</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">mcas</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -120,36 +119,47 @@ compliant with a memor storage. Cnsider the following example</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">C++ data structures and HDF5</a><ul>
 <li><a class="reference internal" href="#stl-containers">STL containers</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="io.html"
-                        title="previous chapter">Advanced IO</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="c_arrays.html"
-                        title="next chapter">C-style arrays</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="io.html"
+                          title="previous chapter">Advanced IO</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="c_arrays.html"
+                          title="next chapter">C-style arrays</a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script><p>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
   <h3 class='versions'>Versions</h3>
   <p>
     <ul>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
       <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
       <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
       
@@ -178,11 +188,11 @@ compliant with a memor storage. Cnsider the following example</p>
         <li class="nav-item nav-item-this"><a href="">C++ data structures and HDF5</a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-26 15:15:23 from  (e1382f8)</li>
+<li>generated on 2025-04-30 06:05:18 from  (3afccf2)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-26 15:15:23 from  (e1382f8).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-04-30 06:05:18 from  (3afccf2).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
     </div>
 
   </body>

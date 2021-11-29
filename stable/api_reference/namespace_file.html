@@ -2,19 +2,18 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Namespace hdf5::file &#8212; h5cpp 0.4.1 documentation</title>
+    <title>Namespace hdf5::file &#8212; h5cpp 0.6.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -37,7 +36,7 @@
         <li class="right" >
           <a href="namespace_datatype.html" title="Namespace hdf5::datatype"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::file</span></code></a></li> 
       </ul>
@@ -49,15 +48,12 @@
           <div class="body" role="main">
             
   <section id="namespace-hdf5-file">
-<h1>Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::file</span></code><a class="headerlink" href="#namespace-hdf5-file" title="Permalink to this headline">¶</a></h1>
-<section id="enumerations">
-<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h2>
-</section>
+<h1>Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::file</span></code><a class="headerlink" href="#namespace-hdf5-file" title="Permalink to this heading">¶</a></h1>
 <section id="the-file-class">
-<h2>The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">File</span></code> class<a class="headerlink" href="#the-file-class" title="Permalink to this headline">¶</a></h2>
+<h2>The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">File</span></code> class<a class="headerlink" href="#the-file-class" title="Permalink to this heading">¶</a></h2>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file4FileE">
-<span id="_CPPv3N4hdf54file4FileE"></span><span id="_CPPv2N4hdf54file4FileE"></span><span id="hdf5::file::File"></span><span class="target" id="classhdf5_1_1file_1_1File"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">File</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file4FileE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file4FileE"></span><span id="_CPPv2N4hdf54file4FileE"></span><span id="hdf5::file::File"></span><span class="target" id="classhdf5_1_1file_1_1File"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">File</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file4FileE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -65,10 +61,10 @@
 <span id="_CPPv3N4hdf54file4File4FileEv"></span><span id="_CPPv2N4hdf54file4File4FileEv"></span><span id="hdf5::file::File::File"></span><span class="target" id="classhdf5_1_1file_1_1File_1a1e30a3375726d596959135dc1c4e9d24"></span><span class="sig-name descname"><span class="n"><span class="pre">File</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N4hdf54file4File4FileEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>default constructor </p>
 <p>Use default implementation here. We need this to store instances of this class in an STL container. A default constructed instance of <a class="reference internal" href="#classhdf5_1_1file_1_1File"><span class="std std-ref">File</span></a> is in an invalid state. This can be checked using the <a class="reference internal" href="#classhdf5_1_1file_1_1File_1a46b672f9c888dd48fb8efad13d0275b9"><span class="std std-ref">is_valid()</span></a> method.</p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#classhdf5_1_1file_1_1File_1a46b672f9c888dd48fb8efad13d0275b9"><span class="std std-ref">is_valid()</span></a> </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#classhdf5_1_1file_1_1File_1a46b672f9c888dd48fb8efad13d0275b9"><span class="std std-ref">is_valid()</span></a></p>
+</div>
 </p>
 </dd></dl>
 
@@ -92,7 +88,7 @@
 <dd><p>constructor </p>
 <p>Construct a file from an rvalue reference to a handle.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>handle</strong> – rvalue reference to the file handler </p>
 </dd>
 </dl>
@@ -103,8 +99,8 @@
 <span id="_CPPv3NK4hdf54file4File6intentEv"></span><span id="_CPPv2NK4hdf54file4File6intentEv"></span><span id="hdf5::file::File::intentC"></span><span class="target" id="classhdf5_1_1file_1_1File_1a3f09fc02e3dafdfa962c052d816946ec"></span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">intent</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file4File6intentEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get access flags for the file </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
 </dl>
 </dd></dl>
@@ -114,8 +110,8 @@
 <span id="_CPPv3NK4hdf54file4File4sizeEv"></span><span id="_CPPv2NK4hdf54file4File4sizeEv"></span><span id="hdf5::file::File::sizeC"></span><span class="target" id="classhdf5_1_1file_1_1File_1a79d58cc40a4d20c2daec946c52d89b88"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file4File4sizeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get the file size in bytes </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
 </dl>
 </dd></dl>
@@ -125,8 +121,8 @@
 <span id="_CPPv3NK4hdf54file4File11buffer_sizeEv"></span><span id="_CPPv2NK4hdf54file4File11buffer_sizeEv"></span><span id="hdf5::file::File::buffer_sizeC"></span><span class="target" id="classhdf5_1_1file_1_1File_1a42c22392d25fe66071fef9464031ace2"></span><span class="n"><span class="pre">ssize_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">buffer_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file4File11buffer_sizeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get the buffer size in bytes </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
 </dl>
 </dd></dl>
@@ -136,10 +132,10 @@
 <span id="_CPPv3NK4hdf54file4File5flushE5Scope"></span><span id="_CPPv2NK4hdf54file4File5flushE5Scope"></span><span id="hdf5::file::File::flush__ScopeC"></span><span class="target" id="classhdf5_1_1file_1_1File_1ac178e79b133bda2cbe62bc0118a01209"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flush</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4hdf54file5ScopeE" title="hdf5::file::Scope"><span class="n"><span class="pre">Scope</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">scope</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file4File5flushE5Scope" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>flush the file </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
-<dt class="field-even">Parameters</dt>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>scope</strong> – the scope within which the file should be flushed </p>
 </dd>
 </dl>
@@ -150,8 +146,8 @@
 <span id="_CPPv3N4hdf54file4File5closeEv"></span><span id="_CPPv2N4hdf54file4File5closeEv"></span><span id="hdf5::file::File::close"></span><span class="target" id="classhdf5_1_1file_1_1File_1a53fae13cbe861f0651dbdb1b69ad9457"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">close</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file4File5closeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>close the file </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
 </dl>
 </dd></dl>
@@ -176,14 +172,14 @@
 <dd><p>get root group </p>
 <p>Return an instance to the root group of the file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure</p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure</p>
 </dd>
-<dt class="field-even">Parameters</dt>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>gapl</strong> – reference to a group access property list </p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>new instance of <a class="reference internal" href="namespace_node.html#classhdf5_1_1node_1_1Group"><span class="std std-ref">node::Group</span></a> </p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>new instance of <a class="reference internal" href="namespace_node.html#classhdf5_1_1node_1_1Group"><span class="std std-ref">node::Group</span></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -192,22 +188,52 @@
 <dt class="sig sig-object cpp" id="_CPPv4I0ENK4hdf54file4File9to_bufferE6size_tR1T">
 <span id="_CPPv3I0ENK4hdf54file4File9to_bufferER1T"></span><span id="_CPPv2I0ENK4hdf54file4File9to_bufferER1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classhdf5_1_1file_1_1File_1a319fb2f1d846e510dbe0a9acc4e313d7"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_buffer</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0ENK4hdf54file4File9to_bufferE6size_tR1T" title="hdf5::file::File::to_buffer::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK4hdf54file4File9to_bufferE6size_tR1T" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>retrieve a copy of the image of an existing, open file </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p>ImageFlags </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2"><span class="std std-ref">ImageFlags</span></a></p>
+</div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
-<dt class="field-even">Template Parameters</dt>
+<dt class="field-even">Template Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>T</strong> – source type </p>
 </dd>
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>data</strong> – reference to the source instance of T </p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>size of used space in a buffer </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4I0ENK4hdf54file4File17to_buffer_reshapeE6size_tR1TRKN8datatype8DatatypeERKN9dataspace9DataspaceE">
+<span id="_CPPv3I0ENK4hdf54file4File17to_buffer_reshapeER1TRKN8datatype8DatatypeERKN9dataspace9DataspaceE"></span><span id="_CPPv2I0ENK4hdf54file4File17to_buffer_reshapeER1TRKN8datatype8DatatypeERKN9dataspace9DataspaceE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classhdf5_1_1file_1_1File_1a73cb0ac705803e04a632e5005c5a7c67"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_buffer_reshape</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0ENK4hdf54file4File17to_buffer_reshapeE6size_tR1TRKN8datatype8DatatypeERKN9dataspace9DataspaceE" title="hdf5::file::File::to_buffer_reshape::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">datatype</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_datatype.html#_CPPv4N4hdf58datatype8DatatypeE" title="hdf5::datatype::Datatype"><span class="n"><span class="pre">Datatype</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mem_type</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">dataspace</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_dataspace.html#_CPPv4N4hdf59dataspace9DataspaceE" title="hdf5::dataspace::Dataspace"><span class="n"><span class="pre">Dataspace</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mem_space</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK4hdf54file4File17to_buffer_reshapeE6size_tR1TRKN8datatype8DatatypeERKN9dataspace9DataspaceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>retrieve a copy of the image of an existing, open file </p>
+<p>It reshapes the mem_space if its rank does not match to the selection rank</p>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2"><span class="std std-ref">ImageFlags</span></a></p>
+</div>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>T</strong> – source type </p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – reference to the source instance of T </p></li>
+<li><p><strong>mem_type</strong> – reference to the memory data type </p></li>
+<li><p><strong>mem_space</strong> – reference to the memory data space </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>size of used space in a buffer </p>
 </dd>
 </dl>
@@ -219,10 +245,10 @@
 <dd><p>check validity of the instance </p>
 <p>Return true if the instance refers to a valid HDF5 file instance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Throws</dt>
-<dd class="field-odd"><p><strong>std::runtime_error</strong> – in case of a failure</p>
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>true if valid, false otherwise </p>
 </dd>
 </dl>
@@ -238,23 +264,30 @@
 </div>
 </dd></dl>
 
+</section>
 <section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">¶</a></h2>
+<section id="create">
+<h3><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">create()</span></code><a class="headerlink" href="#create" title="Permalink to this heading">¶</a></h3>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE">
-<span id="_CPPv3N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE"></span><span id="_CPPv2N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE"></span><span id="hdf5::file::create__fs::pathCR.AccessFlags.property::FileCreationListCR.property::FileAccessListCR"></span><span class="target" id="namespacehdf5_1_1file_1aaf815eb143df89dd8d64cff1ef1d8461"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><span class="n"><span class="pre">File</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">fs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flags</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlags9EXCLUSIVEE" title="hdf5::file::AccessFlags::EXCLUSIVE"><span class="n"><span class="pre">EXCLUSIVE</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property16FileCreationListE" title="hdf5::property::FileCreationList"><span class="n"><span class="pre">FileCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fcpl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property16FileCreationListE" title="hdf5::property::FileCreationList"><span class="n"><span class="pre">FileCreationList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE"></span><span id="_CPPv2N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE"></span><span id="hdf5::file::create__fs::pathCR.AccessFlags.property::FileCreationListCR.property::FileAccessListCR"></span><span class="target" id="namespacehdf5_1_1file_1adda6d756b42c8eb2850162c385f82df6"></span><a class="reference internal" href="#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><span class="n"><span class="pre">File</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">create</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">fs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flags</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlags9ExclusiveE" title="hdf5::file::AccessFlags::Exclusive"><span class="n"><span class="pre">Exclusive</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property16FileCreationListE" title="hdf5::property::FileCreationList"><span class="n"><span class="pre">FileCreationList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fcpl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property16FileCreationListE" title="hdf5::property::FileCreationList"><span class="n"><span class="pre">FileCreationList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file6createERKN2fs4pathE11AccessFlagsRKN8property16FileCreationListERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>create a new file </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0"><span class="std std-ref">AccessFlags</span></a> </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>FileCreationList </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>FileAccessList </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0"><span class="std std-ref">AccessFlags</span></a></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>FileCreationList </p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>FileAccessList </p>
+</div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> – the path to the new file </p></li>
 <li><p><strong>flags</strong> – HDF5 file creation flags </p></li>
@@ -262,186 +295,355 @@
 <li><p><strong>fapl</strong> – reference to a file access property list </p></li>
 </ul>
 </dd>
-<dt class="field-even">Throws</dt>
-<dd class="field-even"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>new instance of <a class="reference internal" href="#classhdf5_1_1file_1_1File"><span class="std std-ref">File</span></a> </p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>new instance of <a class="reference internal" href="#classhdf5_1_1file_1_1File"><span class="std std-ref">File</span></a></p>
 </dd>
 </dl>
 </dd></dl>
 
+</section>
+<section id="open">
+<h3><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">open()</span></code><a class="headerlink" href="#open" title="Permalink to this heading">¶</a></h3>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE">
-<span id="_CPPv3N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE"></span><span id="_CPPv2N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE"></span><span id="hdf5::file::open__fs::pathCR.AccessFlags.property::FileAccessListCR"></span><span class="target" id="namespacehdf5_1_1file_1a35f675769ec5ed3c22c278368b4737d8"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><span class="n"><span class="pre">File</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">open</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">fs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flags</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlags8READONLYE" title="hdf5::file::AccessFlags::READONLY"><span class="n"><span class="pre">READONLY</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE"></span><span id="_CPPv2N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE"></span><span id="hdf5::file::open__fs::pathCR.AccessFlags.property::FileAccessListCR"></span><span class="target" id="namespacehdf5_1_1file_1a01f53a5a3ece80a69d0189e47d8c9368"></span><a class="reference internal" href="#_CPPv4N4hdf54file4FileE" title="hdf5::file::File"><span class="n"><span class="pre">File</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">open</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">fs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">flags</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlags8ReadOnlyE" title="hdf5::file::AccessFlags::ReadOnly"><span class="n"><span class="pre">ReadOnly</span></span></a>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file4openERKN2fs4pathE11AccessFlagsRKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>open an existing file </p>
-<p><dl class="simple">
-<dt><strong>See</strong></dt><dd><p><a class="reference internal" href="#namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0"><span class="std std-ref">AccessFlags</span></a> </p>
-</dd>
-<dt><strong>See</strong></dt><dd><p>FileAccessList </p>
-</dd>
-</dl>
+<p><div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0"><span class="std std-ref">AccessFlags</span></a></p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>FileAccessList </p>
+</div>
 </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> – the path to the file to open </p></li>
 <li><p><strong>flags</strong> – file open flags </p></li>
 <li><p><strong>fapl</strong> – reference to a file access property list </p></li>
 </ul>
 </dd>
-<dt class="field-even">Throws</dt>
-<dd class="field-even"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>a new <a class="reference internal" href="#classhdf5_1_1file_1_1File"><span class="std std-ref">File</span></a> instance </p>
 </dd>
 </dl>
 </dd></dl>
 
+</section>
+<section id="is-hdf5-file">
+<h3><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">is_hdf5_file()</span></code><a class="headerlink" href="#is-hdf5-file" title="Permalink to this heading">¶</a></h3>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12is_hdf5_fileERKN2fs4pathE">
-<span id="_CPPv3N4hdf54file12is_hdf5_fileERKN2fs4pathE"></span><span id="_CPPv2N4hdf54file12is_hdf5_fileERKN2fs4pathE"></span><span id="hdf5::file::is_hdf5_file__fs::pathCR"></span><span class="target" id="namespacehdf5_1_1file_1ace5d180a5566fec65d89b4ddc2dbe0ab"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">is_hdf5_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">fs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12is_hdf5_fileERKN2fs4pathE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file12is_hdf5_fileERKN2fs4pathE"></span><span id="_CPPv2N4hdf54file12is_hdf5_fileERKN2fs4pathE"></span><span id="hdf5::file::is_hdf5_file__fs::pathCR"></span><span class="target" id="namespacehdf5_1_1file_1ab766b54e586a0625592371d7480b08be"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">is_hdf5_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">fs</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">path</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12is_hdf5_fileERKN2fs4pathE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>check if the file reference by the path is an HDF5 file </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>path</strong> – reference to the files path </p>
 </dd>
-<dt class="field-even">Throws</dt>
-<dd class="field-even"><p><strong>std::runtime_error</strong> – in case of a failure </p>
+<dt class="field-even">Throws<span class="colon">:</span></dt>
+<dd class="field-even"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
 </dd>
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>true if the path references an HDF5 file, false otherwise </p>
 </dd>
 </dl>
 </dd></dl>
 
 </section>
-<section id="flags">
-<h3>Flags<a class="headerlink" href="#flags" title="Permalink to this headline">¶</a></h3>
-<dl class="cpp enum">
+</section>
+<section id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this heading">¶</a></h2>
+<section id="accessflags-and-accessflagsbase">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AccessFlags</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">AccessFlagsBase</span></code><a class="headerlink" href="#accessflags-and-accessflagsbase" title="Permalink to this heading">¶</a></h3>
+<dl class="cpp enum-class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlagsE">
-<span id="_CPPv3N4hdf54file11AccessFlagsE"></span><span id="_CPPv2N4hdf54file11AccessFlagsE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">AccessFlags</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlagsE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file11AccessFlagsE"></span><span id="_CPPv2N4hdf54file11AccessFlagsE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">AccessFlags</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlagsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>flags controlling file opening and creation </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags8TRUNCATEE">
-<span id="_CPPv3N4hdf54file11AccessFlags8TRUNCATEE"></span><span id="_CPPv2N4hdf54file11AccessFlags8TRUNCATEE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a0a83d15fde12983f199bdeb76667660f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TRUNCATE</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags8TRUNCATEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags8TruncateE">
+<span id="_CPPv3N4hdf54file11AccessFlags8TruncateE"></span><span id="_CPPv2N4hdf54file11AccessFlags8TruncateE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0aa8156810bfee2bd2b44765b9e91db3bd"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Truncate</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags8TruncateE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags9EXCLUSIVEE">
-<span id="_CPPv3N4hdf54file11AccessFlags9EXCLUSIVEE"></span><span id="_CPPv2N4hdf54file11AccessFlags9EXCLUSIVEE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0af45c3a0bb3687ed8e221253b3fd4a2ce"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EXCLUSIVE</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags9EXCLUSIVEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags9ExclusiveE">
+<span id="_CPPv3N4hdf54file11AccessFlags9ExclusiveE"></span><span id="_CPPv2N4hdf54file11AccessFlags9ExclusiveE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a2ef50b4c466304dc6ac77bac8a779971"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Exclusive</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags9ExclusiveE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags9READWRITEE">
-<span id="_CPPv3N4hdf54file11AccessFlags9READWRITEE"></span><span id="_CPPv2N4hdf54file11AccessFlags9READWRITEE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a2f517ac0110983661884131f057c2baf"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">READWRITE</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags9READWRITEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags9ReadWriteE">
+<span id="_CPPv3N4hdf54file11AccessFlags9ReadWriteE"></span><span id="_CPPv2N4hdf54file11AccessFlags9ReadWriteE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a70a2a84088d405a2e3f1e3accaa16723"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReadWrite</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags9ReadWriteE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags8READONLYE">
-<span id="_CPPv3N4hdf54file11AccessFlags8READONLYE"></span><span id="_CPPv2N4hdf54file11AccessFlags8READONLYE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a34db6698cff32ac89724758fdaa5512e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">READONLY</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags8READONLYE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags8ReadOnlyE">
+<span id="_CPPv3N4hdf54file11AccessFlags8ReadOnlyE"></span><span id="_CPPv2N4hdf54file11AccessFlags8ReadOnlyE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a131fb182a881796e7606ed6da27f1197"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReadOnly</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags8ReadOnlyE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags8SWMRReadE">
+<span id="_CPPv3N4hdf54file11AccessFlags8SWMRReadE"></span><span id="_CPPv2N4hdf54file11AccessFlags8SWMRReadE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a3d07ef00515f9d3a68af1b1d03754152"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SWMRRead</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags8SWMRReadE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>(<em>since hdf5 1.10.0</em>) </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11AccessFlags9SWMRWriteE">
+<span id="_CPPv3N4hdf54file11AccessFlags9SWMRWriteE"></span><span id="_CPPv2N4hdf54file11AccessFlags9SWMRWriteE"></span><span class="target" id="namespacehdf5_1_1file_1a6985d28775d7cdd13325794921278bc0a006bed0629f62292a542ac86d7e72a5f"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SWMRWrite</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11AccessFlags9SWMRWriteE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>(<em>since hdf5 1.10.0</em>) </p>
+</dd></dl>
 
 </dd></dl>
 
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file15AccessFlagsBaseE">
+<span id="_CPPv3N4hdf54file15AccessFlagsBaseE"></span><span id="_CPPv2N4hdf54file15AccessFlagsBaseE"></span><span class="target" id="namespacehdf5_1_1file_1ae3eea6579de78b395bd0070542383125"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">AccessFlagsBase</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK11AccessFlagsRK11AccessFlags">
-<span id="_CPPv3N4hdf54fileorERK11AccessFlagsRK11AccessFlags"></span><span id="_CPPv2N4hdf54fileorERK11AccessFlagsRK11AccessFlags"></span><span id="hdf5::file::or-operator__AccessFlagsCR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1ab302851031a824477d48133e9a8bc5ef"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><span class="n"><span class="pre">AccessFlagsBase</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK11AccessFlagsRK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54fileorERK11AccessFlagsRK11AccessFlags"></span><span id="_CPPv2N4hdf54fileorERK11AccessFlagsRK11AccessFlags"></span><span id="hdf5::file::or-operator__AccessFlagsCR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1afc02873d197b5b3d47ee9f9af7726c88"></span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK11AccessFlagsRK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK15AccessFlagsBaseRK11AccessFlags">
+<span id="_CPPv3N4hdf54fileorERK15AccessFlagsBaseRK11AccessFlags"></span><span id="_CPPv2N4hdf54fileorERK15AccessFlagsBaseRK11AccessFlags"></span><span id="hdf5::file::or-operator__AccessFlagsBaseCR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1ac8115f7b4ed4dbeb68509fdfb00e0c25"></span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK15AccessFlagsBaseRK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK11AccessFlagsRK15AccessFlagsBase">
+<span id="_CPPv3N4hdf54fileorERK11AccessFlagsRK15AccessFlagsBase"></span><span id="_CPPv2N4hdf54fileorERK11AccessFlagsRK15AccessFlagsBase"></span><span id="hdf5::file::or-operator__AccessFlagsCR.AccessFlagsBaseCR"></span><span class="target" id="namespacehdf5_1_1file_1a13f5f05ba8e4b630fbe1210abaaa1197"></span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK11AccessFlagsRK15AccessFlagsBase" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK11AccessFlagsRK11AccessFlags">
+<span id="_CPPv3N4hdf54fileanERK11AccessFlagsRK11AccessFlags"></span><span id="_CPPv2N4hdf54fileanERK11AccessFlagsRK11AccessFlags"></span><span id="hdf5::file::and-operator__AccessFlagsCR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a3177628c4bca518a517c251872d93619"></span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK11AccessFlagsRK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK15AccessFlagsBaseRK11AccessFlags">
+<span id="_CPPv3N4hdf54fileanERK15AccessFlagsBaseRK11AccessFlags"></span><span id="_CPPv2N4hdf54fileanERK15AccessFlagsBaseRK11AccessFlags"></span><span id="hdf5::file::and-operator__AccessFlagsBaseCR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1ac6310167bbbbb6ace17b61b40c9c595a"></span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK15AccessFlagsBaseRK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK11AccessFlagsRK15AccessFlagsBase">
+<span id="_CPPv3N4hdf54fileanERK11AccessFlagsRK15AccessFlagsBase"></span><span id="_CPPv2N4hdf54fileanERK11AccessFlagsRK15AccessFlagsBase"></span><span id="hdf5::file::and-operator__AccessFlagsCR.AccessFlagsBaseCR"></span><span class="target" id="namespacehdf5_1_1file_1ae2085ffe139e5eff072f9a3f5001214a"></span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15AccessFlagsBaseE" title="hdf5::file::AccessFlagsBase"><span class="n"><span class="pre">AccessFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK11AccessFlagsRK15AccessFlagsBase" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54filelsERNSt7ostreamERK11AccessFlags">
-<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK11AccessFlags"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK11AccessFlags"></span><span id="hdf5::file::lshift-operator__osR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a663c92336aaf3f4fb157e00f8aaf0271"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK11AccessFlags"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK11AccessFlags"></span><span id="hdf5::file::lshift-operator__osR.AccessFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a976ae5247206ef88d3da2839cb9d028d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11AccessFlagsE" title="hdf5::file::AccessFlags"><span class="n"><span class="pre">AccessFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK11AccessFlags" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
-<dl class="cpp enum">
+</section>
+<section id="searchflags-and-searchflagsbase">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SearchFlags</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SearchFlagsBase</span></code><a class="headerlink" href="#searchflags-and-searchflagsbase" title="Permalink to this heading">¶</a></h3>
+<dl class="cpp enum-class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlagsE">
-<span id="_CPPv3N4hdf54file11SearchFlagsE"></span><span id="_CPPv2N4hdf54file11SearchFlagsE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdc"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">SearchFlags</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlagsE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file11SearchFlagsE"></span><span id="_CPPv2N4hdf54file11SearchFlagsE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdc"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">SearchFlags</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlagsE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>flags controlling object search in a file </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags4FILEE">
-<span id="_CPPv3N4hdf54file11SearchFlags4FILEE"></span><span id="_CPPv2N4hdf54file11SearchFlags4FILEE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca9fc5887c030f7a3e19821ebec457e719"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FILE</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags4FILEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags4FileE">
+<span id="_CPPv3N4hdf54file11SearchFlags4FileE"></span><span id="_CPPv2N4hdf54file11SearchFlags4FileE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca0b27918290ff5323bea1e3b78a9cf04e"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">File</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags4FileE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags7DATASETE">
-<span id="_CPPv3N4hdf54file11SearchFlags7DATASETE"></span><span id="_CPPv2N4hdf54file11SearchFlags7DATASETE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca1688c5f13ed0cc68689219cac28e9ca6"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DATASET</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags7DATASETE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags7DatasetE">
+<span id="_CPPv3N4hdf54file11SearchFlags7DatasetE"></span><span id="_CPPv2N4hdf54file11SearchFlags7DatasetE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca239658e016e3d5d06ae719d280a79fec"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Dataset</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags7DatasetE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags5GROUPE">
-<span id="_CPPv3N4hdf54file11SearchFlags5GROUPE"></span><span id="_CPPv2N4hdf54file11SearchFlags5GROUPE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca720909a4b948fc9e33633b61960d6b3c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GROUP</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags5GROUPE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags5GroupE">
+<span id="_CPPv3N4hdf54file11SearchFlags5GroupE"></span><span id="_CPPv2N4hdf54file11SearchFlags5GroupE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca03937134cedab9078be39a77ee3a48a0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Group</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags5GroupE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags8DATATYPEE">
-<span id="_CPPv3N4hdf54file11SearchFlags8DATATYPEE"></span><span id="_CPPv2N4hdf54file11SearchFlags8DATATYPEE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca02ff2101e64dbed6c34c715aa8d5cfea"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DATATYPE</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags8DATATYPEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags8DatatypeE">
+<span id="_CPPv3N4hdf54file11SearchFlags8DatatypeE"></span><span id="_CPPv2N4hdf54file11SearchFlags8DatatypeE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca2a2e2590e2424e6a81cf9a78911f1462"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Datatype</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags8DatatypeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags9ATTRIBUTEE">
-<span id="_CPPv3N4hdf54file11SearchFlags9ATTRIBUTEE"></span><span id="_CPPv2N4hdf54file11SearchFlags9ATTRIBUTEE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca6461230ce7343a1f1091515aa3071f31"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ATTRIBUTE</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags9ATTRIBUTEE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags9AttributeE">
+<span id="_CPPv3N4hdf54file11SearchFlags9AttributeE"></span><span id="_CPPv2N4hdf54file11SearchFlags9AttributeE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdcaf2bbdf9f72c085adc4d0404e370f0f4c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Attribute</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags9AttributeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags3ALLE">
-<span id="_CPPv3N4hdf54file11SearchFlags3ALLE"></span><span id="_CPPv2N4hdf54file11SearchFlags3ALLE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca5fb1f955b45e38e31789286a1790398d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ALL</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags3ALLE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags3AllE">
+<span id="_CPPv3N4hdf54file11SearchFlags3AllE"></span><span id="_CPPv2N4hdf54file11SearchFlags3AllE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdcab1c94ca2fbc3e78fc30069c8d0f01680"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">All</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags3AllE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags5LOCALE">
-<span id="_CPPv3N4hdf54file11SearchFlags5LOCALE"></span><span id="_CPPv2N4hdf54file11SearchFlags5LOCALE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca54b4c4075463b2e02cd69f5cd139b5b2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LOCAL</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags5LOCALE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11SearchFlags5LocalE">
+<span id="_CPPv3N4hdf54file11SearchFlags5LocalE"></span><span id="_CPPv2N4hdf54file11SearchFlags5LocalE"></span><span class="target" id="namespacehdf5_1_1file_1acf5c330860ccd1f307639b562177ffdca509820290d57f333403f490dde7316f4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Local</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file11SearchFlags5LocalE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file15SearchFlagsBaseE">
+<span id="_CPPv3N4hdf54file15SearchFlagsBaseE"></span><span id="_CPPv2N4hdf54file15SearchFlagsBaseE"></span><span class="target" id="namespacehdf5_1_1file_1a976dc6aba0947034f291e6c9a900fab0"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">SearchFlagsBase</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK11SearchFlagsRK11SearchFlags">
-<span id="_CPPv3N4hdf54fileorERK11SearchFlagsRK11SearchFlags"></span><span id="_CPPv2N4hdf54fileorERK11SearchFlagsRK11SearchFlags"></span><span id="hdf5::file::or-operator__SearchFlagsCR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1af42b06cfc24b5fe455742c002daa1c70"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><span class="n"><span class="pre">SearchFlagsBase</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK11SearchFlagsRK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54fileorERK11SearchFlagsRK11SearchFlags"></span><span id="_CPPv2N4hdf54fileorERK11SearchFlagsRK11SearchFlags"></span><span id="hdf5::file::or-operator__SearchFlagsCR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a4031fe654458efd83c55685c083f6667"></span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK11SearchFlagsRK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK15SearchFlagsBaseRK11SearchFlags">
+<span id="_CPPv3N4hdf54fileorERK15SearchFlagsBaseRK11SearchFlags"></span><span id="_CPPv2N4hdf54fileorERK15SearchFlagsBaseRK11SearchFlags"></span><span id="hdf5::file::or-operator__SearchFlagsBaseCR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1ab13dbf5d1ef6737747bcdc91463c2979"></span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK15SearchFlagsBaseRK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK11SearchFlagsRK15SearchFlagsBase">
+<span id="_CPPv3N4hdf54fileorERK11SearchFlagsRK15SearchFlagsBase"></span><span id="_CPPv2N4hdf54fileorERK11SearchFlagsRK15SearchFlagsBase"></span><span id="hdf5::file::or-operator__SearchFlagsCR.SearchFlagsBaseCR"></span><span class="target" id="namespacehdf5_1_1file_1af62df4bbcda9fa27333061dc408fc877"></span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK11SearchFlagsRK15SearchFlagsBase" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK11SearchFlagsRK11SearchFlags">
+<span id="_CPPv3N4hdf54fileanERK11SearchFlagsRK11SearchFlags"></span><span id="_CPPv2N4hdf54fileanERK11SearchFlagsRK11SearchFlags"></span><span id="hdf5::file::and-operator__SearchFlagsCR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1aa6f2c57abbd85354432e163e4ea468aa"></span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK11SearchFlagsRK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK15SearchFlagsBaseRK11SearchFlags">
+<span id="_CPPv3N4hdf54fileanERK15SearchFlagsBaseRK11SearchFlags"></span><span id="_CPPv2N4hdf54fileanERK15SearchFlagsBaseRK11SearchFlags"></span><span id="hdf5::file::and-operator__SearchFlagsBaseCR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a73edf923e1e34112ac1d7ac7ca1ac71f"></span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK15SearchFlagsBaseRK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK11SearchFlagsRK15SearchFlagsBase">
+<span id="_CPPv3N4hdf54fileanERK11SearchFlagsRK15SearchFlagsBase"></span><span id="_CPPv2N4hdf54fileanERK11SearchFlagsRK15SearchFlagsBase"></span><span id="hdf5::file::and-operator__SearchFlagsCR.SearchFlagsBaseCR"></span><span class="target" id="namespacehdf5_1_1file_1a87a9b27cd49194820297f1f016cce3b5"></span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file15SearchFlagsBaseE" title="hdf5::file::SearchFlagsBase"><span class="n"><span class="pre">SearchFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK11SearchFlagsRK15SearchFlagsBase" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54filelsERNSt7ostreamERK11SearchFlags">
-<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK11SearchFlags"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK11SearchFlags"></span><span id="hdf5::file::lshift-operator__osR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1ac58da98f84add96bfbfe9814f8503007"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK11SearchFlags"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK11SearchFlags"></span><span id="hdf5::file::lshift-operator__osR.SearchFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a380ace429daf49540c9ecaff940e42bf"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file11SearchFlagsE" title="hdf5::file::SearchFlags"><span class="n"><span class="pre">SearchFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK11SearchFlags" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
-<dl class="cpp enum">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file5ScopeE">
-<span id="_CPPv3N4hdf54file5ScopeE"></span><span id="_CPPv2N4hdf54file5ScopeE"></span><span class="target" id="namespacehdf5_1_1file_1a0e82dd3ce93b6485e39fbca309c57959"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Scope</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file5ScopeE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>file scope </p>
+</section>
+<section id="imageflags-and-imageflagsbase">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ImageFlags</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">ImageFlagsBase</span></code><a class="headerlink" href="#imageflags-and-imageflagsbase" title="Permalink to this heading">¶</a></h3>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file10ImageFlagsE">
+<span id="_CPPv3N4hdf54file10ImageFlagsE"></span><span id="_CPPv2N4hdf54file10ImageFlagsE"></span><span class="target" id="namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">ImageFlags</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><a class="headerlink" href="#_CPPv4N4hdf54file10ImageFlagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>flags controlling image file opening and getting </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file5Scope5LOCALE">
-<span id="_CPPv3N4hdf54file5Scope5LOCALE"></span><span id="_CPPv2N4hdf54file5Scope5LOCALE"></span><span class="target" id="namespacehdf5_1_1file_1a0e82dd3ce93b6485e39fbca309c57959a54b4c4075463b2e02cd69f5cd139b5b2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LOCAL</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file5Scope5LOCALE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file10ImageFlags8ReadOnlyE">
+<span id="_CPPv3N4hdf54file10ImageFlags8ReadOnlyE"></span><span id="_CPPv2N4hdf54file10ImageFlags8ReadOnlyE"></span><span class="target" id="namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2a131fb182a881796e7606ed6da27f1197"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReadOnly</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file10ImageFlags8ReadOnlyE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file5Scope6GLOBALE">
-<span id="_CPPv3N4hdf54file5Scope6GLOBALE"></span><span id="_CPPv2N4hdf54file5Scope6GLOBALE"></span><span class="target" id="namespacehdf5_1_1file_1a0e82dd3ce93b6485e39fbca309c57959a6eecfba72d12922ee1dead07a0ef3334"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GLOBAL</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file5Scope6GLOBALE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file10ImageFlags9ReadWriteE">
+<span id="_CPPv3N4hdf54file10ImageFlags9ReadWriteE"></span><span id="_CPPv2N4hdf54file10ImageFlags9ReadWriteE"></span><span class="target" id="namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2a70a2a84088d405a2e3f1e3accaa16723"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ReadWrite</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file10ImageFlags9ReadWriteE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file10ImageFlags8DontCopyE">
+<span id="_CPPv3N4hdf54file10ImageFlags8DontCopyE"></span><span id="_CPPv2N4hdf54file10ImageFlags8DontCopyE"></span><span class="target" id="namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2a97e29ccea2d73e76f932ac53b0055dfe"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DontCopy</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file10ImageFlags8DontCopyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file10ImageFlags11DontReleaseE">
+<span id="_CPPv3N4hdf54file10ImageFlags11DontReleaseE"></span><span id="_CPPv2N4hdf54file10ImageFlags11DontReleaseE"></span><span class="target" id="namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2a46a07a3a3d4aade1801242e11bad96a5"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DontRelease</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file10ImageFlags11DontReleaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file10ImageFlags3AllE">
+<span id="_CPPv3N4hdf54file10ImageFlags3AllE"></span><span id="_CPPv2N4hdf54file10ImageFlags3AllE"></span><span class="target" id="namespacehdf5_1_1file_1a898fef00c959f0562bbb0b32d7a27ac2ab1c94ca2fbc3e78fc30069c8d0f01680"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">All</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file10ImageFlags3AllE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file14ImageFlagsBaseE">
+<span id="_CPPv3N4hdf54file14ImageFlagsBaseE"></span><span id="_CPPv2N4hdf54file14ImageFlagsBaseE"></span><span class="target" id="namespacehdf5_1_1file_1ab5a966a86c5e73bf834f8bd0cd640644"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">ImageFlagsBase</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK10ImageFlagsRK10ImageFlags">
+<span id="_CPPv3N4hdf54fileorERK10ImageFlagsRK10ImageFlags"></span><span id="_CPPv2N4hdf54fileorERK10ImageFlagsRK10ImageFlags"></span><span id="hdf5::file::or-operator__ImageFlagsCR.ImageFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1acc1215df6f2551a74e7db1a4bb64259f"></span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK10ImageFlagsRK10ImageFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK14ImageFlagsBaseRK10ImageFlags">
+<span id="_CPPv3N4hdf54fileorERK14ImageFlagsBaseRK10ImageFlags"></span><span id="_CPPv2N4hdf54fileorERK14ImageFlagsBaseRK10ImageFlags"></span><span id="hdf5::file::or-operator__ImageFlagsBaseCR.ImageFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a9d10881eb8698e195551d9a23cd47209"></span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK14ImageFlagsBaseRK10ImageFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileorERK10ImageFlagsRK14ImageFlagsBase">
+<span id="_CPPv3N4hdf54fileorERK10ImageFlagsRK14ImageFlagsBase"></span><span id="_CPPv2N4hdf54fileorERK10ImageFlagsRK14ImageFlagsBase"></span><span id="hdf5::file::or-operator__ImageFlagsCR.ImageFlagsBaseCR"></span><span class="target" id="namespacehdf5_1_1file_1aff5896c16f34aa73ccfd5503146fc6bf"></span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">|</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileorERK10ImageFlagsRK14ImageFlagsBase" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK10ImageFlagsRK10ImageFlags">
+<span id="_CPPv3N4hdf54fileanERK10ImageFlagsRK10ImageFlags"></span><span id="_CPPv2N4hdf54fileanERK10ImageFlagsRK10ImageFlags"></span><span id="hdf5::file::and-operator__ImageFlagsCR.ImageFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a4ea9e7ba80cee2b81287fef12da620b6"></span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK10ImageFlagsRK10ImageFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK14ImageFlagsBaseRK10ImageFlags">
+<span id="_CPPv3N4hdf54fileanERK14ImageFlagsBaseRK10ImageFlags"></span><span id="_CPPv2N4hdf54fileanERK14ImageFlagsBaseRK10ImageFlags"></span><span id="hdf5::file::and-operator__ImageFlagsBaseCR.ImageFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1afe4ed33913dfc5ac5367065d866b847f"></span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK14ImageFlagsBaseRK10ImageFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54fileanERK10ImageFlagsRK14ImageFlagsBase">
+<span id="_CPPv3N4hdf54fileanERK10ImageFlagsRK14ImageFlagsBase"></span><span id="_CPPv2N4hdf54fileanERK10ImageFlagsRK14ImageFlagsBase"></span><span id="hdf5::file::and-operator__ImageFlagsCR.ImageFlagsBaseCR"></span><span class="target" id="namespacehdf5_1_1file_1abd15c60077084a645f50028283e84d64"></span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&amp;</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lhs</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file14ImageFlagsBaseE" title="hdf5::file::ImageFlagsBase"><span class="n"><span class="pre">ImageFlagsBase</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">rhs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54fileanERK10ImageFlagsRK14ImageFlagsBase" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54filelsERNSt7ostreamERK10ImageFlags">
+<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK10ImageFlags"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK10ImageFlags"></span><span id="hdf5::file::lshift-operator__osR.ImageFlagsCR"></span><span class="target" id="namespacehdf5_1_1file_1a8a90200e80c5e8b709aafd65598195f1"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file10ImageFlagsE" title="hdf5::file::ImageFlags"><span class="n"><span class="pre">ImageFlags</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">flags</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK10ImageFlags" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</section>
+<section id="scope-and-scopebase">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Scope</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">ScopeBase</span></code><a class="headerlink" href="#scope-and-scopebase" title="Permalink to this heading">¶</a></h3>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file5ScopeE">
+<span id="_CPPv3N4hdf54file5ScopeE"></span><span id="_CPPv2N4hdf54file5ScopeE"></span><span class="target" id="namespacehdf5_1_1file_1a0e82dd3ce93b6485e39fbca309c57959"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Scope</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">H5F_scope_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf54file5ScopeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>file scope </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file5Scope5LocalE">
+<span id="_CPPv3N4hdf54file5Scope5LocalE"></span><span id="_CPPv2N4hdf54file5Scope5LocalE"></span><span class="target" id="namespacehdf5_1_1file_1a0e82dd3ce93b6485e39fbca309c57959a509820290d57f333403f490dde7316f4"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Local</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file5Scope5LocalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file5Scope6GlobalE">
+<span id="_CPPv3N4hdf54file5Scope6GlobalE"></span><span id="_CPPv2N4hdf54file5Scope6GlobalE"></span><span class="target" id="namespacehdf5_1_1file_1a0e82dd3ce93b6485e39fbca309c57959a4cc6684df7b4a92b1dec6fce3264fac8"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Global</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file5Scope6GlobalE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file9ScopeBaseE">
+<span id="_CPPv3N4hdf54file9ScopeBaseE"></span><span id="_CPPv2N4hdf54file9ScopeBaseE"></span><span class="target" id="namespacehdf5_1_1file_1afe710c7f3eda40e1f1f7e6972f339d54"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">ScopeBase</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">underlying_type</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4hdf54file5ScopeE" title="hdf5::file::Scope"><span class="n"><span class="pre">Scope</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">type</span></span><a class="headerlink" href="#_CPPv4N4hdf54file9ScopeBaseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54filelsERNSt7ostreamERK5Scope">
-<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK5Scope"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK5Scope"></span><span id="hdf5::file::lshift-operator__osR.ScopeCR"></span><span class="target" id="namespacehdf5_1_1file_1a62f4c01d7843cd6f01bd0c1e8e097f73"></span><span class="pre">DLL_EXPORT</span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file5ScopeE" title="hdf5::file::Scope"><span class="n"><span class="pre">Scope</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">scope</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK5Scope" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54filelsERNSt7ostreamERK5Scope"></span><span id="_CPPv2N4hdf54filelsERNSt7ostreamERK5Scope"></span><span id="hdf5::file::lshift-operator__osR.ScopeCR"></span><span class="target" id="namespacehdf5_1_1file_1a4ed2a23ad41f7e8a067f37e62c66eaf6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file5ScopeE" title="hdf5::file::Scope"><span class="n"><span class="pre">Scope</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">scope</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54filelsERNSt7ostreamERK5Scope" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </section>
 </section>
 <section id="driver-classes">
-<h2>Driver classes<a class="headerlink" href="#driver-classes" title="Permalink to this headline">¶</a></h2>
+<h2>Driver classes<a class="headerlink" href="#driver-classes" title="Permalink to this heading">¶</a></h2>
 <section id="driver">
-<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Driver</span></code><a class="headerlink" href="#driver" title="Permalink to this headline">¶</a></h3>
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Driver</span></code><a class="headerlink" href="#driver" title="Permalink to this heading">¶</a></h3>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file6DriverE">
-<span id="_CPPv3N4hdf54file6DriverE"></span><span id="_CPPv2N4hdf54file6DriverE"></span><span id="hdf5::file::Driver"></span><span class="target" id="classhdf5_1_1file_1_1Driver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Driver</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file6DriverE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file6DriverE"></span><span id="_CPPv2N4hdf54file6DriverE"></span><span id="hdf5::file::Driver"></span><span class="target" id="classhdf5_1_1file_1_1Driver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Driver</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file6DriverE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>abstract class for file drivers </p>
 <p><a class="reference internal" href="#classhdf5_1_1file_1_1Driver"><span class="std std-ref">Driver</span></a> classes in h5cpp do not hold a real reference to a driver object. They rather store information about how to setup the driver. This is mainly due to the fact that we are currently accessing the drivers only via the file access property list. </p>
-<p>Subclassed by <a class="reference internal" href="#classhdf5_1_1file_1_1MemoryDriver"><span class="std std-ref">hdf5::file::MemoryDriver</span></a>, <a class="reference internal" href="#classhdf5_1_1file_1_1PosixDriver"><span class="std std-ref">hdf5::file::PosixDriver</span></a></p>
+<p>Subclassed by <a class="reference internal" href="#classhdf5_1_1file_1_1DirectDriver"><span class="std std-ref">hdf5::file::DirectDriver</span></a>, <a class="reference internal" href="#classhdf5_1_1file_1_1MPIDriver"><span class="std std-ref">hdf5::file::MPIDriver</span></a>, <a class="reference internal" href="#classhdf5_1_1file_1_1MemoryDriver"><span class="std std-ref">hdf5::file::MemoryDriver</span></a>, <a class="reference internal" href="#classhdf5_1_1file_1_1PosixDriver"><span class="std std-ref">hdf5::file::PosixDriver</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
 <dl class="cpp type">
@@ -470,51 +672,51 @@
 </div>
 </dd></dl>
 
-<dl class="cpp enum">
+<dl class="cpp enum-class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverIDE">
-<span id="_CPPv3N4hdf54file8DriverIDE"></span><span id="_CPPv2N4hdf54file8DriverIDE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11d"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">DriverID</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverIDE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file8DriverIDE"></span><span id="_CPPv2N4hdf54file8DriverIDE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11d"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">DriverID</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverIDE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>enumeration to determine the file driver </p>
 <p><em>Values:</em></p>
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID6ePosixE">
-<span id="_CPPv3N4hdf54file8DriverID6ePosixE"></span><span id="_CPPv2N4hdf54file8DriverID6ePosixE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11daf63a1d60f0001784729be11f86f24a1d"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ePosix</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID6ePosixE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID5PosixE">
+<span id="_CPPv3N4hdf54file8DriverID5PosixE"></span><span id="_CPPv2N4hdf54file8DriverID5PosixE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11da8523848e126afc1ef3693704374690f2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Posix</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID5PosixE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID7eDirectE">
-<span id="_CPPv3N4hdf54file8DriverID7eDirectE"></span><span id="_CPPv2N4hdf54file8DriverID7eDirectE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11da56f268d207dba2b3b795e0a48e1c77ab"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eDirect</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID7eDirectE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID6DirectE">
+<span id="_CPPv3N4hdf54file8DriverID6DirectE"></span><span id="_CPPv2N4hdf54file8DriverID6DirectE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11dafd1dd0c603be8170f9eae0be9f2f6afb"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Direct</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID6DirectE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID7eMemoryE">
-<span id="_CPPv3N4hdf54file8DriverID7eMemoryE"></span><span id="_CPPv2N4hdf54file8DriverID7eMemoryE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11dae7cb9567e5c150f29c9a871c219f71ab"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eMemory</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID7eMemoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID6MemoryE">
+<span id="_CPPv3N4hdf54file8DriverID6MemoryE"></span><span id="_CPPv2N4hdf54file8DriverID6MemoryE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11da4789f23283b3a61f858b641a1bef19a3"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Memory</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID6MemoryE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp enumerator">
-<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID4eMPIE">
-<span id="_CPPv3N4hdf54file8DriverID4eMPIE"></span><span id="_CPPv2N4hdf54file8DriverID4eMPIE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11da8b355fc5eef6615b36e8ce11723127b1"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">eMPI</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID4eMPIE" title="Permalink to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file8DriverID3MPIE">
+<span id="_CPPv3N4hdf54file8DriverID3MPIE"></span><span id="_CPPv2N4hdf54file8DriverID3MPIE"></span><span class="target" id="namespacehdf5_1_1file_1ac574ff5eff78d2f642cff8648afea11da3b124f211648678733ce66a1b361f06c"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MPI</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54file8DriverID3MPIE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </section>
 <section id="posixdriver">
-<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">PosixDriver</span></code><a class="headerlink" href="#posixdriver" title="Permalink to this headline">¶</a></h3>
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">PosixDriver</span></code><a class="headerlink" href="#posixdriver" title="Permalink to this heading">¶</a></h3>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file11PosixDriverE">
-<span id="_CPPv3N4hdf54file11PosixDriverE"></span><span id="_CPPv2N4hdf54file11PosixDriverE"></span><span id="hdf5::file::PosixDriver"></span><span class="target" id="classhdf5_1_1file_1_1PosixDriver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">PosixDriver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file6DriverE" title="hdf5::file::Driver"><span class="n"><span class="pre">Driver</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54file11PosixDriverE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file11PosixDriverE"></span><span id="_CPPv2N4hdf54file11PosixDriverE"></span><span id="hdf5::file::PosixDriver"></span><span class="target" id="classhdf5_1_1file_1_1PosixDriver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PosixDriver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file6DriverE" title="hdf5::file::Driver"><span class="n"><span class="pre">Driver</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54file11PosixDriverE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file11PosixDriverclERKN8property14FileAccessListE">
-<span id="_CPPv3NK4hdf54file11PosixDriverclERKN8property14FileAccessListE"></span><span id="_CPPv2NK4hdf54file11PosixDriverclERKN8property14FileAccessListE"></span><span id="hdf5::file::PosixDriver::call-operator__property::FileAccessListCRC"></span><span class="target" id="classhdf5_1_1file_1_1PosixDriver_1ae51d4c44012c7255ca3a229ede34b4d7"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file11PosixDriverclERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54file11PosixDriverclERKN8property14FileAccessListE"></span><span id="_CPPv2NK4hdf54file11PosixDriverclERKN8property14FileAccessListE"></span><span id="hdf5::file::PosixDriver::call-operator__property::FileAccessListCRC"></span><span class="target" id="classhdf5_1_1file_1_1PosixDriver_1af1efc44bc38dded53a758c09f0516dea"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file11PosixDriverclERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>set a driver </p>
 <p>Sets a driver to a particular file access property list. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file11PosixDriver2idEv">
-<span id="_CPPv3NK4hdf54file11PosixDriver2idEv"></span><span id="_CPPv2NK4hdf54file11PosixDriver2idEv"></span><span id="hdf5::file::PosixDriver::idC"></span><span class="target" id="classhdf5_1_1file_1_1PosixDriver_1a8f2c9abf3dd885bb0e59e20b8b971a61"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file8DriverIDE" title="hdf5::file::DriverID"><span class="n"><span class="pre">DriverID</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file11PosixDriver2idEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54file11PosixDriver2idEv"></span><span id="_CPPv2NK4hdf54file11PosixDriver2idEv"></span><span id="hdf5::file::PosixDriver::idC"></span><span class="target" id="classhdf5_1_1file_1_1PosixDriver_1ad1c41b80c5e04835fdf6f6fd654be740"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file8DriverIDE" title="hdf5::file::DriverID"><span class="n"><span class="pre">DriverID</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file11PosixDriver2idEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get driver ID </p>
 <p>Return the ID of a particular driver. </p>
 </dd></dl>
@@ -524,10 +726,10 @@
 
 </section>
 <section id="memorydriver">
-<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MemoryDriver</span></code><a class="headerlink" href="#memorydriver" title="Permalink to this headline">¶</a></h3>
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MemoryDriver</span></code><a class="headerlink" href="#memorydriver" title="Permalink to this heading">¶</a></h3>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12MemoryDriverE">
-<span id="_CPPv3N4hdf54file12MemoryDriverE"></span><span id="_CPPv2N4hdf54file12MemoryDriverE"></span><span id="hdf5::file::MemoryDriver"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">MemoryDriver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file6DriverE" title="hdf5::file::Driver"><span class="n"><span class="pre">Driver</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54file12MemoryDriverE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54file12MemoryDriverE"></span><span id="_CPPv2N4hdf54file12MemoryDriverE"></span><span id="hdf5::file::MemoryDriver"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MemoryDriver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file6DriverE" title="hdf5::file::Driver"><span class="n"><span class="pre">Driver</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54file12MemoryDriverE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>memory file driver </p>
 <p>Using this driver HDF5 writes the file not to disk but in memory which can reduce the overhead from disk IO. If backing_store option is enabled the file will be written to disk with the same file name used to create the file in memory. </p>
 <div class="breathe-sectiondef docutils container">
@@ -544,7 +746,7 @@
 <span id="_CPPv3N4hdf54file12MemoryDriver12MemoryDriverE6size_tb"></span><span id="_CPPv2N4hdf54file12MemoryDriver12MemoryDriverE6size_tb"></span><span id="hdf5::file::MemoryDriver::MemoryDriver__s.b"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver_1af21bd644cac0d011820594fd1178e741"></span><span class="sig-name descname"><span class="n"><span class="pre">MemoryDriver</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">increment</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">backing_store</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N4hdf54file12MemoryDriver12MemoryDriverE6size_tb" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>constructor </p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>increment</strong> – number of bytes used to increment the memory buffer if it runs out of storage </p></li>
 <li><p><strong>backing_store</strong> – enable disk storage after file close </p></li>
@@ -586,14 +788,144 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE">
-<span id="_CPPv3NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE"></span><span id="_CPPv2NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE"></span><span id="hdf5::file::MemoryDriver::call-operator__property::FileAccessListCRC"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver_1a44a2060fdd1e252870e98affa714aa92"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE"></span><span id="_CPPv2NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE"></span><span id="hdf5::file::MemoryDriver::call-operator__property::FileAccessListCRC"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver_1a639e07737fa7732de4d81b1336228e66"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12MemoryDriverclERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>set a driver </p>
 <p>Sets a driver to a particular file access property list. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12MemoryDriver2idEv">
-<span id="_CPPv3NK4hdf54file12MemoryDriver2idEv"></span><span id="_CPPv2NK4hdf54file12MemoryDriver2idEv"></span><span id="hdf5::file::MemoryDriver::idC"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver_1a7c933a3c2c9c9768c188241366a280af"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file8DriverIDE" title="hdf5::file::DriverID"><span class="n"><span class="pre">DriverID</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12MemoryDriver2idEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54file12MemoryDriver2idEv"></span><span id="_CPPv2NK4hdf54file12MemoryDriver2idEv"></span><span id="hdf5::file::MemoryDriver::idC"></span><span class="target" id="classhdf5_1_1file_1_1MemoryDriver_1a33a32e722e5f52d81d5d21bd740112bf"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file8DriverIDE" title="hdf5::file::DriverID"><span class="n"><span class="pre">DriverID</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12MemoryDriver2idEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get driver ID </p>
+<p>Return the ID of a particular driver. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="directdriver">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DirectDriver</span></code><a class="headerlink" href="#directdriver" title="Permalink to this heading">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriverE">
+<span id="_CPPv3N4hdf54file12DirectDriverE"></span><span id="_CPPv2N4hdf54file12DirectDriverE"></span><span id="hdf5::file::DirectDriver"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DirectDriver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file6DriverE" title="hdf5::file::Driver"><span class="n"><span class="pre">Driver</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriverE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>direct write without buffering (<em>for hdf5 compiled with H5_HAVE_DIRECT</em>) </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriver12DirectDriverEv">
+<span id="_CPPv3N4hdf54file12DirectDriver12DirectDriverEv"></span><span id="_CPPv2N4hdf54file12DirectDriver12DirectDriverEv"></span><span id="hdf5::file::DirectDriver::DirectDriver"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1a3be8b7a81e3934b32500e9221faa474f"></span><span class="sig-name descname"><span class="n"><span class="pre">DirectDriver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriver12DirectDriverEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriver12DirectDriverE6size_t6size_t6size_t">
+<span id="_CPPv3N4hdf54file12DirectDriver12DirectDriverE6size_t6size_t6size_t"></span><span id="_CPPv2N4hdf54file12DirectDriver12DirectDriverE6size_t6size_t6size_t"></span><span id="hdf5::file::DirectDriver::DirectDriver__s.s.s"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1aa2d26d2cb99e98a0ea3a929aaf0bef6c"></span><span class="sig-name descname"><span class="n"><span class="pre">DirectDriver</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">alignment</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">block_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">copy_buffer_size</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriver12DirectDriverE6size_t6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriver12DirectDriverERK12DirectDriver">
+<span id="_CPPv3N4hdf54file12DirectDriver12DirectDriverERK12DirectDriver"></span><span id="_CPPv2N4hdf54file12DirectDriver12DirectDriverERK12DirectDriver"></span><span id="hdf5::file::DirectDriver::DirectDriver__DirectDriverCR"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1aa3bcfa1bf8c0ab770c17b31accef3b46"></span><span class="sig-name descname"><span class="n"><span class="pre">DirectDriver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file12DirectDriver12DirectDriverERK12DirectDriver" title="hdf5::file::DirectDriver::DirectDriver"><span class="n"><span class="pre">DirectDriver</span></span></a><span class="p"><span class="pre">&amp;</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriver12DirectDriverERK12DirectDriver" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>copy constructor </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12DirectDriver9alignmentEv">
+<span id="_CPPv3NK4hdf54file12DirectDriver9alignmentEv"></span><span id="_CPPv2NK4hdf54file12DirectDriver9alignmentEv"></span><span id="hdf5::file::DirectDriver::alignmentC"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1a7e7a753bcbddd3fd5c9523e5c074a82c"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alignment</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12DirectDriver9alignmentEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get alignment value </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriver9alignmentE6size_t">
+<span id="_CPPv3N4hdf54file12DirectDriver9alignmentE6size_t"></span><span id="_CPPv2N4hdf54file12DirectDriver9alignmentE6size_t"></span><span id="hdf5::file::DirectDriver::alignment__s"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1a6528eadaf57194f37658cf2afd9678a9"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">alignment</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriver9alignmentE6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set alignment value </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of an error </p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>value</strong> – the new alignment value </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12DirectDriver10block_sizeEv">
+<span id="_CPPv3NK4hdf54file12DirectDriver10block_sizeEv"></span><span id="_CPPv2NK4hdf54file12DirectDriver10block_sizeEv"></span><span id="hdf5::file::DirectDriver::block_sizeC"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1a277b810a29339c24cd5c1b5bbf023a9f"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">block_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12DirectDriver10block_sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get block size </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriver10block_sizeE6size_t">
+<span id="_CPPv3N4hdf54file12DirectDriver10block_sizeE6size_t"></span><span id="_CPPv2N4hdf54file12DirectDriver10block_sizeE6size_t"></span><span id="hdf5::file::DirectDriver::block_size__s"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1ade8d4d1abc2b89f726499aef0611ed0f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">block_size</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriver10block_sizeE6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set block size </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>value</strong> – the new block size </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12DirectDriver16copy_buffer_sizeEv">
+<span id="_CPPv3NK4hdf54file12DirectDriver16copy_buffer_sizeEv"></span><span id="_CPPv2NK4hdf54file12DirectDriver16copy_buffer_sizeEv"></span><span id="hdf5::file::DirectDriver::copy_buffer_sizeC"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1a23ade2fc0f91ce9405506d22f082f3f3"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">copy_buffer_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12DirectDriver16copy_buffer_sizeEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get copy buffer size </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file12DirectDriver16copy_buffer_sizeE6size_t">
+<span id="_CPPv3N4hdf54file12DirectDriver16copy_buffer_sizeE6size_t"></span><span id="_CPPv2N4hdf54file12DirectDriver16copy_buffer_sizeE6size_t"></span><span id="hdf5::file::DirectDriver::copy_buffer_size__s"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1a1c6417de6b79090d4525f218a1906b11"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">copy_buffer_size</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54file12DirectDriver16copy_buffer_sizeE6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set copy buffer size </p>
+<dl class="field-list simple">
+<dt class="field-odd">Throws<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>value</strong> – the new copy buffer size </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12DirectDriverclERKN8property14FileAccessListE">
+<span id="_CPPv3NK4hdf54file12DirectDriverclERKN8property14FileAccessListE"></span><span id="_CPPv2NK4hdf54file12DirectDriverclERKN8property14FileAccessListE"></span><span id="hdf5::file::DirectDriver::call-operator__property::FileAccessListCRC"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1ac68f8d3b75274b3b7b49d8430580db9f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12DirectDriverclERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set a driver </p>
+<p>Sets a driver to a particular file access property list. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file12DirectDriver2idEv">
+<span id="_CPPv3NK4hdf54file12DirectDriver2idEv"></span><span id="_CPPv2NK4hdf54file12DirectDriver2idEv"></span><span id="hdf5::file::DirectDriver::idC"></span><span class="target" id="classhdf5_1_1file_1_1DirectDriver_1ad235e58e85dc1d8e7253f42185b7b250"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file8DriverIDE" title="hdf5::file::DriverID"><span class="n"><span class="pre">DriverID</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file12DirectDriver2idEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get driver ID </p>
+<p>Return the ID of a particular driver. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+<section id="mpidriver">
+<h3><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MPIDriver</span></code><a class="headerlink" href="#mpidriver" title="Permalink to this heading">¶</a></h3>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4hdf54file9MPIDriverE">
+<span id="_CPPv3N4hdf54file9MPIDriverE"></span><span id="_CPPv2N4hdf54file9MPIDriverE"></span><span id="hdf5::file::MPIDriver"></span><span class="target" id="classhdf5_1_1file_1_1MPIDriver"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MPIDriver</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4hdf54file6DriverE" title="hdf5::file::Driver"><span class="n"><span class="pre">Driver</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54file9MPIDriverE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>class for the MPI driver (<em>for hdf5 with compiled MPI</em>) </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file9MPIDriverclERKN8property14FileAccessListE">
+<span id="_CPPv3NK4hdf54file9MPIDriverclERKN8property14FileAccessListE"></span><span id="_CPPv2NK4hdf54file9MPIDriverclERKN8property14FileAccessListE"></span><span id="hdf5::file::MPIDriver::call-operator__property::FileAccessListCRC"></span><span class="target" id="classhdf5_1_1file_1_1MPIDriver_1af88d69357763fdb11d3baf28e1345a43"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14FileAccessListE" title="hdf5::property::FileAccessList"><span class="n"><span class="pre">FileAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fapl</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file9MPIDriverclERKN8property14FileAccessListE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set a driver </p>
+<p>Sets a driver to a particular file access property list. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4hdf54file9MPIDriver2idEv">
+<span id="_CPPv3NK4hdf54file9MPIDriver2idEv"></span><span id="_CPPv2NK4hdf54file9MPIDriver2idEv"></span><span id="hdf5::file::MPIDriver::idC"></span><span class="target" id="classhdf5_1_1file_1_1MPIDriver_1a360abe201fb56e5c9886b7de0543279f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54file8DriverIDE" title="hdf5::file::DriverID"><span class="n"><span class="pre">DriverID</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4hdf54file9MPIDriver2idEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get driver ID </p>
 <p>Return the ID of a particular driver. </p>
 </dd></dl>
@@ -612,47 +944,68 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::file</span></code></a><ul>
-<li><a class="reference internal" href="#enumerations">Enumerations</a></li>
-<li><a class="reference internal" href="#the-file-class">The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">File</span></code> class</a><ul>
-<li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#flags">Flags</a></li>
+<li><a class="reference internal" href="#the-file-class">The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">File</span></code> class</a></li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#create"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">create()</span></code></a></li>
+<li><a class="reference internal" href="#open"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">open()</span></code></a></li>
+<li><a class="reference internal" href="#is-hdf5-file"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">is_hdf5_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#enumerations">Enumerations</a><ul>
+<li><a class="reference internal" href="#accessflags-and-accessflagsbase"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">AccessFlags</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">AccessFlagsBase</span></code></a></li>
+<li><a class="reference internal" href="#searchflags-and-searchflagsbase"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SearchFlags</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SearchFlagsBase</span></code></a></li>
+<li><a class="reference internal" href="#imageflags-and-imageflagsbase"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ImageFlags</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">ImageFlagsBase</span></code></a></li>
+<li><a class="reference internal" href="#scope-and-scopebase"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Scope</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">ScopeBase</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#driver-classes">Driver classes</a><ul>
 <li><a class="reference internal" href="#driver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Driver</span></code></a></li>
 <li><a class="reference internal" href="#posixdriver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">PosixDriver</span></code></a></li>
 <li><a class="reference internal" href="#memorydriver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MemoryDriver</span></code></a></li>
+<li><a class="reference internal" href="#directdriver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">DirectDriver</span></code></a></li>
+<li><a class="reference internal" href="#mpidriver"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">MPIDriver</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="namespace_datatype.html"
-                        title="previous chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::datatype</span></code></a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="namespace_filter.html"
-                        title="next chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::filter</span></code></a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="namespace_datatype.html"
+                          title="previous chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::datatype</span></code></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="namespace_filter.html"
+                          title="next chapter">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::filter</span></code></a></p>
+  </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script><p>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
   <h3 class='versions'>Versions</h3>
   <p>
     <ul>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
       <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
       <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
       
@@ -675,16 +1028,16 @@
         <li class="right" >
           <a href="namespace_datatype.html" title="Namespace hdf5::datatype"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.4.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::file</span></code></a></li> 
       </ul>
     </div>
-<li>generated on 2021-11-29 14:55:56 from  (819c23c)</li>
+<li>generated on 2024-11-11 06:44:04 from  (b494fa8)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2021-11-29 14:55:56 from  (819c23c).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.3.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2024-11-11 06:44:04 from  (b494fa8).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
     </div>
 
   </body>
