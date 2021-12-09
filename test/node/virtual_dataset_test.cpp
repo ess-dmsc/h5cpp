@@ -50,8 +50,6 @@ namespace {
   const static PathVector vds_files = {"vds_source_1.h5", "vds_source_2.h5",
                                      "vds_source_3.h5"};
 
-  const static property::FileCreationList gfcpl;
-  const static property::FileAccessList gfapl;
   const static dataspace::Simple module_space{{kModuleSize}};
   const static auto module_type = datatype::create<int>();
 #ifdef __clang__
@@ -59,6 +57,8 @@ namespace {
 #endif
 
   static void create_module_file(const fs::path& filename, const DataVector& data) {
+    const static property::FileCreationList gfcpl;
+    const static property::FileAccessList gfapl;
     file::File f =
         file::create(filename, file::AccessFlags::Truncate, gfcpl, gfapl);
     node::Dataset dataset(f.root(), Path("module_data"), module_type,
@@ -77,6 +77,8 @@ namespace {
 
 
 SCENARIO("testing virtual datasets") {
+  const static property::FileCreationList gfcpl;
+  const static property::FileAccessList gfapl;
   auto data_module_1 = create_data(kModuleSize, 1);
   auto data_module_2 = create_data(kModuleSize, 2);
   auto data_module_3 = create_data(kModuleSize, 3);
