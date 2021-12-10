@@ -30,10 +30,11 @@ target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
 set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
 if(WITH_BOOST)
   list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
-else()
-    # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
-    list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:stdc++fs>)
-    list(APPEND H5CPP_LINKS $<$<AND:$<CXX_COMPILER_ID:AppleClang>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:c++fs>)
+elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11.0 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
+  list(APPEND H5CPP_LINKS stdc++fs)
+elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11.0 AND CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+  list(APPEND H5CPP_LINKS c++fs)
 endif()
 
 #
