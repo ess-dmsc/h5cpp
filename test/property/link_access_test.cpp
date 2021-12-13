@@ -83,13 +83,15 @@ SCENARIO("setting the maximum traversal on a LinkAccessList") {
 SCENARIO("setting the external link prefix on a LinkAccessList") {
   pl::LinkAccessList lapl;
   GIVEN("a prefix value") {
+#ifndef _MSC_VER
     std::string prefix = "/home/wintersb";
+#else
+    std::string prefix = "C:\\home\\wintersb";
+#endif
     THEN("we can set this to the list") {
       REQUIRE_NOTHROW(lapl.external_link_prefix(prefix));
       AND_THEN("read it back") {
-#ifndef _MSC_VER
         REQUIRE(lapl.external_link_prefix().string() == prefix);
-#endif
       }
     }
   }
