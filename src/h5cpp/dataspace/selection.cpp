@@ -41,5 +41,14 @@ Dataspace operator||(const Dataspace &space, const SelectionList &selections) {
   return new_space;
 }
 
+SelectionType Selection::type() const {
+  return SelectionType::None;
+}
+
+size_t Selection::size() const {
+  return 0ul;
+}
+
+
 } // namespace dataspace
 } // namespace hdf5
