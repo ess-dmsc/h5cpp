@@ -300,13 +300,14 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DDISABLE_TESTS=True ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
 
                     try {
                         sh "make -j4"
+                        sh "ctest"
                     } catch (e) {
                         failure_function(e, 'MacOSX / build+test failed')
                     }
