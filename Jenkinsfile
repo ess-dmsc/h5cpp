@@ -307,13 +307,9 @@ def get_macos_pipeline(build_type)
 
                     try {
                         sh "make -j4"
+                        sh "ctest"
                     } catch (e) {
-                        failure_function(e, 'MacOSX / build failed')
-                    }
-                    try {
-                        sh "ctest --extra-verbose"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / test failed')
+                        failure_function(e, 'MacOSX / build+test failed')
                     }
                 }
 
