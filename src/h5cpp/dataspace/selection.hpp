@@ -102,7 +102,7 @@ class DLL_EXPORT Selection {
   //!
   //! \return the selection type enumerator
   //!
-  virtual size_t size() const;
+  virtual size_t size() const = 0;
 
   //!
   //! \brief get the selection type
@@ -111,7 +111,7 @@ class DLL_EXPORT Selection {
   //!
   //! \return the selection type enumerator
   //!
-  virtual SelectionType type() const;
+  virtual SelectionType type() const = 0;
 };
 
 struct OperationWithSelection {
