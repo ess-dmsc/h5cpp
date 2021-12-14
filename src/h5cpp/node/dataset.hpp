@@ -1078,15 +1078,12 @@ void Dataset::read_reshape(T &data,
 {
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::Set,selection);
+  if (selection.type() != dataspace::SelectionType::Hyperslab)
+    return read(data,mem_type,mem_space,file_space,dtpl);
   try{
     const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
-    auto dims = hyper.block();
-    if(dims.size() > 1) {
-      auto count = hyper.count();
-      for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	dims[i] *= count[i];
-
-      dataspace::Simple selected_space(dims);
+    if(hyper.rank() > 1) {
+      dataspace::Simple selected_space(hyper.dimensions());
       if (selected_space.size() == mem_space.size()) {
 	// reads to the reshaped memory data buffer
 	return read(data,mem_type,selected_space,file_space,dtpl);
@@ -1147,31 +1144,24 @@ void Dataset::write_reshape(const T &data,
 {
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::Set,selection);
-  if (mem_space.type() != dataspace::Type::Simple) {
-    write(data,mem_type,mem_space,file_space,dtpl);
-  }
-  else{
-    try{
-      const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
-      auto dims = hyper.block();
-      if(dims.size() > 1) {
-	const dataspace::Simple & mem_simple_space = dataspace::Simple(mem_space);
-	auto count = hyper.count();
-	for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	  dims[i] *= count[i];
-
-	dataspace::Simple selected_space(dims);
-	if(selected_space.rank() > 1 &&
-	   mem_simple_space.rank() == 1 &&
-	   selected_space.size() == mem_space.size()) {
-	  // writes from the reshaped memory data buffer
-	  return write(data,mem_type,selected_space,file_space,dtpl);
-	}
+  if (mem_space.type() != dataspace::Type::Simple
+      || selection.type() != dataspace::SelectionType::Hyperslab)
+    return write(data,mem_type,mem_space,file_space,dtpl);
+  try{
+    const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
+    if(hyper.rank() > 1) {
+      const dataspace::Simple & mem_simple_space = dataspace::Simple(mem_space);
+      dataspace::Simple selected_space(hyper.dimensions());
+      if(selected_space.rank() > 1 &&
+	 mem_simple_space.rank() == 1 &&
+	 selected_space.size() == mem_space.size()) {
+	// writes from the reshaped memory data buffer
+	return write(data,mem_type,selected_space,file_space,dtpl);
       }
     }
-    catch(const std::bad_cast&) { }
-    write(data,mem_type,mem_space,file_space,dtpl);
   }
+  catch(const std::bad_cast&) { }
+  write(data,mem_type,mem_space,file_space,dtpl);
 }
 
 

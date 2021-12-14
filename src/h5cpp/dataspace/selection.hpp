@@ -81,6 +81,37 @@ class DLL_EXPORT Selection {
   //! \param ops operator for the selection
   virtual void apply(const Dataspace &space,
                      SelectionOperation ops) const = 0;
+  //!
+  //! \brief get current dimensions
+  //!
+  //! Get a number of elements along each dimension a selection spans
+  //! this is particularly useful in the case of a Hyperslab 
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return the selection dimentsions
+  //!
+  virtual Dimensions dimensions() const = 0;
+
+  //!
+  //! \brief get the selection size
+  //!
+  //! Get the total number of elements adressed by an individual selection
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return the selection type enumerator
+  //!
+  virtual size_t size() const = 0;
+
+  //!
+  //! \brief get the selection type
+  //!
+  //! Get the type of the selection
+  //!
+  //! \return the selection type enumerator
+  //!
+  virtual SelectionType type() const = 0;
 };
 
 struct OperationWithSelection {

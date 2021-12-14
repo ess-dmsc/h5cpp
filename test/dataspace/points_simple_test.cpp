@@ -36,17 +36,40 @@ SCENARIO("construction of point selections") {
   GIVEN("a default constructed Points") {
     dataspace::Points h;
     THEN("the rank must be 0") { REQUIRE(h.rank() == 0); }
+    THEN("the size must be 0") { REQUIRE(h.size() == 0ul); }
+    THEN("the type must be Points") {
+      REQUIRE(h.type() == hdf5::dataspace::SelectionType::Points);
+    }
+    THEN("dimensions access must fail") {
+      REQUIRE_THROWS_AS(h.dimensions(), std::runtime_error);
+    }
   }
 
   GIVEN("a Point selection constructed for a rank 2") { 
     dataspace::Points h(2);
     THEN("the rank must be 2") { REQUIRE(h.rank() == 2); }
+    THEN("the size must be 0") { REQUIRE(h.size() == 0ul); }
+    THEN("the type must be Points") {
+      REQUIRE(h.type() == hdf5::dataspace::SelectionType::Points);
+    }
+    THEN("dimensions access be 0") {
+      REQUIRE_THAT(h.dimensions(),
+                   Catch::Matchers::Equals(Dimensions{0, 0}));
+    }
   }
 
   GIVEN("a Point selection constructed from a list of points") { 
     dataspace::Points points({{1, 1}, {2, 2}});
     THEN("the rank must be 2") { REQUIRE(points.rank() == 2u); }
     THEN("the number of points must be 2") { REQUIRE(points.points() == 2u); }
+    THEN("the size must be 2") { REQUIRE(points.size() == 2ul); }
+    THEN("the type must be Points") {
+      REQUIRE(points.type() == hdf5::dataspace::SelectionType::Points);
+    }
+    THEN("dimensions access be {2,2}") {
+      REQUIRE_THAT(points.dimensions(),
+                   Catch::Matchers::Equals(Dimensions{2, 2}));
+    }
   }
 
   GIVEN("a list of points of different rank") {

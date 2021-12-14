@@ -250,6 +250,38 @@ class DLL_EXPORT Hyperslab : public Selection {
   virtual void apply(const Dataspace &space,
                      SelectionOperation ops) const override;
 
+  //!
+  //! \brief get current dimensions
+  //!
+  //! Get a number of elements along each dimension a selection spans
+  //! this is particularly useful in the case of a Hyperslab 
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return the selection dimentsions
+  //!
+  virtual Dimensions dimensions() const override;
+
+  //!
+  //! \brief get the selection size
+  //!
+  //! Get the total number of elements adressed by an individual selection
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return the selection type enumerator
+  //!
+  virtual size_t size() const override;
+
+  //!
+  //! \brief get the selection type
+  //!
+  //! Get the type of the selection
+  //!
+  //! \return the selection type enumerator
+  //!
+  virtual SelectionType type() const override;
+
  private:
   inline void check_dimension_index(size_t index, const std::string &what) const {
     if (index >= rank()) {
