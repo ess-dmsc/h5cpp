@@ -86,7 +86,8 @@ if (H5CPP_WITH_MPI)
   h5cpp_message(STATUS "Building with MPI support")
 endif()
 
-find_package(ZLIB)
+find_package(Threads REQUIRED)
+find_package(ZLIB REQUIRED)
 
 add_subdirectory(src)
 option(H5CPP_BUILD_DOCS "Build documentation" ON)
