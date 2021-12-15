@@ -13,10 +13,14 @@ project(h5cpp
 set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
 
-option(H5CPP_BUILD_SHARED "Build h5cpp as a shared library" ${BUILD_SHARED_LIBS})
-if(H5CPP_BUILD_SHARED)
+if (NOT DEFINED BUILD_SHARED_LIBS)
   set(BUILD_SHARED_LIBS ON)
 endif()
+option(H5CPP_BUILD_SHARED "Build h5cpp as a shared library" ${BUILD_SHARED_LIBS})
+if (NOT H5CPP_BUILD_SHARED)
+  set(BUILD_SHARED_LIBS OFF)
+endif()
+
 #=============================================================================
 # Conan
 #=============================================================================
@@ -65,12 +69,10 @@ include(DoxygenUtilities)
 option(H5CPP_WITH_BOOST "enable Boost filesystem support" ON)
 if(H5CPP_WITH_BOOST)
   find_package(Boost 1.41 COMPONENTS filesystem system REQUIRED)
-  h5cpp_message(STATUS "Using Boost library for filesystem")
-else() 
+else()
   # if we do not use Boost we have to ensure a C++ standard of at least 2017
   # since we require the std::filesystem API
   set(CMAKE_CXX_STANDARD 17)
-  h5cpp_message(STATUS "Using std library for filesystem")
 endif()
 
 include(${EXTRA_MODULES_DIR}/CompilerConfig.cmake)
@@ -84,6 +86,11 @@ else()
 endif()
 if (H5CPP_WITH_MPI)
   h5cpp_message(STATUS "Building with MPI support")
+endif()
+if(H5CPP_WITH_BOOST)
+  h5cpp_message(STATUS "Using Boost library for filesystem")
+else()
+  h5cpp_message(STATUS "Using std library for filesystem")
 endif()
 
 find_package(Threads REQUIRED)
