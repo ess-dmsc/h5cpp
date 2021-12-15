@@ -87,6 +87,7 @@ if (H5CPP_WITH_MPI)
 endif()
 
 find_package(Threads REQUIRED)
+find_package(SZIP)
 find_package(ZLIB REQUIRED)
 
 add_subdirectory(src)

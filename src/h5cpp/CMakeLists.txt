@@ -68,6 +68,11 @@ set_target_properties(h5cpp
 
 enable_coverage(h5cpp)
 
+set(H5CPP_FILTER_TARGETS ZLIB::ZLIB)
+if (TARGET SZIP::SZIP)
+  list(APPEND H5CPP_FILTER_TARGETS SZIP::SZIP)
+endif()
+
 target_link_libraries(h5cpp
   PUBLIC 
     ${H5CPP_LINKS}
@@ -75,7 +80,7 @@ target_link_libraries(h5cpp
     hdf5::hdf5_hl
     hdf5::hdf5
     Threads::Threads
-    ZLIB::ZLIB
+    ${H5CPP_FILTER_TARGETS}
     ${CMAKE_DL_LIBS}
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
