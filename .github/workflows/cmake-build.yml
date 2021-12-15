@@ -194,14 +194,14 @@ jobs:
           cd build
           source activate.sh
           ctest --extra-verbose
-  linux-no-conan:
+  debian-10:
     strategy:
       matrix:
         shared: [shared, static]
         boost: [boost, stdfs]
     runs-on: ubuntu-20.04
     container:
-      image: algodynamic/ubuntu-dev:18.04
+      image: debian:buster
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables
@@ -209,6 +209,28 @@ jobs:
           bash .github/workflows/set_env_vars.sh \
             ${{ matrix.shared }} \
             ${{ matrix.boost }}
+      - name: install prerequisites
+        run: |
+          apt-get update
+          apt-get -y install \
+            cmake \
+            g++ \
+            gpg \
+            libhdf5-dev \
+            libboost-filesystem-dev \
+            wget
+      - name: download and install Catch2
+        run: |  
+          wget https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.7.tar.gz
+          tar -xf v2.13.7.tar.gz
+          mkdir -p Catch2-2.13.7/build
+          cmake \
+            -S Catch2-2.13.7 \
+            -B Catch2-2.13.7/build/ \
+            -DCATCH_BUILD_TESTING=OFF \
+            -DCATCH_INSTALL_DOCS=OFF
+          cmake --build Catch2-2.13.7/build --target install
+        working-directory: /tmp
       - name: build with cmake
         run: |
           HDF5_STATIC=ON
