@@ -242,6 +242,7 @@ Dataset Group::get_dataset(const Path &path, const property::LinkAccessList &lap
   return hdf5::node::get_dataset(*this, path, lapl);
 }
 
+#if H5_VERSION_GE(1,10,0)
 void Group::flush() const
 {
   if (H5Gflush(static_cast<hid_t>(*this)) < 0)
@@ -249,6 +250,7 @@ void Group::flush() const
     error::Singleton::instance().throw_with_stack("Failure to flush the group!");
   }
 }
+#endif
 
 } // namespace node
 } // namespace hdf5

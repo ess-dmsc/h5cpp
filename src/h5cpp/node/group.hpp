@@ -96,10 +96,12 @@ class DLL_EXPORT Group : public Node
     //!
     Group &operator=(const Group &group);
 
+#if H5_VERSION_GE(1,10,0)
     //!
     //! \brief flush group
     //!
     void flush() const;
+#endif
 
     //!
     //! \brief get reference to the iterator configuration
