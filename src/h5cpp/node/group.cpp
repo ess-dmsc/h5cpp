@@ -19,8 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Author: Martin Shetty <martin.shetty@esss.se>
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+//          Martin Shetty <martin.shetty@esss.se>
+//          Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 11, 2017
 //
 
@@ -240,6 +241,16 @@ Dataset Group::get_dataset(const Path &path, const property::LinkAccessList &lap
 {
   return hdf5::node::get_dataset(*this, path, lapl);
 }
+
+#if H5_VERSION_GE(1,10,0)
+void Group::flush() const
+{
+  if (H5Gflush(static_cast<hid_t>(*this)) < 0)
+  {
+    error::Singleton::instance().throw_with_stack("Failure to flush the group!");
+  }
+}
+#endif
 
 } // namespace node
 } // namespace hdf5
