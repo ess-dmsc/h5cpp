@@ -132,7 +132,7 @@ class DLL_EXPORT ObjectId
     //! Obtains the name of the file where the object is stored in.
     static std::string get_file_name(const ObjectHandle &handle);
 
-#if (_DOXYGEN_ || H5_VERSION_GE(1,10,6))
+#if (_DOXYGEN_ || H5_VERSION_LE(1,10,6))
 #define H5O_info_t_ H5O_info_t
 #else
 #define H5O_info_t_ H5O_info1_t
