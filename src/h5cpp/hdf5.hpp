@@ -100,7 +100,7 @@
 #include <h5cpp/node/chunked_dataset.hpp>
 #include <h5cpp/node/recursive_node_iterator.hpp>
 #include <h5cpp/node/recursive_link_iterator.hpp>
-#if H5_VERSION_GE(1,10,0)
+#if (_DOXYGEN_ || H5_VERSION_GE(1,10,0))
 #include <h5cpp/node/virtual_dataset.hpp>
 #endif
 
@@ -123,7 +123,7 @@
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/property/type_creation.hpp>
 #include <h5cpp/property/object_copy.hpp>
-#if H5_VERSION_GE(1,10,0)
+#if (_DOXYGEN_ || H5_VERSION_GE(1,10,0))
 #include <h5cpp/property/virtual_data_map.hpp>
 #endif
 

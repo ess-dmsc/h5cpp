@@ -57,7 +57,7 @@ class DLL_EXPORT FileCreationList : public GroupCreationList {
   void chunk_tree_rank(unsigned int ik);
   unsigned int chunk_tree_rank() const;
 
-#if H5_VERSION_GE(1, 10, 1)
+#if (_DOXYGEN_ || H5_VERSION_GE(1,10,1))
   void page_size(hsize_t size);
   hsize_t page_size() const;
 #endif

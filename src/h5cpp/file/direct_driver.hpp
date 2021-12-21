@@ -26,7 +26,7 @@
 
 #include <h5cpp/file/driver.hpp>
 
-#ifdef H5_HAVE_DIRECT
+#if ( _DOXYGEN_ || H5_HAVE_DIRECT )
 namespace hdf5 {
 namespace file {
 

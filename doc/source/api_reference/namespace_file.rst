@@ -65,3 +65,15 @@ Driver classes
    
 .. doxygenclass:: hdf5::file::MemoryDriver
    :members:
+
+:cpp:class:`DirectDriver`
+-------------------------
+
+.. doxygenclass:: hdf5::file::DirectDriver
+   :members:
+
+:cpp:class:`MPIDriver`
+----------------------
+
+.. doxygenclass:: hdf5::file::MPIDriver
+   :members:
