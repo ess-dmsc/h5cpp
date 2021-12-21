@@ -30,7 +30,7 @@
 namespace hdf5 {
 namespace file {
 
-#if ( _DOXYGEN_ || WITH_MPI )
+#if ( defined(_DOXYGEN_) || defined(WITH_MPI) )
 
 class DLL_EXPORT MPIDriver : public Driver
 {

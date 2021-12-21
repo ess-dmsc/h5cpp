@@ -96,7 +96,7 @@ class DLL_EXPORT Group : public Node
     //!
     Group &operator=(const Group &group);
 
-#if (_DOXYGEN_ || H5_VERSION_GE(1,10,0))
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
     //!
     //! \brief flush the group
     //!
