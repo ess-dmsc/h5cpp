@@ -58,7 +58,7 @@ class DLL_EXPORT ChunkCacheParameters {
   double w0_;
 };
 
-#if H5_VERSION_GE(1, 10, 0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
 enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type {
   FirstMissing = H5D_VDS_FIRST_MISSING,
   LastAvailable = H5D_VDS_LAST_AVAILABLE
@@ -106,7 +106,7 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList {
   //!
   ChunkCacheParameters chunk_cache_parameters() const;
 
-#if H5_VERSION_GE(1, 10, 0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
   //!
   //! \brief missing data handling for virtual datasets
   //!

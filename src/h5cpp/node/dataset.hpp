@@ -192,7 +192,13 @@ class DLL_EXPORT Dataset : public Node
 
 
 
-#if H5_VERSION_GE(1,10,0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
+    //!
+    //! \brief refresh the dataset
+    //!
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     void refresh() const;
 #endif
 
@@ -372,7 +378,7 @@ class DLL_EXPORT Dataset : public Node
 		     const property::DatasetTransferList &dtpl =
 		     property::DatasetTransferList::get())  const;
 
-#if H5_VERSION_GE(1,10,2)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,2))
 
     //!
     //! \brief read dataset chunk
@@ -895,7 +901,7 @@ void Dataset::write_chunk(const T &data,
 
   if(mem_type.get_class() == datatype::Class::Integer)
     {
-#if H5_VERSION_GE(1,10,3)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,3))
       if(H5Dwrite_chunk(static_cast<hid_t>(*this),
                          static_cast<hid_t>(dtpl),
                          filter_mask,
@@ -929,7 +935,7 @@ void Dataset::write_chunk(const T &data,
     }
 }
 
-#if H5_VERSION_GE(1,10,2)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,2))
 
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
@@ -949,7 +955,7 @@ std::uint32_t Dataset::read_chunk(T &data,
   std::uint32_t filter_mask;
   if(mem_type.get_class() == datatype::Class::Integer)
     {
-#if H5_VERSION_GE(1,10,3)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,3))
       if(H5Dread_chunk(static_cast<hid_t>(*this),
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
