@@ -98,9 +98,9 @@ class DLL_EXPORT Group : public Node
 
 #if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
     //!
-    //! \brief flush the group
+    //! \brief flush the group (*since hdf5 1.10.0*)
     //!
-    //! \throws std::runtime_error in case of a failure
+    //! \throws std::runtime_error in case of a failure)
     //!
     void flush() const;
 #endif

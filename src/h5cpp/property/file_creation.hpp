@@ -32,33 +32,90 @@
 namespace hdf5 {
 namespace property {
 
+//!
+//! \brief dataset creation property list
+//!
 class DLL_EXPORT FileCreationList : public GroupCreationList {
  public:
+  //!
+  //! \brief default constructor
+  //!
   FileCreationList();
   ~FileCreationList() override;
 
+  //!
+  //! \brief constructor
+  //!
+  //! Construct a file creation property list from a handler instance.
+  //! This constructor will throw an exception if the handle does not
+  //! reference a file creation property list.
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //! \param handle r-value reference to a handle instance
+  //!
   explicit FileCreationList(ObjectHandle &&handle);
 
+  //!
+  //! \brief set user block
+  //!
   void user_block(hsize_t size) const;
+  //!
+  //! \brief get user block
+  //!
   hsize_t user_block() const;
 
+  //!
+  //! \brief set object offset size
+  //!
   void object_offset_size(size_t size) const;
+  //!
+  //! \brief get object offset size
+  //!
   size_t object_offset_size() const;
 
+  //!
+  //! \brief set object length size
+  //!
   void object_length_size(size_t size) const;
+  //!
+  //! \brief get object length size
+  //!
   size_t object_length_size() const;
 
+  //!
+  //! \brief set btree rank
+  //!
   void btree_rank(unsigned int ik);
+  //!
+  //! \brief get btree rank
+  //!
   unsigned int btree_rank() const;
 
+  //!
+  //! \brief set btree symbols
+  //!
   void btree_symbols(unsigned int lk);
+  //!
+  //! \brief get btree symbols
+  //!
   unsigned int btree_symbols() const;
-
+  //!
+  //! \brief set chunk tree rank
+  //!
   void chunk_tree_rank(unsigned int ik);
+  //!
+  //! \brief get chunk tree rank
+  //!
   unsigned int chunk_tree_rank() const;
 
 #if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,1))
+  //!
+  //! \brief set page size (*since hdf5 1.10.1*)
+  //!
   void page_size(hsize_t size);
+  //!
+  //!  \brief get page size (*since hdf5 1.10.1*)
+  //!
   hsize_t page_size() const;
 #endif
 
