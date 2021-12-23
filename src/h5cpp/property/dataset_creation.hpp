@@ -98,6 +98,7 @@ enum class DatasetLayout : std::underlying_type<H5D_layout_t>::type {
   Contiguous = H5D_CONTIGUOUS,
   Chunked = H5D_CHUNKED,
 #if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
+  //! (*since hdf5 1.10.0*)
   Virtual = H5D_VIRTUAL
 #endif
 };

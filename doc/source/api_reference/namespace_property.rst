@@ -49,6 +49,14 @@ Enumerations
 
 .. doxygenfunction:: hdf5::property::operator|(const CopyFlag &, const CopyFlag &)
 
+:cpp:enum:`VirtualDataView`
+---------------------------
+
+.. doxygenenum:: hdf5::property::VirtualDataView
+
+.. doxygenfunction:: hdf5::property::operator<<(std::ostream &, const VirtualDataView &)
+
+
 Classes
 =======
 

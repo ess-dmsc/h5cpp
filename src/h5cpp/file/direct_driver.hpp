@@ -31,7 +31,7 @@ namespace hdf5 {
 namespace file {
 
 //!
-//! \brief direct write without buffering
+//! \brief direct write without buffering (*for hdf5 compiled with H5_HAVE_DIRECT*)
 //!
 class DLL_EXPORT DirectDriver : public Driver
 {

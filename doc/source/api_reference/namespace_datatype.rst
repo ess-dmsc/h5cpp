@@ -47,6 +47,12 @@ Classes
 .. doxygenclass:: hdf5::datatype::String
    :members:
 
+:cpp:class:`Enum`
+-----------------
+
+.. doxygenclass:: hdf5::datatype::Enum
+   :members:
+
 Type traits
 ===========
 

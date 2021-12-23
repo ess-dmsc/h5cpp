@@ -43,7 +43,9 @@ enum class AccessFlags : unsigned
   ReadWrite = 0x0001,
   ReadOnly  = 0x0000,
 #if ( defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0) )
+  //! (*since hdf5 1.10.0*)
   SWMRRead = 0x0040,
+  //! (*since hdf5 1.10.0*)
   SWMRWrite = 0x0020
 #endif
 };

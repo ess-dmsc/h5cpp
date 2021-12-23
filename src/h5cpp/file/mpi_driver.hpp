@@ -32,6 +32,9 @@ namespace file {
 
 #if ( defined(_DOXYGEN_) || defined(WITH_MPI) )
 
+//!
+//! \brief class for the MPI driver (*for hdf5 with compiled MPI*)
+//!
 class DLL_EXPORT MPIDriver : public Driver
 {
   public:

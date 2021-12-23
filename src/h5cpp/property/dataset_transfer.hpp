@@ -91,10 +91,22 @@ class DLL_EXPORT DatasetTransferList : public List {
   }
 
 #if (defined(_DOXYGEN_) || defined(WITH_MPI) )
+  //!
+  //! \brief set mpi transfer mode (*for hdf5 compiled with MPI*)
+  //!
   void mpi_transfer_mode(MPITransferMode mode) const;
+  //!
+  //! \brief get mpi transfer mode (*for hdf5 compiled with MPI*)
+  //!
   MPITransferMode mpi_transfer_mode() const;
 
+  //!
+  //! \brief set mpi chunk option (*for hdf5 compiled with MPI*)
+  //!
   void mpi_chunk_option(MPIChunkOption option) const;
+  //!
+  //! \brief get mpi chunk option (*for hdf5 compiled with MPI*)
+  //!
   MPIChunkOption mpi_chunk_option() const;
 
 
