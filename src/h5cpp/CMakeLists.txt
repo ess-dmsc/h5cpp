@@ -6,6 +6,7 @@ install(FILES ${HEADERS}
 
 set(h5cpp_headers ${HEADERS})
 set(h5cpp_sources )
+add_subdirectory(contrib)
 add_subdirectory(core)
 add_subdirectory(attribute)
 add_subdirectory(dataspace)
