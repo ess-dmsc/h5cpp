@@ -40,6 +40,7 @@
 #include <h5cpp/error/error.hpp>
 #include <initializer_list>
 #include <h5cpp/core/utilities.hpp>
+#include <h5cpp/contrib/stl/vector.hpp>
 
 namespace hdf5 {
 namespace attribute {
