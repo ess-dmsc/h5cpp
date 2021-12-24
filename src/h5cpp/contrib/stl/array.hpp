@@ -23,5 +23,28 @@ class TypeTrait<std::array<T, N>> {
 
 namespace dataspace { 
 
+template<typename T, size_t N>
+class TypeTrait<std::array<T, N>> {
+ public:
+  using DataspaceType = Simple;
+
+  static DataspaceType create(const std::array<T, N> &) {
+    return Simple(hdf5::Dimensions{N}, hdf5::Dimensions{N});
+  }
+
+  const static DataspaceType & get(const std::array<T, N> &, DataspacePool &) {
+    const static DataspaceType & cref_ = Simple(hdf5::Dimensions{N}, hdf5::Dimensions{N});
+    return cref_;
+  }
+
+  static void *ptr(std::array<T, N> &value) {
+    return reinterpret_cast<void *>(value.data());
+  }
+
+  static const void *cptr(const std::array<T, N> &value) {
+    return reinterpret_cast<const void *>(value.data());
+  }
+};
+
 } // end of namespace dataspace
 } // end of namespace hdf5
