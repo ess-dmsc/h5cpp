@@ -26,10 +26,6 @@
 
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <vector>
-#include <sstream>
-#include <cstring>
-#include <algorithm>
-#include <iterator>
 
 namespace hdf5 {
 
