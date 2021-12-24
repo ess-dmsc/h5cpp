@@ -32,6 +32,7 @@
 #include <complex>
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/complex.hpp>
 
 using namespace hdf5;
 using namespace hdf5::datatype;
