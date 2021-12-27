@@ -33,7 +33,7 @@ using namespace hdf5;
 
 SCENARIO("testing pniio bool compatibility") {
   auto file =
-      file::open("../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
+      file::open("../../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root = file.root();
 
   GIVEN("a datast with a scalar dataspace storing a true value") {

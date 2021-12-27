@@ -33,7 +33,7 @@ using namespace hdf5;
 
 SCENARIO("testing h5py compatiable booleans") {
   auto h5py_file =
-      file::open("../h5py_test_boolattr.h5", file::AccessFlags::ReadOnly);
+      file::open("../../h5py_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root_group = h5py_file.root();
 
   // =========================================================================
