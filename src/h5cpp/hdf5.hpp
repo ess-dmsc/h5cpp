@@ -45,7 +45,6 @@
 
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/datatype.hpp>
-#include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/integer.hpp>
