@@ -23,7 +23,7 @@
 // Created on: Jul 2, 2018
 //
 #include <catch2/catch.hpp>
-#include <h5cpp/datatype/ebool.hpp>
+#include <h5cpp/contrib/nexus/ebool.hpp>
 #include <h5cpp/datatype/enum.hpp>
 #include <h5cpp/hdf5.hpp>
 

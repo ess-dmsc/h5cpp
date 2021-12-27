@@ -1,7 +1,8 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -20,34 +21,13 @@
 // ===========================================================================
 //
 // Authors:
-//   Jan Kotanski <jan.kotanski@desy.de>
-// Created on: Sep 18, 2018
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 7 Dec, 2020
 //
+#pragma once
 
-#include <sstream>
-#include <h5cpp/datatype/enum.hpp>
+#include <vector>
 #include <h5cpp/contrib/nexus/ebool.hpp>
-#include <h5cpp/error/error.hpp>
 
-namespace hdf5
-{
-namespace datatype
-{
+using EBools = std::vector<hdf5::datatype::EBool>;
 
-bool is_bool(const Enum & etype){
-  size_t s = etype.number_of_values();
-  if(s != 2){
-    return false;
-  }
-  if(etype.name(0) != "FALSE"){
-    return false;
-  }
-  if(etype.name(1) != "TRUE"){
-    return false;
-  }
-  return true;
-}
-
-
-} // namespace datatype
-} // namespace hdf5

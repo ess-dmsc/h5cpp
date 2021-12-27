@@ -42,7 +42,7 @@ endif()
 #=============================================================================
 # contrib extensions
 #=============================================================================
-set(H5CPP_ENABLE_NEXUS "false" CACHE BOOL "enable support or Nexus types")
+set(H5CPP_ENABLE_NEXUS "true" CACHE BOOL "enable support or Nexus types")
 set(H5CPP_ENABLE_STL "true" CACHE BOOL "enable STL support for H5CPP")
 
 #=============================================================================
