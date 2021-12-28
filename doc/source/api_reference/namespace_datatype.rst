@@ -62,11 +62,13 @@ Type traits
 Enumerations
 ============
 
-:cpp:enum:`Class`
+:cpp:enum:`EBool`
 -----------------
 
-.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Class &)
+.. doxygenenum:: hdf5::datatype::EBool
 
+.. doxygenfunction:: hdf5::datatype::is_bool(const Enum &);
+                 
 :cpp:enum:`Order`
 -----------------
 
@@ -119,3 +121,6 @@ Enumerations
 -----------------
 
 .. doxygenenum:: hdf5::datatype::Class
+
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Class &)
+
