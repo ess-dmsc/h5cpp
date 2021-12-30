@@ -41,6 +41,7 @@
 #include <h5cpp/property/dataset_creation.hpp>
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/filter/external_filter.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
 #include <h5cpp/error/error.hpp>
 #include <vector>
 #include <h5cpp/core/utilities.hpp>

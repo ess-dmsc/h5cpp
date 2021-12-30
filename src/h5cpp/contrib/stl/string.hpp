@@ -1,6 +1,7 @@
 #pragma once
 
 #include <h5cpp/datatype/type_trait.hpp>
+#include <h5cpp/datatype/string.hpp>
 #include <string>
 
 namespace hdf5 { 

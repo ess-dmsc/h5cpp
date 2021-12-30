@@ -30,6 +30,7 @@
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 

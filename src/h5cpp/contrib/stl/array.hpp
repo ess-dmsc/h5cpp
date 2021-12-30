@@ -1,6 +1,8 @@
 #pragma once
 
 #include <h5cpp/datatype/type_trait.hpp>
+#include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/dataspace/simple.hpp>
 #include <array>
 
 namespace hdf5 { 
