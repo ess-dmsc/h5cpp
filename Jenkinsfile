@@ -110,14 +110,6 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = ''
         break
-      case 'macOS-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_macos.txt'
-        cmake_prefix = ''
-        break
-      case 'macOS-debug':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_macos.txt'
-        cmake_prefix = ''
-        break
       default:
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
         cmake_prefix = ''
@@ -308,7 +300,7 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DCONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
