@@ -110,6 +110,14 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_options = '-DCMAKE_BUILD_TYPE=Release'
         cmake_prefix = ''
         break
+      case ''macOS-release':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_macos.txt'
+        cmake_prefix = ''
+        break
+      case ''macOS-debug':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_macos.txt'
+        cmake_prefix = ''
+        break
       default:
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
         cmake_prefix = ''
