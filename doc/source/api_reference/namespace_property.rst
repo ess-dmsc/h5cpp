@@ -226,3 +226,38 @@ Enumerations
 --------------------------
 
 .. doxygenenum:: hdf5::property::MPIChunkOption
+
+Property Class variables
+========================
+
+.. cpp:var:: const Class kAttributeCreate
+
+.. cpp:var:: const Class kDatasetAccess
+
+.. cpp:var:: const Class kDatasetCreate
+
+.. cpp:var:: const Class kDatasetXfer
+
+.. cpp:var:: const Class kDatatypeAccess
+
+.. cpp:var:: const Class kDatatypeCreate
+
+.. cpp:var:: const Class kFileAccess
+
+.. cpp:var:: const Class kFileCreate
+
+.. cpp:var:: const Class kFileMount
+
+.. cpp:var:: const Class kGroupAccess
+
+.. cpp:var:: const Class kGroupCreate
+
+.. cpp:var:: const Class kLinkAccess
+
+.. cpp:var:: const Class kLinkCreate
+
+.. cpp:var:: const Class kObjectCopy
+
+.. cpp:var:: const Class kObjectCreate
+
+.. cpp:var:: const Class kStringCreate
