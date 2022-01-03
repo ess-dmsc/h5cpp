@@ -28,17 +28,25 @@ Dataspace related classes and functions
 Selection related classes and functions
 =======================================
 
-:cpp:class:`Selection`
-----------------------
+:cpp:class:`Selection` and :cpp:type:`SelectionList`
+----------------------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Selection
    :members:
+
+.. doxygentypedef:: hdf5::dataspace::SelectionList
+
+.. doxygenfunction:: hdf5::dataspace::operator||(const Dataspace &, const SelectionList &)
+
 
 :cpp:class:`Hyperslab`
 ----------------------
 
 .. doxygenclass:: hdf5::dataspace::Hyperslab
    :members:
+
+.. doxygenfunction:: hdf5::dataspace::operator||(const Dataspace &, const Hyperslab &)
+		     
 
 :cpp:class:`Points`
 -------------------
@@ -87,12 +95,18 @@ Enumerations
 
 .. doxygenenum:: hdf5::dataspace::Type
 
+.. doxygenfunction:: hdf5::dataspace::operator<<(std::ostream &, const Type &)
+
 :cpp:enum:`SelectionType`
 -------------------------
 
 .. doxygenenum:: hdf5::dataspace::SelectionType
 
+.. doxygenfunction:: hdf5::dataspace::operator<<(std::ostream &, const SelectionType &)
+
 :cpp:enum:`SelectionOperation`
 ------------------------------
 
 .. doxygenenum:: hdf5::dataspace::SelectionOperation
+
+.. doxygenfunction:: hdf5::dataspace::operator<<(std::ostream &, const SelectionOperation &)

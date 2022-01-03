@@ -11,6 +11,10 @@ Classes
 .. doxygenclass:: hdf5::datatype::Datatype
    :members:
 
+.. doxygenfunction:: hdf5::datatype::operator==(const Datatype &, const Datatype &)
+
+.. doxygenfunction:: hdf5::datatype::operator!=(const Datatype &, const Datatype &)
+
 :cpp:class:`Array`
 ------------------
 

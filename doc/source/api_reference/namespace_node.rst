@@ -149,6 +149,11 @@ Functions
 
 .. doxygenfunction:: hdf5::node::is_dataset
 
+:cpp:func:`resize_by`
+---------------------
+
+.. doxygenfunction:: hdf5::node::resize_by(const Dataset &, size_t, ssize_t)
+
 
 Enumerations
 ============
