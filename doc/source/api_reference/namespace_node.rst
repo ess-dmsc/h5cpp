@@ -5,8 +5,8 @@ Namespace :cpp:any:`hdf5::node`
 Classes
 =======
 
-:cpp:class:`Node`
------------------
+:cpp:class:`hdf5::node::Node`
+-----------------------------
 
 .. doxygenclass:: hdf5::node::Node
    :members:
@@ -15,8 +15,8 @@ Classes
 
 .. doxygenfunction:: hdf5::node::operator!=(const Node &, const Node &)
 
-:cpp:class:`Link`
------------------
+:cpp:class:`hdf5::node::Link`
+-----------------------------
 
 .. doxygenclass:: hdf5::node::Link
    :members:
@@ -25,26 +25,26 @@ Classes
 
 .. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const Link &)
 
-:cpp:class:`LinkTarget`
------------------------
+:cpp:class:`hdf5::node::LinkTarget`
+-----------------------------------
 
 .. doxygenclass:: hdf5::node::LinkTarget
    :members:
 
-:cpp:class:`Group`
-------------------
+:cpp:class:`hdf5::node::Group`
+------------------------------
 
 .. doxygenclass:: hdf5::node::Group
    :members:
 
-:cpp:class:`GroupView`
-----------------------
+:cpp:class:`hdf5::node::GroupView`
+----------------------------------
 
 .. doxygenclass:: hdf5::node::GroupView
    :members:
 
-:cpp:class:`NodeView`
----------------------
+:cpp:class:`hdf5::node::NodeView`
+---------------------------------
 
 .. doxygenclass:: hdf5::node::NodeView
    :members:
@@ -55,8 +55,8 @@ Classes
 .. doxygenclass:: hdf5::node::RecursiveNodeIterator
    :members:
 
-:cpp:class:`LinkView`
----------------------
+:cpp:class:`hdf5::node::LinkView`
+---------------------------------
 
 .. doxygenclass:: hdf5::node::LinkView
    :members:
@@ -67,22 +67,22 @@ Classes
 .. doxygenclass:: hdf5::node::RecursiveLinkIterator
    :members:
 
-:cpp:class:`Dataset`
---------------------
+:cpp:class:`hdf5::node::Dataset`
+--------------------------------
 
 .. doxygenclass:: hdf5::node::Dataset
    :members:
 
 
-:cpp:class:`ChunkedDataset`
----------------------------
+:cpp:class:`hdf5::node::ChunkedDataset`
+---------------------------------------
 
 .. doxygenclass:: hdf5::node::ChunkedDataset
    :members:
 
 
-:cpp:class:`VirtualDataset`
----------------------------
+:cpp:class:`hdf5::node::VirtualDataset`
+---------------------------------------
 
 .. doxygenclass:: hdf5::node::VirtualDataset
    :members:
@@ -90,27 +90,27 @@ Classes
 Functions
 =========
 
-:cpp:func:`copy`
-----------------
+:cpp:func:`hdf5::node::copy`
+----------------------------
 
 .. doxygenfunction:: hdf5::node::copy(const Node &, const Group &, const property::ObjectCopyList &, const property::LinkCreationList &)
 
-:cpp:func:`move`
-----------------
+:cpp:func:`hdf5::node::move`
+----------------------------
 
 .. doxygenfunction:: hdf5::node::move(const Node &, const Group &, const Path &, const property::LinkCreationList &, const property::LinkAccessList &)
 
 .. doxygenfunction:: hdf5::node::move(const Node &, const Group &, const property::LinkCreationList &, const property::LinkAccessList &)
 
-:cpp:func:`remove`
-------------------
+:cpp:func:`hdf5::node::remove`
+------------------------------
 
 .. doxygenfunction:: hdf5::node::remove(const Node &, const property::LinkAccessList &)
 
 .. doxygenfunction:: hdf5::node::remove(const Group &, const Path &, const property::LinkAccessList &)
 
-:cpp:func:`link`
-----------------
+:cpp:func:`hdf5::node::link`
+----------------------------
 
 .. doxygenfunction:: hdf5::node::link(const Node &, const Group &, const Path &, const property::LinkCreationList &, const property::LinkAccessList &)
 
@@ -119,33 +119,33 @@ Functions
 .. doxygenfunction:: hdf5::node::link(const fs::path &, const Path &, const Group &, const Path &, const property::LinkCreationList &, const property::LinkAccessList &)
 
 
-:cpp:func:`get_node`
---------------------
+:cpp:func:`hdf5::node::get_node`
+--------------------------------
 
 .. doxygenfunction:: hdf5::node::get_node
 
-:cpp:func:`get_real_base`
--------------------------
+:cpp:func:`hdf5::node::get_real_base`
+-------------------------------------
 
 .. doxygenfunction:: hdf5::node::get_real_base
 
-:cpp:func:`get_group`
----------------------
+:cpp:func:`hdf5::node::get_group`
+---------------------------------
 
 .. doxygenfunction:: hdf5::node::get_group
 
-:cpp:func:`get_dataset`
------------------------
+:cpp:func:`hdf5::node::get_dataset`
+-----------------------------------
 
 .. doxygenfunction:: hdf5::node::get_dataset
 
-:cpp:func:`is_group`
---------------------
+:cpp:func:`hdf5::node::is_group`
+--------------------------------
 
 .. doxygenfunction:: hdf5::node::is_group
 
-:cpp:func:`is_dataset`
-----------------------
+:cpp:func:`hdf5::node::is_dataset`
+----------------------------------
 
 .. doxygenfunction:: hdf5::node::is_dataset
 
@@ -153,15 +153,15 @@ Functions
 Enumerations
 ============
 
-:cpp:enum:`NodeType`
---------------------
+:cpp:enum:`hdf5::node::NodeType`
+--------------------------------
 
 .. doxygenenum:: hdf5::node::NodeType
 
 .. doxygenfunction:: hdf5::node::operator<<(std::ostream &, const NodeType &)
 
-:cpp:enum:`LinkType`
---------------------
+:cpp:enum:`hdf5::node::LinkType`
+--------------------------------
 
 .. doxygenenum:: hdf5::node::LinkType
 
