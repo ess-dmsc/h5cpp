@@ -2,14 +2,14 @@
 Namespace :cpp:any:`hdf5`
 =========================
 
-:cpp:class:`hdf5::Path`
-=======================
+:cpp:class:`Path`
+=================
 
 .. doxygenclass:: hdf5::Path
    :members:
    
-:cpp:class:`hdf5::IteratorConfig`
-=================================
+:cpp:class:`IteratorConfig`
+===========================
 
 .. doxygenclass:: hdf5::IteratorConfig
    :members:
@@ -19,8 +19,8 @@ Namespace :cpp:any:`hdf5`
 
 .. doxygenenum:: hdf5::IterationIndex
 
-:cpp:class:`hdf5::ObjectHandle`
-===============================
+:cpp:class:`ObjectHandle`
+=========================
    
 .. doxygenclass:: hdf5::ObjectHandle
    :members:
@@ -29,50 +29,50 @@ Namespace :cpp:any:`hdf5`
 
 .. doxygenenum:: hdf5::ObjectHandle::Type
 
-:cpp:class:`hdf5::Version`
-==========================
+:cpp:class:`Version`
+====================
    
 .. doxygenclass:: hdf5::Version
    :members:
 
-:cpp:class:`hdf5::ObjectId`
-===========================
+:cpp:class:`ObjectId`
+=====================
    
 .. doxygenclass:: hdf5::ObjectId
    :members:
 
-:cpp:class:`hdf5::Context`
-==========================
+:cpp:class:`Context`
+====================
    
 .. doxygenclass:: hdf5::Context
    :members:
 
-:cpp:class:`hdf5::IOWriteBuffer`
-================================
+:cpp:class:`IOWriteBuffer`
+==========================
    
 .. doxygenclass:: hdf5::IOWriteBuffer
    :members:
    
-:cpp:class:`hdf5::IOReadBuffer`
-===============================
+:cpp:class:`IOReadBuffer`
+=========================
    
 .. doxygenclass:: hdf5::IOReadBuffer
    :members:
 
-:cpp:class:`hdf5::FixedLengthStringBuffer`
-==========================================
+:cpp:class:`FixedLengthStringBuffer`
+====================================
    
 .. doxygenclass:: hdf5::FixedLengthStringBuffer
    :members:
 
-:cpp:class:`hdf5::Iterator`
-===========================
+:cpp:class:`Iterator`
+=====================
    
 .. doxygenclass:: hdf5::Iterator
    :members:
 
-:cpp:class:`hdf5::ArrayAdapter`
-===============================
+:cpp:class:`ArrayAdapter`
+=========================
    
 .. doxygenclass:: hdf5::ArrayAdapter
    :members:

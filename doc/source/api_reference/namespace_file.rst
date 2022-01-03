@@ -6,8 +6,8 @@ Enumerations
 ============
 
 
-The :cpp:class:`hdf5::file::File` class
-=======================================
+The :cpp:class:`File` class
+===========================
 
 .. doxygenclass:: hdf5::file::File
    :members:
@@ -45,35 +45,35 @@ Flags
 Driver classes
 ==============
 
-:cpp:class:`hdf5::file::Driver`
--------------------------------
+:cpp:class:`Driver`
+-------------------
 
 .. doxygenclass:: hdf5::file::Driver
    :members:
    
 .. doxygenenum:: hdf5::file::DriverID
    
-:cpp:class:`hdf5::file::PosixDriver`
-------------------------------------
+:cpp:class:`PosixDriver`
+------------------------
 
 .. doxygenclass:: hdf5::file::PosixDriver
    :members:
 
 
-:cpp:class:`hdf5::file::MemoryDriver`
--------------------------------------
+:cpp:class:`MemoryDriver`
+-------------------------
    
 .. doxygenclass:: hdf5::file::MemoryDriver
    :members:
 
-:cpp:class:`hdf5::file::DirectDriver`
--------------------------------------
+:cpp:class:`DirectDriver`
+-------------------------
 
 .. doxygenclass:: hdf5::file::DirectDriver
    :members:
 
-:cpp:class:`hdf5::file::MPIDriver`
-----------------------------------
+:cpp:class:`MPIDriver`
+----------------------
 
 .. doxygenclass:: hdf5::file::MPIDriver
    :members:

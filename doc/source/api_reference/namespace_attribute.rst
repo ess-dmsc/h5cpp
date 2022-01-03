@@ -2,20 +2,20 @@
 Namespace :cpp:any:`hdf5::attribute`
 ====================================
 
-:cpp:class:`hdf5::attribute::Attribute`
-=======================================
+:cpp:class:`Attribute`
+======================
 
 .. doxygenclass:: hdf5::attribute::Attribute
    :members:
    
-:cpp:class:`hdf5::attribute::AttributeManager`
-==============================================
+:cpp:class:`AttributeManager`
+=============================
 
 .. doxygenclass:: hdf5::attribute::AttributeManager
    :members:
 
-:cpp:class:`hdf5::attribute::AttributeIterator`
-===============================================
+:cpp:class:`AttributeIterator`
+==============================
 
 .. doxygenclass:: hdf5::attribute::AttributeIterator
    :members:      

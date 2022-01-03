@@ -7,58 +7,58 @@ Enumerations
 
 .. doxygenenum:: hdf5::filter::Availability
 
-:cpp:class:`hdf5::filter::Filter`
-=================================
+:cpp:class:`Filter`
+===================
 
 .. doxygenclass:: hdf5::filter::Filter
    :members:
 
-:cpp:class:`hdf5::filter::Deflate`
-==================================
+:cpp:class:`Deflate`
+====================
 
 .. doxygenclass:: hdf5::filter::Deflate
    :members:
 
-:cpp:class:`hdf5::filter::Shuffle`
-==================================
+:cpp:class:`Shuffle`
+====================
 
 .. doxygenclass:: hdf5::filter::Shuffle
    :members:
 
-:cpp:class:`hdf5::filter::Fletcher32`
-=====================================
+:cpp:class:`Fletcher32`
+=======================
 
 .. doxygenclass:: hdf5::filter::Fletcher32
    :members:
 
-:cpp:class:`hdf5::filter::SZip`
-===============================
+:cpp:class:`SZip`
+=================
 
 .. doxygenclass:: hdf5::filter::SZip
    :members:
 
-:cpp:class:``
-=================================
+:cpp:class:`NBit`
+===================
 
 .. doxygenclass:: hdf5::filter::NBit
    :members:
 
-:cpp:class:`hdf5::filter::ScaleOffset`
-======================================
+:cpp:class:`ScaleOffset`
+========================
 
 .. doxygenclass:: hdf5::filter::ScaleOffset
    :members:
 
 .. doxygenenum:: hdf5::filter::SOScaleType
 
-:cpp:class:`hdf5::filter::ExternalFilter`
-=========================================
+:cpp:class:`ExternalFilter`
+===========================
 
 .. doxygenclass:: hdf5::filter::ExternalFilter
    :members:
 
-:cpp:class:`hdf5::filter::ExternalFilters`
-==========================================
+:cpp:class:`ExternalFilters`
+============================
 
 .. doxygenclass:: hdf5::filter::ExternalFilters
    :members:
