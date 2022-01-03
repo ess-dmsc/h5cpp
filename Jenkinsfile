@@ -300,7 +300,7 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DCONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
