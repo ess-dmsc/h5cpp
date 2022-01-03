@@ -5,62 +5,62 @@ Namespace :cpp:any:`hdf5::datatype`
 Classes
 =======
 
-:cpp:class:`hdf5::datatype::Datatype`
--------------------------------------
+:cpp:class:`Datatype`
+---------------------
 
 .. doxygenclass:: hdf5::datatype::Datatype
    :members:
 
-:cpp:class:`hdf5::datatype::Array`
-----------------------------------
+:cpp:class:`Array`
+------------------
 
 .. doxygenclass:: hdf5::datatype::Array
    :members:
 
-:cpp:class:`hdf5::datatype::VLengthArray`
------------------------------------------
+:cpp:class:`VLengthArray`
+-------------------------
 
 .. doxygenclass:: hdf5::datatype::VLengthArray
    :members:
 
-:cpp:class:`hdf5::datatype::Compound`
--------------------------------------
+:cpp:class:`Compound`
+---------------------
 
 .. doxygenclass:: hdf5::datatype::Compound
    :members:
 
-:cpp:class:`hdf5::datatype::String`
------------------------------------
+:cpp:class:`String`
+-------------------
 
 .. doxygenclass:: hdf5::datatype::String
    :members:
 
-:cpp:class:`hdf5::datatype::Enum`
----------------------------------
+:cpp:class:`Enum`
+-----------------
 
 .. doxygenclass:: hdf5::datatype::Enum
    :members:
 
-:cpp:class:`hdf5::datatype::Integer`
-------------------------------------
+:cpp:class:`Integer`
+--------------------
 
 .. doxygenclass:: hdf5::datatype::Integer
    :members:
 
-:cpp:class:`hdf5::datatype::Float`
-----------------------------------
+:cpp:class:`Float`
+------------------
 
 .. doxygenclass:: hdf5::datatype::Float
    :members:
 
-:cpp:class:`hdf5::datatype::float16_t`
---------------------------------------
+:cpp:class:`float16_t`
+----------------------
 
 .. doxygenclass:: hdf5::datatype::float16_t
    :members:
 
-:cpp:class:`hdf5::datatype::DatatypeHolder`
--------------------------------------------
+:cpp:class:`DatatypeHolder`
+---------------------------
 
 .. doxygenclass:: hdf5::datatype::DatatypeHolder
    :members:
@@ -68,48 +68,52 @@ Classes
 Type traits
 ===========
 
+:cpp:class:`TypeTrait`
+----------------------
+
 .. doxygenclass:: hdf5::datatype::TypeTrait
    :members:
 
 Enumerations
 ============
 
-:cpp:enum:`hdf5::datatype::EBool`
----------------------------------
+:cpp:enum:`EBool`
+-----------------
 
 .. doxygenenum:: hdf5::datatype::EBool
 
 .. doxygenfunction:: hdf5::datatype::is_bool(const Enum &);
 
-:cpp:enum:`hdf5::datatype::Order`
----------------------------------
+:cpp:enum:`Order`
+-----------------
 
 .. doxygenenum:: hdf5::datatype::Order
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Order &)
 
-:cpp:enum:`hdf5::datatype::Sign`
---------------------------------
+:cpp:enum:`Sign`
+----------------
 
 .. doxygenenum:: hdf5::datatype::Sign
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Sign &)
 
-:cpp:enum:`hdf5::datatype::Norm`
---------------------------------
+:cpp:enum:`Norm`
+----------------
 
 .. doxygenenum:: hdf5::datatype::Norm
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Norm &)
 
-:cpp:enum:`hdf5::datatype::Pad`
--------------------------------
+:cpp:enum:`Pad`
+---------------
+
 .. doxygenenum:: hdf5::datatype::Pad
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Pad &)
 
-:cpp:enum:`hdf5::datatype::StringPad`
--------------------------------------
+:cpp:enum:`StringPad`
+---------------------
 
 .. doxygenenum:: hdf5::datatype::StringPad
 

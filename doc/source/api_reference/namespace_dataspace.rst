@@ -5,19 +5,19 @@ Namespace :cpp:any:`hdf5::dataspace`
 Dataspace related classes and functions
 =======================================
 
-:cpp:class:`hdf5::dataspace::Dataspace`
+:cpp:class:`Dataspace`
 ---------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Dataspace
    :members:
 
-:cpp:class:`hdf5::dataspace::Scalar`
+:cpp:class:`Scalar`
 ------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Scalar
    :members:
 
-:cpp:class:`hdf5::dataspace::Simple`
+:cpp:class:`Simple`
 ------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Simple
@@ -28,43 +28,43 @@ Dataspace related classes and functions
 Selection related classes and functions
 =======================================
 
-:cpp:class:`hdf5::dataspace::Selection`
+:cpp:class:`Selection`
 ---------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Selection
    :members:
 
-:cpp:class:`hdf5::dataspace::Hyperslab`
+:cpp:class:`Hyperslab`
 ---------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Hyperslab
    :members:
 
-:cpp:class:`hdf5::dataspace::Points`
+:cpp:class:`Points`
 ------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::Points
    :members:
 
-:cpp:class:`hdf5::dataspace::SelectionManager`
+:cpp:class:`SelectionManager`
 ----------------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::SelectionManager
    :members:
 
-:cpp:class:`hdf5::dataspace::View`
+:cpp:class:`View`
 ----------------------------------
 
 .. doxygenclass:: hdf5::dataspace::View
    :members:
 
-:cpp:class:`hdf5::dataspace::DataspaceHolder`
+:cpp:class:`DataspaceHolder`
 ---------------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::DataspaceHolder
    :members:
 
-:cpp:class:`hdf5::dataspace::DataspacePool`
+:cpp:class:`DataspacePool`
 -------------------------------------------
 
 .. doxygenclass:: hdf5::dataspace::DataspacePool
@@ -72,6 +72,9 @@ Selection related classes and functions
 
 Type traits
 ===========
+
+:cpp:class:`TypeTrait`
+----------------------
 
 .. doxygenclass:: hdf5::dataspace::TypeTrait
    :members:
