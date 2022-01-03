@@ -70,6 +70,12 @@ Selection related classes and functions
 .. doxygenclass:: hdf5::dataspace::DataspacePool
    :members:
 
+Type traits
+===========
+
+.. doxygenclass:: hdf5::dataspace::TypeTrait
+   :members:
+
 Enumerations
 ============
 
