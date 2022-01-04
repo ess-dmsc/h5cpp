@@ -3,7 +3,7 @@ boost/1.69.0
 hdf5/1.10.6
 zlib/1.2.11
 bzip2/1.0.8
-doxygen/1.9.2
+doxygen/1.9.1
 
 [generators]
 cmake_paths
