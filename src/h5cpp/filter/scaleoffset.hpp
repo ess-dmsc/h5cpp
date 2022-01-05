@@ -47,9 +47,12 @@ class DLL_EXPORT ScaleOffset : public Filter
     //! @brief character set encoding used by string types and links
     //!
     enum class ScaleType: std::underlying_type<H5Z_SO_scale_type_t>::type {
-      FloatDScale = H5Z_SO_FLOAT_DSCALE,  // Floating-point type, using variable MinBits method
-      FloatEScale = H5Z_SO_FLOAT_ESCALE,  // Floating-point type, using fixed MinBits method
-      Int = H5Z_SO_INT                     // Integer type
+      //! floating-point type, using variable MinBits method
+      FloatDScale = H5Z_SO_FLOAT_DSCALE,
+      //! floating-point type, using fixed MinBits method
+      FloatEScale = H5Z_SO_FLOAT_ESCALE,
+      //! integer type
+      Int = H5Z_SO_INT
     };
     ScaleOffset();
     ScaleOffset(ScaleOffset::ScaleType scale_type, int scale_factor);
