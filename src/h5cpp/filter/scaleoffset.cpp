@@ -35,11 +35,11 @@ namespace filter {
 
 ScaleOffset::ScaleOffset():
     Filter(H5Z_FILTER_SCALEOFFSET),
-    scale_type_(SOScaleType::FloatDScale),
+    scale_type_(ScaleOffset::ScaleType::FloatDScale),
     scale_factor_(1)
 {}
 
-ScaleOffset::ScaleOffset(SOScaleType scale_type, int scale_factor):
+ScaleOffset::ScaleOffset(ScaleOffset::ScaleType scale_type, int scale_factor):
     Filter(H5Z_FILTER_SCALEOFFSET),
     scale_type_(scale_type),
     scale_factor_(scale_factor)
@@ -48,12 +48,12 @@ ScaleOffset::ScaleOffset(SOScaleType scale_type, int scale_factor):
 ScaleOffset::~ScaleOffset()
 {}
 
-SOScaleType ScaleOffset::scale_type() const noexcept
+ScaleOffset::ScaleType ScaleOffset::scale_type() const noexcept
 {
   return scale_type_;
 }
 
-void ScaleOffset::scale_type(SOScaleType scale_type)
+void ScaleOffset::scale_type(ScaleOffset::ScaleType scale_type)
 {
   scale_type_ = scale_type;
 }
@@ -77,11 +77,11 @@ void ScaleOffset::operator()(const property::DatasetCreationList &dcpl,
   }
 }
 
-std::ostream &operator<<(std::ostream &stream, const SOScaleType &scale_type) {
+std::ostream &operator<<(std::ostream &stream, const ScaleOffset::ScaleType &scale_type) {
   switch (scale_type) {
-    case SOScaleType::FloatDScale: return stream << "FLOAT_DSCALE";
-    case SOScaleType::FloatEScale: return stream << "FLOAT_ESCALE";
-    case SOScaleType::Int: return stream << "INT";
+    case ScaleOffset::ScaleType::FloatDScale: return stream << "FLOAT_DSCALE";
+    case ScaleOffset::ScaleType::FloatEScale: return stream << "FLOAT_ESCALE";
+    case ScaleOffset::ScaleType::Int: return stream << "INT";
     default:return stream;
   }
 }

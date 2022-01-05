@@ -66,6 +66,9 @@ namespace hdf5
 class DLL_EXPORT ObjectHandle
 {
   public:
+    //!
+    //! @brief type of the object handle
+    //!
     enum class Type
     {
       Uninitialized,
@@ -84,6 +87,9 @@ class DLL_EXPORT ObjectHandle
       ErrorStack
     };
 
+    //!
+    //! @brief type of the ward policy
+    //!
     enum class Policy
     {
       WithWard = 1,

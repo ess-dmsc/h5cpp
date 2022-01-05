@@ -11,10 +11,6 @@ Classes
 .. doxygenclass:: hdf5::ObjectHandle
    :members:
 
-.. doxygenenum:: hdf5::ObjectHandle::Policy
-
-.. doxygenenum:: hdf5::ObjectHandle::Type
-
 .. doxygenfunction:: hdf5::operator==(const ObjectHandle &,const ObjectHandle &)
 
 .. doxygenfunction:: hdf5::operator!=(const ObjectHandle &,const ObjectHandle &)
