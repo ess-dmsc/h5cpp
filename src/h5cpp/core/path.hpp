@@ -260,13 +260,17 @@ class DLL_EXPORT Path
 
     Path& operator+=(const Path &other);
 
+#ifndef _DOXYGEN_ /* workaround for the #613 breathe bug */
     //!
     //! \brief checks two paths for equality
     //!
     //! Two paths are considered equal if each of their elements is
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+    //!
+    //! \brief checks two paths for equality base
+    //!
     DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
-
+#endif /* DOXYGEN */
   private:
     bool absolute_;
 #ifdef _MSC_VER
@@ -287,6 +291,17 @@ class DLL_EXPORT Path
 #pragma clang diagnostic pop
 #endif
 
+#ifdef _DOXYGEN_ /* workaround for the #613 breathe bug */
+    //!
+    //! \brief checks two paths for equality
+    //!
+    //! Two paths are considered equal if each of their elements is
+    DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+    //!
+    //! \brief checks two paths for equality base
+    //!
+    DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
+#endif /* DOXYGEN */
 
 DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 

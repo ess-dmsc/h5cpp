@@ -5,7 +5,8 @@ import ecdcpipeline.PipelineBuilder
 project = "h5cpp"
 // coverage_os = "centos7-release"
 coverage_os = "None"
-documentation_os = "debian10-release"
+// documentation_os = "debian10-release"
+documentation_os = "ubuntu2004-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
@@ -300,7 +301,7 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DCONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
