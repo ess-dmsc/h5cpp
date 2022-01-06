@@ -32,6 +32,9 @@ namespace filter {
 class DLL_EXPORT Shuffle : public Filter
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     Shuffle();
 
     ~Shuffle() override;

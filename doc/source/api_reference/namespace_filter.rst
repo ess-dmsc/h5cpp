@@ -66,6 +66,32 @@ Filter classes
 .. doxygenclass:: hdf5::filter::SZip
    :members:
 
+.. doxygenfunction:: hdf5::filter::operator|(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator|(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator|(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator&(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator&(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator&(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator==(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator==(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator==(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator!=(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator!=(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator!=(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator<<(std::ostream &stream, const SZip::OptionMask &)
+
 :cpp:class:`NBit`
 -----------------
 
