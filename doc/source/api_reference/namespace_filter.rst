@@ -78,6 +78,4 @@ Filter classes
 .. doxygenclass:: hdf5::filter::ScaleOffset
    :members:
 
-.. doxygenenum:: hdf5::filter::SOScaleType
-
-.. doxygenfunction:: hdf5::filter::operator<<(std::ostream &stream, const SOScaleType &scale_type)
+.. doxygenfunction:: hdf5::filter::operator<<(std::ostream &stream, const ScaleOffset::ScaleType &scale_type)
