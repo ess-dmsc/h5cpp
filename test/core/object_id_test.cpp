@@ -339,7 +339,7 @@ SCENARIO("testing symbolic links") {
 }
 #endif
 
-void external_link(const fs::path& target_file,
+static void external_link(const fs::path& target_file,
                    const std::string& target_path,
                    const ObjectHandle& link_file,
                    const std::string& link_path) {

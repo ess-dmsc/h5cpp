@@ -34,7 +34,7 @@
 
 #include "object_handle_test.hpp"
 
-std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type type) {
+static std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type type) {
   using ptr_type = std::shared_ptr<ObjectHandleTest>;
   switch (type) {
     case hdf5::ObjectHandle::Type::File:

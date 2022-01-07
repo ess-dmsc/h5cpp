@@ -37,7 +37,7 @@ void constData() {
   dset.write(SomeData);
 }
 
-void DoNotRun() {
+static void DoNotRun() {
   constData<std::int8_t>();
   constData<std::uint8_t>();
   constData<std::int16_t>();

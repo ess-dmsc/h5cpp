@@ -97,9 +97,8 @@ std::ostream &operator<<(std::ostream &stream,const SZip::OptionMask &flags)
     case SZip::OptionMask::Chip : return stream<<"CHIP_CODING";
     case SZip::OptionMask::EntropyCoding : return stream<<"ENTROPY_CODING";
     case SZip::OptionMask::NearestNeighbor : return stream<<"NEAREST_NEIGHBOR_CODING";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 SZip::OptionMaskBase operator|(const SZip::OptionMask &lhs,const SZip::OptionMask &rhs)

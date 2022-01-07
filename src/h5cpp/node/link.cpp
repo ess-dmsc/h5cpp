@@ -149,10 +149,10 @@ LinkTarget Link::target(const property::LinkAccessList &lapl) const
       return get_soft_link_target(lapl);
     case LinkType::External:
       return get_external_link_target(lapl);
-    default:
-      throw std::runtime_error("Unkown link type - cannot determine target!");
+    case LinkType::Error:
+      break;
   }
-
+  throw std::runtime_error("Unkown link type - cannot determine target!");
 }
 
 LinkType Link::type(const property::LinkAccessList &lapl) const
