@@ -28,6 +28,7 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/selection.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <cassert>
 
 namespace hdf5 {
@@ -45,7 +46,7 @@ size_t SelectionManager::size() const {
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
-  return s;
+  return signed2unsigned<size_t>(s);
 }
 
 SelectionType SelectionManager::type() const {

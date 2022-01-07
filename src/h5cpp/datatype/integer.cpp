@@ -28,6 +28,7 @@
 
 #include <h5cpp/datatype/integer.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <sstream>
 
 namespace hdf5 {
@@ -83,7 +84,7 @@ size_t Integer::offset() const {
   if (p < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve datatype offset");
   }
-  return p;
+  return signed2unsigned<size_t>(p);
 }
 
 void Integer::offset(size_t offset) const {

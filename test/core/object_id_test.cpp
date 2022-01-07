@@ -56,6 +56,7 @@
 #include <h5cpp/core/object_handle.hpp>
 #include <h5cpp/core/object_id.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/property/property_list.hpp>
 #include <iostream>
 #include <tuple>
 
@@ -66,35 +67,35 @@ hid_t to_hid(const ObjectHandle& handle) {
   return static_cast<hid_t>(handle);
 }
 ObjectHandle h5f_create(const fs::path& path) {
-  hid_t id = H5Fcreate(path.string().data(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+  hid_t id = H5Fcreate(path.string().data(), H5F_ACC_TRUNC, hdf5::property::kDefault, hdf5::property::kDefault);
   return ObjectHandle(id);
 }
 
 ObjectHandle h5g_create(const ObjectHandle& parent, const std::string& name) {
-  return ObjectHandle(H5Gcreate(to_hid(parent), name.data(), H5P_DEFAULT,
-                                H5P_DEFAULT, H5P_DEFAULT));
+  return ObjectHandle(H5Gcreate(to_hid(parent), name.data(), hdf5::property::kDefault,
+                                hdf5::property::kDefault, hdf5::property::kDefault));
 }
 
 auto open = [](const fs::path& p) {
-  return H5Fopen(p.string().data(), H5F_ACC_RDONLY, H5P_DEFAULT);
+  return H5Fopen(p.string().data(), H5F_ACC_RDONLY, hdf5::property::kDefault);
 };
 
 auto openrw = [](const fs::path& p) {
-  return H5Fopen(p.string().data(), H5F_ACC_RDWR, H5P_DEFAULT);
+  return H5Fopen(p.string().data(), H5F_ACC_RDWR, hdf5::property::kDefault);
 };
 
 void hard_link(const ObjectHandle& parent,
                const std::string& orig_path,
                const std::string& link_path) {
   REQUIRE(H5Lcreate_hard(to_hid(parent), orig_path.data(), to_hid(parent),
-                         link_path.data(), H5P_DEFAULT, H5P_DEFAULT) >= 0);
+                         link_path.data(), hdf5::property::kDefault, hdf5::property::kDefault) >= 0);
 }
 
 void soft_link(const ObjectHandle& parent,
                const std::string& orig_path,
                const std::string& link_path) {
   REQUIRE(H5Lcreate_soft(orig_path.data(), to_hid(parent), link_path.data(),
-                         H5P_DEFAULT, H5P_DEFAULT) >= 0);
+                         hdf5::property::kDefault, hdf5::property::kDefault) >= 0);
 }
 struct File {
   fs::path file_path;
@@ -114,7 +115,7 @@ struct File {
         H5Screate_simple(static_cast<int>(dims.size()), dims.data(), nullptr));
     dataset = ObjectHandle(H5Dcreate(
         to_hid(group1), "dset1", H5T_NATIVE_DOUBLE,
-        to_hid(space), H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT));
+        to_hid(space), hdf5::property::kDefault, hdf5::property::kDefault, hdf5::property::kDefault));
   }
 };
 }
@@ -182,7 +183,7 @@ SCENARIO("working with links") {
     GIVEN("a hard link to group1 with name group3") {
       hard_link(file1.file, "/group1", "/group3");
       AND_GIVEN("an id to group3") {
-        ObjectHandle g(H5Gopen(to_hid(file1.file), "/group3", H5P_DEFAULT));
+        ObjectHandle g(H5Gopen(to_hid(file1.file), "/group3", hdf5::property::kDefault));
         THEN("the handles must not be equal") {
           REQUIRE(to_hid(g) != to_hid(file1.group1));
         }
@@ -198,7 +199,7 @@ SCENARIO("working with links") {
     GIVEN("a soft link to group1 with name group4") {
       soft_link(file1.file, "/group1", "/group4");
       AND_GIVEN("a handle to group4") {
-        ObjectHandle g(H5Gopen(to_hid(file1.file), "/group4", H5P_DEFAULT));
+        ObjectHandle g(H5Gopen(to_hid(file1.file), "/group4", hdf5::property::kDefault));
         THEN("the handles to group4 and group1 must be different") {
           REQUIRE(to_hid(g) != to_hid(file1.group1));
         }
@@ -214,7 +215,7 @@ SCENARIO("working with links") {
     GIVEN("a hard link to dset1 of name dset2") {
       hard_link(file1.file, "/group1/dset1", "/group2/dset2");
       AND_GIVEN("a handle to /group2/dset2") {
-        ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset2", H5P_DEFAULT));
+        ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset2", hdf5::property::kDefault));
         THEN("handles must not be equal") {
           REQUIRE(to_hid(d) != to_hid(file1.dataset));
         }
@@ -230,7 +231,7 @@ SCENARIO("working with links") {
     GIVEN("a soft link to dset1 of name /group2/dset3") {
       soft_link(file1.file, "/group1/dset1", "/group2/dset3");
       AND_GIVEN("a handle to /group2/dset3") {
-        ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset3", H5P_DEFAULT));
+        ObjectHandle d(H5Dopen(to_hid(file1.group2), "dset3", hdf5::property::kDefault));
         THEN("handles must not be equal") {
           REQUIRE(to_hid(d) != to_hid(file1.dataset));
         }
@@ -274,10 +275,10 @@ SCENARIO("checking copies and files of identical structure") {
                                  files_t{path1, path3}}));
   GIVEN("a handle to group 1 in the first file") {
     ObjectHandle file1{open(std::get<0>(files))};
-    ObjectHandle g_file1(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
+    ObjectHandle g_file1(H5Gopen(to_hid(file1), "/group1", hdf5::property::kDefault));
     AND_GIVEN("a handle to group 1 in the second file") {
       ObjectHandle file2{open(std::get<1>(files))};
-      ObjectHandle g_file2(H5Gopen(to_hid(file2), "/group1", H5P_DEFAULT));
+      ObjectHandle g_file2(H5Gopen(to_hid(file2), "/group1", hdf5::property::kDefault));
       THEN("we expect the two handles to be different") {
         REQUIRE(to_hid(g_file1) != to_hid(g_file2));
       }
@@ -317,9 +318,9 @@ SCENARIO("testing symbolic links") {
   GIVEN("a handler to the first group in the original file") {
     ObjectHandle orig(open(path1));
     ObjectHandle link(open(path2));
-    ObjectHandle g_orig(H5Gopen(to_hid(orig), "/group1", H5P_DEFAULT));
+    ObjectHandle g_orig(H5Gopen(to_hid(orig), "/group1", hdf5::property::kDefault));
     AND_GIVEN("a handle to the group in the symbolic link") {
-      ObjectHandle g_link(H5Gopen(to_hid(link), "/group1", H5P_DEFAULT));
+      ObjectHandle g_link(H5Gopen(to_hid(link), "/group1", hdf5::property::kDefault));
       THEN("the two handle must be different") {
         REQUIRE(to_hid(g_orig) != to_hid(g_link));
       }
@@ -343,8 +344,8 @@ void external_link(const fs::path& target_file,
                    const ObjectHandle& link_file,
                    const std::string& link_path) {
   REQUIRE(H5Lcreate_external(target_file.string().data(), target_path.c_str(),
-                             to_hid(link_file), link_path.c_str(), H5P_DEFAULT,
-                             H5P_DEFAULT) >= 0);
+                             to_hid(link_file), link_path.c_str(), hdf5::property::kDefault,
+                             hdf5::property::kDefault) >= 0);
 }
 
 SCENARIO("testing with external links") {
@@ -360,10 +361,10 @@ SCENARIO("testing with external links") {
     ObjectHandle file2(openrw(path2));
     external_link(path1, "/group1", file2, "/group3");
     AND_GIVEN("a handle to this external link group in file") {
-      ObjectHandle linked(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
+      ObjectHandle linked(H5Gopen(to_hid(file2), "/group3", hdf5::property::kDefault));
       AND_GIVEN("a handle to the original group in the first file") {
         ObjectHandle file1(open(path1));
-        ObjectHandle original(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
+        ObjectHandle original(H5Gopen(to_hid(file1), "/group1", hdf5::property::kDefault));
         THEN("the two handles must be different") {
           REQUIRE(linked != original);
         }
@@ -404,15 +405,15 @@ SCENARIO("testing wiht external synmbolic link") {
   // Extlink file2/group3 -> file3/group1
   ObjectHandle file2(openrw(path2));
   external_link(path3, "/group1", file2, "/group3");
-  ObjectHandle group23(H5Gopen(to_hid(file2), "/group3", H5P_DEFAULT));
+  ObjectHandle group23(H5Gopen(to_hid(file2), "/group3", hdf5::property::kDefault));
 
   // Original node
   ObjectHandle file1(open(path1));
-  ObjectHandle group11(H5Gopen(to_hid(file1), "/group1", H5P_DEFAULT));
+  ObjectHandle group11(H5Gopen(to_hid(file1), "/group1", hdf5::property::kDefault));
 
   // Node in symlinked file
   ObjectHandle file3(open(path3));
-  ObjectHandle group31(H5Gopen(to_hid(file3), "/group1", H5P_DEFAULT));
+  ObjectHandle group31(H5Gopen(to_hid(file3), "/group1", hdf5::property::kDefault));
 
   ObjectId info11(group11);
   ObjectId info31(group31);

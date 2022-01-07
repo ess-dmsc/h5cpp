@@ -30,7 +30,7 @@ AttributeObjectHandleTest::AttributeObjectHandleTest(const std::string &fname):
   ObjectHandleTest(hdf5::ObjectHandle::Type::Attribute),
   filename_(fname),
   environment_(filename_),
-  group_(H5Gcreate(static_cast<hid_t>(environment_.file_handle()),"test",H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT))
+  group_(H5Gcreate(static_cast<hid_t>(environment_.file_handle()),"test",hdf5::property::kDefault,hdf5::property::kDefault,hdf5::property::kDefault))
 {
   hdf5::ObjectHandle dtype(H5Tcopy(H5T_NATIVE_DOUBLE));
   hdf5::ObjectHandle dspace(H5Screate(H5S_SCALAR));
@@ -38,7 +38,7 @@ AttributeObjectHandleTest::AttributeObjectHandleTest(const std::string &fname):
   H5Acreate(static_cast<hid_t>(group_),"test",
 	    static_cast<hid_t>(dtype),
 	    static_cast<hid_t>(dspace),
-	    H5P_DEFAULT,H5P_DEFAULT);
+	    hdf5::property::kDefault,hdf5::property::kDefault);
 }
 
 AttributeObjectHandleTest::~AttributeObjectHandleTest()
@@ -48,5 +48,5 @@ AttributeObjectHandleTest::~AttributeObjectHandleTest()
 
 hid_t AttributeObjectHandleTest::create_object()
 {
-  return H5Aopen(static_cast<hid_t>(group_),"test",H5P_DEFAULT);
+  return H5Aopen(static_cast<hid_t>(group_),"test",hdf5::property::kDefault);
 }

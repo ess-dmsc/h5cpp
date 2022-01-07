@@ -131,7 +131,7 @@ class DLL_EXPORT ObjectHandle
     /*!
     \code
     .....
-    hdf5::ObjectHandle handle(H5Gopen(fid,"data",H5P_DEFAULT));
+    hdf5::ObjectHandle handle(H5Gopen(fid,"data",hdf5::property::kDefault));
     ...
     \endcode
     */

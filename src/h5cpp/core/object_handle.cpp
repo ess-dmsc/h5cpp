@@ -227,6 +227,18 @@ void ObjectHandle::close()
     case ObjectHandle::Type::ErrorClass:
       error_code = H5Eunregister_class(handle_);
       break;
+    case ObjectHandle::Type::Dataset:
+      error_code = H5Dclose(handle_);
+      break;
+    case ObjectHandle::Type::Uninitialized:
+      error_code = H5Oclose(handle_);
+      break;
+    case ObjectHandle::Type::BadObject:
+      error_code = H5Oclose(handle_);
+      break;
+    case ObjectHandle::Type::VirtualFileLayer:
+      error_code = H5Oclose(handle_);
+      break;
     default:
       error_code = H5Oclose(handle_);
   }

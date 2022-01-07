@@ -37,6 +37,10 @@ namespace datatype {
 //! A compound data type which can be used for data elements of heterogeneous
 //! type like C-structures or a C++ class.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Compound : public Datatype {
  public:
   //!
@@ -92,6 +96,9 @@ class DLL_EXPORT Compound : public Datatype {
   void pack() const;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace datatype
 } // namespace hdf5

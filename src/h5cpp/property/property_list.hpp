@@ -37,6 +37,15 @@
 namespace hdf5 {
 namespace property {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
+const decltype(H5P_DEFAULT) kDefault = H5P_DEFAULT;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 class Class;
 
 //!

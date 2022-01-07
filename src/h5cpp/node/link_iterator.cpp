@@ -25,6 +25,7 @@
 
 #include <h5cpp/node/link_iterator.hpp>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -43,18 +44,18 @@ LinkIterator LinkIterator::begin(const Group &group)
 
 LinkIterator LinkIterator::end(const Group &group)
 {
-  return LinkIterator(group,group.links.size());
+  return LinkIterator(group,unsigned2signed<ssize_t>(group.links.size()));
 }
 
 Link LinkIterator::operator*() const
 {
-  current_link_ = group_.links[index()];
+  current_link_ = group_.links[signed2unsigned<size_t>(index())];
   return current_link_;
 }
 
 Link *LinkIterator::operator->()
 {
-  current_link_ = group_.links[index()];
+  current_link_ = group_.links[signed2unsigned<size_t>(index())];
   return &current_link_;
 }
 

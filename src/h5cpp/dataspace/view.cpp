@@ -27,6 +27,7 @@
 
 #include <h5cpp/dataspace/view.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -76,7 +77,7 @@ size_t View::size() const {
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
-  return s;
+  return signed2unsigned<size_t>(s);
 }
 
 } // namespace dataspace

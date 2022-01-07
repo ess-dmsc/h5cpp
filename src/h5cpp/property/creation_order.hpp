@@ -119,7 +119,7 @@ class DLL_EXPORT CreationOrder {
   unsigned tracked_:1;
   unsigned indexed_:1;
 #ifdef __clang__
-  __attribute__((unused)) unsigned reserved_:sizeof(unsigned) - 2;
+  unsigned reserved_:sizeof(unsigned) - 2 __attribute__((unused));
 #else
   unsigned reserved_:sizeof(unsigned) - 2;
 #endif

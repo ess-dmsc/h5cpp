@@ -27,6 +27,7 @@
 #include <h5cpp/node/link_view.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/node/link_iterator.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -60,7 +61,7 @@ Link LinkView::operator[](size_t index) const
   }
 
   //setting up the string where to store the name
-  std::string name(size,' ');
+  std::string name(signed2unsigned<size_t>(size),' ');
 
   //------------------------------------------------------------------------
   // load the link name
@@ -71,7 +72,7 @@ Link LinkView::operator[](size_t index) const
                             static_cast<H5_iter_order_t>(config.order()),
                             index,
                             const_cast<char*>(name.data()),
-                            size+1,
+                            signed2unsigned<size_t>(size+1),
                             static_cast<hid_t>(config.link_access_list()));
   if(size<0)
   {

@@ -31,6 +31,7 @@
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 using namespace hdf5;
 
@@ -45,7 +46,7 @@ using Bytes = std::vector<unsigned char>;
  * @param filename path to the file to read
  * @return Bytes buffer with uninterpreted bytes
  */
-Bytes file_to_bytes(const std::string &filename)
+static Bytes file_to_bytes(const std::string &filename)
 {
   std::ifstream fin(filename, std::ios::binary);
   return Bytes(std::istreambuf_iterator<char>(fin), {});
@@ -59,10 +60,10 @@ Bytes file_to_bytes(const std::string &filename)
  * @param filename path to the file to write
  * @param bytes the payload which should be written to a file
  */
-void bytes_to_file(const std::string &filename, const Bytes &bytes)
+static void bytes_to_file(const std::string &filename, const Bytes &bytes)
 {
   std::ofstream fout(filename, std::ios::out | std::ios::binary);
-  fout.write(reinterpret_cast<const char *>(bytes.data()), bytes.size());
+  fout.write(reinterpret_cast<const char *>(bytes.data()), unsigned2signed<ssize_t>(bytes.size()));
   fout.close();
 }
 
@@ -86,7 +87,7 @@ SCENARIO("reading a file from a memory buffer")
     auto f = file::open(filename);
     THEN("we can store this to buffer")
     {
-      Bytes buffer(f.buffer_size());
+      Bytes buffer(signed2unsigned<size_t>(f.buffer_size()));
       REQUIRE(f.to_buffer(buffer) == static_cast<size_t>(f.buffer_size()));
       AND_THEN("write this to a file")
       {
@@ -127,7 +128,7 @@ SCENARIO("reading a file from a memory buffer")
     auto f = file::open(filename);
     THEN("we can write this file to a buffer")
     {
-      Bytes buffer(f.buffer_size());
+      Bytes buffer(signed2unsigned<size_t>(f.buffer_size()));
       f.to_buffer(buffer);
       AND_THEN("open it again with from_buffer")
       {

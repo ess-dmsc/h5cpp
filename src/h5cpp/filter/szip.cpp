@@ -92,6 +92,7 @@ std::ostream &operator<<(std::ostream &stream,const SZip::OptionMask &flags)
 {
   switch(flags)
   {
+    case SZip::OptionMask::None : return stream<<"WITHOUT_CODING";
     case SZip::OptionMask::AllowK13 : return stream<<"ALLOW_K13_CODING";
     case SZip::OptionMask::Chip : return stream<<"CHIP_CODING";
     case SZip::OptionMask::EntropyCoding : return stream<<"ENTROPY_CODING";

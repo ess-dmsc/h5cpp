@@ -125,7 +125,7 @@ LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) 
   const char *filename_buffer,
              *objectpath_buffer;
 
-  if(H5Lunpack_elink_val(value.c_str(),value.size()+1,0,
+  if(H5Lunpack_elink_val(value.c_str(),value.size()+1,nullptr,
                          &filename_buffer,&objectpath_buffer)<0)
   {
     std::stringstream ss;

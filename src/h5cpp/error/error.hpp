@@ -30,6 +30,15 @@
 namespace hdf5 {
 namespace error {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
+const decltype(H5E_DEFAULT) kDefault = H5E_DEFAULT;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 //!
 //! \brief singleton class for HDF5 error handling
 //!
@@ -134,7 +143,7 @@ class DLL_EXPORT Singleton
 //!
 //! \param level indentation level
 //!
-std::string DLL_EXPORT print_nested(const std::exception& exception, int level =  0);
+std::string DLL_EXPORT print_nested(const std::exception& exception, size_t level =  0);
 
 
 } // namespace file
