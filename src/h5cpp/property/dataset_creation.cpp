@@ -100,8 +100,11 @@ DatasetLayout DatasetCreationList::layout() const {
 #if H5_VERSION_GE(1, 10, 0)
     case H5D_VIRTUAL:return DatasetLayout::Virtual;
 #endif
-    default:error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
+    case H5D_LAYOUT_ERROR:
+    case H5D_NLAYOUTS:
+      break;
   }
+  error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
   return {};
 }
 

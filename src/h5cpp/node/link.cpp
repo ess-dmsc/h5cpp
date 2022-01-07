@@ -167,9 +167,11 @@ LinkType Link::type(const property::LinkAccessList &lapl) const
     case H5L_TYPE_HARD: return LinkType::Hard;
     case H5L_TYPE_SOFT: return LinkType::Soft;
     case H5L_TYPE_EXTERNAL: return LinkType::External;
-    default:
-      return LinkType::Error;
+    case H5L_TYPE_ERROR:
+    case H5L_TYPE_MAX:
+      break;
   }
+  return LinkType::Error;
 }
 
 Group Link::parent() const

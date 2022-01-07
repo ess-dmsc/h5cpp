@@ -118,10 +118,10 @@ class DLL_EXPORT CreationOrder {
  private:
   unsigned tracked_:1;
   unsigned indexed_:1;
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-but-set-variable"
-#endif
+  //#ifdef __clang__
+  //#pragma clang diagnostic push
+  //#pragma clang diagnostic ignored "-Wunused-but-set-variable"
+  //#endif
   unsigned reserved_:sizeof(unsigned) - 2;
 };
 #ifdef __clang__
