@@ -54,16 +54,34 @@ class DLL_EXPORT ScaleOffset : public Filter
       //! integer type
       Int = H5Z_SO_INT
     };
+    //!
+    //! \brief default constructor
+    //!
     ScaleOffset();
+    //!
+    //! \brief constructor with scale type and scale factor
+    //!
     ScaleOffset(ScaleOffset::ScaleType scale_type, int scale_factor);
     ~ScaleOffset() override;
 
+    //!
+    //! \brief get scale type
+    //!
     ScaleOffset::ScaleType scale_type() const noexcept;
 
+    //!
+    //! \brief set scale type
+    //!
     void scale_type(ScaleOffset::ScaleType scale_type);
 
+    //!
+    //! \brief get scale factor
+    //!
     int scale_factor() const noexcept;
 
+    //!
+    //! \brief set scale factor
+    //!
     void scale_factor(int scale_factor);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,

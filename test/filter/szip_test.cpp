@@ -38,13 +38,19 @@ SCENARIO("using the SZIP filter") {
     }
   }
   GIVEN("a non-default instance") {
-    filter::SZip szip(filter::SZip::ec_option_mask, 16);
+    filter::SZip szip(filter::SZip::OptionMask::EntropyCoding, 16);
     THEN("the configuration will be") {
-      REQUIRE(szip.options_mask() == filter::SZip::ec_option_mask);
+      REQUIRE(szip.option_mask() == filter::SZip::OptionMask::EntropyCoding);
+      REQUIRE(szip.option_mask() != filter::SZip::OptionMask::NearestNeighbor);
       REQUIRE(szip.pixels_per_block() == 16u);
       AND_THEN("we can set the mask to NN_OPTION_MASK") {
-        szip.options_mask(filter::SZip::nn_option_mask);
-        REQUIRE(szip.options_mask() == filter::SZip::nn_option_mask);
+        szip.option_mask(filter::SZip::OptionMask::NearestNeighbor);
+        REQUIRE(szip.option_mask() == filter::SZip::OptionMask::NearestNeighbor);
+        REQUIRE(szip.option_mask() != filter::SZip::OptionMask::EntropyCoding);
+        REQUIRE(szip.option_mask() !=
+                (filter::SZip::OptionMask::EntropyCoding | filter::SZip::OptionMask::NearestNeighbor));
+        REQUIRE(filter::SZip::OptionMask::None ==
+                (filter::SZip::OptionMask::AllowK13 & filter::SZip::OptionMask::Chip));
       }
       AND_THEN("we can set the pixels per block to 32") {
         szip.pixels_per_block(32);

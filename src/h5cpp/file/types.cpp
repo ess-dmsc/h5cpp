@@ -151,7 +151,7 @@ SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs)
 
 SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs)
 {
-  return rhs | static_cast<SearchFlagsBase>(lhs);
+  return lhs | static_cast<SearchFlagsBase>(rhs);
 }
 
  SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlags &rhs)
@@ -166,7 +166,7 @@ SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlagsBase &rhs)
 
 SearchFlagsBase operator&(const SearchFlagsBase &lhs,const SearchFlags &rhs)
 {
-  return rhs & static_cast<SearchFlagsBase>(lhs);
+  return lhs & static_cast<SearchFlagsBase>(rhs);
 }
 
 std::ostream &operator<<(std::ostream &stream,const Scope &scope)
