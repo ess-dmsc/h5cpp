@@ -151,7 +151,7 @@ class PropertyListClassObjectHandleTest : public ObjectHandleTest
  public:
   PropertyListClassObjectHandleTest();
 
-  virtual hid_t create_object();
+  virtual hid_t create_object() override;
 };
 
 class ErrorMessageObjectHandleTest : public ObjectHandleTest

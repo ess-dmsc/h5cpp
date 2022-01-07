@@ -98,6 +98,9 @@ class DLL_EXPORT Singleton
   //!
   //! \param message a user-supplied message for the exception
   //!
+#ifdef __clang__
+  [[ noreturn ]]
+#endif
   void throw_with_stack(const std::string& message);
 
   //!

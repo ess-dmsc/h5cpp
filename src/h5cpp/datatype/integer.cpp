@@ -50,7 +50,7 @@ bool Integer::is_signed() const {
   auto s = H5Tget_sign(static_cast<hid_t>(*this));
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve datatype sign");
-    return false;
+    // return false;
   }
   return bool(s);
 }

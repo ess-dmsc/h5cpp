@@ -142,7 +142,6 @@ SCENARIO("Properties of numeric types") {
   auto create = [](const hid_t& tc) {
     return Datatype(ObjectHandle(H5Tcopy(tc)));
   };
-
   using ptype = std::tuple<hid_t, Class, size_t>;
   auto p = GENERATE(table<hid_t, Class, size_t>(
       {ptype{h5t.native_uint8, Class::Integer, 1},

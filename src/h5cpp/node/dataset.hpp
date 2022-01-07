@@ -821,7 +821,6 @@ class DLL_EXPORT Dataset : public Node
       }
     }
 };
-
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif

@@ -305,11 +305,13 @@ ObjectHandle::Type ObjectHandle::get_type() const
 #endif
     case H5I_NTYPES:
       break;
-  };
+  }
   std::stringstream ss;
   ss << "ObjectHandle: unknown object type=" << type;
   error::Singleton::instance().throw_with_stack(ss.str());
+#ifndef  __clang__
   return {};
+#endif
 }
 
 //----------------------------------------------------------------------------
@@ -423,7 +425,7 @@ std::ostream &operator<<(std::ostream &stream, const ObjectHandle::Type &type)
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-  };
+  }
 
   return stream;
 }

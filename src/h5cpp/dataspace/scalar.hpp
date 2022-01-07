@@ -37,6 +37,10 @@ namespace dataspace {
 //!
 //! Dataspace for a single value
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Scalar : public Dataspace {
  public:
   //!
@@ -58,6 +62,9 @@ class DLL_EXPORT Scalar : public Dataspace {
   Scalar(const Dataspace &space);
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace dataspace
 } // namespace hdf5
