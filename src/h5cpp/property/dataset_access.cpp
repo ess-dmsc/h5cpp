@@ -71,8 +71,8 @@ std::ostream &operator<<(std::ostream &stream, const VirtualDataView &view) {
   switch (view) {
     case VirtualDataView::FirstMissing:return stream << "FIRST_MISSING";
     case VirtualDataView::LastAvailable:return stream << "LAST_AVAILABLE";
-    default:return stream;
   }
+  return stream;
 }
 #endif
 

@@ -239,8 +239,15 @@ void ObjectHandle::close()
     case ObjectHandle::Type::VirtualFileLayer:
       error_code = H5Oclose(handle_);
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
     default:
       error_code = H5Oclose(handle_);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
 
   if (error_code < 0)
@@ -289,11 +296,13 @@ ObjectHandle::Type ObjectHandle::get_type() const
       return ObjectHandle::Type::ErrorMessage;
     case H5I_ERROR_STACK:
       return ObjectHandle::Type::ErrorStack;
-    default:
-      std::stringstream ss;
-      ss << "ObjectHandle: unknown object type=" << type;
-      error::Singleton::instance().throw_with_stack(ss.str());
+    case H5I_REFERENCE:
+    case H5I_NTYPES:
+      break;
   };
+  std::stringstream ss;
+  ss << "ObjectHandle: unknown object type=" << type;
+  error::Singleton::instance().throw_with_stack(ss.str());
   return {};
 }
 

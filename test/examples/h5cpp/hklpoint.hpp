@@ -91,7 +91,8 @@ struct VarLengthBufferTrait<HKLPoints>
     {
       std::transform(points.begin(),points.end(),std::back_inserter(buffer),
                      [](const HKLPointList &list)
-                     { return hvl_t{list.size(),(void*)list.data()}; });
+                     { return hvl_t{list.size(),
+                                    const_cast<void *>(static_cast<const void *>(list.data()))}; });
     }
 
     static void from_buffer(const VarLengthDataBuffer &buffer,HKLPoints &points)

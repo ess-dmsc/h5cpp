@@ -82,8 +82,8 @@ std::ostream &operator<<(std::ostream &stream, const ScaleOffset::ScaleType &sca
     case ScaleOffset::ScaleType::FloatDScale: return stream << "FLOAT_DSCALE";
     case ScaleOffset::ScaleType::FloatEScale: return stream << "FLOAT_ESCALE";
     case ScaleOffset::ScaleType::Int: return stream << "INT";
-    default:return stream;
   }
+  return stream;
 }
 
 } // namespace filter

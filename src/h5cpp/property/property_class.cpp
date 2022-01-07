@@ -53,7 +53,7 @@ std::string Class::name() const {
   }
 
   std::string buffer(cptr, std::strlen(cptr));
-  free((void *) cptr);
+  free(static_cast<void *>(cptr));
   return buffer;
 
 }

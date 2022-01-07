@@ -60,9 +60,12 @@ std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type type) {
       return std::make_shared<ErrorMessageObjectHandleTest>();
     case hdf5::ObjectHandle::Type::ErrorStack:
       return std::make_shared<ErrorStackObjectHandleTest>();
-    default:
-      return ptr_type(nullptr);
+    case hdf5::ObjectHandle::Type::Uninitialized:
+    case hdf5::ObjectHandle::Type::BadObject:
+    case hdf5::ObjectHandle::Type::VirtualFileLayer:
+      break;
   }
+  return ptr_type(nullptr);
 }
 SCENARIO("testing object handle construction") {
   GIVEN("a default constructed handle") {

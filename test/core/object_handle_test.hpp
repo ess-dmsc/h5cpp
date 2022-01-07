@@ -31,6 +31,10 @@
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/property/property_list.hpp>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class TestEnvironment
 {
   std::string filename_{};
@@ -170,6 +174,9 @@ class ErrorClassObjectHandleTest : public ObjectHandleTest
   ErrorClassObjectHandleTest();
   virtual hid_t create_object() override;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 
