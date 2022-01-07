@@ -84,6 +84,11 @@ bool operator!=(const Class &lhs, const Class &rhs) {
 #endif
 }
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 const Class kAttributeCreate = Class(ObjectHandle(H5P_ATTRIBUTE_CREATE,
                                                   ObjectHandle::Policy::WithoutWard));
 const Class kDatasetAccess = Class(ObjectHandle(H5P_DATASET_ACCESS,
@@ -116,6 +121,9 @@ const Class kObjectCreate = Class(ObjectHandle(H5P_OBJECT_CREATE,
                                                ObjectHandle::Policy::WithoutWard));
 const Class kStringCreate = Class(ObjectHandle(H5P_STRING_CREATE,
                                                ObjectHandle::Policy::WithoutWard));
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 std::ostream &operator<<(std::ostream &stream, const Class &c) {
   return stream << "AttributeClass(" << c.name() << ")";

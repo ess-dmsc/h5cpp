@@ -30,10 +30,10 @@
 using namespace hdf5;
 
 namespace { 
-static const long long unsigned int xdim = 867;
-static const long long unsigned int ydim = 700;
-static const long long unsigned int sxdim = 17;
-static const long long unsigned int nframe = 33;
+const long long unsigned int xdim = 867;
+const long long unsigned int ydim = 700;
+const long long unsigned int sxdim = 17;
+const long long unsigned int nframe = 33;
 
 using UShorts = std::vector<unsigned short int>;
 

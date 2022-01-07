@@ -161,7 +161,7 @@ SCENARIO("testing Id construction") {
 }
 
 SCENARIO("testing info retrievel from a file") {
-  static const fs::path path1 = fs::absolute("info_from_file.h5");
+  const fs::path path1 = fs::absolute("info_from_file.h5");
   GIVEN("an HDF5 file with some content") {
     File file1(path1);
     THEN("we can obtain the filename") {
@@ -174,7 +174,7 @@ SCENARIO("testing info retrievel from a file") {
   fs::remove(path1);
 }
 SCENARIO("working with links") {
-  static const fs::path path1 = fs::absolute("working_with_links_1.h5");
+  const fs::path path1 = fs::absolute("working_with_links_1.h5");
   GIVEN("a file object with a group and a dataset") {
     File file1(path1);
     ObjectId id_group1(file1.group1);
@@ -307,8 +307,8 @@ SCENARIO("checking copies and files of identical structure") {
 //   only file_number and object_address are equal
 //   file_name is not equal
 SCENARIO("testing symbolic links") {
-  static const fs::path path1 = fs::absolute("symbolic_links_1.h5");
-  static const fs::path path2 = fs::absolute("symbolic_links_2.h5");
+  const fs::path path1 = fs::absolute("symbolic_links_1.h5");
+  const fs::path path2 = fs::absolute("symbolic_links_2.h5");
   { File{path1}; }
 
   // Symlink FILE2 -> FILE1
@@ -349,8 +349,8 @@ static void external_link(const fs::path& target_file,
 }
 
 SCENARIO("testing with external links") {
-  static const fs::path path1 = fs::absolute("external_links_1.h5");
-  static const fs::path path2 = fs::absolute("external_links_2.h5");
+  const fs::path path1 = fs::absolute("external_links_1.h5");
+  const fs::path path2 = fs::absolute("external_links_2.h5");
   {
     File{path1};
     File{path2};
@@ -391,9 +391,9 @@ SCENARIO("testing with external links") {
 //   only file_number and object_address are equal
 //   file_name is not equal
 SCENARIO("testing wiht external synmbolic link") {
-  static const fs::path path1 = fs::absolute("ext_symlink_1.h5");
-  static const fs::path path2 = fs::absolute("ext_symlink_2.h5");
-  static const fs::path path3 = fs::absolute("ext_symlink_3.h5");
+  const fs::path path1 = fs::absolute("ext_symlink_1.h5");
+  const fs::path path2 = fs::absolute("ext_symlink_2.h5");
+  const fs::path path3 = fs::absolute("ext_symlink_3.h5");
   {
     File{path1};
     File{path2};
@@ -442,7 +442,7 @@ SCENARIO("testing wiht external synmbolic link") {
 #endif
 
 SCENARIO("opening an instance serveral time") {
-  static const fs::path path1 = fs::absolute("open_several_times_1.h5");
+  const fs::path path1 = fs::absolute("open_several_times_1.h5");
   // This works because the ObjectId does not store any HDF5 object.
   // It only stores some metadata about an object.
   GIVEN("an id to the first file object") {
@@ -472,8 +472,8 @@ SCENARIO("opening an instance serveral time") {
 }
 
 SCENARIO("comparing ids") {
-  static const fs::path path1 = fs::absolute("cmp_ids_1.h5");
-  static const fs::path path2 = fs::absolute("cmp_ids_2.h5");
+  const fs::path path1 = fs::absolute("cmp_ids_1.h5");
+  const fs::path path2 = fs::absolute("cmp_ids_2.h5");
   ObjectId file1_id, file2_id, group1_id, group2_id;
 
   {

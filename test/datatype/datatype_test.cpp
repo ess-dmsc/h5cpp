@@ -125,6 +125,10 @@ SCENARIO("comparing datatypes") {
   }
 }
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
 struct {
   const hid_t& native_uint8 = H5T_NATIVE_UINT8;
   const hid_t& native_int8 = H5T_NATIVE_INT8;
@@ -137,6 +141,9 @@ struct {
   const hid_t& native_float32 = H5T_NATIVE_FLOAT;
   const hid_t& native_float64 = H5T_NATIVE_DOUBLE;
 } h5t;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 SCENARIO("Properties of numeric types") {
   auto create = [](const hid_t& tc) {
