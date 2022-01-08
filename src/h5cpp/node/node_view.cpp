@@ -111,7 +111,9 @@ bool NodeView::exists(const std::string &name, const property::LinkAccessList &l
       <<group().link().path()<<"]!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
+#ifndef  __clang__
   return false;
+#endif
 }
 
 NodeView::const_iterator NodeView::begin() const

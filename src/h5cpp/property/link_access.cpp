@@ -53,8 +53,6 @@ LinkAccessList::LinkAccessList(ObjectHandle &&handle) :
   }
 }
 
-LinkAccessList::~LinkAccessList() {}
-
 size_t LinkAccessList::maximum_link_traversals() const {
   size_t buffer = 0;
   if (H5Pget_nlinks(static_cast<hid_t>(*this), &buffer) < 0) {

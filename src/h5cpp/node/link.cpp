@@ -125,7 +125,7 @@ LinkTarget Link::get_external_link_target(const property::LinkAccessList &lapl) 
   const char *filename_buffer,
              *objectpath_buffer;
 
-  if(H5Lunpack_elink_val(value.c_str(),value.size()+1,0,
+  if(H5Lunpack_elink_val(value.c_str(),value.size()+1,nullptr,
                          &filename_buffer,&objectpath_buffer)<0)
   {
     std::stringstream ss;
@@ -149,10 +149,10 @@ LinkTarget Link::target(const property::LinkAccessList &lapl) const
       return get_soft_link_target(lapl);
     case LinkType::External:
       return get_external_link_target(lapl);
-    default:
-      throw std::runtime_error("Unkown link type - cannot determine target!");
+    case LinkType::Error:
+      break;
   }
-
+  throw std::runtime_error("Unkown link type - cannot determine target!");
 }
 
 LinkType Link::type(const property::LinkAccessList &lapl) const
@@ -167,9 +167,11 @@ LinkType Link::type(const property::LinkAccessList &lapl) const
     case H5L_TYPE_HARD: return LinkType::Hard;
     case H5L_TYPE_SOFT: return LinkType::Soft;
     case H5L_TYPE_EXTERNAL: return LinkType::External;
-    default:
-      return LinkType::Error;
+    case H5L_TYPE_ERROR:
+    case H5L_TYPE_MAX:
+      break;
   }
+  return LinkType::Error;
 }
 
 Group Link::parent() const

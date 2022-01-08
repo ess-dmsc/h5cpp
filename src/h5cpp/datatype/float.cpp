@@ -28,6 +28,7 @@
 
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <sstream>
 
 namespace hdf5 {
@@ -67,7 +68,7 @@ size_t Float::offset() const {
   if (p < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve datatype offset");
   }
-  return p;
+  return signed2unsigned<size_t>(p);
 }
 
 void Float::offset(size_t offset) const {
@@ -135,7 +136,7 @@ void Float::fields(size_t spos, size_t epos, size_t esize, size_t mpos, size_t m
 }
 
 size_t Float::ebias() const {
-  ssize_t p = H5Tget_ebias(static_cast<hid_t>(*this));
+  size_t p = H5Tget_ebias(static_cast<hid_t>(*this));
   if (p == 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve datatype ebias");
   }

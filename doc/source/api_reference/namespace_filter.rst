@@ -2,28 +2,106 @@
 Namespace :cpp:any:`hdf5::filter`
 =================================
 
-.. doxygenenum:: hdf5::filter::Availability
+Classes
+=======
+
+:cpp:class:`Filter`
+-------------------
 
 .. doxygenclass:: hdf5::filter::Filter
    :members:
 
+:cpp:class:`ExternalFilter`
+---------------------------
+
+.. doxygenclass:: hdf5::filter::ExternalFilter
+   :members:
+
+:cpp:class:`ExternalFilters`
+----------------------------
+
+.. doxygenclass:: hdf5::filter::ExternalFilters
+   :members:
+
+Functions
+=========
+
+:cpp:func:`is_filter_available`
+-------------------------------
+
+.. doxygenfunction:: hdf5::filter::is_filter_available(FilterID)
+
+Enumerations
+============
+
+:cpp:enum:`Availability`
+------------------------
+
+.. doxygenenum:: hdf5::filter::Availability
+
+Filter classes
+==============
+
+:cpp:class:`Deflate`
+--------------------
+
 .. doxygenclass:: hdf5::filter::Deflate
    :members:
+
+:cpp:class:`Shuffle`
+--------------------
 
 .. doxygenclass:: hdf5::filter::Shuffle
    :members:
 
+:cpp:class:`Fletcher32`
+-----------------------
+
 .. doxygenclass:: hdf5::filter::Fletcher32
    :members:
+
+:cpp:class:`SZip`
+-----------------
 
 .. doxygenclass:: hdf5::filter::SZip
    :members:
 
+.. doxygenfunction:: hdf5::filter::operator|(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator|(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator|(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator&(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator&(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator&(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator==(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator==(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator==(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator!=(const SZip::OptionMask &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator!=(const SZip::OptionMaskBase &, const SZip::OptionMask &)
+
+.. doxygenfunction:: hdf5::filter::operator!=(const SZip::OptionMask &, const SZip::OptionMaskBase &)
+
+.. doxygenfunction:: hdf5::filter::operator<<(std::ostream &stream, const SZip::OptionMask &)
+
+:cpp:class:`NBit`
+-----------------
+
 .. doxygenclass:: hdf5::filter::NBit
    :members:
+
+:cpp:class:`ScaleOffset`
+------------------------
 
 .. doxygenclass:: hdf5::filter::ScaleOffset
    :members:
 
-.. doxygenclass:: hdf5::filter::ExternalFilter
-   :members:
+.. doxygenfunction:: hdf5::filter::operator<<(std::ostream &stream, const ScaleOffset::ScaleType &scale_type)

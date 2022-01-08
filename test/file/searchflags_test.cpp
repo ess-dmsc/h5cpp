@@ -31,7 +31,7 @@
 
 using namespace hdf5;
 
-file::SearchFlagsBase cast(file::SearchFlags flags) {
+static file::SearchFlagsBase cast(file::SearchFlags flags) {
   return static_cast<file::SearchFlagsBase>(flags);
 }
 

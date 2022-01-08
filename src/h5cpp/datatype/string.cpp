@@ -49,7 +49,7 @@ String String::variable()
 {
   // We assume no H5 errors are possible here
   String ret = ObjectHandle(H5Tcopy(H5T_C_S1));
-  H5Tset_size(static_cast<hid_t>(ret), H5T_VARIABLE);
+  H5Tset_size(static_cast<hid_t>(ret), kVariable);
   return ret;
 }
 
@@ -129,7 +129,7 @@ void String::padding(StringPad strpad)
 size_t String::size() const
 {
   if (is_variable_length())
-    return H5T_VARIABLE;
+    return kVariable;
 
   return Datatype::size();
 }

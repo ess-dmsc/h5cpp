@@ -26,6 +26,7 @@
 // Created on: Oct 4, 2017
 //
 #include <h5cpp/attribute/attribute.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <h5cpp/node/link.hpp>
 #include <h5cpp/contrib/stl/string.hpp>
 
@@ -70,15 +71,15 @@ dataspace::Dataspace Attribute::dataspace() const
 
 std::string Attribute::name() const
 {
-  ssize_t size = H5Aget_name(static_cast<hid_t>(handle_),0,NULL);
-  if(size<0)
+  ssize_t ssize = H5Aget_name(static_cast<hid_t>(handle_),0,nullptr);
+  if(ssize<0)
   {
     error::Singleton::instance().throw_with_stack("Could not determine the size of the attributes name!");
   }
 
-  std::string buffer(size,' ');
+  std::string buffer(signed2unsigned<size_t>(ssize),' ');
   char *ptr = const_cast<char*>(buffer.data());
-  if(H5Aget_name(static_cast<hid_t>(handle_),size+1,ptr)<0)
+  if(H5Aget_name(static_cast<hid_t>(handle_),signed2unsigned<size_t>(ssize+1),ptr)<0)
   {
     error::Singleton::instance().throw_with_stack("Failure retrieving the attributes name!");
   }

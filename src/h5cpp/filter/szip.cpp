@@ -35,27 +35,38 @@ namespace filter {
 
 SZip::SZip():
     Filter(H5Z_FILTER_SZIP),
-    options_mask_(32),
+    option_mask_(32),
     pixels_per_block_(0)
 {}
 
-SZip::SZip(unsigned int options_mask, unsigned int pixels_per_block):
+SZip::SZip(OptionMaskBase option_mask, unsigned int pixels_per_block):
     Filter(H5Z_FILTER_SZIP),
-    options_mask_(options_mask),
+    option_mask_(option_mask),
+    pixels_per_block_(pixels_per_block)
+{}
+
+SZip::SZip(OptionMask option_mask, unsigned int pixels_per_block):
+    Filter(H5Z_FILTER_SZIP),
+    option_mask_(static_cast<SZip::OptionMaskBase>(option_mask)),
     pixels_per_block_(pixels_per_block)
 {}
 
 SZip::~SZip()
 {}
 
-unsigned int SZip::options_mask() const noexcept
+SZip::OptionMaskBase SZip::option_mask() const noexcept
 {
-  return options_mask_;
+  return option_mask_;
 }
 
-void SZip::options_mask(unsigned int options_mask)
+void SZip::option_mask(SZip::OptionMaskBase option_mask)
 {
-  options_mask_ = options_mask;
+  option_mask_ = option_mask;
+}
+
+void SZip::option_mask(SZip::OptionMask option_mask)
+{
+  option_mask_ = static_cast<SZip::OptionMaskBase>(option_mask);
 }
 
 unsigned int SZip::pixels_per_block() const noexcept
@@ -71,14 +82,85 @@ void SZip::pixels_per_block(unsigned int pixels_per_block)
 void SZip::operator()(const property::DatasetCreationList &dcpl,
                          Availability) const
 {
-  if(H5Pset_szip(static_cast<hid_t>(dcpl), options_mask_, pixels_per_block_)<0)
+  if(H5Pset_szip(static_cast<hid_t>(dcpl), option_mask_, pixels_per_block_)<0)
   {
     error::Singleton::instance().throw_with_stack("Could not apply SZip filter!");
   }
 }
 
-const unsigned int SZip::ec_option_mask = H5_SZIP_EC_OPTION_MASK;
-const unsigned int SZip::nn_option_mask = H5_SZIP_NN_OPTION_MASK;
+std::ostream &operator<<(std::ostream &stream,const SZip::OptionMask &flags)
+{
+  switch(flags)
+  {
+    case SZip::OptionMask::None : return stream<<"WITHOUT_CODING";
+    case SZip::OptionMask::AllowK13 : return stream<<"ALLOW_K13_CODING";
+    case SZip::OptionMask::Chip : return stream<<"CHIP_CODING";
+    case SZip::OptionMask::EntropyCoding : return stream<<"ENTROPY_CODING";
+    case SZip::OptionMask::NearestNeighbor : return stream<<"NEAREST_NEIGHBOR_CODING";
+  }
+  return stream;
+}
+
+SZip::OptionMaskBase operator|(const SZip::OptionMask &lhs,const SZip::OptionMask &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(lhs) | static_cast<SZip::OptionMaskBase>(rhs);
+}
+
+SZip::OptionMaskBase operator|(const SZip::OptionMask &lhs,const SZip::OptionMaskBase &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(lhs) | rhs;
+}
+
+SZip::OptionMaskBase operator|(const SZip::OptionMaskBase &lhs,const SZip::OptionMask &rhs)
+{
+  return lhs | static_cast<SZip::OptionMaskBase>(rhs);
+}
+
+SZip::OptionMaskBase operator&(const SZip::OptionMask &lhs,const SZip::OptionMask &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(lhs) & static_cast<SZip::OptionMaskBase>(rhs);
+}
+
+SZip::OptionMaskBase operator&(const SZip::OptionMask &lhs,const SZip::OptionMaskBase &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(lhs) & rhs;
+}
+
+SZip::OptionMaskBase operator&(const SZip::OptionMaskBase &lhs,const SZip::OptionMask &rhs)
+{
+  return rhs & static_cast<SZip::OptionMaskBase>(lhs);
+}
+
+bool operator==(const SZip::OptionMask &lhs,const SZip::OptionMask &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(lhs) == static_cast<SZip::OptionMaskBase>(rhs);
+}
+
+bool operator==(const SZip::OptionMask &lhs,const SZip::OptionMaskBase &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(lhs) == rhs;
+}
+
+bool operator==(const SZip::OptionMaskBase &lhs,const SZip::OptionMask &rhs)
+{
+  return static_cast<SZip::OptionMaskBase>(rhs) == lhs;
+}
+
+bool operator!=(const SZip::OptionMask &lhs,const SZip::OptionMask &rhs)
+{
+  return !(static_cast<SZip::OptionMaskBase>(lhs) == static_cast<SZip::OptionMaskBase>(rhs));
+}
+
+bool operator!=(const SZip::OptionMask &lhs,const SZip::OptionMaskBase &rhs)
+{
+  return !(static_cast<SZip::OptionMaskBase>(lhs) == rhs);
+}
+
+bool operator!=(const SZip::OptionMaskBase &lhs,const SZip::OptionMask &rhs)
+{
+  return !(static_cast<SZip::OptionMaskBase>(rhs) == lhs);
+}
+
 
 
 } // namespace filter

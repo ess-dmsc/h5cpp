@@ -360,4 +360,4 @@ texinfo_documents = [
 # texinfo_no_detailmenu = False
 
 # workaround fix for qualifiers error
-cpp_id_attributes = ["DLL_EXPORT", "friend"]
+cpp_id_attributes = ["DLL_EXPORT", "friend", "extern"]

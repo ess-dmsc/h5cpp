@@ -34,10 +34,8 @@ std::ostream &operator<<(std::ostream &stream,const IterationOrder &order)
     case IterationOrder::Decreasing: return stream<<"DECREASING";
     case IterationOrder::Increasing: return stream<<"INCREASING";
     case IterationOrder::Native: return stream<<"NATIVE";
-    default:
-      return stream;
   }
-
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
@@ -46,10 +44,8 @@ std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
   {
     case IterationIndex::CreationOrder: return stream<<"CREATION_ORDER";
     case IterationIndex::Name: return stream<<"NAME";
-    default:
-      return stream;
   }
-
+  return stream;
 }
 
 IteratorConfig::IteratorConfig():

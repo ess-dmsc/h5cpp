@@ -37,9 +37,8 @@ std::ostream &operator<<(std::ostream &stream,const NodeType &type)
     case NodeType::Group: return stream<<"GROUP";
     case NodeType::Dataset: return stream<<"DATASET";
     case NodeType::Datatype: return stream<<"DATATYPE";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream,const LinkType &type)
@@ -50,9 +49,8 @@ std::ostream &operator<<(std::ostream &stream,const LinkType &type)
     case LinkType::External: return stream<<"EXTERNAL";
     case LinkType::Hard: return stream<<"HARD";
     case LinkType::Soft: return stream<<"SOFT";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 } // namespace node
