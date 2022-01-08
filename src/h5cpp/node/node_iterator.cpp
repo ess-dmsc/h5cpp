@@ -25,6 +25,7 @@
 
 #include <h5cpp/node/node_iterator.hpp>
 #include <h5cpp/node/group.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -43,18 +44,18 @@ NodeIterator NodeIterator::begin(const Group &group)
 
 NodeIterator NodeIterator::end(const Group &group)
 {
-  return NodeIterator(group,group.nodes.size());
+  return NodeIterator(group,unsigned2signed<ssize_t>(group.nodes.size()));
 }
 
 Node NodeIterator::operator*() const
 {
-  current_node_ = group_.nodes[index()];
+  current_node_ = group_.nodes[signed2unsigned<size_t>(index())];
   return current_node_;
 }
 
 Node *NodeIterator::operator->()
 {
-  current_node_ = group_.nodes[index()];
+  current_node_ = group_.nodes[signed2unsigned<size_t>(index())];
   return &current_node_;
 }
 

@@ -35,7 +35,7 @@ DatasetObjectHandleTest::DatasetObjectHandleTest(const std::string &filename):
   H5Dcreate(static_cast<hid_t>(environment_.file_handle()),"test",
 	    static_cast<hid_t>(dtype_),
 	    static_cast<hid_t>(dspace_),
-	    H5P_DEFAULT,H5P_DEFAULT,H5P_DEFAULT);
+	    hdf5::property::kDefault,hdf5::property::kDefault,hdf5::property::kDefault);
 }
 
 DatasetObjectHandleTest::~DatasetObjectHandleTest()
@@ -45,7 +45,7 @@ DatasetObjectHandleTest::~DatasetObjectHandleTest()
 
 hid_t DatasetObjectHandleTest::create_object()
 {
-  return H5Dopen(static_cast<hid_t>(environment_.file_handle()),"test",H5P_DEFAULT);
+  return H5Dopen(static_cast<hid_t>(environment_.file_handle()),"test",hdf5::property::kDefault);
 }
 
 

@@ -27,6 +27,7 @@
 
 #include <h5cpp/datatype/array.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <sstream>
 
 namespace hdf5 {
@@ -45,7 +46,7 @@ Array::Array(const Datatype &type) :
 }
 
 Array Array::create(const Datatype &base_type, const Dimensions &dims) {
-  hid_t ret = H5Tarray_create(static_cast<hid_t>(base_type), static_cast<int>(dims.size()), dims.data());
+  hid_t ret = H5Tarray_create(static_cast<hid_t>(base_type), static_cast<unsigned int>(dims.size()), dims.data());
   if (ret < 0) {
     std::stringstream ss;
     ss << "Could not create Array of base=" << base_type.get_class();
@@ -76,7 +77,7 @@ size_t Array::rank() const {
   if (ndims < 0) {
     error::Singleton::instance().throw_with_stack("Could not obtain rank for Array datatype!");
   }
-  return ndims;
+  return signed2unsigned<size_t>(ndims);
 }
 
 VLengthArray::VLengthArray(ObjectHandle &&handle) :

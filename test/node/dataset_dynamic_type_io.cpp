@@ -50,11 +50,11 @@ struct Flip {
   std::int32_t data_[1];
 };
 
-bool operator==(const Flip& lhs, const Flip& rhs) {
+static bool operator==(const Flip& lhs, const Flip& rhs) {
   return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-bool operator!=(const Flip& lhs, const Flip& rhs) {
+static bool operator!=(const Flip& lhs, const Flip& rhs) {
   return !(lhs == rhs);
 }
 

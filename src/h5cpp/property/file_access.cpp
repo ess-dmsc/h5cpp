@@ -37,8 +37,8 @@ std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
   switch (version) {
     case LibVersion::Earliest: return stream << "EARLIEST";
     case LibVersion::Latest: return stream << "LATEST";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
@@ -47,8 +47,8 @@ std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
     case CloseDegree::Semi: return stream << "SEMI";
     case CloseDegree::Strong: return stream << "STRONG";
     case CloseDegree::Default: return stream << "DEFAULT";
-    default:return stream;
   }
+  return stream;
 }
 
 FileAccessList::FileAccessList() :

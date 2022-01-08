@@ -222,7 +222,7 @@ SCENARIO("setting the fill value on a DatasetCreation property list") {
             float buffer{0.0};
             THEN("we can read the fill vlaue back as a float") { 
               buffer = pl.fill_value<float>(get_type);
-              REQUIRE(buffer == float(fill_value));
+              REQUIRE(buffer == Approx(float(fill_value)).epsilon(1e-12));
             }
           }
         }

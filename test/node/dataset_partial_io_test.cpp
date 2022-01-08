@@ -50,7 +50,7 @@ SCENARIO("writing and reading with selections") {
     AND_GIVEN("a hyperslab selection") {
       dataspace::Hyperslab slab{{0}, {1}, {1}, {1}};
       THEN("we cann append new values to the dataset") {
-        int write, read;
+        int write=0, read=0;
         for (size_t index = 0; index < 100; ++index, write = static_cast<int>(index), read = 0) {
           node::resize_by(dset, 0, 1);
           slab.offset(0, index);

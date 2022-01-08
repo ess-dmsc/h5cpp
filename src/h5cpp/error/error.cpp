@@ -39,9 +39,9 @@ namespace error {
 
 void Singleton::auto_print(bool enable)
 {
-  herr_t ret = H5Eset_auto2(H5E_DEFAULT,
-                            enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : NULL,
-                            enable ? stderr : NULL);
+  herr_t ret = H5Eset_auto2(error::kDefault,
+                            enable ? reinterpret_cast<H5E_auto2_t>(H5Eprint2) : nullptr,
+                            enable ? stderr : nullptr);
 
   if (0 > ret)
   {
@@ -59,7 +59,7 @@ bool Singleton::auto_print() const
 H5CError Singleton::extract_stack()
 {
   std::list<Descriptor> ret;
-  herr_t err = H5Ewalk2(H5E_DEFAULT, H5E_WALK_DOWNWARD,
+  herr_t err = H5Ewalk2(error::kDefault, H5E_WALK_DOWNWARD,
                         reinterpret_cast<H5E_walk2_t>(to_list), &ret);
 
   if (0 > err)
@@ -87,7 +87,7 @@ void Singleton::throw_with_stack(const std::string& message)
   throw std::runtime_error(message);
 }
 
-std::string print_nested(const std::exception& exception, int level)
+std::string print_nested(const std::exception& exception, size_t level)
 {
   std::stringstream ss;
   ss << std::string(level, ' ') << exception.what() << '\n';
@@ -121,7 +121,7 @@ void Singleton::throw_stack()
 
 void Singleton::clear_stack()
 {
-  herr_t ret = H5Eclear2(H5E_DEFAULT);
+  herr_t ret = H5Eclear2(error::kDefault);
   if (0 > ret)
   {
     throw std::runtime_error("Could not clear HDF5 error stack");
@@ -130,15 +130,15 @@ void Singleton::clear_stack()
 
 bool Singleton::auto_print_enabled() const
 {
-  H5E_auto2_t func = NULL;
-  herr_t ret = H5Eget_auto2(H5E_DEFAULT, &func, NULL);
+  H5E_auto2_t func = nullptr;
+  herr_t ret = H5Eget_auto2(error::kDefault, &func, nullptr);
 
   if (0 > ret)
   {
     throw std::runtime_error("Could not determine automatic error printing settings");
   }
 
-  return (func != NULL);
+  return (func != nullptr);
 }
 
 herr_t Singleton::to_list(unsigned n,

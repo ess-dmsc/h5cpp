@@ -42,9 +42,8 @@ std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags)
     case AccessFlags::SWMRRead: return stream<<"SWMR READ";
     case AccessFlags::SWMRWrite: return stream<<"SWMR WRITE";
 #endif
-    default:
-      return stream;
   }
+  return stream;
 }
 
 AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &rhs)
@@ -87,9 +86,8 @@ std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags)
     case ImageFlags::DontCopy: return stream<<"DONT COPY";
     case ImageFlags::DontRelease: return stream<<"DONT RELEASE";
     case ImageFlags::All: return stream<<"ALL";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlags &rhs)
@@ -134,9 +132,8 @@ std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags)
     case SearchFlags::File: return stream<<"FILE";
     case SearchFlags::Group: return stream<<"GROUP";
     case SearchFlags::Local: return stream<<"LOCAL";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlags &rhs)
@@ -175,9 +172,8 @@ std::ostream &operator<<(std::ostream &stream,const Scope &scope)
   {
     case Scope::Global: return stream<<"GLOBAL";
     case Scope::Local: return stream<<"LOCAL";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 

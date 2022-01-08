@@ -41,8 +41,8 @@ std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag) {
     case CopyFlag::ExpandReferences:return stream << "EXPAND_REFERENCES";
     case CopyFlag::WithoutAttributes:return stream << "WITHOUT_ATTRIBUTES";
     case CopyFlag::MergeCommittedTypes:return stream << "MERGE_COMMITTED_TYPES";
-    default:return stream << "NONE"; //should never happen
   }
+  return stream << "NONE"; //should never happen
 }
 
 CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs) {

@@ -31,4 +31,4 @@ Functions
 :cpp:func:`print_nested`
 ------------------------
 
-.. doxygenfunction:: hdf5::error::print_nested(const std::exception&, int)
+.. doxygenfunction:: hdf5::error::print_nested(const std::exception&, size_t)

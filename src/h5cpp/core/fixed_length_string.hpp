@@ -140,7 +140,7 @@ struct FixedLengthStringTrait<std::vector<std::string>>
      for(const auto &str: data)
      {
        std::copy(str.begin(),str.end(),iter);
-       std::advance(iter,memory_type.size()); //move iterator to the next position
+       std::advance(iter,unsigned2signed<ssize_t>(memory_type.size())); //move iterator to the next position
      }
 
      return buffer;

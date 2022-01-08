@@ -36,6 +36,7 @@
 #include <h5cpp/dataspace/type_trait.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 
 namespace hdf5 {
@@ -157,7 +158,7 @@ File from_buffer(T &data,
 {
   if ((flags & ImageFlags::DontCopy) && !(flags & ImageFlags::DontRelease))
     throw std::runtime_error("Invalid ImageFlags in from_buffer: the DONT_COPY flag without the DONT_RELEASE flag");
-  size_t databytesize = mem_space.size() * mem_type.size();
+  size_t databytesize = signed2unsigned<size_t>(mem_space.size()) * mem_type.size();
   hid_t fid = 0;
   if(mem_type.get_class() == datatype::Class::Integer)
     {

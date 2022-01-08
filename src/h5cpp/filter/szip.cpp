@@ -92,13 +92,13 @@ std::ostream &operator<<(std::ostream &stream,const SZip::OptionMask &flags)
 {
   switch(flags)
   {
+    case SZip::OptionMask::None : return stream<<"WITHOUT_CODING";
     case SZip::OptionMask::AllowK13 : return stream<<"ALLOW_K13_CODING";
     case SZip::OptionMask::Chip : return stream<<"CHIP_CODING";
     case SZip::OptionMask::EntropyCoding : return stream<<"ENTROPY_CODING";
     case SZip::OptionMask::NearestNeighbor : return stream<<"NEAREST_NEIGHBOR_CODING";
-    default:
-      return stream;
   }
+  return stream;
 }
 
 SZip::OptionMaskBase operator|(const SZip::OptionMask &lhs,const SZip::OptionMask &rhs)
