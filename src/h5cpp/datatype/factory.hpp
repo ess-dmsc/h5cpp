@@ -43,7 +43,7 @@ typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const 
 //! \brief factory function for getting reference of data types
 //!
 template<typename T>
-static const Datatype & get(const T &v = T()) {
+const Datatype & get(const T &v = T()) {
   return TypeTrait<typename std::remove_const<T>::type>::get(v);
 }
 

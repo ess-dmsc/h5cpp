@@ -30,10 +30,10 @@
 using namespace hdf5;
 
 namespace { 
-static const long long unsigned int xdim = 867;
-static const long long unsigned int ydim = 700;
-static const long long unsigned int sxdim = 17;
-static const long long unsigned int nframe = 33;
+const long long unsigned int xdim = 867;
+const long long unsigned int ydim = 700;
+const long long unsigned int sxdim = 17;
+const long long unsigned int nframe = 33;
 
 using UShorts = std::vector<unsigned short int>;
 
@@ -86,11 +86,11 @@ SCENARIO("testing dataset access via chunks") {
 
   UShorts sframe(sxdim);
   for (size_t i = 0; i != sxdim; i++)
-    sframe[i] = static_cast<int>(i / 2);
+    sframe[i] = static_cast<unsigned short>(i / 2);
 
   UShorts tframe(sxdim);
   for (size_t i = 0; i != sxdim; i++)
-    tframe[i] = static_cast<int>(i / 4);
+    tframe[i] = static_cast<unsigned short>(i / 4);
 
   GIVEN("an integer dataset") {
     node::Dataset dataset(root, "data1", datatype::create<unsigned short int>(),
@@ -137,7 +137,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk) {
   for (long long unsigned int i = 0; i != nframe; i++) {
     filter_mask = data2.read_chunk(read_value, {i, 0, 0});
     EXPECT_EQ(frame, read_value);
-    EXPECT_EQ(filter_mask, H5P_DEFAULT);
+    EXPECT_EQ(filter_mask, property::kDefault);
   }
 }
 
@@ -185,7 +185,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate) {
       EXPECT_EQ(tcpvalue, tread_value);
     }
 
-    EXPECT_EQ(filter_mask, H5P_DEFAULT);
+    EXPECT_EQ(filter_mask, property::kDefault);
   }
 }
 */

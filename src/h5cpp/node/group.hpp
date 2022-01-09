@@ -96,10 +96,14 @@ class DLL_EXPORT Group : public Node
     //!
     Group &operator=(const Group &group);
 
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
     //!
-    //! \brief flush group
+    //! \brief flush the group (*since hdf5 1.10.0*)
+    //!
+    //! \throws std::runtime_error in case of a failure)
     //!
     void flush() const;
+#endif
 
     //!
     //! \brief get reference to the iterator configuration

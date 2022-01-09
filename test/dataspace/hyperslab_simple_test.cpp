@@ -36,6 +36,13 @@ SCENARIO("Hyperslab construction") {
   GIVEN("a default constructed hyperslab") {
     dataspace::Hyperslab h;
     THEN("the rank would be 0") { REQUIRE(h.rank() == 0ul); }
+    THEN("the size must be 0") { REQUIRE(h.size() == 0ul); }
+    THEN("the type must be Hyperslab") {
+      REQUIRE(h.type() == hdf5::dataspace::SelectionType::Hyperslab);
+    }
+    THEN("dimensions access must fail") {
+      REQUIRE_THROWS_AS(h.dimensions(), std::runtime_error);
+    }
     THEN("offset access must fail") {
       REQUIRE_THROWS_AS(h.offset(), std::runtime_error);
     }
@@ -53,15 +60,27 @@ SCENARIO("Hyperslab construction") {
   GIVEN("a hyperslab constructed from the number of dimensions") {
     dataspace::Hyperslab hyperslab(2);
     THEN("the rank must be 2") { REQUIRE(hyperslab.rank() == 2ul); }
+    THEN("the size must be 0") { REQUIRE(hyperslab.size() == 0ul); }
+    THEN("the type must be Hyperslab") {
+      REQUIRE(hyperslab.type() == hdf5::dataspace::SelectionType::Hyperslab);
+    }
+    THEN("dimensions access be 0") {
+      REQUIRE_THAT(hyperslab.dimensions(),
+                   Catch::Matchers::Equals(Dimensions{0, 0}));
+    }
+    THEN("all offset must be 0") {
+      REQUIRE_THAT(hyperslab.offset(),
+                   Catch::Matchers::Equals(Dimensions{0, 0}));
+    }
     THEN("all strides must be 1") {
       REQUIRE_THAT(hyperslab.stride(),
                    Catch::Matchers::Equals(Dimensions{1, 1}));
     }
-    THEN("all counts must be 1") {
+    THEN("all counts must be 0") {
       REQUIRE_THAT(hyperslab.count(),
                    Catch::Matchers::Equals(Dimensions{0, 0}));
     }
-    THEN("all blocks must be 1") {
+    THEN("all blocks must be 0") {
       REQUIRE_THAT(hyperslab.block(),
                    Catch::Matchers::Equals(Dimensions{0, 0}));
     }
@@ -74,6 +93,14 @@ SCENARIO("Hyperslab construction") {
       THEN("a hyperslab can be constructed") {
         dataspace::Hyperslab h(offset, block);
         AND_THEN("the rank will be 2") { REQUIRE(h.rank() == 2); }
+	AND_THEN("the size must be 12") { REQUIRE(h.size() == 12ul); }
+	AND_THEN("the type must be Hyperslab") {
+	  REQUIRE(h.type() == hdf5::dataspace::SelectionType::Hyperslab);
+	}
+	AND_THEN("dimensions access be {3,4}") {
+	  REQUIRE_THAT(h.dimensions(),
+		       Catch::Matchers::Equals(Dimensions{3, 4}));
+        }
         AND_THEN("the offset will be {1,2}") {
           REQUIRE_THAT(h.offset(), Catch::Matchers::Equals(Dimensions{1, 2}));
         }
@@ -95,6 +122,14 @@ SCENARIO("Hyperslab construction") {
         THEN("a hyperslab can be constructed") {
           dataspace::Hyperslab h(offset, count, stride);
           AND_THEN("the ranke will be 2") { REQUIRE(h.rank() == 2); }
+	  AND_THEN("the size must be 12") { REQUIRE(h.size() == 12ul); }
+	  AND_THEN("the type must be Hyperslab") {
+	    REQUIRE(h.type() == hdf5::dataspace::SelectionType::Hyperslab);
+	  }
+	  AND_THEN("dimensions access be {3,4} ") {
+	    REQUIRE_THAT(h.dimensions(),
+			 Catch::Matchers::Equals(Dimensions{3, 4}));
+	  }
           AND_THEN("the offset will be {1,2}") {
             REQUIRE_THAT(h.offset(), Catch::Matchers::Equals(Dimensions{1, 2}));
           }
@@ -119,6 +154,14 @@ SCENARIO("Hyperslab construction") {
           THEN("a hyperslab can be constructed with") {
             dataspace::Hyperslab h(offset, block, count, stride);
             AND_THEN("the rank will be 2") { REQUIRE(h.rank() == 2); }
+	    AND_THEN("the size must be 360") { REQUIRE(h.size() == 360ul); }
+	    AND_THEN("the type must be Hyperslab") {
+	      REQUIRE(h.type() == hdf5::dataspace::SelectionType::Hyperslab);
+	    }
+	    AND_THEN("dimensions access be {15,24} ") {
+	      REQUIRE_THAT(h.dimensions(),
+			   Catch::Matchers::Equals(Dimensions{15, 24}));
+	    }
             AND_THEN("the offset will be {1,2}") {
               REQUIRE_THAT(h.offset(),
                            Catch::Matchers::Equals(Dimensions{1, 2}));

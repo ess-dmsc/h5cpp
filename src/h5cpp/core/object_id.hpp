@@ -94,7 +94,12 @@ class DLL_EXPORT ObjectId
     //!
     bool operator< (const ObjectId& other) const;
 
+#ifndef _DOXYGEN_ /* workaround for the #613 breathe bug */
+    //!
+    //! @brief stream output operator for ObjectId class
+    //!
     DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+#endif /* DOXYGEN */
 
     //!
     //! \brief Get the HDF5 file number
@@ -161,5 +166,11 @@ class DLL_EXPORT ObjectId
 #endif
 };
 
+#ifdef _DOXYGEN_ /* workaround for the #613 breathe bug */
+    //!
+    //! @brief stream output operator for ObjectId class
+    //!
+    DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+#endif /* DOXYGEN */
 
 }

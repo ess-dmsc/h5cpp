@@ -97,7 +97,8 @@ enum class DatasetLayout : std::underlying_type<H5D_layout_t>::type {
   Compact = H5D_COMPACT,
   Contiguous = H5D_CONTIGUOUS,
   Chunked = H5D_CHUNKED,
-#if H5_VERSION_GE(1, 10, 0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
+  //! (*since hdf5 1.10.0*)
   Virtual = H5D_VIRTUAL
 #endif
 };

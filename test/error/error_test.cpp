@@ -45,7 +45,7 @@ class ErrorTestCase {
 
   ~ErrorTestCase() {
     // return stderr to normal function
-    setvbuf(stderr, NULL, _IONBF, bufsize);
+    setvbuf(stderr, nullptr, _IONBF, bufsize);
   }
 
   std::string extract_string() {

@@ -2,7 +2,7 @@
 # Utility functions and variables for using shpinx
 #
 #
-message(STATUS "Looking for thes phinx documentation generator")
+message(STATUS "Looking for the sphinx documentation generator")
 set(CMAKE_SPHINX_SOURCES CACHE INTERNAL "List with sphinx source files" FORCE)
 
 find_program(SPHINX_BUILD_EXEC NAMES sphinx-build)

@@ -52,6 +52,7 @@ class Selection;
 
 #ifdef __clang__
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
 class DLL_EXPORT Dataset : public Node
@@ -192,7 +193,13 @@ class DLL_EXPORT Dataset : public Node
 
 
 
-#if H5_VERSION_GE(1,10,0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
+    //!
+    //! \brief refresh the dataset (*since hdf5 1.10.0*)
+    //!
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
     void refresh() const;
 #endif
 
@@ -372,10 +379,10 @@ class DLL_EXPORT Dataset : public Node
 		     const property::DatasetTransferList &dtpl =
 		     property::DatasetTransferList::get())  const;
 
-#if H5_VERSION_GE(1,10,2)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,2))
 
     //!
-    //! \brief read dataset chunk
+    //! \brief read dataset chunk  (*since hdf5 1.10.2*)
     //!
     //! Read a chunk from a dataset to an instance of T.
     //!
@@ -560,7 +567,7 @@ class DLL_EXPORT Dataset : public Node
     filter::ExternalFilters filters() const;
 
   private:
-    datatype::Datatype file_type;
+    datatype::Datatype file_type_;
     datatype::Class file_type_class;
     dataspace::DataspacePool space_pool;
     //!
@@ -814,7 +821,6 @@ class DLL_EXPORT Dataset : public Node
       }
     }
 };
-
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
@@ -827,23 +833,23 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
 {
   if(file_type_class == datatype::Class::VarLength)
   {
-    write_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    write_variable_length_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
   else if(file_type_class == datatype::Class::String)
   {
-    datatype::String string_type(file_type);
+    datatype::String string_type(file_type_);
     if(string_type.is_variable_length())
     {
-      write_variable_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      write_variable_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
     else
     {
-      write_fixed_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      write_fixed_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
   }
   else
   {
-    write_contiguous_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    write_contiguous_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
 
 }
@@ -1030,23 +1036,23 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
 {
   if(file_type_class == datatype::Class::VarLength)
   {
-    read_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    read_variable_length_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
   else if(file_type_class == datatype::Class::String)
   {
-    datatype::String string_type(file_type);
+    datatype::String string_type(file_type_);
     if(string_type.is_variable_length())
     {
-      read_variable_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      read_variable_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
     else
     {
-      read_fixed_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      read_fixed_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
   }
   else
   {
-    read_contiguous_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    read_contiguous_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
 
 }
@@ -1078,15 +1084,12 @@ void Dataset::read_reshape(T &data,
 {
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::Set,selection);
+  if (selection.type() != dataspace::SelectionType::Hyperslab)
+    return read(data,mem_type,mem_space,file_space,dtpl);
   try{
     const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
-    auto dims = hyper.block();
-    if(dims.size() > 1) {
-      auto count = hyper.count();
-      for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	dims[i] *= count[i];
-
-      dataspace::Simple selected_space(dims);
+    if(hyper.rank() > 1) {
+      dataspace::Simple selected_space(hyper.dimensions());
       if (selected_space.size() == mem_space.size()) {
 	// reads to the reshaped memory data buffer
 	return read(data,mem_type,selected_space,file_space,dtpl);
@@ -1147,31 +1150,24 @@ void Dataset::write_reshape(const T &data,
 {
   dataspace::Dataspace file_space = dataspace();
   file_space.selection(dataspace::SelectionOperation::Set,selection);
-  if (mem_space.type() != dataspace::Type::Simple) {
-    write(data,mem_type,mem_space,file_space,dtpl);
-  }
-  else{
-    try{
-      const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
-      auto dims = hyper.block();
-      if(dims.size() > 1) {
-	const dataspace::Simple & mem_simple_space = dataspace::Simple(mem_space);
-	auto count = hyper.count();
-	for(Dimensions::size_type i = 0; i != dims.size(); i++)
-	  dims[i] *= count[i];
-
-	dataspace::Simple selected_space(dims);
-	if(selected_space.rank() > 1 &&
-	   mem_simple_space.rank() == 1 &&
-	   selected_space.size() == mem_space.size()) {
-	  // writes from the reshaped memory data buffer
-	  return write(data,mem_type,selected_space,file_space,dtpl);
-	}
+  if (mem_space.type() != dataspace::Type::Simple
+      || selection.type() != dataspace::SelectionType::Hyperslab)
+    return write(data,mem_type,mem_space,file_space,dtpl);
+  try{
+    const dataspace::Hyperslab & hyper = dynamic_cast<const dataspace::Hyperslab &>(selection);
+    if(hyper.rank() > 1) {
+      const dataspace::Simple & mem_simple_space = dataspace::Simple(mem_space);
+      dataspace::Simple selected_space(hyper.dimensions());
+      if(selected_space.rank() > 1 &&
+	 mem_simple_space.rank() == 1 &&
+	 selected_space.size() == mem_space.size()) {
+	// writes from the reshaped memory data buffer
+	return write(data,mem_type,selected_space,file_space,dtpl);
       }
     }
-    catch(const std::bad_cast&) { }
-    write(data,mem_type,mem_space,file_space,dtpl);
   }
+  catch(const std::bad_cast&) { }
+  write(data,mem_type,mem_space,file_space,dtpl);
 }
 
 
@@ -1181,7 +1177,7 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl)
   hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
   if(file_type_class == datatype::Class::String){
     // in hdf5 1.12.1 UFT8 data cannot be read to an ASCII buffer
-    read_reshape(data, file_type, mem_space_holder.get(data), dtpl);
+    read_reshape(data, file_type_, mem_space_holder.get(data), dtpl);
   }
   else {
     hdf5::datatype::DatatypeHolder mem_type_holder;

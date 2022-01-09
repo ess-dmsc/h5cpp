@@ -43,7 +43,7 @@ Attribute AttributeManager::operator[](size_t index) const
                             static_cast<H5_index_t>(iter_config_.index()),
                             static_cast<H5_iter_order_t>(iter_config_.order()),
                             index,
-                            H5P_DEFAULT,
+                            property::kDefault,
                             static_cast<hid_t>(iter_config_.link_access_list())
                             );
   if(id<0)
@@ -62,7 +62,7 @@ Attribute AttributeManager::operator[](const std::string &name) const
 {
   hid_t id = H5Aopen_by_name(static_cast<hid_t>(node_),".",
                              name.c_str(),
-                             H5P_DEFAULT,
+                             property::kDefault,
                              static_cast<hid_t>(iter_config_.link_access_list())
                              );
   if(id<0)
@@ -134,7 +134,9 @@ bool AttributeManager::exists(const std::string &name) const
       <<node_.link().path()<<"]!";
     error::Singleton::instance().throw_with_stack(ss.str());
   }
+#ifndef  __clang__
   return {};
+#endif
 }
 
 Attribute AttributeManager::create(const std::string &name,
@@ -147,7 +149,7 @@ Attribute AttributeManager::create(const std::string &name,
                        static_cast<hid_t>(datatype),
                        static_cast<hid_t>(dataspace),
                        static_cast<hid_t>(acpl),
-                       H5P_DEFAULT);
+                       property::kDefault);
   if(id<0)
   {
     std::stringstream ss;
@@ -192,7 +194,7 @@ AttributeIterator AttributeManager::begin() const
 
 AttributeIterator AttributeManager::end() const
 {
-  return AttributeIterator(*this,size());
+  return AttributeIterator(*this,unsigned2signed<ssize_t>(size()));
 }
 
 } // namespace attribute

@@ -147,6 +147,9 @@ SCENARIO("testing object creation and iteration") {
     }
     THEN("the IDs of every reference to the new group must match") {
       REQUIRE(g.id() == root["group_1"].id());
+#if H5_VERSION_GE(1,10,0)
+      g.flush();
+#endif
     }
     AND_WHEN("creating a second group") {
       root.create_group("group_2");

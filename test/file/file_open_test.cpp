@@ -28,9 +28,9 @@
 
 using namespace hdf5;
 
-static const std::string filename = "file_optn_test.h5";
 
 SCENARIO("opening a file") {
+  const std::string filename = "file_optn_test.h5";
 #if H5_VERSION_GE(1, 10, 0)
   property::FileCreationList fcpl;
   property::FileAccessList fapl;
