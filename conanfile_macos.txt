@@ -2,7 +2,7 @@
 boost/1.69.0
 hdf5/1.10.6
 zlib/1.2.8
-bzip2/1.0.8
+# bzip2/1.0.8
 
 [generators]
 cmake_paths
