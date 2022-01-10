@@ -76,7 +76,7 @@ Node Dataset::create_dataset(const Group &base,
 // implementation of public member functions
 //=============================================================================
 Dataset::Dataset(const Node &node):
-  Node(node) 
+    Node(node)
 {
   if(node.type()!=Type::Dataset)
   {
@@ -242,10 +242,6 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
     throw std::runtime_error(ss.str());
   }
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
   if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(std::abs(delta))))
   {
     std::stringstream ss;
@@ -255,11 +251,10 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
       <<" would be negative";
     throw std::runtime_error(ss.str());
   }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-  current_dims[dimension_index] += signed2unsigned<unsigned long long>(delta);
+  if (delta < 0)
+    current_dims[dimension_index] -= signed2unsigned<unsigned long long>(-delta);
+  else
+    current_dims[dimension_index] += signed2unsigned<unsigned long long>(delta);
   dataset.resize(current_dims);
 }
 
