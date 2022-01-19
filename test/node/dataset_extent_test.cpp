@@ -77,6 +77,12 @@ SCENARIO("testing the extent of a dataset") {
         REQUIRE_NOTHROW(dataset.extent(0, 123));
         THEN("the actual dimensions reads 123") {
           REQUIRE(current_dimension(dataset) == 123ul);
+          AND_WHEN("shrinking the elements for a single dimension using extent()") {
+            REQUIRE_NOTHROW(dataset.extent(0, -3));
+            THEN("the actual dimensions reads 120") {
+              REQUIRE(current_dimension(dataset) == 120ul);
+            }
+          }
         }
       }
 
