@@ -27,7 +27,6 @@
 // Created on: May 14, 2018
 //
 #include <catch2/catch.hpp>
-#include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/hdf5.hpp>
 
 enum WeakFruit : uint16_t { Apple = 0, Pear = 1, Orange = 2 };
@@ -235,17 +234,6 @@ SCENARIO("Custom enumeration trait construction") {
     }
   }
 
-  GIVEN("the EBool type") {
-    auto type = datatype::create<datatype::EBool>();
-    THEN("we can get the names by index") {
-      REQUIRE(type.name(0) == "FALSE");
-      REQUIRE(type.name(1) == "TRUE");
-    }
-    THEN("we can obtain the values by index") {
-      REQUIRE(type.value<datatype::EBool>(0) == datatype::EBool::False);
-      REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::True);
-    }
-  }
 }
 
 SCENARIO("Custom enumeration trait construction with cref") {
@@ -277,17 +265,6 @@ SCENARIO("Custom enumeration trait construction with cref") {
     }
   }
 
-  GIVEN("the EBool type") {
-    auto type = datatype::Enum(datatype::get<datatype::EBool>());
-    THEN("we can get the names by index") {
-      REQUIRE(type.name(0) == "FALSE");
-      REQUIRE(type.name(1) == "TRUE");
-    }
-    THEN("we can obtain the values by index") {
-      REQUIRE(type.value<datatype::EBool>(0) == datatype::EBool::False);
-      REQUIRE(type.value<datatype::EBool>(1) == datatype::EBool::True);
-    }
-  }
 }
 
 SCENARIO("weak enumeration IO") {
@@ -330,149 +307,7 @@ SCENARIO("strong enumeration IO") {
   }
 }
 
-SCENARIO("testing EBOOL IO") {
-  auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::Truncate);
-  auto root = f.root();
-  auto type = datatype::create<datatype::EBool>();
 
-  GIVEN("an EBOOL attribute") {
-    auto a = root.attributes.create<datatype::EBool>("TRUE");
-    AND_GIVEN("an actual true value") {
-      auto write_ebool = datatype::EBool::True;
-      THEN("we can write this to the attribute") {
-        a.write(write_ebool);
-        AND_WHEN("we read the value back") {
-          auto read_ebool = datatype::EBool::False;
-          a.read(read_ebool);
-          THEN("the values should match") {
-            REQUIRE(write_ebool == read_ebool);
-            REQUIRE(1 == read_ebool);
-            REQUIRE(true == static_cast<bool>(read_ebool));
-          }
-        }
-      }
-    }
-  }
-
-  GIVEN("another EBOOL attribute") {
-    auto a = root.attributes.create<datatype::EBool>("FALSE");
-    AND_GIVEN("an actual false value") {
-      auto write_ebool = datatype::EBool::False;
-      THEN("we can write this to the attribute") {
-        a.write(write_ebool);
-        AND_WHEN("we read the value back") {
-          auto read_ebool = datatype::EBool::False;
-          a.read(read_ebool);
-          THEN("the values should match") {
-            REQUIRE(write_ebool == read_ebool);
-            REQUIRE(0 == read_ebool);
-            REQUIRE(false == static_cast<bool>(read_ebool));
-          }
-        }
-      }
-    }
-  }
-
-  GIVEN("an EBool array attribute") {
-    auto a = root.attributes.create<datatype::EBool>("bool_array", {4});
-
-    AND_GIVEN("a vector of bool values") {
-      std::vector<datatype::EBool> ref = {
-          datatype::EBool::False, datatype::EBool::True, datatype::EBool::True,
-          datatype::EBool::False};
-      THEN("we can write the values") {
-        a.write(ref);
-        AND_WHEN("we read them back to EBool") {
-          std::vector<datatype::EBool> buffer(4);
-          a.read(buffer, a.datatype());
-          THEN("the values must match") {
-            REQUIRE_THAT(ref, Catch::Matchers::Equals(buffer));
-          }
-        }
-        AND_WHEN("we read them back to integer") {
-          std::vector<int> buffer_int(4);
-          a.read(buffer_int);
-          THEN("the values should match the integers") {
-            std::vector<int> ref_int = {0, 1, 1, 0};
-            REQUIRE_THAT(ref_int, Catch::Matchers::Equals(buffer_int));
-          }
-        }
-      }
-    }
-  }
-}
-
-SCENARIO("testing EBOOL IO with cref") {
-  auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::Truncate);
-  auto root = f.root();
-  auto type = datatype::get<datatype::EBool>();
-
-  GIVEN("an EBOOL attribute") {
-    auto a = root.attributes.create<datatype::EBool>("TRUE");
-    AND_GIVEN("an actual true value") {
-      auto write_ebool = datatype::EBool::True;
-      THEN("we can write this to the attribute") {
-        a.write(write_ebool);
-        AND_WHEN("we read the value back") {
-          auto read_ebool = datatype::EBool::False;
-          a.read(read_ebool);
-          THEN("the values should match") {
-            REQUIRE(write_ebool == read_ebool);
-            REQUIRE(1 == read_ebool);
-            REQUIRE(true == static_cast<bool>(read_ebool));
-          }
-        }
-      }
-    }
-  }
-
-  GIVEN("another EBOOL attribute") {
-    auto a = root.attributes.create<datatype::EBool>("FALSE");
-    AND_GIVEN("an actual false value") {
-      auto write_ebool = datatype::EBool::False;
-      THEN("we can write this to the attribute") {
-        a.write(write_ebool);
-        AND_WHEN("we read the value back") {
-          auto read_ebool = datatype::EBool::False;
-          a.read(read_ebool);
-          THEN("the values should match") {
-            REQUIRE(write_ebool == read_ebool);
-            REQUIRE(0 == read_ebool);
-            REQUIRE(false == static_cast<bool>(read_ebool));
-          }
-        }
-      }
-    }
-  }
-
-  GIVEN("an EBool array attribute") {
-    auto a = root.attributes.create<datatype::EBool>("bool_array", {4});
-
-    AND_GIVEN("a vector of bool values") {
-      std::vector<datatype::EBool> ref = {
-          datatype::EBool::False, datatype::EBool::True, datatype::EBool::True,
-          datatype::EBool::False};
-      THEN("we can write the values") {
-        a.write(ref);
-        AND_WHEN("we read them back to EBool") {
-          std::vector<datatype::EBool> buffer(4);
-          a.read(buffer, a.datatype());
-          THEN("the values must match") {
-            REQUIRE_THAT(ref, Catch::Matchers::Equals(buffer));
-          }
-        }
-        AND_WHEN("we read them back to integer") {
-          std::vector<int> buffer_int(4);
-          a.read(buffer_int);
-          THEN("the values should match the integers") {
-            std::vector<int> ref_int = {0, 1, 1, 0};
-            REQUIRE_THAT(ref_int, Catch::Matchers::Equals(buffer_int));
-          }
-        }
-      }
-    }
-  }
-}
 /*
 
 TEST_F(Enum, test_fake_bool) {

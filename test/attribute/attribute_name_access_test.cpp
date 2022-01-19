@@ -27,6 +27,7 @@
 #include <algorithm>
 #include <iterator>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 

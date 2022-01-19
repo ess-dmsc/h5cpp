@@ -1,7 +1,8 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2017 DESY, ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
-// This file is part of h5cpp.
+// This file is part of h5pp.
 //
 // This library is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,34 +20,14 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 21, 2017
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
+// Created on: 7 Dec, 2020
 //
 #pragma once
 
-#include <h5cpp/core/hdf5_capi.hpp>
 #include <vector>
+#include <h5cpp/contrib/nexus/ebool.hpp>
 
-namespace hdf5 {
+using EBools = std::vector<hdf5::datatype::EBool>;
 
-using Dimensions = std::vector<hsize_t>;
-
-using VarLengthDataBuffer = std::vector<hvl_t>;
-
-//!
-//! \brief variable length buffer trait
-//!
-//! This trait provides conversion functions from an instance of T to
-//! a variable length data buffer and back.
-//!
-template<typename T>
-struct VarLengthBufferTrait
-{
-    static void to_buffer(const T &,VarLengthDataBuffer &)
-    {}
-
-    static void from_buffer(const VarLengthDataBuffer &,T &)
-    {}
-};
-
-} // namespace hdf5

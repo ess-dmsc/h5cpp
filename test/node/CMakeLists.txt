@@ -25,8 +25,6 @@ set(test_sources node_test.cpp
                  dataset_bool_io.cpp
                  dataset_h5py_string_compat_test.cpp
                  link_target_test.cpp
-                 dataset_h5py_bool_test.cpp
-                 dataset_pniio_bool_test.cpp
                  dataset_io_speed_test.cpp
                  virtual_dataset_test.cpp
                  dataset_direct_chunk_test.cpp)

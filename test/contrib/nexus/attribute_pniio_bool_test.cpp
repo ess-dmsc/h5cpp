@@ -23,7 +23,7 @@
 // Created on: Jul 2, 2018
 //
 #include <catch2/catch.hpp>
-#include <h5cpp/datatype/ebool.hpp>
+#include <h5cpp/contrib/nexus/ebool.hpp>
 #include <h5cpp/datatype/enum.hpp>
 #include <h5cpp/hdf5.hpp>
 
@@ -31,7 +31,7 @@ using namespace hdf5;
 
 SCENARIO("Reading bool attributes created by the PNIIO library") {
   auto h5file =
-      file::open("../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
+      file::open("../../pniio_test_boolattr.h5", file::AccessFlags::ReadOnly);
   auto root = h5file.root();
 
   GIVEN("a scalar bool attribute with value true") {

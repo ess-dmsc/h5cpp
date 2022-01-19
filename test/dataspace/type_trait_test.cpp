@@ -28,6 +28,7 @@
 
 #include <catch2/catch.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/contrib/stl/vector.hpp>
 
 using namespace hdf5;
 

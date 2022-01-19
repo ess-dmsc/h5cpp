@@ -33,6 +33,7 @@
 #include <h5cpp/node/functions.hpp>
 #include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
 #include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
@@ -208,6 +209,11 @@ unsigned long long Dataset::chunk_storage_size(
 #endif
 
 void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
+{
+  write(std::string(data),dtpl);
+}
+
+void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
 {
   write(std::string(data),dtpl);
 }
