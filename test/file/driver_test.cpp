@@ -95,7 +95,7 @@ SECTION("the posix driver") {
   REQUIRE(m.id() == file::DriverID::Posix);
 }
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 
 SECTION("the MPI driver") {
   file::MPIDriver m(MPI_COMM_WORLD, MPI_INFO_NULL);

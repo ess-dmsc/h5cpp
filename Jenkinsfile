@@ -76,11 +76,11 @@ builders = pipeline_builder.createBuilders { container ->
     def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DWITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
-        cmake_options = '-DWITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'debian10':
@@ -389,7 +389,7 @@ node {
 
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
-  builders['Windows10'] = get_win10_pipeline()
+  // builders['Windows10'] = get_win10_pipeline()
   //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
