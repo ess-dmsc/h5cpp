@@ -92,7 +92,7 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_prefix = ''
         break
       case 'debian10-release-hdf5-1.12':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu1804':
@@ -301,7 +301,7 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DCONAN_FILE=conanfile_macos.txt  ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
