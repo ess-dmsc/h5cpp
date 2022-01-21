@@ -28,6 +28,7 @@
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/core/utilities.hpp>
 #include <h5cpp/node/link.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
 
 namespace hdf5 {
 namespace attribute {

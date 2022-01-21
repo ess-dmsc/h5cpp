@@ -1,5 +1,6 @@
 //
-// (c) Copyright 2017 DESY,ESS
+// (c) Copyright 2021 DESY, ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,34 +20,41 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 21, 2017
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Created on: Dec 23, 2021
 //
 #pragma once
 
-#include <h5cpp/core/hdf5_capi.hpp>
-#include <vector>
+#include <h5cpp/datatype/type_trait.hpp>
+#include <complex>
 
-namespace hdf5 {
+namespace hdf5 { 
+namespace datatype { 
 
-using Dimensions = std::vector<hsize_t>;
-
-using VarLengthDataBuffer = std::vector<hvl_t>;
-
-//!
-//! \brief variable length buffer trait
-//!
-//! This trait provides conversion functions from an instance of T to
-//! a variable length data buffer and back.
-//!
 template<typename T>
-struct VarLengthBufferTrait
+class TypeTrait<std::complex<T>>
 {
-    static void to_buffer(const T &,VarLengthDataBuffer &)
-    {}
+  private:
+    using element_type = TypeTrait<T>;
 
-    static void from_buffer(const VarLengthDataBuffer &,T &)
-    {}
+  public:
+    using Type = std::complex<T>;
+    using TypeClass = Compound;
+
+    static TypeClass create(const Type & = Type())
+    {
+      datatype::Compound type = datatype::Compound::create(
+        sizeof(std::complex<T>));
+
+      type.insert("real", 0, element_type::create(T()));
+      type.insert("imag", alignof(T), element_type::create(T()));
+
+      return type;
+    }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
-
-} // namespace hdf5
+}
+}

@@ -28,3 +28,7 @@ add_subdirectory(filter)
 add_subdirectory(node)
 add_subdirectory(file)
 add_subdirectory(utilities)
+
+if(H5CPP_ENABLE_NEXUS)
+    add_subdirectory(contrib/nexus)
+endif()

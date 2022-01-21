@@ -28,6 +28,7 @@
 #include <algorithm>
 #include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/vector.hpp>
 
 template <typename T>
 struct Vector {

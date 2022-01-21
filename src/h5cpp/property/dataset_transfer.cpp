@@ -50,10 +50,6 @@ DatasetTransferList::DatasetTransferList(ObjectHandle &&handle, bool do_check):
 
 #ifdef H5CPP_WITH_MPI
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wreturn-type"
-#endif
 std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode)
 {
   switch(mode)
@@ -63,16 +59,10 @@ std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode)
     case MPITransferMode::Collective:
       return stream<<"COLLECTIVE";
   }
+  return stream;
 }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
 
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wreturn-type"
-#endif
 std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option)
 {
   switch(option)
@@ -82,11 +72,8 @@ std::ostream &operator<<(std::ostream &stream,const MPIChunkOption &option)
     case MPIChunkOption::MultiChunk:
       return stream<<"MULTI_CHUNK";
   }
+  return stream;
 }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
 
 void DatasetTransferList::mpi_transfer_mode(MPITransferMode mode) const
 {

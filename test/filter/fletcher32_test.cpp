@@ -25,6 +25,7 @@
 //
 #include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 #include "../utilities.hpp"
 
 using namespace hdf5;

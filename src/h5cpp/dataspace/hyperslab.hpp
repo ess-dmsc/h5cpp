@@ -31,6 +31,7 @@
 #include <h5cpp/core/windows.hpp>
 #include <memory>
 #include <list>
+#include <sstream>
 
 namespace hdf5 {
 namespace dataspace {

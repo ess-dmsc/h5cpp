@@ -19,34 +19,14 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Aug 21, 2017
+// Authors: Eugen Wintersberger <eugen.wintersberger@desy.de>
+//          Sebastian Koenig <skoenig@ncsu.edu>
+//          Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Aug 28, 2017
 //
 #pragma once
 
-#include <h5cpp/core/hdf5_capi.hpp>
-#include <vector>
-
-namespace hdf5 {
-
-using Dimensions = std::vector<hsize_t>;
-
-using VarLengthDataBuffer = std::vector<hvl_t>;
-
-//!
-//! \brief variable length buffer trait
-//!
-//! This trait provides conversion functions from an instance of T to
-//! a variable length data buffer and back.
-//!
-template<typename T>
-struct VarLengthBufferTrait
-{
-    static void to_buffer(const T &,VarLengthDataBuffer &)
-    {}
-
-    static void from_buffer(const VarLengthDataBuffer &,T &)
-    {}
-};
-
-} // namespace hdf5
+#include <h5cpp/contrib/stl/array.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
+#include <h5cpp/contrib/stl/vector.hpp>
+#include <h5cpp/contrib/stl/complex.hpp>

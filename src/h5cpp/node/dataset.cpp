@@ -33,6 +33,7 @@
 #include <h5cpp/node/functions.hpp>
 #include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
 #include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
@@ -76,7 +77,7 @@ Node Dataset::create_dataset(const Group &base,
 // implementation of public member functions
 //=============================================================================
 Dataset::Dataset(const Node &node):
-  Node(node) 
+    Node(node)
 {
   if(node.type()!=Type::Dataset)
   {
@@ -212,6 +213,11 @@ void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
   write(std::string(data),dtpl);
 }
 
+void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
+{
+  write(std::string(data),dtpl);
+}
+
 filter::ExternalFilters Dataset::filters() const
 {
   filter::ExternalFilters efilters = filter::ExternalFilters();
@@ -242,10 +248,6 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
     throw std::runtime_error(ss.str());
   }
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
   if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(std::abs(delta))))
   {
     std::stringstream ss;
@@ -255,11 +257,10 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
       <<" would be negative";
     throw std::runtime_error(ss.str());
   }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-  current_dims[dimension_index] += signed2unsigned<unsigned long long>(delta);
+  if (delta < 0)
+    current_dims[dimension_index] -= signed2unsigned<unsigned long long>(-delta);
+  else
+    current_dims[dimension_index] += signed2unsigned<unsigned long long>(delta);
   dataset.resize(current_dims);
 }
 

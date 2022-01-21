@@ -29,6 +29,8 @@
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>
 #include <vector>
+#include <h5cpp/contrib/stl/vector.hpp>
+#include <h5cpp/contrib/stl/array.hpp>
 
 using namespace hdf5;
 

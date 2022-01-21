@@ -32,10 +32,6 @@
 #include <h5cpp/datatype/string.hpp>
 #include <h5cpp/datatype/compound.hpp>
 
-#include <vector>
-#include <array>
-#include <string>
-#include <complex>
 #include <type_traits>
 
 namespace hdf5 {
@@ -285,72 +281,6 @@ class TypeTrait<long double> {
     return cref_;
   }
 };
-
-template<>
-class TypeTrait<std::string> {
- public:
-  using Type = std::string;
-  using TypeClass = String;
-  static TypeClass create(const Type & = Type()) {
-    return datatype::String::variable();
-  }
-  const static TypeClass & get(const Type & = Type()) {
-    const static TypeClass & cref_ = create();
-    return cref_;
-  }
-};
-
-template<typename T>
-class TypeTrait<std::vector<T>> {
- public:
-  using Type = std::vector<T>;
-  using TypeClass = typename TypeTrait<T>::TypeClass;
-  static TypeClass create(const Type & = Type()) {
-    return TypeTrait<typename std::remove_const<T>::type>::create();
-  }
-  const static TypeClass & get(const Type & = Type()) {
-    const static TypeClass & cref_ = create();
-    return cref_;
-  }
-};
-
-template<typename T, size_t N>
-class TypeTrait<std::array<T, N>> {
- public:
-  using Type = std::array<T, N>;
-  using TypeClass = typename TypeTrait<T>::TypeClass;
-  static TypeClass create(const Type & = Type()) {
-    return TypeTrait<typename std::remove_const<T>::type>::create();
-  }
-  const static TypeClass & get(const Type & = Type()) {
-    const static TypeClass & cref_ = TypeTrait<typename std::remove_const<T>::type>::create();
-    return cref_;
-  }
-};
-
-template<typename CharT>
-class TypeTrait<std::basic_string<CharT>> {
- private:
-
- public:
-  using Type = std::basic_string<CharT>;
-  using TypeClass = String;
-
-  static TypeClass create(const Type & = Type()) {
-    static_assert(std::is_same<CharT, char>::value, "Only support 8Bit characters");
-
-    String type = String::variable();
-    type.encoding(CharacterEncoding::UTF8);
-    return type;
-
-  }
-  const static TypeClass & get(const Type & = Type()) {
-    const static TypeClass & cref_ = create();
-    return cref_;
-  }
-
-};
-
 template<>
 class TypeTrait<bool> {
  public:
@@ -366,31 +296,6 @@ class TypeTrait<bool> {
   }
 };
 
-template<typename T>
-class TypeTrait<std::complex<T>>
-{
-  private:
-    using element_type = TypeTrait<T>;
-
-  public:
-    using Type = std::complex<T>;
-    using TypeClass = Compound;
-
-    static TypeClass create(const Type & = Type())
-    {
-      datatype::Compound type = datatype::Compound::create(
-        sizeof(std::complex<T>));
-
-      type.insert("real", 0, element_type::create(T()));
-      type.insert("imag", alignof(T), element_type::create(T()));
-
-      return type;
-    }
-  const static TypeClass & get(const Type & = Type()) {
-    const static TypeClass & cref_ = create();
-    return cref_;
-  }
-};
 
 } // namespace datatype
 } // namespace hdf5

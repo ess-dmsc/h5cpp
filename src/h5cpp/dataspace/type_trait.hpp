@@ -72,50 +72,7 @@ class TypeTrait {
   }
 };
 
-template<typename T>
-class TypeTrait<std::vector<T>> {
- public:
-  using DataspaceType = Simple;
 
-  static Simple create(const std::vector<T> &value) {
-    return Simple(hdf5::Dimensions{value.size()}, hdf5::Dimensions{value.size()});
-  }
-
-  static const Dataspace & get(const std::vector<T> & value, DataspacePool & pool) {
-    return pool.getSimple(value.size());
-  }
-
-  static void *ptr(std::vector<T> &data) {
-    return reinterpret_cast<void *>(data.data());
-  }
-
-  static const void *cptr(const std::vector<T> &data) {
-    return reinterpret_cast<const void *>(data.data());
-  }
-};
-
-template<typename T, size_t N>
-class TypeTrait<std::array<T, N>> {
- public:
-  using DataspaceType = Simple;
-
-  static DataspaceType create(const std::array<T, N> &) {
-    return Simple(hdf5::Dimensions{N}, hdf5::Dimensions{N});
-  }
-
-  const static DataspaceType & get(const std::array<T, N> &, DataspacePool &) {
-    const static DataspaceType & cref_ = Simple(hdf5::Dimensions{N}, hdf5::Dimensions{N});
-    return cref_;
-  }
-
-  static void *ptr(std::array<T, N> &value) {
-    return reinterpret_cast<void *>(value.data());
-  }
-
-  static const void *cptr(const std::array<T, N> &value) {
-    return reinterpret_cast<const void *>(value.data());
-  }
-};
 
 //!
 //! \brief factory function for dataspaces
