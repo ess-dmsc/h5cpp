@@ -20,6 +20,7 @@ option(H5CPP_BUILD_SHARED "Build h5cpp as a shared library" ${BUILD_SHARED_LIBS}
 if (NOT H5CPP_BUILD_SHARED)
   set(BUILD_SHARED_LIBS OFF)
 endif()
+option(H5CPP_LOCAL_MODULES "Build h5cpp using cmake local modules first")
 
 #=============================================================================
 # Conan
@@ -35,12 +36,20 @@ if(${H5CPP_CONAN} MATCHES "AUTO")
       BASIC_SETUP NO_OUTPUT_DIRS KEEP_RPATHS
       BUILD_TYPE "None"
       BUILD outdated)
-   list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_BINARY_DIR})
+  if(H5CPP_LOCAL_MODULES)
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+  else()
+    list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_BINARY_DIR})
+  endif()
 elseif(${H5CPP_CONAN} MATCHES "MANUAL")
   if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
     conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS)
-    list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_BINARY_DIR})
+    if(H5CPP_LOCAL_MODULES)
+      list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+    else()
+      list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_BINARY_DIR})
+    endif()
   else()
     message(FATAL_ERROR "H5CPP_CONAN set to MANUAL but no file named conanbuildinfo.cmake found in build directory")
   endif()

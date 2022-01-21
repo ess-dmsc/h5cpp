@@ -19,12 +19,12 @@ mpi:
       short: without MPI 
       long: build with the serial version of the HDF5 library
       settings:
-        WITH_MPI: OFF
+        H5CPP_WITH_MPI: OFF
     withmpi:
       short: with MPI
       long: bulid using the installed MPI flavor
       settings:
-        WITH_MPI: ON
+        H5CPP_WITH_MPI: ON
 
 filesystem:
   default: boostfs
