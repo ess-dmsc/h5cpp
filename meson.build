@@ -20,7 +20,7 @@ h5cpp_dependencies += dependency('hdf5', language: 'c')
 boost_modules = ['system']
 if get_option('with-boostfilesystem') 
   boost_modules += 'filesystem'
-  add_project_arguments('-DWITH_BOOST', language: 'cpp')
+  add_project_arguments('-DH5CPP_WITH_BOOST', language: 'cpp')
   summary()
 endif
 

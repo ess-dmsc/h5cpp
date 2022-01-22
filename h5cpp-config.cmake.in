@@ -3,8 +3,8 @@
 #
 
 set(H5CPP_MPI_ENABLED @H5CPP_WITH_MPI@ CACHE BOOL "h5cpp was built with MPI support")
-set(H5CPP_SWMR_ENABLED @HDF5_WITH_SWMR@ CACHE BOOL "h5cpp was built with SMWR support")
-set(H5CPP_VDS_ENABLED @HDF5_WITH_VDS@ CACHE BOOL "h5cpp was built with VDS support")
+set(H5CPP_SWMR_ENABLED @H5CPP_WITH_SWMR@ CACHE BOOL "h5cpp was built with SMWR support")
+set(H5CPP_VDS_ENABLED @H5CPP_WITH_VDS@ CACHE BOOL "h5cpp was built with VDS support")
 set(H5CPP_BOOST_ENABLED @H5CPP_WITH_BOOST@ CACHE BOOL "h5cpp was built against boost")
 
 #
