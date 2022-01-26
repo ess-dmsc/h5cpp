@@ -83,7 +83,7 @@ jobs:
       - name: run tests
         run: |
           cd build
-          ctest --extra-verbose
+          ctest --extra-verbose --no-tests=error
   windows-build:
     strategy:
       matrix:
@@ -131,7 +131,7 @@ jobs:
         run: |
           cd build
           .\activate_run.ps1
-          ctest --extra-verbose
+          ctest --extra-verbose --no-tests=error
         shell: pwsh
   mac-build:
     strategy:
@@ -193,7 +193,7 @@ jobs:
         run: |
           cd build
           source activate.sh
-          ctest --extra-verbose
+          ctest --extra-verbose --no-tests=error
   debian-10:
     strategy:
       matrix:
@@ -247,4 +247,4 @@ jobs:
       - name: run tests
         run: |
           cd build
-          ctest --extra-verbose
+          ctest --extra-verbose --no-tests=error
