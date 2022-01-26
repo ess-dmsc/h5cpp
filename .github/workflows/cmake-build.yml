@@ -75,7 +75,8 @@ jobs:
           conan install . \
             --install-folder build \
             --lockfile conan.lock \
-            --build missing
+            --build missing \
+            --update
       - name: build with cmake
         run: |
           conan build . \
@@ -123,6 +124,7 @@ jobs:
             --install-folder build \
             --lockfile conan.lock \
             --build missing \
+            --update \
             --generator virtualrunenv
       - name: build with cmake
         run: |
@@ -185,6 +187,7 @@ jobs:
             --install-folder build \
             --lockfile conan.lock \
             --build missing \
+            --update \
             --generator virtualenv
       - name: build with cmake
         run: |
