@@ -45,5 +45,6 @@ class H5CppConan(ConanFile):
             "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
             "H5CPP_WITH_BOOST": self.options.with_boost
         })
-        cmake.configure()
-        cmake.build()
+        with tools.run_environment(self):
+            cmake.configure()
+            cmake.build()
