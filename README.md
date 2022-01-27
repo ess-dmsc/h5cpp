@@ -58,10 +58,12 @@ for the library, using it should be the same on each of these platforms.
 
 The minimum requirements for building the library are:
 
-* a C++ compiler, gcc>=4.8.1 should do well
+* a C++ compiler, gcc>=4.9 should do well
 * the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
-* cmake >= 3.0
+* cmake >= 3.10
 * _either_ the boost libraries _or_ a compiler with std::filesystem or std::experimental::filesystem (and specify H5CPP_WITH_BOOST=OFF to CMake)
+* [sphinx](http://www.sphinx-doc.org/en/stable/), [breathe](https://github.com/michaeljones/breathe) (with python) and  [doxygen](https://www.doxygen.nl/index.html) for the documentation build
+* [catch2](https://github.com/catchorg/catch2) to build the unit tests
 
 The external library dependencies can be acquired and built using [Conan](https://conan.io/). Conan can be installed with PyPI: 
 ```
