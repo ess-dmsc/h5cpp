@@ -342,42 +342,6 @@ def get_meson_debian_pipeline() {
   }
 }*/
 
-def get_win10_pipeline()
-{
-    return {
-        stage("Windows 10") {
-            node ("windows10") {
-            // Delete workspace when build is done
-            cleanWs()
-
-                try {
-                    checkout scm
-                    bat "mkdir _build"
-                } catch (e) {
-                    failure_function(e, 'Windows10 / Checkout failed')
-                }
-
-                dir("_build") {
-                    try {
-                        bat 'conan remote list'
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_windows_ess.txt -DH5CPP_WITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / CMake failed')
-                    }
-
-                    try {
-                        bat "cmake --build . --config Release --target ALL_BUILD"
-                        bat "cmake --build . --config Release --target RUN_TESTS"
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / build+test failed')
-                    }
-
-                }
-            }
-        }
-    }
-}
-
 node {
   dir("${project}") {
     try {
@@ -389,7 +353,6 @@ node {
 
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
-  // builders['Windows10'] = get_win10_pipeline()
   //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
