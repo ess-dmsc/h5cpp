@@ -135,7 +135,7 @@ jobs:
           .\activate_run.ps1
           ctest --extra-verbose --no-tests=error
         shell: pwsh
-  macOS-10:
+  macos-10:
     strategy:
       matrix:
         shared: ["shared", "static"]
