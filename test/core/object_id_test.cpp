@@ -259,7 +259,7 @@ SCENARIO("checking copies and files of identical structure") {
   }
 
   // create a copy of the first file.
-#ifdef WITH_BOOST
+  #ifdef H5CPP_WITH_BOOST
   fs::copy_file(path1, path3,
                 fs::copy_option::overwrite_if_exists);
 #else

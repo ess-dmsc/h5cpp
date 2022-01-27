@@ -1,8 +1,9 @@
 [requires]
 boost/1.69.0
 hdf5/1.10.5-dm2@ess-dmsc/stable
-zlib/1.2.11
+zlib/1.2.11@conan/stable
 bzip2/1.0.8
+catch2/2.13.7
 
 [generators]
 cmake_paths

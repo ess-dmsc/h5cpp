@@ -76,43 +76,43 @@ builders = pipeline_builder.createBuilders { container ->
     def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DWITH_BOOST=OFF'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'debian10':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'debian10-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'debian10-release-hdf5-1.12':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_1.12.0.txt'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu1804':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu1804-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2004':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2004-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       default:
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
     }
@@ -301,7 +301,7 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DCONAN_FILE=conanfile_macos.txt  ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -360,7 +360,7 @@ def get_win10_pipeline()
                 dir("_build") {
                     try {
                         bat 'conan remote list'
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_windows_ess.txt -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
+                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_windows_ess.txt -DH5CPP_WITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
                     } catch (e) {
                         failure_function(e, 'Windows10 / CMake failed')
                     }

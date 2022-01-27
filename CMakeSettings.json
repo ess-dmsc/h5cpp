@@ -6,11 +6,11 @@
       "configurationType": "Debug",
       "variables": [
         {
-          "name": "CONAN_FILE",
+          "name": "H5CPP_CONAN_FILE",
           "value": "conanfile_eugen.txt"
         },
         {
-          "name": "CONAN_PROFILE",
+          "name": "H5CPP_CONAN_PROFILE",
           "value": "h5cpp-windows10-debug"
         },
         {
@@ -34,7 +34,7 @@
       "configurationType": "Release",
       "variables": [
         {
-          "name": "CONAN_FILE",
+          "name": "H5CPP_CONAN_FILE",
           "value": "conanfile_eugen.txt"
         },
         {

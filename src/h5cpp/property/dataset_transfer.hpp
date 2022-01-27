@@ -33,7 +33,7 @@
 namespace hdf5 {
 namespace property {
 
-#if (defined(_DOXYGEN_) || defined(WITH_MPI))
+#if (defined(_DOXYGEN_) || defined(H5CPP_WITH_MPI))
 enum class MPITransferMode : std::underlying_type<H5FD_mpio_xfer_t>::type
 {
   Independent = H5FD_MPIO_INDEPENDENT,
@@ -90,10 +90,11 @@ class DLL_EXPORT DatasetTransferList : public List {
     return dtpl_;
   }
 
-#if (defined(_DOXYGEN_) || defined(WITH_MPI) )
+#if (defined(_DOXYGEN_) || defined(H5CPP_WITH_MPI) )
   //!
   //! \brief set mpi transfer mode (*for hdf5 compiled with MPI*)
   //!
+
   void mpi_transfer_mode(MPITransferMode mode) const;
   //!
   //! \brief get mpi transfer mode (*for hdf5 compiled with MPI*)

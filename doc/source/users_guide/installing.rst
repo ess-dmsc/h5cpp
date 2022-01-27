@@ -71,7 +71,7 @@ which should do the job provided that all dependencies are installed in
 standard locations. We strongly recommend to set the particular build 
 configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.
 
-To attempt to build without Boost, additionally specify `-DWITH_BOOST=OFF`.
+To attempt to build without Boost, additionally specify `-DH5CPP_WITH_BOOST=OFF`.
 This requires a recent compiler, for example gcc >8, with filesystem in
 the std or std::experimental namespace.
 

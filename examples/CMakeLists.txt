@@ -5,35 +5,35 @@ set(CMAKE_CXX_STANDARD 11)
 find_package(h5cpp REQUIRED)
 
 add_executable(basic_files basic_files.cpp)
-target_link_libraries(basic_files h5cpp)
+target_link_libraries(basic_files PRIVATE h5cpp::h5cpp)
 
 add_executable(selecting_datasets selecting_datasets.cpp)
-target_link_libraries(selecting_datasets h5cpp)
+target_link_libraries(selecting_datasets PRIVATE h5cpp::h5cpp)
 
 add_executable(std_vector_io std_vector_io.cpp)
-target_link_libraries(std_vector_io h5cpp)
+target_link_libraries(std_vector_io PRIVATE h5cpp::h5cpp)
 
 add_executable(complex_io complex_io.cpp)
-target_link_libraries(complex_io h5cpp)
+target_link_libraries(complex_io PRIVATE h5cpp::h5cpp)
 
 add_executable(writing_image writing_image.cpp
   rgbpixel.cpp)
-target_link_libraries(writing_image h5cpp)
+target_link_libraries(writing_image PRIVATE h5cpp::h5cpp)
 
 add_executable(write_single_vector write_single_vector.cpp)
-target_link_libraries(write_single_vector h5cpp)
+target_link_libraries(write_single_vector PRIVATE h5cpp::h5cpp)
 
 add_executable(read_dataset read_dataset.cpp)
-target_link_libraries(read_dataset h5cpp)
+target_link_libraries(read_dataset PRIVATE h5cpp::h5cpp)
 
 add_executable(append_scalar_data append_scalar_data.cpp)
-target_link_libraries(append_scalar_data h5cpp)
+target_link_libraries(append_scalar_data PRIVATE h5cpp::h5cpp)
 
 add_executable(write_vector_list write_vector_list.cpp)
-target_link_libraries(write_vector_list h5cpp)
+target_link_libraries(write_vector_list PRIVATE h5cpp::h5cpp)
 
 add_executable(append_vector_data append_vector_data.cpp)
-target_link_libraries(append_vector_data h5cpp)
+target_link_libraries(append_vector_data PRIVATE h5cpp::h5cpp)
 
 
 add_custom_target(examples)

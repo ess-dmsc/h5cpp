@@ -1,12 +1,8 @@
-option(WITH_MPI "Enable MPI support" OFF)
+option(H5CPP_WITH_MPI "Enable MPI support" OFF)
 
-if (WITH_MPI)
+if (H5CPP_WITH_MPI)
   if (CMAKE_SYSTEM_NAME MATCHES Windows)
-    message(FATAL_ERROR "MPI not supported on the Windows platform!")
-  endif ()
-
-  if (CMAKE_SYSTEM_NAME MATCHES Darwin)
-    message(FATAL_ERROR "MPI not supported for OSX")
+    h5cpp_message(FATAL_ERROR "MPI not supported on the Windows platform!")
   endif ()
 
   if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
@@ -14,7 +10,7 @@ if (WITH_MPI)
   endif()
 
   find_package(MPI REQUIRED)
-  message(STATUS "Found MPI headers in: ${MPI_C_INCLUDE_PATH}")
-  message(STATUS "Found MPI libraries: ${MPI_C_LIBRARIES}")
+  h5cpp_message(STATUS "Found MPI headers in: ${MPI_C_INCLUDE_PATH}")
+  h5cpp_message(STATUS "Found MPI libraries: ${MPI_C_LIBRARIES}")
 
 endif ()

@@ -20,45 +20,34 @@ add_subdirectory(utilities)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
-add_library(h5cpp SHARED
+add_library(h5cpp
   ${h5cpp_sources}
   ${h5cpp_headers}
   )
+add_library(h5cpp::h5cpp ALIAS h5cpp)
 
 add_doxygen_source_deps(${h5cpp_headers})
 
-target_compile_definitions(h5cpp PRIVATE DLL_BUILD)
-set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
-if(WITH_BOOST)
-  list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
-elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11.0 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
-  list(APPEND H5CPP_LINKS stdc++fs)
-elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11.0 AND CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-  list(APPEND H5CPP_LINKS c++fs)
+if (H5CPP_BUILD_SHARED)
+	target_compile_definitions(h5cpp PRIVATE H5CPP_EXPORTS PUBLIC H5CPP_BUILD_SHARED)
 endif()
 
-#
-# remove the absolute path from the library name
-#
-set(H5CPP_INTERFACE_LIBS)
-set(H5CPP_PRIVATE_LIBS ${HDF5_LIBRARIES})
-foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
-    get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
-endforeach()
-
-set(H5CPP_HL_PRIVATE_LIBS ${HDF5_HL_LIBRARIES})
-foreach(HDF5_LIBRARY ${HDF5_HL_LIBRARIES})
-  get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
-  list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
-endforeach()
-
+set(H5CPP_LINKS ${MPI_CXX_LIBRARIES})
+if(H5CPP_WITH_BOOST)
+  list(APPEND H5CPP_LINKS Boost::filesystem Boost::system)
+else()
+  if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.1 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    # Link stdc++fs or c++experimental to get std::experimental::filesystem when necessary
+    list(APPEND H5CPP_LINKS stdc++fs)
+  elseif(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 11 AND CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    list(APPEND H5CPP_LINKS c++fs)
+  else()
+    target_compile_features(h5cpp PUBLIC cxx_std_17)
+  endif()
+endif()
 
 target_include_directories(h5cpp
   PRIVATE ${PROJECT_SOURCE_DIR}/src
-  PUBLIC ${HDF5_INCLUDE_DIRS}
-  PUBLIC ${MPI_CXX_INCLUDE_PATH}
   INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
   INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
@@ -66,8 +55,8 @@ target_include_directories(h5cpp
 #
 # THIS IS BAD
 # NEED TO GET RID OF THIS
-if (WITH_MPI)
-  target_compile_definitions(h5cpp PUBLIC WITH_MPI)
+if (H5CPP_WITH_MPI)
+  target_compile_definitions(h5cpp PUBLIC H5CPP_WITH_MPI)
 endif ()
 
 set_target_properties(h5cpp
@@ -80,9 +69,20 @@ set_target_properties(h5cpp
 
 enable_coverage(h5cpp)
 
+set(H5CPP_FILTER_TARGETS ZLIB::ZLIB)
+if (TARGET SZIP::SZIP)
+  list(APPEND H5CPP_FILTER_TARGETS SZIP::SZIP)
+endif()
+
 target_link_libraries(h5cpp
-  PUBLIC ${H5CPP_LINKS}
-  PRIVATE ${COVERAGE_LIBRARIES} ${H5CPP_PRIVATE_LIBS} ${H5CPP_HL_PRIVATE_LIBS}
+  PUBLIC 
+    ${H5CPP_LINKS}
+  PRIVATE ${COVERAGE_LIBRARIES}
+    hdf5::hdf5_hl
+    hdf5::hdf5
+    Threads::Threads
+    ${H5CPP_FILTER_TARGETS}
+    ${CMAKE_DL_LIBS}
   INTERFACE ${H5CPP_INTERFACE_LIBS})
 
 include(GNUInstallDirs) #Required for CMAKE_INSTALL_XXX
@@ -97,6 +97,7 @@ install(TARGETS h5cpp
 
 install(EXPORT h5cpp_targets
   DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
+  NAMESPACE h5cpp::
   COMPONENT development)
 
 # =============================================================================
@@ -138,7 +139,7 @@ function(GET_LIBRARY_NAME LIB)
 
 endfunction(GET_LIBRARY_NAME)
 
-if(${CONAN} MATCHES "DISABLE")
+if(${H5CPP_CONAN} MATCHES "DISABLE")
 
   get_target_property(LIBRARIES h5cpp INTERFACE_LINK_LIBRARIES)
   get_target_property(DEFINITIONS h5cpp INTERFACE_COMPILE_DEFINITIONS)
@@ -183,7 +184,7 @@ if(${CONAN} MATCHES "DISABLE")
   endforeach()
 
 
-  message("Linke libraries: ${PKG_CONFIG_LIBS}")
+  message("Link libraries: ${PKG_CONFIG_LIBS}")
   message("Library paths: ${PKG_CONFIG_LINKFLAGS}")
 
 

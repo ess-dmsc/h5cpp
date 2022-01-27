@@ -48,7 +48,7 @@ DatasetTransferList::DatasetTransferList(ObjectHandle &&handle, bool do_check):
  }
 }
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 
 std::ostream &operator<<(std::ostream &stream,const MPITransferMode &mode)
 {

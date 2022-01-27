@@ -6,7 +6,7 @@ h5cpp_dependencies = []
 # -----------------------------------------------------------------------------
 if get_option('with-mpi')
  h5cpp_dependencies += dependency('mpi-cxx', method: 'pkg-config')
- add_project_arguments('-DWITH_MPI', language: 'cpp')
+ add_project_arguments('-DH5CPP_WITH_MPI', language: 'cpp')
 endif
 
 # -----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ h5cpp_dependencies += dependency('hdf5', language: 'c')
 boost_modules = ['system']
 if get_option('with-boostfilesystem') 
   boost_modules += 'filesystem'
-  add_project_arguments('-DWITH_BOOST', language: 'cpp')
+  add_project_arguments('-DH5CPP_WITH_BOOST', language: 'cpp')
   summary()
 endif
 

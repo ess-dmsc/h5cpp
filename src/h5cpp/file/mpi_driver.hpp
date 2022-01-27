@@ -30,7 +30,7 @@
 namespace hdf5 {
 namespace file {
 
-#if ( defined(_DOXYGEN_) || defined(WITH_MPI) )
+#if ( defined(_DOXYGEN_) || defined(H5CPP_WITH_MPI) )
 
 //!
 //! \brief class for the MPI driver (*for hdf5 with compiled MPI*)

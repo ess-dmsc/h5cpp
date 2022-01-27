@@ -27,7 +27,10 @@ set(test_sources
     object_copy_test.cpp)
 
 add_executable(properties_test ${test_sources})
-target_link_libraries(properties_test h5cpp)
-catch_discover_tests(properties_test
-                     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-add_test(NAME properties_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND properties_test)
+target_link_libraries(
+    properties_test
+    PRIVATE
+        h5cpp
+        hdf5::hdf5
+)
+catch_discover_tests(properties_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

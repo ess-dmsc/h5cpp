@@ -24,7 +24,7 @@
 // Created on: Mar 1, 2018
 //
 #include <catch2/catch.hpp>
-#ifdef WITH_BOOST
+#ifdef H5CPP_WITH_BOOST
 #include <boost/version.hpp>
 #else
 #define BOOST_VERSION 100

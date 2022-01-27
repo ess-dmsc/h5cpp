@@ -19,12 +19,12 @@ mpi:
       short: without MPI 
       long: build with the serial version of the HDF5 library
       settings:
-        WITH_MPI: OFF
+        H5CPP_WITH_MPI: OFF
     withmpi:
       short: with MPI
       long: bulid using the installed MPI flavor
       settings:
-        WITH_MPI: ON
+        H5CPP_WITH_MPI: ON
 
 filesystem:
   default: boostfs
@@ -34,12 +34,12 @@ filesystem:
       short: boost::filesystem
       long: use boos filesystem implementation
       settings:
-        WITH_BOOST: ON
+        H5CPP_WITH_BOOST: ON
     stdfs:
       short: std::filesystem
       long: use the C++ standard library filesystem implementation
       settings:
-        WITH_BOOST: OFF
+        H5CPP_WITH_BOOST: OFF
 
 
 conan:
@@ -50,9 +50,9 @@ conan:
       short: without conan
       long: all dependencies must be provided by the OS environment
       settings:
-        CONAN: DISABLE
+        H5CPP_CONAN: DISABLE
     'auto':
       short: with conan
       long: all dependencies will be satisifed by conan
       settings:
-        CONAN: AUTO
+        H5CPP_CONAN: AUTO

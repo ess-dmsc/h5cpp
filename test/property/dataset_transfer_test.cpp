@@ -55,7 +55,7 @@ SCENARIO("DatasetTransferList creation") {
   }
 }
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 
 SCENARIO("testing the MPI transfer mode enumeration") { 
   using r = std::tuple<pl::MPITransferMode,std::string>;
