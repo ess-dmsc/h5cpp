@@ -60,4 +60,3 @@ endif ()
 if (H5CPP_MPI_ENABLED)
   add_subdirectory(mpi)
 endif ()
-
