@@ -158,10 +158,13 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
     COMPONENT development)
 
 #
-# create and install the package file
+# create and install the package file and cmake modules
 #
 configure_file("${PACKAGE_CONFIG_FILE_NAME}.in" ${PACKAGE_CONFIG_FILE_NAME} @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
+install(FILES
+        ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
+        cmake/FindHDF5.cmake
+        cmake/FindSZIP.cmake
     DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
     COMPONENT development)
 

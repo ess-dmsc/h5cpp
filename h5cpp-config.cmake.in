@@ -1,3 +1,4 @@
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 #
 # add some additional information via cached variables
 #
@@ -20,8 +21,13 @@ if(H5CPP_BOOST_ENABLED)
   if(NOT TARGET Boost::system)
     list(APPEND BOOST_COMPONENTS system)
   endif()
-
-  find_package(Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@ EXACT REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+  set(BOOST_VERSION @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@)
+  set(BOOST_EXACT "EXACT")
+  if (BOOST_VERSION STREQUAL "..")
+      set(BOOST_VERSION 1.69)
+      set(BOOST_EXACT)
+  endif()
+  find_package(Boost ${BOOST_VERSION} ${BOOST_EXACT} REQUIRED COMPONENTS ${BOOST_COMPONENTS})
   if(NOT Boost_FOUND)
     message(FATAL_ERROR "Could not find Boost filesystem library - cannot load h5cpp targets")
   endif()
