@@ -51,8 +51,8 @@ int main(int argc,char **argv)
 
     node::Dataset dataset = root_group.create_dataset("mpi_ids",
                                                       datatype::create<int>(),
-                                                      dataspace::Simple{{total_procs}});
-    dataspace::Hyperslab slab{{my_id},{1},{1},{1}};
+                                                      dataspace::Simple{{static_cast<hsize_t>(total_procs)}});
+    dataspace::Hyperslab slab{{static_cast<hsize_t>(my_id)},{1},{1},{1}};
     dataset.write(my_id,slab);
   }
 

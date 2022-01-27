@@ -50,7 +50,7 @@ node::Dataset create_dataset(const node::Group &base)
   dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1024*1024});
 
-  return base.create_dataset("extended_data",file_type,file_space,lcpl,dcpl);
+  return base.create_dataset("extended_data",file_type,file_space,dcpl,lcpl);
 }
 
 int main(int argc,char **argv)
