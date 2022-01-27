@@ -70,15 +70,6 @@ class DLL_EXPORT ObjectId
     ObjectId(const ObjectHandle &handle);
 
     //!
-    //! \brief copy constructor
-    //!
-    //! We need this for compliance with STL containers. As all memebers of
-    //! this class support copy construction and assignment we can safely use
-    //! the default implementation, provided by the compiler, here.
-    //!
-    ObjectId(const ObjectId &id) = default;
-
-    //!
     //! \brief Equality operator for IDs
     //!
     bool operator== (const ObjectId& other) const;

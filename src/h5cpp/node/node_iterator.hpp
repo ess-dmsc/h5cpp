@@ -66,14 +66,6 @@ class DLL_EXPORT NodeIterator : public Iterator
     NodeIterator() = delete;
 
     //!
-    //! \brief copy constructor
-    //!
-    //! Required. But we can use the compiler provided default implementation
-    //! here.
-    //!
-    NodeIterator(const NodeIterator&) = default;
-
-    //!
     //! \brief get iterator to first element
     //!
     //! Static factory function returning an iterator to the first child

@@ -84,11 +84,6 @@ class DLL_EXPORT Path
     //!
     Path(const_iterator first_element, const_iterator last_element);
 
-    //!
-    //! \brief copy constructor
-    //!
-    Path(const Path &p) = default;
-
     explicit operator std::string() const
     {
       return to_string();

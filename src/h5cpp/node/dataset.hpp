@@ -70,13 +70,6 @@ class DLL_EXPORT Dataset : public Node
     Dataset() = default;
 
     //!
-    //! \brief copy constructor
-    //!
-    //! Use default implementation here.
-    //!
-    Dataset(const Dataset &) = default;
-
-    //!
     //! \brief construct
     //!
     //! Construct a dataset from a node instance.

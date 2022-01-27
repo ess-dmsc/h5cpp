@@ -48,8 +48,6 @@ class DLL_EXPORT LinkIterator : public Iterator
     using iterator_category = std::bidirectional_iterator_tag;
 
     LinkIterator() = delete;
-    LinkIterator(const LinkIterator&) = default;
-    ~LinkIterator() override = default;
 
     static LinkIterator begin(const Group &group);
     static LinkIterator end(const Group &group);
