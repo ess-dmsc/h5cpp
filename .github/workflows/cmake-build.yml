@@ -13,17 +13,17 @@ defaults:
     shell: bash
 
 jobs:
-  linux-build:
+  ubuntu:
     strategy:
       matrix:
+        shared: [shared, static]
+        boost: [boost, stdfs]
+        mpi: [mpi, serial]
+        libcxx: [libstdc++11, libc++]
         image: [
             "conanio/gcc11-ubuntu16.04",
             "conanio/clang13-ubuntu16.04"
         ]
-        libcxx: [libstdc++11, libc++]
-        shared: [shared, static]
-        boost: [boost, stdfs]
-        mpi: [mpi, serial]
         exclude:
           - image: conanio/gcc11-ubuntu16.04
             libcxx: libc++
@@ -85,7 +85,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  windows-build:
+  windows-2019:
     strategy:
       matrix:
         shared: ["shared", "static"]
@@ -135,7 +135,7 @@ jobs:
           .\activate_run.ps1
           ctest --extra-verbose --no-tests=error
         shell: pwsh
-  mac-build:
+  macos-10:
     strategy:
       matrix:
         shared: ["shared", "static"]
