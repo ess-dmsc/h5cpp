@@ -32,7 +32,6 @@ if(H5CPP_BOOST_ENABLED)
     message(FATAL_ERROR "Could not find Boost filesystem library - cannot load h5cpp targets")
   endif()
 
-  link_directories(${Boost_LIBRARY_DIRS})
 endif()
 
 find_dependency(Threads)
