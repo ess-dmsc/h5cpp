@@ -16,16 +16,17 @@ In order to build the code you need
   (gcc>=4.9,Micrsoft Developer Studio >= 2015)
 * the `Boost`_ libraries or a compiler with std::filesystem or std::experimental::filesystem
 * the `HDF5`_ C library
-* `googletest`_ to build the unit tests
-* `sphinx`_ (with python) and  `doxygen`_ for the documentation build
-* `cmake`_ >= 3.0
+* `catch2`_ to build the unit tests
+* `sphinx`_ , `breathe`_ (with python) and  `doxygen`_ for the documentation build
+* `cmake`_ >= 3.10
 
 .. _cmake: https://cmake.org/
 .. _sphinx: http://www.sphinx-doc.org/en/stable/
+.. _breathe: https://github.com/michaeljones/breathe
 .. _HDF5: https://support.hdfgroup.org/HDF5/
 .. _Boost: http://www.boost.org/
-.. _doxygen: http://www.stack.nl/~dimitri/doxygen/index.html
-.. _googletest: https://github.com/google/googletest
+.. _doxygen: https://www.doxygen.nl/index.html
+.. _catch2: https://github.com/catchorg/catch2
 
 Getting the code
 ----------------
