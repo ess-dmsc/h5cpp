@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp-examples LANGUAGES CXX C)
-set(CMAKE_CXX_STANDARD 11)
 
 find_package(h5cpp REQUIRED)
+if (NOT H5CPP_BOOST_ENABLED)
+  set(CMAKE_CXX_STANDARD 17)
+else()
+  set(CMAKE_CXX_STANDARD 11)
+endif()
 
 add_executable(basic_files basic_files.cpp)
 target_link_libraries(basic_files PRIVATE h5cpp::h5cpp)
