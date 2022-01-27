@@ -163,10 +163,14 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
 configure_file("${PACKAGE_CONFIG_FILE_NAME}.in" ${PACKAGE_CONFIG_FILE_NAME} @ONLY)
 install(FILES
         ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
-        cmake/FindHDF5.cmake
         cmake/FindSZIP.cmake
     DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
     COMPONENT development)
+
+install(FILES
+        cmake/FindHDF5.cmake
+        DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}/hdf5
+        COMPONENT development)
 
 #
 # uninstall target
