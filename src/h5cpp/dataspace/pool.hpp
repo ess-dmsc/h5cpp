@@ -30,6 +30,7 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -42,21 +43,37 @@ class DLL_EXPORT DataspacePool
   public:
 
   //!
-  //! \brief pool of reference of Simple data spaces
+  //! \brief reference of Simple data spaces
   //!
   //! Returns data space reference for static data space object
+  //!
+  //! \throws std::runtime_error in case of a failure
   //!
   //! @param size dimension of 1D Simple Dataspace to get or create
   //! @return data space reference for data space object
   //!
   const Dataspace & getSimple(size_t size);
 
+  //!
+  //! \brief reference of Simple data spaces
+  //!
+  //! Returns data space reference for static data space object
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \param current current number of elements along each dimension
+  //! \param maximum maximum number of elements along each dimension
+  //! @return data space reference for data space object
+  //!
+  const Dataspace & getSimple(const Dimensions &current,
+                              const Dimensions &maximum = Dimensions());
+
  private:
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable:4251)
 #endif
-  std::map<size_t, Dataspace> pool_map;
+  std::map<hdf5::Dimensions, Dataspace> pool_map;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -64,9 +81,27 @@ class DLL_EXPORT DataspacePool
 
 inline const Dataspace & DataspacePool::getSimple(size_t size)
 {
-  if(pool_map.count(size) < 1)
-    pool_map[size] = Simple(hdf5::Dimensions{size}, hdf5::Dimensions{size});
-  return pool_map[size];
+  auto key = hdf5::Dimensions{size, size};
+  if(pool_map.count(key) < 1)
+    pool_map[key] = Simple(hdf5::Dimensions{size}, hdf5::Dimensions{size});
+  return pool_map[key];
+}
+
+inline const Dataspace & DataspacePool::getSimple(const Dimensions &current,
+                                                  const Dimensions &maximum)
+{
+  auto maxdim = hdf5::Dimensions(maximum);
+  if (maximum.empty())
+    maxdim = current;
+  else if(current.size() != maxdim.size())
+    error::Singleton::instance().throw_with_stack("The current dimensions size is different than the maximum dimensions size");
+
+  auto key = hdf5::Dimensions(current);
+  key.insert(key.end(), maxdim.begin(), maxdim.end());
+
+  if(pool_map.count(key) < 1)
+    pool_map[key] = Simple(current, maxdim);
+  return pool_map[key];
 }
 
 } // namespace dataspace
