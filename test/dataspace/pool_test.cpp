@@ -41,9 +41,12 @@ SCENARIO("construction of a 1d simple dataspace from dimensions using pool") {
     Dimensions dimensions = {size};
     THEN("we can construct a new simple dataspace") {
       DataspacePool pool;
-      Simple space = pool.getSimple(size);
+      const Simple & space = pool.getSimple(size);
+      const Simple & space2 = pool.getSimple(size);
       AND_THEN("the size is") { REQUIRE(space.size() == 12); }
       AND_THEN("the rank is") { REQUIRE(space.rank() == 1); }
+      AND_THEN("the references are equal") {
+        REQUIRE(std::addressof(space) == std::addressof(space2)); }
       AND_THEN("the current dimensions are") {
         REQUIRE_THAT(dimensions,
                      Catch::Matchers::Equals(space.current_dimensions()));
@@ -61,9 +64,12 @@ SCENARIO("construction of a 3d simple dataspace from dimensions using pool") {
     Dimensions dimensions = {10, 20, 30};
     THEN("we can construct a new simple dataspace") {
       DataspacePool pool;
-      Simple space = pool.getSimple(dimensions);
+      const Simple & space = pool.getSimple(dimensions);
+      const Simple & space2 = pool.getSimple(dimensions);
       AND_THEN("the size is") { REQUIRE(space.size() == 10 * 20 * 30); }
       AND_THEN("the rank is") { REQUIRE(space.rank() == 3); }
+      AND_THEN("the references are equal") {
+        REQUIRE(std::addressof(space) == std::addressof(space2)); }
       AND_THEN("the current dimensions are") {
         REQUIRE_THAT(dimensions,
                      Catch::Matchers::Equals(space.current_dimensions()));
@@ -78,9 +84,14 @@ SCENARIO("construction of a 3d simple dataspace from dimensions using pool") {
       Dimensions max = {100, 200, dataspace::Simple::unlimited};
       THEN("we can construct a dataspace with maximum dimensions") {
         DataspacePool pool;
-        Simple space = pool.getSimple(dimensions, max);
+        const Simple & space = pool.getSimple(dimensions, max);
+        const Simple & space2 = pool.getSimple(dimensions, max);
         AND_THEN("the size is") { REQUIRE(space.size() == 10 * 20 * 30); }
         AND_THEN("the rank is") { REQUIRE(space.rank() == 3); }
+        AND_THEN("the references are equal") {
+          REQUIRE(std::addressof(space) == std::addressof(space2)); }
+        AND_THEN("the references are equal") {
+          REQUIRE(hid_t(space) == hid_t(space2)); }
         AND_THEN("the current dimensions are") {
           REQUIRE_THAT(dimensions,
                        Catch::Matchers::Equals(space.current_dimensions()));

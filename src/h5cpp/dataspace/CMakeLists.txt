@@ -10,6 +10,7 @@ set(SOURCES
     ${dir}/type.cpp
     ${dir}/view.cpp
     ${dir}/points.cpp
+    ${dir}/pool.cpp
     )
 
 set(HEADERS
