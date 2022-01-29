@@ -30,6 +30,7 @@
 #include <h5cpp/dataspace/dataspace.hpp>
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/core/types.hpp>
+#include <h5cpp/error/error.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -42,32 +43,41 @@ class DLL_EXPORT DataspacePool
   public:
 
   //!
-  //! \brief pool of reference of Simple data spaces
+  //! \brief reference of Simple data spaces
   //!
   //! Returns data space reference for static data space object
+  //!
+  //! \throws std::runtime_error in case of a failure
   //!
   //! @param size dimension of 1D Simple Dataspace to get or create
   //! @return data space reference for data space object
   //!
-  const Dataspace & getSimple(size_t size);
+  const Simple & getSimple(size_t size);
+
+  //!
+  //! \brief reference of Simple data spaces
+  //!
+  //! Returns data space reference for static data space object
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \param current current number of elements along each dimension
+  //! \param maximum maximum number of elements along each dimension
+  //! @return data space reference for data space object
+  //!
+  const Simple & getSimple(const Dimensions &current,
+                              const Dimensions &maximum = Dimensions());
 
  private:
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable:4251)
 #endif
-  std::map<size_t, Dataspace> pool_map;
+  std::map<hdf5::Dimensions, Simple> pool_map;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
 };
-
-inline const Dataspace & DataspacePool::getSimple(size_t size)
-{
-  if(pool_map.count(size) < 1)
-    pool_map[size] = Simple(hdf5::Dimensions{size}, hdf5::Dimensions{size});
-  return pool_map[size];
-}
 
 } // namespace dataspace
 } // namespace hdf5

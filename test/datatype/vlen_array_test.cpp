@@ -23,7 +23,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
-//   Jan Kotanski <jan.kotanski@gmail.com>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 23, 2017
 //
 #include <catch2/catch.hpp>

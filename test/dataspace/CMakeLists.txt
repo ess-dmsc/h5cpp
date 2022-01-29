@@ -9,6 +9,7 @@ set(test_sources
     selection_manager_test.cpp
     view_test.cpp
     type_test.cpp
+    pool_test.cpp
     )
 
 add_executable(dataspace_test ${test_sources})
