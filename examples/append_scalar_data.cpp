@@ -27,21 +27,23 @@
 
 using namespace hdf5;
 
-node::Dataset create_dataset(const node::Group parent_group)
-{
-  property::LinkCreationList lcpl;
-  property::DatasetCreationList dcpl;
+namespace {
+  node::Dataset create_dataset(const node::Group & parent_group)
+  {
+    property::LinkCreationList lcpl;
+    property::DatasetCreationList dcpl;
 
-  // in order to append data we have to use a chunked layout of the dataset
-  dcpl.layout(property::DatasetLayout::Chunked);
-  dcpl.chunk(Dimensions{1024});
+    // in order to append data we have to use a chunked layout of the dataset
+    dcpl.layout(property::DatasetLayout::Chunked);
+    dcpl.chunk(Dimensions{1024});
 
-  // create dataspace (infinitely extensible) and datatype
-  dataspace::Simple space({0},{dataspace::Simple::unlimited});
-  auto type = datatype::create<int>();
+    // create dataspace (infinitely extensible) and datatype
+    dataspace::Simple space({0},{dataspace::Simple::unlimited});
+    auto type = datatype::create<int>();
 
-  // finally create the dataset
-  return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
+    // finally create the dataset
+    return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
+}
 }
 
 int main()

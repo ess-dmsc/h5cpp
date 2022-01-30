@@ -72,6 +72,7 @@ class TypeTrait<Image<PixelT>>
     {
       const static DataspaceType & cref_ = Simple(hdf5::Dimensions{value.ny(),value.nx()},
 						  hdf5::Dimensions{value.ny(),value.nx()});
+      return cref_;
     }
 
     static void *ptr(Image<PixelT> &value)
