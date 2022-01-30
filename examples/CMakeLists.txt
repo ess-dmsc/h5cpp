@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp-examples LANGUAGES CXX C)
 
-find_package(h5cpp REQUIRED)
+get_directory_property(IS_TOP_LEVEL PARENT_DIRECTORY)
+if (NOT IS_TOP_LEVEL)
+  find_package(h5cpp REQUIRED)
+endif()
+
 if (NOT H5CPP_BOOST_ENABLED)
   set(CMAKE_CXX_STANDARD 17)
 else()

@@ -21,6 +21,7 @@ if (NOT H5CPP_BUILD_SHARED)
   set(BUILD_SHARED_LIBS OFF)
 endif()
 option(H5CPP_LOCAL_MODULES "Build h5cpp using cmake local modules first")
+option(H5CPP_BUILD_EXAMPLES "Include the examples in the project" OFF)
 
 #=============================================================================
 # Conan
@@ -116,6 +117,9 @@ add_subdirectory(src)
 option(H5CPP_BUILD_DOCS "Build documentation" ON)
 if(H5CPP_BUILD_DOCS)
   add_subdirectory(doc)
+endif()
+if (H5CPP_BUILD_EXAMPLES)
+  add_subdirectory(examples)
 endif()
 
 #=============================================================================
