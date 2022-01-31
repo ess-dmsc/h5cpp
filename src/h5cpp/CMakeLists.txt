@@ -77,9 +77,9 @@ endif()
 target_link_libraries(h5cpp
   PUBLIC 
     ${H5CPP_LINKS}
+    hdf5::hdf5
   PRIVATE ${COVERAGE_LIBRARIES}
     hdf5::hdf5_hl
-    hdf5::hdf5
     Threads::Threads
     ${H5CPP_FILTER_TARGETS}
     ${CMAKE_DL_LIBS}

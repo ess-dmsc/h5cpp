@@ -249,5 +249,15 @@ jobs:
           cmake --build . -- -j 2
       - name: run tests
         run: |
-          cd build
           ctest --extra-verbose --no-tests=error
+        working-directory: build
+      - name: install with cmake
+        run: |
+          cmake --build . --target install
+        working-directory: build
+      - name: build examples
+        run: | 
+          mkdir examples_build
+          cd examples_build
+          cmake ../examples -DCMAKE_BUILD_TYPE=Release
+          cmake --build . -- -j 2

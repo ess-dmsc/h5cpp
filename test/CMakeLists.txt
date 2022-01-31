@@ -3,6 +3,9 @@
 #
 if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+  # suppress warnings from Catch2 macros
+  add_definitions(-Wno-reserved-identifier -Wno-unknown-warning-option)
 endif ()
 
 # ----------------------------------------------------------------------------

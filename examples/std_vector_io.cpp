@@ -50,7 +50,7 @@ int main()
   //
   // retrieving the data back from disk
   //
-  DataType read_data(dataset.dataspace().size()); //allocate enough memory
+  DataType read_data(static_cast<size_t>(dataset.dataspace().size())); //allocate enough memory
   dataset.read(read_data);
 
   //

@@ -1,8 +1,16 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(h5cpp-examples LANGUAGES CXX C)
-set(CMAKE_CXX_STANDARD 11)
 
-find_package(h5cpp REQUIRED)
+get_directory_property(IS_TOP_LEVEL PARENT_DIRECTORY)
+if (NOT IS_TOP_LEVEL)
+  find_package(h5cpp REQUIRED)
+endif()
+
+if (NOT H5CPP_BOOST_ENABLED)
+  set(CMAKE_CXX_STANDARD 17)
+else()
+  set(CMAKE_CXX_STANDARD 11)
+endif()
 
 add_executable(basic_files basic_files.cpp)
 target_link_libraries(basic_files PRIVATE h5cpp::h5cpp)
@@ -60,4 +68,3 @@ endif ()
 if (H5CPP_MPI_ENABLED)
   add_subdirectory(mpi)
 endif ()
-

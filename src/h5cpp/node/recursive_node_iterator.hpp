@@ -77,13 +77,6 @@ class DLL_EXPORT RecursiveNodeIterator
     RecursiveNodeIterator() = delete;
 
     //!
-    //! \brief copy constructor
-    //!
-    //! Required, but we can use the compiler provided default version here.
-    //!
-    RecursiveNodeIterator(const RecursiveNodeIterator&) = default;
-
-    //!
     //! \brief create iterator to the first element
     //!
     //! Static factory function returning an instance of

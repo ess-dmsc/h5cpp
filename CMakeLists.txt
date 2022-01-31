@@ -21,6 +21,7 @@ if (NOT H5CPP_BUILD_SHARED)
   set(BUILD_SHARED_LIBS OFF)
 endif()
 option(H5CPP_LOCAL_MODULES "Build h5cpp using cmake local modules first")
+option(H5CPP_BUILD_EXAMPLES "Include the examples in the project" OFF)
 
 #=============================================================================
 # Conan
@@ -117,6 +118,9 @@ option(H5CPP_BUILD_DOCS "Build documentation" ON)
 if(H5CPP_BUILD_DOCS)
   add_subdirectory(doc)
 endif()
+if (H5CPP_BUILD_EXAMPLES)
+  add_subdirectory(examples)
+endif()
 
 #=============================================================================
 # install the examples directory to the documentation directory
@@ -158,12 +162,19 @@ install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_VERSION_FILE_NAME}
     COMPONENT development)
 
 #
-# create and install the package file
+# create and install the package file and cmake modules
 #
 configure_file("${PACKAGE_CONFIG_FILE_NAME}.in" ${PACKAGE_CONFIG_FILE_NAME} @ONLY)
-install(FILES ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
+install(FILES
+        ${PROJECT_BINARY_DIR}/${PACKAGE_CONFIG_FILE_NAME}
+        cmake/FindSZIP.cmake
     DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
     COMPONENT development)
+
+install(FILES
+        cmake/FindHDF5.cmake
+        DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}/hdf5
+        COMPONENT development)
 
 #
 # uninstall target

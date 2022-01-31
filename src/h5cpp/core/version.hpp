@@ -63,14 +63,6 @@ class DLL_EXPORT Version
     Version(NumberType major_number, NumberType minor_number, NumberType patch) noexcept;
 
     //!
-    //! @brief copy constructor
-    //!
-    //! We can use the compiler provided default implementation here as all
-    //! members are trivially copyable.
-    //!
-    Version(const Version &) = default;
-
-    //!
     //! @brief return the major version number
     //!
     NumberType major_number() const noexcept;

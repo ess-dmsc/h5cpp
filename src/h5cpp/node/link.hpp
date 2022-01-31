@@ -132,11 +132,6 @@ class DLL_EXPORT Link
     Link() = default;
 
     //!
-    //! \brief copy constructor
-    //!
-    Link(const Link &) = default;
-
-    //!
     //! \brief get path of the link
     //!
     //! Return the actual path of the link in the file. This is basically

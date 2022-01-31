@@ -64,13 +64,6 @@ class DLL_EXPORT Attribute
     Attribute() = default;
 
     //!
-    //! \brief copy assignment operator
-    //!
-    //! Uses default compiler implementation.
-    //!
-    Attribute(const Attribute &) = default;
-
-    //!
     //! \brief return the data type of the attribute
     //!
     //! Returns a copy of the datatype used to create the attribute.
