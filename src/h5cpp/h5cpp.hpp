@@ -19,41 +19,11 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
-// Created on: Oct 07, 2017
+// Author: Jan Kotanski <jan.kotanski@desy.de>
+// Created on: Jan 31, 2022
 //
-#include <h5cpp/h5cpp.hpp>
+#pragma once
 
-#include <iostream>
-#include <complex>
-
-using namespace hdf5;
-
-using ComplexDouble = std::complex<double>;
-
-int main()
-{
-  file::File f = file::create("writing_complex.h5",file::AccessFlags::Truncate);
-  node::Group root_group = f.root();
-  node::Dataset dataset(root_group,"data",datatype::create<ComplexDouble>(),
-                                                    dataspace::Scalar());
-
-  //
-  // writing a complex number
-  //
-  ComplexDouble write(1.2,-3.4231);
-  std::cout<<"writing: "<<write<<std::endl;
-  dataset.write(write);
-
-  //
-  // reading a complex number
-  //
-  ComplexDouble read(0,0);
-  dataset.read(read);
-
-  std::cout<<"reading: "<<read<<std::endl;
-
-  return 0;
-}
-
+#include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 

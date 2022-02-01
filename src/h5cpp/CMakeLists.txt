@@ -1,6 +1,15 @@
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(HEADERS ${dir}/hdf5.hpp)
+
+if(H5CPP_ENABLE_STL)
+    list(APPEND HEADERS ${dir}/h5cpp.hpp)
+endif()
+
+if(H5CPP_ENABLE_NEXUS AND H5CPP_ENABLE_STL)
+    list(APPEND HEADERS ${dir}/nexus.hpp)
+endif()
+
 install(FILES ${HEADERS}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/h5cpp)
 
