@@ -7,6 +7,7 @@ configure_file(groups.dox groups.dox COPYONLY)
 configure_file(mainpage.dox mainpage.dox COPYONLY)
 configure_file(namespaces.dox namespaces.dox COPYONLY)
 configure_file(index.html index.html COPYONLY)
+configure_file(doxygen-bizflat.css doxygen-bizflat.css COPYONLY)
 set_source_files_properties(Doxyfile groups.dox mainpage.dox namespaces.dox users_guide.dox
 	PROPERTIES GENERATED TRUE)
 
