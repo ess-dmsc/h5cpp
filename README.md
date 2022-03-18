@@ -1,4 +1,4 @@
-# A modern C++ wrapper for the HDF5 C-library
+# A modern C++ interface for HDF5
 
 [![Build Status](https://jenkins.esss.dk/dm/job/ess-dmsc/job/h5cpp/job/master/badge/icon)](https://jenkins.esss.dk/dm/job/ess-dmsc/job/h5cpp/job/master/)
 ![github workflow](https://github.com/ess-dmsc/h5cpp/actions/workflows/cmake-build.yml/badge.svg)
@@ -8,13 +8,13 @@
 [![Join the chat at https://gitter.im/h5cpp/community](https://badges.gitter.im/h5cpp/community.svg)](https://gitter.im/h5cpp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
-*h5cpp* is a modern C++ wrapper for HDF5s C-API. 
+*h5cpp* is a modern C++ wrapper for HDF5's C-API. 
 
 ## Motivation
 
-HDF5 is a powerful binary file format. There is virtually nothing that cannot be stored within an HDF5 file. To read and write data from and to an HDF5 file you can either use the C-API or one of the wrappers for a scripting language (for Python there is for instance [h5py](http://www.h5py.org/) or [pytables](http://www.pytables.org/)). However, to keep their interfaces simple, many of these wrappers do not provide the full functionality HDF5 has to offer. If you want to use all features available, you must use the C-API, which is, however, quite unwieldy and not conducive to modern C++ idioms. 
+[HDF5](https://en.wikipedia.org/wiki/Hierarchical_Data_Format) is a powerful binary format. There is virtually nothing that cannot be stored in an HDF5 file. You can either use the C-API or one of the wrappers for a scripting language (for Python there is for instance [h5py](http://www.h5py.org/) or [pytables](http://www.pytables.org/)). To keep their interfaces simple, many of these wrappers do not provide the full functionality HDF5 has to offer. If you want to use all features available, you must use the C-API, which is, however, quite unwieldy and not conducive to modern C++ idioms. 
 
-**h5cpp** aims to provide a domain-agnostic and easy-to-use modern C++ interface to the full functionality of HDF5. 
+**h5cpp** provides a domain-agnostic and easy-to-use modern C++ interface to the full functionality of HDF5. 
 
 We currently support:
 * Linux
