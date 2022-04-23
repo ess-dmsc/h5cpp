@@ -35,9 +35,9 @@ class H5CppConan(ConanFile):
         self.requires("hdf5/1.12.0")
         if self.options.with_boost:
             if self.settings.os == "Windows":
-                self.requires("boost/1.77.0:37050c911e5419517ec6e0761c16c6e262b3e2a3")
+                self.requires("boost/1.77.0@#37050c911e5419517ec6e0761c16c6e262b3e2a3")
             elif self.settings.os == "Macos":
-                self.requires("boost/1.77.0:69a26e9f94fd5c42037c261d535c139b7e410f4c")
+                self.requires("boost/1.77.0@#69a26e9f94fd5c42037c261d535c139b7e410f4c")
             else:
                 self.requires("boost/1.77.0@#35c2c19753eaadacfb846c7198919da7")
         if self.options.get_safe("with_mpi", False):
