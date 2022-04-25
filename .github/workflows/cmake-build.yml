@@ -89,7 +89,9 @@ jobs:
     strategy:
       matrix:
         shared: ["shared", "static"]
-        boost: ["boost", "stdfs"]
+        boost: [
+        # "boost",
+        "stdfs"]
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
@@ -139,7 +141,9 @@ jobs:
     strategy:
       matrix:
         shared: ["shared", "static"]
-        boost: ["boost", "stdfs"]
+        boost: [
+        # "boost",
+        "stdfs"]
         mpi: ["serial", "mpi"]
     runs-on: macos-10.15
     steps:
