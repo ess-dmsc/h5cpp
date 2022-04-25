@@ -26,6 +26,9 @@ class H5CppConan(ConanFile):
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.with_mpi
+            del self.options.with_boost
+        if self.settings.os == "Macos":
+            del self.options.with_boost
 
     def configure(self):
         if self.options.get_safe("with_mpi", False):
@@ -33,8 +36,13 @@ class H5CppConan(ConanFile):
 
     def requirements(self):
         self.requires("hdf5/1.12.0")
-        if self.options.with_boost:
-            self.requires("boost/1.77.0")
+        if self.options.get_safe("with_boost", False):
+            if self.settings.os == "Windows":
+                self.requires("boost/1.77.0")
+            elif self.settings.os == "Macos":
+                self.requires("boost/1.77.0")
+            else:
+                self.requires("boost/1.77.0@#35c2c19753eaadacfb846c7198919da7")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
 
@@ -43,7 +51,8 @@ class H5CppConan(ConanFile):
         cmake.definitions.update({
             "H5CPP_CONAN": "MANUAL",
             "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
-            "H5CPP_WITH_BOOST": self.options.with_boost
+            "H5CPP_WITH_BOOST": self.options.get_safe(
+                "with_boost", False),
         })
         with tools.run_environment(self):
             cmake.configure()
