@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(h5cpp
     LANGUAGES CXX C
-      VERSION 0.5.0
+      # VERSION 0.5.0
       # documentation for VERSION with one '.' is stored as v:latest (see doc/conf.py.in)
-      # VERSION 0.6
+      VERSION 0.6
     )
 
 
