@@ -32,10 +32,6 @@
 #include <h5cpp/datatype/string.hpp>
 #include <h5cpp/datatype/compound.hpp>
 
-#include <vector>
-#include <array>
-#include <string>
-#include <complex>
 #include <type_traits>
 
 namespace hdf5 {
@@ -65,14 +61,24 @@ class TypeTrait {
   //! \brief create the new type instance
   //!
   static TypeClass create(const T & = T());
+
+  //!
+  //! \brief reference to const static type instance
+  //!
+  const static TypeClass & get(const T & = T());
 };
 
 template<>
 class TypeTrait<char> {
  public:
+  using Type = char;
   using TypeClass = Integer;
-  static TypeClass create(const char & = char()) {
+  static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_CHAR)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -84,6 +90,10 @@ class TypeTrait<unsigned char> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UCHAR)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
@@ -93,6 +103,10 @@ class TypeTrait<signed char> {
   using TypeClass = Integer;
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SCHAR)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -104,6 +118,10 @@ class TypeTrait<short> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_SHORT)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
@@ -114,14 +132,23 @@ class TypeTrait<unsigned short> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_USHORT)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
 class TypeTrait<int> {
  public:
+  using Type = int;
   using TypeClass = Integer;
-  static TypeClass create(const int & = int()) {
+  static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_INT)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -133,6 +160,10 @@ class TypeTrait<unsigned int> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_UINT)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
@@ -142,6 +173,10 @@ class TypeTrait<long> {
   using TypeClass = Integer;
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LONG)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -153,6 +188,10 @@ class TypeTrait<unsigned long> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULONG)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
@@ -163,6 +202,10 @@ class TypeTrait<long long> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LLONG)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
@@ -172,6 +215,10 @@ class TypeTrait<unsigned long long> {
   using TypeClass = Integer;
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_ULLONG)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -187,23 +234,37 @@ class TypeTrait<datatype::float16_t> {
     type.ebias(15);
     return type;
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
 template<>
 class TypeTrait<float> {
  public:
+  using Type = float;
   using TypeClass = Float;
-  static TypeClass create(const float & = float()) {
+  static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_FLOAT)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
 template<>
 class TypeTrait<double> {
  public:
+  using Type = double;
   using TypeClass = Float;
-  static TypeClass create(const double & = double()) {
+  static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_DOUBLE)));
+  }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
 
@@ -215,56 +276,11 @@ class TypeTrait<long double> {
   static TypeClass create(const Type & = Type()) {
     return TypeClass(ObjectHandle(H5Tcopy(H5T_NATIVE_LDOUBLE)));
   }
-};
-
-template<>
-class TypeTrait<std::string> {
- public:
-  using TypeClass = String;
-  static TypeClass create(const std::string & = std::string()) {
-    return datatype::String::variable();
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
   }
 };
-
-template<typename T>
-class TypeTrait<std::vector<T>> {
- public:
-  using Type = std::vector<T>;
-  using TypeClass = typename TypeTrait<T>::TypeClass;
-  static TypeClass create(const Type & = Type()) {
-    return TypeTrait<typename std::remove_const<T>::type>::create();
-  }
-};
-
-template<typename T, size_t N>
-class TypeTrait<std::array<T, N>> {
- public:
-  using Type = std::array<T, N>;
-  using TypeClass = typename TypeTrait<T>::TypeClass;
-  static TypeClass create(const Type & = Type()) {
-    return TypeTrait<typename std::remove_const<T>::type>::create();
-  }
-};
-
-template<typename CharT>
-class TypeTrait<std::basic_string<CharT>> {
- private:
-
- public:
-  using Type = std::basic_string<CharT>;
-  using TypeClass = String;
-
-  static TypeClass create(const Type & = Type()) {
-    static_assert(std::is_same<CharT, char>::value, "Only support 8Bit characters");
-
-    String type = String::variable();
-    type.encoding(CharacterEncoding::UTF8);
-    return type;
-
-  }
-
-};
-
 template<>
 class TypeTrait<bool> {
  public:
@@ -274,29 +290,12 @@ class TypeTrait<bool> {
   static TypeClass create(const Type & = Type()) {
     return Integer(ObjectHandle(H5Tcopy(H5T_NATIVE_HBOOL)));
   }
+  const static TypeClass & get(const Type & = Type()) {
+    const static TypeClass & cref_ = create();
+    return cref_;
+  }
 };
 
-template<typename T>
-class TypeTrait<std::complex<T>>
-{
-  private:
-    using element_type = TypeTrait<T>;
-
-  public:
-    using Type = std::complex<T>;
-    using TypeClass = Compound;
-
-    static TypeClass create(const Type & = Type())
-    {
-      datatype::Compound type = datatype::Compound::create(
-        sizeof(std::complex<T>));
-
-      type.insert("real", 0, element_type::create(T()));
-      type.insert("imag", alignof(T), element_type::create(T()));
-
-      return type;
-    }
-};
 
 } // namespace datatype
 } // namespace hdf5

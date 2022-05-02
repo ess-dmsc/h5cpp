@@ -43,6 +43,10 @@
 namespace hdf5 {
 namespace node {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT Group : public Node
 {
   public:
@@ -85,15 +89,21 @@ class DLL_EXPORT Group : public Node
           const property::GroupCreationList &gcpl = property::GroupCreationList(),
           const property::GroupAccessList &gapl = property::GroupAccessList());
 
+    virtual ~Group() override {}
+
     //!
     //! \brief copy assignment operator
     //!
     Group &operator=(const Group &group);
 
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
     //!
-    //! \brief flush group
+    //! \brief flush the group (*since hdf5 1.10.0*)
+    //!
+    //! \throws std::runtime_error in case of a failure)
     //!
     void flush() const;
+#endif
 
     //!
     //! \brief get reference to the iterator configuration
@@ -391,7 +401,9 @@ class DLL_EXPORT Group : public Node
     IteratorConfig iter_config_;
 
 };
-
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 } // namespace node

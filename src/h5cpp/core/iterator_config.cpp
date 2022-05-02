@@ -31,30 +31,26 @@ std::ostream &operator<<(std::ostream &stream,const IterationOrder &order)
 {
   switch(order)
   {
-    case IterationOrder::DECREASING: return stream<<"DECREASING";
-    case IterationOrder::INCREASING: return stream<<"INCREASING";
-    case IterationOrder::NATIVE: return stream<<"NATIVE";
-    default:
-      return stream;
+    case IterationOrder::Decreasing: return stream<<"DECREASING";
+    case IterationOrder::Increasing: return stream<<"INCREASING";
+    case IterationOrder::Native: return stream<<"NATIVE";
   }
-
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
 {
   switch(index)
   {
-    case IterationIndex::CREATION_ORDER: return stream<<"CREATION_ORDER";
-    case IterationIndex::NAME: return stream<<"NAME";
-    default:
-      return stream;
+    case IterationIndex::CreationOrder: return stream<<"CREATION_ORDER";
+    case IterationIndex::Name: return stream<<"NAME";
   }
-
+  return stream;
 }
 
 IteratorConfig::IteratorConfig():
-    order_(IterationOrder::NATIVE),
-    index_(IterationIndex::NAME),
+    order_(IterationOrder::Native),
+    index_(IterationIndex::Name),
     lapl_(property::LinkAccessList())
 {}
 

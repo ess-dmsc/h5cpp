@@ -24,178 +24,85 @@
 // Created on: Jul 06, 2018
 //
 
-#include <gtest/gtest.h>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/node/group.hpp>
+#include <catch2/catch.hpp>
 #include <h5cpp/core/filesystem.hpp>
+#include <h5cpp/file/functions.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/node/group.hpp>
+#include <string>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 
-class FileClose : public testing::Test
-{
-  protected:
-    FileClose() {}
-    virtual ~FileClose() {}
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#pragma clang diagnostic ignored "-Wglobal-constructors"
+#endif
+namespace { 
+static const std::string filename = "file_close_test.h5";
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
-    virtual void SetUp()
-    {
-      for(auto filename : files_)
-        fs::remove(filename);
-      hdf5::property::FileAccessList fapl;
-      hdf5::property::FileCreationList fcpl;
-      auto nexus_file = file::create("testclose.h5",
-				     file::AccessFlags::TRUNCATE, fcpl, fapl);
-      std::string hdf5_version =  "1.0.0";
-      auto type = datatype::create<std::string>();
-      dataspace::Scalar space;
+SCENARIO("Closing file") {
+  {
+    hdf5::property::FileAccessList fapl;
+    hdf5::property::FileCreationList fcpl;
+    auto f =
+        file::create(filename, file::AccessFlags::Truncate, fcpl, fapl);
+    f.root()
+        .attributes
+        .create("HDF5_version", datatype::create<std::string>(),
+                dataspace::Scalar())
+        .write(std::string("1.0.0"));
+  }
 
-      auto r1 = nexus_file.root();
-      r1.attributes.create("HDF5_version", type, space).write(hdf5_version);
+  GIVEN("A strong closing policy") {
+    hdf5::property::FileAccessList fapl;
+    fapl.close_degree(hdf5::property::CloseDegree::Strong);
+    REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::Strong);
+    THEN("the all remaining objects will be close along with the file") {
+      auto file = hdf5::file::open(filename,
+                                   hdf5::file::AccessFlags::ReadOnly, fapl);
+      auto root_group = file.root();
 
-      r1.close();
-      nexus_file.close();
+      auto attr = root_group.attributes[0];
+      REQUIRE(file.count_open_objects(file::SearchFlags::All) == 3u);
+
+      // with CloseDegree::Strong it closes also root_group and attr
+      REQUIRE_NOTHROW(file.close());
+      REQUIRE_FALSE(root_group.is_valid());
+      REQUIRE_FALSE(attr.is_valid());
+      REQUIRE_FALSE(file.is_valid());
+
+      // everything is close so file can be reopen in a different mode, i.e.
+      // READWRITE
+      REQUIRE_NOTHROW(
+          hdf5::file::open(filename, hdf5::file::AccessFlags::ReadWrite));
     }
+  }
 
-    virtual void TearDown() {}
+  GIVEN("the default closing policy") {
+    hdf5::property::FileAccessList fapl;
+    REQUIRE(fapl.close_degree() == hdf5::property::CloseDegree::Default);
+    auto file = hdf5::file::open(filename,
+                                 hdf5::file::AccessFlags::ReadOnly, fapl);
+    auto root_group = file.root();
 
-    static const std::vector<std::string> files_;
-};
+    auto attr = root_group.attributes[0];
+    REQUIRE(file.count_open_objects(file::SearchFlags::All) == 3ul);
 
-const std::vector<std::string> FileClose::files_ = {
-    "./testclose.h5"
-};
+    // without CloseDegree::Strong root_group and attr are still open
+    REQUIRE_NOTHROW(file.close());
+    REQUIRE(root_group.is_valid());
+    REQUIRE(attr.is_valid());
 
-TEST_F(FileClose, test_strong_withopen_root_attr)
-{
-
-  hdf5::property::FileAccessList fapl2;
-  fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
-  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::STRONG);
-  auto file = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto root_group = file.root();
-
-  auto attr = root_group.attributes[0];
-  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 3u);
-
-  // with CloseDegree::STRONG it closes also root_group and attr
-  EXPECT_NO_THROW(file.close());
-
-
-  // everything is close so file can be reopen in a different mode, i.e. READWRITE
-  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
-				   hdf5::file::AccessFlags::READWRITE));
+    // file cannot be reopen in a different mode, i.e. READWRITE
+    REQUIRE_THROWS_AS(
+        hdf5::file::open(filename, hdf5::file::AccessFlags::ReadWrite),
+        std::runtime_error);
+  }
 }
-
-TEST_F(FileClose, test_strong_withopen_attr)
-{
-
-  hdf5::property::FileAccessList fapl2;
-  fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
-  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::STRONG);
-  auto file = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto root_group = file.root();
-
-  auto attr = root_group.attributes[0];
-  root_group.close();
-
-  // with CloseDegree::STRONG it closes also attr
-  EXPECT_NO_THROW(file.close());
-
-
-  // everything is close so file can be reopen in a different mode, i.e. READWRITE
-  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
-				   hdf5::file::AccessFlags::READWRITE));
-}
-
-TEST_F(FileClose, test_strong_withopen_root)
-{
-
-  hdf5::property::FileAccessList fapl2;
-  fapl2.close_degree(hdf5::property::CloseDegree::STRONG);
-  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::STRONG);
-  auto file = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto root_group = file.root();
-
-  // with CloseDegree::STRONG it closes also attr
-  file.close();
-
-  // everything is close so file can be reopen in a different mode, i.e. READWRITE
-  EXPECT_NO_THROW(hdf5::file::open("testclose.h5",
-				   hdf5::file::AccessFlags::READWRITE));
-}
-
-TEST_F(FileClose, test_withopen_attr_root)
-{
-
-  hdf5::property::FileAccessList fapl2;
-  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::DEFAULT);
-  auto file = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto root_group = file.root();
-
-  auto attr = root_group.attributes[0];
-  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 3ul);
-
-  // without CloseDegree::STRONG root_group and attr are still open
-  EXPECT_NO_THROW(file.close());
-
-
-  // file cannot be reopen in a different mode, i.e. READWRITE
-  EXPECT_THROW(hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READWRITE),
-	       std::runtime_error);
-}
-
-TEST_F(FileClose, test_withopen_attr)
-{
-
-  hdf5::property::FileAccessList fapl2;
-  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::DEFAULT);
-  auto file = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto root_group = file.root();
-
-  auto attr = root_group.attributes[0];
-  root_group.close();
-
-  EXPECT_EQ(file.count_open_objects(file::SearchFlags::ALL), 2ul);
-
-  // without CloseDegree::STRONG root_group and attr are still open
-  EXPECT_NO_THROW(file.close());
-
-
-  // file cannot be reopen in a different mode, i.e. READWRITE
-  EXPECT_THROW(hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READWRITE),
-	       std::runtime_error);
-}
-
-TEST_F(FileClose, test_withopen_root)
-{
-
-  hdf5::property::FileAccessList fapl2;
-  EXPECT_EQ(fapl2.close_degree(), hdf5::property::CloseDegree::DEFAULT);
-  auto file = hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READONLY, fapl2);
-  auto root_group = file.root();
-
-  // without CloseDegree::STRONG root_group is still open
-  EXPECT_NO_THROW(file.close());
-
-
-  // file cannot be reopen in a different mode, i.e. READWRITE
-  EXPECT_THROW(hdf5::file::open("testclose.h5",
-				hdf5::file::AccessFlags::READWRITE),
-	       std::runtime_error);
-}
-
-
-
-
-
-
 

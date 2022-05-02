@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,39 +21,59 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 18, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/property/string_creation.hpp>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 namespace type = hdf5::datatype;
 
-TEST(StringCreationList, test_default_construction) {
-  pl::StringCreationList scl;
-  EXPECT_TRUE(scl.get_class() == pl::kStringCreate);
-
-  auto cl = pl::kStringCreate;
-  EXPECT_NO_THROW((pl::StringCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::StringCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("constructing an instance of StringCreationList") {
+  GIVEN("a default constructed instance") {
+    pl::StringCreationList scl;
+    THEN("this instance has the following configuration") {
+      REQUIRE(scl.get_class() == pl::kStringCreate);
+      REQUIRE(scl.character_encoding() == type::CharacterEncoding::ASCII);
+    }
+    WHEN("closing this instance") {
+      close(scl);
+      THEN("accesing all methods must fail") {
+        REQUIRE_THROWS_AS(scl.character_encoding(), std::runtime_error);
+        REQUIRE_THROWS_AS(
+            scl.character_encoding(type::CharacterEncoding::ASCII),
+            std::runtime_error);
+      }
+    }
+  }
+  GIVEN("a handle to a string creation property list") {
+    auto handle = handle_from_class(pl::kStringCreate);
+    THEN("we can construct an instance from this") {
+      REQUIRE_NOTHROW(pl::StringCreationList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group creation property list") {
+    auto handle = handle_from_class(pl::kGroupCreate);
+    THEN("then construction must fail") {
+      REQUIRE_THROWS_AS(pl::StringCreationList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
-
-TEST(StringCreationList, test_encoding) {
+SCENARIO("setting the character encoding on a StringCreationList") { 
   pl::StringCreationList scl;
-  EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::ASCII));
-  EXPECT_TRUE(scl.character_encoding() == type::CharacterEncoding::ASCII);
-
-  EXPECT_NO_THROW(scl.character_encoding(type::CharacterEncoding::UTF8));
-  EXPECT_TRUE(scl.character_encoding() == type::CharacterEncoding::UTF8);
-
-  hdf5::ObjectHandle(static_cast<hid_t>(scl)).close();
-  EXPECT_THROW(scl.character_encoding(type::CharacterEncoding::UTF8), std::runtime_error);
-  EXPECT_THROW(scl.character_encoding(), std::runtime_error);
+  GIVEN("all possible encodings") { 
+    auto enc = GENERATE(type::CharacterEncoding::UTF8, type::CharacterEncoding::ASCII);
+    WHEN("we set the encoding") { 
+      scl.character_encoding(enc);
+      AND_THEN("read it back")  {
+        REQUIRE(scl.character_encoding() == enc);
+      }
+    }
+  }
 }
-

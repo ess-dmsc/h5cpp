@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,131 +20,139 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 12, 2017
 //
 
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include "group_test_fixtures.hpp"
 
 using namespace hdf5;
 
-class Extent : public BasicFixture
-{
-  protected:
-    node::Dataset fin_data;
-    node::Dataset inf_data;
-    dataspace::Simple sspace;
+namespace { 
 
-    virtual void SetUp()
-    {
-      BasicFixture::SetUp();
-      auto type = datatype::create<int>();
-      property::DatasetCreationList dcpl;
-      property::LinkCreationList lcpl;
-      property::DatasetAccessList dapl;
+auto int_dtype = []() { return datatype::create<int>(); };
+auto link_creation_list = []() { return property::LinkCreationList{}; };
+auto dataset_creation_list = []() { return property::DatasetCreationList{}; };
+auto dataset_access_list = []() { return property::DatasetAccessList{}; };
 
-      dcpl.layout(property::DatasetLayout::CHUNKED);
-      dcpl.chunk({1024});
-
-      dataspace::Simple fin_space({0},{4096});
-      fin_data = node::Dataset(root_,Path("fin_data"),type,fin_space,lcpl,dcpl,dapl);
-
-      dataspace::Simple inf_space({0},{dataspace::Simple::UNLIMITED});
-      inf_data = node::Dataset(root_,Path("inf_data"),type,inf_space,lcpl,dcpl,dapl);
-    }
-
+auto current_dimension = [](const node::Dataset& dataset, size_t index = 0) {
+  return dataspace::Simple{dataset.dataspace()}.current_dimensions()[index];
 };
-
-
-TEST_F(Extent, test_infinite_extent_absolut)
-{
-  sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
-  EXPECT_NO_THROW(inf_data.extent({1000}));
-  EXPECT_NO_THROW(sspace = inf_data.dataspace());
-  sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],1000ul);
 }
 
-TEST_F(Extent,test_infinite_resize_absolute)
-{
+SCENARIO("testing the extent of a dataset") {
+  using node::resize_by;
+  auto f = file::create("dataset_extent_test.h5", file::AccessFlags::Truncate);
+  auto r = f.root();
+  dataspace::Simple inf_dataspace({0}, {dataspace::Simple::unlimited});
+  dataspace::Simple fin_dataspace({0}, {4096});
+
+  auto create_dataset = [&r](const hdf5::Path& p,
+                             const dataspace::Dataspace& ds) {
+    auto dcpl = dataset_creation_list();
+    dcpl.layout(property::DatasetLayout::Chunked);
+    dcpl.chunk({1024});
+    return node::Dataset(r, p, int_dtype(), ds, link_creation_list(), dcpl,
+                         dataset_access_list());
+  };
+
+  GIVEN("datasets with inifinte and finite dataspaces") {
+    std::vector<node::Dataset> datasets{
+        create_dataset("inf_data", inf_dataspace),
+        create_dataset("fin_data", fin_dataspace)};
+    for (auto dataset : datasets) {
+      THEN("then first dimension has actually no elements") {
+        REQUIRE(current_dimension(dataset) == 0ul);
+      }
+
+      WHEN("setting all dimensions at once using extent()") {
+        dataset.extent({1000});
+        THEN("the actual dimension becomes 1000") {
+          REQUIRE(current_dimension(dataset) == 1000ul);
+        }
+      }
+
+      WHEN("setting the elements for a single dimension using extent()") {
+        REQUIRE_NOTHROW(dataset.extent(0, 123));
+        THEN("the actual dimensions reads 123") {
+          REQUIRE(current_dimension(dataset) == 123ul);
+          AND_WHEN("shrinking the elements for a single dimension using extent()") {
+            REQUIRE_NOTHROW(dataset.extent(0, -3));
+            THEN("the actual dimensions reads 120") {
+              REQUIRE(current_dimension(dataset) == 120ul);
+            }
+          }
+        }
+      }
+
+      WHEN("setting all dimensions at once using resize()") {
+        REQUIRE_NOTHROW(dataset.resize({100}));
+        THEN("the actual dimensions become 100") {
+          REQUIRE(current_dimension(dataset) == 100ul);
+          AND_WHEN(
+              "setting changing the number of elements by a relative value") {
+            resize_by(dataset, 0, 12);
+            THEN("the new number of dimensions must be 112") {
+              REQUIRE(current_dimension(dataset) == 112ul);
+            }
+          }
+        }
+      }
+
+      // ======================================================================
+      // testing some common error conditions
+      // ======================================================================
+      WHEN("setting the extent to a negative value (extent)") {
+        THEN("the operation must fail") {
+          REQUIRE_THROWS_AS(dataset.extent(0, -1000), std::runtime_error);
+        }
+      }
+      WHEN("setting the extent to a negative value (resize_by)") {
+        THEN("the operation fails also with resize_by") {
+          REQUIRE_THROWS_AS(resize_by(dataset, 0, -100), std::runtime_error);
+        }
+      }
+
+      WHEN("setting the extent for a non-existing dimension (extent)") {
+        THEN("the operation must fail") {
+          REQUIRE_THROWS_AS(dataset.extent(1, 100), std::runtime_error);
+        }
+      }
+      WHEN("setting the extent for a non-existing dimension (resize_by)") {
+        THEN("operation also fails with resize_by") {
+          REQUIRE_THROWS_AS(resize_by(dataset, 1, 100), std::runtime_error);
+        }
+      }
+    }
+  }
+
+  GIVEN("a dataset with a finite extent") {
+    auto dataset = create_dataset("fin_data", fin_dataspace);
+    WHEN("trying to set the absolute extent larger than maximum") {
+      THEN("the oepration must fail") {
+        REQUIRE_THROWS_AS(dataset.extent({100000}), std::runtime_error);
+      }
+      THEN("the operation must fail") {
+        REQUIRE_THROWS_AS(dataset.resize({100000}), std::runtime_error);
+      }
+      THEN("the operation must fail by a relative value") { 
+        REQUIRE_THROWS_AS(resize_by(dataset,0,1000000), std::runtime_error);
+      }
+    }
+  }
+}
+
+/*
+
+TEST_F(Extent, test_infinite_resize_by) {
   sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
-  EXPECT_NO_THROW(inf_data.resize({1000}));
-  EXPECT_NO_THROW(sspace = inf_data.dataspace());
+  EXPECT_EQ(sspace.current_dimensions()[0], 0ul);
+  EXPECT_NO_THROW(resize_by(inf_data, 0, 123));
   sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],1000ul);
+  EXPECT_EQ(sspace.current_dimensions()[0], 123ul);
+
+  EXPECT_THROW(resize_by(inf_data, 0, -1000), std::runtime_error);
+  EXPECT_THROW(resize_by(inf_data, 1, 100), std::runtime_error);
 }
-
-TEST_F(Extent, test_infinite_extent_relative)
-{
-  sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
-  EXPECT_NO_THROW(inf_data.extent(0,123));
-  sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],123ul);
-
-  EXPECT_THROW(inf_data.extent(0,-1000),std::runtime_error);
-  EXPECT_THROW(inf_data.extent(1,100),std::runtime_error);
-}
-
-TEST_F(Extent, test_infinite_resize_by)
-{
-  sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],0ul);
-  EXPECT_NO_THROW(resize_by(inf_data,0,123));
-  sspace = inf_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],123ul);
-
-  EXPECT_THROW(resize_by(inf_data,0,-1000),std::runtime_error);
-  EXPECT_THROW(resize_by(inf_data,1,100),std::runtime_error);
-}
-
-TEST_F(Extent, test_finite_extent_absolute)
-{
-  EXPECT_NO_THROW(fin_data.extent({100}));
-  sspace = fin_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
-
-  EXPECT_THROW(fin_data.extent({100000}),std::runtime_error);
-}
-
-TEST_F(Extent, test_finite_resize_absolute)
-{
-  EXPECT_NO_THROW(fin_data.extent({100}));
-  sspace = fin_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
-
-  EXPECT_THROW(fin_data.resize({100000}),std::runtime_error);
-}
-
-
-TEST_F(Extent, test_finite_extent_relative)
-{
-  EXPECT_NO_THROW(fin_data.extent(0,100));
-  sspace = fin_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
-
-  EXPECT_THROW(fin_data.extent(0,-1000000),std::runtime_error);
-  EXPECT_THROW(fin_data.extent(1,100),std::runtime_error);
-  EXPECT_THROW(fin_data.extent(0,100000),std::runtime_error);
-}
-
-TEST_F(Extent, test_finite_resize_by)
-{
-  EXPECT_NO_THROW(resize_by(fin_data,0,100));
-  sspace = fin_data.dataspace();
-  EXPECT_EQ(sspace.current_dimensions()[0],100ul);
-
-  EXPECT_THROW(resize_by(fin_data,0,-1000000),std::runtime_error);
-  EXPECT_THROW(resize_by(fin_data,1,100),std::runtime_error);
-  EXPECT_THROW(resize_by(fin_data,0,100000),std::runtime_error);
-}
-
-
-
-
-
-
-
+*/

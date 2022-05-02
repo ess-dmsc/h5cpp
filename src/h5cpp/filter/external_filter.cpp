@@ -24,6 +24,7 @@
 //
 
 #include <h5cpp/core/hdf5_capi.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <h5cpp/error/error.hpp>
 #include <h5cpp/filter/filter.hpp>
 #include <h5cpp/filter/external_filter.hpp>
@@ -56,14 +57,12 @@ ExternalFilter::ExternalFilter():
 {
 }
 
-ExternalFilter::~ExternalFilter()
-{}
-
 
 void ExternalFilter::operator()(const property::DatasetCreationList &dcpl,
                          Availability flag) const
 {
-  if(H5Pset_filter(static_cast<hid_t>(dcpl), id(), static_cast<hid_t>(flag),
+  if(H5Pset_filter(static_cast<hid_t>(dcpl), id(),
+                   signed2unsigned<unsigned>(static_cast<hid_t>(flag)),
 		   cd_values_.size(), cd_values_.data()) < 0)
     {
       error::Singleton::instance().throw_with_stack("Could not apply external filter!");
@@ -100,7 +99,7 @@ const std::vector<Availability> ExternalFilters::fill(const property::DatasetCre
 			      cd_values.data(),
 			      fname.size(),
 			      fname.data(),
-			      NULL);
+			      nullptr);
     if(filter_id < 0)
     {
       std::stringstream ss;
@@ -115,7 +114,7 @@ const std::vector<Availability> ExternalFilters::fill(const property::DatasetCre
       error::Singleton::instance().throw_with_stack(ss.str());
     }
     cd_values.resize(cd_number);
-    if(static_cast<int>(static_cast<Availability>(flag)) != flag)
+    if(static_cast<int>(static_cast<Availability>(flag)) != unsigned2signed<int>(flag))
     {
       std::stringstream ss;
       ss<<"Wrong filter flag value in " << dcpl.get_class();

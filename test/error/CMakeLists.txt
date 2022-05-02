@@ -1,8 +1,13 @@
-set(dir ${CMAKE_CURRENT_SOURCE_DIR})
-
 set(test_sources
-    ${test_sources}
-    ${dir}/descriptor_test.cpp
-    ${dir}/h5c_error_test.cpp
-    ${dir}/error_test.cpp
-    PARENT_SCOPE)
+    descriptor_test.cpp
+    h5c_error_test.cpp
+    error_test.cpp)
+
+add_executable(error_test ${test_sources})
+target_link_libraries(
+    error_test
+    PRIVATE
+        h5cpp
+        hdf5::hdf5
+)
+catch_discover_tests(error_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

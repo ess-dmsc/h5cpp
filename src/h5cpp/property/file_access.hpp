@@ -38,18 +38,18 @@ namespace property {
 //! \brief library version enumeration
 //!
 enum class LibVersion : std::underlying_type<H5F_libver_t>::type {
-  LATEST = H5F_LIBVER_LATEST,
-  EARLIEST = H5F_LIBVER_EARLIEST
+  Latest = H5F_LIBVER_LATEST,
+  Earliest = H5F_LIBVER_EARLIEST
 };
 
 //!
 //! \brief close degree enumeration
 //!
 enum class CloseDegree : std::underlying_type<H5F_close_degree_t>::type {
-  WEAK = H5F_CLOSE_WEAK,
-  SEMI = H5F_CLOSE_SEMI,
-  STRONG = H5F_CLOSE_STRONG,
-  DEFAULT = H5F_CLOSE_DEFAULT
+  Weak = H5F_CLOSE_WEAK,
+  Semi = H5F_CLOSE_SEMI,
+  Strong = H5F_CLOSE_STRONG,
+  Default = H5F_CLOSE_DEFAULT
 };
 
 using LibVersionBase = std::underlying_type<LibVersion>::type;
@@ -71,11 +71,12 @@ class DLL_EXPORT FileAccessList : public List {
   //! \brief default constructor
   //!
   FileAccessList();
+  FileAccessList(const FileAccessList &) = default;
 
   //!
   //! \brief destructor
   //!
-  ~FileAccessList();
+  ~FileAccessList() override;
 
   explicit FileAccessList(ObjectHandle &&handle);
 

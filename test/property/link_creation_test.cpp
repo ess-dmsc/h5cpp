@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,45 +21,67 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 21, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
+#include <h5cpp/datatype/types.hpp>
 #include <h5cpp/property/link_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
-#include <h5cpp/datatype/types.hpp>
+#include "../utilities.hpp"
+#include "utilities.hpp"
 
 namespace pl = hdf5::property;
 namespace tp = hdf5::datatype;
 
-TEST(LinkCreationList, test_default_construction) {
-  pl::LinkCreationList lcpl;
-  EXPECT_TRUE(lcpl.get_class() == pl::kLinkCreate);
-
-  auto cl = pl::kLinkCreate;
-  EXPECT_NO_THROW((pl::LinkCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))));
-
-  cl = pl::kStringCreate;
-  EXPECT_THROW((pl::LinkCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
-
-  cl = pl::kGroupCreate;
-  EXPECT_THROW((pl::LinkCreationList(hdf5::ObjectHandle(H5Pcreate(static_cast<hid_t>(cl))))),
-               std::runtime_error);
+SCENARIO("LinkCreationList instantiation") {
+  GIVEN("a default constructed list") {
+    pl::LinkCreationList lcpl;
+    THEN("we get the configuration") {
+      REQUIRE(lcpl.get_class() == pl::kLinkCreate);
+      REQUIRE_FALSE(lcpl.intermediate_group_creation());
+    }
+    WHEN("closing this instance") {
+      close(lcpl);
+      THEN("all methods must throw exceptions") {
+        REQUIRE_THROWS_AS(lcpl.enable_intermediate_group_creation(),
+                          std::runtime_error);
+        REQUIRE_THROWS_AS(lcpl.disable_intermediate_group_creation(),
+                          std::runtime_error);
+        REQUIRE_THROWS_AS(lcpl.intermediate_group_creation(),
+                          std::runtime_error);
+      }
+    }
+  }
+  GIVEN("a handle to a link creation property list") {
+    auto handle = handle_from_class(pl::kLinkCreate);
+    THEN("we can use this to construct a new instance") {
+      REQUIRE_NOTHROW(pl::LinkCreationList{std::move(handle)});
+    }
+  }
+  GIVEN("a handle to a group creation property list") {
+    auto handle = handle_from_class(pl::kGroupCreate);
+    THEN("then instantiation must fail") {
+      REQUIRE_THROWS_AS(pl::LinkCreationList{std::move(handle)},
+                        std::runtime_error);
+    }
+  }
 }
 
-TEST(LinkCreationList, test_intermediate_gruop_creation) {
-  pl::LinkCreationList lcpl;
-  EXPECT_NO_THROW(lcpl.enable_intermediate_group_creation());
-  EXPECT_TRUE(lcpl.intermediate_group_creation());
-  EXPECT_NO_THROW(lcpl.disable_intermediate_group_creation());
+SCENARIO("activate intermediate group creation on a LinkCreationList") {
+  GIVEN("a default constructed list") {
+    pl::LinkCreationList lcpl;
+    THEN("we can activate intermediate group creation") {
+      REQUIRE_NOTHROW(lcpl.enable_intermediate_group_creation());
+      REQUIRE(lcpl.intermediate_group_creation());
+      AND_THEN("turn it off again") {
+        REQUIRE_NOTHROW(lcpl.disable_intermediate_group_creation());
 
-  EXPECT_FALSE(lcpl.intermediate_group_creation());
-
-  hdf5::ObjectHandle(static_cast<hid_t>(lcpl)).close();
-  EXPECT_THROW(lcpl.enable_intermediate_group_creation(), std::runtime_error);
-  EXPECT_THROW(lcpl.disable_intermediate_group_creation(), std::runtime_error);
-  EXPECT_THROW(lcpl.intermediate_group_creation(), std::runtime_error);
+        // How does this make sense ???
+        REQUIRE_FALSE(lcpl.intermediate_group_creation());
+      }
+    }
+  }
 }

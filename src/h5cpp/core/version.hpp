@@ -63,14 +63,6 @@ class DLL_EXPORT Version
     Version(NumberType major_number, NumberType minor_number, NumberType patch) noexcept;
 
     //!
-    //! @brief copy constructor
-    //!
-    //! We can use the compiler provided default implementation here as all
-    //! members are trivially copyable.
-    //!
-    Version(const Version &) = default;
-
-    //!
     //! @brief return the major version number
     //!
     NumberType major_number() const noexcept;
@@ -97,7 +89,6 @@ class DLL_EXPORT Version
 
 //!
 //! @brief output stream operator
-//! @relates Version
 //!
 //! Writes an instance of Version to a std::ostream. The output format is the
 //! same as for Version::to_string.
@@ -111,7 +102,6 @@ DLL_EXPORT std::ostream &operator<<(std::ostream &stream,const Version &version)
 
 //!
 //! @brief checks two version for equality
-//! @relates Version
 //!
 //! Two version are considered equal if all of their parts are equal.
 //!
@@ -123,7 +113,6 @@ DLL_EXPORT bool operator==(const Version &lhs,const Version &rhs);
 
 //!
 //! @brief checks if two versions are not equal
-//! @relates Version
 //!
 //! @param lhs reference to the left hand side version
 //! @param rhs reference to the right hand side version
@@ -141,7 +130,6 @@ DLL_EXPORT bool operator<=(const Version &lhs,const Version &rhs);
 
 //!
 //! @brief checks if the left version is strictly small than the right
-//! @relates Version
 //!
 //! @param lhs reference to the left hand side version
 //! @param rhs reference to the right hand side version
@@ -150,7 +138,6 @@ DLL_EXPORT bool operator<(const Version &lhs,const Version &rhs);
 
 //!
 //! @brief checks if the left version is bigger or equal than the right
-//! @relates Version
 //!
 //! @param lhs reference to the left hand side version
 //! @param rhs reference to the right hand side version
@@ -159,7 +146,6 @@ DLL_EXPORT bool operator>=(const Version &lhs,const Version &rhs);
 
 //!
 //! @brief checks if the left version is strictly bigger than the right
-//! @relates Version
 //!
 //! @param lhs reference to the left hand side version
 //! @param rhs reference to the right hand side version
@@ -168,7 +154,6 @@ DLL_EXPORT bool operator>(const Version &lhs,const Version &rhs);
 
 //!
 //! @brief returns the current version of the HDF5 library
-//! @relates Version
 //!
 //! @throws std::runtime_error in case of a failure
 //! @return instance of Version with the current HDF5 version

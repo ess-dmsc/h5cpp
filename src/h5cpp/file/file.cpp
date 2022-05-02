@@ -30,6 +30,7 @@
 #include <h5cpp/node/node.hpp>
 #include <h5cpp/node/group.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <h5cpp/property/file_access.hpp>
 
 namespace hdf5 {
@@ -64,7 +65,7 @@ size_t File::size() const
 
 ssize_t File::buffer_size() const
 {
-  ssize_t s = H5Fget_file_image(static_cast<hid_t>(*this), NULL, 0);
+  ssize_t s = H5Fget_file_image(static_cast<hid_t>(*this), nullptr, 0);
   if (s < 0)
     {
       error::Singleton::instance().throw_with_stack("Failure retrieving the buffer size");
@@ -85,7 +86,7 @@ void File::close()
 {
   property::FileAccessList fapl = property::FileAccessList(ObjectHandle(H5Fget_access_plist(static_cast<hid_t>(*this))));
 
-  if(fapl.close_degree() == property::CloseDegree::STRONG)
+  if(fapl.close_degree() == property::CloseDegree::Strong)
   {
     hid_t mid= static_cast<hid_t>(*this);
     handle_.close();
@@ -103,15 +104,15 @@ void File::close()
 
 fs::path File::path() const
 {
-  ssize_t size = H5Fget_name(static_cast<hid_t>(*this), NULL, 0);
+  ssize_t size = H5Fget_name(static_cast<hid_t>(*this), nullptr, 0);
 
   if (size < 0)
   {
     error::Singleton::instance().throw_with_stack("Failure to determine file name length!");
   }
 
-  std::vector<char> buffer(size + 1);
-  if (H5Fget_name(static_cast<hid_t>(*this), buffer.data(), size + 1) < 0)
+  std::vector<char> buffer(signed2unsigned<size_t>(size + 1));
+  if (H5Fget_name(static_cast<hid_t>(*this), buffer.data(), signed2unsigned<size_t>(size + 1)) < 0)
   {
     std::stringstream ss;
     ss << "Error retrieving file name of size " << size << " for HDF5 file!";
@@ -130,7 +131,7 @@ size_t File::count_open_objects(SearchFlagsBase flags) const
     error::Singleton::instance().throw_with_stack("Failure retrieving the open object count for this file!");
   }
 
-  return nobjects;
+  return signed2unsigned<size_t>(nobjects);
 }
 
 size_t File::count_open_objects(SearchFlags flag) const

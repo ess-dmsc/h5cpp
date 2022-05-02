@@ -66,28 +66,34 @@ namespace hdf5
 class DLL_EXPORT ObjectHandle
 {
   public:
+    //!
+    //! @brief type of the object handle
+    //!
     enum class Type
     {
-      UNINITIALIZED,
-      BADOBJECT,
-      FILE,
-      GROUP,
-      DATATYPE,
-      DATASPACE,
-      DATASET,
-      ATTRIBUTE,
-      PROPERTY_LIST,
-      VIRTUAL_FILE_LAYER,
-      PROPERTY_LIST_CLASS,
-      ERROR_CLASS,
-      ERROR_MESSAGE,
-      ERROR_STACK
+      Uninitialized,
+      BadObject,
+      File,
+      Group,
+      Datatype,
+      Dataspace,
+      Dataset,
+      Attribute,
+      PropertyList,
+      VirtualFileLayer,
+      PropertyListClass,
+      ErrorClass,
+      ErrorMessage,
+      ErrorStack
     };
 
+    //!
+    //! @brief type of the ward policy
+    //!
     enum class Policy
     {
-      WITH_WARD = 1,
-      WITHOUT_WARD = 2
+      WithWard = 1,
+      WithoutWard= 2
     };
   private:
     hid_t handle_; //!< ID of the object
@@ -125,7 +131,7 @@ class DLL_EXPORT ObjectHandle
     /*!
     \code
     .....
-    hdf5::ObjectHandle handle(H5Gopen(fid,"data",H5P_DEFAULT));
+    hdf5::ObjectHandle handle(H5Gopen(fid,"data",hdf5::property::kDefault));
     ...
     \endcode
     */
@@ -136,7 +142,7 @@ class DLL_EXPORT ObjectHandle
     //! \param id HDF5 object ID.
     //! \param policy with or w/o ward policy.
     //!
-    explicit ObjectHandle(hid_t id, Policy policy=Policy::WITH_WARD);
+    explicit ObjectHandle(hid_t id, Policy policy=Policy::WithWard);
 
     //-----------------------------------------------------------------
     //!

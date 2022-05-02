@@ -23,68 +23,54 @@
 // Created on: Sep 10, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/file/functions.hpp>
 
 using namespace hdf5;
 
-class FileOpen : public testing::Test
-{
- protected:
-  virtual void SetUp()
-  {
+
+SCENARIO("opening a file") {
+  const std::string filename = "file_optn_test.h5";
 #if H5_VERSION_GE(1, 10, 0)
-    property::FileCreationList fcpl;
-    property::FileAccessList fapl;
-    fapl.library_version_bounds(property::LibVersion::LATEST,
-                                property::LibVersion::LATEST);
-    file::create("file_open.h5", file::AccessFlags::TRUNCATE, fcpl, fapl);
+  property::FileCreationList fcpl;
+  property::FileAccessList fapl;
+  fapl.library_version_bounds(property::LibVersion::Latest,
+                              property::LibVersion::Latest);
+  file::create(filename, file::AccessFlags::Truncate, fcpl, fapl);
 #else
-    file::create("file_open.h5", file::AccessFlags::TRUNCATE);
+  file::create(filename, file::AccessFlags::Truncate);
 #endif
+
+  WHEN("using the default operation") {
+    auto f = file::open(filename);
+    REQUIRE(f.intent() == file::AccessFlags::ReadOnly);
   }
-};
 
-TEST_F(FileOpen, test_open_default)
-{
-  file::File f = file::open("file_open.h5");
-  EXPECT_EQ(f.intent(), file::AccessFlags::READONLY);
-}
+  WHEN("opening in read/write mode") {
+    auto f = file::open(filename, file::AccessFlags::ReadWrite);
+    REQUIRE(f.intent() == file::AccessFlags::ReadWrite);
+  }
 
-TEST_F(FileOpen, test_open_readwrite)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::READWRITE);
-  EXPECT_EQ(f.intent(), file::AccessFlags::READWRITE);
-}
-
-TEST_F(FileOpen, test_open_nonexistent)
-{
-  EXPECT_THROW(file::open("nonexistent.qqq", file::AccessFlags::READWRITE), std::runtime_error);
-}
+  WHEN("opening a non-existing file") {
+    REQUIRE_THROWS_AS(
+        file::open("nonexistent.qqq", file::AccessFlags::ReadWrite),
+        std::runtime_error);
+  }
 
 #if H5_VERSION_GE(1, 10, 0)
 
-TEST_F(FileOpen, test_open_swmr_read)
-{
-  file::File f = file::open("file_open.h5", file::AccessFlags::SWMR_READ);
-  EXPECT_EQ(f.intent(), file::AccessFlags::SWMR_READ);
-}
+  WHEN("opening in SWMR read-mode") {
+    auto f = file::open(filename, file::AccessFlags::SWMRRead);
+    REQUIRE(f.intent() == file::AccessFlags::SWMRRead);
+  }
 
-TEST_F(FileOpen, test_open_swmr_write)
-{
-  file::File f = file::open("file_open.h5",
-                            file::AccessFlags::READWRITE | file::AccessFlags::SWMR_WRITE);
+  WHEN("opening in SWM  write-mode") {
+    auto f = file::open(filename, file::AccessFlags::ReadWrite |
+                                            file::AccessFlags::SWMRWrite);
 
-  EXPECT_EQ(static_cast<file::AccessFlagsBase>(f.intent()),
-            file::AccessFlags::SWMR_WRITE | file::AccessFlags::READWRITE);
-
-}
+    REQUIRE(static_cast<file::AccessFlagsBase>(f.intent()) ==
+            (file::AccessFlags::SWMRWrite | file::AccessFlags::ReadWrite));
+  }
 
 #endif
-
-
-
-
-
-
-
+}

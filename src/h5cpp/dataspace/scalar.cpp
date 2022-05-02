@@ -33,11 +33,11 @@ namespace hdf5 {
 namespace dataspace {
 
 Scalar::Scalar() :
-    Dataspace(Type::SCALAR) {}
+    Dataspace(Type::Scalar) {}
 
 Scalar::Scalar(const Dataspace &space)
     : Dataspace(space) {
-  if (space.type() != Type::SCALAR) {
+  if (space.type() != Type::Scalar) {
     std::stringstream ss;
     ss << "Could not construct Scalar from abstract Dataspace, type=" << space.type();
     error::Singleton::instance().throw_with_stack(ss.str());

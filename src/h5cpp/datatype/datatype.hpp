@@ -121,7 +121,7 @@ class DLL_EXPORT Datatype
   //!
   //! @throws std::runtime_error in case of a failure
   //!
-  Datatype native_type(Direction dir = Direction::ASCEND) const;
+  Datatype native_type(Direction dir = Direction::Ascend) const;
 
   //!
   //! @brief search for a type class
@@ -161,11 +161,15 @@ class DLL_EXPORT Datatype
 
   ObjectHandle handle_;
 
+  //!
+  //! @brief helper for copy assignment and copy constructor
+  //!
+  void swap(const Datatype &type);
+
 };
 
 //!
 //! @brief equality check for datatypes
-//! @relates Datatype
 //!
 //! Returns if two datatypes are equal. Datatypes are considered equal if
 //! they represent the same type.
@@ -178,7 +182,6 @@ DLL_EXPORT bool operator==(const Datatype &lhs, const Datatype &rhs);
 
 //!
 //! @brief inequality check for datatypes
-//! @relates Datatype
 //!
 //! Returns true if both datatypes do not represent the same types.
 //!

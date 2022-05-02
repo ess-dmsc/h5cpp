@@ -105,7 +105,7 @@ class DLL_EXPORT LinkTarget
  * 
  * Class representing a link to an object within an HDF5 file. In order to 
  * store links in a container they have to be default constructable. A default
- * constructed link has the type LinkType::ERROR.
+ * constructed link has the type LinkType::Error.
  * Instead of a node type only the handle to the parent is stored. Thus, the 
  * parent can also be a File which would identify the link as the link to the 
  * root group.
@@ -127,14 +127,9 @@ class DLL_EXPORT Link
     //!
     //! \brief default constructor
     //!
-    //! Leaves a link of type LinkType::ERROR.
+    //! Leaves a link of type LinkType::Error.
     //!
     Link() = default;
-
-    //!
-    //! \brief copy constructor
-    //!
-    Link(const Link &) = default;
 
     //!
     //! \brief get path of the link

@@ -26,7 +26,7 @@
 #include "object_handle_test.hpp"
 
 PropertyListObjectHandleTest::PropertyListObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::PROPERTY_LIST)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::PropertyList)
 {
 
 }
@@ -37,7 +37,7 @@ hid_t PropertyListObjectHandleTest::create_object()
 }
 
 PropertyListClassObjectHandleTest::PropertyListClassObjectHandleTest():
-  ObjectHandleTest(hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS)
+  ObjectHandleTest(hdf5::ObjectHandle::Type::PropertyListClass)
 {
 
 }

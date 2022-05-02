@@ -19,7 +19,9 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
 #pragma once
@@ -36,13 +38,15 @@ namespace file {
 //!
 enum class AccessFlags : unsigned
 {
-  TRUNCATE  = 0x0002,
-  EXCLUSIVE = 0x0004,
-  READWRITE = 0x0001,
-  READONLY  = 0x0000,
-#if H5_VERSION_GE(1,10,0)
-  SWMR_READ = 0x0040,
-  SWMR_WRITE = 0x0020
+  Truncate  = 0x0002,
+  Exclusive = 0x0004,
+  ReadWrite = 0x0001,
+  ReadOnly  = 0x0000,
+#if ( defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0) )
+  //! (*since hdf5 1.10.0*)
+  SWMRRead = 0x0040,
+  //! (*since hdf5 1.10.0*)
+  SWMRWrite = 0x0020
 #endif
 };
 using AccessFlagsBase = std::underlying_type<AccessFlags>::type;
@@ -53,16 +57,20 @@ DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlags &r
 DLL_EXPORT AccessFlagsBase operator|(const AccessFlagsBase &lhs,const AccessFlags &rhs);
 DLL_EXPORT AccessFlagsBase operator|(const AccessFlags &lhs,const AccessFlagsBase &rhs);
 
+DLL_EXPORT AccessFlagsBase operator&(const AccessFlags &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator&(const AccessFlagsBase &lhs,const AccessFlags &rhs);
+DLL_EXPORT AccessFlagsBase operator&(const AccessFlags &lhs,const AccessFlagsBase &rhs);
+
 //!
 //! \brief flags controlling image file opening and getting
 //!
 enum class ImageFlags : unsigned
 {
-  READONLY  = 0x0000,
-  READWRITE = H5LT_FILE_IMAGE_OPEN_RW,
-  DONT_COPY = H5LT_FILE_IMAGE_DONT_COPY,
-  DONT_RELEASE  = H5LT_FILE_IMAGE_DONT_RELEASE,
-  ALL = H5LT_FILE_IMAGE_ALL
+  ReadOnly  = 0x0000,
+  ReadWrite = H5LT_FILE_IMAGE_OPEN_RW,
+  DontCopy = H5LT_FILE_IMAGE_DONT_COPY,
+  DontRelease  = H5LT_FILE_IMAGE_DONT_RELEASE,
+  All = H5LT_FILE_IMAGE_ALL
 };
 
 using ImageFlagsBase = std::underlying_type<ImageFlags>::type;
@@ -73,18 +81,22 @@ DLL_EXPORT ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlags &rhs)
 DLL_EXPORT ImageFlagsBase operator|(const ImageFlagsBase &lhs,const ImageFlags &rhs);
 DLL_EXPORT ImageFlagsBase operator|(const ImageFlags &lhs,const ImageFlagsBase &rhs);
 
+DLL_EXPORT ImageFlagsBase operator&(const ImageFlags &lhs,const ImageFlags &rhs);
+DLL_EXPORT ImageFlagsBase operator&(const ImageFlagsBase &lhs,const ImageFlags &rhs);
+DLL_EXPORT ImageFlagsBase operator&(const ImageFlags &lhs,const ImageFlagsBase &rhs);
+
 //!
 //! \brief flags controlling object search in a file
 //!
 enum class SearchFlags : unsigned int
 {
-  FILE      = H5F_OBJ_FILE,
-  DATASET   = H5F_OBJ_DATASET,
-  GROUP     = H5F_OBJ_GROUP,
-  DATATYPE  = H5F_OBJ_DATATYPE,
-  ATTRIBUTE = H5F_OBJ_ATTR,
-  ALL       = H5F_OBJ_ALL,
-  LOCAL     = H5F_OBJ_LOCAL
+  File      = H5F_OBJ_FILE,
+  Dataset   = H5F_OBJ_DATASET,
+  Group     = H5F_OBJ_GROUP,
+  Datatype  = H5F_OBJ_DATATYPE,
+  Attribute = H5F_OBJ_ATTR,
+  All       = H5F_OBJ_ALL,
+  Local     = H5F_OBJ_LOCAL
 };
 
 using SearchFlagsBase = std::underlying_type<SearchFlags>::type;
@@ -95,13 +107,17 @@ DLL_EXPORT SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlags &r
 DLL_EXPORT SearchFlagsBase operator|(const SearchFlags &lhs,const SearchFlagsBase &rhs);
 DLL_EXPORT SearchFlagsBase operator|(const SearchFlagsBase &lhs,const SearchFlags &rhs);
 
+DLL_EXPORT SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlags &rhs);
+DLL_EXPORT SearchFlagsBase operator&(const SearchFlags &lhs,const SearchFlagsBase &rhs);
+DLL_EXPORT SearchFlagsBase operator&(const SearchFlagsBase &lhs,const SearchFlags &rhs);
+
 //!
 //! \brief file scope
 //!
 enum class Scope : std::underlying_type<H5F_scope_t>::type
 {
-  LOCAL = H5F_SCOPE_LOCAL,
-  GLOBAL = H5F_SCOPE_GLOBAL
+  Local = H5F_SCOPE_LOCAL,
+  Global = H5F_SCOPE_GLOBAL
 };
 
 using ScopeBase = std::underlying_type<Scope>::type;

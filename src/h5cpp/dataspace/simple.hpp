@@ -33,6 +33,10 @@
 namespace hdf5 {
 namespace dataspace {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 //!
 //! \brief simple multidimensional dataspace
 //!
@@ -41,7 +45,7 @@ class DLL_EXPORT Simple : public Dataspace {
   //!
   //! \brief dimension value for unlimited number of elements
   //!
-  static const hsize_t UNLIMITED;
+  static const hsize_t unlimited;
 
   //!
   //! \brief default constructor
@@ -59,13 +63,6 @@ class DLL_EXPORT Simple : public Dataspace {
   //! \param space reference to a dataspace instance
   //!
   Simple(const Dataspace &space);
-
-  //!
-  //! \brief copy constructor
-  //!
-  //! Use default implementation of the copy constructor
-  //!
-  Simple(const Simple &) = default;
 
   //!
   //! \brief constructor
@@ -111,6 +108,9 @@ class DLL_EXPORT Simple : public Dataspace {
   //!
   Dimensions maximum_dimensions() const;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace dataspace
 } // namespace hdf5

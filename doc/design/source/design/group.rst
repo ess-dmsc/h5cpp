@@ -195,7 +195,7 @@ Find all datasets below a particular group
                  std::back_inserter(datasets),
                  [](const auto &n)
                  {
-                    return n.type() == node_t::type_t::DATASET;
+                    return n.type() == node_t::type_t::Dataset;
                  });
                 
 Find groups with a particular attribute set to a specific value

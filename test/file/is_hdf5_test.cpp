@@ -22,51 +22,36 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-#include <gtest/gtest.h>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/core/filesystem.hpp>
+#include <catch2/catch.hpp>
 #include <fstream>
+#include <h5cpp/core/filesystem.hpp>
+#include <h5cpp/file/functions.hpp>
 
 using namespace hdf5;
 
-class IsHDF5 : public testing::Test
-{
- protected:
-  IsHDF5() {}
-  virtual void SetUp()
-  {
+SCENARIO("Testing files for being an HDF5 file") {
+  GIVEN("A text file") {
     std::ofstream ofile("test.txt");
     ofile << "hello world" << std::endl;
     ofile.close();
-
-    file::create("test.h5", file::AccessFlags::TRUNCATE);
+    THEN("testing for an HDF5 file must fail") {
+      REQUIRE_FALSE(file::is_hdf5_file("test.txt"));
+    }
+    fs::remove("test.txt");
   }
 
-  virtual void TearDown()
-  {
-    fs::remove("test.txt");
+  GIVEN("an HDF5 file") {
+    file::create("is_hdf5_test.h5", file::AccessFlags::Truncate);
+    THEN("the test for an HDF5 file must succeed") {
+      REQUIRE(file::is_hdf5_file("is_hdf5_test.h5"));
+    }
     fs::remove("test.h5");
   }
-  virtual ~IsHDF5() {}
-};
 
-TEST_F(IsHDF5, test_hdf5_file)
-{
-  EXPECT_TRUE(file::is_hdf5_file("test.h5"));
+  GIVEN("a non-existing file") {
+    THEN("an exception will be thrown") {
+      REQUIRE_THROWS_AS(file::is_hdf5_file("nonexistent.qqq"),
+                        std::runtime_error);
+    }
+  }
 }
-
-TEST_F(IsHDF5, test_no_hdf5_file)
-{
-  EXPECT_FALSE(file::is_hdf5_file("test.txt"));
-}
-
-TEST_F(IsHDF5, test_failure)
-{
-  EXPECT_THROW(file::is_hdf5_file("nonexistent.qqq"), std::runtime_error);
-}
-
-
-
-
-
-

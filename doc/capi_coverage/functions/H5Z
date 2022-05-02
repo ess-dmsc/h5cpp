@@ -1,3 +1,4 @@
-h5zfilter_avail_f
-h5zget_filter_info_f
-h5zunregister_f
+H5Zfilter_avail
+H5Zget_filter_info
+H5Zregister
+H5Zunregister

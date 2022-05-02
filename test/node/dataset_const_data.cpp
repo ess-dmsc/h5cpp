@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,13 +20,14 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 23, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 #include <array>
 #include <cstdint>
+#include <h5cpp/contrib/stl/array.hpp>
 
 using namespace hdf5;
 
@@ -36,6 +38,10 @@ void constData() {
   dset.write(SomeData);
 }
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-prototypes"
+#endif
 void DoNotRun() {
   constData<std::int8_t>();
   constData<std::uint8_t>();
@@ -49,3 +55,6 @@ void DoNotRun() {
   constData<float>();
   constData<char>();
 }
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif

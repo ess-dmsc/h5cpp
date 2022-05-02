@@ -12,7 +12,8 @@ local_headers=files('fixed_length_string.hpp',
                     'variable_length_string.hpp',
                     'version.hpp',
                     'types.hpp',
-                    'windows.hpp')
+                    'windows.hpp',
+                    'utilities.hpp')
 headers+=local_headers
 
 install_headers(local_headers,subdir: join_paths('h5cpp','core'))

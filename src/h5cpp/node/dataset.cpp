@@ -26,12 +26,15 @@
 // Created on: Sep 12, 2017
 //
 
+#include <cstdlib>
 #include <sstream>
 #include <stdexcept>
 #include <h5cpp/node/dataset.hpp>
 #include <h5cpp/node/functions.hpp>
 #include <h5cpp/filter/external_filter.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace node {
@@ -76,13 +79,15 @@ Node Dataset::create_dataset(const Group &base,
 Dataset::Dataset(const Node &node):
     Node(node)
 {
-  if(node.type()!=Type::DATASET)
+  if(node.type()!=Type::Dataset)
   {
     std::stringstream ss;
     ss<<"Construction of a Dataset from a Node failed since ";
     ss<<"Node ["<<node.link().path()<<"] is not a dataset!";
     throw std::runtime_error(ss.str());
   }
+  file_type_ = datatype();
+  file_type_class = file_type_.get_class();
 }
 
 Dataset::Dataset(const Group &base,const Path &path,
@@ -91,8 +96,11 @@ Dataset::Dataset(const Group &base,const Path &path,
                  const property::LinkCreationList &lcpl,
                  const property::DatasetCreationList &dcpl,
                  const property::DatasetAccessList &dapl):
- Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
-{}
+  Node(create_dataset(base,path,type,space,lcpl,dcpl,dapl))
+  {
+  file_type_ = datatype();
+  file_type_class = file_type_.get_class();
+}
 
 
 dataspace::Dataspace Dataset::dataspace() const
@@ -116,7 +124,6 @@ datatype::Datatype Dataset::datatype() const
     ss<<"Failure retrieving datatype for dataset "<<link().path()<<"!";
     hdf5::error::Singleton::instance().throw_with_stack(ss.str());
   }
-
   return datatype::Datatype(ObjectHandle(id));
 }
 
@@ -201,6 +208,11 @@ unsigned long long Dataset::chunk_storage_size(
 
 #endif
 
+void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
+{
+  write(std::string(data),dtpl);
+}
+
 void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
 {
   write(std::string(data),dtpl);
@@ -216,7 +228,7 @@ filter::ExternalFilters Dataset::filters() const
 void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
 {
   dataspace::Dataspace space = dataset.dataspace();
-  if(space.type()!=dataspace::Type::SIMPLE)
+  if(space.type()!=dataspace::Type::Simple)
   {
     std::stringstream ss;
     ss<<"Dataset ["<<dataset.link().path()<<"] does not use a simple dataspace"
@@ -236,11 +248,7 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
     throw std::runtime_error(ss.str());
   }
 
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#endif
-  if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(abs(delta))))
+  if((delta<0) && (current_dims[dimension_index] < static_cast<hsize_t>(std::abs(delta))))
   {
     std::stringstream ss;
     ss<<"Extent of dataset ["<<dataset.link().path()<<"] cannot be changed "
@@ -249,11 +257,10 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
       <<" would be negative";
     throw std::runtime_error(ss.str());
   }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
-  current_dims[dimension_index] += delta;
+  if (delta < 0)
+    current_dims[dimension_index] -= signed2unsigned<unsigned long long>(-delta);
+  else
+    current_dims[dimension_index] += signed2unsigned<unsigned long long>(delta);
   dataset.resize(current_dims);
 }
 

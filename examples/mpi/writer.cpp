@@ -46,13 +46,13 @@ int main(int argc,char **argv)
     property::FileAccessList fapl;
     fapl.driver(file::MPIDriver(MPI_COMM_WORLD,MPI_INFO_NULL));
 
-    file::File f = file::create("mpi_write.h5",file::AccessFlags::TRUNCATE,fcpl,fapl);
+    file::File f = file::create("mpi_write.h5",file::AccessFlags::Truncate,fcpl,fapl);
     node::Group root_group = f.root();
 
     node::Dataset dataset = root_group.create_dataset("mpi_ids",
                                                       datatype::create<int>(),
-                                                      dataspace::Simple{{total_procs}});
-    dataspace::Hyperslab slab{{my_id},{1},{1},{1}};
+                                                      dataspace::Simple{{static_cast<hsize_t>(total_procs)}});
+    dataspace::Hyperslab slab{{static_cast<hsize_t>(my_id)},{1},{1},{1}};
     dataset.write(my_id,slab);
   }
 

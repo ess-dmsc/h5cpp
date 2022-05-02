@@ -22,19 +22,19 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 07, 2017
 //
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include <iostream>
 #include <vector>
 
 using namespace hdf5;
 
 void createFile() {
-  file::File File = file::create("SomeFile.hdf5", file::AccessFlags::TRUNCATE);
+  file::File File = file::create("SomeFile.hdf5", file::AccessFlags::Truncate);
   node::Group RootGroup = File.root();
 
   std::vector<int> Data{1, 2, 3, 4, 5, 6};
   Dimensions Shape{2, 3};
-  Dimensions MaxShape{dataspace::Simple::UNLIMITED, 3};
+  Dimensions MaxShape{dataspace::Simple::unlimited, 3};
   Dimensions ChunkSize{512, 3};
   dataspace::Simple Dataspace{Shape, MaxShape};
   datatype::Datatype Datatype = datatype::create<std::int32_t>();

@@ -22,73 +22,77 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
-
-#include "attribute_test_fixtures.hpp"
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class AttributeManagement : public AttributeIterationFixture
-{};
+SCENARIO("testing attribute manageument functionality") { 
+  auto file = file::create("attribute_management_test.h5", file::AccessFlags::Truncate);
+  auto root = file.root();
+  using datatype::Class;
+  root.attributes.create<int>("index");
+  root.attributes.create<float>("elasticity", {6, 6});
+  root.attributes.create<std::uint32_t>("counter");
+  root.attributes.iterator_config().index(IterationIndex::CreationOrder);
+  root.attributes.iterator_config().order(IterationOrder::Increasing);
 
-TEST_F(AttributeManagement, test_remove_attribute_by_index)
-{
-  root_.attributes.iterator_config().index(IterationIndex::CREATION_ORDER);
-  root_.attributes.iterator_config().order(IterationOrder::INCREASING);
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  EXPECT_TRUE(root_.attributes.exists("index"));
-  EXPECT_NO_THROW(root_.attributes.remove(0));
-  EXPECT_EQ(root_.attributes.size(),2ul);
-  EXPECT_FALSE(root_.attributes.exists("index"));
+  GIVEN("that we want to remove an attribute") { 
+
+    REQUIRE(root.attributes.size() == 3ul);
+    REQUIRE(root.attributes.exists("index"));
+    REQUIRE(root.attributes.exists("elasticity"));
+
+    THEN("We can remove an attribute by its index") { 
+
+      REQUIRE_NOTHROW(root.attributes.remove(0));
+      REQUIRE(root.attributes.size() == 2ul);
+      REQUIRE_FALSE(root.attributes.exists("index"));
+
+      AND_THEN("remove another attribute by name") { 
+
+        REQUIRE_NOTHROW(root.attributes.remove("elasticity"));
+        REQUIRE_FALSE(root.attributes.exists("elasticity"));
+        REQUIRE(root.attributes.size() == 1ul);
+      }
+    }
+  } 
+
+  GIVEN("want that a removed object remains") { 
+
+    REQUIRE(root.attributes.size() == 3ul);
+    auto a = root.attributes["counter"];
+    REQUIRE(a.is_valid());
+    REQUIRE_NOTHROW(root.attributes.remove("counter"));
+    REQUIRE_FALSE(root.attributes.exists("counter"));
+    REQUIRE(root.attributes.size() == 2ul);
+
+    //however an already opened attribute remains alive
+    REQUIRE(a.is_valid());
+    REQUIRE(a.name() == "counter");
+  }
+
+  GIVEN("taht we want to remove an attribute which does not exist") {
+    REQUIRE_THROWS_AS(root.attributes.remove("hello"), std::runtime_error);
+    REQUIRE_THROWS_AS(root.attributes.remove(3), std::runtime_error);
+  }
+
+  GIVEN("we have an existing counter attribute") { 
+
+    REQUIRE(root.attributes.exists("counter"));
+    auto a = root.attributes["counter"];
+    THEN("we can rename the attribute with") { 
+      REQUIRE_NOTHROW(root.attributes.rename("counter","counter_2"));
+      REQUIRE_FALSE(root.attributes.exists("counter"));
+      REQUIRE(root.attributes.exists("counter_2"));
+      REQUIRE(a.name() == "counter_2");
+    }
+
+    AND_THEN("we get an error when we try to remove") { 
+      REQUIRE_FALSE(root.attributes.exists("counter_2"));
+      REQUIRE_THROWS_AS(root.attributes.rename("counter_2","hello"), std::runtime_error);
+    }
+
+  }
+  
 }
-
-TEST_F(AttributeManagement, test_remove_attribute_by_name)
-{
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  EXPECT_TRUE(root_.attributes.exists("elasticity"));
-  EXPECT_NO_THROW(root_.attributes.remove("elasticity"));
-  EXPECT_FALSE(root_.attributes.exists("elasticity"));
-  EXPECT_EQ(root_.attributes.size(),2ul);
-}
-
-TEST_F(AttributeManagement, test_remove_remains)
-{
-  EXPECT_EQ(root_.attributes.size(),3ul);
-  attribute::Attribute a = root_.attributes["counter"];
-  EXPECT_TRUE(a.is_valid());
-  EXPECT_NO_THROW(root_.attributes.remove("counter"));
-  EXPECT_FALSE(root_.attributes.exists("counter"));
-  EXPECT_EQ(root_.attributes.size(),2ul);
-
-  //however an already opened attribute remains alive
-  EXPECT_TRUE(a.is_valid());
-  EXPECT_EQ(a.name(),"counter");
-}
-
-TEST_F(AttributeManagement, test_remove_failure)
-{
-  EXPECT_THROW(root_.attributes.remove("hello"),
-                    std::runtime_error);
-  EXPECT_THROW(root_.attributes.remove(3),
-                    std::runtime_error);
-}
-
-TEST_F(AttributeManagement, test_rename_attribute)
-{
-  attribute::Attribute a = root_.attributes["counter"];
-  EXPECT_NO_THROW(root_.attributes.rename("counter","counter_2"));
-  EXPECT_FALSE(root_.attributes.exists("counter"));
-  EXPECT_TRUE(root_.attributes.exists("counter_2"));
-  EXPECT_EQ(a.name(),"counter_2");
-}
-
-TEST_F(AttributeManagement, test_rename_failure)
-{
-  EXPECT_THROW(root_.attributes.rename("counter_2","hello"),
-                    std::runtime_error);
-}
-
-
-
-
-
-

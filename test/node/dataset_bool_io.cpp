@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,42 +20,30 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 24, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-
-struct DatasetBoolIO : public testing::Test
-{
-  hdf5::file::File file;
-  hdf5::node::Group root_group;
-  hdf5::dataspace::Scalar space;
-
-
-  DatasetBoolIO():
-    file(hdf5::file::create("DatasetBoolIO.h5",hdf5::file::AccessFlags::TRUNCATE)),
-    root_group(file.root()),
-    space()
-  {
-  }
-};
 
 using namespace hdf5;
 
-TEST_F(DatasetBoolIO,scalar_io)
-{
+SCENARIO("testing bool IO") {
+  auto f = file::create("DatasetBoolIO.h5", file::AccessFlags::Truncate);
+  auto r = f.root();
   auto type = hdf5::datatype::create<bool>();
-  node::Dataset dset(root_group,Path("data"),type,space);
+  hdf5::dataspace::Scalar space;
 
-  bool write = true,
-       read  = false;
-  EXPECT_NO_THROW(dset.write(write));
-  EXPECT_NO_THROW(dset.read(read));
-
-  EXPECT_EQ(write,read);
-
+  GIVEN("a dataset of type bool") {
+    auto d = node::Dataset(r, Path("data"), type, space);
+    THEN("we can write a boolean value to it") {
+      bool write = true;
+      REQUIRE_NOTHROW(d.write(write));
+      AND_THEN("we can read the value back") {
+        bool read = false;
+        REQUIRE_NOTHROW(d.read(read));
+        REQUIRE(read);
+      }
+    }
+  }
 }
-
-
-

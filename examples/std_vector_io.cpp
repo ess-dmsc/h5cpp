@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 07, 2017
 //
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include <iostream>
 #include <vector>
 
@@ -36,7 +36,7 @@ using DataType = std::vector<int>;
 
 int main()
 {
-  file::File f = file::create("std_vector_io.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("std_vector_io.h5",file::AccessFlags::Truncate);
   node::Group root_group = f.root();
 
   //
@@ -50,7 +50,7 @@ int main()
   //
   // retrieving the data back from disk
   //
-  DataType read_data(dataset.dataspace().size()); //allocate enough memory
+  DataType read_data(static_cast<size_t>(dataset.dataspace().size())); //allocate enough memory
   dataset.read(read_data);
 
   //

@@ -42,7 +42,7 @@ class DLL_EXPORT FileMountList : public List {
   //!
   //! \brief destructor
   //!
-  ~FileMountList();
+  ~FileMountList() override;
 
   explicit FileMountList(ObjectHandle &&handle);
 };

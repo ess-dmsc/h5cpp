@@ -27,45 +27,46 @@
 //
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace property {
 
 std::ostream &operator<<(std::ostream &stream, const DatasetFillValueStatus &status) {
   switch (status) {
-    case DatasetFillValueStatus::UNDEFINED:return stream << "UNDEFINED";
-    case DatasetFillValueStatus::DEFAULT:return stream << "DEFAULT";
-    case DatasetFillValueStatus::USER_DEFINED:return stream << "USER_DEFINED";
+    case DatasetFillValueStatus::Undefined:return stream << "UNDEFINED";
+    case DatasetFillValueStatus::Default:return stream << "DEFAULT";
+    case DatasetFillValueStatus::UserDefined:return stream << "USER_DEFINED";
   }
   return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const DatasetFillTime &time) {
   switch (time) {
-    case DatasetFillTime::IFSET:return stream << "IFSET";
-    case DatasetFillTime::ALLOC:return stream << "ALLOC";
-    case DatasetFillTime::NEVER:return stream << "NEVER";
+    case DatasetFillTime::IfSet:return stream << "IFSET";
+    case DatasetFillTime::Alloc:return stream << "ALLOC";
+    case DatasetFillTime::Never:return stream << "NEVER";
   }
   return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const DatasetAllocTime &time) {
   switch (time) {
-    case DatasetAllocTime::DEFAULT:return stream << "DEFAULT";
-    case DatasetAllocTime::EARLY:return stream << "EARLY";
-    case DatasetAllocTime::INCR:return stream << "INCR";
-    case DatasetAllocTime::LATE:return stream << "LATE";
+    case DatasetAllocTime::Default:return stream << "DEFAULT";
+    case DatasetAllocTime::Early:return stream << "EARLY";
+    case DatasetAllocTime::Incr:return stream << "INCR";
+    case DatasetAllocTime::Late:return stream << "LATE";
   }
   return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const DatasetLayout &layout) {
   switch (layout) {
-    case DatasetLayout::COMPACT:return stream << "COMPACT";
-    case DatasetLayout::CONTIGUOUS:return stream << "CONTIGUOUS";
-    case DatasetLayout::CHUNKED:return stream << "CHUNKED";
+    case DatasetLayout::Compact:return stream << "COMPACT";
+    case DatasetLayout::Contiguous:return stream << "CONTIGUOUS";
+    case DatasetLayout::Chunked:return stream << "CHUNKED";
 #if H5_VERSION_GE(1, 10, 0)
-    case DatasetLayout::VIRTUAL:return stream << "VIRTUAL";
+    case DatasetLayout::Virtual:return stream << "VIRTUAL";
 #endif
   }
   return stream;
@@ -93,15 +94,20 @@ void DatasetCreationList::layout(DatasetLayout layout) const {
 
 DatasetLayout DatasetCreationList::layout() const {
   switch (H5Pget_layout(static_cast<hid_t>(*this))) {
-    case H5D_COMPACT:return DatasetLayout::COMPACT;
-    case H5D_CONTIGUOUS:return DatasetLayout::CONTIGUOUS;
-    case H5D_CHUNKED:return DatasetLayout::CHUNKED;
+    case H5D_COMPACT:return DatasetLayout::Compact;
+    case H5D_CONTIGUOUS:return DatasetLayout::Contiguous;
+    case H5D_CHUNKED:return DatasetLayout::Chunked;
 #if H5_VERSION_GE(1, 10, 0)
-    case H5D_VIRTUAL:return DatasetLayout::VIRTUAL;
+    case H5D_VIRTUAL:return DatasetLayout::Virtual;
 #endif
-    default:error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
+    case H5D_LAYOUT_ERROR:
+    case H5D_NLAYOUTS:
+      break;
   }
+  error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
+#ifndef __clang__
   return {};
+#endif
 }
 
 void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {
@@ -113,12 +119,12 @@ void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {
 }
 
 Dimensions DatasetCreationList::chunk() const {
-  int s = H5Pget_chunk(static_cast<hid_t>(*this), 0, NULL);
+  int s = H5Pget_chunk(static_cast<hid_t>(*this), 0, nullptr);
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the chunk rank!");
   }
 
-  Dimensions buffer(s);
+  Dimensions buffer(signed2unsigned<size_t>(s));
   if (H5Pget_chunk(static_cast<hid_t>(*this), s, buffer.data()) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the chunk dimension!");
   }

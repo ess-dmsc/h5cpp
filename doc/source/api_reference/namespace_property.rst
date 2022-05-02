@@ -2,6 +2,148 @@
 Namespace :cpp:any:`hdf5::property`
 ===================================
 
+Classes
+=======
+
+:cpp:class:`AttributeCreationList`
+----------------------------------
+
+.. doxygenclass:: hdf5::property::AttributeCreationList
+   :members:
+
+:cpp:class:`ChunkCacheParameters`
+---------------------------------
+
+.. doxygenclass:: hdf5::property::ChunkCacheParameters
+   :members:
+
+:cpp:class:`Class`
+------------------
+
+.. doxygenclass:: hdf5::property::Class
+   :members:
+
+.. doxygenfunction:: hdf5::property::operator==(const Class &, const Class &)
+
+.. doxygenfunction:: hdf5::property::operator!=(const Class &, const Class &)
+
+:cpp:class:`CopyFlags`
+----------------------
+
+.. doxygenclass:: hdf5::property::CopyFlags
+   :members:
+
+:cpp:class:`CreationOrder`
+--------------------------
+
+.. doxygenclass:: hdf5::property::CreationOrder
+   :members:
+
+:cpp:class:`DatasetAccessList`
+------------------------------
+
+.. doxygenclass:: hdf5::property::DatasetAccessList
+   :members:
+
+:cpp:class:`DatasetCreationList`
+--------------------------------
+
+.. doxygenclass:: hdf5::property::DatasetCreationList
+   :members:
+
+:cpp:class:`DatasetTransferList`
+--------------------------------
+
+.. doxygenclass:: hdf5::property::DatasetTransferList
+   :members:
+
+:cpp:class:`DatatypeAccessList`
+-------------------------------
+
+.. doxygenclass:: hdf5::property::DatatypeAccessList
+   :members:
+
+:cpp:class:`FileAccessList`
+---------------------------
+
+.. doxygenclass:: hdf5::property::FileAccessList
+   :members:
+
+:cpp:class:`FileCreationList`
+-----------------------------
+
+.. doxygenclass:: hdf5::property::FileCreationList
+   :members:
+
+:cpp:class:`FileMountList`
+--------------------------
+
+.. doxygenclass:: hdf5::property::FileMountList
+   :members:
+
+:cpp:class:`GroupAccessList`
+----------------------------
+
+.. doxygenclass:: hdf5::property::GroupAccessList
+   :members:
+
+:cpp:class:`GroupCreationList`
+------------------------------
+
+.. doxygenclass:: hdf5::property::GroupCreationList
+   :members:
+
+:cpp:class:`LinkAccessList`
+---------------------------
+
+.. doxygenclass:: hdf5::property::LinkAccessList
+   :members:
+
+:cpp:class:`LinkCreationList`
+-----------------------------
+
+.. doxygenclass:: hdf5::property::LinkCreationList
+   :members:
+
+:cpp:class:`List`
+-----------------
+
+.. doxygenclass:: hdf5::property::List
+   :members:
+
+:cpp:class:`ObjectCopyList`
+---------------------------
+
+.. doxygenclass:: hdf5::property::ObjectCopyList
+   :members:
+
+:cpp:class:`ObjectCreationList`
+-------------------------------
+
+.. doxygenclass:: hdf5::property::ObjectCreationList
+   :members:
+
+:cpp:class:`StringCreationList`
+-------------------------------
+
+.. doxygenclass:: hdf5::property::StringCreationList
+   :members:
+
+:cpp:class:`TypeCreationList`
+-----------------------------
+
+.. doxygenclass:: hdf5::property::TypeCreationList
+   :members:
+
+:cpp:class:`VirtualDataMap`
+---------------------------
+
+.. doxygenclass:: hdf5::property::VirtualDataMap
+   :members:
+
+.. doxygenclass:: hdf5::property::VirtualDataMaps
+   :members:
+
 Enumerations
 ============
 
@@ -40,149 +182,82 @@ Enumerations
 
 .. doxygenfunction:: hdf5::property::operator<<(std::ostream &, const LibVersion &)
 
-:cpp:enum:`CopyFlag`
---------------------
+:cpp:enum:`CopyFlag` and :cpp:type:`CopyFlags`
+----------------------------------------------
 
 .. doxygenenum:: hdf5::property::CopyFlag
 
-.. doxygenfunction:: hdf5::property::operator<<(std::ostream &, const CopyFlag &)
-
 .. doxygenfunction:: hdf5::property::operator|(const CopyFlag &, const CopyFlag &)
 
-Classes
-=======
+.. doxygenfunction:: hdf5::property::operator|(const CopyFlags &, const CopyFlag &) noexcept
 
-:cpp:class:`AttributeCreationList`
-----------------------------------
+.. doxygenfunction:: hdf5::property::operator|(const CopyFlag &, const CopyFlags &) noexcept
 
-.. doxygenclass:: hdf5::property::AttributeCreationList
-   :members:
-   
-:cpp:class:`ChunkCacheParameters`
----------------------------------
+.. doxygenfunction:: hdf5::property::operator|(const CopyFlags &, const CopyFlags &) noexcept
 
-.. doxygenclass:: hdf5::property::ChunkCacheParameters
-   :members:
-   
-:cpp:class:`Class`
-------------------
+.. doxygenfunction:: hdf5::property::operator&(const CopyFlag &, const CopyFlag &)
 
-.. doxygenclass:: hdf5::property::Class
-   :members:
-   
-:cpp:class:`CopyFlags`
-----------------------
+.. doxygenfunction:: hdf5::property::operator&(const CopyFlags &, const CopyFlag &) noexcept
 
-.. doxygenclass:: hdf5::property::CopyFlags
-   :members:
-   
-:cpp:class:`CreationOrder`
+.. doxygenfunction:: hdf5::property::operator&(const CopyFlag &, const CopyFlags &) noexcept
+
+.. doxygenfunction:: hdf5::property::operator&(const CopyFlags &, const CopyFlags &) noexcept
+
+.. doxygenfunction:: hdf5::property::operator<<(std::ostream &, const CopyFlag &)
+
+:cpp:enum:`VirtualDataView`
+---------------------------
+
+.. doxygenenum:: hdf5::property::VirtualDataView
+
+.. doxygenfunction:: hdf5::property::operator<<(std::ostream &, const VirtualDataView &)
+
+:cpp:enum:`CloseDegree`
+-----------------------
+
+.. doxygenenum:: hdf5::property::CloseDegree
+
+:cpp:enum:`MPITransferMode`
+---------------------------
+
+.. doxygenenum:: hdf5::property::MPITransferMode
+
+:cpp:enum:`MPIChunkOption`
 --------------------------
 
-.. doxygenclass:: hdf5::property::CreationOrder
-   :members:
-   
-:cpp:class:`DatasetAccessList`
-------------------------------
+.. doxygenenum:: hdf5::property::MPIChunkOption
 
-.. doxygenclass:: hdf5::property::DatasetAccessList
-   :members:
-   
-:cpp:class:`DatasetCreationList`
---------------------------------
+Property Class variables
+========================
 
-.. doxygenclass:: hdf5::property::DatasetCreationList
-   :members:
-   
-:cpp:class:`DatasetTransferList`
---------------------------------
+.. cpp:var:: const Class kAttributeCreate
 
-.. doxygenclass:: hdf5::property::DatasetTransferList
-   :members:
-   
-:cpp:class:`DatatypeAccessList`
--------------------------------
+.. cpp:var:: const Class kDatasetAccess
 
-.. doxygenclass:: hdf5::property::DatatypeAccessList
-   :members:
-   
-:cpp:class:`FileAccessList`
----------------------------
+.. cpp:var:: const Class kDatasetCreate
 
-.. doxygenclass:: hdf5::property::FileAccessList
-   :members:
-   
-:cpp:class:`FileCreationList`
------------------------------
+.. cpp:var:: const Class kDatasetXfer
 
-.. doxygenclass:: hdf5::property::FileCreationList
-   :members:
-   
-:cpp:class:`FileMountList`
---------------------------
+.. cpp:var:: const Class kDatatypeAccess
 
-.. doxygenclass:: hdf5::property::FileMountList
-   :members:
-   
-:cpp:class:`GroupAccessList`
-----------------------------
+.. cpp:var:: const Class kDatatypeCreate
 
-.. doxygenclass:: hdf5::property::GroupAccessList
-   :members:
-   
-:cpp:class:`GroupCreationList`
-------------------------------
+.. cpp:var:: const Class kFileAccess
 
-.. doxygenclass:: hdf5::property::GroupCreationList
-   :members:
-   
-:cpp:class:`LinkAccessList`
----------------------------
+.. cpp:var:: const Class kFileCreate
 
-.. doxygenclass:: hdf5::property::LinkAccessList
-   :members:
-   
-:cpp:class:`LinkCreationList`
------------------------------
+.. cpp:var:: const Class kFileMount
 
-.. doxygenclass:: hdf5::property::LinkCreationList
-   :members:
-   
-:cpp:class:`List`
------------------
+.. cpp:var:: const Class kGroupAccess
 
-.. doxygenclass:: hdf5::property::List
-   :members:
-   
-:cpp:class:`ObjectCopyList`
----------------------------
+.. cpp:var:: const Class kGroupCreate
 
-.. doxygenclass:: hdf5::property::ObjectCopyList
-   :members:
-   
-:cpp:class:`ObjectCreationList`
--------------------------------
+.. cpp:var:: const Class kLinkAccess
 
-.. doxygenclass:: hdf5::property::ObjectCreationList
-   :members:
-   
-:cpp:class:`StringCreationList`
--------------------------------
+.. cpp:var:: const Class kLinkCreate
 
-.. doxygenclass:: hdf5::property::StringCreationList
-   :members:
-   
-:cpp:class:`TypeCreationList`
------------------------------
+.. cpp:var:: const Class kObjectCopy
 
-.. doxygenclass:: hdf5::property::TypeCreationList
-   :members:
-   
-:cpp:class:`VirtualDataMap`
----------------------------
+.. cpp:var:: const Class kObjectCreate
 
-.. doxygenclass:: hdf5::property::VirtualDataMap
-   :members:
-   
-.. doxygenclass:: hdf5::property::VirtualDataMaps
-   :members:
+.. cpp:var:: const Class kStringCreate

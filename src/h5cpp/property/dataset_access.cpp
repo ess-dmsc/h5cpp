@@ -69,10 +69,10 @@ double ChunkCacheParameters::preemption_policy() const noexcept {
 #if H5_VERSION_GE(1, 10, 0)
 std::ostream &operator<<(std::ostream &stream, const VirtualDataView &view) {
   switch (view) {
-    case VirtualDataView::FIRST_MISSING:return stream << "FIRST_MISSING";
-    case VirtualDataView::LAST_AVAILABLE:return stream << "LAST_AVAILABLE";
-    default:return stream;
+    case VirtualDataView::FirstMissing:return stream << "FIRST_MISSING";
+    case VirtualDataView::LastAvailable:return stream << "LAST_AVAILABLE";
   }
+  return stream;
 }
 #endif
 

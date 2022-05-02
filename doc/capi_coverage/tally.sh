@@ -9,11 +9,13 @@ LISTS_PATH=$DIR/functions/*
 
 tot_found=0
 tot_not_found=0
+toctree=""
 
 rstfile=${RST_PATH}/index.rst
 
 echo "==================" > $rstfile
-echo "C API Coverage" >> $rstfile
+echo "C API Usage" >> $rstfile
+# echo "C API Coverage" >> $rstfile
 echo "==================" >> $rstfile
 echo "" >> $rstfile
 echo ".. csv-table:: Wrapped C API functions" >> $rstfile
@@ -21,17 +23,18 @@ echo '   :header: "API", "wrapped", "total", "percent"' >> $rstfile
 echo "   :widths: 20, 20, 20, 20" >> $rstfile
 echo "" >> $rstfile
 
-
 for filename in ${LISTS_PATH}; do
   basename=$(basename $filename)
   outfile=${RST_PATH}/${basename}.rst
   found=0
   not_found=0
-
+  toctree="${toctree}
+   ${basename}"
   echo ".. _capi-${basename}:" > $outfile
   echo "" >> $outfile
   echo "===================================" >> $outfile
-  echo "Wrapper coverage of ${basename} functions" >> $outfile
+#  echo "Wrapper coverage of ${basename} functions" >> $outfile
+  echo "Usage of ${basename} functions" >> $outfile
   echo "===================================" >> $outfile
   echo "" >> $outfile
 
@@ -63,4 +66,8 @@ percent=$(awk "BEGIN { pc=100*${tot_found}/${tot_total}; i=int(pc); print (pc-i<
 text=$(printf '   "%s", "%s", "%s", "%s"\n' "Total" "$tot_found" "$tot_total" "$percent%" | expand -t 7)
 
 echo "${text}" >> $rstfile
-
+echo "" >> $rstfile
+echo ".. toctree::" >> $rstfile
+echo "   :hidden:" >> $rstfile
+echo "   :maxdepth: 1">> $rstfile
+echo "${toctree}" >> $rstfile

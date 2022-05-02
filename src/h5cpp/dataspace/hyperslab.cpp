@@ -186,20 +186,43 @@ void Hyperslab::apply(const Dataspace &space, SelectionOperation ops) const {
   }
 }
 
+SelectionType Hyperslab::type() const {
+  return SelectionType::Hyperslab;
+}
+
+size_t Hyperslab::size() const {
+  if(rank() == 0)
+    return 0;
+  size_t size = 1ul;
+  Dimensions dims = block();
+  Dimensions cnt = count();
+  for(Dimensions::size_type i = 0; i != dims.size(); i++)
+    size *= dims[i] * cnt[i];
+  return size;
+}
+
+Dimensions Hyperslab::dimensions() const {
+  Dimensions dims = block();
+  Dimensions cnt = count();
+  for(Dimensions::size_type i = 0; i != dims.size(); i++)
+    dims[i] *= cnt[i];
+  return dims;
+}
+
 Dataspace operator||(const Dataspace &space, const Hyperslab &selection) {
   Dataspace new_space(space);
-  new_space.selection(SelectionOperation::SET, selection);
+  new_space.selection(SelectionOperation::Set, selection);
   return new_space;
 }
 
 SelectionList operator|(const Hyperslab &a, const Hyperslab &b) {
-  return {{SelectionOperation::SET, Selection::SharedPointer(new Hyperslab(a))},
-          {SelectionOperation::OR, Selection::SharedPointer(new Hyperslab(b))}
+  return {{SelectionOperation::Set, Selection::SharedPointer(new Hyperslab(a))},
+          {SelectionOperation::Or, Selection::SharedPointer(new Hyperslab(b))}
   };
 }
 
 SelectionList &operator|(SelectionList &selections, const Hyperslab &b) {
-  selections.push_back({SelectionOperation::SET,
+  selections.push_back({SelectionOperation::Set,
                         Selection::SharedPointer(new Hyperslab(b))});
   return selections;
 }

@@ -46,6 +46,10 @@ namespace hdf5 {
 //! \c .. simply means nothing. It would be even allowed to use \c .. as a
 //! name for a group, dataset or committed datatype.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT Path
 {
   public:
@@ -79,11 +83,6 @@ class DLL_EXPORT Path
     //! to hdf5 requirements for node names.
     //!
     Path(const_iterator first_element, const_iterator last_element);
-
-    //!
-    //! \brief copy constructor
-    //!
-    Path(const Path &p) = default;
 
     explicit operator std::string() const
     {
@@ -256,13 +255,17 @@ class DLL_EXPORT Path
 
     Path& operator+=(const Path &other);
 
+#ifndef _DOXYGEN_ /* workaround for the #613 breathe bug */
     //!
     //! \brief checks two paths for equality
     //!
     //! Two paths are considered equal if each of their elements is
     DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+    //!
+    //! \brief checks two paths for equality base
+    //!
     DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
-
+#endif /* DOXYGEN */
   private:
     bool absolute_;
 #ifdef _MSC_VER
@@ -279,7 +282,21 @@ class DLL_EXPORT Path
 
     void sanitize();
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
+#ifdef _DOXYGEN_ /* workaround for the #613 breathe bug */
+    //!
+    //! \brief checks two paths for equality
+    //!
+    //! Two paths are considered equal if each of their elements is
+    DLL_EXPORT friend bool operator==(const Path &lhs, const Path &rhs);
+    //!
+    //! \brief checks two paths for equality base
+    //!
+    DLL_EXPORT friend Path common_base(const Path& lhs, const Path& rhs);
+#endif /* DOXYGEN */
 
 DLL_EXPORT bool operator!=(const Path &lhs, const Path &rhs);
 

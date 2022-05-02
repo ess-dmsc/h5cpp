@@ -5,15 +5,15 @@ import ecdcpipeline.PipelineBuilder
 project = "h5cpp"
 // coverage_os = "centos7-release"
 coverage_os = "None"
-documentation_os = "debian10-release"
+// documentation_os = "debian10-release"
+documentation_os = "ubuntu2004-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
-  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
+  'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
   'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
 ]
@@ -74,39 +74,35 @@ builders = pipeline_builder.createBuilders { container ->
     def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DWITH_BOOST=OFF'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'debian10':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'debian10-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'ubuntu1804':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
-        cmake_prefix = ''
-        break
-      case 'ubuntu1804-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+      case 'debian10-release-hdf5-1.12':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2004':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2004-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       default:
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
     }
@@ -123,7 +119,7 @@ builders = pipeline_builder.createBuilders { container ->
     cd build
     . ./activate_run.sh
     make --version
-    make -j4 unit_tests
+    make -j4 all
     """
   }  // stage
 
@@ -132,7 +128,7 @@ builders = pipeline_builder.createBuilders { container ->
       try {
         container.sh """
                 cd build
-                make run_tests
+                make test
             """
       } catch(e) {
         failure_function(e, 'Run tests failed')
@@ -180,7 +176,7 @@ builders = pipeline_builder.createBuilders { container ->
     pipeline_builder.stage("Documentation") {
       container.sh """
         pip3 --proxy=${http_proxy} install --user sphinx==4.0.3 breathe
-        export PATH=$PATH:~/.local/bin
+        export PATH=$PATH:~/.local/bin:/bin
         cd build
         make html
       """
@@ -232,7 +228,7 @@ builders = pipeline_builder.createBuilders { container ->
           git fetch
           git checkout gh-pages
           git pull
-          mkdir -p ./${version} && shopt -u dotglob && rm -rf ./${version}/*
+          mkdir -p ./${version} && shopt -u dotglob &&  rm -rf ./${version}/*
           mv -f ../build/doc/build/* ./${version}/
           mv -f ../build/doc/doxygen_html ./${version}/api_reference/doxygen
           find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
@@ -258,6 +254,20 @@ builders = pipeline_builder.createBuilders { container ->
       } else {
         container.copyFrom("build", "build")
         archiveArtifacts artifacts: 'build/doc/build/'
+
+        if (pipeline_builder.branch ==~ '/^v?(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$/') {
+          def rlversion = pipeline_builder.branch
+          withCredentials([usernamePassword(
+                               credentialsId: 'cow-bot-username-with-token',
+                               usernameVariable: 'USERNAME',
+                               passwordVariable: 'PASSWORD'
+                           )]) {
+            withEnv(["PROJECT=${pipeline_builder.project}", "RLVERSION=${rlversion}"]) {
+                sh 'cd $PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
+                sh 'cd $PROJECT && git checkout docs_stable && git merge master && ./push_to_repo.sh $USERNAME $PASSWORD'
+            }
+          }
+        }
       }
     }
   }
@@ -281,13 +291,14 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DDISABLE_TESTS=True ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
 
                     try {
                         sh "make -j4"
+                        sh "ctest"
                     } catch (e) {
                         failure_function(e, 'MacOSX / build+test failed')
                     }
@@ -297,43 +308,29 @@ def get_macos_pipeline(build_type)
         }
     }
 }
-
-def get_win10_pipeline()
-{
-    return {
-        stage("Windows 10") {
-            node ("windows10") {
-            // Delete workspace when build is done
-            cleanWs()
-
-                try {
-                    checkout scm
-                    bat "mkdir _build"
-                } catch (e) {
-                    failure_function(e, 'Windows10 / Checkout failed')
-                }
-
-                dir("_build") {
-                    try {
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / CMake failed')
-                    }
-
-                    try {
-                        bat "cmake --build . --config Release --target unit_tests"
-                        bat """call activate_run.bat
-    	                       .\\bin\\Release\\unit_tests.exe
-    	                    """
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / build+test failed')
-                    }
-
-                }
-            }
+/*
+def get_meson_debian_pipeline() { 
+  return { 
+    stage("debian10-meson") { 
+      node("debian10") { 
+        cleanWs()
+        // checkout the source code
+        dir("${project}/code") { 
+          try { 
+            sh "apt install -y meson"
+          } catch (e) { 
+            failure_function(e, "Debian10 meson installation failed")
+          }
+          try { 
+            checkout scm
+          } catch(e) { 
+            failure_function(e, "Debian10/Meson checkout failed")
+          }
         }
+      }
     }
-}
+  }
+}*/
 
 node {
   dir("${project}") {
@@ -346,7 +343,7 @@ node {
 
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
-  builders['Windows10'] = get_win10_pipeline()
+  //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {

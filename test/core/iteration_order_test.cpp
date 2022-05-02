@@ -22,33 +22,51 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-#include <gtest/gtest.h>
 #include <h5cpp/core/iterator_config.hpp>
+#include <sstream>
+#include <catch2/catch.hpp>
 
 using namespace hdf5;
 
-TEST(IterationOrder, test_string_representation)
-{
-  std::stringstream stream;
+SCENARIO("Testing basic behavior of the IterationOrder enumeration ") {
+  GIVEN("DECREASING") { 
+    THEN("stream output is DECREASING") {
+      std::stringstream stream;
+      stream<<IterationOrder::Decreasing;
+      REQUIRE(stream.str() == "DECREASING");
+    }
 
-  stream<<IterationOrder::DECREASING;
-  EXPECT_EQ(stream.str(), "DECREASING");
-
-  stream.str(std::string());
-  stream<<IterationOrder::INCREASING;
-  EXPECT_EQ(stream.str(), "INCREASING");
-
-  stream.str(std::string());
-  stream<<IterationOrder::NATIVE;
-  EXPECT_EQ(stream.str(), "NATIVE");
-}
-
-TEST(IterationOrder, test_value)
-{
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::DECREASING),
+    AND_THEN("the integer would be") { 
+      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::Decreasing) ==
                     H5_ITER_DEC);
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::INCREASING),
+    }
+
+  }
+
+  GIVEN("INCREASING") { 
+    THEN("stream outputis INCREASING") { 
+      std::stringstream stream;
+      stream<<IterationOrder::Increasing;
+      REQUIRE(stream.str() == "INCREASING");
+    }
+
+    AND_THEN("the integer is H5_ITER_DEC") { 
+      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::Increasing) ==
                     H5_ITER_INC);
-  EXPECT_EQ(static_cast<H5_iter_order_t>(IterationOrder::NATIVE),
+    }
+  }
+
+  GIVEN("NATIVE") { 
+    THEN("stream output is NATIVE") { 
+      std::stringstream stream;    
+      stream<<IterationOrder::Native;
+      REQUIRE(stream.str() ==  "NATIVE");
+    }
+
+    AND_THEN("the integer is H5_ITER_NATIVE") { 
+
+      REQUIRE(static_cast<H5_iter_order_t>(IterationOrder::Native) == 
                     H5_ITER_NATIVE);
+    }
+  }
 }

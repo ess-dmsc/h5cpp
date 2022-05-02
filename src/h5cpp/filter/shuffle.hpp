@@ -29,17 +29,27 @@
 namespace hdf5 {
 namespace filter {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT Shuffle : public Filter
 {
   public:
+    //!
+    //! \brief default constructor
+    //!
     Shuffle();
 
-    ~Shuffle();
+    ~Shuffle() override;
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag = Availability::MANDATORY) const;
+                            Availability flag = Availability::Mandatory) const override;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace filter
 } // namespace hdf5

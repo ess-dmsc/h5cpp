@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,64 +20,60 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 12, 2017
 //
 
-#include <h5cpp/datatype/datatype.hpp>
-#include <h5cpp/property/dataset_creation.hpp>
-#include <h5cpp/property/dataset_access.hpp>
-#include <h5cpp/property/link_creation.hpp>
-#include <h5cpp/property/link_access.hpp>
-#include <h5cpp/dataspace/simple.hpp>
-#include <h5cpp/dataspace/scalar.hpp>
-#include <h5cpp/node/dataset.hpp>
-#include "../fixture.hpp"
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class Dataset : public BasicFixture
-{
-};
+SCENARIO("dataset construction") {
+  auto f = file::create("dataset_test.h5", file::AccessFlags::Truncate);
+  auto r = f.root();
 
+  GIVEN("a default constructed dataset") {
+    node::Dataset dset;
+    THEN("method access throws exceptions") {
+      REQUIRE_THROWS_AS(dset.dataspace(), std::runtime_error);
+      REQUIRE_THROWS_AS(dset.datatype(), std::runtime_error);
+      REQUIRE_THROWS_AS(dset.extent({10, 100}), std::runtime_error);
+    }
+  }
 
-TEST_F(Dataset, test_default_construction)
-{
-  node::Dataset dset;
+  GIVEN("a node reference to the root group") {
+    const node::Node& root_node = r;
+    THEN("attempting to construct a dataset from this reference will fail") {
+      REQUIRE_THROWS_AS(node::Dataset(root_node), std::runtime_error);
+    }
+  }
 
-  EXPECT_THROW(dset.dataspace(),std::runtime_error);
-  EXPECT_THROW(dset.datatype(),std::runtime_error);
-  EXPECT_THROW(dset.extent({10,100}),std::runtime_error);
+  GIVEN("an integer datatype") {
+    auto dt = datatype::create<int>();
+    AND_GIVEN("a scalar datatspace") {
+      auto ds = dataspace::Scalar{};
+      THEN("we can construct a dataset from this below the root group") {
+        node::Dataset dset(r, "data", dt, ds);
+        WHEN("checking the dataset properties") {
+          REQUIRE(dset.dataspace().type() == dataspace::Type::Scalar);
+          REQUIRE(dset.datatype().get_class() == datatype::Class::Integer);
+        }
+        WHEN("trying to set the extend") {
+          THEN("the operation must fail") {
+            REQUIRE_THROWS_AS(dset.extent({10}), std::runtime_error);
+          }
+        }
+        GIVEN("a node reference to the dataset") {
+          const node::Node& dset_ref = dset;
+          THEN("a copy of the dataset can be constructed") {
+            node::Dataset dset_copy(dset_ref);
+            AND_THEN("the path must be the same as to the original") { 
+              REQUIRE(dset_copy.link().path().name() == "data");
+            }
+          }
+        }
+      }
+    }
+  }
 }
-
-TEST_F(Dataset,test_node_construction)
-{
-  node::Node &root_ref = root_;
-  EXPECT_THROW((node::Dataset(root_ref)),std::runtime_error);
-
-  node::Dataset dset(root_,Path("data"),datatype::create<int>());
-  node::Node &dset_ref = dset;
-  node::Dataset dset_copy(dset_ref);
-  EXPECT_EQ(dset_copy.link().path().name(),"data");
-
-}
-
-TEST_F(Dataset, test_scalar_dataset)
-{
-  node::Dataset dset(root_,Path("data"),datatype::create<int>());
-
-  EXPECT_EQ(dset.dataspace().type(),dataspace::Type::SCALAR);
-  EXPECT_EQ(dset.datatype().get_class(),datatype::Class::INTEGER);
-
-  EXPECT_THROW(dset.extent({10}),std::runtime_error);
-}
-
-
-
-
-
-
-
-
-
-

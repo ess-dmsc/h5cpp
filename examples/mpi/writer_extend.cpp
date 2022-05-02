@@ -35,7 +35,7 @@ file::File create_file(MPI_Comm comm,MPI_Info info)
   fapl.driver(file::MPIDriver(comm,info));
 
   file::File f = file::create("mpi_write_extend.h5",
-                              file::AccessFlags::TRUNCATE,
+                              file::AccessFlags::Truncate,
                               fcpl,fapl);
   return f;
 }
@@ -43,14 +43,14 @@ file::File create_file(MPI_Comm comm,MPI_Info info)
 node::Dataset create_dataset(const node::Group &base)
 {
   auto file_type = datatype::create<int>();
-  dataspace::Simple file_space{{0},{dataspace::Simple::UNLIMITED}};
+  dataspace::Simple file_space{{0},{dataspace::Simple::unlimited}};
 
   property::LinkCreationList lcpl;
   property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
+  dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1024*1024});
 
-  return base.create_dataset("extended_data",file_type,file_space,lcpl,dcpl);
+  return base.create_dataset("extended_data",file_type,file_space,dcpl,lcpl);
 }
 
 int main(int argc,char **argv)

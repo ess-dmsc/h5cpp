@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,25 +20,31 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 6, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 #include <h5cpp/hdf5.hpp>
+#include "../utilities.hpp"
 
 using namespace hdf5;
 
-TEST(ShuffleTest,construction)
-{
-  filter::Shuffle filter;
-  EXPECT_EQ(filter.id(),H5Z_FILTER_SHUFFLE);
-}
+SCENARIO("using the Shuffle filter") {
+  GIVEN("a default constructed instance") {
+    filter::Shuffle filter;
+    THEN("the id of the filter is") {
+      REQUIRE(filter.id() == H5Z_FILTER_SHUFFLE);
+    }
 
-TEST(ShuffleTest,application)
-{
-  filter::Shuffle filter;
-  property::DatasetCreationList dcpl;
-
-  filter(dcpl);
-  EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)),1);
+    AND_GIVEN("a dataset creation property list") {
+      property::DatasetCreationList dcpl;
+      THEN("we can apply the filter to this list") {
+        filter(dcpl);
+        AND_THEN("the list should have one filter attached") {
+          REQUIRE(H5Pget_nfilters(to_hid(dcpl)) == 1);
+        }
+      }
+    }
+  }
 }

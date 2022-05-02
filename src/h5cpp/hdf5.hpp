@@ -45,7 +45,6 @@
 
 #include <h5cpp/datatype/compound.hpp>
 #include <h5cpp/datatype/datatype.hpp>
-#include <h5cpp/datatype/ebool.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/float.hpp>
 #include <h5cpp/datatype/integer.hpp>
@@ -65,6 +64,7 @@
 #include <h5cpp/dataspace/type.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
 #include <h5cpp/dataspace/view.hpp>
+#include <h5cpp/dataspace/pool.hpp>
 
 #include <h5cpp/file/file.hpp>
 #include <h5cpp/file/functions.hpp>
@@ -99,7 +99,7 @@
 #include <h5cpp/node/chunked_dataset.hpp>
 #include <h5cpp/node/recursive_node_iterator.hpp>
 #include <h5cpp/node/recursive_link_iterator.hpp>
-#if H5_VERSION_GE(1,10,0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
 #include <h5cpp/node/virtual_dataset.hpp>
 #endif
 
@@ -122,7 +122,7 @@
 #include <h5cpp/property/string_creation.hpp>
 #include <h5cpp/property/type_creation.hpp>
 #include <h5cpp/property/object_copy.hpp>
-#if H5_VERSION_GE(1,10,0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
 #include <h5cpp/property/virtual_data_map.hpp>
 #endif
 

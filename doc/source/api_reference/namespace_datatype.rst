@@ -2,15 +2,91 @@
 Namespace :cpp:any:`hdf5::datatype`
 ===================================
 
+Classes
+=======
+
+:cpp:class:`Datatype`
+---------------------
+
+.. doxygenclass:: hdf5::datatype::Datatype
+   :members:
+
+.. doxygenfunction:: hdf5::datatype::operator==(const Datatype &, const Datatype &)
+
+.. doxygenfunction:: hdf5::datatype::operator!=(const Datatype &, const Datatype &)
+
+:cpp:class:`Array`
+------------------
+
+.. doxygenclass:: hdf5::datatype::Array
+   :members:
+
+:cpp:class:`VLengthArray`
+-------------------------
+
+.. doxygenclass:: hdf5::datatype::VLengthArray
+   :members:
+
+:cpp:class:`Compound`
+---------------------
+
+.. doxygenclass:: hdf5::datatype::Compound
+   :members:
+
+:cpp:class:`String`
+-------------------
+
+.. doxygenclass:: hdf5::datatype::String
+   :members:
+
+:cpp:class:`Enum`
+-----------------
+
+.. doxygenclass:: hdf5::datatype::Enum
+   :members:
+
+:cpp:class:`Integer`
+--------------------
+
+.. doxygenclass:: hdf5::datatype::Integer
+   :members:
+
+:cpp:class:`Float`
+------------------
+
+.. doxygenclass:: hdf5::datatype::Float
+   :members:
+
+:cpp:class:`float16_t`
+----------------------
+
+.. doxygenclass:: hdf5::datatype::float16_t
+   :members:
+
+:cpp:class:`DatatypeHolder`
+---------------------------
+
+.. doxygenclass:: hdf5::datatype::DatatypeHolder
+   :members:
+
+Type traits
+===========
+
+:cpp:class:`TypeTrait`
+----------------------
+
+.. doxygenclass:: hdf5::datatype::TypeTrait
+   :members:
+
 Enumerations
 ============
 
-:cpp:enum:`Class`
+:cpp:enum:`EBool`
 -----------------
 
-.. doxygenenum:: hdf5::datatype::Class
+.. doxygenenum:: hdf5::datatype::EBool
 
-.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Class &)
+.. doxygenfunction:: hdf5::datatype::is_bool(const Enum &);
 
 :cpp:enum:`Order`
 -----------------
@@ -35,6 +111,7 @@ Enumerations
 
 :cpp:enum:`Pad`
 ---------------
+
 .. doxygenenum:: hdf5::datatype::Pad
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Pad &)
@@ -60,53 +137,9 @@ Enumerations
 
 .. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const CharacterEncoding &)
 
-Classes
-=======
+:cpp:enum:`Class`
+-----------------
 
-:cpp:class:`Datatype`
----------------------
+.. doxygenenum:: hdf5::datatype::Class
 
-.. doxygenclass:: hdf5::datatype::Datatype
-   :members:
-   
-:cpp:class:`Array`
-------------------
-
-.. doxygenclass:: hdf5::datatype::Array
-   :members:
-   
-:cpp:class:`VLengthArray`
--------------------------
-
-.. doxygenclass:: hdf5::datatype::VLengthArray
-   :members:
-
-:cpp:class:`Compound`
----------------------
-   
-.. doxygenclass:: hdf5::datatype::Compound
-   :members:
-   
-:cpp:class:`Float`
-------------------
-   
-.. doxygenclass:: hdf5::datatype::Float
-   :members:
-
-:cpp:class:`Integer`
---------------------
-   
-.. doxygenclass:: hdf5::datatype::Integer
-   :members:
-
-:cpp:class:`String`
--------------------
-   
-.. doxygenclass:: hdf5::datatype::String
-   :members:
-
-Type traits
-===========
-
-.. doxygenclass:: hdf5::datatype::TypeTrait
-   :members:
+.. doxygenfunction:: hdf5::datatype::operator<<(std::ostream &, const Class &)

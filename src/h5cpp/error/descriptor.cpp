@@ -24,6 +24,7 @@
 //
 
 #include <h5cpp/error/descriptor.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <stdexcept>
 #include <vector>
 
@@ -63,20 +64,20 @@ void Descriptor::extract_strings()
   ssize_t    message_size = 0;
 
   // retrieve the major error message
-  message_size = H5Eget_msg(maj_num,&message_type,NULL,0);
+  message_size = H5Eget_msg(maj_num,&message_type,nullptr,0);
   if(message_size > 0 && message_type == H5E_MAJOR)
   {
-    std::vector<char> message_buffer(message_size+1);
-    H5Eget_msg(maj_num,&message_type,message_buffer.data(),message_size+1);
+    std::vector<char> message_buffer(signed2unsigned<size_t>(message_size+1));
+    H5Eget_msg(maj_num,&message_type,message_buffer.data(),signed2unsigned<size_t>(message_size+1));
     major = std::string(message_buffer.begin(),--message_buffer.end());
   }
 
   // retrieve the minor error message
-  message_size = H5Eget_msg(min_num,&message_type,NULL,0);
+  message_size = H5Eget_msg(min_num,&message_type,nullptr,0);
   if(message_size > 0 && message_type == H5E_MINOR)
   {
-    std::vector<char> message_buffer(message_size+1);
-    H5Eget_msg(min_num,&message_type,message_buffer.data(),message_size+1);
+    std::vector<char> message_buffer(signed2unsigned<size_t>(message_size+1));
+    H5Eget_msg(min_num,&message_type,message_buffer.data(),signed2unsigned<size_t>(message_size+1));
     minor = std::string(message_buffer.begin(),--message_buffer.end());
   }
 }

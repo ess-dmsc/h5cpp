@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 07, 2017
 //
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include <iostream>
 #include <vector>
 
@@ -32,7 +32,7 @@ int main()
 {
   std::string file_name{"write_read_vector.h5"};
   {
-    file::File f = file::create(file_name,file::AccessFlags::TRUNCATE);
+    file::File f = file::create(file_name,file::AccessFlags::Truncate);
     node::Group root_group = f.root();
 
   std::vector<int> data{1,2,3,4,5,6,7};

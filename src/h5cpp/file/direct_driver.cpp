@@ -87,7 +87,7 @@ void DirectDriver::operator()(const property::FileAccessList &fapl) const
 
 DriverID DirectDriver::id() const noexcept
 {
-  return DriverID::eDirect;
+  return DriverID::Direct;
 }
 
 } // namespace file

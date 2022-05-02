@@ -24,108 +24,92 @@
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
 #include <string>
 #include <vector>
+#include <h5cpp/contrib/stl/string.hpp>
 
 using namespace hdf5;
 
-class AttributeVariableStringIO : public testing::Test
-{
-  public:
-    file::File file;
-    node::Group root_group;
-    dataspace::Scalar scalar_space;
-    dataspace::Simple simple_space;
-    datatype::String string_type;
-    attribute::Attribute scalar_attr;
-    attribute::Attribute vector_attr;
+using strings = std::vector<std::string>;
 
-    void SetUp()
-    {
-      file = file::create("AttributeFixedStringIO.h5",file::AccessFlags::TRUNCATE);
-      root_group = file.root();
-      simple_space = dataspace::Simple{{6}};
-      scalar_space = dataspace::Scalar();
-      string_type = datatype::create<std::string>();
+SCENARIO("variable string attribute IO") {
+  auto file =
+      file::create("AttributeFixedStringIO.h5", file::AccessFlags::Truncate);
+  auto root_group = file.root();
+  auto simple_space = dataspace::Simple{{6}};
+  auto scalar_space = dataspace::Scalar();
+  auto string_type = datatype::create<std::string>();
 
-      scalar_attr = root_group.attributes.create("scalar",string_type,scalar_space);
-      vector_attr = root_group.attributes.create("vector",string_type,simple_space);
+  GIVEN("a scalar attribute") {
+    auto space = dataspace::Scalar();
+    auto attr = root_group.attributes.create("scalar", string_type, space);
+    AND_GIVEN("a string of arbitrary length") {
+      std::string write = "hello";
+      THEN("we can write the string to the attribute") {
+        REQUIRE_NOTHROW(attr.write(write));
+        std::string read;
+        AND_THEN("read the attribute using the default datatype") {
+          REQUIRE_NOTHROW(attr.read(read));
+          REQUIRE(write == read);
+        }
+        AND_THEN("read the attribute using the attributes datatype") {
+          REQUIRE_NOTHROW(attr.read(read, attr.datatype()));
+          REQUIRE(write == read);
+        }
+      }
     }
-};
+    THEN("we can write a const char string to the attribute") {
+      REQUIRE_NOTHROW(attr.write("A short notice"));
+      AND_THEN("read it again") {
+        std::string expect = "A short notice";
+        std::string read;
+        REQUIRE_NOTHROW(attr.read(read));
+        REQUIRE_THAT(expect, Catch::Matchers::Equals(read));
+      }
+    }
+  }
 
-TEST_F(AttributeVariableStringIO,scalar_io)
-{
-  std::string write = "hello";
-  std::string read;
+  GIVEN("an attribute for 6 elements") {
+    auto space = dataspace::Simple({6});
+    auto attr = root_group.attributes.create("vector", string_type, space);
+    AND_GIVEN("a vector of strings of arbitrary but equal length") {
+      strings write{"AAAA", "BBB", "CCCCCCCC", "DDDD", "EEEEE", "FFFFF"};
+      THEN("write the vector to the attribute") {
+        REQUIRE_NOTHROW(attr.write(write));
+        strings read(write.size());
+        AND_THEN("read a vector from the attribute") {
+          REQUIRE_NOTHROW(attr.read(read));
+          REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+        }
+        AND_THEN("read the vector with the attributs datatype") { 
+          REQUIRE_NOTHROW(attr.read(read,attr.datatype()));
+          REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+        }
+      }
+    }
+  }
 
-  scalar_attr.write(write);
-  scalar_attr.read(read);
-  EXPECT_EQ(write,read);
-}
-
-TEST_F(AttributeVariableStringIO,scalar_io_const_char)
-{
-  std::string read;
-
-  scalar_attr.write("A short notice");
-  scalar_attr.read(read);
-  EXPECT_EQ("A short notice",read);
-}
-
-TEST_F(AttributeVariableStringIO,vector_io)
-{
-  std::vector<std::string> write{"AAAAA","BBBBB","CCCCC","DDDDD",
-                                 "EEEEE","FFFFF"};
-  std::vector<std::string> read(write.size());
-
-
-  vector_attr.write(write);
-  vector_attr.read(read);
-  EXPECT_EQ(write,read);
-
-}
-
-TEST_F(AttributeVariableStringIO, simple_read)
-{
-
-  auto a = root_group.attributes.create(
-					"simple5",
-					string_type, dataspace::Simple({1}));
-  std::string write = "hell";
-  std::string read;
-  a.write(write, string_type);
-  EXPECT_NO_THROW(a.read(read, a.datatype()));
-  EXPECT_EQ(write, read);
-  EXPECT_NO_THROW(a.read(read));
-  EXPECT_EQ(write, read);
-}
-
-TEST_F(AttributeVariableStringIO, scalar_read)
-{
-
-  auto a = root_group.attributes.create("scalar5", string_type, scalar_space);
-  std::string write = "hell";
-  std::string read;
-  a.write(write, string_type);
-  EXPECT_NO_THROW(a.read(read, a.datatype()));
-  EXPECT_EQ(write, read);
-  EXPECT_NO_THROW(a.read(read));
-  EXPECT_EQ(write, read);
-}
-
-TEST_F(AttributeVariableStringIO, simple_vector_read)
-{
-
-  auto a = root_group.attributes.create("simple20x",
-      string_type, hdf5::dataspace::Simple({4}));
-  std::vector<std::string> write = {"hllo", "ho1", "h", "ho33"};
-  std::vector<std::string> read(4);
-  a.write(write, string_type);
-  EXPECT_NO_THROW(a.read(read, a.datatype()));
-  EXPECT_EQ(write, read);
-  EXPECT_NO_THROW(a.read(read));
-  EXPECT_EQ(write, read);
+  GIVEN("an attribute with a simple dataspace of size 1") {
+    auto a = root_group.attributes.create("simple5", string_type,
+                                          dataspace::Simple({1}));
+    AND_GIVEN("a string of arbitrary length") {
+      std::string write = "hell";
+      THEN("we can write this string") {
+        REQUIRE_NOTHROW(a.write(write, string_type));
+        AND_GIVEN("an empty string buffer") {
+          std::string read;
+          AND_THEN("we can read the string using the attribute datatype") {
+            REQUIRE_NOTHROW(a.read(read, a.datatype()));
+            REQUIRE(write == read);
+          }
+          AND_THEN("read the attribute using the default datatype") {
+            REQUIRE_NOTHROW(a.read(read));
+            REQUIRE(write == read);
+          }
+        }
+      }
+    }
+  }
 }

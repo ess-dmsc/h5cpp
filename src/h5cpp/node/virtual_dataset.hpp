@@ -30,6 +30,10 @@
 namespace hdf5 {
 namespace node {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 //!
 //! \brief virtual dataset class
 //!
@@ -68,6 +72,9 @@ class DLL_EXPORT VirtualDataset : public Dataset
 
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace node
 } // namespace hdf5

@@ -37,6 +37,15 @@
 namespace hdf5 {
 namespace property {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
+const decltype(H5P_DEFAULT) kDefault = H5P_DEFAULT;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 class Class;
 
 //!
@@ -47,13 +56,13 @@ class DLL_EXPORT List {
   //!
   //! \brief constructor
   //!
-  //! @param plist_class
+  //! @param plist_class reference to the property list class
   //!
   explicit List(const Class &plist_class);
 
   //!
   //! \brief copy constructor
-  //! @param plist
+  //! @param plist reference to the original property list
   //!
   List(const List &plist);
 

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 09, 2017
 //
 
@@ -34,18 +35,22 @@ namespace property {
 
 std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag) {
   switch (flag) {
-    case CopyFlag::SHALLOW_HIERARCHY:return stream << "SHALLOW_HIERARCHY";
-    case CopyFlag::EXPAND_SOFT_LINKS:return stream << "EXPAND_SOFT_LINKS";
-    case CopyFlag::EXPAND_EXTERNAL_LINKS:return stream << "EXPAND_EXTERNAL_LINKS";
-    case CopyFlag::EXPAND_REFERENCES:return stream << "EXPAND_REFERENCES";
-    case CopyFlag::WITHOUT_ATTRIBUTES:return stream << "WITHOUT_ATTRIBUTES";
-    case CopyFlag::MERGE_COMMITTED_TYPES:return stream << "MERGE_COMMITTED_TYPES";
-    default:return stream << "NONE"; //should never happen
+    case CopyFlag::ShallowHierarchy:return stream << "SHALLOW_HIERARCHY";
+    case CopyFlag::ExpandSoftLinks:return stream << "EXPAND_SOFT_LINKS";
+    case CopyFlag::ExpandExternalLinks:return stream << "EXPAND_EXTERNAL_LINKS";
+    case CopyFlag::ExpandReferences:return stream << "EXPAND_REFERENCES";
+    case CopyFlag::WithoutAttributes:return stream << "WITHOUT_ATTRIBUTES";
+    case CopyFlag::MergeCommittedTypes:return stream << "MERGE_COMMITTED_TYPES";
   }
+  return stream << "NONE"; //should never happen
 }
 
 CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs) {
   return CopyFlags(static_cast<unsigned>(lhs) | static_cast<unsigned>(rhs));
+}
+
+CopyFlags operator&(const CopyFlag &lhs, const CopyFlag &rhs) {
+  return CopyFlags(static_cast<unsigned>(lhs) & static_cast<unsigned>(rhs));
 }
 
 CopyFlags::CopyFlags() noexcept:
@@ -76,70 +81,92 @@ CopyFlags &CopyFlags::operator|=(const CopyFlags &flags) noexcept {
   return *this;
 }
 
+CopyFlags operator&(const CopyFlags &flags, const CopyFlags &rhs) noexcept {
+  return CopyFlags(static_cast<unsigned>(flags) & static_cast<unsigned>(rhs));
+}
+
+CopyFlags operator&(const CopyFlags &flags, const CopyFlag &flag) noexcept {
+  return CopyFlags(static_cast<unsigned>(flags) & static_cast<unsigned>(flag));
+}
+
+CopyFlags operator&(const CopyFlag &flag, const CopyFlags &flags) noexcept {
+  return CopyFlags(static_cast<unsigned>(flag) & static_cast<unsigned>(flags));
+}
+
+CopyFlags &CopyFlags::operator&=(const CopyFlag &flag) noexcept {
+  value_ &= static_cast<unsigned>(flag);
+  return *this;
+}
+
+CopyFlags &CopyFlags::operator&=(const CopyFlags &flags) noexcept {
+  value_ &= static_cast<unsigned>(flags);
+  return *this;
+}
+
 bool CopyFlags::shallow_hierarchy() const noexcept {
-  return value_ & static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
+  return value_ & static_cast<unsigned>(CopyFlag::ShallowHierarchy);
 }
 void CopyFlags::shallow_hierarchy(bool flag) noexcept {
   if (flag)
-    value_ |= static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
+    value_ |= static_cast<unsigned>(CopyFlag::ShallowHierarchy);
   else
-    value_ &= ~static_cast<unsigned>(CopyFlag::SHALLOW_HIERARCHY);
+    value_ &= ~static_cast<unsigned>(CopyFlag::ShallowHierarchy);
 
 }
 
 bool CopyFlags::expand_soft_links() const noexcept {
-  return value_ & static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
+  return value_ & static_cast<unsigned>(CopyFlag::ExpandSoftLinks);
 }
 
 void CopyFlags::expand_soft_links(bool flag) noexcept {
   if (flag)
-    value_ |= static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
+    value_ |= static_cast<unsigned>(CopyFlag::ExpandSoftLinks);
   else
-    value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_SOFT_LINKS);
+    value_ &= ~static_cast<unsigned>(CopyFlag::ExpandSoftLinks);
 }
 
 bool CopyFlags::expand_external_links() const noexcept {
-  return value_ & static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
+  return value_ & static_cast<unsigned>(CopyFlag::ExpandExternalLinks);
 }
 
 void CopyFlags::expand_external_links(bool flag) noexcept {
   if (flag)
-    value_ |= static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
+    value_ |= static_cast<unsigned>(CopyFlag::ExpandExternalLinks);
   else
-    value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_EXTERNAL_LINKS);
+    value_ &= ~static_cast<unsigned>(CopyFlag::ExpandExternalLinks);
 }
 
 bool CopyFlags::expand_references() const noexcept {
-  return value_ & static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
+  return value_ & static_cast<unsigned>(CopyFlag::ExpandReferences);
 }
 
 void CopyFlags::expand_references(bool flag) noexcept {
   if (flag)
-    value_ |= static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
+    value_ |= static_cast<unsigned>(CopyFlag::ExpandReferences);
   else
-    value_ &= ~static_cast<unsigned>(CopyFlag::EXPAND_REFERENCES);
+    value_ &= ~static_cast<unsigned>(CopyFlag::ExpandReferences);
 }
 
 bool CopyFlags::without_attributes() const noexcept {
-  return value_ & static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
+  return value_ & static_cast<unsigned>(CopyFlag::WithoutAttributes);
 }
 
 void CopyFlags::without_attributes(bool flag) noexcept {
   if (flag)
-    value_ |= static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
+    value_ |= static_cast<unsigned>(CopyFlag::WithoutAttributes);
   else
-    value_ &= ~static_cast<unsigned>(CopyFlag::WITHOUT_ATTRIBUTES);
+    value_ &= ~static_cast<unsigned>(CopyFlag::WithoutAttributes);
 }
 
 bool CopyFlags::merge_committed_types() const noexcept {
-  return value_ & static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
+  return value_ & static_cast<unsigned>(CopyFlag::MergeCommittedTypes);
 }
 
 void CopyFlags::merge_committed_types(bool flag) noexcept {
   if (flag)
-    value_ |= static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
+    value_ |= static_cast<unsigned>(CopyFlag::MergeCommittedTypes);
   else
-    value_ &= ~static_cast<unsigned>(CopyFlag::MERGE_COMMITTED_TYPES);
+    value_ &= ~static_cast<unsigned>(CopyFlag::MergeCommittedTypes);
 }
 
 ObjectCopyList::ObjectCopyList() :

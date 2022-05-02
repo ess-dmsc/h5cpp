@@ -22,35 +22,35 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 11, 2017
 //
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable: 4251)
-#endif
-#include <gtest/gtest.h>
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 #include <h5cpp/core/iterator_config.hpp>
+#include <sstream>
+#include <catch2/catch.hpp>
 
 using namespace hdf5;
 
-TEST(IterationIndex, test_string_representation)
-{
-  std::stringstream stream;
+SCENARIO("testing the iteration index") { 
+  GIVEN("CREATION_ORDER") { 
+    THEN("stream output is CREATION_ORDER") { 
+      std::stringstream stream;
+      stream<<IterationIndex::CreationOrder;
+      REQUIRE(stream.str() == "CREATION_ORDER");
+    }
 
-  stream<<IterationIndex::CREATION_ORDER;
-  EXPECT_EQ(stream.str(), "CREATION_ORDER");
+    AND_THEN("integer would be") { 
+      REQUIRE(static_cast<H5_index_t>(IterationIndex::CreationOrder) == H5_INDEX_CRT_ORDER);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<IterationIndex::NAME;
-  EXPECT_EQ(stream.str(), "NAME");
-}
+  GIVEN("NAME") { 
+    THEN("stream output would be NAME"){
+      std::stringstream stream;
+      stream<<IterationIndex::Name;
+      REQUIRE(stream.str() == "NAME");
+    } 
 
-TEST(IterationIndex, test_value)
-{
-  EXPECT_EQ(static_cast<H5_index_t>(IterationIndex::NAME),
-                    H5_INDEX_NAME);
-  EXPECT_EQ(static_cast<H5_index_t>(IterationIndex::CREATION_ORDER),
-                    H5_INDEX_CRT_ORDER);
+    AND_THEN("integer would be") { 
+      REQUIRE(static_cast<H5_index_t>(IterationIndex::Name) == H5_INDEX_NAME);
+    }
+
+  }
 }

@@ -31,7 +31,7 @@
 namespace hdf5 {
 namespace file {
 
-#ifdef WITH_MPI
+#ifdef H5CPP_WITH_MPI
 
 MPIDriver::MPIDriver(MPI_Comm comm,MPI_Info info):
     comm_(comm),
@@ -48,7 +48,7 @@ void MPIDriver::operator()(const property::FileAccessList &fapl) const
 
 DriverID MPIDriver::id() const noexcept
 {
-  return DriverID::eMPI;
+  return DriverID::MPI;
 }
 
 #endif

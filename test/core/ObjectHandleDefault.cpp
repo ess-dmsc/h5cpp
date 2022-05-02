@@ -1,6 +1,7 @@
 
 //
 // (c) Copyright 2017 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -25,138 +26,80 @@
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 14, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/core/object_handle.hpp>
-#include <vector>
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "object_handle_test.hpp"
 
-namespace {
-#if GTEST_HAS_PARAM_TEST
+static std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type type) {
+  using ptr_type = std::shared_ptr<ObjectHandleTest>;
+  switch (type) {
+    case hdf5::ObjectHandle::Type::File:
+      return std::make_shared<FileObjectHandleTest>("test.h5");
+    case hdf5::ObjectHandle::Type::Datatype:
+      return std::make_shared<DatatypeObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::Dataspace:
+      return std::make_shared<DataspaceObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::Group:
+      return std::make_shared<GroupObjectHandleTest>("object_handle_group_test.h5");
+    case hdf5::ObjectHandle::Type::Dataset:
+      return std::make_shared<DatasetObjectHandleTest>("object_handle_dataset_test.h5");
+    case hdf5::ObjectHandle::Type::Attribute:
+      return std::make_shared<AttributeObjectHandleTest>(
+          std::string{"object_handle_attribute_test.h5"});
+    case hdf5::ObjectHandle::Type::PropertyList:
+      return std::make_shared<PropertyListObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::PropertyListClass:
+      return std::make_shared<PropertyListClassObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::ErrorClass:
+      return std::make_shared<ErrorClassObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::ErrorMessage:
+      return std::make_shared<ErrorMessageObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::ErrorStack:
+      return std::make_shared<ErrorStackObjectHandleTest>();
+    case hdf5::ObjectHandle::Type::Uninitialized:
+    case hdf5::ObjectHandle::Type::BadObject:
+    case hdf5::ObjectHandle::Type::VirtualFileLayer:
+      break;
+  }
+  return ptr_type(nullptr);
+}
+SCENARIO("testing object handle construction") {
+  GIVEN("a default constructed handle") {
+    hdf5::ObjectHandle handle;
 
-using ::testing::TestWithParam;
-using ::testing::Values;
+    REQUIRE_FALSE(handle.is_valid());
+    REQUIRE(handle.get_type() == hdf5::ObjectHandle::Type::BadObject);
+    REQUIRE_THROWS_AS(handle.get_reference_count(), std::runtime_error);
+    REQUIRE_THROWS_AS(handle.close(), std::runtime_error);
+  }
 
-class ObjHandleFixture : public TestWithParam<hdf5::ObjectHandle::Type>
-{
-  public:
-    virtual ~ObjHandleFixture()
-    {
-      delete test_;
+  WHEN("trying to construct a handle from an invalid hid_t") {
+    THEN("the constructor will fail") {
+      REQUIRE_THROWS_AS(hdf5::ObjectHandle(-1), std::runtime_error);
     }
-
-    virtual void SetUp()
-    {
-      std::stringstream ss;
-      ss << GetParam();
-      name_ = ss.str();
-
-      switch(GetParam())
-      {
-      case hdf5::ObjectHandle::Type::FILE:
-        test_ = new FileObjectHandleTest("test.h5");
-        break;
-      case hdf5::ObjectHandle::Type::DATATYPE:
-        test_ = new DatatypeObjectHandleTest();
-        break;
-      case hdf5::ObjectHandle::Type::DATASPACE:
-        test_ = new DataspaceObjectHandleTest();
-        break;
-      case hdf5::ObjectHandle::Type::GROUP:
-        test_ = new GroupObjectHandleTest("object_handle_group_test.h5");
-        break;
-      case hdf5::ObjectHandle::Type::DATASET:
-        test_ = new DatasetObjectHandleTest("object_handle_dataset_test.h5");
-        break;
-      case hdf5::ObjectHandle::Type::ATTRIBUTE:
-        test_ = new AttributeObjectHandleTest("object_handle_attribute_test.h5");
-        break;
-      case hdf5::ObjectHandle::Type::PROPERTY_LIST:
-        test_ = new PropertyListObjectHandleTest();
-        break;
-      case hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS:
-        test_ = new PropertyListClassObjectHandleTest();
-        break;
-      case hdf5::ObjectHandle::Type::ERROR_CLASS:
-        test_ = new ErrorClassObjectHandleTest();
-        break;
-      case hdf5::ObjectHandle::Type::ERROR_MESSAGE:
-        test_ = new ErrorMessageObjectHandleTest();
-        break;
-      case hdf5::ObjectHandle::Type::ERROR_STACK:
-        test_ = new ErrorStackObjectHandleTest();
-        break;
-      default:
-        break;
-      }
-    }
-
-    virtual void TearDown()
-    {
-      name_.clear();
-      delete test_;
-      test_ = NULL;
-    }
-
-  protected:
-    ObjectHandleTest *test_;
-    std::string name_;
-};
-
-TEST(ObjHandleTest, DefaultConstruction)
-{
-  hdf5::ObjectHandle handle;
-
-  EXPECT_FALSE(handle.is_valid());
-  EXPECT_EQ(handle.get_type(),hdf5::ObjectHandle::Type::BADOBJECT);
-  EXPECT_THROW(handle.get_reference_count(),std::runtime_error);
-  EXPECT_THROW(handle.close(),std::runtime_error);
+  }
 }
 
-TEST(ObjHandleTest, InvalidConstruction)
-{
-  EXPECT_THROW(hdf5::ObjectHandle handle(-1), std::runtime_error);
+TEST_CASE("testing handle behavior for different object types") {
+  using Type = hdf5::ObjectHandle::Type;
+  auto test = GENERATE(
+      //create_test(Type::File),          create_test(Type::Datatype),
+      //create_test(Type::Dataspace),     create_test(Type::Group),
+      //create_test(Type::Dataset),       
+      create_test(Type::Attribute),
+      create_test(Type::PropertyList), create_test(Type::ErrorMessage),
+      create_test(Type::ErrorClass),   create_test(Type::ErrorStack));
+
+  SECTION("testing operations") {
+      test->test_copy_assignment();
+      test->test_move_assignment();
+      test->test_copy_construction();
+      test->test_move_construction();
+      test->test_close_pathology();
+      test->test_equality();
+  }
 }
-
-TEST_P(ObjHandleFixture, Types)
-{
-  //This line does not help with output :(
-  ::testing::Test::RecordProperty("Type", name_);
-
-  test_->test_copy_assignment();
-  test_->test_move_assignment();
-  test_->test_copy_construction();
-  test_->test_move_construction();
-  test_->test_close_pathology();
-  test_->test_equality();
-}
-
-INSTANTIATE_TEST_CASE_P(ObjHandleTest, ObjHandleFixture,
-                        ::testing::Values(hdf5::ObjectHandle::Type::FILE,
-                                          hdf5::ObjectHandle::Type::DATATYPE,
-                                          hdf5::ObjectHandle::Type::DATASPACE,
-                                          hdf5::ObjectHandle::Type::GROUP,
-                                          hdf5::ObjectHandle::Type::DATASET,
-                                          hdf5::ObjectHandle::Type::ATTRIBUTE,
-                                          hdf5::ObjectHandle::Type::PROPERTY_LIST,
-                                          hdf5::ObjectHandle::Type::ERROR_MESSAGE,
-                                          hdf5::ObjectHandle::Type::ERROR_CLASS,
-                                          hdf5::ObjectHandle::Type::ERROR_STACK),);
-
-//  //hdf5::ObjectHandle::Type::PROPERTY_LIST_CLASS));
-
-#else
-
-// Google Test may not support value-parameterized tests with some
-// compilers. If we use conditional compilation to compile out all
-// code referring to the gtest_main library, MSVC linker will not link
-// that library at all and consequently complain about missing entry
-// point defined in that library (fatal error LNK1561: entry point
-// must be defined). This dummy test keeps gtest_main linked in.
-TEST(DummyTest, ValueParameterizedTestsAreNotSupportedOnThisPlatform) {}
-
-#endif  // GTEST_HAS_PARAM_TEST
-} // namespace
-
-

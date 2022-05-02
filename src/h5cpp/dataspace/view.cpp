@@ -27,6 +27,7 @@
 
 #include <h5cpp/dataspace/view.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace dataspace {
@@ -52,7 +53,7 @@ View::View(const Dataspace &space, const SelectionList &selections) :
 
 View::View(const Dataspace &space, const Hyperslab &selection) :
     space_(space) {
-  SelectionList selections{{SelectionOperation::SET,
+  SelectionList selections{{SelectionOperation::Set,
                             Selection::SharedPointer(new Hyperslab(selection))}};
 
   apply(selections);
@@ -65,7 +66,7 @@ void View::operator()(const SelectionList &selections) const {
 
 void View::operator()(const Hyperslab &slab) const {
   clear();
-  SelectionList selections{{SelectionOperation::SET,
+  SelectionList selections{{SelectionOperation::Set,
                             Selection::SharedPointer(new Hyperslab(slab))}};
 
   apply(selections);
@@ -76,7 +77,7 @@ size_t View::size() const {
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving selection size!");
   }
-  return s;
+  return signed2unsigned<size_t>(s);
 }
 
 } // namespace dataspace

@@ -31,6 +31,7 @@
 #include <h5cpp/core/windows.hpp>
 #include <memory>
 #include <list>
+#include <sstream>
 
 namespace hdf5 {
 namespace dataspace {
@@ -42,9 +43,9 @@ namespace dataspace {
 //! HDF5 dataset. The number of dimensions for every hyperslab  is determined
 //! during construction and cannot be altered once it has been fixed.
 //!
+//! \b Todo:
 //!
-//! \todo
-//! \li we may have to add a function to check if all the Dimension instances
+//! - we may have to add a function to check if all the Dimension instances
 //!     have the same size. However, this might be an expensive procedure and
 //!     we should take performance considerations into account here.
 //!
@@ -67,7 +68,7 @@ class DLL_EXPORT Hyperslab : public Selection {
   //!
   //! \brief destructor
   //!
-  ~Hyperslab();
+  ~Hyperslab() override;
 
   //!
   //! \brief copy constructor
@@ -248,7 +249,39 @@ class DLL_EXPORT Hyperslab : public Selection {
   const Dimensions &block() const;
 
   virtual void apply(const Dataspace &space,
-                     SelectionOperation ops) const;
+                     SelectionOperation ops) const override;
+
+  //!
+  //! \brief get current dimensions
+  //!
+  //! Get a number of elements along each dimension a selection spans
+  //! this is particularly useful in the case of a Hyperslab
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return the selection dimentsions
+  //!
+  virtual Dimensions dimensions() const override;
+
+  //!
+  //! \brief get the selection size
+  //!
+  //! Get the total number of elements adressed by an individual selection
+  //!
+  //! \throws std::runtime_error in case of a failure
+  //!
+  //! \return the selection type enumerator
+  //!
+  virtual size_t size() const override;
+
+  //!
+  //! \brief get the selection type
+  //!
+  //! Get the type of the selection
+  //!
+  //! \return the selection type enumerator
+  //!
+  virtual SelectionType type() const override;
 
  private:
   inline void check_dimension_index(size_t index, const std::string &what) const {
@@ -284,6 +317,10 @@ class DLL_EXPORT Hyperslab : public Selection {
 };
 
 DLL_EXPORT Dataspace operator||(const Dataspace &space, const Hyperslab &selection);
+
+DLL_EXPORT SelectionList operator|(const Hyperslab &a, const Hyperslab &b);
+
+DLL_EXPORT SelectionList &operator|(SelectionList &selections, const Hyperslab &b);
 
 } // namespace dataspace
 } // namespace hdf5

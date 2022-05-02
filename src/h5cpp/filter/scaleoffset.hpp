@@ -33,41 +33,67 @@ namespace hdf5 {
 namespace filter {
 
 
-//!
-//! @brief character set encoding
-//!
-//! Enumeration type determining the character encoding used by string types
-//! and links.
-//!
-enum class SOScaleType: std::underlying_type<H5Z_SO_scale_type_t>::type {
-  FLOAT_DSCALE = H5Z_SO_FLOAT_DSCALE,  // Floating-point type, using variable MinBits method
-  FLOAT_ESCALE = H5Z_SO_FLOAT_ESCALE,  // Floating-point type, using fixed MinBits method
-  INT = H5Z_SO_INT                     // Integer type
-};
 
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT ScaleOffset : public Filter
 {
-  private:
-    SOScaleType scale_type_;
-    int scale_factor_;
   public:
+
+    //!
+    //! @brief character set encoding used by string types and links
+    //!
+    enum class ScaleType: std::underlying_type<H5Z_SO_scale_type_t>::type {
+      //! floating-point type, using variable MinBits method
+      FloatDScale = H5Z_SO_FLOAT_DSCALE,
+      //! floating-point type, using fixed MinBits method
+      FloatEScale = H5Z_SO_FLOAT_ESCALE,
+      //! integer type
+      Int = H5Z_SO_INT
+    };
+    //!
+    //! \brief default constructor
+    //!
     ScaleOffset();
-    ScaleOffset(SOScaleType scale_type, int scale_factor);
-    ~ScaleOffset();
+    //!
+    //! \brief constructor with scale type and scale factor
+    //!
+    ScaleOffset(ScaleOffset::ScaleType scale_type, int scale_factor);
+    ~ScaleOffset() override;
 
-    SOScaleType scale_type() const noexcept;
+    //!
+    //! \brief get scale type
+    //!
+    ScaleOffset::ScaleType scale_type() const noexcept;
 
-    void scale_type(SOScaleType scale_type);
+    //!
+    //! \brief set scale type
+    //!
+    void scale_type(ScaleOffset::ScaleType scale_type);
 
+    //!
+    //! \brief get scale factor
+    //!
     int scale_factor() const noexcept;
 
+    //!
+    //! \brief set scale factor
+    //!
     void scale_factor(int scale_factor);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::Mandatory) const override;
+  private:
+    ScaleOffset::ScaleType scale_type_;
+    int scale_factor_;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 
@@ -75,10 +101,10 @@ class DLL_EXPORT ScaleOffset : public Filter
 //! @brief stream output operator for CharacterEncoding enumerations
 //!
 //! @param stream reference to an output stream
-//! @param scale_type reference to a SOScaleType enumeration instance
+//! @param scale_type reference to the scala type to write
 //! @return modified output stream
 //!
-DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const SOScaleType &scale_type);
+DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const ScaleOffset::ScaleType &scale_type);
 
 
 } // namespace filter

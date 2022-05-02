@@ -30,6 +30,15 @@
 namespace hdf5 {
 namespace error {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#endif
+const decltype(H5E_DEFAULT) kDefault = H5E_DEFAULT;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 //!
 //! \brief singleton class for HDF5 error handling
 //!
@@ -60,7 +69,7 @@ class DLL_EXPORT Singleton
   //! of every error. Turning this off redirects the stack to be passed out
   //! to the client using nested exceptions.
   //!
-  //! \param enable
+  //! \param enable set to true if autoprinting should be enabled, false otherwise
   //!
   void auto_print(bool enable);
 
@@ -74,6 +83,8 @@ class DLL_EXPORT Singleton
   //!
   //! Only works if auto_print is disabled. Returns a Stack (derived exception)
   //! as extracted from the HDF5 error stack of the most recent error condition(s).
+  //! 
+  //! After the stack is extracted it will removed from the error system.
   //!
   H5CError extract_stack();
 
@@ -87,6 +98,9 @@ class DLL_EXPORT Singleton
   //!
   //! \param message a user-supplied message for the exception
   //!
+#ifdef __clang__
+  [[ noreturn ]]
+#endif
   void throw_with_stack(const std::string& message);
 
   //!
@@ -128,11 +142,11 @@ class DLL_EXPORT Singleton
 //! if included, the extracted error stack. For each level of nesting and for each
 //! level of the error stack, the output is on a new line and incrementally indented.
 //!
-//! \param exception
+//! \param exception the exception to print
 //!
 //! \param level indentation level
 //!
-std::string DLL_EXPORT print_nested(const std::exception& exception, int level =  0);
+std::string DLL_EXPORT print_nested(const std::exception& exception, size_t level =  0);
 
 
 } // namespace file

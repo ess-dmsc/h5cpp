@@ -42,6 +42,11 @@ class TypeTrait<Image<PixelT>>
     {
       return TypeTrait<PixelT>::create();
     }
+
+    const static TypeClass & get(const Type & = Type()) {
+      const static TypeClass & cref_ = create();
+      return cref_;
+    }
 };
 
 }
@@ -61,6 +66,13 @@ class TypeTrait<Image<PixelT>>
     {
       return Simple(hdf5::Dimensions{value.ny(),value.nx()},
                     hdf5::Dimensions{value.ny(),value.nx()});
+    }
+
+    const static DataspaceType & get(const Image<PixelT> &value, DataspacePool &)
+    {
+      const static DataspaceType & cref_ = Simple(hdf5::Dimensions{value.ny(),value.nx()},
+						  hdf5::Dimensions{value.ny(),value.nx()});
+      return cref_;
     }
 
     static void *ptr(Image<PixelT> &value)

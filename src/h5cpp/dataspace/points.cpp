@@ -27,6 +27,7 @@
 #include <h5cpp/dataspace/points.hpp>
 #include <h5cpp/error/error.hpp>
 #include <sstream>
+#include <set>
 
 namespace hdf5
 {
@@ -88,5 +89,27 @@ void Points::apply(const Dataspace& space,
 
 }
 
+SelectionType Points::type() const {
+  return SelectionType::Points;
+}
+
+size_t Points::size() const {
+  return points();
+}
+
+Dimensions Points::dimensions() const {
+  size_t rnk = rank(); 
+  if(rnk == 0)
+    throw std::runtime_error("Cannot get coordinates for empty Points selection");
+  Dimensions dims(rnk);
+  std::vector<std::set<hsize_t>> uniqdim(rnk);
+  
+  for(size_t j = 0; j != coordinates_.size(); j++)
+    uniqdim[j % rnk].insert(coordinates_[j]);
+  for(Dimensions::size_type i = 0; i != dims.size(); i++)
+    dims[i] = uniqdim[i].size();
+  return dims;
+}
+  
 } // namespace dataspace
 } // namespace hdf5

@@ -23,42 +23,43 @@
 // Created on: Oct 11, 2017
 //
 #include <iostream>
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include <vector>
 #include <algorithm>
 
 using namespace hdf5;
 
 using Bins = std::vector<int>;
-#define NBINS 6
+static const int nbins = 6;
 
-node::Dataset create_dataset(const node::Group parent_group,const Bins bins)
-{
-  property::LinkCreationList lcpl;
-  property::DatasetCreationList dcpl;
-  dcpl.layout(property::DatasetLayout::CHUNKED);
-  dcpl.chunk({100,bins.size()});
+namespace {
+  node::Dataset create_dataset(const node::Group & parent_group,const Bins & bins)
+  {
+    property::LinkCreationList lcpl;
+    property::DatasetCreationList dcpl;
+    dcpl.layout(property::DatasetLayout::Chunked);
+    dcpl.chunk({100,bins.size()});
 
-  dataspace::Simple space{{0,bins.size()},{dataspace::Simple::UNLIMITED,NBINS}};
-  auto type = datatype::create(bins);
+    dataspace::Simple space{{0,bins.size()},{dataspace::Simple::unlimited,nbins}};
+    auto type = datatype::create(bins);
 
-  return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
+    return node::Dataset(parent_group,"data",type,space,lcpl,dcpl);
+  }
+
+  void print_data(const std::string &prefix,const Bins &bins)
+  {
+    std::cout<<prefix;
+    std::for_each(bins.begin(),bins.end(),
+                  [](int value) { std::cout<<value<<"  "; });
+    std::cout<<std::endl;
+  }
 }
-
-void print_data(const std::string &prefix,const Bins &bins)
-{
-  std::cout<<prefix;
-  std::for_each(bins.begin(),bins.end(),
-                 [](int value) { std::cout<<value<<"  "; });
-  std::cout<<std::endl;
-}
-
 int main()
 {
   file::File f = file::create("append_vector_data.h5",
-                              file::AccessFlags::TRUNCATE);
+                              file::AccessFlags::Truncate);
   node::Group root_group = f.root();
-  Bins data(NBINS);
+  Bins data(nbins);
   node::Dataset dataset = create_dataset(root_group,data);
 
   //

@@ -37,6 +37,10 @@ namespace file {
 //! enabled the file will be written to disk with the same file name used
 //! to create the file in memory.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class DLL_EXPORT MemoryDriver : public Driver
 {
   public:
@@ -84,8 +88,8 @@ class DLL_EXPORT MemoryDriver : public Driver
     //!
     void increment(size_t value);
 
-    virtual void operator()(const property::FileAccessList &fapl) const;
-    virtual DriverID id() const noexcept;
+    virtual void operator()(const property::FileAccessList &fapl) const override;
+    virtual DriverID id() const noexcept override;
 
 
 
@@ -94,6 +98,9 @@ class DLL_EXPORT MemoryDriver : public Driver
     bool backing_store_;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace file
 } // namespace hdf5

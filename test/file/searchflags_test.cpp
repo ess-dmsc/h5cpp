@@ -19,80 +19,137 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Authors:
+//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Sep 8, 2017
 //
-
-#include <gtest/gtest.h>
 #include <h5cpp/file/types.hpp>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
+#include <sstream>
 
 using namespace hdf5;
 
-TEST(SearchFlags, test_output_stream)
-{
+static file::SearchFlagsBase cast(file::SearchFlags flags) {
+  return static_cast<file::SearchFlagsBase>(flags);
+}
+
+SCENARIO("Basic search flags operations", "[h5cpp,file]") {
   std::stringstream stream;
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::ALL;
-  EXPECT_EQ(stream.str(), "ALL");
+  GIVEN("SearchFlags::All") {
+    WHEN("written to output stream") {
+      stream << file::SearchFlags::All;
+      REQUIRE(stream.str() == "ALL");
+    }
+    WHEN("converted to integer") {
+      REQUIRE(cast(file::SearchFlags::All) == H5F_OBJ_ALL);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::ATTRIBUTE;
-  EXPECT_EQ(stream.str(), "ATTRIBUTE");
+  GIVEN("SearchFlags::Attribute") {
+    WHEN("written to output stream") {
+      stream << file::SearchFlags::Attribute;
+      REQUIRE(stream.str() == "ATTRIBUTE");
+    }
+    WHEN("SearchFlags::Attribute") {
+      REQUIRE(cast(file::SearchFlags::Attribute) == H5F_OBJ_ATTR);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::DATASET;
-  EXPECT_EQ(stream.str(), "DATASET");
+  GIVEN("SearchFlags::Dataset") {
+    WHEN("written to output stream") {
+      stream << file::SearchFlags::Dataset;
+      REQUIRE(stream.str() == "DATASET");
+    }
+    WHEN("SearchFlags::Dataset") {
+      REQUIRE(cast(file::SearchFlags::Dataset) == H5F_OBJ_DATASET);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::DATATYPE;
-  EXPECT_EQ(stream.str(), "DATATYPE");
+  GIVEN("SearchFalgs::Datatype") {
+    WHEN("written to toutput stream") {
+      stream << file::SearchFlags::Datatype;
+      REQUIRE(stream.str() == "DATATYPE");
+    }
+    WHEN("SearchFlags::Datatype") {
+      REQUIRE(cast(file::SearchFlags::Datatype) == H5F_OBJ_DATATYPE);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::FILE;
-  EXPECT_EQ(stream.str(), "FILE");
+  GIVEN("SearchFlags::File") {
+    WHEN("written to output stream") {
+      stream << file::SearchFlags::File;
+      REQUIRE(stream.str() == "FILE");
+    }
+    WHEN("SearchFlags::File") {
+      REQUIRE(cast(file::SearchFlags::File) == H5F_OBJ_FILE);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::GROUP;
-  EXPECT_EQ(stream.str(), "GROUP");
+  GIVEN("SearchFlags::Group") {
+    WHEN("written to output stream") {
+      stream << file::SearchFlags::Group;
+      REQUIRE(stream.str() == "GROUP");
+    }
+    WHEN("SearchFlags::Group") {
+      REQUIRE(cast(file::SearchFlags::Group) == H5F_OBJ_GROUP);
+    }
+  }
 
-  stream.str(std::string());
-  stream<<file::SearchFlags::LOCAL;
-  EXPECT_EQ(stream.str(), "LOCAL");
+  GIVEN("SearchFlags::Local") {
+    WHEN("written to output stream") {
+      stream << file::SearchFlags::Local;
+      REQUIRE(stream.str() == "LOCAL");
+    }
+    WHEN("SearchFlags::Local") {
+      REQUIRE(cast(file::SearchFlags::Local) == H5F_OBJ_LOCAL);
+    }
+  }
 }
 
-TEST(SearchFlags, test_or_all_flags)
-{
-  EXPECT_EQ(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET,
-            H5F_OBJ_ATTR | H5F_OBJ_DATASET);
+TEST_CASE("search flags ||", "[h5cpp,file]") {
+  SECTION("ATTRIBUTE and DATASET") {
+    REQUIRE((file::SearchFlags::Attribute |
+            file::SearchFlags::Dataset) == (H5F_OBJ_ATTR | H5F_OBJ_DATASET));
+  }
 
-  EXPECT_EQ(file::SearchFlags::DATASET | file::SearchFlags::GROUP,
-            H5F_OBJ_DATASET | H5F_OBJ_GROUP);
-}
-
-TEST(SearchFlags, test_or_left_three)
+  SECTION("ATTRIBUTE, DATASET and DATATYPE") {
+    REQUIRE((file::SearchFlags::Attribute | file::SearchFlags::Dataset |
+            file::SearchFlags::Datatype) == (H5F_OBJ_ATTR | H5F_OBJ_DATASET |
+            H5F_OBJ_DATATYPE));
+  }
+SECTION("test AND and OR operators")
 {
-  EXPECT_EQ(file::SearchFlags::ATTRIBUTE | file::SearchFlags::DATASET |
-            file::SearchFlags::DATATYPE,
-            H5F_OBJ_ATTR | H5F_OBJ_DATASET | H5F_OBJ_DATATYPE);
-}
-
-TEST(SearchFlags, test_values)
-{
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::ALL),
-            H5F_OBJ_ALL);
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::ATTRIBUTE),
+  using file::SearchFlags;
+  using file::SearchFlagsBase;
+  REQUIRE(static_cast<SearchFlagsBase>((file::SearchFlags::Datatype | file::SearchFlags::Dataset) &
+            file::SearchFlags::Datatype) == H5F_OBJ_DATATYPE);
+  REQUIRE(static_cast<SearchFlagsBase>(file::SearchFlags::Attribute &
+	    (file::SearchFlags::Attribute | file::SearchFlags::Dataset)) ==
             H5F_OBJ_ATTR);
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATASET),
+  REQUIRE(static_cast<SearchFlagsBase>((file::SearchFlags::Datatype | file::SearchFlags::Dataset) &
+	    (file::SearchFlags::Attribute | file::SearchFlags::Dataset)) ==
             H5F_OBJ_DATASET);
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::DATATYPE),
+}
+
+SECTION("test values")
+{
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::All) ==
+            H5F_OBJ_ALL);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::Attribute) ==
+            H5F_OBJ_ATTR);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::Dataset) ==
+            H5F_OBJ_DATASET);
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::Datatype) ==
             H5F_OBJ_DATATYPE);
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::FILE),
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::File) ==
             H5F_OBJ_FILE);
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::GROUP),
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::Group) ==
             H5F_OBJ_GROUP);
-  EXPECT_EQ(static_cast<file::SearchFlagsBase>(file::SearchFlags::LOCAL),
+  REQUIRE(static_cast<file::SearchFlagsBase>(file::SearchFlags::Local) ==
             H5F_OBJ_LOCAL);
 }
-
+}
 

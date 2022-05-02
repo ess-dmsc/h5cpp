@@ -42,7 +42,7 @@ class DLL_EXPORT LinkCreationList : public StringCreationList {
   //!
   //! \brief destructor
   //!
-  ~LinkCreationList();
+  ~LinkCreationList() override;
 
   explicit LinkCreationList(ObjectHandle &&handle);
 

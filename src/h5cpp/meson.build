@@ -22,17 +22,17 @@ subdir('utilities')
 #   however, if both are set properly all symbolic links are created correclty
 #   during installation 
 h5cpp_lib = library('h5cpp',sources,
-                    dependencies:[hdf5,boost],
+                    dependencies:h5cpp_dependencies,
                     include_directories:[srcinc],
-                    version: '0.4.1',
+                    version: '0.5.0',
                     soversion:'1',
                     install:true,
                     install_mode:'r--r--r--')
 h5cpp_dep = declare_dependency(link_with: h5cpp_lib,
-                               dependencies: [hdf5,boost],
+                               dependencies: h5cpp_dependencies,
                                include_directories:[srcinc])
 install_headers('hdf5.hpp', subdir:'h5cpp')
 
 pkg.generate(h5cpp_lib,
-             libraries: boost,
+             libraries: h5cpp_dependencies,
              install_dir: join_paths(get_option('libdir'),'pkgconfig'))

@@ -51,7 +51,7 @@ class DLL_EXPORT Points : public Selection
     //! \brief destructor
     //!
     //! Use the compiler provided default implementation.
-    ~Points () = default;
+    ~Points () override = default;
 
     //!
     //! \brief constructor
@@ -111,6 +111,38 @@ class DLL_EXPORT Points : public Selection
     //! \param ops opertion used to apply the selection
     //!
     void apply (const Dataspace &space, SelectionOperation ops) const override;
+
+    //!
+    //! \brief get the selection size
+    //!
+    //! Get the total number of elements adressed by an individual selection
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \return the selection type enumerator
+    //!
+    virtual size_t size() const override;
+
+    //!
+    //! \brief get the selection type
+    //!
+    //! Get the type of the selection
+    //!
+    //! \return the selection type enumerator
+    //!
+    virtual SelectionType type() const override;
+
+    //!
+    //! \brief get current dimensions
+    //!
+    //! Get a number of elements along each dimension a selection spans
+    //! this is particularly useful in the case of a Hyperslab 
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //!
+    //! \return the selection dimentsions
+    //!
+    virtual Dimensions dimensions() const override;
 
   private:
     size_t rank_{ 0 };

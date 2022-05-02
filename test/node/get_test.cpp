@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,88 +20,75 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 16, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class GetNodeFunctionTest : public ::testing::Test
-{
-  public:
-    file::File file;
-    node::Group root_group;
-
-    GetNodeFunctionTest();
-
-    virtual void SetUp();
-};
-
-GetNodeFunctionTest::GetNodeFunctionTest()
-{
-  file = file::create("GetNodeFunctionTest.h5",file::AccessFlags::TRUNCATE);
-  root_group = file.root();
-}
-
-void GetNodeFunctionTest::SetUp()
-{
-  node::Group sensors = root_group.create_group("run_1")
-                                  .create_group("sensors");
+SCENARIO("testing the get node function") {
+  auto file =
+      file::create("GetNodeFunctionTest.h5", file::AccessFlags::Truncate);
+  auto root = file.root();
+  auto sensors = root.create_group("run_1").create_group("sensors");
   sensors.create_group("temperature");
   sensors.create_group("pressure");
-  sensors = root_group.create_group("run_2")
-                      .create_group("sensors");
+  sensors = root.create_group("run_2").create_group("sensors");
   sensors.create_group("humidity");
   sensors.create_group("voltage");
-}
 
-TEST_F(GetNodeFunctionTest, views_test)
-{
-  EXPECT_THROW(root_group.links["/invalid/node"], std::runtime_error);
-  EXPECT_THROW(root_group.nodes["/invalid/node"], std::runtime_error);
-
-  EXPECT_TRUE(root_group.nodes.exists("run_1"));
-  root_group.create_link("invalid", root_group.nodes["run_1"]);
-  root_group.remove("run_1");
-
-  EXPECT_FALSE(root_group.nodes.exists("invalid"));
-}
-
-TEST_F(GetNodeFunctionTest,test_empty_search_path)
-{
-  node::Group base = root_group.nodes["run_1"];
-  node::Group run_1 = node::get_node(base,Path());
-
-  //we expect here to get the same object back
-  EXPECT_EQ(run_1,base);
-  EXPECT_EQ(run_1.link().path().name(),"run_1");
-  EXPECT_EQ(static_cast<std::string>(run_1.link().path().parent()),"/");
-}
-
-TEST_F(GetNodeFunctionTest,test_search_root)
-{
-  node::Group base = root_group.nodes["run_1"];
-  node::Group root = node::get_node(base,Path("/"));
-  //we expect here to get the root group
-  EXPECT_EQ(root,root_group);
-}
-
-TEST_F(GetNodeFunctionTest,test_pressure_relative)
-{
-  node::Group base = root_group.nodes["run_1"];
-  node::Group pressure = node::get_node(base,Path("sensors/pressure"));
-
-  EXPECT_EQ(pressure.link().path().name(),"pressure");
-  EXPECT_EQ(static_cast<std::string>(pressure.link().path().parent()),"/run_1/sensors");
-}
-
-TEST_F(GetNodeFunctionTest,test_humidity_absolute)
-{
-  node::Group base = root_group.nodes["run_1"];
-  node::Group humidity = node::get_node(base,Path("/run_2/sensors/humidity"));
-
-  EXPECT_EQ(humidity.link().path().name(),"humidity");
-  EXPECT_EQ(static_cast<std::string>(humidity.link().path().parent()),"/run_2/sensors");
+  WHEN("trying to access a not existing node") {
+    THEN("via the links view must fail") {
+      REQUIRE_THROWS_AS(root.links["/invalid/node"], std::runtime_error);
+    }
+    THEN("via the nodes view must fail") {
+      REQUIRE_THROWS_AS(root.nodes["/invalid/node"], std::runtime_error);
+    }
+  }
+  WHEN("creating a link to run_1 below the root group") {
+    root.create_link("invalid", root.nodes["run_1"]);
+    REQUIRE(root.nodes.exists("run_1"));
+    REQUIRE(root.nodes.exists("invalid"));
+    AND_THEN("remove the run_1 group") {
+      root.remove("run_1");
+      THEN("also the node under invalid must be gone") {
+        REQUIRE_FALSE(root.nodes.exists("invalid"));
+      }
+      THEN("the link invalid still exists") {
+        REQUIRE(root.links.exists("invalid"));
+      }
+    }
+  }
+  GIVEN("run_1 as a base for searches") {
+    node::Group base = root.nodes["run_1"];
+    WHEN("trying to fetch an object by an empty path") {
+      node::Group run_1 = node::get_node(base, Path());
+      THEN("we get") {
+        REQUIRE(run_1 == base);
+        REQUIRE(run_1.link().path().name() == "run_1");
+        REQUIRE(run_1.link().path().parent() == "/");
+      }
+    }
+    WHEN("searching for the root group") {
+      node::Group result = node::get_node(base, Path("/"));
+      THEN("we also get the root group") { REQUIRE(root == result); }
+    }
+    WHEN("searching with a relative path") {
+      node::Group result = node::get_node(base, Path("sensors/pressure"));
+      THEN("we get the pressure group") {
+        REQUIRE(result.link().path().name() == "pressure");
+        REQUIRE(result.link().path().parent() == "/run_1/sensors");
+      }
+    }
+    WHEN("searching using an absolute path") {
+      node::Group result =
+          node::get_node(base, Path("/run_2/sensors/humidity"));
+      THEN("we get the humidity group") {
+        REQUIRE(result.link().path().name() == "humidity");
+        REQUIRE(result.link().path().parent() == "/run_2/sensors");
+      }
+    }
+  }
 }

@@ -22,6 +22,7 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 09, 2017
 //
 #pragma once
@@ -34,17 +35,19 @@ namespace property {
 class CopyFlags;
 
 enum class CopyFlag : unsigned {
-  SHALLOW_HIERARCHY = H5O_COPY_SHALLOW_HIERARCHY_FLAG,
-  EXPAND_SOFT_LINKS = H5O_COPY_EXPAND_SOFT_LINK_FLAG,
-  EXPAND_EXTERNAL_LINKS = H5O_COPY_EXPAND_EXT_LINK_FLAG,
-  EXPAND_REFERENCES = H5O_COPY_EXPAND_REFERENCE_FLAG,
-  WITHOUT_ATTRIBUTES = H5O_COPY_WITHOUT_ATTR_FLAG,
-  MERGE_COMMITTED_TYPES = H5O_COPY_MERGE_COMMITTED_DTYPE_FLAG
+  ShallowHierarchy = H5O_COPY_SHALLOW_HIERARCHY_FLAG,
+  ExpandSoftLinks = H5O_COPY_EXPAND_SOFT_LINK_FLAG,
+  ExpandExternalLinks = H5O_COPY_EXPAND_EXT_LINK_FLAG,
+  ExpandReferences = H5O_COPY_EXPAND_REFERENCE_FLAG,
+  WithoutAttributes = H5O_COPY_WITHOUT_ATTR_FLAG,
+  MergeCommittedTypes = H5O_COPY_MERGE_COMMITTED_DTYPE_FLAG
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag);
 
 DLL_EXPORT CopyFlags operator|(const CopyFlag &lhs, const CopyFlag &rhs);
+
+DLL_EXPORT CopyFlags operator&(const CopyFlag &lhs, const CopyFlag &rhs);
 
 //!
 //! \brief encapsulate copy flags
@@ -87,6 +90,16 @@ class DLL_EXPORT CopyFlags {
   //! \brief unary logical or operator
   //!
   CopyFlags &operator|=(const CopyFlags &flags) noexcept;
+
+  //!
+  //! \brief unary logical and operator
+  //!
+  CopyFlags &operator&=(const CopyFlag &flag) noexcept;
+
+  //!
+  //! \brief unary logical and operator
+  //!
+  CopyFlags &operator&=(const CopyFlags &flags) noexcept;
 
   //!
   //! \brief allow for explicit conversion to unsigned
@@ -172,6 +185,25 @@ DLL_EXPORT CopyFlags operator|(const CopyFlags &flags, const CopyFlag &flag) noe
 //!
 DLL_EXPORT CopyFlags operator|(const CopyFlag &flag, const CopyFlags &flags) noexcept;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
+//!
+//! \brief binary and operator for copy flags
+//!
+DLL_EXPORT CopyFlags operator&(const CopyFlags &flags, const CopyFlags &rhs) noexcept;
+
+//!
+//! \brief binary and operator for copy flags
+//!
+DLL_EXPORT CopyFlags operator&(const CopyFlags &flags, const CopyFlag &flag) noexcept;
+
+//!
+//! \brief binary and operator for copy flags
+//!
+DLL_EXPORT CopyFlags operator&(const CopyFlag &flag, const CopyFlags &flags) noexcept;
+
 class DLL_EXPORT ObjectCopyList : public List {
  public:
   ObjectCopyList();
@@ -184,6 +216,9 @@ class DLL_EXPORT ObjectCopyList : public List {
   CopyFlags flags() const;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace property
 } // namespace hdf5

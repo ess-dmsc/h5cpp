@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,96 +20,71 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 25, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
+#include <h5cpp/contrib/stl/string.hpp>
 #include <h5cpp/hdf5.hpp>
-
-struct DatasetVariableStringIO : public testing::Test
-{
-  hdf5::file::File file;
-  hdf5::node::Group root_group;
-  hdf5::datatype::String string_type;
-  hdf5::dataspace::Scalar scalar_space;
-  hdf5::dataspace::Simple simple_space;
-  hdf5::property::DatasetTransferList dtpl;
-  hdf5::node::Dataset scalar_dataset;
-  hdf5::node::Dataset vector_dataset;
-
-  DatasetVariableStringIO():
-    file(hdf5::file::create("DatasetVariableStringIO.h5",hdf5::file::AccessFlags::TRUNCATE)),
-    root_group(file.root()),
-    string_type(hdf5::datatype::create<std::string>()),
-    scalar_space(),
-    simple_space({7}),
-    dtpl(hdf5::property::DatasetTransferList()),
-    scalar_dataset(root_group,hdf5::Path("scalar"),string_type,scalar_space),
-    vector_dataset(root_group,hdf5::Path("vector"),string_type,simple_space)
-  {
-  }
-};
 
 using namespace hdf5;
 
-TEST_F(DatasetVariableStringIO,scalar_io)
-{
-  std::string write_value = "hello";
-  EXPECT_NO_THROW(scalar_dataset.write(write_value));
-  std::string read_value;
-  EXPECT_NO_THROW(scalar_dataset.read(read_value));
+SCENARIO("testing variable length string IO") {
+  auto f = hdf5::file::create("DatasetVariableStringIO.h5",
+                              hdf5::file::AccessFlags::Truncate);
+  auto string_type = hdf5::datatype::create<std::string>();
+  hdf5::dataspace::Scalar scalar_space;
+  hdf5::dataspace::Simple simple_space({7});
+  hdf5::property::DatasetTransferList dtpl;
 
-  EXPECT_EQ(write_value,read_value);
+  GIVEN("a scalar dataset") {
+    node::Dataset dataset(f.root(), "scalar", string_type, scalar_space);
+    THEN("we can write a single string value to it") {
+      std::string value = "hello";
+      dataset.write(value);
+      AND_THEN("read it back") {
+        std::string readback;
+        dataset.read(readback);
+        REQUIRE(readback == value);
+      }
+    }
+    THEN("we can write a string from a char pointer") {
+      dataset.write("this is a test");
+      AND_THEN("read this back") {
+        std::string readback;
+        dataset.read(readback);
+        REQUIRE(readback == "this is a test");
+      }
+    }
+  }
+
+  using strings = std::vector<std::string>;
+  GIVEN("a vector dataset") {
+    node::Dataset dataset(f.root(), "vector", string_type, simple_space);
+    THEN("we can write a vector of strings") {
+      strings write{"hello", "world", "this", "is", "an", "arbitrary", "text"};
+      dataset.write(write);
+      AND_THEN("read it back") {
+        strings read(write.size());
+        dataset.read(read);
+        REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+      }
+      AND_THEN("we can read single values back with hyperslabs") {
+        std::string buffer;
+        dataset.read(buffer, dataspace::Hyperslab{{0}, {1}});
+        REQUIRE(buffer == "hello");
+        dataset.read(buffer, dataspace::Hyperslab{{1}, {1}});
+        REQUIRE(buffer == "world");
+        dataset.read(buffer, dataspace::Hyperslab{{6}, {1}});
+        REQUIRE(buffer == "text");
+      }
+      AND_THEN("we can read a multi-element selection back") {
+        dataspace::Hyperslab selection{{0}, {3}, {2}};
+        strings read(3);
+        dataset.read(read, selection);
+        REQUIRE_THAT(read,
+                     Catch::Matchers::Equals(strings{"hello", "this", "an"}));
+      }
+    }
+  }
 }
-
-TEST_F(DatasetVariableStringIO,scalar_const_char_ptr_io)
-{
-  EXPECT_NO_THROW(scalar_dataset.write("this is a test"));
-  std::string read_value;
-  EXPECT_NO_THROW(scalar_dataset.read(read_value));
-
-  EXPECT_EQ("this is a test",read_value);
-}
-
-TEST_F(DatasetVariableStringIO,vector_io)
-{
-  using str_vector = std::vector<std::string>;
-  str_vector write{"hello","world","this","is","an","arbitrary","text"};
-  str_vector read(write.size());
-
-  EXPECT_NO_THROW(vector_dataset.write(write));
-  EXPECT_NO_THROW(vector_dataset.read(read));
-
-  EXPECT_EQ(write,read);
-}
-
-TEST_F(DatasetVariableStringIO,read_single_values_from_vector)
-{
-  using str_vector = std::vector<std::string>;
-  str_vector write{"hello","world","this","is","an","arbitrary","text"};
-  EXPECT_NO_THROW(vector_dataset.write(write));
-
-  std::string buffer;
-  vector_dataset.read(buffer,dataspace::Hyperslab{{0},{1}});
-  EXPECT_EQ(buffer,"hello");
-  vector_dataset.read(buffer,dataspace::Hyperslab{{1},{1}});
-  EXPECT_EQ(buffer,"world");
-  vector_dataset.read(buffer,dataspace::Hyperslab{{6},{1}});
-  EXPECT_EQ(buffer,"text");
-}
-
-TEST_F(DatasetVariableStringIO,read_selection_from_vector)
-{
-  using str_vector = std::vector<std::string>;
-  str_vector write{"hello","world","this","is","an","arbitrary","text"};
-  EXPECT_NO_THROW(vector_dataset.write(write));
-
-  dataspace::Hyperslab selection{{0},{3},{2}};
-  str_vector read(3);
-  vector_dataset.read(read,selection);
-  EXPECT_EQ(read,(str_vector{"hello","this","an"}));
-
-}
-
-
-

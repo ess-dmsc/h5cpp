@@ -45,6 +45,10 @@ namespace node {
 //! <a href="http://en.cppreference.com/w/cpp/concept/BidirectionalIterator">
 //! C++ reference on iterators</a> for details.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT NodeIterator : public Iterator
 {
   public:
@@ -60,14 +64,6 @@ class DLL_EXPORT NodeIterator : public Iterator
     //! Not requried, thus deleted.
     //!
     NodeIterator() = delete;
-
-    //!
-    //! \brief copy constructor
-    //!
-    //! Required. But we can use the compiler provided default implementation
-    //! here.
-    //!
-    NodeIterator(const NodeIterator&) = default;
 
     //!
     //! \brief get iterator to first element
@@ -124,6 +120,9 @@ class DLL_EXPORT NodeIterator : public Iterator
     mutable Node current_node_;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace node
 } // namespace hdf5

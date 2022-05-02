@@ -58,10 +58,13 @@ class DLL_EXPORT ChunkCacheParameters {
   double w0_;
 };
 
-#if H5_VERSION_GE(1, 10, 0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
+//!
+//! \brief virtual data view enumeration (*since hdf5 1.10.0*)
+//!
 enum class VirtualDataView : std::underlying_type<H5D_vds_view_t>::type {
-  FIRST_MISSING = H5D_VDS_FIRST_MISSING,
-  LAST_AVAILABLE = H5D_VDS_LAST_AVAILABLE
+  FirstMissing = H5D_VDS_FIRST_MISSING,
+  LastAvailable = H5D_VDS_LAST_AVAILABLE
 };
 
 DLL_EXPORT std::ostream &operator<<(std::ostream &stream,
@@ -92,8 +95,8 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList {
   //!
   //! \brief destructor
   //!
-  ~DatasetAccessList();
-
+  ~DatasetAccessList() override;
+ 
   //!
   //! \brief set the chunk cache parameters
   //! \throws std::runtime_error in case of a failure
@@ -106,9 +109,9 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList {
   //!
   ChunkCacheParameters chunk_cache_parameters() const;
 
-#if H5_VERSION_GE(1, 10, 0)
+#if (defined(_DOXYGEN_) || H5_VERSION_GE(1,10,0))
   //!
-  //! \brief missing data handling for virtual datasets
+  //! \brief missing data handling for virtual datasets (*since hdf5 1.10.0*)
   //!
   //! \throws std::runtime_error in case of a failure
   //! \param view set missing data strategy
@@ -116,7 +119,7 @@ class DLL_EXPORT DatasetAccessList : public LinkAccessList {
   void virtual_view(VirtualDataView view) const;
 
   //!
-  //! \brief get missing data strategy for virtual datasets
+  //! \brief get missing data strategy for virtual datasets (*since hdf5 1.10.0*)
   //!
   VirtualDataView virtual_view() const;
 

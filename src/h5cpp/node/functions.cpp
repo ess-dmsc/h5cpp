@@ -177,7 +177,7 @@ Group get_real_base(const Group &base, const Path &path,
 {
   Node real_base_node = get_node(base, path.parent(), lapl);
 
-  if (real_base_node.type() != Type::GROUP)
+  if (real_base_node.type() != Type::Group)
   {
     std::stringstream ss;
     ss << "Node [" << real_base_node.link().path() << "] is not a group and thus"
@@ -244,12 +244,12 @@ Node get_node(const Group &base,const Path &node_path,const property::LinkAccess
 
 bool is_group(const Node &node)
 {
-  return node.type() == Type::GROUP;
+  return node.type() == Type::Group;
 }
 
 bool is_dataset(const Node &node)
 {
-  return node.type() == Type::DATASET;
+  return node.type() == Type::Dataset;
 }
 
 Group get_group(const Group &base,const Path &group_path,

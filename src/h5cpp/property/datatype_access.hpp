@@ -35,7 +35,7 @@ namespace property {
 class DLL_EXPORT DatatypeAccessList : public LinkAccessList {
  public:
   DatatypeAccessList();
-  ~DatatypeAccessList();
+  ~DatatypeAccessList() override;
 
   explicit DatatypeAccessList(ObjectHandle &&handle);
 };

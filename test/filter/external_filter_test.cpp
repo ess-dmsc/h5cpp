@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,93 +21,130 @@
 // ===========================================================================
 //
 // Author: Jan Kotanski <jan.kotanski@desy.de>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 3, 2019
 //
-#include <gtest/gtest.h>
-
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 
-TEST(ExternalFilterTest, lz4_construction)
-{
+using CdValues = std::vector<unsigned int>;
+using Catch::Matchers::Equals;
+
+SCENARIO("External filter LZ4") {
   const unsigned int FILTER_LZ4 = 32004;
-  filter::ExternalFilter filter(FILTER_LZ4, {0u, 0u});
-  EXPECT_EQ(filter.id(), static_cast<int>(FILTER_LZ4));
-  std::vector<unsigned int> cdvalues({0u, 0u});
-  EXPECT_EQ(filter.cd_values(), cdvalues);
-}
-
-TEST(ExternalFilterTest, bitshufflelz4_construction)
-{
-  property::DatasetCreationList dcpl;
-  const unsigned int FILTER_BITSHUFFLE = 32008;
-  std::vector<unsigned int> cdvalues({0u, 2u});
-  filter::ExternalFilter bfilter(FILTER_BITSHUFFLE, {0u, 2u});
-
-  EXPECT_EQ(bfilter.cd_values(), cdvalues);
-  EXPECT_EQ(bfilter.id(), static_cast<int>(FILTER_BITSHUFFLE));
-  if(filter::is_filter_available(FILTER_BITSHUFFLE)){
-    EXPECT_NO_THROW(bfilter(dcpl));
-
-    filter::ExternalFilters filters;
-    auto flags = filters.fill(dcpl);
-    EXPECT_EQ(filters.size(), 1lu);
-    EXPECT_EQ(flags.size(), 1lu);
-    EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
-    EXPECT_EQ(filters[0].cd_values(), cdvalues);
-    EXPECT_EQ(filters[0].id(), static_cast<int>(FILTER_BITSHUFFLE));
-    EXPECT_EQ(filters[0].name(),
-	      "bitshuffle; see https://github.com/kiyo-masui/bitshuffle");
+  GIVEN("a filter instance") {
+    filter::ExternalFilter filter(FILTER_LZ4, {0u, 0u});
+    THEN("the id must be") {
+      REQUIRE(filter.id() == static_cast<int>(FILTER_LZ4));
+    }
+    THEN("the filter parameters must be") {
+      REQUIRE_THAT(filter.cd_values(), Equals(CdValues{0u, 0u}));
+    }
   }
 }
 
-TEST(ExternalFilterTest, deflate_application)
-{
-  property::DatasetCreationList dcpl;
-  std::vector<unsigned int> cdvalues({8u});
-  filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, {8u});
-
-  filter(dcpl);
-  filter::ExternalFilters filters;
-  auto flags = filters.fill(dcpl);
-  // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
-  EXPECT_EQ(dcpl.nfilters(), 1u);
-  EXPECT_EQ(filters.size(), 1lu);
-  EXPECT_EQ(flags.size(), 1lu);
-  EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
-  EXPECT_EQ(filters[0].cd_values(), cdvalues);
-  EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
-  EXPECT_EQ(filters[0].name(), "deflate");
+SCENARIO("External filter BitShuffle with LZ4") {
+  const unsigned int FILTER_BITSHUFFLE = 32008;
+  CdValues params{0u, 2u};
+  GIVEN("a filter instance") {
+    filter::ExternalFilter bfilter(FILTER_BITSHUFFLE, {0u, 2u});
+    THEN("we can expect for the id") {
+      REQUIRE(bfilter.id() == static_cast<int>(FILTER_BITSHUFFLE));
+    }
+    THEN("we get for the filter paramters") {
+      REQUIRE_THAT(bfilter.cd_values(), Equals(params));
+    }
+    if (filter::is_filter_available(FILTER_BITSHUFFLE)) {
+      AND_GIVEN("a dataset creation property list") {
+        property::DatasetCreationList dcpl;
+        WHEN("we appy the filter to the property list") {
+          REQUIRE_NOTHROW(bfilter(dcpl));
+          THEN("we can retrieve the filters back from the list") {
+            filter::ExternalFilters filters;
+            auto flags = filters.fill(dcpl);
+            REQUIRE(filters.size() == 1lu);
+            REQUIRE(flags.size() == 1lu);
+            REQUIRE(flags[0] == filter::Availability::Mandatory);
+            REQUIRE_THAT(filters[0].cd_values(), Equals(params));
+            REQUIRE(filters[0].id() == static_cast<int>(FILTER_BITSHUFFLE));
+            REQUIRE(filters[0].name() ==
+                    "bitshuffle; see https://github.com/kiyo-masui/bitshuffle");
+          }
+        }
+      }
+    }
+  }
 }
 
-TEST(ExternalFilterTest, deflate_shuffle_application)
-{
-  property::DatasetCreationList dcpl;
-  std::vector<unsigned int> cdvalues({8u});
-  std::vector<unsigned int> cdvalues2({});
-  filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, {8u});
-  filter::Shuffle shuffle;
+SCENARIO("deflate filter as external filter") {
+  CdValues params{8u};
 
-  filter(dcpl);
-  shuffle(dcpl);
+  GIVEN("a filter instance") {
+    filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, params);
+    AND_GIVEN("an instance of a dataset creation property list") {
+      property::DatasetCreationList dcpl;
+      WHEN("we apply the filter to the list") {
+        filter(dcpl);
+        AND_THEN("there should be one filter attached to the list") {
+          REQUIRE(dcpl.nfilters() == 1u);
+        }
+        THEN("we can read the filter list from the property list") {
+          filter::ExternalFilters filters;
+          auto flags = filters.fill(dcpl);
+          AND_THEN("we ge the following parameters") {
+            REQUIRE(filters.size() == 1lu);
+            REQUIRE(flags.size() == 1lu);
+            REQUIRE(flags[0] == filter::Availability::Mandatory);
+            REQUIRE_THAT(filters[0].cd_values(), Equals(params));
+            REQUIRE(filters[0].id() == static_cast<int>(H5Z_FILTER_DEFLATE));
+            REQUIRE(filters[0].name() == "deflate");
+          }
+        }
+      }
+    }
+  }
+}
 
-  filter::ExternalFilters filters;
-  auto flags = filters.fill(dcpl);
-  // EXPECT_EQ(H5Pget_nfilters(static_cast<hid_t>(dcpl)), 1);
-  EXPECT_EQ(filters.size(), 2lu);
-  EXPECT_EQ(flags.size(), 2lu);
-  EXPECT_EQ(dcpl.nfilters(), 2u);
-  EXPECT_EQ(flags[0], filter::Availability::MANDATORY);
-  EXPECT_EQ(flags[1], filter::Availability::OPTIONAL);
-  EXPECT_EQ(filters[0].cd_values(), cdvalues);
-  EXPECT_EQ(filters[0].id(), static_cast<int>(H5Z_FILTER_DEFLATE));
-  EXPECT_EQ(filters[0].name(), "deflate");
-  EXPECT_EQ(filters[0].is_decoding_enabled(), true);
-  EXPECT_EQ(filters[0].is_encoding_enabled(), true);
-  EXPECT_EQ(filters[1].cd_values(), cdvalues2);
-  EXPECT_EQ(filters[1].id(), static_cast<int>(H5Z_FILTER_SHUFFLE));
-  EXPECT_EQ(filters[1].is_decoding_enabled(), true);
-  EXPECT_EQ(filters[1].is_encoding_enabled(), true);
-  EXPECT_EQ(filters[1].name(), "shuffle");
+SCENARIO("deflate and shuffle filters as external filter") {
+  CdValues deflate_params{8u};
+  CdValues shuffle_params{};
+  GIVEN("a shuffle filter instance") {
+    filter::Shuffle shuffle;
+    AND_GIVEN("a deflate filter instance") {
+      filter::ExternalFilter filter(H5Z_FILTER_DEFLATE, {8u});
+      AND_GIVEN("a dataset creation property list") {
+        property::DatasetCreationList dcpl;
+        WHEN("we apply the two filters to the list") {
+          filter(dcpl);
+          shuffle(dcpl);
+          THEN("two lists should be attached to the property list") {
+            REQUIRE(dcpl.nfilters() == 2u);
+          }
+          THEN("we can read the filters back to an external filters instance") {
+            filter::ExternalFilters filters;
+            auto flags = filters.fill(dcpl);
+            AND_THEN("we get") {
+              REQUIRE(filters.size() == 2lu);
+              REQUIRE(flags.size() == 2lu);
+              REQUIRE(flags[0] == filter::Availability::Mandatory);
+              REQUIRE(flags[1] == filter::Availability::Optional);
+              REQUIRE_THAT(filters[0].cd_values(), Equals(deflate_params));
+              REQUIRE(filters[0].id() == static_cast<int>(H5Z_FILTER_DEFLATE));
+              REQUIRE(filters[0].name() == "deflate");
+              REQUIRE(filters[0].is_decoding_enabled());
+              REQUIRE(filters[0].is_encoding_enabled());
+              REQUIRE_THAT(filters[1].cd_values(), Equals(shuffle_params));
+              REQUIRE(filters[1].id() == static_cast<int>(H5Z_FILTER_SHUFFLE));
+              REQUIRE(filters[1].is_decoding_enabled());
+              REQUIRE(filters[1].is_encoding_enabled());
+              REQUIRE(filters[1].name() == "shuffle");
+            }
+          }
+        }
+      }
+    }
+  }
 }

@@ -34,8 +34,8 @@ class DLL_EXPORT PosixDriver : public Driver
   public:
     PosixDriver();
 
-    virtual void operator()(const property::FileAccessList &fapl) const;
-    virtual DriverID id() const noexcept;
+    virtual void operator()(const property::FileAccessList &fapl) const override;
+    virtual DriverID id() const noexcept override;
 };
 
 } // namespace file

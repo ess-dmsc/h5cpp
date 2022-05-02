@@ -10,6 +10,7 @@ set(SOURCES
     ${dir}/type.cpp
     ${dir}/view.cpp
     ${dir}/points.cpp
+    ${dir}/pool.cpp
     )
 
 set(HEADERS
@@ -23,6 +24,7 @@ set(HEADERS
     ${dir}/type_trait.hpp
     ${dir}/view.hpp
     ${dir}/points.hpp
+    ${dir}/pool.hpp
     )
 
 install(FILES ${HEADERS}

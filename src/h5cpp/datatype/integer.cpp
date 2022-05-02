@@ -28,6 +28,7 @@
 
 #include <h5cpp/datatype/integer.hpp>
 #include <h5cpp/error/error.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <sstream>
 
 namespace hdf5 {
@@ -38,7 +39,7 @@ Integer::Integer(ObjectHandle &&handle) :
 
 Integer::Integer(const Datatype &datatype) :
     Datatype(datatype) {
-  if (get_class() != Class::INTEGER) {
+  if (get_class() != Class::Integer) {
     std::stringstream ss;
     ss << "Could not create Integer from " << get_class();
     throw std::runtime_error(ss.str());
@@ -49,7 +50,7 @@ bool Integer::is_signed() const {
   auto s = H5Tget_sign(static_cast<hid_t>(*this));
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve datatype sign");
-    return false;
+    // return false;
   }
   return bool(s);
 }
@@ -83,7 +84,7 @@ size_t Integer::offset() const {
   if (p < 0) {
     error::Singleton::instance().throw_with_stack("Could not retrieve datatype offset");
   }
-  return p;
+  return signed2unsigned<size_t>(p);
 }
 
 void Integer::offset(size_t offset) const {

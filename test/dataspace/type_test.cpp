@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,85 +20,98 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: 
+// Author:
 //   Martin Shetty <martin.shetty@esss.se>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Feb 03, 2018
 //
-
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/dataspace/type.hpp>
+#include <sstream>
 
 using namespace hdf5;
 using namespace hdf5::dataspace;
 
-TEST(DataspaceEnum, Type) {
+SCENARIO("Writing the dataspace type to a stream") {
   std::stringstream stream;
 
-  stream.str(std::string());
-  stream << Type::SCALAR;
-  EXPECT_EQ(stream.str(), "SCALAR");
-
-  stream.str(std::string());
-  stream << Type::SIMPLE;
-  EXPECT_EQ(stream.str(), "SIMPLE");
-
-  stream.str(std::string());
-  stream << Type::NODATA;
-  EXPECT_EQ(stream.str(), "NODATA");
+  WHEN("writing SCALAR to an output stream") {
+    stream << Type::Scalar;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "SCALAR"); }
+  }
+  WHEN("writing SIMPLE to an output stream") {
+    stream << Type::Simple;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "SIMPLE"); }
+  }
+  WHEN("writing NODATA to an output stream") {
+    stream << Type::NoData;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "NODATA"); }
+  }
 }
 
-TEST(DataspaceEnum, SelectionType) {
+SCENARIO("Writing the selection type to a stream") {
   std::stringstream stream;
+  WHEN("writing NONE to the stream") {
+    stream << SelectionType::None;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "NONE"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionType::NONE;
-  EXPECT_EQ(stream.str(), "NONE");
+  WHEN("writing POINTS to the stream") {
+    stream << SelectionType::Points;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "POINTS"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionType::POINTS;
-  EXPECT_EQ(stream.str(), "POINTS");
+  WHEN("writing HYPERSLAB to the stream") {
+    stream << SelectionType::Hyperslab;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "HYPERSLAB"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionType::HYPERSLAB;
-  EXPECT_EQ(stream.str(), "HYPERSLAB");
-
-  stream.str(std::string());
-  stream << SelectionType::ALL;
-  EXPECT_EQ(stream.str(), "ALL");
+  WHEN("writing ALL to the stream") {
+    stream << SelectionType::All;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "ALL"); }
+  }
 }
 
-TEST(DataspaceEnum, SelectionOperation) {
+SCENARIO("Writing the selection operation to a stream") {
   std::stringstream stream;
 
-  stream.str(std::string());
-  stream << SelectionOperation::SET;
-  EXPECT_EQ(stream.str(), "SET");
+  WHEN("writing SET to the stream") {
+    stream << SelectionOperation::Set;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "SET"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::OR;
-  EXPECT_EQ(stream.str(), "OR");
+  WHEN("writing OR to the stream") {
+    stream << SelectionOperation::Or;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "OR"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::AND;
-  EXPECT_EQ(stream.str(), "AND");
+  WHEN("writing AND to the stream") {
+    stream << SelectionOperation::And;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "AND"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::XOR;
-  EXPECT_EQ(stream.str(), "XOR");
+  WHEN("writing XOR to the stream") {
+    stream << SelectionOperation::XOr;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "XOR"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::NOTB;
-  EXPECT_EQ(stream.str(), "NOTB");
+  WHEN("writing NOTB to the stream") {
+    stream << SelectionOperation::NotB;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "NOTB"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::NOTA;
-  EXPECT_EQ(stream.str(), "NOTA");
+  WHEN("writing NOTA to the stream") {
+    stream << SelectionOperation::NotA;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "NOTA"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::APPEND;
-  EXPECT_EQ(stream.str(), "APPEND");
+  WHEN("writing APPEND to the stream") {
+    stream << SelectionOperation::Append;
+    THEN("the stream must contain") { REQUIRE(stream.str() == "APPEND"); }
+  }
 
-  stream.str(std::string());
-  stream << SelectionOperation::PREPEND;
-  EXPECT_EQ(stream.str(), "PREPEND");
+  WHEN("writing PREPEND to the stream") {
+    stream << SelectionOperation::Prepend;
+    THEN("the stream mus contain") { REQUIRE(stream.str() == "PREPEND");}
+  }
 }

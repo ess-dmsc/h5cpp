@@ -29,7 +29,7 @@ using namespace hdf5;
 
 int main()
 {
-  file::File file = file::create("attribute_creation.h5",file::AccessFlags::TRUNCATE);
+  file::File file = file::create("attribute_creation.h5",file::AccessFlags::Truncate);
   node::Group root_group = file.root();
 
   auto author = root_group.attributes.create<std::string>("author");

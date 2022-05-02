@@ -31,14 +31,14 @@ SWMREnvironment::SWMREnvironment():
     fapl_(),
     fcpl_()
 {
-  fapl_.library_version_bounds(property::LibVersion::LATEST,
-                               property::LibVersion::LATEST);
+  fapl_.library_version_bounds(property::LibVersion::Latest,
+                               property::LibVersion::Latest);
 }
 
 file::File SWMREnvironment::create_file(const fs::path &file_path,
                                         const NodeBuilder &builder) const
 {
-  file::File f = file::create(file_path,file::AccessFlags::TRUNCATE,
+  file::File f = file::create(file_path,file::AccessFlags::Truncate,
                               fcpl(),fapl());
   builder(f.root());
   return f;
@@ -46,12 +46,12 @@ file::File SWMREnvironment::create_file(const fs::path &file_path,
 
 file::File SWMREnvironment::open_write_file(const fs::path &file_path) const
 {
-  return file::open(file_path,file::AccessFlags::READWRITE |
-                                 file::AccessFlags::SWMR_WRITE,fapl());
+  return file::open(file_path,file::AccessFlags::ReadWrite |
+                                 file::AccessFlags::SWMRWrite,fapl());
 }
 
 file::File SWMREnvironment::open_read_file(const fs::path &file_path) const
 {
-  return file::open(file_path,file::AccessFlags::READONLY |
-                              file::AccessFlags::SWMR_READ,fapl());
+  return file::open(file_path,file::AccessFlags::ReadOnly |
+                              file::AccessFlags::SWMRRead,fapl());
 }

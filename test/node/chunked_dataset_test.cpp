@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2021 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,27 +20,24 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 17, 2017
 //
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
-#include "../fixture.hpp"
 
 using namespace hdf5;
 
-class ChunkedDatasetTest : public BasicFixture
-{
-
-};
-
-TEST_F(ChunkedDatasetTest,test_construction)
-{
+SCENARIO("testing a chunked dataset") {
+  auto f = file::create("chunked_dataset_test.h5", file::AccessFlags::Truncate);
   auto type = datatype::create<int>();
-  dataspace::Simple space{{0,1024},{dataspace::Simple::UNLIMITED,1024}};
-  node::ChunkedDataset dset(root_,Path("data"),type,space,{1024,1024});
+  dataspace::Simple space{{0, 1024}, {dataspace::Simple::unlimited, 1024}};
 
-  property::DatasetCreationList dcpl = dset.creation_list();
-  EXPECT_EQ(dcpl.layout(),property::DatasetLayout::CHUNKED);
+  WHEN("using a constructor") {
+    node::ChunkedDataset dataset(f.root(), "data", type, space, {1024, 1024});
+    THEN("we can check the dataset creation list") {
+      property::DatasetCreationList dcpl = dataset.creation_list();
+      REQUIRE(dcpl.layout() == property::DatasetLayout::Chunked);
+    }
+  }
 }
-

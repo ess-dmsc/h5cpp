@@ -34,6 +34,10 @@
 namespace hdf5 {
 namespace node {
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT LinkIterator : public Iterator
 {
   public:
@@ -44,7 +48,6 @@ class DLL_EXPORT LinkIterator : public Iterator
     using iterator_category = std::bidirectional_iterator_tag;
 
     LinkIterator() = delete;
-    LinkIterator(const LinkIterator&) = default;
 
     static LinkIterator begin(const Group &group);
     static LinkIterator end(const Group &group);
@@ -72,6 +75,9 @@ class DLL_EXPORT LinkIterator : public Iterator
     mutable Link current_link_;
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace node
 } // namespace hdf5

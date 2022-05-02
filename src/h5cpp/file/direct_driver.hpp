@@ -26,12 +26,12 @@
 
 #include <h5cpp/file/driver.hpp>
 
-#ifdef H5_HAVE_DIRECT
+#if ( defined(_DOXYGEN_) || defined(H5_HAVE_DIRECT) )
 namespace hdf5 {
 namespace file {
 
 //!
-//! \brief direct write without buffering
+//! \brief direct write without buffering (*for hdf5 compiled with H5_HAVE_DIRECT*)
 //!
 class DLL_EXPORT DirectDriver : public Driver
 {

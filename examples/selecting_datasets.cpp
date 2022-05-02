@@ -31,7 +31,7 @@ using namespace hdf5;
 int main()
 {
 
-  file::File f = file::create("selecting_datasets.h5",file::AccessFlags::TRUNCATE);
+  file::File f = file::create("selecting_datasets.h5",file::AccessFlags::Truncate);
   node::Group root_group = f.root();
 
   root_group.create_group("g1");
@@ -48,7 +48,7 @@ int main()
   std::vector<node::Dataset> datasets;
   std::copy_if(root_group.nodes.begin(),root_group.nodes.end(),
                std::back_inserter(datasets),
-               [](const node::Node &n) { return n.type()==node::Type::DATASET;});
+               [](const node::Node &n) { return n.type()==node::Type::Dataset;});
 
   std::cout<<"Found "<<datasets.size()<<" datasets"<<std::endl;
   for(auto dset: datasets)

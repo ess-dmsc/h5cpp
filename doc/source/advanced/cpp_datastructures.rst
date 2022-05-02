@@ -48,21 +48,21 @@ compliant with a memor storage. Cnsider the following example
     using MCAReadout = std::vector<BinType>;
     using MCAStack = std::vector<MCAReadout>;
 
-    #define NBINS 1024
-    #define NMCAS 100
+    static const int nbins = 1024;
+    static const int nmcas = 100;
 
     using namespace hdf5;
 
     // create the dataset
     node::Gruop data_group = ....;
     auto file_type = datatype::create<BinType>;
-    dataspace::Simple file_space({NMCAS,NBINS})
+    dataspace::Simple file_space({nmcas,nbins})
     node::Dataset dset = data_gruop.create_dataset("mcas",file_type,file_space);
 
     // create the data
     MCAStack mcas;
     MCAReader reader;
-    std::generate_n(std::back_inserter(mcas),NMCAS,reader);
+    std::generate_n(std::back_inserter(mcas),nmcas,reader);
 
 
     //now lets try to write the data

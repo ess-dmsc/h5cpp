@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger<eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -20,33 +21,33 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Sep 7, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
+#include <h5cpp/contrib/stl/vector.hpp>
 
 using namespace hdf5;
 
-TEST(TypeTrait, test_vector) {
-  std::vector<double> data(20);
-  auto space = dataspace::create(data);
-  EXPECT_EQ(space.type(), dataspace::Type::SIMPLE);
-  Dimensions current_dims = space.current_dimensions(),
-      max_dims = space.maximum_dimensions();
-  EXPECT_EQ(current_dims.size(), 1ul);
-  EXPECT_EQ(current_dims[0], 20ul);
-  EXPECT_EQ(max_dims.size(), 1ul);
-  EXPECT_EQ(max_dims[0], 20ul);
+SCENARIO("testing the type trait for dataspaces") {
+  GIVEN("a vector of 20 elements") {
+    std::vector<double> data(20);
+    auto space = dataspace::create(data);
+    REQUIRE(space.type() == dataspace::Type::Simple);
+    Dimensions current_dims = space.current_dimensions(),
+               max_dims = space.maximum_dimensions();
+    REQUIRE(current_dims.size() == 1ul);
+    REQUIRE(current_dims[0] == 20ul);
+    REQUIRE(max_dims.size() == 1ul);
+    REQUIRE(max_dims[0] == 20ul);
+  }
+  GIVEN("an integer scalar") {
+    int data = 10;
+    auto space = dataspace::create(data);
+    REQUIRE(space.type() == dataspace::Type::Scalar);
+    REQUIRE(space.size() == 1l);
+  }
 }
-
-TEST(TypeTrait, test_scalar) {
-  int data = 10;
-  auto space = dataspace::create(data);
-  EXPECT_EQ(space.type(), dataspace::Type::SCALAR);
-  EXPECT_EQ(space.size(), 1l);
-}
-
-

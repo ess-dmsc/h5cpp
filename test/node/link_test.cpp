@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,97 +20,96 @@
 // Boston, MA  02110-1301 USA
 // ===========================================================================
 //
-// Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
+// Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 25, 2017
 //
 
-#include "group_test_fixtures.hpp"
+#include <catch2/catch.hpp>
+#include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;
 
-class Link : public BasicFixture
-{
-};
-
-TEST_F(Link, test_default_construction)
-{
-  node::Link link;
-  EXPECT_EQ(link.type(),node::LinkType::ERROR);
-  EXPECT_THROW(link.target(),std::runtime_error);
+SCENARIO("testing basic HDF5 link operations") {
+  GIVEN("a default constructed link") {
+    node::Link link;
+    THEN("the type must be error") {
+      REQUIRE(link.type() == node::LinkType::Error);
+      AND_THEN("accessing the target must fail") {
+        REQUIRE_THROWS_AS(link.target(), std::runtime_error);
+      }
+    }
+  }
+  GIVEN("a valid hdf5 file") {
+    auto f = file::create("link_test.h5", file::AccessFlags::Truncate);
+    WHEN("creating non-existing link (not in the file)") {
+      node::Link l(f, "/", "name1");
+      THEN("fetching the type will fail") {
+        REQUIRE_THROWS_AS(l.type(), std::runtime_error);
+      }
+      THEN("the link does not exist") { REQUIRE_FALSE(l.exists()); }
+      THEN("the link is not resolvable") { REQUIRE_FALSE(l.is_resolvable()); }
+    }
+    GIVEN("given a  link to an object") {
+      node::Link l1(f, "path1", "name1");
+      AND_GIVEN("a link with of equal name to the same object") {
+        node::Link l2(f, "path1", "name1");
+        THEN("the two links are considered equal") { REQUIRE(l1 == l2); }
+      }
+      AND_GIVEN("a link to a different object with different name") {
+        node::Link l2(f, "path2", "name2");
+        THEN("the two links are considered unequal") { REQUIRE(l1 != l2); }
+      }
+      WHEN("copy construct from this link") {
+        node::Link l2 = l1;
+        THEN("the two links are considered equal") { REQUIRE(l2 == l1); }
+      }
+      AND_GIVEN("a default constructed link") {
+        node::Link l2;
+        THEN("we can copy assign") {
+          l2 = l1;
+          AND_THEN("the two links are considered equal") { REQUIRE(l2 == l1); }
+        }
+      }
+    }
+    AND_GIVEN("a second HDF5 file") {
+      auto f2 = file::create("link_test2.h5", file::AccessFlags::Truncate);
+      WHEN("creating an external link to an nonexisting object") {
+        node::link("link_test2.h5", "data", f.root(), "external_data");
+        THEN("the link exists") {
+          auto l = f.root().links["external_data"];
+          REQUIRE(l.exists());
+          AND_THEN("the link is of external type ") {
+            REQUIRE(l.type() == node::LinkType::External);
+          }
+          AND_THEN("the link is not resolveable") {
+            REQUIRE_FALSE(l.is_resolvable());
+          }
+        }
+      }
+    }
+    GIVEN("the root node of the file") {
+      auto root = f.root();
+      AND_GIVEN("a group below the root node") {
+        root.create_group("original");
+        WHEN("creating a soft link to this group") {
+          node::link("/original", root, "linked");
+          auto l = root.links["linked"];
+          THEN("the link must have the following properties") {
+            REQUIRE(l.exists());
+            REQUIRE(l.type() == node::LinkType::Soft);
+            REQUIRE(l.is_resolvable());
+          }
+        }
+        WHEN("creating a link to a non-existing object") {
+          node::link("/original/data", root, "link");
+          auto l = root.links["link"];
+          THEN("the link must be") {
+            REQUIRE(l.exists());
+            REQUIRE(l.type() == node::LinkType::Soft);
+            REQUIRE_FALSE(l.is_resolvable());
+          }
+        }
+      }
+    }
+  }
 }
-
-TEST_F(Link,test_false_construction)
-{
-  node::Link link(file_,"/","name1");
-  EXPECT_THROW(link.type(),std::runtime_error);
-}
-
-TEST_F(Link, test_equality)
-{
-  node::Link link1(file_, "path1", "name1");
-  node::Link link2(file_, "path1", "name1");
-  node::Link link3(file_, "path2", "name2");
-
-  EXPECT_EQ(link1, link2);
-  EXPECT_NE(link1, link3);
-}
-
-TEST_F(Link,test_copy_construction)
-{
-	node::Link link1(file_,"path1","name1");
-	node::Link link2(link1);
-
-	EXPECT_EQ(link1,link2);
-}
-
-TEST_F(Link,test_copy_assignment)
-{
-	node::Link link1(file_,"path1","name1");
-	node::Link link2;
-
-	link2 = link1;
-	EXPECT_EQ(link1,link2);
-}
-
-TEST_F(Link, test_validity)
-{
-  node::Link link1(file_, "path1", "name1");
-
-  EXPECT_FALSE(link1.exists());
-  EXPECT_FALSE(link1.is_resolvable());
-}
-
-TEST_F(Link,test_invalid_external_link)
-{
-  fs::path file_path("external_data.h5");
-  hdf5::Path data_path("/data");
-
-  hdf5::node::link(file_path,data_path,file_.root(),hdf5::Path("external_data"));
-  hdf5::node::Link link = file_.root().links["external_data"];
-
-  EXPECT_TRUE(link.exists());
-  EXPECT_EQ(link.type(),hdf5::node::LinkType::EXTERNAL);
-  EXPECT_FALSE(link.is_resolvable());
-}
-
-TEST_F(Link,test_valid_soft_link)
-{
-  hdf5::node::Group(file_.root(),hdf5::Path("original_group"));
-  hdf5::node::link(hdf5::Path("/original_group"),file_.root(),"linked_group");
-
-  hdf5::node::Link link = file_.root().links["linked_group"];
-  EXPECT_TRUE(link.exists());
-  EXPECT_EQ(link.type(),hdf5::node::LinkType::SOFT);
-  EXPECT_TRUE(link.is_resolvable());
-}
-
-TEST_F(Link,test_invalid_soft_link)
-{
-  hdf5::node::link(hdf5::Path("/original/data"),file_.root(),hdf5::Path("linked_data"));
-  hdf5::node::Link link = file_.root().links["linked_data"];
-
-  EXPECT_EQ(link.type(),hdf5::node::LinkType::SOFT);
-  EXPECT_TRUE(link.exists());
-  EXPECT_FALSE(link.is_resolvable());
-}
-

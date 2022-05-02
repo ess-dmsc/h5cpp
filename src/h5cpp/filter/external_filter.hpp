@@ -41,6 +41,10 @@ namespace filter {
 //!
 DLL_EXPORT bool is_filter_available(FilterID id);
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 
 class DLL_EXPORT ExternalFilter : public Filter
 {
@@ -58,7 +62,6 @@ class DLL_EXPORT ExternalFilter : public Filter
                    const std::vector<unsigned int> cd_values,
                    const std::string &name=std::string());
     ExternalFilter();
-    ~ExternalFilter();
 
     //!
     //! \brief apply filter
@@ -71,7 +74,7 @@ class DLL_EXPORT ExternalFilter : public Filter
     //!             which is \e mandatory by default.
     //!
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::Mandatory) const override;
 
     //!
     //! \brief compression options
@@ -101,6 +104,10 @@ class DLL_EXPORT ExternalFilter : public Filter
 #pragma warning(pop)
 #endif
 };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #ifdef _MSC_VER
 #pragma warning(push)

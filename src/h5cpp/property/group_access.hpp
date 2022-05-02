@@ -35,7 +35,7 @@ namespace property {
 class DLL_EXPORT GroupAccessList : public LinkAccessList {
  public:
   GroupAccessList();
-  ~GroupAccessList();
+  ~GroupAccessList() override;
 
   explicit GroupAccessList(ObjectHandle &&handle);
 };

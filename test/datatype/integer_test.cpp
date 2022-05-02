@@ -22,151 +22,242 @@
 // Authors:
 //   Eugen Wintersberger <eugen.wintersberger@desy.de>
 //   Martin Shetty <martin.shetty@esss.se>
+//   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Aug 23, 2017
 //
 
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/integer.hpp>
 
+#include "test_traits.hpp"
+
 using namespace hdf5;
 
-template<class T>
-class Integer : public testing::Test {
- protected:
-  Integer() {}
-  virtual ~Integer() {}
-  T value_;
-};
-
-template <class T>
-class SignedInteger : public Integer<T> { };
-
-template <class T>
-class UnsignedInteger : public Integer<T> { };
-
-using testing::Types;
-
-// The list of types we want to test.
-typedef
-Types<
-    char, unsigned char, signed char,
-    short, unsigned short,
-    int, unsigned int,
-    long, unsigned long,
-    long long, unsigned long long>
-    test_types;
-
-// The list of unsigned types we want to test.
-typedef
-Types<
-    unsigned char,
-    unsigned short,
-    unsigned int,
-    unsigned long,
-    unsigned long long>
-    test_unsigned_types;
-
-// The list of signed types we want to test.
-typedef
-Types<signed char, short, int, long, long long> test_signed_types;
-
-// workaround for the TYPED_TEST_SUITE bug #2316
-#ifdef TYPED_TEST_SUITE
-#include <gtest/internal/gtest-internal.h>
-TYPED_TEST_SUITE(Integer, test_types, testing::internal::DefaultNameGenerator);
-TYPED_TEST_SUITE(SignedInteger, test_signed_types, testing::internal::DefaultNameGenerator);
-TYPED_TEST_SUITE(UnsignedInteger, test_unsigned_types, testing::internal::DefaultNameGenerator);
-#else
-TYPED_TEST_CASE(Integer, test_types);
-TYPED_TEST_CASE(SignedInteger, test_signed_types);
-TYPED_TEST_CASE(UnsignedInteger, test_unsigned_types);
-#endif
-
+/*
 TYPED_TEST(Integer, Exceptions) {
   datatype::Datatype dtype;
   EXPECT_THROW((datatype::Integer(dtype)), std::runtime_error);
 
   auto ft = datatype::create<double>();
   EXPECT_THROW((datatype::Integer(ft)), std::runtime_error);
+}*/
+
+TEMPLATE_TEST_CASE("general integer properties",
+                   "[datatype][numeric][integer]",
+                   unsigned char,
+                   char,
+                   short,
+                   unsigned short,
+                   int,
+                   unsigned int,
+                   long,
+                   unsigned long,
+                   long long,
+                   unsigned long long) {
+  GIVEN("a particular integer type") {
+    auto t = datatype::create<TestType>();
+    THEN("the return type must be an integer type") {
+      REQUIRE((std::is_same<decltype(t), datatype::Integer>::value));
+    }
+    THEN("the type class is integer") {
+      REQUIRE(t.get_class() == datatype::Class::Integer);
+    }
+    THEN("the size should be the same as the memory size") {
+      REQUIRE(t.size() == sizeof(TestType));
+    }
+
+    AND_GIVEN("a Datatype reference to that type") {
+      datatype::Datatype& generic = t;
+      THEN("we can create a new integer type from this reference") {
+        datatype::Integer new_type(generic);
+        AND_THEN("type type class would be Integer") {
+          REQUIRE(new_type.get_class() == datatype::Class::Integer);
+        }
+      }
+    }
+
+    WHEN("checking for the precission") {
+      REQUIRE(t.precision() == t.size() * 8lu);
+      AND_THEN("we can set the precission to 16") {
+        t.precision(16lu);
+        REQUIRE(t.precision() == 16lu);
+      }
+      AND_THEN("we can set the precission to 8") {
+        t.precision(8lu);
+        REQUIRE(t.precision() == 8lu);
+      }
+    }
+
+    WHEN("checking the byte order") {
+      using datatype::Order;
+      REQUIRE((t.order() == Order::LE || t.order() == Order::BE ||
+              t.order() == Order::Vax));
+      AND_THEN("set the byte order to Big Endian") {
+        t.order(Order::BE);
+        REQUIRE(t.order() == datatype::Order::BE);
+      }
+      AND_THEN("set the byte order to Little Endian") {
+        t.order(datatype::Order::LE);
+        REQUIRE(t.order() == datatype::Order::LE);
+      }
+    }
+
+    WHEN("checking for the offset") {
+      REQUIRE(t.offset() == 0lu);
+      AND_THEN("set it to 1") {
+        t.offset(1);
+        REQUIRE(t.offset() == 1lu);
+      }
+      AND_THEN("set it to 2") {
+        t.offset(2);
+        REQUIRE(t.offset() == 2lu);
+      }
+    }
+
+    WHEN("checking the padding") {
+      using datatype::Pad;
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::Zero}));
+      AND_THEN("set it to ZERO:ONE") { 
+        t.pad(Pad::Zero,Pad::One);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero,Pad::One}));
+      }
+      AND_THEN("set it to ONE:BACKGROUND") { 
+        t.pad(Pad::One,Pad::Background);
+        REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::One,Pad::Background}));
+      }
+    }
+  }
 }
 
-TYPED_TEST(Integer, General) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE((std::is_same<decltype(t), datatype::Integer>::value));
-  EXPECT_TRUE(t.get_class() == datatype::Class::INTEGER);
-  EXPECT_EQ(t.size(), sizeof(this->value_));
+TEMPLATE_TEST_CASE("general integer properties with cref",
+                   "[datatype][numeric][integer]",
+                   unsigned char,
+                   char,
+                   short,
+                   unsigned short,
+                   int,
+                   unsigned int,
+                   long,
+                   unsigned long,
+                   long long,
+                   unsigned long long) {
+  GIVEN("a particular integer type") {
+    const auto t = datatype::Integer(datatype::get<TestType>());
+    THEN("the return type must be a const integer reference") {
+      REQUIRE((std::is_same<decltype(t), const datatype::Integer>::value));
+    }
+    THEN("the type class is integer") {
+      REQUIRE(t.get_class() == datatype::Class::Integer);
+    }
+    THEN("the size should be the same as the memory size") {
+      REQUIRE(t.size() == sizeof(TestType));
+    }
 
-  datatype::Datatype &generic = t;
-  datatype::Integer new_type(generic);
-  EXPECT_EQ(new_type.get_class(), datatype::Class::INTEGER);
+    WHEN("checking for the precission") {
+      REQUIRE(t.precision() == t.size() * 8lu);
+    }
 
-  datatype::Datatype default_constructed;
-  EXPECT_FALSE(default_constructed.is_valid());
-  EXPECT_THROW((datatype::Integer(default_constructed)), std::runtime_error);
+    WHEN("checking the byte order") {
+      using datatype::Order;
+      REQUIRE((t.order() == Order::LE || t.order() == Order::BE ||
+              t.order() == Order::Vax));
+    }
+
+    WHEN("checking for the offset") {
+      REQUIRE(t.offset() == 0lu);
+    }
+
+    WHEN("checking the padding") {
+      using datatype::Pad;
+      using r = std::vector<Pad>;
+      REQUIRE_THAT(t.pad(), Catch::Matchers::Equals(r{Pad::Zero, Pad::Zero}));
+    }
+  }
 }
 
-TYPED_TEST(SignedInteger, Signed) {
-  auto t = datatype::create<decltype(this->value_)>();
 
-  ASSERT_EQ(t.is_signed(), true);
-  t.make_signed(true);
-  ASSERT_EQ(t.is_signed(), true);
-  t.make_signed(false);
-  ASSERT_EQ(t.is_signed(), false);
+TEMPLATE_TEST_CASE("signed integer properties",
+                   "[datatype][numeric][integer]",
+                   char,
+                   short,
+                   int,
+                   long,
+                   long long) {
+  GIVEN("an instance of a signed integer") {
+    auto t = datatype::create<TestType>();
+    THEN("the signed property will be true") { REQUIRE(t.is_signed()); }
+    AND_THEN("we can make it unsigned") {
+      t.make_signed(false);
+      THEN("setting the flag") { REQUIRE_FALSE(t.is_signed()); }
+      AND_THEN("make it signed again") {
+        t.make_signed(true);
+        THEN("the flag will be true again") { REQUIRE(t.is_signed()); }
+      }
+    }
+  }
 }
 
-TYPED_TEST(UnsignedInteger, Signed) {
-  auto t = datatype::create<decltype(this->value_)>();
-
-  ASSERT_EQ(t.is_signed(), false);
-  t.make_signed(true);
-  ASSERT_EQ(t.is_signed(), true);
-  t.make_signed(false);
-  ASSERT_EQ(t.is_signed(), false);
+TEMPLATE_TEST_CASE("signed integer properties with cref",
+                   "[datatype][numeric][integer]",
+                   char,
+                   short,
+                   int,
+                   long,
+                   long long) {
+  GIVEN("an instance of a signed integer") {
+    auto t = datatype::Integer(datatype::get<TestType>());
+    THEN("the signed property will be true") { REQUIRE(t.is_signed()); }
+    AND_THEN("we can make it unsigned") {
+      t.make_signed(false);
+      THEN("setting the flag") { REQUIRE_FALSE(t.is_signed()); }
+      AND_THEN("make it signed again") {
+        t.make_signed(true);
+        THEN("the flag will be true again") { REQUIRE(t.is_signed()); }
+      }
+    }
+  }
 }
 
-TYPED_TEST(Integer, Precision) {
-  auto t = datatype::create<decltype(this->value_)>();
-  ASSERT_EQ(t.precision(), t.size()*8lu);
-  t.precision(16lu);
-  ASSERT_EQ(t.precision(), 16lu);
-  t.precision(8lu);
-  ASSERT_EQ(t.precision(), 8lu);
+TEMPLATE_TEST_CASE("unsigned integer properties",
+                   "[datatype][numeric][integer]",
+                   unsigned char,
+                   unsigned short,
+                   unsigned int,
+                   unsigned long,
+                   unsigned long long) {
+  GIVEN("an instance of a unsigned integer") {
+    auto t = datatype::create<TestType>();
+    THEN("the signed property will be true") { REQUIRE_FALSE(t.is_signed()); }
+    AND_THEN("we can make it signed") {
+      t.make_signed(true);
+      THEN("setting the flag") { REQUIRE(t.is_signed()); }
+      AND_THEN("make it unsigned again") {
+        t.make_signed(false);
+        THEN("the flag will be false again") { REQUIRE_FALSE(t.is_signed()); }
+      }
+    }
+  }
 }
 
-TYPED_TEST(Integer, Order) {
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_TRUE (t.order() == datatype::Order::LE ||
-	       t.order() == datatype::Order::BE ||
-	       t.order() == datatype::Order::VAX)
-    << "Where the order value: "   << t.order()
-    << " equals neither: " << datatype::Order::LE
-    << " nor: "               << datatype::Order::BE
-    << " nor: "               << datatype::Order::VAX << ".";
-  t.order(datatype::Order::BE);
-  ASSERT_EQ(t.order(), datatype::Order::BE);
-  t.order(datatype::Order::LE);
-  ASSERT_EQ(t.order(), datatype::Order::LE);
-}
-
-TYPED_TEST(Integer, Offset) {
-  auto t = datatype::create<decltype(this->value_)>();
-  ASSERT_EQ(t.offset(), 0lu);
-  t.offset(1);
-  ASSERT_EQ(t.offset(), 1lu);
-  t.offset(2);
-  ASSERT_EQ(t.offset(), 2lu);
-}
-
-TYPED_TEST(Integer, Pad) {
-  std::vector<datatype::Pad> pad00({datatype::Pad::ZERO, datatype::Pad::ZERO});
-  std::vector<datatype::Pad> pad01({datatype::Pad::ZERO, datatype::Pad::ONE});
-  std::vector<datatype::Pad> pad1B({datatype::Pad::ONE, datatype::Pad::BACKGROUND});
-  auto t = datatype::create<decltype(this->value_)>();
-  EXPECT_EQ (t.pad() , pad00);
-  t.pad(datatype::Pad::ZERO, datatype::Pad::ONE);
-  ASSERT_EQ(t.pad(), pad01);
-  t.pad(datatype::Pad::ONE, datatype::Pad::BACKGROUND);
-  ASSERT_EQ(t.pad(), pad1B);
+TEMPLATE_TEST_CASE("unsigned integer properties with cref",
+                   "[datatype][numeric][integer]",
+                   unsigned char,
+                   unsigned short,
+                   unsigned int,
+                   unsigned long,
+                   unsigned long long) {
+  GIVEN("an instance of a unsigned integer") {
+    auto t = datatype::Integer(datatype::get<TestType>());
+    THEN("the signed property will be true") { REQUIRE_FALSE(t.is_signed()); }
+    AND_THEN("we can make it signed") {
+      t.make_signed(true);
+      THEN("setting the flag") { REQUIRE(t.is_signed()); }
+      AND_THEN("make it unsigned again") {
+        t.make_signed(false);
+        THEN("the flag will be false again") { REQUIRE_FALSE(t.is_signed()); }
+      }
+    }
+  }
 }

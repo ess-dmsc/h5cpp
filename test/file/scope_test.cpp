@@ -22,31 +22,36 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-
-#include <gtest/gtest.h>
+#include <catch2/catch.hpp>
 #include <h5cpp/file/types.hpp>
+#include <sstream>
 
 using namespace hdf5;
 
-TEST(Scope, test_string_representation)
-{
+SCENARIO("testing the Scope enumeration", "[h5cpp, file]") {
   std::stringstream stream;
 
-  stream.str(std::string());
-  stream<<file::Scope::GLOBAL;
-  EXPECT_EQ(stream.str(), "GLOBAL");
+  GIVEN("Scope::Global") {
+    WHEN("written to outpt stream") {
+      stream << file::Scope::Global;
+      REQUIRE(stream.str() == "GLOBAL");
+    }
 
-  stream.str(std::string());
-  stream<<file::Scope::LOCAL;
-  EXPECT_EQ(stream.str(), "LOCAL");
+    WHEN("converted to integer") {
+      REQUIRE(static_cast<file::ScopeBase>(file::Scope::Local) ==
+              H5F_SCOPE_LOCAL);
+    }
+  }
+
+  GIVEN("Scope::Local") {
+    WHEN("written to output stream") {
+      stream << file::Scope::Local;
+      REQUIRE(stream.str() == "LOCAL");
+    }
+
+    WHEN("converted to integer") {
+      REQUIRE(static_cast<file::ScopeBase>(file::Scope::Global) ==
+              H5F_SCOPE_GLOBAL);
+    }
+  }
 }
-
-TEST(Scope, test_values)
-{
-  EXPECT_EQ(static_cast<file::ScopeBase>(file::Scope::LOCAL),
-                    H5F_SCOPE_LOCAL);
-  EXPECT_EQ(static_cast<file::ScopeBase>(file::Scope::GLOBAL),
-                     H5F_SCOPE_GLOBAL);
-}
-
-

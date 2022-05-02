@@ -47,11 +47,11 @@ the dataspace there is currently
 
 .. cpp:enum-class:: Type
 
-    .. cpp:enumerator:: SIMPLE 
+    .. cpp:enumerator:: Simple
     
         for a simple datatype
         
-    .. cpp:enumerator:: SCALAR
+    .. cpp:enumerator:: Scalar
     
         for a scalar datatype
 
@@ -133,7 +133,7 @@ along a dimension we could use
 
     using namespace hdf5;
     
-    dataspace::Simple space({1},{dataspace::Simple::UNLIMITED}); 
+    dataspace::Simple space({1},{dataspace::Simple::unlimited}); 
     
 .. figure:: ../images/dynamic_dataspace_unbounded.svg
    :align: center
@@ -186,7 +186,7 @@ STL container to obtain all simple dataspaces in a collection sdfsdfsf
                  std::back_inserter(simple_dataspaces),
                  [](const Dataspace &space)
                  {
-                    return space.type() == Type::SIMPLE;
+                    return space.type() == Type::Simple;
                  });
                  
 

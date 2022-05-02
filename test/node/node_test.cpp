@@ -1,6 +1,7 @@
 
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -19,35 +20,36 @@
 // ===========================================================================
 //
 // Author: Martin Shetty <martin.shetty@esss.se>
+//         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 2, 2017
 //
-
-#include "group_test_fixtures.hpp"
-
-#include <h5cpp/node/functions.hpp>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include <h5cpp/file/functions.hpp>
+#include <h5cpp/node/functions.hpp>
 
 using namespace hdf5;
-namespace nd = hdf5::node;
 
-class Node : public BasicFixture {
-};
-
-TEST_F(Node, test_default_construction) {
-  nd::Node n;
-}
-
-TEST_F(Node, test_equality_operator) {
-  nd::Node m, n;
-  EXPECT_TRUE(m == n);
-  EXPECT_FALSE((m != n));
-
-  nd::Node g = file_.root();
-  EXPECT_TRUE(g != m);
-}
-
-TEST_F(Node, test_assignment) {
-  nd::Node g = file_.root();
-  g = g;
-  EXPECT_TRUE(g == g);
+SCENARIO("testing a Node instance") {
+  auto f = file::create("node_test.h5", file::AccessFlags::Truncate);
+  GIVEN("a default constructed node") {
+    node::Node n;
+    AND_GIVEN("a second default constructed node") {
+      node::Node m;
+      THEN("the nodes must be equal") {
+        REQUIRE(m == n);
+        REQUIRE_FALSE(m != n);
+      }
+    }
+    AND_GIVEN("the root group of the current file") {
+      auto root = f.root();
+      THEN("n and the root must not be equal") { REQUIRE(root != n); }
+      AND_GIVEN("a second instance of the root node") {
+        auto root2 = f.root();
+        THEN("the two root node instances must be equal") {
+          REQUIRE(root2 == root);
+        }
+      }
+    }
+  }
 }

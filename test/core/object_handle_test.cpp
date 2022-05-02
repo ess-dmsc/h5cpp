@@ -25,98 +25,86 @@
 // Created on: Aug 14, 2017
 //
 
-#include <gtest/gtest.h>
 #include "object_handle_test.hpp"
+#include <catch2/catch.hpp>
 
-ObjectHandleTest::ObjectHandleTest(hdf5::ObjectHandle::Type type):
-type_(type)
-{
-}
+ObjectHandleTest::ObjectHandleTest(hdf5::ObjectHandle::Type type)
+    : type_(type) {}
 
-ObjectHandleTest::~ObjectHandleTest()
-{
-}
+ObjectHandleTest::~ObjectHandleTest() {}
 
-void ObjectHandleTest::test_copy_construction()
-{
+void ObjectHandleTest::test_copy_construction() {
   hdf5::ObjectHandle handle(this->create_object());
-  EXPECT_TRUE(handle.is_valid());
-  EXPECT_EQ(handle.get_type(),get_type());
-  EXPECT_EQ(handle.get_reference_count(),1);
+  REQUIRE(handle.is_valid());
+  REQUIRE(handle.get_type() == get_type());
+  REQUIRE(handle.get_reference_count() == 1);
 
   hdf5::ObjectHandle handle2(handle);
-  EXPECT_TRUE(handle.is_valid());
-  EXPECT_TRUE(handle2.is_valid());
-  EXPECT_EQ(handle.get_reference_count(),2);
-  EXPECT_EQ(handle2.get_reference_count(),2);
-
+  REQUIRE(handle.is_valid());
+  REQUIRE(handle2.is_valid());
+  REQUIRE(handle.get_reference_count() == 2);
+  REQUIRE(handle2.get_reference_count() == 2);
 }
 
-void ObjectHandleTest::test_move_construction()
-{
+void ObjectHandleTest::test_move_construction() {
   hdf5::ObjectHandle handle(create_object());
   hdf5::ObjectHandle handle2(std::move(handle));
-  EXPECT_TRUE(handle2.is_valid());
-  EXPECT_EQ(handle2.get_reference_count(),1);
+  REQUIRE(handle2.is_valid());
+  REQUIRE(handle2.get_reference_count() == 1);
 }
 
-
-void ObjectHandleTest::test_copy_assignment()
-{
+void ObjectHandleTest::test_copy_assignment() {
   hdf5::ObjectHandle handle(create_object());
   hdf5::ObjectHandle handle2;
 
   handle2 = handle;
-  EXPECT_TRUE(handle.is_valid());
-  EXPECT_TRUE(handle2.is_valid());
-  EXPECT_EQ(handle.get_reference_count(),2);
-  EXPECT_EQ(handle2.get_reference_count(),2);
+  REQUIRE(handle.is_valid());
+  REQUIRE(handle2.is_valid());
+  REQUIRE(handle.get_reference_count() == 2);
+  REQUIRE(handle2.get_reference_count() == 2);
 
   handle = handle2;
-  EXPECT_TRUE(handle.is_valid());
-  EXPECT_TRUE(handle2.is_valid());
-  EXPECT_EQ(handle.get_reference_count(),2);
-  EXPECT_EQ(handle2.get_reference_count(),2);
+  REQUIRE(handle.is_valid());
+  REQUIRE(handle2.is_valid());
+  REQUIRE(handle.get_reference_count() == 2);
+  REQUIRE(handle2.get_reference_count() == 2);
 }
 
-void ObjectHandleTest::test_move_assignment()
-{
+void ObjectHandleTest::test_move_assignment() {
   hdf5::ObjectHandle handle(create_object());
   hdf5::ObjectHandle handle2;
 
   handle2 = std::move(handle);
-  EXPECT_FALSE(handle.is_valid());
-  EXPECT_TRUE(handle2.is_valid());
-  EXPECT_EQ(handle2.get_reference_count(),1);
+  REQUIRE_FALSE(handle.is_valid());
+  REQUIRE(handle2.is_valid());
+  REQUIRE(handle2.get_reference_count() == 1);
 
   hdf5::ObjectHandle handle3 = handle2;
   handle2 = std::move(handle3);
-  EXPECT_FALSE(handle3.is_valid());
-  EXPECT_TRUE(handle2.is_valid());
-  EXPECT_EQ(handle2.get_reference_count(),1);
+  REQUIRE_FALSE(handle3.is_valid());
+  REQUIRE(handle2.is_valid());
+  REQUIRE(handle2.get_reference_count() == 1);
 }
 
-void ObjectHandleTest::test_close_pathology()
-{
+void ObjectHandleTest::test_close_pathology() {
   hdf5::ObjectHandle handle(create_object());
-  EXPECT_NO_THROW(handle.close());
-  EXPECT_THROW(handle.close(), std::runtime_error);
+  REQUIRE_NOTHROW(handle.close());
+  REQUIRE_THROWS_AS(handle.close(), std::runtime_error);
 
   hdf5::ObjectHandle* h2 = new hdf5::ObjectHandle(create_object());
-  EXPECT_TRUE(h2->is_valid());
-  EXPECT_NO_THROW(h2->close());
-  EXPECT_NO_THROW((delete h2));
+  REQUIRE(h2->is_valid());
+  REQUIRE_NOTHROW(h2->close());
+  REQUIRE_NOTHROW((delete h2));
 }
 
-void ObjectHandleTest::test_equality()
-{
+void ObjectHandleTest::test_equality() {
   hdf5::ObjectHandle handle(create_object());
   hdf5::ObjectHandle handle2 = handle;
   hdf5::ObjectHandle handle3;
 
-  EXPECT_TRUE(handle == handle2);
-  EXPECT_TRUE(handle != handle3);
+  REQUIRE(handle == handle2);
+  REQUIRE(handle != handle3);
 
-  EXPECT_FALSE(handle != handle2);
-  EXPECT_FALSE(handle == handle3);
+  REQUIRE_FALSE(handle != handle2);
+  REQUIRE_FALSE(handle == handle3);
 }

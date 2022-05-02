@@ -1,6 +1,7 @@
 
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5pp.
 //
@@ -19,110 +20,157 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 16, 2017
 //
-#include <gtest/gtest.h>
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 #include <h5cpp/property/property_class.hpp>
+#include <tuple>
 
 namespace pl = hdf5::property;
 
-TEST(PropertyList, test_construction) {
-  pl::Class c(hdf5::ObjectHandle(H5P_ATTRIBUTE_ACCESS));
+SCENARIO("Property list class construction") {
+  GIVEN("the handle to a H5P_ATTRIBUTE_ACCESS") {
+    auto handle = hdf5::ObjectHandle(H5P_ATTRIBUTE_ACCESS);
+    THEN("construction of the property list class will suceed") {
+      pl::Class c(std::move(handle));
+      REQUIRE(c.name() == "attribute access");
+    }
+  }
 
-  EXPECT_THROW((pl::Class(hdf5::ObjectHandle(H5Screate(H5S_SIMPLE)))), std::runtime_error);
+  GIVEN("a handle to a simple dataspace") {
+    auto handle = hdf5::ObjectHandle(H5Screate(H5S_SIMPLE));
+    THEN("creation of the property list class will fail") {
+      REQUIRE_THROWS_AS(pl::Class(std::move(handle)), std::runtime_error);
+    }
+  }
+  WHEN("provided with the handle to a simple dataspace") {}
 }
 
-TEST(PropertyList, test_predefined_classes) {
-  EXPECT_EQ(pl::kAttributeCreate.name(), "attribute create");
-  EXPECT_EQ(pl::kDatasetAccess.name(), "dataset access");
-  EXPECT_EQ(pl::kDatasetCreate.name(), "dataset create");
-  EXPECT_EQ(pl::kDatasetXfer.name(), "data transfer");
-  EXPECT_EQ(pl::kDatatypeAccess.name(), "datatype access");
-  EXPECT_EQ(pl::kDatatypeCreate.name(), "datatype create");
-  EXPECT_EQ(pl::kFileAccess.name(), "file access");
-  EXPECT_EQ(pl::kFileCreate.name(), "file create");
-  EXPECT_EQ(pl::kFileMount.name(), "file mount");
-  EXPECT_EQ(pl::kGroupAccess.name(), "group access");
-  EXPECT_EQ(pl::kGroupCreate.name(), "group create");
-  EXPECT_EQ(pl::kLinkAccess.name(), "link access");
-  EXPECT_EQ(pl::kLinkCreate.name(), "link create");
-  EXPECT_EQ(pl::kObjectCopy.name(), "object copy");
-  EXPECT_EQ(pl::kObjectCreate.name(), "object create");
-  EXPECT_EQ(pl::kStringCreate.name(), "string create");
+TEST_CASE("Testing the property class constants", "[hdf5],[property lists]") {
+  SECTION("testing class names") {
+    REQUIRE(pl::kAttributeCreate.name() == "attribute create");
+    REQUIRE(pl::kDatasetAccess.name() == "dataset access");
+    REQUIRE(pl::kDatasetCreate.name() == "dataset create");
+    REQUIRE(pl::kDatasetXfer.name() == "data transfer");
+    REQUIRE(pl::kDatatypeAccess.name() == "datatype access");
+    REQUIRE(pl::kDatatypeCreate.name() == "datatype create");
+    REQUIRE(pl::kFileAccess.name() == "file access");
+    REQUIRE(pl::kFileCreate.name() == "file create");
+    REQUIRE(pl::kFileMount.name() == "file mount");
+    REQUIRE(pl::kGroupAccess.name() == "group access");
+    REQUIRE(pl::kGroupCreate.name() == "group create");
+    REQUIRE(pl::kLinkAccess.name() == "link access");
+    REQUIRE(pl::kLinkCreate.name() == "link create");
+    REQUIRE(pl::kObjectCopy.name() == "object copy");
+    REQUIRE(pl::kObjectCreate.name() == "object create");
+    REQUIRE(pl::kStringCreate.name() == "string create");
+  }
 }
 
-TEST(PropertyList, test_stream) {
+SCENARIO("writing the property list class to a stream") {
   std::stringstream stream;
+  WHEN("writing the AttributeCreate class") {
+    stream << pl::kAttributeCreate;
+    THEN("the output will be") {
+      REQUIRE(stream.str() == "AttributeClass(attribute create)");
+    }
+  }
+  WHEN("writing DatasetAccess class") {
+    stream << pl::kDatasetAccess;
+    REQUIRE(stream.str() == "AttributeClass(dataset access)");
+  }
+  WHEN("writing DatasetCreate class") {
+    stream << pl::kDatasetCreate;
+    REQUIRE(stream.str() == "AttributeClass(dataset create)");
+  }
+  WHEN("writing DatasetXfer class") {
+    stream << pl::kDatasetXfer;
+    REQUIRE(stream.str() == "AttributeClass(data transfer)");
+  }
+  WHEN("writing DatatypeAccess class") {
+    stream << pl::kDatatypeAccess;
+    REQUIRE(stream.str() == "AttributeClass(datatype access)");
+  }
+  WHEN("writing DatatyepCreate") {
+    stream << pl::kDatatypeCreate;
+    REQUIRE(stream.str() == "AttributeClass(datatype create)");
+  }
+  WHEN("writing FileAccess class") {
+    stream << pl::kFileAccess;
+    REQUIRE(stream.str() == "AttributeClass(file access)");
+  }
+  WHEN("writing FileCreate class") {
+    stream << pl::kFileCreate;
+    REQUIRE(stream.str() == "AttributeClass(file create)");
+  }
+  WHEN("writing FileMount class") {
+    stream << pl::kFileMount;
+    REQUIRE(stream.str() == "AttributeClass(file mount)");
+  }
+  WHEN("writing GroupAccess class") {
+    stream << pl::kGroupAccess;
+    REQUIRE(stream.str() == "AttributeClass(group access)");
+  }
+  WHEN("writing GroupCreate class") {
+    stream << pl::kGroupCreate;
+    REQUIRE(stream.str() == "AttributeClass(group create)");
+  }
+  WHEN("writing LinkAccess class") {
+    stream << pl::kLinkAccess;
+    REQUIRE(stream.str() == "AttributeClass(link access)");
+  }
+  WHEN("writing LinkCreate class") {
+    stream << pl::kLinkCreate;
+    REQUIRE(stream.str() == "AttributeClass(link create)");
+  }
+  WHEN("writing ObjectCopy class") {
+    stream << pl::kObjectCopy;
+    REQUIRE(stream.str() == "AttributeClass(object copy)");
+  }
+  WHEN("writing ObjectCreate class") {
+    stream << pl::kObjectCreate;
+    REQUIRE(stream.str() == "AttributeClass(object create)");
+  }
+  WHEN("writing StringCreate class") {
+    stream << pl::kStringCreate;
+    REQUIRE(stream.str() == "AttributeClass(string create)");
+  }
 
-  stream.str(std::string());
-  stream << pl::kAttributeCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(attribute create)");
-  stream.str(std::string());
-  stream << pl::kDatasetAccess;
-  EXPECT_EQ(stream.str(), "AttributeClass(dataset access)");
-  stream.str(std::string());
-  stream << pl::kDatasetCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(dataset create)");
-  stream.str(std::string());
-  stream << pl::kDatasetXfer;
-  EXPECT_EQ(stream.str(), "AttributeClass(data transfer)");
-  stream.str(std::string());
-  stream << pl::kDatatypeAccess;
-  EXPECT_EQ(stream.str(), "AttributeClass(datatype access)");
-  stream.str(std::string());
-  stream << pl::kDatatypeCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(datatype create)");
-  stream.str(std::string());
-  stream << pl::kFileAccess;
-  EXPECT_EQ(stream.str(), "AttributeClass(file access)");
-  stream.str(std::string());
-  stream << pl::kFileCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(file create)");
-  stream.str(std::string());
-  stream << pl::kFileMount;
-  EXPECT_EQ(stream.str(), "AttributeClass(file mount)");
-  stream.str(std::string());
-  stream << pl::kGroupAccess;
-  EXPECT_EQ(stream.str(), "AttributeClass(group access)");
-  stream.str(std::string());
-  stream << pl::kGroupCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(group create)");
-  stream.str(std::string());
-  stream << pl::kLinkAccess;
-  EXPECT_EQ(stream.str(), "AttributeClass(link access)");
-  stream.str(std::string());
-  stream << pl::kLinkCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(link create)");
-  stream.str(std::string());
-  stream << pl::kObjectCopy;
-  EXPECT_EQ(stream.str(), "AttributeClass(object copy)");
-  stream.str(std::string());
-  stream << pl::kObjectCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(object create)");
-  stream.str(std::string());
-  stream << pl::kStringCreate;
-  EXPECT_EQ(stream.str(), "AttributeClass(string create)");
-
-  stream.str(std::string());
-  pl::Class cl;
-  stream << cl;
-  EXPECT_EQ(stream.str(), "AttributeClass()");
+  GIVEN("a default constructed class") {
+    pl::Class cl;
+    THEN("the output would be AttributeClass()") {
+      stream << cl;
+      REQUIRE(stream.str() == "AttributeClass()");
+    }
+  }
 }
 
-TEST(PropertyList, test_equality_operator) {
-  EXPECT_TRUE(pl::kAttributeCreate == pl::kAttributeCreate);
-  EXPECT_FALSE(pl::kAttributeCreate == pl::kFileAccess);
-  EXPECT_TRUE(pl::kAttributeCreate != pl::kFileAccess);
-  EXPECT_FALSE(pl::kAttributeCreate != pl::kAttributeCreate);
-
-  pl::Class p2;
-  EXPECT_THROW((pl::kAttributeCreate == p2), std::runtime_error);
-  EXPECT_THROW((pl::kAttributeCreate != p2), std::runtime_error);
+SCENARIO("testing comparison operators for the property list class") {
+  GIVEN("a AttributeCreate class") {
+    const auto& c1 = pl::kAttributeCreate;
+    AND_GIVEN("another AttributeCreate class") {
+      const auto& c2 = pl::kAttributeCreate;
+      THEN("they will be considered equl") {
+        REQUIRE(c1 == c2);
+        REQUIRE_FALSE(c1 != c2);
+      }
+    }
+    AND_GIVEN("a FileAccess class") {
+      const auto& c2 = pl::kFileAccess;
+      THEN("they will be considered not equal") {
+        REQUIRE(c1 != c2);
+        REQUIRE_FALSE(c1 == c2);
+      }
+    }
+    AND_GIVEN("a default constructed class") {
+      pl::Class c;
+      THEN("the comparison will fail") {
+        REQUIRE_THROWS_AS((pl::kAttributeCreate == c), std::runtime_error);
+        REQUIRE_THROWS_AS((pl::kAttributeCreate != c), std::runtime_error);
+      }
+    }
+  }
 }
-
-
-
-
-

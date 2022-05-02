@@ -34,16 +34,28 @@ class DLL_EXPORT Deflate : public Filter
   private:
     unsigned int level_;
   public:
+    //!
+    //! \brief default constructor
+    //!
     Deflate();
+    //!
+    //! \brief constructor with level value
+    //!
     Deflate(unsigned int value);
-    ~Deflate();
+    ~Deflate() override;
 
+    //!
+    //! \brief get the level value
+    //!
     unsigned int level() const noexcept;
 
+    //!
+    //! \brief set the level value
+    //!
     void level(unsigned int value);
 
     virtual void operator()(const property::DatasetCreationList &dcpl,
-                            Availability flag=Availability::MANDATORY) const;
+                            Availability flag=Availability::Mandatory) const override;
 };
 
 

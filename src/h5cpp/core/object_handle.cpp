@@ -48,7 +48,7 @@ ObjectHandle::ObjectHandle(hid_t id, ObjectHandle::Policy policy)
   // if we do not care about the object we have to increment its reference count
   // in order to avoid getting it destroyed when the ID loses scope.
   //
-  if (policy == Policy::WITHOUT_WARD)
+  if (policy == Policy::WithoutWard)
     increment_reference_count();
 }
 
@@ -181,7 +181,7 @@ void ObjectHandle::close()
   //if the ID is valid this will decrement the reference counter or close
   //the object if the counter becomes 0.
 
-  ObjectHandle::Type oht{Type::UNINITIALIZED};
+  ObjectHandle::Type oht{Type::Uninitialized};
 
   try
   {
@@ -197,38 +197,57 @@ void ObjectHandle::close()
   herr_t error_code = 0;
   switch (oht)
   {
-    case ObjectHandle::Type::DATASPACE:
+    case ObjectHandle::Type::Dataspace:
       error_code = H5Sclose(handle_);
       break;
-    case ObjectHandle::Type::GROUP:
+    case ObjectHandle::Type::Group:
       error_code = H5Gclose(handle_);
       break;
-    case ObjectHandle::Type::DATATYPE:
+    case ObjectHandle::Type::Datatype:
       error_code = H5Tclose(handle_);
       break;
-    case ObjectHandle::Type::ATTRIBUTE:
+    case ObjectHandle::Type::Attribute:
       error_code = H5Aclose(handle_);
       break;
-    case ObjectHandle::Type::FILE:
+    case ObjectHandle::Type::File:
       error_code = H5Fclose(handle_);
       break;
-    case ObjectHandle::Type::PROPERTY_LIST:
+    case ObjectHandle::Type::PropertyList:
       error_code = H5Pclose(handle_);
       break;
-    case ObjectHandle::Type::PROPERTY_LIST_CLASS:
+    case ObjectHandle::Type::PropertyListClass:
       error_code = H5Pclose_class(handle_);
       break;
-    case ObjectHandle::Type::ERROR_MESSAGE:
+    case ObjectHandle::Type::ErrorMessage:
       error_code = H5Eclose_msg(handle_);
       break;
-    case ObjectHandle::Type::ERROR_STACK:
+    case ObjectHandle::Type::ErrorStack:
       error_code = H5Eclose_stack(handle_);
       break;
-    case ObjectHandle::Type::ERROR_CLASS:
+    case ObjectHandle::Type::ErrorClass:
       error_code = H5Eunregister_class(handle_);
       break;
+    case ObjectHandle::Type::Dataset:
+      error_code = H5Dclose(handle_);
+      break;
+    case ObjectHandle::Type::Uninitialized:
+      error_code = H5Oclose(handle_);
+      break;
+    case ObjectHandle::Type::BadObject:
+      error_code = H5Oclose(handle_);
+      break;
+    case ObjectHandle::Type::VirtualFileLayer:
+      error_code = H5Oclose(handle_);
+      break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
     default:
       error_code = H5Oclose(handle_);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
 
   if (error_code < 0)
@@ -250,39 +269,49 @@ ObjectHandle::Type ObjectHandle::get_type() const
   switch (type)
   {
     case H5I_UNINIT:
-      return ObjectHandle::Type::UNINITIALIZED;
+      return ObjectHandle::Type::Uninitialized;
     case H5I_BADID:
-      return ObjectHandle::Type::BADOBJECT;
+      return ObjectHandle::Type::BadObject;
     case H5I_FILE:
-      return ObjectHandle::Type::FILE;
+      return ObjectHandle::Type::File;
     case H5I_GROUP:
-      return ObjectHandle::Type::GROUP;
+      return ObjectHandle::Type::Group;
     case H5I_DATATYPE:
-      return ObjectHandle::Type::DATATYPE;
+      return ObjectHandle::Type::Datatype;
     case H5I_DATASPACE:
-      return ObjectHandle::Type::DATASPACE;
+      return ObjectHandle::Type::Dataspace;
     case H5I_DATASET:
-      return ObjectHandle::Type::DATASET;
+      return ObjectHandle::Type::Dataset;
     case H5I_ATTR:
-      return ObjectHandle::Type::ATTRIBUTE;
+      return ObjectHandle::Type::Attribute;
     case H5I_VFL:
-      return ObjectHandle::Type::VIRTUAL_FILE_LAYER;
+      return ObjectHandle::Type::VirtualFileLayer;
     case H5I_GENPROP_CLS:
-      return ObjectHandle::Type::PROPERTY_LIST_CLASS;
+      return ObjectHandle::Type::PropertyListClass;
     case H5I_GENPROP_LST:
-      return ObjectHandle::Type::PROPERTY_LIST;
+      return ObjectHandle::Type::PropertyList;
     case H5I_ERROR_CLASS:
-      return ObjectHandle::Type::ERROR_CLASS;
+      return ObjectHandle::Type::ErrorClass;
     case H5I_ERROR_MSG:
-      return ObjectHandle::Type::ERROR_MESSAGE;
+      return ObjectHandle::Type::ErrorMessage;
     case H5I_ERROR_STACK:
-      return ObjectHandle::Type::ERROR_STACK;
-    default:
-      std::stringstream ss;
-      ss << "ObjectHandle: unknown object type=" << type;
-      error::Singleton::instance().throw_with_stack(ss.str());
-  };
+      return ObjectHandle::Type::ErrorStack;
+#if H5_VERSION_GE(1,12,0)
+    case H5I_MAP:
+    case H5I_VOL:
+    case H5I_SPACE_SEL_ITER:
+#else
+    case H5I_REFERENCE:
+#endif
+    case H5I_NTYPES:
+      break;
+  }
+  std::stringstream ss;
+  ss << "ObjectHandle: unknown object type=" << type;
+  error::Singleton::instance().throw_with_stack(ss.str());
+#ifndef  __clang__
   return {};
+#endif
 }
 
 //----------------------------------------------------------------------------
@@ -345,51 +374,58 @@ std::ostream &operator<<(std::ostream &stream, const ObjectHandle::Type &type)
 {
   switch (type)
   {
-    case ObjectHandle::Type::UNINITIALIZED:
+    case ObjectHandle::Type::Uninitialized:
       stream << "UNINITIALIZED";
       break;
-    case ObjectHandle::Type::BADOBJECT:
+    case ObjectHandle::Type::BadObject:
       stream << "BADOBJECT";
       break;
-    case ObjectHandle::Type::FILE:
+    case ObjectHandle::Type::File:
       stream << "FILE";
       break;
-    case ObjectHandle::Type::GROUP:
+    case ObjectHandle::Type::Group:
       stream << "GROUP";
       break;
-    case ObjectHandle::Type::DATATYPE:
+    case ObjectHandle::Type::Datatype:
       stream << "DATATYPE";
       break;
-    case ObjectHandle::Type::DATASPACE:
+    case ObjectHandle::Type::Dataspace:
       stream << "DATASPACE";
       break;
-    case ObjectHandle::Type::DATASET:
+    case ObjectHandle::Type::Dataset:
       stream << "DATASET";
       break;
-    case ObjectHandle::Type::ATTRIBUTE:
+    case ObjectHandle::Type::Attribute:
       stream << "ATTRIBUTE";
       break;
-    case ObjectHandle::Type::PROPERTY_LIST:
+    case ObjectHandle::Type::PropertyList:
       stream << "PROPERTY_LIST";
       break;
-    case ObjectHandle::Type::VIRTUAL_FILE_LAYER:
+    case ObjectHandle::Type::VirtualFileLayer:
       stream << "VIRTUAL_FILE_LAYER";
       break;
-    case ObjectHandle::Type::PROPERTY_LIST_CLASS:
+    case ObjectHandle::Type::PropertyListClass:
       stream << "PROPERTY_LIST_CLASS";
       break;
-    case ObjectHandle::Type::ERROR_CLASS:
+    case ObjectHandle::Type::ErrorClass:
       stream << "ERROR_CLASS";
       break;
-    case ObjectHandle::Type::ERROR_MESSAGE:
+    case ObjectHandle::Type::ErrorMessage:
       stream << "ERROR_MESSAGE";
       break;
-    case ObjectHandle::Type::ERROR_STACK:
+    case ObjectHandle::Type::ErrorStack:
       stream << "ERROR_STACK";
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
     default:
       stream << "unknown";
-  };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+  }
 
   return stream;
 }

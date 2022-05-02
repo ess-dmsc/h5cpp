@@ -34,6 +34,10 @@ namespace node {
 //! matter of fact the only thing added here is a convenient constructor where
 //! the chunk shape can be passed as an additional argument.
 //!
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wweak-vtables"
+#endif
 class DLL_EXPORT ChunkedDataset : public Dataset
 {
   public:
@@ -88,6 +92,9 @@ class DLL_EXPORT ChunkedDataset : public Dataset
 
 
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 } // namespace node
 } // namespace hdf5

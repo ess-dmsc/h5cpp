@@ -1,5 +1,6 @@
 //
 // (c) Copyright 2017 DESY,ESS
+//               2020 Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //
 // This file is part of h5cpp.
 //
@@ -20,39 +21,44 @@
 // ===========================================================================
 //
 // Authors:
-//   Eugen Wintersberger <eugen.wintersberger@desy.de>
+//   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Nov 13, 2017
 //
-#include <gtest/gtest.h>
-
+#include <catch2/catch.hpp>
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5::dataspace;
 
-class SelectionOpsSetTest : public testing::Test {
- public:
-  Simple space;
+SCENARIO("testing the operators for selection operations") {
+  GIVEN("a two dimensional dataspace") {
+    auto space = Simple{{1024, 512}};
+    AND_GIVEN("a hyperslab selection") {
+      auto hyperslab = Hyperslab{{0, 0}, {100, 200}};
 
-  SelectionOpsSetTest() {
-    space = Simple{{1024, 512}};
+      WHEN("creating a new dataspace") {
+        Simple new_space = space || hyperslab;
+        THEN("the size of the dataspaces must be equal") {
+          REQUIRE(new_space.size() == space.size());
+        }
+        THEN("the new space has the selection attached") {
+          REQUIRE(new_space.selection.size() == 100ul * 200ul);
+        }
+      }
+    }
+    AND_GIVEN("a list of selections") {
+      SelectionList selections{
+          {SelectionOperation::Set,
+           Selection::SharedPointer(new Hyperslab{{0, 0}, {100, 200}})},
+          {SelectionOperation::Or,
+           Selection::SharedPointer(new Hyperslab{{101, 201}, {100, 200}})}};
+      WHEN("creating a new dataset from the selection") { 
+        Simple new_space = space || selections;
+        THEN("the dataspace sizes must match") { REQUIRE(new_space.size() == space.size());}
+        THEN("the new dataspace must have the selection added") {
+          REQUIRE(new_space.selection.size() == 2ul * 100ul * 200ul);
+        }
+      }
+    }
   }
-
-};
-
-TEST_F(SelectionOpsSetTest, simple_set) {
-  Simple new_space = space || Hyperslab{{0, 0}, {100, 200}};
-  EXPECT_EQ(new_space.size(), space.size());
-  EXPECT_EQ(new_space.selection.size(), 100ul * 200ul);
-}
-
-TEST_F(SelectionOpsSetTest, set_from_list) {
-  SelectionList selections{
-      {SelectionOperation::SET, Selection::SharedPointer(new Hyperslab{{0, 0}, {100, 200}})},
-      {SelectionOperation::OR, Selection::SharedPointer(new Hyperslab{{101, 201}, {100, 200}})}
-  };
-
-  Simple new_space = space || selections;
-  EXPECT_EQ(new_space.size(), space.size());
-  EXPECT_EQ(new_space.selection.size(), 2ul * 100ul * 200ul);
 }
