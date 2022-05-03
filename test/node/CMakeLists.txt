@@ -35,6 +35,7 @@ target_link_libraries(
    PRIVATE
        h5cpp
        hdf5::hdf5
+       hdf5::hdf5_hl
        example_lib
 )
 target_compile_definitions(node_test PRIVATE CATCH_CONFIG_ENABLE_BENCHMARKING)
