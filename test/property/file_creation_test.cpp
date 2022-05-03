@@ -60,7 +60,9 @@ SCENARIO("FileCreationList construction") {
         REQUIRE_THROWS_AS(fcpl.btree_symbols(), std::runtime_error);
         REQUIRE_THROWS_AS(fcpl.btree_symbols(7), std::runtime_error);
         REQUIRE_THROWS_AS(fcpl.chunk_tree_rank(), std::runtime_error);
+#if H5_VERSION_GE(1, 10, 1)
         REQUIRE_THROWS_AS(fcpl.page_size(), std::runtime_error);
+#endif
       }
     }
   }
