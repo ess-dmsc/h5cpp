@@ -170,6 +170,15 @@ SCENARIO("writing and reading data using an ArrayAdapter") {
         }
       }
     }
+    THEN("we do multiple writes to the dataset") {
+      size_t b_size_2 = 3;
+      double w_buffer_2[] = {3.14, 1.2345, 5.4321};
+      auto another_dataset = node::Dataset(root, "data2", datatype::create<double>(), dataspace::Simple(Dimensions{b_size_2 + 1}));
+      auto write_adapter1 = ArrayAdapter<double>(w_buffer_2, 1);
+      auto write_adapter2 = ArrayAdapter<double>(w_buffer_2, b_size_2);
+      dataset.write(write_adapter1, hdf5::dataspace::Hyperslab{{0}, {1}});
+      dataset.write(write_adapter2, hdf5::dataspace::Hyperslab{{1}, {b_size_2}});
+    }
   }
   GIVEN("an attribute in the file") { 
     auto attribute = root.attributes.create("data", type, space);
