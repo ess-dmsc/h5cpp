@@ -69,6 +69,22 @@ SCENARIO("multidimensional attribute IO") {
         }
       }
     }
+
+    AND_GIVEN("a 3 const element array") {
+      using uint8_const_array = std::array<const std::uint8_t, 3>;
+      using uint8_array = std::array<std::uint8_t, 3>;
+      uint8_const_array write_data{3, 4, 5};
+      THEN("writing this data should work") {
+        REQUIRE_NOTHROW(a.write(write_data));
+        AND_THEN("reading the data back should yield {3,4,5}") {
+          uint8_array read_data;
+          REQUIRE_NOTHROW(a.read(read_data));
+          REQUIRE(write_data[0] == read_data[0]);
+          REQUIRE(write_data[1] == read_data[1]);
+          REQUIRE(write_data[2] == read_data[2]);
+        }
+      }
+    }
   }
 
   GIVEN("an integer attribute with 4 elements") {
