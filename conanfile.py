@@ -26,9 +26,6 @@ class H5CppConan(ConanFile):
     def config_options(self):
         if self.settings.os == "Windows":
             del self.options.with_mpi
-            del self.options.with_boost
-        if self.settings.os == "Macos":
-            del self.options.with_boost
 
     def configure(self):
         if self.options.get_safe("with_mpi", False):
@@ -42,7 +39,7 @@ class H5CppConan(ConanFile):
             elif self.settings.os == "Macos":
                 self.requires("boost/1.77.0")
             else:
-                self.requires("boost/1.77.0@#35c2c19753eaadacfb846c7198919da7")
+                self.requires("boost/1.77.0")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
 
