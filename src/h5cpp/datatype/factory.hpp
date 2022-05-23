@@ -36,14 +36,14 @@ namespace datatype {
 //! \brief factory function for creating data types
 //!
 template<typename T>
-typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const T &v = T()) {
+typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const T &v = T{}) {
   return TypeTrait<typename std::remove_const<T>::type>::create(v);
 }
 //!
 //! \brief factory function for getting reference of data types
 //!
 template<typename T>
-const Datatype & get(const T &v = T()) {
+const Datatype & get(const T &v = T{}) {
   return TypeTrait<typename std::remove_const<T>::type>::get(v);
 }
 
@@ -64,7 +64,7 @@ class DLL_EXPORT DatatypeHolder
   //! @return data type reference for data type object
   //!
   template<typename T>
-    const Datatype & get(const T & v = T());
+    const Datatype & get(const T & v = T{});
 
  private:
       Datatype instance;
