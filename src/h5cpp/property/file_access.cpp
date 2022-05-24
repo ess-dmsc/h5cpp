@@ -65,10 +65,10 @@ FileAccessList::FileAccessList(ObjectHandle &&handle) :
   }
 }
 
-void FileAccessList::library_version_bounds(LibVersion high, LibVersion low) const {
+void FileAccessList::library_version_bounds(LibVersion low, LibVersion high) const {
   if (0 > H5Pset_libver_bounds(static_cast<hid_t>(*this),
-                               static_cast<H5F_libver_t>(high),
-                               static_cast<H5F_libver_t>(low))) {
+                               static_cast<H5F_libver_t>(low),
+                               static_cast<H5F_libver_t>(high))) {
     error::Singleton::instance().throw_with_stack("Failure setting the library version bounds!");
   }
 }
