@@ -99,6 +99,7 @@ builders = pipeline_builder.createBuilders { container ->
     container.sh """
       mkdir build
       cd build
+      conan install --build b2 --build missing b2/4.8.0@
       cmake --version
       ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
     """
