@@ -58,17 +58,6 @@ builders = pipeline_builder.createBuilders { container ->
     container.copyTo(pipeline_builder.project, pipeline_builder.project)
   }  // stage
 
-  pipeline_builder.stage("${container.key}: Configure Conan") {
-    def conan_remote = "ess-dmsc-local"
-    container.sh """
-      mkdir build
-      cd build
-      conan remote add \
-        --insert 0 \
-        ${conan_remote} ${local_conan_server}
-    """
-  }  // stage
-
   pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
     def cmake_prefix
@@ -108,6 +97,7 @@ builders = pipeline_builder.createBuilders { container ->
     }
 
     container.sh """
+      mkdir build
       cd build
       cmake --version
       ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
