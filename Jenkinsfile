@@ -11,11 +11,11 @@ documentation_os = "ubuntu2004-release"
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
-  'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
+  'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'debian11-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
+  'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
