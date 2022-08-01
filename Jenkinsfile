@@ -3,10 +3,8 @@ import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
-// coverage_os = "centos7-release"
 coverage_os = "None"
-// documentation_os = "debian10-release"
-documentation_os = "ubuntu2004-release"
+documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
