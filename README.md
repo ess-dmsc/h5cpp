@@ -21,7 +21,7 @@ We currently support:
 * Windows
 * macOS
 
-Although this and [Steve Vagras' h5cpp project](https://github.com/steven-varga/h5cpp)
+Although this and [Steven Varga's h5cpp project](https://github.com/steven-varga/h5cpp)
 share the same name they are entirely unrelated.
 
 ## How to use *h5cpp*

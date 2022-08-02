@@ -3,19 +3,17 @@ import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
-// coverage_os = "centos7-release"
 coverage_os = "None"
-// documentation_os = "debian10-release"
-documentation_os = "ubuntu2004-release"
+documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
-  'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
+  'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'debian11-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
+  'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
@@ -58,17 +56,6 @@ builders = pipeline_builder.createBuilders { container ->
     container.copyTo(pipeline_builder.project, pipeline_builder.project)
   }  // stage
 
-  pipeline_builder.stage("${container.key}: Configure Conan") {
-    def conan_remote = "ess-dmsc-local"
-    container.sh """
-      mkdir build
-      cd build
-      conan remote add \
-        --insert 0 \
-        ${conan_remote} ${local_conan_server}
-    """
-  }  // stage
-
   pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
     def cmake_prefix
@@ -108,7 +95,9 @@ builders = pipeline_builder.createBuilders { container ->
     }
 
     container.sh """
+      mkdir build
       cd build
+      conan install --build b2 --build missing b2/4.8.0@
       cmake --version
       ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
     """
@@ -175,8 +164,6 @@ builders = pipeline_builder.createBuilders { container ->
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip3 --proxy=${http_proxy} install --user sphinx==4.0.3 breathe
-        export PATH=$PATH:~/.local/bin:/bin
         cd build
         make html
       """
