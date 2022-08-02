@@ -4,7 +4,7 @@ import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
 coverage_os = "None"
-documentation_os = "ubuntu2004-release"
+documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
@@ -164,8 +164,6 @@ builders = pipeline_builder.createBuilders { container ->
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip3 --proxy=${http_proxy} install --user sphinx==4.0.3 breathe
-        export PATH=$PATH:~/.local/bin:/bin
         cd build
         make html
       """
