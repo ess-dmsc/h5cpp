@@ -3,7 +3,7 @@ import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
-coverage_os = "None"
+coverage_os = "debian11"
 documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
