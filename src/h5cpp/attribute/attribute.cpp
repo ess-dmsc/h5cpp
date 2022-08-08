@@ -28,7 +28,7 @@
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/core/utilities.hpp>
 #include <h5cpp/node/link.hpp>
-#include <h5cpp/contrib/stl/string.hpp>
+//#include <h5cpp/contrib/stl/string.hpp>
 
 namespace hdf5 {
 namespace attribute {
@@ -97,15 +97,6 @@ const node::Link &Attribute::parent_link() const noexcept
   return parent_link_;
 }
 
-void Attribute::write(const char *data) const
-{
-  write(std::string(data));
-}
-
-void Attribute::write(const char *data,const datatype::Datatype &mem_type) const
-{
-  write(std::string(data),mem_type);
-}
 
 void Attribute::check_size(const dataspace::Dataspace &mem_space,
                            const dataspace::Dataspace &file_space,

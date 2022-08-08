@@ -40,7 +40,7 @@
 #include <h5cpp/error/error.hpp>
 #include <initializer_list>
 #include <h5cpp/core/utilities.hpp>
-#include <h5cpp/contrib/stl/vector.hpp>
+//#include <h5cpp/contrib/stl/vector.hpp>
 
 namespace hdf5 {
 namespace attribute {
@@ -143,7 +143,10 @@ class DLL_EXPORT Attribute
     //!
     //! \throws std::runtime_error in case of a failure
     //!
-    void write(const char *data) const;
+    void write(const char *data) const
+    {
+      write(std::string(data));
+    }
 
     //!
     //! \brief write from initializer list
@@ -194,7 +197,11 @@ class DLL_EXPORT Attribute
     //!
     template<typename T>
     void write(const T& data,const datatype::Datatype &mem_type) const;
-    void write(const char *data,const datatype::Datatype &mem_type) const;
+    void write(const char *data,const datatype::Datatype &mem_type) const
+    {
+      write(std::string(data),mem_type);
+    }
+
 
     template<typename T>
     void read(T &data) const;

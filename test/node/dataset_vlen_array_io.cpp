@@ -28,6 +28,7 @@
 #include <examples/h5cpp/hklpoint.hpp>
 #include <examples/hklpoint.hpp>
 #include <h5cpp/hdf5.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 
