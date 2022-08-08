@@ -312,16 +312,25 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \brief write entire dataset
     //!
-    //! Write the entire dataset from an instance of const char *
+    //! Write the entire dataset from an instance of const char *.
+    //! Since we consider char* data as strings we have to implement these 
+    //! two methods as templates in order to give the user the choice to 
+    //! decide which traits he wants to use in order to write the strings.
     //!
     //! \throws std::runtime_error in caes of a failure
     //! \param data pointer to the source instance of const char *
     //! \param dtpl reference to a dataset transfer property list
     //!
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::get());
+                                      property::DatasetTransferList::get()) 
+    {
+        write(std::string(data),dtpl);
+    }
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::get()) const;
+                                      property::DatasetTransferList::get()) const
+    {
+        write(std::string(data),dtpl);
+    }
 
     //!
     //! \brief write dataset chunk
