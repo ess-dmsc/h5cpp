@@ -25,8 +25,7 @@
 // Created on: Nov 12, 2018
 //
 #include <catch2/catch.hpp>
-#include <h5cpp/hdf5.hpp>
-#include <h5cpp/contrib/stl/stl.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 using namespace hdf5;
 
@@ -79,10 +78,13 @@ SCENARIO("testing dataset access via chunks") {
   dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1, xdim, ydim});
 
+  // generate the original frame buffer of size xdim*ydim and fill it with data
   UShorts frame(xdim * ydim);
   std::generate(frame.begin(), frame.end(), std::rand);
 
+  // create the hyperslab to select a full frame
   dataspace::Hyperslab framespace{{0, 0, 0}, {1, xdim, ydim}};
+  // create a hyperslab to select a very small set of data
   dataspace::Hyperslab sframespace{{0, 0}, {1, sxdim}};
 
   UShorts sframe(sxdim);
@@ -97,9 +99,14 @@ SCENARIO("testing dataset access via chunks") {
     node::Dataset dataset(root, "data1", datatype::create<unsigned short int>(),
                           space, lcpl, dcpl, dapl);
     WHEN("writting the data with with_chunk") {
+      // write the full frames to disk (frame by frame)
       for (long long unsigned int i = 0; i != nframe; i++) {
         dataset.extent(0, 1);
-        dataset.write_chunk(frame, {i, 0, 0});
+        dataset.write_chunk(frame, {i, 0, 0}); // one frame at a time
+      }
+      f.flush(file::Scope::Global);
+      THEN("there must be nframes frames in the dataset") { 
+        REQUIRE(dataspace::Simple(dataset.dataspace()).current_dimensions()[0] == nframe);
       }
       THEN("we can read the data back with selections") {
         UShorts read_value(xdim * ydim);
