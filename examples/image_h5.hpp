@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include "image.hpp"
 #include "rgbpixel_h5.hpp"
 
