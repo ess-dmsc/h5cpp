@@ -24,9 +24,7 @@
 //
 
 #include <catch2/catch.hpp>
-#include <h5cpp/file/functions.hpp>
-#include <h5cpp/hdf5.hpp>
-#include <h5cpp/node/group.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 using namespace hdf5;
 
