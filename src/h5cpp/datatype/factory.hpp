@@ -37,14 +37,28 @@ namespace datatype {
 //!
 template<typename T>
 typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const T &v = T{}) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#endif
   return TypeTrait<typename std::remove_const<T>::type>::create(v);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 }
 //!
 //! \brief factory function for getting reference of data types
 //!
 template<typename T>
 const Datatype & get(const T &v = T{}) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#endif
   return TypeTrait<typename std::remove_const<T>::type>::get(v);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 }
 
 //!
