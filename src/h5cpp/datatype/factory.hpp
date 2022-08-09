@@ -74,11 +74,15 @@ template<typename T>
 const Datatype & DatatypeHolder::get(const T & v)
 {
   auto & type = hdf5::datatype::get(v);
-  if(static_cast<hid_t>(type))
+  if(static_cast<hid_t>(type)) 
+  {
     return type;
+  }
 
-  if (!static_cast<hid_t>(instance))
+  if (!static_cast<hid_t>(instance)) 
+  {
     instance = hdf5::datatype::create(v);
+  }
   return instance;
 }
 
