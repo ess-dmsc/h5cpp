@@ -24,7 +24,6 @@
 //
 
 #include <h5cpp/attribute/attribute_iterator.hpp>
-#include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/core/utilities.hpp>
 #include <h5cpp/node/node.hpp>
 
@@ -43,8 +42,7 @@ AttributeIterator::AttributeIterator(const AttributeManager &view,ssize_t index)
 
 Attribute AttributeIterator::operator*() const
 {
-  if(!(*this))
-    throw std::runtime_error("Invalid iterator!");
+  if(!(*this)) { throw std::runtime_error("Invalid iterator!"); }
 
   return current_attribute_;
 }
