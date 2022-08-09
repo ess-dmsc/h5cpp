@@ -24,7 +24,7 @@
 // Created on: Nov 20, 2017
 //
 #include <catch2/catch.hpp>
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 using hdf5::Path;
 using hdf5::node::Group;

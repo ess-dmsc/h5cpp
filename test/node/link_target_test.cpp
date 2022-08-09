@@ -31,7 +31,7 @@
 #endif
 #include <iterator>
 //#include "group_test_fixtures.hpp"
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 namespace { 
   static size_t get_path_size(const fs::path& path) {
