@@ -8,6 +8,7 @@ sources=files('dataspace_test.cpp'
                ,'selection_manager_test.cpp'
                ,'view_test.cpp'
                ,'type_test.cpp'
+               ,'pool_test.cpp'
                )
 dataspace_test = executable('dataspace_test', sources,
                             dependencies: [catch2_dep, h5cpp_dep])

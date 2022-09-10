@@ -53,6 +53,7 @@ class Selection;
 
 #ifdef __clang__
 #pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
 #pragma clang diagnostic ignored "-Wweak-vtables"
 #endif
 class DLL_EXPORT Dataset : public Node
@@ -67,13 +68,6 @@ class DLL_EXPORT Dataset : public Node
     //! \sa is_valid()
     //!
     Dataset() = default;
-
-    //!
-    //! \brief copy constructor
-    //!
-    //! Use default implementation here.
-    //!
-    Dataset(const Dataset &) = default;
 
     //!
     //! \brief construct
@@ -319,16 +313,25 @@ class DLL_EXPORT Dataset : public Node
     //!
     //! \brief write entire dataset
     //!
-    //! Write the entire dataset from an instance of const char *
+    //! Write the entire dataset from an instance of const char *.
+    //! Since we consider char* data as strings we have to implement these 
+    //! two methods as templates in order to give the user the choice to 
+    //! decide which traits he wants to use in order to write the strings.
     //!
     //! \throws std::runtime_error in caes of a failure
     //! \param data pointer to the source instance of const char *
     //! \param dtpl reference to a dataset transfer property list
     //!
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::get());
+                                      property::DatasetTransferList::get()) 
+    {
+        write(std::string(data),dtpl);
+    }
     void write(const char *data,const property::DatasetTransferList &dtpl =
-                                      property::DatasetTransferList::get()) const;
+                                      property::DatasetTransferList::get()) const
+    {
+        write(std::string(data),dtpl);
+    }
 
     //!
     //! \brief write dataset chunk
@@ -567,7 +570,7 @@ class DLL_EXPORT Dataset : public Node
     filter::ExternalFilters filters() const;
 
   private:
-    datatype::Datatype file_type;
+    datatype::Datatype file_type_;
     datatype::Class file_type_class;
     dataspace::DataspacePool space_pool;
     //!
@@ -821,7 +824,6 @@ class DLL_EXPORT Dataset : public Node
       }
     }
 };
-
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
@@ -834,23 +836,23 @@ void Dataset::write(const T &data,const datatype::Datatype &mem_type,
 {
   if(file_type_class == datatype::Class::VarLength)
   {
-    write_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    write_variable_length_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
   else if(file_type_class == datatype::Class::String)
   {
-    datatype::String string_type(file_type);
+    datatype::String string_type(file_type_);
     if(string_type.is_variable_length())
     {
-      write_variable_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      write_variable_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
     else
     {
-      write_fixed_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      write_fixed_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
   }
   else
   {
-    write_contiguous_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    write_contiguous_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
 
 }
@@ -1037,23 +1039,23 @@ void Dataset::read(T &data,const datatype::Datatype &mem_type,
 {
   if(file_type_class == datatype::Class::VarLength)
   {
-    read_variable_length_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    read_variable_length_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
   else if(file_type_class == datatype::Class::String)
   {
-    datatype::String string_type(file_type);
+    datatype::String string_type(file_type_);
     if(string_type.is_variable_length())
     {
-      read_variable_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      read_variable_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
     else
     {
-      read_fixed_length_string_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+      read_fixed_length_string_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
     }
   }
   else
   {
-    read_contiguous_data(data,mem_type,mem_space,file_type,file_space,dtpl);
+    read_contiguous_data(data,mem_type,mem_space,file_type_,file_space,dtpl);
   }
 
 }
@@ -1178,7 +1180,7 @@ void Dataset::read(T &data,const property::DatasetTransferList &dtpl)
   hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
   if(file_type_class == datatype::Class::String){
     // in hdf5 1.12.1 UFT8 data cannot be read to an ASCII buffer
-    read_reshape(data, file_type, mem_space_holder.get(data), dtpl);
+    read_reshape(data, file_type_, mem_space_holder.get(data), dtpl);
   }
   else {
     hdf5::datatype::DatatypeHolder mem_type_holder;

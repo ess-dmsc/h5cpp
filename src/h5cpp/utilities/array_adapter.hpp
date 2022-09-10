@@ -235,10 +235,8 @@ class TypeTrait<ArrayAdapter<T>>
       return Simple(adapter_dimensions,adapter_dimensions);
     }
 
-    const static DataspaceType & get(const ArrayAdapter<T> &adapter, dataspace::DataspacePool &) {
-      Dimensions adapter_dimensions = get_dimensions(adapter);
-      const static DataspaceType & cref_ = Simple(adapter_dimensions,adapter_dimensions);
-      return cref_;
+    const static DataspaceType & get(const ArrayAdapter<T> &adapter, dataspace::DataspacePool &pool) {
+      return pool.getSimple(get_dimensions(adapter));
     }
 
     static void* ptr(ArrayAdapter<T> &adapter)

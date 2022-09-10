@@ -35,8 +35,6 @@ namespace dataspace {
 Scalar::Scalar() :
     Dataspace(Type::Scalar) {}
 
-Scalar::~Scalar() {}
-
 Scalar::Scalar(const Dataspace &space)
     : Dataspace(space) {
   if (space.type() != Type::Scalar) {

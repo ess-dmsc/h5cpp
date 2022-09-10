@@ -65,13 +65,6 @@ class DLL_EXPORT Simple : public Dataspace {
   Simple(const Dataspace &space);
 
   //!
-  //! \brief copy constructor
-  //!
-  //! Use default implementation of the copy constructor
-  //!
-  Simple(const Simple &) = default;
-
-  //!
   //! \brief constructor
   //!
   //! If the maximum dimensions is not provided it will be set to the

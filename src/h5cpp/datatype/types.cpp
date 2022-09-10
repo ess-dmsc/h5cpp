@@ -44,24 +44,26 @@ std::ostream &operator<<(std::ostream &stream, const Class &c) {
     case Class::Enum: return stream << "ENUM";
     case Class::VarLength: return stream << "VARLENGTH";
     case Class::Array: return stream << "ARRAY";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Order &o) {
   switch (o) {
     case Order::BE: return stream << "BE";
     case Order::LE: return stream << "LE";
-    default:return stream;
+    case Order::Vax: return stream << "VAX";
+    case Order::None: return stream << "NONE";
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Sign &s) {
   switch (s) {
     case Sign::TwosComplement: return stream << "TWOS COMPLEMENT";
     case Sign::Unsigned: return stream << "UNSIGNED";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Norm &n) {
@@ -69,8 +71,8 @@ std::ostream &operator<<(std::ostream &stream, const Norm &n) {
     case Norm::Implied: return stream << "IMPLIED";
     case Norm::MSBSet: return stream << "MSBSET";
     case Norm::None: return stream << "NONE";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Pad &p) {
@@ -78,8 +80,8 @@ std::ostream &operator<<(std::ostream &stream, const Pad &p) {
     case Pad::Background: return stream << "BACKGROUND";
     case Pad::One: return stream << "ONE";
     case Pad::Zero: return stream << "ZERO";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const StringPad &pad) {
@@ -87,24 +89,24 @@ std::ostream &operator<<(std::ostream &stream, const StringPad &pad) {
     case StringPad::NullPad: return stream << "NULLPAD";
     case StringPad::NullTerm: return stream << "NULLTERM";
     case StringPad::SpacePad: return stream << "SPACEPAD";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Direction &d) {
   switch (d) {
     case Direction::Ascend: return stream << "ASCEND";
     case Direction::Descend: return stream << "DESCEND";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const CharacterEncoding &enc) {
   switch (enc) {
     case CharacterEncoding::ASCII: return stream << "ASCII";
     case CharacterEncoding::UTF8: return stream << "UTF8";
-    default:return stream;
   }
+  return stream;
 }
 
 } // namespace datatype

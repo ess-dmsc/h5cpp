@@ -23,7 +23,7 @@
 // Created on: Nov 7, 2017
 //
 
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include <iostream>
 
 using namespace hdf5;
@@ -50,7 +50,7 @@ node::Dataset create_dataset(const node::Group &base)
   dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1024*1024});
 
-  return base.create_dataset("extended_data",file_type,file_space,lcpl,dcpl);
+  return base.create_dataset("extended_data",file_type,file_space,dcpl,lcpl);
 }
 
 int main(int argc,char **argv)

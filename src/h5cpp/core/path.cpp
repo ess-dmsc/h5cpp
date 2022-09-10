@@ -26,6 +26,7 @@
 //
 
 #include <h5cpp/core/path.hpp>
+#include <h5cpp/core/utilities.hpp>
 #include <sstream>
 #include <stdexcept>
 
@@ -233,7 +234,7 @@ Path Path::relative_to(const Path &base) const
     throw std::runtime_error("invalid base for relative path!");
   }
   auto it = link_names_.begin();
-  std::advance(it, base.size());
+  std::advance(it, unsigned2signed<ssize_t>(base.size()));
   Path ret;
   for (; it != link_names_.end(); ++it)
     ret.link_names_.push_back(*it);

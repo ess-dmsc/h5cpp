@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "C++ Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/bin/node_test",
+            "args": ["*via*"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/bin",
+            "launchCompleteCommand": "exec-run",
+            "miDebuggerPath": "/usr/bin/gdb"
+        }
+    ]
+}

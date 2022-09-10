@@ -27,6 +27,7 @@
 #include <catch2/catch.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/functions.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 

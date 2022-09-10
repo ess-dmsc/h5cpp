@@ -25,15 +25,15 @@
 // Created on: Nov 12, 2018
 //
 #include <catch2/catch.hpp>
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 using namespace hdf5;
 
 namespace { 
-static const long long unsigned int xdim = 867;
-static const long long unsigned int ydim = 700;
-static const long long unsigned int sxdim = 17;
-static const long long unsigned int nframe = 33;
+const long long unsigned int xdim = 867;
+const long long unsigned int ydim = 700;
+const long long unsigned int sxdim = 17;
+const long long unsigned int nframe = 33;
 
 using UShorts = std::vector<unsigned short int>;
 
@@ -78,27 +78,35 @@ SCENARIO("testing dataset access via chunks") {
   dcpl.layout(property::DatasetLayout::Chunked);
   dcpl.chunk({1, xdim, ydim});
 
+  // generate the original frame buffer of size xdim*ydim and fill it with data
   UShorts frame(xdim * ydim);
   std::generate(frame.begin(), frame.end(), std::rand);
 
+  // create the hyperslab to select a full frame
   dataspace::Hyperslab framespace{{0, 0, 0}, {1, xdim, ydim}};
+  // create a hyperslab to select a very small set of data
   dataspace::Hyperslab sframespace{{0, 0}, {1, sxdim}};
 
   UShorts sframe(sxdim);
   for (size_t i = 0; i != sxdim; i++)
-    sframe[i] = static_cast<int>(i / 2);
+    sframe[i] = static_cast<unsigned short>(i / 2);
 
   UShorts tframe(sxdim);
   for (size_t i = 0; i != sxdim; i++)
-    tframe[i] = static_cast<int>(i / 4);
+    tframe[i] = static_cast<unsigned short>(i / 4);
 
   GIVEN("an integer dataset") {
     node::Dataset dataset(root, "data1", datatype::create<unsigned short int>(),
                           space, lcpl, dcpl, dapl);
     WHEN("writting the data with with_chunk") {
+      // write the full frames to disk (frame by frame)
       for (long long unsigned int i = 0; i != nframe; i++) {
         dataset.extent(0, 1);
-        dataset.write_chunk(frame, {i, 0, 0});
+        dataset.write_chunk(frame, {i, 0, 0}); // one frame at a time
+      }
+      f.flush(file::Scope::Global);
+      THEN("there must be nframes frames in the dataset") { 
+        REQUIRE(dataspace::Simple(dataset.dataspace()).current_dimensions()[0] == nframe);
       }
       THEN("we can read the data back with selections") {
         UShorts read_value(xdim * ydim);
@@ -137,7 +145,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk) {
   for (long long unsigned int i = 0; i != nframe; i++) {
     filter_mask = data2.read_chunk(read_value, {i, 0, 0});
     EXPECT_EQ(frame, read_value);
-    EXPECT_EQ(filter_mask, H5P_DEFAULT);
+    EXPECT_EQ(filter_mask, property::kDefault);
   }
 }
 
@@ -185,7 +193,7 @@ TEST_F(DatasetDirectChunkTest, read_chunk_deflate) {
       EXPECT_EQ(tcpvalue, tread_value);
     }
 
-    EXPECT_EQ(filter_mask, H5P_DEFAULT);
+    EXPECT_EQ(filter_mask, property::kDefault);
   }
 }
 */

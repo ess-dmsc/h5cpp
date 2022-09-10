@@ -64,13 +64,6 @@ class DLL_EXPORT Attribute
     Attribute() = default;
 
     //!
-    //! \brief copy assignment operator
-    //!
-    //! Uses default compiler implementation.
-    //!
-    Attribute(const Attribute &) = default;
-
-    //!
     //! \brief return the data type of the attribute
     //!
     //! Returns a copy of the datatype used to create the attribute.
@@ -150,7 +143,10 @@ class DLL_EXPORT Attribute
     //!
     //! \throws std::runtime_error in case of a failure
     //!
-    void write(const char *data) const;
+    void write(const char *data) const
+    {
+      write(std::string(data));
+    }
 
     //!
     //! \brief write from initializer list
@@ -201,7 +197,11 @@ class DLL_EXPORT Attribute
     //!
     template<typename T>
     void write(const T& data,const datatype::Datatype &mem_type) const;
-    void write(const char *data,const datatype::Datatype &mem_type) const;
+    void write(const char *data,const datatype::Datatype &mem_type) const
+    {
+      write(std::string(data),mem_type);
+    }
+
 
     template<typename T>
     void read(T &data) const;

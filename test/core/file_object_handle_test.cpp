@@ -38,7 +38,7 @@ FileObjectHandleTest::~FileObjectHandleTest()
 
 hid_t FileObjectHandleTest::create_object()
 {
-  return H5Fcreate(filename_.c_str(),H5F_ACC_TRUNC,H5P_DEFAULT,H5P_DEFAULT);
+  return H5Fcreate(filename_.c_str(),H5F_ACC_TRUNC,hdf5::property::kDefault,hdf5::property::kDefault);
 }
 
 

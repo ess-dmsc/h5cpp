@@ -30,7 +30,7 @@
 namespace hdf5 {
 namespace file {
 
-#if ( defined(_DOXYGEN_) || defined(WITH_MPI) )
+#if ( defined(_DOXYGEN_) || defined(H5CPP_WITH_MPI) )
 
 //!
 //! \brief class for the MPI driver (*for hdf5 with compiled MPI*)
@@ -41,8 +41,8 @@ class DLL_EXPORT MPIDriver : public Driver
     MPIDriver(MPI_Comm comm,MPI_Info info);
     MPIDriver(const MPIDriver &) = default;
 
-    virtual void operator()(const property::FileAccessList &fapl) const;
-    virtual DriverID id() const noexcept;
+    virtual void operator()(const property::FileAccessList &fapl) const override;
+    virtual DriverID id() const noexcept override;
   private:
 
     MPI_Comm comm_;

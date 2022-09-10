@@ -22,7 +22,8 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 07, 2017
 //
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
+
 #include <iostream>
 #include <complex>
 

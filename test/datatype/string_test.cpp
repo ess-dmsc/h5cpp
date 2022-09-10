@@ -27,6 +27,7 @@
 
 #include <catch2/catch.hpp>
 #include <h5cpp/datatype/string.hpp>
+#include <h5cpp/datatype/types.hpp>
 
 using namespace hdf5;
 
@@ -36,8 +37,8 @@ SCENARIO("testing variable length strings") {
     THEN("the instance if of type STRING") {
       REQUIRE(t.get_class() == datatype::Class::String);
     }
-    THEN("the size of the type is H5T_VARIABLE") {
-      REQUIRE(t.size() == size_t(H5T_VARIABLE));
+    THEN("the size of the type is datatype::kVariable") {
+      REQUIRE(t.size() == size_t(datatype::kVariable));
     }
     THEN("the variable length flag is set") { REQUIRE(t.is_variable_length()); }
 

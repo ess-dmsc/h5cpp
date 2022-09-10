@@ -3,20 +3,17 @@ import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
-// coverage_os = "centos7-release"
 coverage_os = "None"
-documentation_os = "debian10-release"
+documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
   'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'ubuntu1804': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
-  'ubuntu1804-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu1804-gcc8'),
-  'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
-  'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
+  'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'debian11-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
+  'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
@@ -59,65 +56,48 @@ builders = pipeline_builder.createBuilders { container ->
     container.copyTo(pipeline_builder.project, pipeline_builder.project)
   }  // stage
 
-  pipeline_builder.stage("${container.key}: Configure Conan") {
-    def conan_remote = "ess-dmsc-local"
-    container.sh """
-      mkdir build
-      cd build
-      conan remote add \
-        --insert 0 \
-        ${conan_remote} ${local_conan_server}
-    """
-  }  // stage
-
   pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
     def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DWITH_BOOST=OFF'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'centos7-release':
-        cmake_options = '-DWITH_MPI=1 -DCONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
       case 'debian10':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'debian10-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'debian10-release-hdf5-1.12':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_1.12.0.txt'
-        cmake_prefix = ''
-        break
-      case 'ubuntu1804':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
-        cmake_prefix = ''
-        break
-      case 'ubuntu1804-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2004':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2004-release':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       default:
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
     }
 
     container.sh """
+      mkdir build
       cd build
+      conan install --build b2 --build missing b2/4.8.0@
       cmake --version
       ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
     """
@@ -184,8 +164,6 @@ builders = pipeline_builder.createBuilders { container ->
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip3 --proxy=${http_proxy} install --user sphinx==4.0.3 breathe
-        export PATH=$PATH:~/.local/bin:/bin
         cd build
         make html
       """
@@ -273,7 +251,7 @@ builders = pipeline_builder.createBuilders { container ->
                            )]) {
             withEnv(["PROJECT=${pipeline_builder.project}", "RLVERSION=${rlversion}"]) {
                 sh 'cd $PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
-                sh 'cd $PROJECT && git checkout docs_stable && git merge master && ./push_to_repo.sh $USERNAME $PASSWORD'
+                sh 'cd $PROJECT && git checkout docs_stable && git reset --hard master && ./push_to_repo.sh $USERNAME $PASSWORD'
             }
           }
         }
@@ -300,7 +278,7 @@ def get_macos_pipeline(build_type)
 
                 dir("${project}/build") {
                     try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DCONAN_FILE=conanfile_macos.txt  ../code"
+                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
                     } catch (e) {
                         failure_function(e, 'MacOSX / CMake failed')
                     }
@@ -341,42 +319,6 @@ def get_meson_debian_pipeline() {
   }
 }*/
 
-def get_win10_pipeline()
-{
-    return {
-        stage("Windows 10") {
-            node ("windows10") {
-            // Delete workspace when build is done
-            cleanWs()
-
-                try {
-                    checkout scm
-                    bat "mkdir _build"
-                } catch (e) {
-                    failure_function(e, 'Windows10 / Checkout failed')
-                }
-
-                dir("_build") {
-                    try {
-                        bat 'conan remote list'
-                        bat 'cmake -DCMAKE_BUILD_TYPE=Release -DCONAN_FILE=conanfile_windows_ess.txt -DWITH_BOOST=OFF -G "Visual Studio 15 2017 Win64" ..'
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / CMake failed')
-                    }
-
-                    try {
-                        bat "cmake --build . --config Release --target ALL_BUILD"
-                        bat "cmake --build . --config Release --target RUN_TESTS"
-                    } catch (e) {
-                        failure_function(e, 'Windows10 / build+test failed')
-                    }
-
-                }
-            }
-        }
-    }
-}
-
 node {
   dir("${project}") {
     try {
@@ -388,7 +330,6 @@ node {
 
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
-  builders['Windows10'] = get_win10_pipeline()
   //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 

@@ -28,6 +28,7 @@
 #include <limits>
 #include <type_traits>
 #include <utility>
+#include <stdexcept>
 
 /**
  * @brief convert unsigned to signed integers
@@ -52,10 +53,10 @@ TType unsigned2signed(SType &&source_value) {
   // provide compile time errors if types are not appropriate
   static_assert(std::is_integral<stripped_target_t>::value &&
                 std::is_signed<stripped_target_t>::value,
-                "source type must be an unsigned integral type");
+                "target type must be a signed integral type");
   static_assert(std::is_integral<stripped_source_t>::value && 
                 std::is_unsigned<stripped_source_t>::value, 
-                "target type must be a signed integral type");
+                "source type must be an unsigned integral type");
 
   using target_limits = std::numeric_limits<stripped_target_t>;
   // if the source value is smaller than the maximum positive value of the 

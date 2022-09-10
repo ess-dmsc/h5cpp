@@ -30,7 +30,7 @@
 
 using namespace hdf5;
 
-file::AccessFlagsBase to_int(file::AccessFlags flag)
+static file::AccessFlagsBase to_int(file::AccessFlags flag)
 {
   return static_cast<file::AccessFlagsBase>(flag);
 }

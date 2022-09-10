@@ -3,6 +3,9 @@
 #
 if (CMAKE_CXX_COMPILER_ID MATCHES MSVC)
   add_definitions(/wd4251 /wd4275)
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+  # suppress warnings from Catch2 macros
+  add_definitions(-Wno-reserved-identifier -Wno-unknown-warning-option)
 endif ()
 
 # ----------------------------------------------------------------------------
@@ -10,17 +13,7 @@ endif ()
 # ----------------------------------------------------------------------------
 
 include_directories(${PROJECT_SOURCE_DIR}/src
-                    ${HDF5_INCLUDE_DIRS}
-                    ${PROJECT_SOURCE_DIR}/subprojects/catch2/include)
-
-foreach(HDF5_LIB ${HDF5_LIBRARIES})
-    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
-    link_directories(${LIB_PATH})
-endforeach()
-foreach(HDF5_LIB ${HDF5_HL_LIBRARIES})
-    get_filename_component(LIB_PATH ${HDF5_LIB} DIRECTORY)
-    link_directories(${LIB_PATH})
-endforeach()
+                    ${HDF5_INCLUDE_DIRS})
 
 configure_file(h5py_test_data.h5 h5py_test_data.h5 COPYONLY)
 configure_file(h5py_test_boolattr.h5 h5py_test_boolattr.h5 COPYONLY)

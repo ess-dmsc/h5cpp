@@ -114,10 +114,17 @@ class DLL_EXPORT Selection {
   virtual SelectionType type() const = 0;
 };
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 struct OperationWithSelection {
   SelectionOperation operation;
   Selection::SharedPointer selection;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 using SelectionPair = std::pair<SelectionOperation, Selection::SharedPointer>;
 using SelectionList = std::list<OperationWithSelection>;

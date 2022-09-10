@@ -255,7 +255,7 @@ class DLL_EXPORT Hyperslab : public Selection {
   //! \brief get current dimensions
   //!
   //! Get a number of elements along each dimension a selection spans
-  //! this is particularly useful in the case of a Hyperslab 
+  //! this is particularly useful in the case of a Hyperslab
   //!
   //! \throws std::runtime_error in case of a failure
   //!
@@ -317,6 +317,10 @@ class DLL_EXPORT Hyperslab : public Selection {
 };
 
 DLL_EXPORT Dataspace operator||(const Dataspace &space, const Hyperslab &selection);
+
+DLL_EXPORT SelectionList operator|(const Hyperslab &a, const Hyperslab &b);
+
+DLL_EXPORT SelectionList &operator|(SelectionList &selections, const Hyperslab &b);
 
 } // namespace dataspace
 } // namespace hdf5

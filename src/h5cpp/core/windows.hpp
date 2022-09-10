@@ -25,14 +25,18 @@
 //
 #pragma once
 
-#ifdef _MSC_VER
-	#ifdef DLL_BUILD
-		#define DLL_EXPORT __declspec(dllexport)
-	#else
-		#define DLL_EXPORT __declspec(dllimport)
-	#endif
-#else 
+#ifndef H5CPP_BUILD_SHARED
 	#define DLL_EXPORT
+#else
+	#ifdef _MSC_VER
+		#ifdef H5CPP_EXPORTS
+			#define DLL_EXPORT __declspec(dllexport)
+		#else
+			#define DLL_EXPORT __declspec(dllimport)
+		#endif
+	#else 
+		#define DLL_EXPORT
+	#endif
 #endif
 
 #ifdef _MSC_VER

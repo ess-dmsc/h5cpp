@@ -170,7 +170,6 @@ class DLL_EXPORT Datatype
 
 //!
 //! @brief equality check for datatypes
-//! @relates Datatype
 //!
 //! Returns if two datatypes are equal. Datatypes are considered equal if
 //! they represent the same type.
@@ -183,7 +182,6 @@ DLL_EXPORT bool operator==(const Datatype &lhs, const Datatype &rhs);
 
 //!
 //! @brief inequality check for datatypes
-//! @relates Datatype
 //!
 //! Returns true if both datatypes do not represent the same types.
 //!

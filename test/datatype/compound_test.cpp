@@ -228,8 +228,8 @@ SCENARIO("testing IO with complex value") {
           complex_type read_value{0., 0.};
           a.read(read_value);
           THEN("They must match the original values") {
-            REQUIRE(write_value.real() == read_value.real());
-            REQUIRE(write_value.imag() == read_value.imag());
+            REQUIRE(write_value.real() == Approx(read_value.real()).epsilon(1e-12));
+            REQUIRE(write_value.imag() == Approx(read_value.imag()).epsilon(1e-12));
           }
         }
       }

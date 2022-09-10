@@ -30,7 +30,7 @@ TestEnvironment::TestEnvironment(const std::string &filename):
   filename_{filename},
   file_handle_{}
 {
-  file_handle_= hdf5::ObjectHandle{H5Fcreate(filename.c_str(),H5F_ACC_TRUNC,H5P_DEFAULT,H5P_DEFAULT)};
+  file_handle_= hdf5::ObjectHandle{H5Fcreate(filename.c_str(),H5F_ACC_TRUNC,hdf5::property::kDefault,hdf5::property::kDefault)};
 }
 
 void TestEnvironment::close()

@@ -24,19 +24,19 @@
 // Created on: Mar 1, 2018
 //
 #include <catch2/catch.hpp>
-#ifdef WITH_BOOST
+#ifdef H5CPP_WITH_BOOST
 #include <boost/version.hpp>
 #else
 #define BOOST_VERSION 100
 #endif
 #include <iterator>
 //#include "group_test_fixtures.hpp"
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 namespace { 
   static size_t get_path_size(const fs::path& path) {
   #if BOOST_VERSION < 106000
-    return std::distance(path.begin(), path.end());
+    return static_cast<size_t>(std::distance(path.begin(), path.end()));
   #else
     return path.size();
   #endif

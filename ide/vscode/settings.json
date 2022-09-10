@@ -1,0 +1,12 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Ninja",
+    "cmake.configureSettings": {
+        "H5CPP_CONAN_FILE": "${workspaceFolder}/conanfile_1.12.0.txt"
+    },
+    "mesonbuild.buildFolder": "builddir",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.watcherExclude": {
+        "**/target": true
+    }
+}

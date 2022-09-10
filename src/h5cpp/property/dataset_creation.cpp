@@ -27,6 +27,7 @@
 //
 #include <h5cpp/property/property_class.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
+#include <h5cpp/core/utilities.hpp>
 
 namespace hdf5 {
 namespace property {
@@ -99,9 +100,14 @@ DatasetLayout DatasetCreationList::layout() const {
 #if H5_VERSION_GE(1, 10, 0)
     case H5D_VIRTUAL:return DatasetLayout::Virtual;
 #endif
-    default:error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
+    case H5D_LAYOUT_ERROR:
+    case H5D_NLAYOUTS:
+      break;
   }
+  error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
+#ifndef __clang__
   return {};
+#endif
 }
 
 void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {
@@ -113,12 +119,12 @@ void DatasetCreationList::chunk(const Dimensions &chunk_dims) const {
 }
 
 Dimensions DatasetCreationList::chunk() const {
-  int s = H5Pget_chunk(static_cast<hid_t>(*this), 0, NULL);
+  int s = H5Pget_chunk(static_cast<hid_t>(*this), 0, nullptr);
   if (s < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the chunk rank!");
   }
 
-  Dimensions buffer(s);
+  Dimensions buffer(signed2unsigned<size_t>(s));
   if (H5Pget_chunk(static_cast<hid_t>(*this), s, buffer.data()) < 0) {
     error::Singleton::instance().throw_with_stack("Failure retrieving the chunk dimension!");
   }

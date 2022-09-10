@@ -9,8 +9,10 @@ set(test_sources
     )
 
 add_executable(attribute_test ${test_sources})
-target_link_libraries(attribute_test h5cpp)
+target_link_libraries(
+    attribute_test
+    PRIVATE
+        h5cpp
+        hdf5::hdf5
+)
 catch_discover_tests(attribute_test)
-add_test(NAME attribute_test
-         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-		 COMMAND attribute_test)

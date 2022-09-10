@@ -23,7 +23,7 @@
 // Created on: Oct 10, 2017
 //
 
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include "vector.hpp"
 #include "vector_h5.hpp"
 #include <vector>

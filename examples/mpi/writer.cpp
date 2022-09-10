@@ -23,7 +23,7 @@
 // Created on: Nov 7, 2017
 //
 
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include <iostream>
 
 using namespace hdf5;
@@ -51,8 +51,8 @@ int main(int argc,char **argv)
 
     node::Dataset dataset = root_group.create_dataset("mpi_ids",
                                                       datatype::create<int>(),
-                                                      dataspace::Simple{{total_procs}});
-    dataspace::Hyperslab slab{{my_id},{1},{1},{1}};
+                                                      dataspace::Simple{{static_cast<hsize_t>(total_procs)}});
+    dataspace::Hyperslab slab{{static_cast<hsize_t>(my_id)},{1},{1},{1}};
     dataset.write(my_id,slab);
   }
 

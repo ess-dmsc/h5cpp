@@ -24,7 +24,7 @@
 //
 #pragma once
 
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 #include "image.hpp"
 #include "rgbpixel_h5.hpp"
 
@@ -68,10 +68,11 @@ class TypeTrait<Image<PixelT>>
                     hdf5::Dimensions{value.ny(),value.nx()});
     }
 
-    const static DataspaceType & get(const Image<PixelT> &value)
+    const static DataspaceType & get(const Image<PixelT> &value, DataspacePool &)
     {
       const static DataspaceType & cref_ = Simple(hdf5::Dimensions{value.ny(),value.nx()},
 						  hdf5::Dimensions{value.ny(),value.nx()});
+      return cref_;
     }
 
     static void *ptr(Image<PixelT> &value)

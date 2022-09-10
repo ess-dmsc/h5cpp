@@ -83,7 +83,7 @@ class DLL_EXPORT FileAccessList : public List {
   //!
   //! \brief setting library version boundaries
   //!
-  void library_version_bounds(LibVersion high, LibVersion low) const;
+  void library_version_bounds(LibVersion low, LibVersion high) const;
 
   //!
   //! \brief get library version high bound

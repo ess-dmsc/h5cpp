@@ -37,8 +37,8 @@ std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
   switch (version) {
     case LibVersion::Earliest: return stream << "EARLIEST";
     case LibVersion::Latest: return stream << "LATEST";
-    default:return stream;
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
@@ -47,8 +47,8 @@ std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
     case CloseDegree::Semi: return stream << "SEMI";
     case CloseDegree::Strong: return stream << "STRONG";
     case CloseDegree::Default: return stream << "DEFAULT";
-    default:return stream;
   }
+  return stream;
 }
 
 FileAccessList::FileAccessList() :
@@ -65,10 +65,10 @@ FileAccessList::FileAccessList(ObjectHandle &&handle) :
   }
 }
 
-void FileAccessList::library_version_bounds(LibVersion high, LibVersion low) const {
+void FileAccessList::library_version_bounds(LibVersion low, LibVersion high) const {
   if (0 > H5Pset_libver_bounds(static_cast<hid_t>(*this),
-                               static_cast<H5F_libver_t>(high),
-                               static_cast<H5F_libver_t>(low))) {
+                               static_cast<H5F_libver_t>(low),
+                               static_cast<H5F_libver_t>(high))) {
     error::Singleton::instance().throw_with_stack("Failure setting the library version bounds!");
   }
 }

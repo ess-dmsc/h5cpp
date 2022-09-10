@@ -227,8 +227,27 @@ void ObjectHandle::close()
     case ObjectHandle::Type::ErrorClass:
       error_code = H5Eunregister_class(handle_);
       break;
+    case ObjectHandle::Type::Dataset:
+      error_code = H5Dclose(handle_);
+      break;
+    case ObjectHandle::Type::Uninitialized:
+      error_code = H5Oclose(handle_);
+      break;
+    case ObjectHandle::Type::BadObject:
+      error_code = H5Oclose(handle_);
+      break;
+    case ObjectHandle::Type::VirtualFileLayer:
+      error_code = H5Oclose(handle_);
+      break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
     default:
       error_code = H5Oclose(handle_);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
 
   if (error_code < 0)
@@ -277,12 +296,22 @@ ObjectHandle::Type ObjectHandle::get_type() const
       return ObjectHandle::Type::ErrorMessage;
     case H5I_ERROR_STACK:
       return ObjectHandle::Type::ErrorStack;
-    default:
-      std::stringstream ss;
-      ss << "ObjectHandle: unknown object type=" << type;
-      error::Singleton::instance().throw_with_stack(ss.str());
-  };
+#if H5_VERSION_GE(1,12,0)
+    case H5I_MAP:
+    case H5I_VOL:
+    case H5I_SPACE_SEL_ITER:
+#else
+    case H5I_REFERENCE:
+#endif
+    case H5I_NTYPES:
+      break;
+  }
+  std::stringstream ss;
+  ss << "ObjectHandle: unknown object type=" << type;
+  error::Singleton::instance().throw_with_stack(ss.str());
+#ifndef  __clang__
   return {};
+#endif
 }
 
 //----------------------------------------------------------------------------
@@ -387,9 +416,16 @@ std::ostream &operator<<(std::ostream &stream, const ObjectHandle::Type &type)
     case ObjectHandle::Type::ErrorStack:
       stream << "ERROR_STACK";
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
     default:
       stream << "unknown";
-  };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+  }
 
   return stream;
 }

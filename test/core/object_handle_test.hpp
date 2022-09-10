@@ -29,7 +29,12 @@
 #include <h5cpp/core/object_handle.hpp>
 
 #include <h5cpp/core/hdf5_capi.hpp>
+#include <h5cpp/property/property_list.hpp>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#endif
 class TestEnvironment
 {
   std::string filename_{};
@@ -75,7 +80,7 @@ class FileObjectHandleTest : public ObjectHandleTest
   std::string filename_{};
  public:
   FileObjectHandleTest(const std::string &filename);
-  ~FileObjectHandleTest();
+  ~FileObjectHandleTest() override;
 
   virtual hid_t create_object() override;
 };
@@ -115,7 +120,7 @@ class DatasetObjectHandleTest : public ObjectHandleTest
   hdf5::ObjectHandle dspace_;
  public:
   DatasetObjectHandleTest(const std::string &filename);
-  ~DatasetObjectHandleTest();
+  ~DatasetObjectHandleTest() override;
 
   virtual hid_t create_object() override;
 };
@@ -128,7 +133,7 @@ class AttributeObjectHandleTest : public ObjectHandleTest
   hdf5::ObjectHandle group_;
  public:
   AttributeObjectHandleTest(const std::string &filename);
-  ~AttributeObjectHandleTest();
+  ~AttributeObjectHandleTest() override;
 
   virtual hid_t create_object() override;
 };
@@ -146,7 +151,7 @@ class PropertyListClassObjectHandleTest : public ObjectHandleTest
  public:
   PropertyListClassObjectHandleTest();
 
-  virtual hid_t create_object();
+  virtual hid_t create_object() override;
 };
 
 class ErrorMessageObjectHandleTest : public ObjectHandleTest
@@ -169,6 +174,9 @@ class ErrorClassObjectHandleTest : public ObjectHandleTest
   ErrorClassObjectHandleTest();
   virtual hid_t create_object() override;
 };
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 
 

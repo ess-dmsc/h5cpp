@@ -16,16 +16,17 @@ In order to build the code you need
   (gcc>=4.9,Micrsoft Developer Studio >= 2015)
 * the `Boost`_ libraries or a compiler with std::filesystem or std::experimental::filesystem
 * the `HDF5`_ C library
-* `googletest`_ to build the unit tests
-* `sphinx`_ (with python) and  `doxygen`_ for the documentation build
-* `cmake`_ >= 3.0
+* `catch2`_ to build the unit tests
+* `sphinx`_ , `breathe`_ (with python) and  `doxygen`_ for the documentation build
+* `cmake`_ >= 3.10
 
 .. _cmake: https://cmake.org/
 .. _sphinx: http://www.sphinx-doc.org/en/stable/
+.. _breathe: https://github.com/michaeljones/breathe
 .. _HDF5: https://support.hdfgroup.org/HDF5/
 .. _Boost: http://www.boost.org/
-.. _doxygen: http://www.stack.nl/~dimitri/doxygen/index.html
-.. _googletest: https://github.com/google/googletest
+.. _doxygen: https://www.doxygen.nl/index.html
+.. _catch2: https://github.com/catchorg/catch2
 
 Getting the code
 ----------------
@@ -71,7 +72,7 @@ which should do the job provided that all dependencies are installed in
 standard locations. We strongly recommend to set the particular build 
 configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.
 
-To attempt to build without Boost, additionally specify `-DWITH_BOOST=OFF`.
+To attempt to build without Boost, additionally specify `-DH5CPP_WITH_BOOST=OFF`.
 This requires a recent compiler, for example gcc >8, with filesystem in
 the std or std::experimental namespace.
 
@@ -133,7 +134,7 @@ and for Ubuntu (Focal)
 
    $ wget http://repos.pni-hdri.de/focal-pni-hdri.list
 
-Similarly, proceed for Bullseye, Buster, Stretch, Impish, Focal or Bionic.
+Similarly, proceed for Bullseye, Buster, Stretch, Jammy, Focal or Bionic.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -145,7 +146,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.4.1 libh5cpp0.4.1-dbg libh5cpp0.4.1-doc libh5cpp0.4.1-dev
+   $ apt-get install libh5cpp0.5.1 libh5cpp0.5.1-dbg libh5cpp0.5.1-doc libh5cpp0.5.1-dev
 
-to install the library of v0.4.1. Dependencies will be resolved automatically so you can
+to install the library of v0.5.1. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.

@@ -36,15 +36,29 @@ namespace datatype {
 //! \brief factory function for creating data types
 //!
 template<typename T>
-typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const T &v = T()) {
+typename TypeTrait<typename std::remove_const<T>::type>::TypeClass create(const T &v = T{}) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#endif
   return TypeTrait<typename std::remove_const<T>::type>::create(v);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 }
 //!
 //! \brief factory function for getting reference of data types
 //!
 template<typename T>
-static const Datatype & get(const T &v = T()) {
+const Datatype & get(const T &v = T{}) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundefined-func-template"
+#endif
   return TypeTrait<typename std::remove_const<T>::type>::get(v);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 }
 
 //!
@@ -64,7 +78,7 @@ class DLL_EXPORT DatatypeHolder
   //! @return data type reference for data type object
   //!
   template<typename T>
-    const Datatype & get(const T & v = T());
+    const Datatype & get(const T & v = T{});
 
  private:
       Datatype instance;
@@ -74,11 +88,15 @@ template<typename T>
 const Datatype & DatatypeHolder::get(const T & v)
 {
   auto & type = hdf5::datatype::get(v);
-  if(static_cast<hid_t>(type))
+  if(static_cast<hid_t>(type)) 
+  {
     return type;
+  }
 
-  if (!static_cast<hid_t>(instance))
+  if (!static_cast<hid_t>(instance)) 
+  {
     instance = hdf5::datatype::create(v);
+  }
   return instance;
 }
 

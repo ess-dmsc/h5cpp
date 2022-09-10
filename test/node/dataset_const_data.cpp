@@ -27,7 +27,7 @@
 #include <h5cpp/hdf5.hpp>
 #include <array>
 #include <cstdint>
-#include <h5cpp/contrib/stl/array.hpp>
+#include <h5cpp/contrib/stl/stl.hpp>
 
 using namespace hdf5;
 
@@ -38,6 +38,10 @@ void constData() {
   dset.write(SomeData);
 }
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-prototypes"
+#endif
 void DoNotRun() {
   constData<std::int8_t>();
   constData<std::uint8_t>();
@@ -51,3 +55,6 @@ void DoNotRun() {
   constData<float>();
   constData<char>();
 }
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif

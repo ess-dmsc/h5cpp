@@ -70,15 +70,6 @@ class DLL_EXPORT ObjectId
     ObjectId(const ObjectHandle &handle);
 
     //!
-    //! \brief copy constructor
-    //!
-    //! We need this for compliance with STL containers. As all memebers of
-    //! this class support copy construction and assignment we can safely use
-    //! the default implementation, provided by the compiler, here.
-    //!
-    ObjectId(const ObjectId &id) = default;
-
-    //!
     //! \brief Equality operator for IDs
     //!
     bool operator== (const ObjectId& other) const;
@@ -94,10 +85,12 @@ class DLL_EXPORT ObjectId
     //!
     bool operator< (const ObjectId& other) const;
 
+#ifndef _DOXYGEN_ /* workaround for the #613 breathe bug */
     //!
     //! @brief stream output operator for ObjectId class
     //!
     DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+#endif /* DOXYGEN */
 
     //!
     //! \brief Get the HDF5 file number
@@ -135,10 +128,10 @@ class DLL_EXPORT ObjectId
     //! Obtains the name of the file where the object is stored in.
     static std::string get_file_name(const ObjectHandle &handle);
 
-#if H5_VERSION_LE(1,10,6)
-#define H5O_info_t_ H5O_info_t
-#else
+#if H5_VERSION_GE(1,11,0)
 #define H5O_info_t_ H5O_info1_t
+#else
+#define H5O_info_t_ H5O_info_t
 #endif
 
     //!H5O_info_t
@@ -164,5 +157,11 @@ class DLL_EXPORT ObjectId
 #endif
 };
 
+#ifdef _DOXYGEN_ /* workaround for the #613 breathe bug */
+    //!
+    //! @brief stream output operator for ObjectId class
+    //!
+    DLL_EXPORT friend std::ostream & operator<<(std::ostream &os, const ObjectId& p);
+#endif /* DOXYGEN */
 
 }

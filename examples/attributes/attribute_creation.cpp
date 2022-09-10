@@ -23,7 +23,7 @@
 // Created on: Jul 2, 2018
 //
 
-#include <h5cpp/hdf5.hpp>
+#include <h5cpp/h5cpp.hpp>
 
 using namespace hdf5;
 
