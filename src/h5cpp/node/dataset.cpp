@@ -207,6 +207,7 @@ unsigned long long Dataset::chunk_storage_size(
 
 #endif
 
+/*
 void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
 {
   write(std::string(data),dtpl);
@@ -215,7 +216,7 @@ void Dataset::write(const char *data,const property::DatasetTransferList &dtpl)
 void Dataset::write(const char *data,const property::DatasetTransferList &dtpl) const
 {
   write(std::string(data),dtpl);
-}
+}*/
 
 filter::ExternalFilters Dataset::filters() const
 {
