@@ -148,3 +148,43 @@ SCENARIO("deflate and shuffle filters as external filter") {
     }
   }
 }
+
+SCENARIO("External filter Blosc LZ4") {
+  const unsigned int FILTER_BLOSC = 32001;
+
+  /* 0 to 3 (inclusive) param slots are reserved. */
+  /* 4: compression level */
+  /* 5: 0: shuffle not active, 1: shuffle active */
+  /* 6: the actual compressor to use, 0: BLOSC_BLOSCLZ */
+
+  CdValues params{0u, 0u, 0u, 0u, 4u, 0u, 0u};
+
+  GIVEN("a filter instance") {
+    filter::ExternalFilter bloscfilter(FILTER_BLOSC, {0u, 0u, 0u, 0u, 4u, 0u, 0u});
+    THEN("we can expect for the id") {
+      REQUIRE(bloscfilter.id() == static_cast<int>(FILTER_BLOSC));
+    }
+    THEN("we get for the filter paramters") {
+      REQUIRE_THAT(bloscfilter.cd_values(), Equals(params));
+    }
+    if (filter::is_filter_available(FILTER_BLOSC)) {
+      AND_GIVEN("a dataset creation property list") {
+        property::DatasetCreationList dcpl;
+        WHEN("we appy the filter to the property list") {
+          REQUIRE_NOTHROW(bloscfilter(dcpl));
+          THEN("we can retrieve the filters back from the list") {
+            filter::ExternalFilters filters;
+            auto flags = filters.fill(dcpl);
+            REQUIRE(filters.size() == 1lu);
+            REQUIRE(flags.size() == 1lu);
+            REQUIRE(flags[0] == filter::Availability::Mandatory);
+            REQUIRE_THAT(filters[0].cd_values(), Equals(params));
+            REQUIRE(filters[0].id() == static_cast<int>(FILTER_BLOSC));
+            REQUIRE(filters[0].name() ==
+                    "HDF5 blosc filter; see http://www.hdfgroup.org/services/contributions.html");
+          }
+        }
+      }
+    }
+  }
+}
