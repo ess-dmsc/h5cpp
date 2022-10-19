@@ -27,8 +27,7 @@ set(test_sources node_test.cpp
                  link_target_test.cpp
                  dataset_io_speed_test.cpp
                  virtual_dataset_test.cpp
-                 dataset_direct_chunk_test.cpp
-                 dataset_external_filter_test.cpp)
+                 dataset_direct_chunk_test.cpp)
 
 add_executable(node_test ${test_sources})
 target_link_libraries(
