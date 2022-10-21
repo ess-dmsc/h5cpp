@@ -68,23 +68,23 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
         break
-      case 'debian10':
+      case 'debian11':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'debian10-release':
+      case 'debian11-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'debian10-release-hdf5-1.12':
+      case 'debian11-release-hdf5-1.12':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'ubuntu2004':
+      case 'ubuntu2204':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'ubuntu2004-release':
+      case 'ubuntu2204-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
