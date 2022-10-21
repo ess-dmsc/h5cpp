@@ -105,10 +105,10 @@ builders = pipeline_builder.createBuilders { container ->
 
   pipeline_builder.stage("${container.key}: Build") {
     container.sh """
-    cd build
-    . ./activate_run.sh
-    make --version
-    make -j4 all
+      cd build
+      . ./activate_run.sh
+      make --version
+      make -j4 all
     """
   }  // stage
 
@@ -116,9 +116,9 @@ builders = pipeline_builder.createBuilders { container ->
     if (container.key != coverage_os) {
       try {
         container.sh """
-                cd build
-                make test
-            """
+          cd build
+          make test
+        """
       } catch(e) {
         failure_function(e, 'Run tests failed')
       }
@@ -127,37 +127,37 @@ builders = pipeline_builder.createBuilders { container ->
 
   pipeline_builder.stage("${container.key}: Coverage") {
     if (container.key == coverage_os) {
-        try {
-            container.sh """
-                cd build
-                make generate_coverage
-            """
-            container.copyFrom('build', '.')
-        } catch(e) {
-            container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
-            junit 'unit_tests_run.xml'
-        }
+      try {
+        container.sh """
+          cd build
+          make generate_coverage
+        """
+        container.copyFrom('build', '.')
+      } catch(e) {
+        container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
+        junit 'unit_tests_run.xml'
+      }
 
-        abs_dir = pwd()
-        dir("build") {
-            sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
-            try {
-                step([
-                    $class: 'CoberturaPublisher',
-                    autoUpdateHealth: true,
-                    autoUpdateStability: true,
-                    coberturaReportFile: 'coverage/coverage.xml',
-                    failUnhealthy: false,
-                    failUnstable: false,
-                    maxNumberOfBuilds: 0,
-                    onlyStable: false,
-                    sourceEncoding: 'ASCII',
-                    zoomCoverageChart: true
-                ])
-            } catch(e) {
-                failure_function(e, 'Publishing coverage reports from failed')
-            }
+      abs_dir = pwd()
+      dir("build") {
+        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
+        try {
+          step([
+            $class: 'CoberturaPublisher',
+            autoUpdateHealth: true,
+            autoUpdateStability: true,
+            coberturaReportFile: 'coverage/coverage.xml',
+            failUnhealthy: false,
+            failUnstable: false,
+            maxNumberOfBuilds: 0,
+            onlyStable: false,
+            sourceEncoding: 'ASCII',
+            zoomCoverageChart: true
+          ])
+        } catch(e) {
+          failure_function(e, 'Publishing coverage reports from failed')
         }
+      }
     }
   }
 
@@ -245,55 +245,54 @@ builders = pipeline_builder.createBuilders { container ->
         if (pipeline_builder.branch ==~ '/^v?(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$/') {
           def rlversion = pipeline_builder.branch
           withCredentials([usernamePassword(
-                               credentialsId: 'cow-bot-username-with-token',
-                               usernameVariable: 'USERNAME',
-                               passwordVariable: 'PASSWORD'
-                           )]) {
+            credentialsId: 'cow-bot-username-with-token',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
             withEnv(["PROJECT=${pipeline_builder.project}", "RLVERSION=${rlversion}"]) {
-                sh 'cd $PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
-                sh 'cd $PROJECT && git checkout docs_stable && git reset --hard master && ./push_to_repo.sh $USERNAME $PASSWORD'
-            }
-          }
-        }
-      }
-    }
-  }
+              sh 'cd $PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
+              sh 'cd $PROJECT && git checkout docs_stable && git reset --hard master && ./push_to_repo.sh $USERNAME $PASSWORD'
+            }  // withEnv
+          }  // withCredentials
+        }  // if (pipeline_builder.branch) ...
+      }  // if/else
+    }  // stage
+  }  // if (container.key) ...
 }
 
-def get_macos_pipeline(build_type)
-{
-    return {
-        stage("macOS-${build_type}") {
-            node ("macos") {
-            // Delete workspace when build is done
-                cleanWs()
+def get_macos_pipeline(build_type) {
+  return {
+    stage("macOS-${build_type}") {
+      node ("macos") {
+        // Delete workspace when build is done
+        cleanWs()
 
-                dir("${project}/code") {
-                    try {
-                        checkout scm
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / Checkout failed')
-                    }
-                }
+        dir("${project}/code") {
+          try {
+            checkout scm
+          } catch (e) {
+            failure_function(e, 'MacOSX / Checkout failed')
+          }
+        }  // dir
 
-                dir("${project}/build") {
-                    try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / CMake failed')
-                    }
+        dir("${project}/build") {
+          try {
+            sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
+          } catch (e) {
+            failure_function(e, 'MacOSX / CMake failed')
+          }
 
-                    try {
-                        sh "make -j4"
-                        sh "ctest"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / build+test failed')
-                    }
-                }
+          try {
+            sh "make -j4"
+            sh "ctest"
+          } catch (e) {
+            failure_function(e, 'MacOSX / build+test failed')
+          }
+        }  // dir
 
-            }
-        }
-    }
+      }  // node
+    }  // stage
+  }
 }
 
 node {
