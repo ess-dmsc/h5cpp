@@ -295,29 +295,6 @@ def get_macos_pipeline(build_type)
         }
     }
 }
-/*
-def get_meson_debian_pipeline() { 
-  return { 
-    stage("debian10-meson") { 
-      node("debian10") { 
-        cleanWs()
-        // checkout the source code
-        dir("${project}/code") { 
-          try { 
-            sh "apt install -y meson"
-          } catch (e) { 
-            failure_function(e, "Debian10 meson installation failed")
-          }
-          try { 
-            checkout scm
-          } catch(e) { 
-            failure_function(e, "Debian10/Meson checkout failed")
-          }
-        }
-      }
-    }
-  }
-}*/
 
 node {
   dir("${project}") {
@@ -330,7 +307,6 @@ node {
 
   builders['macOS-release'] = get_macos_pipeline('Release')
   builders['macOS-debug'] = get_macos_pipeline('Debug')
-  //builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {
