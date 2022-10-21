@@ -11,7 +11,6 @@ container_build_nodes = [
   'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
   'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
   'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
-  'debian11-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
   'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
   'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
@@ -74,10 +73,6 @@ builders = pipeline_builder.createBuilders { container ->
         break
       case 'debian11-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
-        break
-      case 'debian11-release-hdf5-1.12':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
       case 'ubuntu2204':

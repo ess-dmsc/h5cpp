@@ -32,7 +32,7 @@ class H5CppConan(ConanFile):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
-        self.requires("hdf5/1.12.0")
+        self.requires("hdf5/1.12.2")
         if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
                 self.requires("boost/1.77.0")

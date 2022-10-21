@@ -1,6 +1,6 @@
 [requires]
 boost/1.69.0
-hdf5/1.10.5-dm2@ess-dmsc/stable
+hdf5/1.12.2
 zlib/1.2.11@conan/stable
 bzip2/1.0.8
 catch2/2.13.7
@@ -36,7 +36,7 @@ boost:without_timer=True
 boost:without_type_erasure=True
 boost:without_wave=True
 hdf5:shared=True
-hdf5:cxx=False
+hdf5:enable_cxx=False
 hdf5:parallel=True
 zlib:shared=True
 
