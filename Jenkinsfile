@@ -57,35 +57,27 @@ builders = pipeline_builder.createBuilders { container ->
 
   pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
-    def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         break
       case 'centos7-release':
-        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         break
       case 'debian11':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
       case 'debian11-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
       case 'ubuntu2204':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
       case 'ubuntu2204-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
       default:
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
     }
 
@@ -94,7 +86,7 @@ builders = pipeline_builder.createBuilders { container ->
       cd build
       conan install --build b2 --build missing b2/4.8.0@
       cmake --version
-      ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
+      cmake ${cmake_options} ../${pipeline_builder.project}
     """
   }  // stage
 
