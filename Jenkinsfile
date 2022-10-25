@@ -93,7 +93,6 @@ builders = pipeline_builder.createBuilders { container ->
   pipeline_builder.stage("${container.key}: Build") {
     container.sh """
       cd build
-      . ./activate_run.sh
       make --version
       make -j4 all
     """
