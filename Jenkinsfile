@@ -84,12 +84,6 @@ builders = pipeline_builder.createBuilders { container ->
     container.sh """
       mkdir build
       cd build
-      conan install --build b2 --build missing b2/4.8.0@
-      conan install --build hdf5 --build missing \
-        --options hdf5:szip_support=with_libaec \
-        --options hdf5:szip_encoding=True \
-        --options hdf5:enable_cxx=False \
-        hdf5/1.12.2@
       cmake --version
       cmake ${cmake_options} ../${pipeline_builder.project}
     """
