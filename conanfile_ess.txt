@@ -1,6 +1,6 @@
 [requires]
 boost/1.69.0
-hdf5/1.10.6
+hdf5/1.12.2
 zlib/1.2.11
 bzip2/1.0.8
 catch2/2.13.7
@@ -35,11 +35,9 @@ boost:without_thread=True
 boost:without_timer=True
 boost:without_type_erasure=True
 boost:without_wave=True
-hdf5:shared=True
 hdf5:szip_support=with_libaec
 hdf5:szip_encoding=True
 hdf5:enable_cxx=False
-zip:shared=True
 
 [imports]
 bin, cmake -> ./bin
