@@ -82,9 +82,9 @@ class create {
     return file::create(filename, file::AccessFlags::Truncate, fcpl(), fapl());
   }
   static dataspace::Simple ds(Dimensions current) {
-    Dimensions max(current.size());
-    std::fill(std::begin(max), std::end(max), dataspace::Simple::unlimited);
-    return dataspace::Simple(current, max);
+    Dimensions dmax(current.size());
+    std::fill(std::begin(dmax), std::end(dmax), dataspace::Simple::unlimited);
+    return dataspace::Simple(current, dmax);
   }
 
   static UShorts buffer(size_t size) {
