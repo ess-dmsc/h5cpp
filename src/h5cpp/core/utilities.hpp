@@ -61,7 +61,7 @@ TType unsigned2signed(SType &&source_value) {
   using target_limits = std::numeric_limits<stripped_target_t>;
   // if the source value is smaller than the maximum positive value of the 
   // signed target type
-  if(source_value <= static_cast<stripped_source_t>(target_limits::max())) {
+  if(source_value <= static_cast<stripped_source_t>((target_limits::max)())) {
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsign-conversion"
@@ -96,7 +96,7 @@ TType signed2unsigned(SType &&source_value) {
 #pragma clang diagnostic ignored "-Wsign-compare"
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
-  if(static_cast<stripped_target_t>(source_value) <= target_limits::max()) {
+  if(static_cast<stripped_target_t>(source_value) <= (target_limits::max)()) {
 	  return static_cast<stripped_target_t>(std::forward<SType>(source_value));
 #ifdef __clang__
 #pragma clang diagnostic pop
