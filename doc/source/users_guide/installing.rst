@@ -146,7 +146,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.5.1 libh5cpp0.5.1-dbg libh5cpp0.5.1-doc libh5cpp0.5.1-dev
+   $ apt-get install libh5cpp0.5.2 libh5cpp0.5.2-dbg libh5cpp0.5.2-doc libh5cpp0.5.2-dev
 
-to install the library of v0.5.1. Dependencies will be resolved automatically so you can
+to install the library of v0.5.2. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.
