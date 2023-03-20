@@ -60,7 +60,7 @@ jobs:
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED}"
-	  conan profile detect
+          conan profile detect
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
@@ -109,7 +109,7 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${H5CPP_SHARED}"
-	  conan profile detect
+          conan profile detect
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
@@ -173,7 +173,7 @@ jobs:
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5:shared=${HDF5_SHARED}"
-	  conan profile detect
+          conan profile detect
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
