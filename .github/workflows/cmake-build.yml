@@ -21,19 +21,19 @@ jobs:
         mpi: [mpi, serial]
         libcxx: [libstdc++11, libc++]
         image: [
-            "conanio/gcc11-ubuntu16.04",
-            "conanio/clang13-ubuntu16.04"
+          "conanio/gcc11-ubuntu16.04:1.59.0",
+          "conanio/clang13-ubuntu16.04:1.59.0"
         ]
         exclude:
-          - image: conanio/gcc11-ubuntu16.04
+          - image: conanio/gcc11-ubuntu16.04:1.59.0
             libcxx: libc++
         include:
-          - image: conanio/gcc11-ubuntu16.04
+          - image: conanio/gcc11-ubuntu16.04:1.59.0
             profile: gcc11
-          - image: conanio/clang13-ubuntu16.04
+          - image: conanio/clang13-ubuntu16.04:1.59.0
             libcxx: libstdc++11
             profile: clang13-libstdc++
-          - image: conanio/clang13-ubuntu16.04
+          - image: conanio/clang13-ubuntu16.04:1.59.0
             libcxx: libc++
             profile: clang13-libc++
     runs-on: ubuntu-20.04
@@ -55,7 +55,6 @@ jobs:
             apt-get install -y --no-install-recommends ssh
       - name: Install and configure conan
         run: |
-          pip3 install conan==1.59.0
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
