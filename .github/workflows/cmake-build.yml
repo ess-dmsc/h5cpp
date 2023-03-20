@@ -55,6 +55,7 @@ jobs:
             apt-get install -y --no-install-recommends ssh
       - name: Install and configure conan
         run: |
+          pip3 install conan==1.59.0
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
