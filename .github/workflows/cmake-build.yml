@@ -129,7 +129,6 @@ jobs:
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
             -o with_boost=${H5CPP_WITH_BOOST} \
-            -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${H5CPP_SHARED}"
           conan install . ${CONAN_ARGS} \
