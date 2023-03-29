@@ -73,7 +73,12 @@ jobs:
             conan-${{ matrix.profile }}
       - name: install conan dependencies
         run: |
-          conan install . \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan install . ${CONAN_ARGS} \
             --output-folder build \
             --lockfile conan.lock \
             --build missing \
@@ -122,7 +127,12 @@ jobs:
             conan-vs-2019
       - name: install conan dependencies
         run: |
-          conan install . \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan install . ${CONAN_ARGS} \
             --output-folder build \
             --lockfile conan.lock \
             --build missing \
@@ -186,7 +196,12 @@ jobs:
             conan-apple-clang12
       - name: install conan dependencies
         run: |
-          conan install . \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan install . ${CONAN_ARGS} \
             --output-folder build \
             --lockfile conan.lock \
             --build missing \
