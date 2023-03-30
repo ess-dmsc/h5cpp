@@ -100,7 +100,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  windows-2019:
+  windows-2022:
     strategy:
       matrix:
         shared: ["shared", "static"]
@@ -108,7 +108,7 @@ jobs:
           "boost",
           "stdfs"
         ]
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
       - name: Add MSVC to PATH
