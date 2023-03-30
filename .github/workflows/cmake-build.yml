@@ -139,7 +139,7 @@ jobs:
             --lockfile conan.lock \
             --build missing \
             --update \
-            --generator virtualrunenv
+            --generator VirtualRunEnv
       - name: build with cmake
         run: |
           conan build . --output-folder build
