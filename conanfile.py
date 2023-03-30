@@ -25,7 +25,7 @@ class H5CppConan(ConanFile):
         # self.build_requires("catch2/3.3.2")
         self.build_requires("catch2/2.13.10")
         self.build_requires("ninja/1.10.2")
-        self.build_requires("cmake/3.25.3")
+        # self.build_requires("cmake/3.25.3")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -37,6 +37,7 @@ class H5CppConan(ConanFile):
 
     def requirements(self):
         self.requires("hdf5/1.12.2")
+        self.requires("catch2/2.13.10")
         self.requires("libiconv/1.17")
         self.requires("zlib/1.2.13")
         self.requires("szip/2.1.1")
