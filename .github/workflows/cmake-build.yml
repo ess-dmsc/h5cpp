@@ -161,7 +161,6 @@ jobs:
       - name: run tests
         run: |
           cd build
-          .\activate_run.ps1
           ctest --extra-verbose --no-tests=error
         shell: pwsh
   macos-10:
@@ -248,7 +247,6 @@ jobs:
       - name: run tests
         run: |
           cd build
-          # source activate.sh
           ctest --extra-verbose --no-tests=error
   debian-10:
     strategy:
