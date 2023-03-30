@@ -3,5 +3,5 @@ arch=x86_64
 build_type=Release
 compiler=msvc
 compiler.version=193
-compiler.runtime=MD
+compiler.runtime=dynamic
 os=Windows
