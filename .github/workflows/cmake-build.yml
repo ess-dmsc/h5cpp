@@ -213,6 +213,10 @@ jobs:
             conan-apple-clang12
       - name: install conan dependencies
         run: |
+          HDF5_SHARED=${H5CPP_SHARED}
+          if [ "${H5CPP_WITH_MPI}" = "True" ]; then
+            HDF5_SHARED=False
+          fi
           CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
@@ -226,6 +230,10 @@ jobs:
             --generator VirtualRunEnv
       - name: build with cmake
         run: |
+          HDF5_SHARED=${H5CPP_SHARED}
+          if [ "${H5CPP_WITH_MPI}" = "True" ]; then
+            HDF5_SHARED=False
+          fi
           CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
