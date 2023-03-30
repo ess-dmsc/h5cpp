@@ -94,6 +94,7 @@ jobs:
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${H5CPP_SHARED}"
           conan build .  ${CONAN_ARGS} \
+            --lockfile conan.lock \
             --output-folder build
       - name: run tests
         run: |
@@ -151,7 +152,9 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${H5CPP_SHARED}"
-          conan build . ${CONAN_ARGS} --output-folder build
+          conan build . ${CONAN_ARGS} \
+            --lockfile conan.lock \
+            --output-folder build
       - name: run tests
         run: |
           cd build
@@ -228,7 +231,9 @@ jobs:
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${HDF5_SHARED}"
-          conan build .  ${CONAN_ARGS}  --output-folder build
+          conan build .  ${CONAN_ARGS}  \
+            --lockfile conan.lock \
+            --output-folder build
       - name: run tests
         run: |
           cd build
