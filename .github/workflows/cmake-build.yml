@@ -245,7 +245,7 @@ jobs:
       - name: run tests
         run: |
           cd build
-          source activate.sh
+          # source activate.sh
           ctest --extra-verbose --no-tests=error
   debian-10:
     strategy:
