@@ -161,6 +161,7 @@ jobs:
       - name: run tests
         run: |
           cd build
+          .\activate_run.ps1
           ctest --extra-verbose --no-tests=error
         shell: pwsh
   macos-10:
@@ -223,7 +224,7 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5/*:shared=${H5CPP_SHARED}"
+            -o hdf5/*:shared=${HDF5_SHARED}"
           conan install . ${CONAN_ARGS} \
             --output-folder build \
             --lockfile conan.lock \
