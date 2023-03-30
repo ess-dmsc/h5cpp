@@ -104,7 +104,10 @@ jobs:
     strategy:
       matrix:
         shared: ["shared", "static"]
-        boost: ["boost", "stdfs"]
+        boost: [
+          # "boost",
+          "stdfs"
+        ]
     runs-on: windows-2019
     steps:
       - uses: actions/checkout@v2
