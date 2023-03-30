@@ -37,7 +37,7 @@ class H5CppConan(ConanFile):
         self.requires("hdf5/1.12.2")
         self.requires("libiconv/1.17")
         self.requires("zlib/1.2.13")
-        self.requires("slib/2.1.1")
+        self.requires("szip/2.1.1")
         if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
                 self.requires("boost/1.77.0")
