@@ -1,10 +1,10 @@
 from conan import ConanFile, tools
-from conan.tools.cmake import CMake
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
 
 
 class H5CppConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake", "cmake_find_package"
+    generators = "CMakeToolchain", "CMakeDeps"
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
