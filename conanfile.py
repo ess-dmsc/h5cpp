@@ -22,7 +22,7 @@ class H5CppConan(ConanFile):
     }
 
     def build_requirements(self):
-        self.build_requires("catch2/2.13.7")
+        self.build_requires("catch2/3.3.2")
         self.build_requires("ninja/1.10.2")
 
     def config_options(self):
