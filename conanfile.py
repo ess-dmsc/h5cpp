@@ -17,7 +17,8 @@ class H5CppConan(ConanFile):
         "with_mpi": False,
         "with_boost": True,
         "hdf5/*:hl": True,
-        "hdf5/*:enable_cxx": False
+        "hdf5/*:enable_cxx": False,
+        "hdf5/*:shared": False
     }
 
     def build_requirements(self):
@@ -48,12 +49,8 @@ class H5CppConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         print(self.options)
-        try:
-            cmake.configure(variables={
-                "H5CPP_CONAN": "MANUAL",
-                "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
-                "H5CPP_WITH_BOOST": self.options.get_safe("with_boost", False)})
-        except Exception as e:
-            print(str(e))
-            raise
+        cmake.configure(variables={
+            "H5CPP_CONAN": "MANUAL",
+            "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
+            "H5CPP_WITH_BOOST": self.options.get_safe("with_boost", False)})
         cmake.build()
