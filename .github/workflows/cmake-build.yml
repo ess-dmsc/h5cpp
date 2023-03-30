@@ -88,7 +88,12 @@ jobs:
             --update
       - name: build with cmake
         run: |
-          conan build . \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan build .  ${CONAN_ARGS} \
             --output-folder build
       - name: run tests
         run: |
@@ -142,7 +147,11 @@ jobs:
             --generator VirtualRunEnv
       - name: build with cmake
         run: |
-          conan build . --output-folder build
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan build . ${CONAN_ARGS} --output-folder build
       - name: run tests
         run: |
           cd build
@@ -214,7 +223,12 @@ jobs:
             --generator VirtualRunEnv
       - name: build with cmake
         run: |
-          conan build . --output-folder build
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${HDF5_SHARED}"
+          conan build .  ${CONAN_ARGS}  --output-folder build
       - name: run tests
         run: |
           cd build
