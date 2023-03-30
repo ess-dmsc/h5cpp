@@ -39,13 +39,14 @@ class H5CppConan(ConanFile):
         self.requires("hdf5/1.12.2")
         self.requires("catch2/2.13.10")
         self.requires("libiconv/1.17")
-        self.requires("szip/2.1.1")
         self.requires("zlib/1.2.13")
-        self.requires("bzip2/1.0.8")
+        if self.settings.os != "Windows":
+            self.requires("szip/2.1.1")
+            self.requires("bzip2/1.0.8")
 
         if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
-                self.requires("boost/1.77.0")
+                self.requires("boost/1.81.0")
             elif self.settings.os == "Macos":
                 self.requires("boost/1.81.0")
             else:
