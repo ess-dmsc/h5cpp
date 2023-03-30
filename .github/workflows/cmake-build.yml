@@ -105,7 +105,7 @@ jobs:
       matrix:
         shared: ["shared", "static"]
         boost: [
-          # "boost",
+          "boost",
           "stdfs"
         ]
     runs-on: windows-2019

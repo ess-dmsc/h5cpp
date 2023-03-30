@@ -38,32 +38,23 @@ class H5CppConan(ConanFile):
     def requirements(self):
         self.requires("hdf5/1.12.2")
         self.requires("catch2/2.13.10")
+        self.requires("libiconv/1.17")
+        self.requires("zlib/1.2.13")
+        self.requires("szip/2.1.1")
+        self.requires("bzip2/1.0.8")
 
         if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
                 self.requires("boost/1.81.0")
-                self.requires("libiconv/1.17")
-                self.requires("zlib/1.2.13")
-                self.requires("szip/2.1.1")
-                self.requires("bzip2/1.0.8")
             elif self.settings.os == "Macos":
                 self.requires("boost/1.81.0")
-                self.requires("libiconv/1.17")
-                self.requires("zlib/1.2.13")
-                self.requires("szip/2.1.1")
-                self.requires("bzip2/1.0.8")
             else:
                 self.requires("boost/1.81.0")
-                self.requires("libiconv/1.17")
-                self.requires("zlib/1.2.13")
-                self.requires("szip/2.1.1")
-                self.requires("bzip2/1.0.8")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
 
     def build(self):
         cmake = CMake(self)
-        print(self.options)
         cmake.configure(variables={
             "H5CPP_CONAN": "MANUAL",
             "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
