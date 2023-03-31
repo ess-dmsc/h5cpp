@@ -163,7 +163,10 @@ jobs:
         run: |
           cd build
           .\conanrunenv-release-x86_64.ps1
-          ctest --extra-verbose --no-tests=error
+          .\bin\attribute_test.exe
+          .\bin\core_test.exe
+          .\bin\dataspace_test.exe
+          ctest --extra-verbose --no-tests=error --debug --output-on-failure
         shell: pwsh
   macos-10:
     strategy:
