@@ -66,14 +66,14 @@ jobs:
           conan profile detect
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
-          # - name: cache conan dependencies
-          #   uses: actions/cache@v2
-          #   with:
-          #     path: /home/conan/.conan/data
-          #     key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
-          #     restore-keys: |
-          #       conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
-          #       conan-${{ matrix.profile }}
+      - name: cache conan dependencies
+        uses: actions/cache@v2
+        with:
+          path: /home/conan/.conan/data
+          key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          restore-keys: |
+            conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
+            conan-${{ matrix.profile }}
       - name: install conan dependencies
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
@@ -162,7 +162,6 @@ jobs:
       - name: run tests
         run: |
           cd build
-          dir
           .\conanrun.ps1
           ctest --extra-verbose --no-tests=error
         shell: pwsh
