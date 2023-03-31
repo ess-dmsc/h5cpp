@@ -68,13 +68,24 @@ if (H5CPP_WITH_MPI)
   target_compile_definitions(h5cpp PUBLIC H5CPP_WITH_MPI)
 endif ()
 
-set_target_properties(h5cpp
-  PROPERTIES
-  VERSION ${PROJECT_VERSION}
-  SO_VERSION 0
-  CXX_STANDARD_REQUIRED ON
-  OUTPUT_NAME h5cpp
-  )
+if (WIN32)
+  set_target_properties(h5cpp
+    PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SO_VERSION 0
+    CXX_STANDARD_REQUIRED ON
+    OUTPUT_NAME h5cpp
+    WINDOWS_EXPORT_ALL_SYMBOLS YES
+    )
+else()
+  set_target_properties(h5cpp
+    PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    SO_VERSION 0
+    CXX_STANDARD_REQUIRED ON
+    OUTPUT_NAME h5cpp
+    )
+endif()
 
 enable_coverage(h5cpp)
 
