@@ -162,8 +162,9 @@ jobs:
       - name: run tests
         run: |
           cd build
-          .\conanrun.ps1
-          ctest --extra-verbose --no-tests=error
+          .\conanrunenv-release-x86_64.ps1
+          # ctest --extra-verbose --no-tests=error
+          .\test.bat
         shell: pwsh
   macos-10:
     strategy:
