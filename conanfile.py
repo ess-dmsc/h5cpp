@@ -27,6 +27,16 @@ class H5CppConan(ConanFile):
         self.build_requires("ninja/1.10.2")
         self.build_requires("zlib/1.2.13")
         # self.build_requires("cmake/3.25.3")
+        if self.settings.os == "Windows":
+            self.build_requires("hdf5/1.12.2")
+            self.build_requires("libiconv/1.17")
+            self.build_requires("szip/2.1.1")
+            self.build_requires("bzip2/1.0.8")
+            if self.options.get_safe("with_boost", False):
+                self.build_requires("boost/1.81.0")
+            if self.options.get_safe("with_mpi", False):
+                self.build_requires("openmpi/4.1.0")
+
 
     def config_options(self):
         if self.settings.os == "Windows":
