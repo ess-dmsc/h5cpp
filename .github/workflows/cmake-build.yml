@@ -127,7 +127,7 @@ jobs:
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${H5CPP_SHARED}"
           conan profile detect
-          conan remove zlib/*
+          conan remove -c zlib/* 
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
@@ -144,7 +144,7 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${H5CPP_SHARED}"
-          conan remove zlib/*
+          conan remove -c zlib/*
           conan install . ${CONAN_ARGS} \
             --output-folder build \
             --lockfile conan.lock \
