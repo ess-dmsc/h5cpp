@@ -144,6 +144,7 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan remove zlib/*
           conan install . ${CONAN_ARGS} \
             --output-folder build \
             --lockfile conan.lock \
