@@ -162,7 +162,9 @@ jobs:
       - name: run tests
         run: |
           cd build
-          .\activate_run.ps1
+          dir
+          .\conanrunenv.ps1
+          # .\activate_run.ps1
           ctest --extra-verbose --no-tests=error
         shell: pwsh
   macos-10:
