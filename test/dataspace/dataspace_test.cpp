@@ -25,7 +25,7 @@
 // Created on: Oct 22, 2017
 //
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
 
 using namespace hdf5;

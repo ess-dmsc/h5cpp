@@ -24,7 +24,7 @@
 // Created on: Aug 22, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/property/datatype_access.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include "../utilities.hpp"

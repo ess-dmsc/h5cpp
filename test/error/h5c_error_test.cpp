@@ -25,7 +25,7 @@
 // Created on: May 5, 2018
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include "../h5cpp_test_helpers.hpp"
 
 using namespace hdf5;

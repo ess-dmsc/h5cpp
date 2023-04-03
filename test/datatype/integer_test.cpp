@@ -26,7 +26,7 @@
 // Created on: Aug 23, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/datatype/integer.hpp>
 

@@ -25,7 +25,7 @@
 // Created on: Oct 25, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <string>
 #include "../h5cpp_test_helpers.hpp"
 

@@ -25,7 +25,7 @@
 // Created on: Aug 16, 2017
 //
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include <tuple>
 

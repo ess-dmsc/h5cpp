@@ -25,7 +25,7 @@
 // Created on: Oct 5, 2017
 //
 #include <array>
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>
 #include <vector>

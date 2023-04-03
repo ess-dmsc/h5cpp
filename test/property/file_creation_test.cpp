@@ -26,7 +26,7 @@
 // Created on: Aug 21, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/property/file_creation.hpp>
 #include <h5cpp/core/utilities.hpp>
 #include <tuple>

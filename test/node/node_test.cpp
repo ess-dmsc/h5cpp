@@ -24,7 +24,7 @@
 // Created on: Oct 2, 2017
 //
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/functions.hpp>
 

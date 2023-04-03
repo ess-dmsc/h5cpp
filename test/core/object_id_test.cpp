@@ -50,7 +50,7 @@
  dereference external links to identify the name of the object-owning file.
 
 */
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/core/object_handle.hpp>

@@ -26,7 +26,7 @@
 // Created on: Aug 25, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/dataspace/simple.hpp>
 
 using namespace hdf5;

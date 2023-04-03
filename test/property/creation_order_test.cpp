@@ -27,7 +27,7 @@
 // Created on: Aug 17, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/property/creation_order.hpp>
 
 namespace pl = hdf5::property;

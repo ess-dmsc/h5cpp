@@ -27,7 +27,7 @@
 // Created on: Aug 28, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/datatype/type_trait.hpp>
 #include <tuple>

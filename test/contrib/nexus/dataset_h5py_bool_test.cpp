@@ -24,7 +24,7 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Jul 2, 2018
 //
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/hdf5.hpp>
 #include "../../utilities.hpp"
 #include "utilities.hpp"

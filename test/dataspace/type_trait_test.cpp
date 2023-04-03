@@ -26,7 +26,7 @@
 // Created on: Sep 7, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/dataspace/type_trait.hpp>
 #include <h5cpp/contrib/stl/vector.hpp>
 

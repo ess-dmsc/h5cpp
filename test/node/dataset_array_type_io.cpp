@@ -26,7 +26,7 @@
 // Created on: Oct 23, 2017
 //
 #include <algorithm>
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/contrib/stl/vector.hpp>
 

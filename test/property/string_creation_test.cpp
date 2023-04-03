@@ -26,7 +26,7 @@
 // Created on: Aug 18, 2017
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/property/string_creation.hpp>
 #include "../utilities.hpp"
 #include "utilities.hpp"

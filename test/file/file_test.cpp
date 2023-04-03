@@ -23,7 +23,7 @@
 // Created on: May 4, 2018
 //
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_amalgamated.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/group.hpp>
 
