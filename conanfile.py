@@ -26,9 +26,10 @@ class H5CppConan(ConanFile):
         # self.build_requires("catch2/2.13.10")
         self.build_requires("ninja/1.10.2")
         self.build_requires("zlib/1.2.13")
-        self.build_requires("cmake/3.25.3")
+        # self.build_requires("cmake/3.25.3")
         if self.settings.os == "Windows":
-            self.build_requires("hdf5/1.12.2")
+            self.build_requires("hdf5/1.14.0")
+            # self.build_requires("hdf5/1.12.2")
             self.build_requires("libiconv/1.17")
             self.build_requires("szip/2.1.1")
             self.build_requires("bzip2/1.0.8")
@@ -47,7 +48,8 @@ class H5CppConan(ConanFile):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
-        self.requires("hdf5/1.12.2")
+        # self.requires("hdf5/1.12.2")
+        self.requires("hdf5/1.14.0")
         self.requires("catch2/3.3.2")
         # self.requires("catch2/2.13.10")
         self.requires("libiconv/1.17")
