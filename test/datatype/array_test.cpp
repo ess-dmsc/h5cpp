@@ -26,7 +26,7 @@
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 23, 2017
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/datatype/array.hpp>
 #include <h5cpp/datatype/factory.hpp>
 

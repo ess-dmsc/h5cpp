@@ -24,7 +24,7 @@
 // Created on: Oct 2, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/hdf5.hpp>
 #include "../utilities.hpp"
 

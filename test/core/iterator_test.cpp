@@ -24,7 +24,7 @@
 //
 
 #include <h5cpp/core/iterator.hpp>
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 
 using namespace hdf5;
 

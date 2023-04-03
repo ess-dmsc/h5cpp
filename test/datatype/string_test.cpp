@@ -25,7 +25,7 @@
 // Created on: Oct 11, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/datatype/string.hpp>
 #include <h5cpp/datatype/types.hpp>
 

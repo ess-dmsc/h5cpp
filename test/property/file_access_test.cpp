@@ -27,7 +27,7 @@
 // Created on: Aug 21, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/file/memory_driver.hpp>
 #include <h5cpp/property/file_access.hpp>
 #include <sstream>

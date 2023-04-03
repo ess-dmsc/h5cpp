@@ -24,7 +24,7 @@
 // Created on: Jul 06, 2018
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/hdf5.hpp>

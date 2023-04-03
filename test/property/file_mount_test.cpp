@@ -26,7 +26,7 @@
 // Created on: Aug 22, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/property/file_mount.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include "utilities.hpp"

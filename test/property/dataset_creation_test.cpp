@@ -26,7 +26,7 @@
 // Created on: Aug 28, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
 #include <tuple>

@@ -26,7 +26,7 @@
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 17, 2017
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/property/group_creation.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include "../utilities.hpp"

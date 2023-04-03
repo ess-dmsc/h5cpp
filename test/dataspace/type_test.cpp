@@ -25,7 +25,7 @@
 //   Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Feb 03, 2018
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/dataspace/type.hpp>
 #include <sstream>
 

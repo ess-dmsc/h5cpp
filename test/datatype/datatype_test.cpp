@@ -26,7 +26,7 @@
 // Created on: Oct 20, 2017
 //
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <tuple>
 

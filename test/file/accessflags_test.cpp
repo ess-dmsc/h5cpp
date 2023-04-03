@@ -25,7 +25,7 @@
 // Created on: Sep 8, 2017
 //
 #include <h5cpp/file/types.hpp>
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <sstream>
 
 using namespace hdf5;

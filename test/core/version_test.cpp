@@ -23,7 +23,7 @@
 // Created on: Oct 11, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/core/version.hpp>
 #include <sstream>

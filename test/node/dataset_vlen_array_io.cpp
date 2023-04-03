@@ -24,7 +24,7 @@
 // Created on: Oct 23, 2017
 //
 #include <algorithm>
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <examples/h5cpp/hklpoint.hpp>
 #include <examples/hklpoint.hpp>
 #include <h5cpp/hdf5.hpp>

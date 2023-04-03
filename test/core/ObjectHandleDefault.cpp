@@ -26,7 +26,7 @@
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 14, 2017
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/core/object_handle.hpp>
 #include <memory>
 #include <string>

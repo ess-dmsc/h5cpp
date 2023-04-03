@@ -25,7 +25,7 @@
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Aug 25, 2017
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/dataspace/simple.hpp>
 #include <h5cpp/hdf5.hpp>
 

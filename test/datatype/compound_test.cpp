@@ -28,7 +28,7 @@
 // Created on: Oct 6, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <complex>
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>

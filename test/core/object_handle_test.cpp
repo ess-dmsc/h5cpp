@@ -26,7 +26,7 @@
 //
 
 #include "object_handle_test.hpp"
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 
 ObjectHandleTest::ObjectHandleTest(hdf5::ObjectHandle::Type type)
     : type_(type) {}

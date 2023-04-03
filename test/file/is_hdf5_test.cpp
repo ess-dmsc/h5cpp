@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Sep 8, 2017
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <fstream>
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/file/functions.hpp>

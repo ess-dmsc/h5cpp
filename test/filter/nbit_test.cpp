@@ -25,7 +25,7 @@
 //         Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Dec 20, 2020
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/contrib/stl/stl.hpp>
 

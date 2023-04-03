@@ -23,7 +23,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Feb 5, 2018
 //
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/core/utilities.hpp>
 

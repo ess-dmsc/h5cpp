@@ -26,7 +26,7 @@
 // Created on: Oct 09, 2017
 //
 
-#include <catch2/catch_amalgamated.hpp>
+#include <catch2/catch_all.hpp>
 #include <h5cpp/property/object_copy.hpp>
 #include "../utilities.hpp"
 #include "utilities.hpp"
