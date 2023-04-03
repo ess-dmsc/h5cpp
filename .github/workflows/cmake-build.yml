@@ -85,8 +85,7 @@ jobs:
             --update
       - name: build with cmake
         run: |
-          conan build . \
-            --build-folder build
+          conan build . --output-folder build
       - name: run tests
         run: |
           cd build
