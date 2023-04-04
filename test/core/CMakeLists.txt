@@ -18,8 +18,11 @@ set(test_sources
     path_test.cpp
     version_test.cpp)
 
-
-add_executable(core_test ${test_sources})
+if(WIN32)
+  add_executable(core_test WIN32 ${test_sources})
+else()
+  add_executable(core_test ${test_sources})
+endif()
 target_link_libraries(
     core_test
     PRIVATE

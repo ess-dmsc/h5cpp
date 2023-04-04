@@ -7,7 +7,11 @@ set(test_sources
   nbit_test.cpp
   external_filter_test.cpp)
 
-add_executable(filter_test ${test_sources})
+if(WIN32)
+  add_executable(filter_test WIN32 ${test_sources})
+else()
+  add_executable(filter_test ${test_sources})
+endif()
 target_link_libraries(
     filter_test
     PRIVATE

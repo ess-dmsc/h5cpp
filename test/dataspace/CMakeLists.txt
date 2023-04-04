@@ -11,8 +11,11 @@ set(test_sources
     type_test.cpp
     pool_test.cpp
     )
-
-add_executable(dataspace_test ${test_sources})
+if(WIN32)
+  add_executable(dataspace_test WIN32 ${test_sources})
+else()
+  add_executable(dataspace_test ${test_sources})
+endif()
 target_link_libraries(
     dataspace_test
     PRIVATE

@@ -3,7 +3,11 @@ set(test_sources
     h5c_error_test.cpp
     error_test.cpp)
 
-add_executable(error_test ${test_sources})
+if(WIN32)
+  add_executable(error_test WIN32 ${test_sources})
+else()
+  add_executable(error_test ${test_sources})
+endif()
 target_link_libraries(
     error_test
     PRIVATE
