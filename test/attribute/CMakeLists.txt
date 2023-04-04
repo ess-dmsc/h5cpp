@@ -18,6 +18,6 @@ target_link_libraries(
     PRIVATE
         h5cpp
         hdf5::hdf5
-	Catch2::Catch2
+	Catch2::Catch2 Catch2::Catch2WithMain
 )
 catch_discover_tests(attribute_test)

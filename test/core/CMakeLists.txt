@@ -27,7 +27,7 @@ target_link_libraries(
     core_test
     PRIVATE
         h5cpp
-	Catch2::Catch2
+	Catch2::Catch2 Catch2::Catch2WithMain
         hdf5::hdf5
         $<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,11.0>>:stdc++fs>
 )
