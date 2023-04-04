@@ -39,7 +39,7 @@ target_link_libraries(
        h5cpp
        hdf5::hdf5
        hdf5::hdf5_hl
-       Catch2::Catch2 Catch2::Catch2WithMain
+        Catch2::Catch2WithMain
        example_lib
 )
 target_compile_definitions(node_test PRIVATE CATCH_CONFIG_ENABLE_BENCHMARKING)
