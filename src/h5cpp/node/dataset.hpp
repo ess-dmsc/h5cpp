@@ -338,14 +338,14 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
     void write_chunk(const T &data,
-		     std::vector<unsigned long long> offset,
+		     std::vector<hsize_t> offset,
 		     std::uint32_t filter_mask = 0,
 		     const property::DatasetTransferList &dtpl =
 		     property::DatasetTransferList::get());
 
     template<typename T>
     void write_chunk(const T &data,
-		     std::vector<unsigned long long> offset,
+		     std::vector<hsize_t> offset,
 		     std::uint32_t filter_mask = 0,
 		     const property::DatasetTransferList &dtpl =
 		     property::DatasetTransferList::get()) const;
@@ -368,7 +368,7 @@ class DLL_EXPORT Dataset : public Node
     void write_chunk(const T &data,
 		     const datatype::Datatype &mem_type,
 		     const dataspace::Dataspace &mem_space,
-		     std::vector<unsigned long long> & offset,
+		     std::vector<hsize_t> & offset,
 		     std::uint32_t filter_mask = 0,
 		     const property::DatasetTransferList &dtpl =
 		     property::DatasetTransferList::get())  const;
@@ -389,7 +389,7 @@ class DLL_EXPORT Dataset : public Node
     //!
     template<typename T>
       std::uint32_t read_chunk(T &data,
-			       std::vector<unsigned long long> offset,
+			       std::vector<hsize_t> offset,
 			       const property::DatasetTransferList &dtpl =
 			       property::DatasetTransferList::get())  const;
 
@@ -410,7 +410,7 @@ class DLL_EXPORT Dataset : public Node
     template<typename T>
       std::uint32_t read_chunk(T &data,
 			       const datatype::Datatype &mem_type,
-			       std::vector<unsigned long long> & offset,
+			       std::vector<hsize_t> & offset,
 			       const property::DatasetTransferList &dtpl =
 			       property::DatasetTransferList::get())  const;
 
@@ -424,7 +424,7 @@ class DLL_EXPORT Dataset : public Node
     //! \param offset logical position of the first element of the chunk in the dataset's dataspace
     //! \return the size in bytes for the chunk.
     //!
-      unsigned long long chunk_storage_size(std::vector<unsigned long long> offset)  const;
+      hsize_t chunk_storage_size(std::vector<hsize_t> offset)  const;
 
 #endif
 
@@ -863,7 +863,7 @@ void Dataset::write(const T &data,
 
 template<typename T>
 void Dataset::write_chunk(const T &data,
-                          std::vector<unsigned long long> offset,
+                          std::vector<hsize_t> offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl)
 {
@@ -874,7 +874,7 @@ void Dataset::write_chunk(const T &data,
 
 template<typename T>
 void Dataset::write_chunk(const T &data,
-                          std::vector<unsigned long long> offset,
+                          std::vector<hsize_t> offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl) const
 {
@@ -887,11 +887,11 @@ template<typename T>
 void Dataset::write_chunk(const T &data,
 			  const datatype::Datatype &mem_type,
 			  const dataspace::Dataspace &mem_space,
-			  std::vector<unsigned long long> & offset,
+			  std::vector<hsize_t> & offset,
                           std::uint32_t filter_mask,
                           const property::DatasetTransferList &dtpl) const
 {
-  size_t databytesize = signed2unsigned<unsigned long long>(mem_space.size()) * mem_type.size();
+  size_t databytesize = signed2unsigned<hsize_t>(mem_space.size()) * mem_type.size();
 
   if(mem_type.get_class() == datatype::Class::Integer)
     {
@@ -933,7 +933,7 @@ void Dataset::write_chunk(const T &data,
 
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
-			 std::vector<unsigned long long> offset,
+			 std::vector<hsize_t> offset,
 			 const property::DatasetTransferList &dtpl) const
 {
   hdf5::datatype::DatatypeHolder mem_type_holder;
@@ -943,7 +943,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
 				  const datatype::Datatype &mem_type,
-				  std::vector<unsigned long long> & offset,
+				  std::vector<hsize_t> & offset,
 				  const property::DatasetTransferList &dtpl) const
 {
   std::uint32_t filter_mask;
