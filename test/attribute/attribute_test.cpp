@@ -22,7 +22,7 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 4, 2017
 //
-#define CATCH_CONFIG_MAIN
+// #define CATCH_CONFIG_MAIN
 #include <catch2/catch_all.hpp>
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/datatype/datatype.hpp>

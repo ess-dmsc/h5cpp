@@ -26,7 +26,7 @@
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: May 14, 2018
 //
-#define CATCH_CONFIG_MAIN
+// #define CATCH_CONFIG_MAIN
 #include <catch2/catch_all.hpp>
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/contrib/nexus/ebool.hpp>

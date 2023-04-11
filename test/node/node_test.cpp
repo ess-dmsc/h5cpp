@@ -23,7 +23,7 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 2, 2017
 //
-#define CATCH_CONFIG_MAIN
+// #define CATCH_CONFIG_MAIN
 #include <catch2/catch_all.hpp>
 #include <h5cpp/file/functions.hpp>
 #include <h5cpp/node/functions.hpp>

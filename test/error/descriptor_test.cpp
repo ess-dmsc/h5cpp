@@ -24,7 +24,7 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: May 5, 2018
 //
-#define CATCH_CONFIG_MAIN
+// #define CATCH_CONFIG_MAIN
 #include <sstream>
 #include <catch2/catch_all.hpp>
 #include "../h5cpp_test_helpers.hpp"

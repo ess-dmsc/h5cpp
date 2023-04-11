@@ -25,7 +25,7 @@
 // Created on: Sep 8, 2017
 //
 #include <h5cpp/file/types.hpp>
-#define CATCH_CONFIG_MAIN
+// #define CATCH_CONFIG_MAIN
 #include <catch2/catch_all.hpp>
 #include <sstream>
 
