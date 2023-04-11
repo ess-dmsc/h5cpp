@@ -8,6 +8,6 @@ target_link_libraries(
     PRIVATE
         h5cpp
         hdf5::hdf5
-	 Catch2::Catch2WithMain
+	 Catch2::Catch2 Catch2::Catch2WithMain
 )
 catch_discover_tests(utilities_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
