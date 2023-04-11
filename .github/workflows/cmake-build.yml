@@ -24,19 +24,19 @@ jobs:
         ]
         libcxx: [libstdc++11, libc++]
         image: [
-            "conanio/gcc11-ubuntu16.04",
-            "conanio/clang13-ubuntu16.04"
+            "conanio/gcc11-ubuntu16.04:2.0.2",
+            "conanio/clang13-ubuntu16.04:2.0.2"
         ]
         exclude:
-          - image: conanio/gcc11-ubuntu16.04
+          - image: conanio/gcc11-ubuntu16.04:2.0.2
             libcxx: libc++
         include:
-          - image: conanio/gcc11-ubuntu16.04
+          - image: conanio/gcc11-ubuntu16.04:2.0.2
             profile: gcc11
-          - image: conanio/clang13-ubuntu16.04
+          - image: conanio/clang13-ubuntu16.04:2.0.2
             libcxx: libstdc++11
             profile: clang13-libstdc++
-          - image: conanio/clang13-ubuntu16.04
+          - image: conanio/clang13-ubuntu16.04:2.0.2
             libcxx: libc++
             profile: clang13-libc++
     runs-on: ubuntu-20.04
@@ -68,8 +68,7 @@ jobs:
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
-        with:
-          path: /home/conan/.conan/data
+        with:          path: /home/conan/.conan/data
           key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
             conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
@@ -201,7 +200,7 @@ jobs:
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade conan
+          pip install --upgrade conan==2.0.2
           # there's currently an issue running the MPI tests on OSX with HDF5 compiled
           # as a dynamic library. Use static HDF5 for now
           HDF5_SHARED=${H5CPP_SHARED}
