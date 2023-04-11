@@ -286,17 +286,17 @@ jobs:
             wget
       - name: download and install Catch2
         run: |  
-          wget https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
+.          wget https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
           tar -xf v3.3.2.tar.gz
           # wget https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.7.tar.gz
           # tar -xf v2.13.7.tar.gz
-          mkdir -p Catch2-2.13.7/build
+          mkdir -p Catch2-3.3.2/build
           cmake \
-            -S Catch2-2.13.7 \
-            -B Catch2-2.13.7/build/ \
+            -S Catch2-3.3.2 \
+            -B Catch2-3.3.2/build/ \
             -DCATCH_BUILD_TESTING=OFF \
             -DCATCH_INSTALL_DOCS=OFF
-          cmake --build Catch2-2.13.7/build --target install
+          cmake --build Catch2-3.3.2/build --target install
         working-directory: /tmp
       - name: build with cmake
         run: |
