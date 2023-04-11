@@ -48,7 +48,7 @@ SCENARIO("extracting error data") {
         }
         THEN("we can extract the error strings") {
           d.extract_strings();
-#if H5_VERSION_GE(1,14,0)
+#if H5_VERSION_GE(1,13,0)
           REQUIRE(d.major == "Object ID");
 #else
           REQUIRE(d.major == "Object atom");
