@@ -286,7 +286,7 @@ jobs:
             wget
       - name: download and install Catch2
         run: |  
-.          wget https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
+          wget https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
           tar -xf v3.3.2.tar.gz
           # wget https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.7.tar.gz
           # tar -xf v2.13.7.tar.gz
