@@ -68,7 +68,8 @@ jobs:
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
-        with:          path: /home/conan/.conan/data
+        with:
+          path: /home/conan/.conan/data
           key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
             conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
