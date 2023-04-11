@@ -1,8 +1,4 @@
-if(WIN32)
-  add_executable(utilities_test WIN32  array_adapter_test.cpp)
-else()
-  add_executable(utilities_test array_adapter_test.cpp)
-endif()
+add_executable(utilities_test array_adapter_test.cpp)
 target_link_libraries(
     utilities_test
     PRIVATE

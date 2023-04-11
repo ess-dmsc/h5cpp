@@ -4,11 +4,7 @@ set(test_sources attribute_h5py_bool_test.cpp
                  dataset_pniio_bool_test.cpp
                  ebool_test.cpp)
 
-if(WIN32)	       
-  add_executable(ebool_test WIN32 ${test_sources})
-else()
-  add_executable(ebool_test ${test_sources})
-endif()
+add_executable(ebool_test ${test_sources})
 target_link_libraries(
     ebool_test
     PRIVATE

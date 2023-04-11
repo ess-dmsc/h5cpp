@@ -11,11 +11,7 @@ set(test_sources
     vlen_array_test.cpp
     enum_test.cpp)
 
-if(WIN32)
-  add_executable(datatype_test WIN32 ${test_sources})
-else()
-  add_executable(datatype_test ${test_sources})
-endif()
+add_executable(datatype_test ${test_sources})
 target_link_libraries(
     datatype_test
     PRIVATE

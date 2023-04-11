@@ -26,11 +26,7 @@ set(test_sources
     file_mount_test.cpp
     object_copy_test.cpp)
 
-if(WIN32)
-  add_executable(properties_test WIN32 ${test_sources})
-else()
-  add_executable(properties_test ${test_sources})
-endif()
+add_executable(properties_test ${test_sources})
 target_link_libraries(
     properties_test
     PRIVATE

@@ -8,11 +8,7 @@ set(test_sources
     attribute_variable_string_io.cpp
     )
 
-if(WIN32)
-  add_executable(attribute_test WIN32 ${test_sources})
-else()
-  add_executable(attribute_test ${test_sources})
-endif()
+add_executable(attribute_test ${test_sources})
 target_link_libraries(
     attribute_test
     PRIVATE

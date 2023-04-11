@@ -11,11 +11,7 @@ set(test_sources
    driver_test.cpp
   )
 
-if(WIN32)
-  add_executable(file_test WIN32 ${test_sources})
-else()
-  add_executable(file_test ${test_sources})
-endif()
+add_executable(file_test ${test_sources})
 target_link_libraries(
     file_test
     PRIVATE
