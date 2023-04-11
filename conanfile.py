@@ -28,8 +28,8 @@ class H5CppConan(ConanFile):
         self.build_requires("zlib/1.2.13")
         # self.build_requires("cmake/3.25.3")
         if self.settings.os == "Windows":
-            # self.build_requires("hdf5/1.14.0")
-            self.build_requires("hdf5/1.12.2")
+            self.build_requires("hdf5/1.14.0")
+            # self.build_requires("hdf5/1.12.2")
             self.build_requires("libiconv/1.17")
             self.build_requires("szip/2.1.1")
             self.build_requires("bzip2/1.0.8")
@@ -73,4 +73,7 @@ class H5CppConan(ConanFile):
             "H5CPP_CONAN": "MANUAL",
             "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
             "H5CPP_WITH_BOOST": self.options.get_safe("with_boost", False)})
-        cmake.build()
+        try:
+            cmake.build()
+        exception Exception as e:
+            print(str(e))

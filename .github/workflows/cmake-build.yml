@@ -160,6 +160,7 @@ jobs:
           conan build . ${CONAN_ARGS} \
             --lockfile conan.lock \
             --output-folder build
+          dumpbin /imports .\build\bin\attribute_test.exe
       - name: run tests
         run: |
           cd build
