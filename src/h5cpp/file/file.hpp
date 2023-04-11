@@ -221,7 +221,7 @@ size_t File::to_buffer_reshape(T &data,
 			       const datatype::Datatype &mem_type,
 			       const dataspace::Dataspace &mem_space) const
 {
-  size_t databytesize = signed2unsigned<unsigned long long>(mem_space.size()) * mem_type.size();
+  size_t databytesize = signed2unsigned<hsize_t>(mem_space.size()) * mem_type.size();
   ssize_t s = 0;
   if(mem_type.get_class() == datatype::Class::Integer)
     {

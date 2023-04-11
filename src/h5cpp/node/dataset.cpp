@@ -191,10 +191,10 @@ void Dataset::refresh() const
 
 #if H5_VERSION_GE(1,10,2)
 
-unsigned long long Dataset::chunk_storage_size(
-			 std::vector<unsigned long long> offset) const
+hsize_t Dataset::chunk_storage_size(
+			 std::vector<hsize_t> offset) const
 {
-  unsigned long long storage_size;
+  hsize_t storage_size;
   if(H5Dget_chunk_storage_size(static_cast<hid_t>(*this),
 			       offset.data(),
 			       &storage_size)<0)
@@ -258,9 +258,9 @@ void resize_by(const Dataset &dataset,size_t dimension_index,ssize_t delta)
     throw std::runtime_error(ss.str());
   }
   if (delta < 0)
-    current_dims[dimension_index] -= signed2unsigned<unsigned long long>(-delta);
+    current_dims[dimension_index] -= signed2unsigned<hsize_t>(-delta);
   else
-    current_dims[dimension_index] += signed2unsigned<unsigned long long>(delta);
+    current_dims[dimension_index] += signed2unsigned<hsize_t>(delta);
   dataset.resize(current_dims);
 }
 
