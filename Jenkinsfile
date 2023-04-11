@@ -289,9 +289,10 @@ node {
     }
   }
 
-  builders['macOS-release'] = get_macos_pipeline('Release')
-  builders['macOS-debug'] = get_macos_pipeline('Debug')
-
+  if (env.ENABLE_MACOS_BUILDS.toUpperCase() == 'TRUE') {
+    builders['macOS-release'] = get_macos_pipeline('Release')
+    builders['macOS-debug'] = get_macos_pipeline('Debug')
+  }
 
   try {
     parallel builders

@@ -303,6 +303,9 @@ ObjectHandle::Type ObjectHandle::get_type() const
 #else
     case H5I_REFERENCE:
 #endif
+#if H5_VERSION_GE(1,13,0)
+    case H5I_EVENTSET:
+#endif
     case H5I_NTYPES:
       break;
   }
