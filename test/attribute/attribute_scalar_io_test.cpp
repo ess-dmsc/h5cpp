@@ -49,7 +49,7 @@ SCENARIO("scalar attribute IO", "[hdf5],[attribute]") {
     float read_value = 0.0;
     a.write(write_value);
     a.read(read_value);
-    REQUIRE(write_value == Approx(read_value));
+    REQUIRE(write_value == Catch::Approx(read_value));
   }
 
   GIVEN("scalar vector attribute IO") {

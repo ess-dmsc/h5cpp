@@ -56,7 +56,7 @@ SCENARIO("ChunkCacheParameters construction") {
     AND_WHEN("we set the preemption policy") { 
       REQUIRE_NOTHROW(params.preemption_policy(0.1));
       THEN("we get for the preemption policy") { 
-        REQUIRE(params.preemption_policy() == Approx(0.1));
+        REQUIRE(params.preemption_policy() == Catch::Approx(0.1));
       }
     }
   }
@@ -69,14 +69,14 @@ SCENARIO("ChunkCacheParameters construction") {
       AND_THEN("check their values") {
         REQUIRE(params.chunk_slots() == slots);
         REQUIRE(params.chunk_cache_size() == cache_size);
-        REQUIRE(params.preemption_policy() == Approx(policy));
+        REQUIRE(params.preemption_policy() == Catch::Approx(policy));
       }
       AND_WHEN("copy construct from this instance") { 
         pl::ChunkCacheParameters p2 = params;
         THEN("the new instance has the same configuration") { 
           REQUIRE(p2.chunk_slots() == params.chunk_slots());
           REQUIRE(p2.chunk_cache_size() == params.chunk_cache_size());
-          REQUIRE(p2.preemption_policy() == Approx(params.preemption_policy()));
+          REQUIRE(p2.preemption_policy() == Catch::Approx(params.preemption_policy()));
         }
 
       }
