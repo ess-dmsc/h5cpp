@@ -259,14 +259,14 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  debian-10:
+  debian-11:
     strategy:
       matrix:
         shared: [shared, static]
         boost: [boost, stdfs]
     runs-on: ubuntu-20.04
     container:
-      image: debian:buster
+      image: debian:bullseye
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables
@@ -279,25 +279,12 @@ jobs:
           apt-get update
           apt-get -y install \
             cmake \
+            catch2 \
             g++ \
             gpg \
             libhdf5-dev \
             libboost-filesystem-dev \
             wget
-      - name: download and install Catch2
-        run: |  
-          wget https://github.com/catchorg/Catch2/archive/refs/tags/v3.3.2.tar.gz
-          tar -xf v3.3.2.tar.gz
-          # wget https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.7.tar.gz
-          # tar -xf v2.13.7.tar.gz
-          mkdir -p Catch2-3.3.2/build
-          cmake \
-            -S Catch2-3.3.2 \
-            -B Catch2-3.3.2/build/ \
-            -DCATCH_BUILD_TESTING=OFF \
-            -DCATCH_INSTALL_DOCS=OFF
-          cmake --build Catch2-3.3.2/build --target install
-        working-directory: /tmp
       - name: build with cmake
         run: |
           HDF5_STATIC=ON
