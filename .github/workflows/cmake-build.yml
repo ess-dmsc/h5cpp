@@ -175,7 +175,7 @@ jobs:
           # cat  .\test\CTestTestfile.cmake
           # cat .\test\attribute\CTestTestfile.cmake
           # cat .\test\attribute\attribute_test_include-b12d07c.cmake
-          ctest --extra-verbose --no-tests=error --debug --output-on-failure
+          ctest --extra-verbose --no-tests=error
         shell: pwsh
   macos-10:
     strategy:
