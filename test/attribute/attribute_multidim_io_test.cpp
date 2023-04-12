@@ -25,7 +25,11 @@
 // Created on: Oct 5, 2017
 //
 #include <array>
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>
 #include <vector>

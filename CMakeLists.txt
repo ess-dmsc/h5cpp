@@ -129,6 +129,7 @@ install(DIRECTORY examples
 #=============================================================================
 # unit tests if GTest if present
 #=============================================================================
+option(H5CPP_CATCH2_V2 "Run tests with catch2 v2" OFF)
 option(H5CPP_DISABLE_TESTS "Disable building unit tests" OFF)
 if(NOT H5CPP_DISABLE_TESTS)
     find_package(Catch2 REQUIRED)

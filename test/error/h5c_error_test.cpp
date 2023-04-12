@@ -25,7 +25,11 @@
 // Created on: May 5, 2018
 //
 
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include "../h5cpp_test_helpers.hpp"
 
 using namespace hdf5;

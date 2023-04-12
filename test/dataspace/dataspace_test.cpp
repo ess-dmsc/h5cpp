@@ -24,8 +24,12 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Oct 22, 2017
 //
-// #define CATCH_CONFIG_MAIN
+#ifdef H5CPP_CATCH2_V2
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/dataspace/dataspace.hpp>
 
 using namespace hdf5;

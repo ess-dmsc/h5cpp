@@ -25,7 +25,11 @@
 // Created on: Oct 25, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include <string>
 #include "../h5cpp_test_helpers.hpp"
 

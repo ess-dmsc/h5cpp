@@ -23,7 +23,11 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Mar 1, 2018
 //
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #ifdef H5CPP_WITH_BOOST
 #include <boost/version.hpp>
 #else

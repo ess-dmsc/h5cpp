@@ -294,6 +294,7 @@ jobs:
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DH5CPP_CONAN=DISABLE \
+            -DH5CPP_CATCH2_V2=TRUE \
             -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} \
             -DH5CPP_BUILD_SHARED=${H5CPP_SHARED} \
             -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST}

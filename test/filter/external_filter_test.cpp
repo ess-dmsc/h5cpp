@@ -24,7 +24,11 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Sep 3, 2019
 //
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/contrib/stl/stl.hpp>
 

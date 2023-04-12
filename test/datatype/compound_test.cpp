@@ -28,7 +28,11 @@
 // Created on: Oct 6, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include <complex>
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>
@@ -228,8 +232,13 @@ SCENARIO("testing IO with complex value") {
           complex_type read_value{0., 0.};
           a.read(read_value);
           THEN("They must match the original values") {
+#ifdef H5CPP_CATCH2_V2
+            REQUIRE(write_value.real() == Approx(read_value.real()).epsilon(1e-12));
+            REQUIRE(write_value.imag() == Approx(read_value.imag()).epsilon(1e-12));
+#else
             REQUIRE(write_value.real() == Catch::Approx(read_value.real()).epsilon(1e-12));
             REQUIRE(write_value.imag() == Catch::Approx(read_value.imag()).epsilon(1e-12));
+#endif
           }
         }
       }

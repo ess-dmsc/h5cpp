@@ -24,7 +24,11 @@
 // Created on: Oct 23, 2017
 //
 #include <algorithm>
+#ifdef H5CPP_CATCH2_V2
+#include <catch2/catch.hpp>
+#else
 #include <catch2/catch_all.hpp>
+#endif
 #include <examples/h5cpp/hklpoint.hpp>
 #include <examples/hklpoint.hpp>
 #include <h5cpp/hdf5.hpp>
