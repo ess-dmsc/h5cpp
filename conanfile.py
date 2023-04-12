@@ -73,7 +73,4 @@ class H5CppConan(ConanFile):
             "H5CPP_CONAN": "MANUAL",
             "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
             "H5CPP_WITH_BOOST": self.options.get_safe("with_boost", False)})
-        try:
-            cmake.build()
-        except Exception as e:
-            print(str(e))
+        cmake.build()
