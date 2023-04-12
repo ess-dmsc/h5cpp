@@ -1,5 +1,6 @@
 from conan import ConanFile, tools
 from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.env import VirtualBuildEnv, VirtualRunEnv
 
 
 class H5CppConan(ConanFile):
@@ -69,8 +70,12 @@ class H5CppConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(variables={
-            "H5CPP_CONAN": "MANUAL",
-            "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
-            "H5CPP_WITH_BOOST": self.options.get_safe("with_boost", False)})
-        cmake.build()
+        build_env = VirtualBuildEnv(self).vars()
+        run_env = VirtualRunEnv(self).vars()
+        with build_env.apply():
+            with run_env.apply():
+                cmake.configure(variables={
+                    "H5CPP_CONAN": "MANUAL",
+                    "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
+                    "H5CPP_WITH_BOOST": self.options.get_safe("with_boost", False)})
+                cmake.build()
