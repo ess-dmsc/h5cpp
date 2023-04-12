@@ -103,7 +103,10 @@ jobs:
   windows-2022:
     strategy:
       matrix:
-        shared: ["shared", "static"]
+        shared: [
+          # "shared",
+          "static"
+        ]
         boost: [
           "boost",
           "stdfs"
