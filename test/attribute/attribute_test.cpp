@@ -22,8 +22,12 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 4, 2017
 //
+#ifdef H5CPP_CATCH2_V2
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/attribute/attribute.hpp>
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/dataspace/dataspace.hpp>
@@ -105,7 +109,11 @@ TEST_CASE("testing attribute construction","[h5cpp],[attribute],[create]") {
     auto a = root.attributes.create_from("test",float(23.4));
     float buffer;
     a.read(buffer);
+#ifdef H5CPP_CATCH2_V2
     REQUIRE(buffer == Approx(23.4f));
+#else
+    REQUIRE(buffer == Catch::Approx(23.4f));
+#endif
   }
 
   SECTION("create from vector")

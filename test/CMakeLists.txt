@@ -7,7 +7,9 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
   # suppress warnings from Catch2 macros
   add_definitions(-Wno-reserved-identifier -Wno-unknown-warning-option)
 endif ()
-
+if (H5CPP_CATCH2_V2)
+  add_compile_definitions(H5CPP_CATCH2_V2)
+endif()
 # ----------------------------------------------------------------------------
 # include the modules required to use Catch2
 # ----------------------------------------------------------------------------

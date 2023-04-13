@@ -26,7 +26,11 @@
 // Created on: Aug 28, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/datatype/factory.hpp>
 #include <h5cpp/property/dataset_creation.hpp>
 #include <tuple>
@@ -222,7 +226,11 @@ SCENARIO("setting the fill value on a DatasetCreation property list") {
             float buffer{0.0};
             THEN("we can read the fill vlaue back as a float") { 
               buffer = pl.fill_value<float>(get_type);
+#ifdef H5CPP_CATCH2_V2
               REQUIRE(buffer == Approx(float(fill_value)).epsilon(1e-12));
+#else
+              REQUIRE(buffer == Catch::Approx(float(fill_value)).epsilon(1e-12));
+#endif
             }
           }
         }

@@ -25,7 +25,7 @@ add_executable(complex_io complex_io.cpp)
 target_link_libraries(complex_io PRIVATE h5cpp::h5cpp)
 
 add_executable(writing_image writing_image.cpp
-  rgbpixel.cpp)
+    rgbpixel.cpp)
 target_link_libraries(writing_image PRIVATE h5cpp::h5cpp)
 
 add_executable(write_single_vector write_single_vector.cpp)

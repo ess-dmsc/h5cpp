@@ -26,7 +26,11 @@
 // Created on: Aug 21, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/property/type_creation.hpp>
 #include "../utilities.hpp"
 

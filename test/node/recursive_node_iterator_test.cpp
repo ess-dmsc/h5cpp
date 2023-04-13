@@ -24,7 +24,11 @@
 // Created on: Nov 17, 2017
 //
 #include <algorithm>
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/hdf5.hpp>
 
 using namespace hdf5;

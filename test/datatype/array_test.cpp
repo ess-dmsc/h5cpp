@@ -26,7 +26,11 @@
 //   Jan Kotanski <jan.kotanski@desy.de>
 // Created on: Oct 23, 2017
 //
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/datatype/array.hpp>
 #include <h5cpp/datatype/factory.hpp>
 

@@ -27,7 +27,11 @@
 // Created on: Aug 28, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/datatype/datatype.hpp>
 #include <h5cpp/datatype/type_trait.hpp>
 #include <tuple>

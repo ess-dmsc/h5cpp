@@ -26,7 +26,11 @@
 // Created on: Aug 22, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/hdf5.hpp>
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/property/property_class.hpp>
@@ -98,7 +102,11 @@ SCENARIO("setting the chunk cache paranmeters on a DatasetAccessList") {
         AND_THEN("they should match the original parameters") {
           REQUIRE(p2.chunk_slots() == params.chunk_slots());
           REQUIRE(p2.chunk_cache_size() == params.chunk_cache_size());
+#ifdef H5CPP_CATCH2_V2
           REQUIRE(p2.preemption_policy() == Approx(params.preemption_policy()));
+#else
+          REQUIRE(p2.preemption_policy() == Catch::Approx(params.preemption_policy()));
+#endif
         }
       }
     }

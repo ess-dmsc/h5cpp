@@ -25,8 +25,12 @@
 //   Martin Shetty <martin.shetty@esss.se>
 // Created on: Oct 20, 2017
 //
+#ifdef H5CPP_CATCH2_V2
 #define CATCH_CONFIG_MAIN
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/datatype/datatype.hpp>
 #include <tuple>
 

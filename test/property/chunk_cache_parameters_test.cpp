@@ -26,7 +26,11 @@
 // Created on: Aug 22, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/property/dataset_access.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include "../utilities.hpp"
@@ -56,7 +60,11 @@ SCENARIO("ChunkCacheParameters construction") {
     AND_WHEN("we set the preemption policy") { 
       REQUIRE_NOTHROW(params.preemption_policy(0.1));
       THEN("we get for the preemption policy") { 
+#ifdef H5CPP_CATCH2_V2
         REQUIRE(params.preemption_policy() == Approx(0.1));
+#else
+        REQUIRE(params.preemption_policy() == Catch::Approx(0.1));
+#endif
       }
     }
   }
@@ -69,14 +77,22 @@ SCENARIO("ChunkCacheParameters construction") {
       AND_THEN("check their values") {
         REQUIRE(params.chunk_slots() == slots);
         REQUIRE(params.chunk_cache_size() == cache_size);
+#ifdef H5CPP_CATCH2_V2
         REQUIRE(params.preemption_policy() == Approx(policy));
+#else
+        REQUIRE(params.preemption_policy() == Catch::Approx(policy));
+#endif
       }
       AND_WHEN("copy construct from this instance") { 
         pl::ChunkCacheParameters p2 = params;
         THEN("the new instance has the same configuration") { 
           REQUIRE(p2.chunk_slots() == params.chunk_slots());
           REQUIRE(p2.chunk_cache_size() == params.chunk_cache_size());
+#ifdef H5CPP_CATCH2_V2
           REQUIRE(p2.preemption_policy() == Approx(params.preemption_policy()));
+#else
+          REQUIRE(p2.preemption_policy() == Catch::Approx(params.preemption_policy()));
+#endif
         }
 
       }

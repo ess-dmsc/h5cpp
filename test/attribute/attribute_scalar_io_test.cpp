@@ -22,7 +22,11 @@
 // Author: Eugen Wintersberger <eugen.wintersberger@desy.de>
 // Created on: Oct 5, 2017
 //
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <cstdint>
 #include <h5cpp/hdf5.hpp>
 #include <vector>
@@ -49,7 +53,11 @@ SCENARIO("scalar attribute IO", "[hdf5],[attribute]") {
     float read_value = 0.0;
     a.write(write_value);
     a.read(read_value);
+#ifdef H5CPP_CATCH2_V2
     REQUIRE(write_value == Approx(read_value));
+#else
+    REQUIRE(write_value == Catch::Approx(read_value));
+#endif
   }
 
   GIVEN("scalar vector attribute IO") {

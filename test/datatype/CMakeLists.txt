@@ -11,11 +11,12 @@ set(test_sources
     vlen_array_test.cpp
     enum_test.cpp)
 
-add_executable(datatype_test ${test_sources}) 
+add_executable(datatype_test ${test_sources})
 target_link_libraries(
     datatype_test
     PRIVATE
         h5cpp
         hdf5::hdf5
+	 Catch2::Catch2 Catch2::Catch2WithMain
 )
 catch_discover_tests(datatype_test WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

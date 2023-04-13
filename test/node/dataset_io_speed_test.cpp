@@ -24,7 +24,11 @@
 //         Eugen Wintersberger <eugen.wintersberger@gmail.com>
 // Created on: Nov 12, 2018
 //
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/dataspace/hyperslab.hpp>
 #include <h5cpp/file/functions.hpp>

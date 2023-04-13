@@ -26,7 +26,11 @@
 //
 
 #include "object_handle_test.hpp"
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 
 ObjectHandleTest::ObjectHandleTest(hdf5::ObjectHandle::Type type)
     : type_(type) {}

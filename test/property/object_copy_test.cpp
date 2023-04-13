@@ -26,7 +26,11 @@
 // Created on: Oct 09, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/property/object_copy.hpp>
 #include "../utilities.hpp"
 #include "utilities.hpp"

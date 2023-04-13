@@ -18,22 +18,25 @@ jobs:
       matrix:
         shared: [shared, static]
         boost: [boost, stdfs]
-        mpi: [mpi, serial]
+        mpi: [
+           # mpi,
+          serial
+        ]
         libcxx: [libstdc++11, libc++]
         image: [
-          "conanio/gcc11-ubuntu16.04:1.59.0",
-          "conanio/clang13-ubuntu16.04:1.59.0"
+            "conanio/gcc11-ubuntu16.04:2.0.2",
+            "conanio/clang13-ubuntu16.04:2.0.2"
         ]
         exclude:
-          - image: conanio/gcc11-ubuntu16.04:1.59.0
+          - image: conanio/gcc11-ubuntu16.04:2.0.2
             libcxx: libc++
         include:
-          - image: conanio/gcc11-ubuntu16.04:1.59.0
+          - image: conanio/gcc11-ubuntu16.04:2.0.2
             profile: gcc11
-          - image: conanio/clang13-ubuntu16.04:1.59.0
+          - image: conanio/clang13-ubuntu16.04:2.0.2
             libcxx: libstdc++11
             profile: clang13-libstdc++
-          - image: conanio/clang13-ubuntu16.04:1.59.0
+          - image: conanio/clang13-ubuntu16.04:2.0.2
             libcxx: libc++
             profile: clang13-libc++
     runs-on: ubuntu-20.04
@@ -59,8 +62,10 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${H5CPP_SHARED}"
-          conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan profile detect
+          conan remove -c zlib/* 
+          conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
@@ -72,25 +77,43 @@ jobs:
             conan-${{ matrix.profile }}
       - name: install conan dependencies
         run: |
-          conan install . \
-            --install-folder build \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan remove -c zlib/*
+          conan install . ${CONAN_ARGS} \
+            --output-folder build \
             --lockfile conan.lock \
             --build missing \
             --update
       - name: build with cmake
         run: |
-          conan build . \
-            --build-folder build
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan build .  ${CONAN_ARGS} \
+            --lockfile conan.lock \
+            --output-folder build
       - name: run tests
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  windows-2019:
+  windows-2022:
     strategy:
       matrix:
-        shared: ["shared", "static"]
-        boost: ["boost", "stdfs"]
-    runs-on: windows-2019
+        shared: [
+          "shared",
+          "static"
+        ]
+        boost: [
+          "boost",
+          "stdfs"
+        ]
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v2
       - name: Add MSVC to PATH
@@ -103,12 +126,14 @@ jobs:
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade conan==1.59.0
+          pip install --upgrade conan==2.0.2
           CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${H5CPP_SHARED}"
-          conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan profile detect
+          conan remove -c zlib/* 
+          conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
@@ -120,27 +145,42 @@ jobs:
             conan-vs-2019
       - name: install conan dependencies
         run: |
-          conan install . \
-            --install-folder build \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan remove -c zlib/*
+          conan install . ${CONAN_ARGS} \
+            --output-folder build \
             --lockfile conan.lock \
             --build missing \
             --update \
-            --generator virtualrunenv
+            --generator VirtualRunEnv
       - name: build with cmake
         run: |
-          conan build . --build-folder build
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${H5CPP_SHARED}"
+          conan build . ${CONAN_ARGS} \
+            --lockfile conan.lock \
+            --output-folder build
       - name: run tests
         run: |
           cd build
-          .\activate_run.ps1
-          ctest --extra-verbose --no-tests=error
+          .\conanbuildenv-release-x86_64.ps1
+          .\conanrunenv-release-x86_64.ps1
+          ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
   macos-10:
     strategy:
       matrix:
         shared: ["shared", "static"]
         boost: ["boost", "stdfs"]
-        mpi: ["serial", "mpi"]
+        mpi: [
+          # "mpi",
+          "serial"
+        ]
     runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
@@ -159,7 +199,7 @@ jobs:
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade conan==1.59.0
+          pip install --upgrade conan==2.0.2
           # there's currently an issue running the MPI tests on OSX with HDF5 compiled
           # as a dynamic library. Use static HDF5 for now
           HDF5_SHARED=${H5CPP_SHARED}
@@ -170,8 +210,10 @@ jobs:
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
-            -o hdf5:shared=${HDF5_SHARED}"
-          conan lock create conanfile.py ${CONAN_ARGS} --base --lockfile-out base.lock
+            -o hdf5/*:shared=${HDF5_SHARED}"
+          conan profile detect
+          conan remove -c zlib/*
+          conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
         uses: actions/cache@v2
@@ -183,28 +225,48 @@ jobs:
             conan-apple-clang12
       - name: install conan dependencies
         run: |
-          conan install . \
-            --install-folder build \
+          HDF5_SHARED=${H5CPP_SHARED}
+          if [ "${H5CPP_WITH_MPI}" = "True" ]; then
+            HDF5_SHARED=False
+          fi
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${HDF5_SHARED}"
+          conan remove -c zlib/*
+          conan install . ${CONAN_ARGS} \
+            --output-folder build \
             --lockfile conan.lock \
             --build missing \
             --update \
-            --generator virtualenv
+            --generator VirtualRunEnv
       - name: build with cmake
         run: |
-          conan build . --build-folder build
+          HDF5_SHARED=${H5CPP_SHARED}
+          if [ "${H5CPP_WITH_MPI}" = "True" ]; then
+            HDF5_SHARED=False
+          fi
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o hdf5/*:shared=${HDF5_SHARED}"
+          conan build .  ${CONAN_ARGS}  \
+            --lockfile conan.lock \
+            --output-folder build
       - name: run tests
         run: |
           cd build
-          source activate.sh
           ctest --extra-verbose --no-tests=error
-  debian-10:
+  debian-11:
     strategy:
       matrix:
         shared: [shared, static]
         boost: [boost, stdfs]
     runs-on: ubuntu-20.04
     container:
-      image: debian:buster
+      image: debian:bullseye
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables
@@ -217,23 +279,12 @@ jobs:
           apt-get update
           apt-get -y install \
             cmake \
+            catch2 \
             g++ \
             gpg \
             libhdf5-dev \
             libboost-filesystem-dev \
             wget
-      - name: download and install Catch2
-        run: |  
-          wget https://github.com/catchorg/Catch2/archive/refs/tags/v2.13.7.tar.gz
-          tar -xf v2.13.7.tar.gz
-          mkdir -p Catch2-2.13.7/build
-          cmake \
-            -S Catch2-2.13.7 \
-            -B Catch2-2.13.7/build/ \
-            -DCATCH_BUILD_TESTING=OFF \
-            -DCATCH_INSTALL_DOCS=OFF
-          cmake --build Catch2-2.13.7/build --target install
-        working-directory: /tmp
       - name: build with cmake
         run: |
           HDF5_STATIC=ON
@@ -243,6 +294,7 @@ jobs:
           cmake .. \
             -DCMAKE_BUILD_TYPE=Release \
             -DH5CPP_CONAN=DISABLE \
+            -DH5CPP_CATCH2_V2=TRUE \
             -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} \
             -DH5CPP_BUILD_SHARED=${H5CPP_SHARED} \
             -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST}

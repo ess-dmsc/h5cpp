@@ -1,9 +1,11 @@
-from conans import ConanFile, CMake, tools
+from conan import ConanFile, tools
+from conan.tools.cmake import CMake, CMakeToolchain, CMakeDeps
+from conan.tools.env import VirtualBuildEnv, VirtualRunEnv
 
 
 class H5CppConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    generators = "cmake", "cmake_find_package"
+    generators = "CMakeToolchain", "CMakeDeps"
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
@@ -15,13 +17,15 @@ class H5CppConan(ConanFile):
         "fPIC": True,
         "with_mpi": False,
         "with_boost": True,
-        "hdf5:hl": True,
-        "hdf5:enable_cxx": False
+        "hdf5/*:hl": True,
+        "hdf5/*:enable_cxx": False,
+        "hdf5/*:shared": False
     }
 
     def build_requirements(self):
-        self.build_requires("catch2/2.13.7")
+        self.build_requires("catch2/3.3.2")
         self.build_requires("ninja/1.10.2")
+        self.build_requires("zlib/1.2.13")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -33,24 +37,32 @@ class H5CppConan(ConanFile):
 
     def requirements(self):
         self.requires("hdf5/1.14.0")
+        self.requires("catch2/3.3.2")
+        self.requires("libiconv/1.17")
+        self.requires("zlib/1.2.13")
+        self.requires("szip/2.1.1")
+        self.requires("bzip2/1.0.8")
+
         if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
-                self.requires("boost/1.77.0")
+                self.requires("boost/1.81.0")
             elif self.settings.os == "Macos":
-                self.requires("boost/1.77.0")
+                self.requires("boost/1.81.0")
             else:
-                self.requires("boost/1.77.0")
+                self.requires("boost/1.81.0")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions.update({
-            "H5CPP_CONAN": "MANUAL",
-            "H5CPP_WITH_MPI": self.options.get_safe("with_mpi", False),
-            "H5CPP_WITH_BOOST": self.options.get_safe(
-                "with_boost", False),
-        })
-        with tools.run_environment(self):
-            cmake.configure()
-            cmake.build()
+        build_env = VirtualBuildEnv(self).vars()
+        run_env = VirtualRunEnv(self).vars()
+        with build_env.apply():
+            with run_env.apply():
+                cmake.configure(variables={
+                    "H5CPP_CONAN": "MANUAL",
+                    "H5CPP_WITH_MPI":
+                    self.options.get_safe("with_mpi", False),
+                    "H5CPP_WITH_BOOST":
+                    self.options.get_safe("with_boost", False)})
+                cmake.build()

@@ -24,7 +24,11 @@
 // Created on: Aug 22, 2017
 //
 
+#ifdef H5CPP_CATCH2_V2
 #include <catch2/catch.hpp>
+#else
+#include <catch2/catch_all.hpp>
+#endif
 #include <h5cpp/property/datatype_access.hpp>
 #include <h5cpp/property/property_class.hpp>
 #include "../utilities.hpp"
