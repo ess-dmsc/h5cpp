@@ -303,7 +303,6 @@ jobs:
               gpg \
               wget \
               ssh \
-              libhdf5-dev \
               libboost-filesystem-dev \
               libhdf5-mpi-dev \
               libopenmpi-dev
