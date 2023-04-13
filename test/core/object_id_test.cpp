@@ -55,6 +55,11 @@
 #else
 #include <catch2/catch_all.hpp>
 #endif
+#ifdef H5CPP_WITH_BOOST
+#include <boost/version.hpp>
+#else
+#define BOOST_VERSION 100
+#endif
 #include <h5cpp/core/filesystem.hpp>
 #include <h5cpp/core/hdf5_capi.hpp>
 #include <h5cpp/core/object_handle.hpp>
@@ -263,7 +268,7 @@ SCENARIO("checking copies and files of identical structure") {
   }
 
   // create a copy of the first file.
-  #ifdef H5CPP_WITH_BOOST
+#if (defined(H5CPP_WITH_BOOST) && (BOOST_VERSION < 107400))
   fs::copy_file(path1, path3,
                 fs::copy_option::overwrite_if_exists);
 #else
