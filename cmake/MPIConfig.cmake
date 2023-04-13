@@ -10,7 +10,10 @@ if (H5CPP_WITH_MPI)
   endif()
 
   find_package(MPI REQUIRED)
-  h5cpp_message(STATUS "Found MPI headers in: ${MPI_C_INCLUDE_PATH}")
+  h5cpp_message(STATUS "Found C MPI headers in: ${MPI_C_INCLUDE_PATH}")
+  h5cpp_message(STATUS "Found MPI headers in: ${MPI_INCLUDE_PATH}")
   h5cpp_message(STATUS "Found MPI libraries: ${MPI_C_LIBRARIES}")
+  include_directories(SYSTEM ${MPI_C_INCLUDE_PATH})
+  include_directories(SYSTEM ${MPI_INCLUDE_PATH})
 
 endif ()

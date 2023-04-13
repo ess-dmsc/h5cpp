@@ -66,6 +66,8 @@ target_include_directories(h5cpp
 # NEED TO GET RID OF THIS
 if (H5CPP_WITH_MPI)
   target_compile_definitions(h5cpp PUBLIC H5CPP_WITH_MPI)
+  # it does not work for cmake < 3.19
+  # target_link_libraries(h5cpp PUBLIC MPI::MPI_CXX)
 endif ()
 
 if (WIN32)
