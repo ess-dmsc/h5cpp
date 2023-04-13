@@ -264,6 +264,10 @@ jobs:
       matrix:
         shared: [shared, static]
         boost: [boost, stdfs]
+        mpi: [
+          mpi,
+          serial
+        ]
     runs-on: ubuntu-20.04
     container:
       image: debian:bullseye
@@ -273,18 +277,31 @@ jobs:
         run: |
           bash .github/workflows/set_env_vars.sh \
             ${{ matrix.shared }} \
-            ${{ matrix.boost }}
-      - name: install prerequisites
+            ${{ matrix.boost }} \
+            ${{ matrix.mpi }}
+      - name: install serial prerequisites
+        if: ${{ matrix.mpi == 'serial' }}
         run: |
           apt-get update
           apt-get -y install \
             cmake \
             catch2 \
             g++ \
-            gpg \
             libhdf5-dev \
             libboost-filesystem-dev \
             wget
+      - name: Install MPI prerequisites
+        if: ${{ matrix.mpi == 'mpi' }}
+        run: |
+            apt-get update
+            apt-get install -y --no-install-recommends \
+              build-essential \
+              cmake \
+              catch2 \
+              g++ \
+              libboost-filesystem-dev \
+              libhdf5-mpi-dev \
+              libopenmpi-dev
       - name: build with cmake
         run: |
           HDF5_STATIC=ON
@@ -297,7 +314,8 @@ jobs:
             -DH5CPP_CATCH2_V2=TRUE \
             -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} \
             -DH5CPP_BUILD_SHARED=${H5CPP_SHARED} \
-            -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST}
+            -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST} \
+            -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}
           cmake --build . -- -j 2
       - name: run tests
         run: |
