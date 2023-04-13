@@ -301,14 +301,11 @@ jobs:
               catch2 \
               g++ \
               gpg \
-              libhdf5-dev \
-              libboost-filesystem-dev \
               wget \
               ssh \
-              openmpi-bin \
+              libhdf5-dev \
+              libboost-filesystem-dev \
               libhdf5-mpi-dev \
-              libmpich-dev \
-              mpich \
               libopenmpi-dev
       - name: build with cmake
         run: |
