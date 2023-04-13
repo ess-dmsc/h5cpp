@@ -287,7 +287,6 @@ jobs:
             cmake \
             catch2 \
             g++ \
-            gpg \
             libhdf5-dev \
             libboost-filesystem-dev \
             wget
@@ -300,9 +299,6 @@ jobs:
               cmake \
               catch2 \
               g++ \
-              gpg \
-              wget \
-              ssh \
               libboost-filesystem-dev \
               libhdf5-mpi-dev \
               libopenmpi-dev
