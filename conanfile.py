@@ -10,7 +10,8 @@ class H5CppConan(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_mpi": [True, False],
-        "with_boost": [True, False]
+        "with_boost": [True, False],
+        "install_prefix": [None, "ANY"]
     }
     default_options = {
         "shared": False,
@@ -19,7 +20,8 @@ class H5CppConan(ConanFile):
         "with_boost": True,
         "hdf5/*:hl": True,
         "hdf5/*:enable_cxx": False,
-        "hdf5/*:shared": False
+        "hdf5/*:shared": False,
+        "install_prefix": None
     }
 
     def build_requirements(self):
@@ -59,10 +61,14 @@ class H5CppConan(ConanFile):
         run_env = VirtualRunEnv(self).vars()
         with build_env.apply():
             with run_env.apply():
-                cmake.configure(variables={
+                variables = {
                     "H5CPP_CONAN": "MANUAL",
                     "H5CPP_WITH_MPI":
                     self.options.get_safe("with_mpi", False),
                     "H5CPP_WITH_BOOST":
-                    self.options.get_safe("with_boost", False)})
+                    self.options.get_safe("with_boost", False)}
+                insprefix = self.options.get_safe("install_prefix", None)
+                if insprefix:
+                    variables["CMAKE_INSTALL_PREFIX"] = insprefix
+                cmake.configure(variables=variables)
                 cmake.build()
