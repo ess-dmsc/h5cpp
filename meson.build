@@ -1,4 +1,4 @@
-project('h5cpp',['cpp','c'],version:'0.5.2', default_options:'cpp_std=c++17')
+project('h5cpp',['cpp','c'],version:'0.6.0', default_options:'cpp_std=c++17')
 
 h5cpp_dependencies = []
 # -----------------------------------------------------------------------------
