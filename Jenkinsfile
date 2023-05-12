@@ -3,17 +3,14 @@ import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
 project = "h5cpp"
-// coverage_os = "centos7-release"
 coverage_os = "None"
-// documentation_os = "debian10-release"
 documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
-  // 'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  // 'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  // 'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  // 'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  // 'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  // 'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc11'),
+  // 'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc11'),
+  // 'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  // 'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
   // 'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
   'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
@@ -58,68 +55,45 @@ builders = pipeline_builder.createBuilders { container ->
     container.copyTo(pipeline_builder.project, pipeline_builder.project)
   }  // stage
 
-  pipeline_builder.stage("${container.key}: Configure Conan") {
-    def conan_remote = "ess-dmsc-local"
-    container.sh """
-      mkdir build
-      cd build
-      conan remote add \
-        --insert 0 \
-        ${conan_remote} ${local_conan_server}
-    """
-  }  // stage
-
   pipeline_builder.stage("${container.key}: CMake") {
     def cmake_options
-    def cmake_prefix
     switch (container.key) {
       case 'centos7':
-        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Debug -DH5CPP_WITH_BOOST=OFF -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         break
       case 'centos7-release':
-        cmake_options = '-DH5CPP_WITH_MPI=1 -DH5CPP_CONAN_FILE=conanfile_ess_mpi.txt -DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = 'CC=/usr/lib64/mpich-3.2/bin/mpicc CXX=/usr/lib64/mpich-3.2/bin/mpicxx'
-        break
-      case 'debian10':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
-        break
-      case 'debian10-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
-      case 'debian10-release-hdf5-1.12':
-        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
+      case 'debian11':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
+        break
+      case 'debian11-release':
+        cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         break
       case 'ubuntu2204':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
       case 'ubuntu2204-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
       default:
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
-        cmake_prefix = ''
         break
     }
 
     container.sh """
+      mkdir build
       cd build
       cmake --version
-      ${cmake_prefix} cmake ${cmake_options} ../${pipeline_builder.project}
+      cmake ${cmake_options} ../${pipeline_builder.project}
     """
   }  // stage
 
   pipeline_builder.stage("${container.key}: Build") {
     container.sh """
-    cd build
-    . ./activate_run.sh
-    make --version
-    make -j4 all
+      cd build
+      make --version
+      make -j4 all
     """
   }  // stage
 
@@ -127,9 +101,9 @@ builders = pipeline_builder.createBuilders { container ->
     if (container.key != coverage_os) {
       try {
         container.sh """
-                cd build
-                make test
-            """
+          cd build
+          make test
+        """
       } catch(e) {
         failure_function(e, 'Run tests failed')
       }
@@ -138,45 +112,43 @@ builders = pipeline_builder.createBuilders { container ->
 
   pipeline_builder.stage("${container.key}: Coverage") {
     if (container.key == coverage_os) {
-        try {
-            container.sh """
-                cd build
-                make generate_coverage
-            """
-            container.copyFrom('build', '.')
-        } catch(e) {
-            container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
-            junit 'unit_tests_run.xml'
-        }
+      try {
+        container.sh """
+          cd build
+          make generate_coverage
+        """
+        container.copyFrom('build', '.')
+      } catch(e) {
+        container.copyFrom('build/test/unit_tests_run.xml', 'unit_tests_run.xml')
+        junit 'unit_tests_run.xml'
+      }
 
-        abs_dir = pwd()
-        dir("build") {
-            sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
-            try {
-                step([
-                    $class: 'CoberturaPublisher',
-                    autoUpdateHealth: true,
-                    autoUpdateStability: true,
-                    coberturaReportFile: 'coverage/coverage.xml',
-                    failUnhealthy: false,
-                    failUnstable: false,
-                    maxNumberOfBuilds: 0,
-                    onlyStable: false,
-                    sourceEncoding: 'ASCII',
-                    zoomCoverageChart: true
-                ])
-            } catch(e) {
-                failure_function(e, 'Publishing coverage reports from failed')
-            }
+      abs_dir = pwd()
+      dir("build") {
+        sh "../redirect_coverage.sh ./coverage/coverage.xml ${abs_dir}/${project}/src/h5cpp"
+        try {
+          step([
+            $class: 'CoberturaPublisher',
+            autoUpdateHealth: true,
+            autoUpdateStability: true,
+            coberturaReportFile: 'coverage/coverage.xml',
+            failUnhealthy: false,
+            failUnstable: false,
+            maxNumberOfBuilds: 0,
+            onlyStable: false,
+            sourceEncoding: 'ASCII',
+            zoomCoverageChart: true
+          ])
+        } catch(e) {
+          failure_function(e, 'Publishing coverage reports from failed')
         }
+      }
     }
   }
 
   if (container.key == documentation_os) {
     pipeline_builder.stage("Documentation") {
       container.sh """
-        pip3 --proxy=${http_proxy} install --user sphinx==4.0.3 breathe
-        export PATH=$PATH:~/.local/bin:/bin
         cd build
         make html
       """
@@ -258,79 +230,55 @@ builders = pipeline_builder.createBuilders { container ->
         if (pipeline_builder.branch ==~ '/^v?(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$/') {
           def rlversion = pipeline_builder.branch
           withCredentials([usernamePassword(
-                               credentialsId: 'cow-bot-username-with-token',
-                               usernameVariable: 'USERNAME',
-                               passwordVariable: 'PASSWORD'
-                           )]) {
+            credentialsId: 'cow-bot-username-with-token',
+            usernameVariable: 'USERNAME',
+            passwordVariable: 'PASSWORD'
+          )]) {
             withEnv(["PROJECT=${pipeline_builder.project}", "RLVERSION=${rlversion}"]) {
-                sh 'cd $PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
-                sh 'cd $PROJECT && git checkout docs_stable && git reset --hard master && ./push_to_repo.sh $USERNAME $PASSWORD'
-            }
-          }
-        }
-      }
-    }
-  }
+              sh 'cd $PROJECT && git checkout -b docs_$RLVERSION && ./push_to_repo.sh $USERNAME $PASSWORD'
+              sh 'cd $PROJECT && git checkout docs_stable && git reset --hard master && ./push_to_repo.sh $USERNAME $PASSWORD'
+            }  // withEnv
+          }  // withCredentials
+        }  // if (pipeline_builder.branch) ...
+      }  // if/else
+    }  // stage
+  }  // if (container.key) ...
 }
 
-def get_macos_pipeline(build_type)
-{
-    return {
-        stage("macOS-${build_type}") {
-            node ("macos") {
-            // Delete workspace when build is done
-                cleanWs()
-
-                dir("${project}/code") {
-                    try {
-                        checkout scm
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / Checkout failed')
-                    }
-                }
-
-                dir("${project}/build") {
-                    try {
-                        sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / CMake failed')
-                    }
-
-                    try {
-                        sh "make -j4"
-                        sh "ctest"
-                    } catch (e) {
-                        failure_function(e, 'MacOSX / build+test failed')
-                    }
-                }
-
-            }
-        }
-    }
-}
-/*
-def get_meson_debian_pipeline() { 
-  return { 
-    stage("debian10-meson") { 
-      node("debian10") { 
+def get_macos_pipeline(build_type) {
+  return {
+    stage("macOS-${build_type}") {
+      node ("macos") {
+        // Delete workspace when build is done
         cleanWs()
-        // checkout the source code
-        dir("${project}/code") { 
-          try { 
-            sh "apt install -y meson"
-          } catch (e) { 
-            failure_function(e, "Debian10 meson installation failed")
-          }
-          try { 
+
+        dir("${project}/code") {
+          try {
             checkout scm
-          } catch(e) { 
-            failure_function(e, "Debian10/Meson checkout failed")
+          } catch (e) {
+            failure_function(e, 'MacOSX / Checkout failed')
           }
-        }
-      }
-    }
+        }  // dir
+
+        dir("${project}/build") {
+          try {
+            sh "cmake -DCMAKE_BUILD_TYPE=${build_type} -DH5CPP_CONAN_FILE=conanfile_macos.txt  ../code"
+          } catch (e) {
+            failure_function(e, 'MacOSX / CMake failed')
+          }
+
+          try {
+            sh "make -j4"
+            sh "ctest"
+          } catch (e) {
+            failure_function(e, 'MacOSX / build+test failed')
+          }
+        }  // dir
+
+      }  // node
+    }  // stage
   }
-}*/
+}
 
 node {
   dir("${project}") {
@@ -343,7 +291,6 @@ node {
 
   // builders['macOS-release'] = get_macos_pipeline('Release')
   // builders['macOS-debug'] = get_macos_pipeline('Debug')
-  // builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {
