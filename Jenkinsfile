@@ -7,11 +7,11 @@ coverage_os = "None"
 documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
-  'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc11'),
-  'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc11'),
-  'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
-  'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
-  'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
+  // 'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc11'),
+  // 'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc11'),
+  // 'debian11': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  // 'debian11-release': ContainerBuildNode.getDefaultContainerBuildNode('debian11'),
+  // 'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
   'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
 
@@ -289,8 +289,8 @@ node {
     }
   }
 
-  builders['macOS-release'] = get_macos_pipeline('Release')
-  builders['macOS-debug'] = get_macos_pipeline('Debug')
+  // builders['macOS-release'] = get_macos_pipeline('Release')
+  // builders['macOS-debug'] = get_macos_pipeline('Debug')
 
 
   try {
