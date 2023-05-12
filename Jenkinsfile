@@ -14,8 +14,8 @@ container_build_nodes = [
   // 'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   // 'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   // 'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  // 'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
-  'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
+  // 'ubuntu2204': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204'),
+  'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2204')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
@@ -93,11 +93,11 @@ builders = pipeline_builder.createBuilders { container ->
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN_FILE=conanfile_1.12.0.txt -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'ubuntu2004':
+      case 'ubuntu2204':
         cmake_options = '-DCMAKE_BUILD_TYPE=Debug -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
-      case 'ubuntu2004-release':
+      case 'ubuntu2204-release':
         cmake_options = '-DCMAKE_BUILD_TYPE=Release -DH5CPP_LOCAL_MODULES=ON'
         cmake_prefix = ''
         break
