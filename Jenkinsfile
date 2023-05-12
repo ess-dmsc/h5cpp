@@ -6,7 +6,7 @@ project = "h5cpp"
 // coverage_os = "centos7-release"
 coverage_os = "None"
 // documentation_os = "debian10-release"
-documentation_os = "ubuntu2004-release"
+documentation_os = "ubuntu2204-release"
 
 container_build_nodes = [
   // 'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
@@ -15,7 +15,7 @@ container_build_nodes = [
   // 'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   // 'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
   // 'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
-  'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
+  'ubuntu2204-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
 ]
 
 // Define number of old builds to keep. These numbers are somewhat arbitrary,
