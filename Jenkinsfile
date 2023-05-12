@@ -9,12 +9,12 @@ coverage_os = "None"
 documentation_os = "ubuntu2004-release"
 
 container_build_nodes = [
-  'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
-  'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
-  'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
+  // 'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
+  // 'centos7-release': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8'),
+  // 'debian10': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  // 'debian10-release': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  // 'debian10-release-hdf5-1.12': ContainerBuildNode.getDefaultContainerBuildNode('debian10'),
+  // 'ubuntu2004': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004'),
   'ubuntu2004-release': ContainerBuildNode.getDefaultContainerBuildNode('ubuntu2004')
 ]
 
@@ -341,9 +341,9 @@ node {
     }
   }
 
-  builders['macOS-release'] = get_macos_pipeline('Release')
-  builders['macOS-debug'] = get_macos_pipeline('Debug')
-  //builders['Debian10/Meson'] = get_meson_debian_pipeline()
+  // builders['macOS-release'] = get_macos_pipeline('Release')
+  // builders['macOS-debug'] = get_macos_pipeline('Debug')
+  // builders['Debian10/Meson'] = get_meson_debian_pipeline()
 
 
   try {

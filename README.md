@@ -35,7 +35,7 @@ find_package(h5cpp REQUIRED)
 .
 .
 add_executable(some_target some_code.cpp)
-target_link_libraries(some_target h5cpp)
+target_link_libraries(some_target h5cpp::h5cpp)
 ```
 and adding the following:
 ```cpp
