@@ -83,10 +83,6 @@ The external library dependencies can be acquired and built using [Conan](https:
 ```
 pip install conan
 ```
-Then run the following to configure required Conan repositories:
-```
-conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
-```
 and that's it, CMake will handle the rest!
 
 Alternatively you can manually install the dependencies to typical system locations. In this case please disable Conan by using the `-DH5CPP_CONAN=DISABLE` option when you run CMake. 
