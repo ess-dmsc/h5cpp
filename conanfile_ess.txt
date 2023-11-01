@@ -13,7 +13,6 @@ virtualrunenv
 
 [options]
 boost:shared=True
-boost:without_atomic=True
 boost:without_chrono=True
 boost:without_container=True
 boost:without_context=True
