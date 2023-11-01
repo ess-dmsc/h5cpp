@@ -84,6 +84,8 @@ builders = pipeline_builder.createBuilders { container ->
     container.sh """
       mkdir build
       cd build
+      # Force build b2 locally due to glibc compatibility issue
+      conan install --build b2 b2/4.9.6@
       cmake --version
       cmake ${cmake_options} ../${pipeline_builder.project}
     """
