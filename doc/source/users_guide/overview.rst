@@ -7,7 +7,7 @@ Design overview
 .. sectionauthor:: Eugen Wintersberger <eugen.wintersberger@desy.de>
 
 This chapter will provide you with a short introduction in to HDF5 and its
-unerlying concepts as well as *h5cpp*'s approach of how to map these concepts
+underlying concepts as well as *h5cpp*'s approach of how to map these concepts
 onto C++ classes.
 
 *h5cpp* namespaces
