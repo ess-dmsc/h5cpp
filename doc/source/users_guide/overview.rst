@@ -7,7 +7,7 @@ Design overview
 .. sectionauthor:: Eugen Wintersberger <eugen.wintersberger@desy.de>
 
 This chapter will provide you with a short introduction in to HDF5 and its
-unerlying concepts as well as *h5cpp*'s approach how to map these concepts
+unerlying concepts as well as *h5cpp*'s approach of how to map these concepts
 onto C++ classes.
 
 *h5cpp* namespaces
@@ -53,11 +53,11 @@ library and HDF5.
 | :cpp:any:`hdf5::file`      | everything releated to files                   |
 +----------------------------+------------------------------------------------+
 
-The top level namespace contains also some more esoteric classes like
+The top level namespace also contains some more esoteric classes like
 :cpp:class:`hdf5::ObjectId` or :cpp:class:`ObjectHandle` which we can savely
 ignore for now.
 
-The most important classes in the top-level namspace might be
+The most important classes in the top-level namespace might be
 :cpp:class:`hdf5::Dimensions` which is a type alias of the form
 
 .. code-block:: cpp
@@ -70,9 +70,9 @@ in order to get rid of the rather nasty
 
     hsize_t *dims;
 
-which is heavily used throughout the C-API and thus a rather potential source
-for memory leaks. Using :cpp:class:`std::vector` serves the same purpose but
-is far less easier to use and avoids problems with memory leaks.
+which is heavily used throughout the C-API and is a potential source
+of memory leaks. Using :cpp:class:`std::vector` serves the same purpose but
+is far easier to use and avoids problems with memory leaks.
 
 
 A high level view on HDF5
@@ -91,12 +91,12 @@ From a very high level point of view we can assume that there are two kind
 of objects
 
 1. container objects (*Group*) which can store links to other object
-2. leafe like objects which cannot hold links to other objects
+2. leaf like objects which cannot hold links to other objects
    (*Datasets* and *committed Datatypes*).
 
 Technically, we can refer to all of these objects as *nodes* and thus consider
 an HDF5 tree as a collection of *nodes* connected by *links*. *h5cpp* maps
-this hierachy of node types rather straight forward onto C++ classes like this
+this hierarchy of node types rather straightforwardly onto C++ classes like this
 
 .. figure:: ../images/node_types.svg
    :align: center
@@ -120,7 +120,7 @@ represent the following HDF5 objects:
 .. important::
 
    Do not confuse :cpp:any:`hdf5::node::Datatype` with
-   :cpp:class:`hdf5::datatype::Datatype`. Thoug the former one is constructed
+   :cpp:class:`hdf5::datatype::Datatype`. Though the former one is constructed
    from the latter one, the latter one cannot be accessed via a path.
    A committed datatype is a means to store complex datatype within a file.
 
@@ -131,7 +131,7 @@ to a node
    :align: center
    :width: 50%
 
-As attributes are common to all node types the :cpp:class:`Manager` interface
+As attributes are common to all node types, the :cpp:class:`Manager` interface
 providing access to them is already exposed on the :cpp:class:`Node` class.
 
 .. figure:: ../images/node.svg
@@ -151,7 +151,7 @@ of :cpp:class:`hdf5::node::Link` we need to have a closer look on links
 There are actually three kinds of links connecting objects within a file
 
 * *hard links* which are created when a new object is created in a file
-* *soft links* which can be used liks symbolic links on a file system to
+* *soft links* which can be used like symbolic links on a file system to
   provide alternative means of access to an object
 * *external links* providing a means to reference objects from a different
   file.
@@ -164,9 +164,9 @@ has taken a rather pragmatic approach how to solve it as will be shown later.
 Furthermore it is important to note that *Nodes* in an HDF5 file do not have
 names. This is an unfortunate widespread misconception about HDF5. *Nodes*
 can be accessed via a list of named links starting at the root node (root group)
-of a file but the *Nodes* themeselfes have no idea about a name.
-Which would not even make sense if we take the ambiguity shown above into
-account. Which of the three link chains leading to the *Dataset* instance
+of a file but the *Nodes* themselves have no idea about a name.
+In fact, this would not even make sense if we take the ambiguity shown above into
+account - which of the three link chains leading to the *Dataset* instance
 would be the correct name of the *Dataset*?
 
 We have chosen a rather pragmatic approach to solve this naming problem
@@ -185,7 +185,7 @@ paths to the *Dataset* would be
     /sensors/temp
     /plot/y
 
-Like for a Unix filesystem path an HDF5 path can be either absolute (starting
+Like for a Unix filesystem path, an HDF5 path can be either absolute (starting
 with a ``/`` and thus at the root node of a given file) or relative to a
 particular node (no ``/`` at the beginning).
 
@@ -238,7 +238,7 @@ about it.
     * an HDF5 file constists of *Nodes* which are
         - *Groups*
         - *Datasets*
-        - *commited Datatypes*
+        - *committed Datatypes*
 
     * which are connected via *Links* from which there are three kinds
         - *hard links*
@@ -262,7 +262,7 @@ terminology.
 
 From a rather high level point of view the smallest unit of information which
 can be accessed by HDF5 is a *data element*. Such a *data element* can be
-everything ranging from a  single integer number up to complex types
+everything ranging from a single integer number up to complex types
 consisting of nested C-structs or C++ classes. A *data element* is stored in
 memory and/or on disk as a set of bits. In order to interpret these bits
 correctly and reassemble the stored *data element* we need some information
@@ -284,7 +284,7 @@ Currently there are only two *dataspaces* available in HDF5
 
 * a *scalar* space which can store only a single element
 * and a *simple* space which is a regular n-dimensional array
-  (as the one above).
+  (like the one above).
 
 *Dataspaces* and *datatypes* are the fundamental building blocks of all
 objects that can store data within an HDF5 file
@@ -321,8 +321,8 @@ both to satisfiy the above constraints.
 We will have a look now how data transfer roughly works by using the above
 example. For the dataset under consideration we have
 
-* a datatype comprising 3 double valus (3x8Bytes) and thus a total size of
-  24 Bytes
+* a datatype comprising 3 double valus (3x8 bytes) and thus a total size of
+  24 bytes
 * and a dataspace of shape (3,5) where the last index varies fastest.
 
 The :cpp:class:`MemoryStorage` of such a dataset would look like this
@@ -331,12 +331,12 @@ The :cpp:class:`MemoryStorage` of such a dataset would look like this
    :align: center
    :width: 65%
 
-Every data element occupies 24Byte. The numbers on the very left denote the
-memory offset in byte for the very left byte in the block. In the above figure
+Every data element occupies 24 bytes. The numbers on the very left denote the
+memory offset in bytes for the very left byte in the block. In the above figure
 the elements are represented in a 3x5 matrix to preserve space but in memory
-they would be aligend simply one after the other.
+they would be aligned one after the other.
 It is the dataspace which associates the linear region of memory with a
-particular shape. By default C-style ordering, last index variest fastest,
+particular shape. By default C-style ordering, last index varies fastest,
 is used. As a matter of fact it is the job of the dataspace to map the
 multidimensional index of a particular element onto a linear address in the
 storage area.
@@ -374,7 +374,7 @@ We can distinguish between
 
 With a point selection we could for instance read the elements
 (0,2), (1,3) and (2,0) and store them in a either a new memory storage of
-size 3 (which would be 72Bytes in total) or in a more sophisticated setup
+size 3 (which would be 72 bytes in total) or in a more sophisticated setup
 we could map them on points (0),(5) and (11) in a 1D array in memory.
 
 .. todo:: add a figure here
