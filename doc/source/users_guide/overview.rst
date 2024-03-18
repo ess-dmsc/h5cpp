@@ -235,7 +235,7 @@ about it.
 
     What you should take from this section are
 
-    * an HDF5 file constists of *Nodes* which are
+    * an HDF5 file consists of *Nodes* which are
         - *Groups*
         - *Datasets*
         - *committed Datatypes*
