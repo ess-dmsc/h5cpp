@@ -321,7 +321,7 @@ both to satisfiy the above constraints.
 We will have a look now how data transfer roughly works by using the above
 example. For the dataset under consideration we have
 
-* a datatype comprising 3 double valus (3x8 bytes) and thus a total size of
+* a datatype comprising 3 double values (3x8 bytes) and thus a total size of
   24 bytes
 * and a dataspace of shape (3,5) where the last index varies fastest.
 
