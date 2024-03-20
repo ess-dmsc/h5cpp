@@ -172,7 +172,7 @@ jobs:
           .\conanrunenv-release-x86_64.ps1
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
-  macos-12:
+  macos-14:
     strategy:
       matrix:
         shared: ["shared", "static"]
@@ -181,7 +181,7 @@ jobs:
           # "mpi",
           "serial"
         ]
-    runs-on: macos-12
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
