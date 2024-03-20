@@ -172,7 +172,7 @@ jobs:
           .\conanrunenv-release-x86_64.ps1
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
-  macos-11:
+  macos-13:
     strategy:
       matrix:
         shared: ["shared", "static"]
@@ -181,7 +181,7 @@ jobs:
           # "mpi",
           "serial"
         ]
-    runs-on: macos-11
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -199,7 +199,7 @@ jobs:
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade conan==2.0.2
+          pip install --upgrade conan
           # there's currently an issue running the MPI tests on OSX with HDF5 compiled
           # as a dynamic library. Use static HDF5 for now
           HDF5_SHARED=${H5CPP_SHARED}
@@ -259,7 +259,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  debian-11:
+  debian-12:
     strategy:
       matrix:
         shared: [shared, static]
@@ -270,7 +270,7 @@ jobs:
         ]
     runs-on: ubuntu-20.04
     container:
-      image: debian:bullseye
+      image: debian:bookworm
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables
