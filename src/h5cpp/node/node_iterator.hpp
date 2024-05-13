@@ -61,9 +61,7 @@ class DLL_EXPORT NodeIterator : public Iterator
     //!
     //! \brief default constructor
     //!
-    //! Not requried, thus deleted.
-    //!
-    NodeIterator() = delete;
+    NodeIterator() = default;
 
     //!
     //! \brief get iterator to first element
