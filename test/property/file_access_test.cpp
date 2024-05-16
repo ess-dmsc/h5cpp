@@ -156,7 +156,7 @@ const std::initializer_list<std::tuple<pl::LibVersion, pl::LibVersion, bool>>
       {pl::LibVersion::V114, pl::LibVersion::Earliest, false},
       {pl::LibVersion::V114, pl::LibVersion::V18, false},
       {pl::LibVersion::V114, pl::LibVersion::V110, false},
-      {pl::LibVersion::V114, pl::LibVersion::V112, true},
+      {pl::LibVersion::V114, pl::LibVersion::V112, false},
       {pl::LibVersion::V114, pl::LibVersion::V114, true},
 #endif
       {pl::LibVersion::Earliest, pl::LibVersion::Latest, true},
