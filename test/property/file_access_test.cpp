@@ -35,18 +35,38 @@
 #include <h5cpp/file/memory_driver.hpp>
 #include <h5cpp/property/file_access.hpp>
 #include <sstream>
+#include <string>
 #include <tuple>
+#include <initializer_list>
 #include "../utilities.hpp"
 #include "utilities.hpp"
 
 namespace pl = hdf5::property;
 
+// we need to define these test cases outside of any catch2 MACRO as '#if'-directives inside a
+// macro are not portable
+// tuple contents: (library version enum value, library version string representation)
+const std::initializer_list<std::tuple<pl::LibVersion, std::string>> lib_version_to_strings {
+#if H5_VERSION_GE(1,10,2)
+  {pl::LibVersion::V18, "V18"}, 
+  {pl::LibVersion::V110, "V110"},
+#endif
+#if H5_VERSION_GE(1,12,0)
+  {pl::LibVersion::V112, "V112"},
+#endif
+#if H5_VERSION_GE(1,13,0)
+  {pl::LibVersion::V114, "V114"},
+#endif
+#if H5_VERSION_LE(1,10,1)
+  // starting with 1.10.2 "Latest" is reported as the specific latest version
+  {pl::LibVersion::Latests, "LATEST"},
+#endif
+  {pl::LibVersion::Earliest, "EARLIEST"}
+};
+
 SCENARIO("Writing file access associated enumerations to a stream") {
   GIVEN("library version values") {
-    using r = std::tuple<pl::LibVersion, std::string>;
-    auto versions = GENERATE(table<pl::LibVersion, std::string>(
-        {r{pl::LibVersion::Earliest, "EARLIEST"},
-         r{pl::LibVersion::Latest, "LATEST"}}));
+    auto versions = GENERATE(table<pl::LibVersion, std::string>(lib_version_to_strings));
     THEN("writing this to the stream") {
       std::stringstream s;
       s << std::get<0>(versions);
@@ -103,33 +123,72 @@ SCENARIO("FileAccessList creation") {
   }
 }
 
+// we need to define these test cases outside of any catch2 MACRO as '#if'-directives inside a
+// macro are not portable
+// tuple contents: (lower version number, upper version number, valid)
+const std::initializer_list<std::tuple<pl::LibVersion, pl::LibVersion, bool>> 
+  lib_version_compatibility_list {
+      {pl::LibVersion::Earliest, pl::LibVersion::Earliest, false},
+#if H5_VERSION_GE(1,10,2)
+      {pl::LibVersion::Earliest, pl::LibVersion::V18, true},
+      {pl::LibVersion::Earliest, pl::LibVersion::V110, true},
+      {pl::LibVersion::V18, pl::LibVersion::Earliest, false},
+      {pl::LibVersion::V18, pl::LibVersion::V18, true},
+      {pl::LibVersion::V18, pl::LibVersion::V110, true},
+      {pl::LibVersion::V110, pl::LibVersion::Earliest, false},
+      {pl::LibVersion::V110, pl::LibVersion::V18, false},
+      {pl::LibVersion::V110, pl::LibVersion::V110, true},
+#endif
+#if H5_VERSION_GE(1,12,0)
+      {pl::LibVersion::Earliest, pl::LibVersion::V112, true},
+      {pl::LibVersion::V18, pl::LibVersion::V112, true},
+      {pl::LibVersion::V110, pl::LibVersion::V112, true},
+      {pl::LibVersion::V112, pl::LibVersion::Earliest, false},
+      {pl::LibVersion::V112, pl::LibVersion::V18, false},
+      {pl::LibVersion::V112, pl::LibVersion::V110, false},
+      {pl::LibVersion::V112, pl::LibVersion::V112, true},
+#endif
+#if H5_VERSION_GE(1,13,0)
+      {pl::LibVersion::Earliest, pl::LibVersion::V114, true},
+      {pl::LibVersion::V18, pl::LibVersion::V114, true},
+      {pl::LibVersion::V110, pl::LibVersion::V114, true},
+      {pl::LibVersion::V112, pl::LibVersion::V114, true},
+      {pl::LibVersion::V114, pl::LibVersion::Earliest, false},
+      {pl::LibVersion::V114, pl::LibVersion::V18, false},
+      {pl::LibVersion::V114, pl::LibVersion::V110, false},
+      {pl::LibVersion::V114, pl::LibVersion::V112, true},
+      {pl::LibVersion::V114, pl::LibVersion::V114, true},
+#endif
+      {pl::LibVersion::Earliest, pl::LibVersion::Latest, true},
+      {pl::LibVersion::Latest, pl::LibVersion::Latest, true}
+};
+
 SCENARIO("Setting the library version on a file access property list") {
   GIVEN("a default constructed file access property list") {
     pl::FileAccessList fapl;
-    WHEN("seting thel LATEST, LATEST ") {
-      REQUIRE_NOTHROW(fapl.library_version_bounds(pl::LibVersion::Latest,
-                                                  pl::LibVersion::Latest));
-      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::Latest);
-      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::Latest);
-    }
-    WHEN("seting EARLIEST:LATEST") {
-      REQUIRE_NOTHROW(fapl.library_version_bounds(pl::LibVersion::Earliest,
-                                                  pl::LibVersion::Latest));
-      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::Earliest);
-      REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::Latest);
-    }
-    WHEN("setting EARLIEST:EARLIST") {
-      THEN("the operation must fail") {
+
+    auto versions = 
+        GENERATE(table<pl::LibVersion, pl::LibVersion, bool>(lib_version_compatibility_list));
+
+    const auto lower_ver = std::get<0>(versions);
+    const auto upper_ver = std::get<1>(versions);
+    const auto valid_combination = std::get<2>(versions);
+
+    std::stringstream ss;
+    ss << "setting " << lower_ver << ":" << upper_ver;
+
+    WHEN(ss.str()) {
+      if(valid_combination){
+        REQUIRE_NOTHROW(fapl.library_version_bounds(lower_ver, upper_ver));
+        REQUIRE(fapl.library_version_bound_low() == lower_ver);
+        REQUIRE(fapl.library_version_bound_high() == upper_ver);
+      }
+      else {
+        THEN("the operation must fail") {
         REQUIRE_THROWS_AS(fapl.library_version_bounds(pl::LibVersion::Earliest,
                                                       pl::LibVersion::Earliest),
                           std::runtime_error);
-      }
-    }
-    WHEN("setting LATEST:EARLIEST") {
-      THEN("the operation must fail") {
-        REQUIRE_THROWS_AS(fapl.library_version_bounds(pl::LibVersion::Latest,
-                                                      pl::LibVersion::Earliest),
-                          std::runtime_error);
+        }
       }
     }
   }

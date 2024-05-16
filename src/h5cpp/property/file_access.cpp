@@ -36,7 +36,20 @@ namespace property {
 std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
   switch (version) {
     case LibVersion::Earliest: return stream << "EARLIEST";
+#if H5_VERSION_LE(1,10,1)
+    // starting with 1.10.2 "Latest" is mapped to the specific latest version
     case LibVersion::Latest: return stream << "LATEST";
+#endif
+#if H5_VERSION_GE(1,10,2)
+    case LibVersion::V18: return stream << "V18";
+    case LibVersion::V110: return stream << "V110";
+#endif
+#if H5_VERSION_GE(1,12,0)
+    case LibVersion::V112: return stream << "V112";
+#endif
+#if H5_VERSION_GE(1,13,0)
+    case LibVersion::V114: return stream << "V114";
+#endif
   }
   return stream;
 }
