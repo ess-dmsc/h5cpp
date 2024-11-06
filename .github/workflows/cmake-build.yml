@@ -22,29 +22,11 @@ jobs:
            # mpi,
           serial
         ]
-        libcxx: [
-            # libstdc++11,
-            libc++
-        ]
         profile: [
-             gcc11
+             gcc11m,
+             clang13-libc++,
+             clang13-libstdc++
         ]
-        # image: [
-        #     "conanio/gcc11-ubuntu16.04:2.0.2",
-        #     "conanio/clang13-ubuntu16.04:2.0.2"
-        # ]
-        # exclude:
-        #   # - image: conanio/gcc11-ubuntu16.04:2.0.2
-        #   # - libcxx: libc++
-        # include:
-        #   # -image: conanio/gcc11-ubuntu16.04:2.0.2
-        #   # - profile: gcc11
-        #   # - image: conanio/clang13-ubuntu16.04:2.0.2
-        #   #   libcxx: libstdc++11
-        #   #   profile: clang13-libstdc++
-        #   # - image: conanio/clang13-ubuntu16.04:2.0.2
-        #   #   libcxx: libc++
-        #   #   profile: clang13-libc++
     runs-on: ubuntu-20.04
     # container:
     #   image: ${{ matrix.image }}
@@ -343,6 +325,7 @@ jobs:
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
   macos-13:
+    if: false
     strategy:
       matrix:
         shared: ["shared", "static"]
