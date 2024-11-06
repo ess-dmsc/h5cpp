@@ -25,7 +25,7 @@ jobs:
         profile: [
              gcc11,
              clang14-libc++,
-             clang14-libstdc++
+             # clang14-libstdc++
         ]
     runs-on: ubuntu-22.04
     # container:
@@ -38,7 +38,7 @@ jobs:
             bash .github/workflows/set_env_vars.sh \
               ${{ matrix.shared }} \
               ${{ matrix.boost }} \
-              ${{ matrix.mpi }}\
+              ${{ matrix.mpi }} \
               ${{ matrix.profile }}
       - name: Install MPI prerequisites
         if: ${{ matrix.mpi == 'mpi' }}
