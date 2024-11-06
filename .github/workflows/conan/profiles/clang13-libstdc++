@@ -12,7 +12,6 @@ os=Linux
 CC=$C_COMPILER_NAME-$COMPILER_VERSION
 CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
 [conf]
-tools.build:cxxflags=["--flag1", "--flag2"]
-tools.build:cflags=["--flag3", "--flag4"]
+tools.build:cxxflags=["-std=c++11"]
 tools.build:compiler_executables={"c": "clang-13", "cpp": "clang++-13"}
 tools.build:sysroot=/usr/aarch64-linux-gnu
