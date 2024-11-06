@@ -23,7 +23,7 @@ jobs:
           serial
         ]
         profile: [
-             gcc11m,
+             gcc11,
              clang13-libc++,
              clang13-libstdc++
         ]
@@ -254,7 +254,6 @@ jobs:
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
   windows-2022:
-    if: false
     strategy:
       matrix:
         shared: [
