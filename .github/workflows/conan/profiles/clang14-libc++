@@ -1,16 +1,13 @@
-C_COMPILER_NAME=clang
-CXX_COMPILER_NAME=clang++
-COMPILER_VERSION=14
 [settings]
 arch=x86_64
 build_type=Release
-compiler=$C_COMPILER_NAME
+compiler=clang
 compiler.libcxx=libc++
-compiler.version=$COMPILER_VERSION
+compiler.version=14
 os=Linux
 [env]
-CC=$C_COMPILER_NAME-$COMPILER_VERSION
-CXX=$CXX_COMPILER_NAME-$COMPILER_VERSION
+CC=clang-14
+CXX=clang++-14
 [conf]
 tools.build:cxxflags=["-std=c++11"]
 tools.build:compiler_executables={"c": "clang-14", "cpp": "clang++-14"}
