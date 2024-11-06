@@ -7,5 +7,5 @@ compiler.version=14
 os=Linux
 [conf]
 tools.build:cxxflags=["-std=c++11"]
-tools.build:compiler_executables={"c": "clang-14", "cpp": "clang++-14"}
+tools.build:compiler_executables={"c": "clang", "cpp": "clang++"}
 tools.build:sysroot=/usr/aarch64-linux-gnu
