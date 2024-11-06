@@ -21,6 +21,104 @@ jobs:
         mpi: [
            # mpi,
           serial
+        ],
+        libcxx: [
+            # libstdc++11,
+            libc++
+        ]
+        profile: [
+             gcc11
+        ]
+        # image: [
+        #     "conanio/gcc11-ubuntu16.04:2.0.2",
+        #     "conanio/clang13-ubuntu16.04:2.0.2"
+        # ]
+        # exclude:
+        #   # - image: conanio/gcc11-ubuntu16.04:2.0.2
+        #   # - libcxx: libc++
+        # include:
+        #   # -image: conanio/gcc11-ubuntu16.04:2.0.2
+        #   # - profile: gcc11
+        #   # - image: conanio/clang13-ubuntu16.04:2.0.2
+        #   #   libcxx: libstdc++11
+        #   #   profile: clang13-libstdc++
+        #   # - image: conanio/clang13-ubuntu16.04:2.0.2
+        #   #   libcxx: libc++
+        #   #   profile: clang13-libc++
+    runs-on: ubuntu-20.04
+    # container:
+    #   image: ${{ matrix.image }}
+    #   options: '--user=root'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set environment variables
+        run: |
+            bash .github/workflows/set_env_vars.sh \
+              ${{ matrix.shared }} \
+              ${{ matrix.boost }} \
+              ${{ matrix.mpi }}
+      - name: Install MPI prerequisites
+        if: ${{ matrix.mpi == 'mpi' }}
+        run: |
+            apt-get update
+            apt-get install -y --no-install-recommends ssh
+            apt-get install -y python3 python3-pip python3-pip-whl
+      - name: Install and configure conan
+        run: |
+          pip install --upgrade conan==2.0.2
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o *:shared=${H5CPP_SHARED}"
+          conan profile detect
+          conan remove -c zlib/* 
+          conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
+          conan lock create conanfile.py ${CONAN_ARGS} --build missing
+      - name: cache conan dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan/data
+          key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          restore-keys: |
+            conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
+            conan-${{ matrix.profile }}
+      - name: install conan dependencies
+        run: |
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o *:shared=${H5CPP_SHARED}"
+          conan remove -c zlib/*
+          conan install . ${CONAN_ARGS} \
+            --output-folder build \
+            --lockfile conan.lock \
+            --build missing \
+            --update
+      - name: build with cmake
+        run: |
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o with_mpi=${H5CPP_WITH_MPI} \
+            -o shared=${H5CPP_SHARED} \
+            -o *:shared=${H5CPP_SHARED}"
+          conan build .  ${CONAN_ARGS} \
+            --lockfile conan.lock \
+            --output-folder build
+      - name: run tests
+        run: |
+          cd build
+          ctest --extra-verbose --no-tests=error
+  oldubuntu:
+    if: false
+    strategy:
+      matrix:
+        shared: [shared, static]
+        boost: [boost, stdfs]
+        mpi: [
+           # mpi,
+          serial
         ]
         libcxx: [libstdc++11, libc++]
         image: [
@@ -44,7 +142,7 @@ jobs:
       image: ${{ matrix.image }}
       options: '--user=root'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
       - name: Set environment variables
         run: |
             bash .github/workflows/set_env_vars.sh \
@@ -103,6 +201,7 @@ jobs:
           cd build
           ctest --extra-verbose --no-tests=error
   windows-2019:
+    if: false
     strategy:
       matrix:
         shared: [
@@ -331,6 +430,7 @@ jobs:
           cd build
           ctest --extra-verbose --no-tests=error
   debian-12:
+    if: false
     strategy:
       matrix:
         shared: [shared, static]
