@@ -45,10 +45,6 @@ jobs:
         run: |
             apt-get update
             apt-get install -y --no-install-recommends ssh
-      - name: Install pip prerequisites
-        run: |
-            apt-get update
-            apt-get install -y python3 python3-pip python3-pip-whl clang
       - name: Install and configure conan
         run: |
           pip install --upgrade conan==2.0.2
