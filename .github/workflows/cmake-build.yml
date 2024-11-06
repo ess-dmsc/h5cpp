@@ -44,7 +44,7 @@ jobs:
       image: ${{ matrix.image }}
       options: '--user=root'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set environment variables
         run: |
             bash .github/workflows/set_env_vars.sh \
