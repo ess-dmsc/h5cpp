@@ -38,7 +38,8 @@ jobs:
             bash .github/workflows/set_env_vars.sh \
               ${{ matrix.shared }} \
               ${{ matrix.boost }} \
-              ${{ matrix.mpi }}
+              ${{ matrix.mpi }}\
+              ${{ matrix.profile }}
       - name: Install MPI prerequisites
         if: ${{ matrix.mpi == 'mpi' }}
         run: |

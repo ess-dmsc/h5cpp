@@ -14,3 +14,7 @@ if [ "$3" = "mpi" ]; then
 else
 	echo "H5CPP_WITH_MPI=False" >> $GITHUB_ENV
 fi
+if [ "$4" = "clang14-libc++" ] || [ "$4" = "clang14-libstdc++" ] ; then
+	echo "CC=clang-14" >> $GITHUB_ENV
+	echo "CXX=clang++-14" >> $GITHUB_ENV
+fi
