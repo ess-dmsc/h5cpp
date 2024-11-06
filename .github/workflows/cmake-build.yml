@@ -21,7 +21,7 @@ jobs:
         mpi: [
            # mpi,
           serial
-        ],
+        ]
         libcxx: [
             # libstdc++11,
             libc++
