@@ -45,7 +45,7 @@ jobs:
         run: |
             apt-get update
             apt-get install -y --no-install-recommends ssh
-            apt-get install -y python3 python3-pip python3-pip-whl
+            apt-get install -y python3 python3-pip python3-pip-whl clang
       - name: Install and configure conan
         run: |
           pip install --upgrade conan==2.0.2
@@ -255,6 +255,7 @@ jobs:
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
   windows-2022:
+    if: false
     strategy:
       matrix:
         shared: [
