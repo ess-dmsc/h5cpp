@@ -29,9 +29,6 @@ class H5CppConan(ConanFile):
         self.build_requires("catch2/3.3.2")
         self.build_requires("ninja/1.10.2")
         self.build_requires("zlib/1.2.13")
-        if self.options.get_safe("with_mpi", False):
-            self.requires("openmpi/4.1.0")
-            self.requires("openssh/9.9p1")
 
     def config_options(self):
         if self.settings.os == "Windows":
