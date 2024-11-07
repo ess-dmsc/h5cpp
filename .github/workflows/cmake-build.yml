@@ -68,9 +68,9 @@ jobs:
       - name: install conan dependencies
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
-            -o with_boost=${H5CPP_WITH_BOOST} \
-            -o with_mpi=${H5CPP_WITH_MPI} \
-            -o shared=${H5CPP_SHARED} \
+            -o &:with_boost=${H5CPP_WITH_BOOST} \
+            -o &:with_mpi=${H5CPP_WITH_MPI} \
+            -o &:shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
           conan remove -c zlib/*
           conan install . ${CONAN_ARGS} \
@@ -81,9 +81,9 @@ jobs:
       - name: build with cmake
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
-            -o with_boost=${H5CPP_WITH_BOOST} \
-            -o with_mpi=${H5CPP_WITH_MPI} \
-            -o shared=${H5CPP_SHARED} \
+            -o &:with_boost=${H5CPP_WITH_BOOST} \
+            -o &:with_mpi=${H5CPP_WITH_MPI} \
+            -o &:shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
           conan build .  ${CONAN_ARGS} \
             --lockfile conan.lock \
