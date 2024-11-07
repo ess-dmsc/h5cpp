@@ -19,7 +19,7 @@ jobs:
         shared: [shared, static]
         boost: [boost, stdfs]
         mpi: [
-           # mpi,
+          mpi,
           serial
         ]
         profile: [
@@ -40,11 +40,11 @@ jobs:
               ${{ matrix.boost }} \
               ${{ matrix.mpi }} \
               ${{ matrix.profile }}
-      - name: Install MPI prerequisites
-        if: ${{ matrix.mpi == 'mpi' }}
-        run: |
-            apt-get update
-            apt-get install -y --no-install-recommends ssh
+      # - name: Install MPI prerequisites
+      #   if: ${{ matrix.mpi == 'mpi' }}
+      #   run: |
+      #       apt-get update
+      #       apt-get install -y --no-install-recommends ssh
       - name: Install and configure conan
         run: |
           pip install --upgrade conan==2.0.2
