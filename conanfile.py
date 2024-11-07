@@ -7,17 +7,17 @@ class H5CppConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
     options = {
-        "shared": [True, False],
+        "&:shared": [True, False],
         "fPIC": [True, False],
-        "with_mpi": [True, False],
-        "with_boost": [True, False],
-        "install_prefix": [None, "ANY"]
+        "&:with_mpi": [True, False],
+        "&:with_boost": [True, False],
+        "&:install_prefix": [None, "ANY"]
     }
     default_options = {
-        "shared": False,
+        "&:shared": False,
         "fPIC": True,
-        "with_mpi": False,
-        "with_boost": True,
+        "&:with_mpi": False,
+        "&:with_boost": True,
         "hdf5/*:hl": True,
         "hdf5/*:parallel": False,
         "hdf5/*:enable_cxx": False,
@@ -54,7 +54,6 @@ class H5CppConan(ConanFile):
                 self.requires("boost/1.81.0")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
-            self.requires("openssh/9.9p1")
 
     def build(self):
         cmake = CMake(self)
