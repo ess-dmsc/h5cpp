@@ -49,9 +49,9 @@ jobs:
         run: |
           pip install --upgrade conan
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
-            -o with_boost=${H5CPP_WITH_BOOST} \
-            -o with_mpi=${H5CPP_WITH_MPI} \
-            -o shared=${H5CPP_SHARED} \
+            -o &:with_boost=${H5CPP_WITH_BOOST} \
+            -o &:with_mpi=${H5CPP_WITH_MPI} \
+            -o &:shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
           conan profile detect
           conan remove -c zlib/* 

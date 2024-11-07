@@ -7,17 +7,17 @@ class H5CppConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
     options = {
-        "&:shared": [True, False],
+        "shared": [True, False],
         "fPIC": [True, False],
-        "&:with_mpi": [True, False],
-        "&:with_boost": [True, False],
+        "with_mpi": [True, False],
+        "with_boost": [True, False],
         "install_prefix": [None, "ANY"]
     }
     default_options = {
-        "&:shared": False,
+        "shared": False,
         "fPIC": True,
-        "&:with_mpi": False,
-        "&:with_boost": True,
+        "with_mpi": False,
+        "with_boost": True,
         "hdf5/*:hl": True,
         "hdf5/*:parallel": False,
         "hdf5/*:enable_cxx": False,
@@ -35,7 +35,7 @@ class H5CppConan(ConanFile):
             del self.options.with_mpi
 
     def configure(self):
-        if self.options.get_safe("&:with_mpi", False):
+        if self.options.get_safe("with_mpi", False):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
@@ -45,14 +45,14 @@ class H5CppConan(ConanFile):
         self.requires("szip/2.1.1")
         self.requires("bzip2/1.0.8")
 
-        if self.options.get_safe("&:with_boost", False):
+        if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
                 self.requires("boost/1.81.0")
             elif self.settings.os == "Macos":
                 self.requires("boost/1.81.0")
             else:
                 self.requires("boost/1.81.0")
-        if self.options.get_safe("&:with_mpi", False):
+        if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
 
     def build(self):
@@ -64,9 +64,9 @@ class H5CppConan(ConanFile):
                 variables = {
                     "H5CPP_CONAN": "MANUAL",
                     "H5CPP_WITH_MPI":
-                    self.options.get_safe("&:with_mpi", False),
+                    self.options.get_safe("with_mpi", False),
                     "H5CPP_WITH_BOOST":
-                    self.options.get_safe("&:with_boost", False)}
+                    self.options.get_safe("with_boost", False)}
                 insprefix = self.options.get_safe("install_prefix", None)
                 if insprefix:
                     variables["CMAKE_INSTALL_PREFIX"] = insprefix
