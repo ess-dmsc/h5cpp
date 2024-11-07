@@ -7,11 +7,11 @@ class H5CppConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
     options = {
-        "&:shared": [True, False],
+        "shared": [True, False],
         "fPIC": [True, False],
-        "&:with_mpi": [True, False],
-        "&:with_boost": [True, False],
-        "&:install_prefix": [None, "ANY"]
+        "with_mpi": [True, False],
+        "with_boost": [True, False],
+        "install_prefix": [None, "ANY"]
     }
     default_options = {
         "&:shared": False,
