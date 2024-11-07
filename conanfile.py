@@ -19,6 +19,7 @@ class H5CppConan(ConanFile):
         "with_mpi": False,
         "with_boost": True,
         "hdf5/*:hl": True,
+        "hdf5/*:parallel": False,
         "hdf5/*:enable_cxx": False,
         "hdf5/*:shared": False,
         "install_prefix": None
@@ -38,7 +39,7 @@ class H5CppConan(ConanFile):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
-        self.requires("hdf5/1.14.0")
+        self.requires("hdf5/1.14.5")
         self.requires("catch2/3.3.2")
         self.requires("zlib/1.2.13")
         self.requires("szip/2.1.1")
