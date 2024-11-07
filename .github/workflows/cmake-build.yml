@@ -22,27 +22,15 @@ jobs:
            # mpi,
           serial
         ]
-        libcxx: [libstdc++11, libc++]
-        image: [
-            "conanio/gcc11-ubuntu16.04:2.0.2",
-            "conanio/clang13-ubuntu16.04:2.0.2"
+        profile: [
+             gcc11,
+             clang14-libc++,
+             clang14-libstdc++
         ]
-        exclude:
-          - image: conanio/gcc11-ubuntu16.04:2.0.2
-            libcxx: libc++
-        include:
-          - image: conanio/gcc11-ubuntu16.04:2.0.2
-            profile: gcc11
-          - image: conanio/clang13-ubuntu16.04:2.0.2
-            libcxx: libstdc++11
-            profile: clang13-libstdc++
-          - image: conanio/clang13-ubuntu16.04:2.0.2
-            libcxx: libc++
-            profile: clang13-libc++
-    runs-on: ubuntu-20.04
-    container:
-      image: ${{ matrix.image }}
-      options: '--user=root'
+    runs-on: ubuntu-22.04
+    # container:
+    #   image: ${{ matrix.image }}
+    #   options: '--user=root'
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables
@@ -50,7 +38,8 @@ jobs:
             bash .github/workflows/set_env_vars.sh \
               ${{ matrix.shared }} \
               ${{ matrix.boost }} \
-              ${{ matrix.mpi }}
+              ${{ matrix.mpi }} \
+              ${{ matrix.profile }}
       - name: Install MPI prerequisites
         if: ${{ matrix.mpi == 'mpi' }}
         run: |
@@ -58,6 +47,7 @@ jobs:
             apt-get install -y --no-install-recommends ssh
       - name: Install and configure conan
         run: |
+          pip install --upgrade conan==2.0.2
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
@@ -70,7 +60,7 @@ jobs:
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
-          path: /home/conan/.conan/data
+          path: ~/.conan/data
           key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
             conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
