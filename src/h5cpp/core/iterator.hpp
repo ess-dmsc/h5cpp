@@ -25,6 +25,7 @@
 #pragma once
 
 #include <stdexcept>
+#include <sys/types.h>
 #include <h5cpp/core/windows.hpp>
 
 namespace hdf5{

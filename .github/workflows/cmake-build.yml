@@ -22,27 +22,15 @@ jobs:
            # mpi,
           serial
         ]
-        libcxx: [libstdc++11, libc++]
-        image: [
-            "conanio/gcc11-ubuntu16.04:2.0.2",
-            "conanio/clang13-ubuntu16.04:2.0.2"
+        profile: [
+             gcc11,
+             clang14-libc++,
+             clang14-libstdc++
         ]
-        exclude:
-          - image: conanio/gcc11-ubuntu16.04:2.0.2
-            libcxx: libc++
-        include:
-          - image: conanio/gcc11-ubuntu16.04:2.0.2
-            profile: gcc11
-          - image: conanio/clang13-ubuntu16.04:2.0.2
-            libcxx: libstdc++11
-            profile: clang13-libstdc++
-          - image: conanio/clang13-ubuntu16.04:2.0.2
-            libcxx: libc++
-            profile: clang13-libc++
-    runs-on: ubuntu-20.04
-    container:
-      image: ${{ matrix.image }}
-      options: '--user=root'
+    runs-on: ubuntu-22.04
+    # container:
+    #   image: ${{ matrix.image }}
+    #   options: '--user=root'
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables
@@ -50,7 +38,8 @@ jobs:
             bash .github/workflows/set_env_vars.sh \
               ${{ matrix.shared }} \
               ${{ matrix.boost }} \
-              ${{ matrix.mpi }}
+              ${{ matrix.mpi }} \
+              ${{ matrix.profile }}
       - name: Install MPI prerequisites
         if: ${{ matrix.mpi == 'mpi' }}
         run: |
@@ -58,6 +47,7 @@ jobs:
             apt-get install -y --no-install-recommends ssh
       - name: Install and configure conan
         run: |
+          pip install --upgrade conan==2.0.2
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
@@ -70,7 +60,7 @@ jobs:
       - name: cache conan dependencies
         uses: actions/cache@v2
         with:
-          path: /home/conan/.conan/data
+          path: ~/.conan/data
           key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
             conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
@@ -102,7 +92,78 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
+  windows-2019:
+    strategy:
+      matrix:
+        shared: [
+          "shared",
+          "static"
+        ]
+        boost: [
+          "boost",
+          "stdfs"
+        ]
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add MSVC to PATH
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Set environment variables
+        run: |
+            bash .github/workflows/set_env_vars.sh \
+              ${{ matrix.shared }} \
+              ${{ matrix.boost }}
+      - name: Install and configure conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade conan==2.0.2
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o shared=${H5CPP_SHARED} \
+            -o *:shared=${H5CPP_SHARED}"
+          conan profile detect
+          conan remove -c zlib/* 
+          conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
+          conan lock create conanfile.py ${CONAN_ARGS} --build missing
+      - name: cache conan dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan/data
+          key: conan-vs2019-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          restore-keys: |
+            conan-vs-2019-${{ hashfiles('base.lock') }}
+            conan-vs-2019
+      - name: install conan dependencies
+        run: |
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o shared=${H5CPP_SHARED} \
+            -o *:shared=${H5CPP_SHARED}"
+          conan remove -c zlib/*
+          conan install . ${CONAN_ARGS} \
+            --output-folder build \
+            --lockfile conan.lock \
+            --build missing \
+            --update \
+            --generator VirtualRunEnv
+      - name: build with cmake
+        run: |
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2019 \
+            -o with_boost=${H5CPP_WITH_BOOST} \
+            -o shared=${H5CPP_SHARED} \
+            -o *:shared=${H5CPP_SHARED}"
+          conan build . ${CONAN_ARGS} \
+            --lockfile conan.lock \
+            --output-folder build
+      - name: run tests
+        run: |
+          cd build
+          .\conanbuildenv-release-x86_64.ps1
+          .\conanrunenv-release-x86_64.ps1
+          ctest --extra-verbose --no-tests=error --output-on-failure
+        shell: pwsh
   windows-2022:
+    if: false
     strategy:
       matrix:
         shared: [
@@ -172,7 +233,7 @@ jobs:
           .\conanrunenv-release-x86_64.ps1
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
-  macos-10:
+  macos-13:
     strategy:
       matrix:
         shared: ["shared", "static"]
@@ -181,7 +242,7 @@ jobs:
           # "mpi",
           "serial"
         ]
-    runs-on: macos-10.15
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -199,7 +260,7 @@ jobs:
       - name: Install and configure conan
         run: |
           python -m pip install --upgrade pip
-          pip install --upgrade conan==2.0.2
+          pip install --upgrade conan
           # there's currently an issue running the MPI tests on OSX with HDF5 compiled
           # as a dynamic library. Use static HDF5 for now
           HDF5_SHARED=${H5CPP_SHARED}
@@ -259,7 +320,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  debian-11:
+  debian-12:
     strategy:
       matrix:
         shared: [shared, static]
@@ -270,7 +331,7 @@ jobs:
         ]
     runs-on: ubuntu-20.04
     container:
-      image: debian:bullseye
+      image: debian:bookworm
     steps:
       - uses: actions/checkout@v2
       - name: Set environment variables

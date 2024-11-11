@@ -122,19 +122,19 @@ keyring
 The return value of this command line should be `OK`.
 In a next step you have to add new package sources to your system. For this
 purpose go to :file:`/etc/apt/sources.list.d` and download the sources file.
-For Debian (Buster) use
+For Debian (Bookworm) use
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/buster-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/bookworm-pni-hdri.list
 
-and for Ubuntu (Focal)
+and for Ubuntu (Noble)
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/focal-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/noble-pni-hdri.list
 
-Similarly, proceed for Bullseye, Buster, Lunar, Jammy, Focal.
+Similarly, proceed for Bullseye, Buster, Oracular, Jammy.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -146,7 +146,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.6.0 libh5cpp0.6.0-dbg libh5cpp0.6.0-doc libh5cpp0.6.0-dev
+   $ apt-get install libh5cpp0.6.1 libh5cpp0.6.1-dbg libh5cpp0.6.1-doc libh5cpp0.6.1-dev
 
-to install the library of v0.6.0. Dependencies will be resolved automatically so you can
+to install the library of v0.6.1. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.

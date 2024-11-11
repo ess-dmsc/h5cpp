@@ -83,10 +83,6 @@ The external library dependencies can be acquired and built using [Conan](https:
 ```
 pip install conan
 ```
-Then run the following to configure required Conan repositories:
-```
-conan remote add bincrafters https://bincrafters.jfrog.io/artifactory/api/conan/public-conan
-```
 and that's it, CMake will handle the rest!
 
 Alternatively you can manually install the dependencies to typical system locations. In this case please disable Conan by using the `-DH5CPP_CONAN=DISABLE` option when you run CMake. 
@@ -124,7 +120,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
 ```
 and accordingly, when building the client program:
 ```bash
-cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.6.0 path/to/your/source
+cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.6.1 path/to/your/source
 ```
 where version number may vary.
 

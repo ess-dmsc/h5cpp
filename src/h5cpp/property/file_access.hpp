@@ -39,6 +39,16 @@ namespace property {
 //!
 enum class LibVersion : std::underlying_type<H5F_libver_t>::type {
   Latest = H5F_LIBVER_LATEST,
+#if H5_VERSION_GE(1,10,2)
+  V18 = H5F_LIBVER_V18,
+  V110 = H5F_LIBVER_V110,
+#endif
+#if H5_VERSION_GE(1,12,0)
+  V112 = H5F_LIBVER_V112,
+#endif
+#if H5_VERSION_GE(1,13,0)
+  V114 = H5F_LIBVER_V114,
+#endif
   Earliest = H5F_LIBVER_EARLIEST
 };
 

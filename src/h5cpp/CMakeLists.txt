@@ -55,8 +55,26 @@ else()
   endif()
 endif()
 
+#
+# remove the absolute path from the library name
+#
+set(H5CPP_INTERFACE_LIBS)
+set(H5CPP_PRIVATE_LIBS ${HDF5_LIBRARIES})
+foreach(HDF5_LIBRARY ${HDF5_LIBRARIES})
+    get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
+    list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
+endforeach()
+
+set(H5CPP_HL_PRIVATE_LIBS ${HDF5_HL_LIBRARIES})
+foreach(HDF5_LIBRARY ${HDF5_HL_LIBRARIES})
+  get_filename_component(LIB_NAME ${HDF5_LIBRARY} NAME)
+  list(APPEND  H5CPP_INTERFACE_LIBS ${LIB_NAME})
+endforeach()
+
 target_include_directories(h5cpp
   PRIVATE ${PROJECT_SOURCE_DIR}/src
+  PUBLIC ${HDF5_INCLUDE_DIRS}
+  PUBLIC ${MPI_CXX_INCLUDE_PATH}
   INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
   INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
@@ -97,7 +115,7 @@ if (TARGET SZIP::SZIP)
 endif()
 
 target_link_libraries(h5cpp
-  PUBLIC 
+  PUBLIC
     ${H5CPP_LINKS}
     hdf5::hdf5
   PRIVATE ${COVERAGE_LIBRARIES}
