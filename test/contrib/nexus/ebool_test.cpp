@@ -143,7 +143,7 @@ SCENARIO("testing EBOOL IO") {
 }
 
 SCENARIO("testing EBOOL IO with cref") {
-  auto f = file::create("ebool_attribute_test.h5", file::AccessFlags::Truncate);
+  auto f = file::create("ebool_attribute_cref_test.h5", file::AccessFlags::Truncate);
   auto root = f.root();
   auto type = datatype::get<datatype::EBool>();
 
