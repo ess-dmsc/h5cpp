@@ -32,20 +32,20 @@ namespace node {
 
 Node::Node():
     attributes(*this),
-    handle_(),
-    link_()
+    link_(),
+    handle_()
 {}
 
 Node::Node(ObjectHandle &&handle,const Link &link):
     attributes(*this),
-    handle_(std::move(handle)),
-    link_(link)
+    link_(link),
+    handle_(std::move(handle))
 {}
 
 Node::Node(const Node &node):
     attributes(*this),
-    handle_(node.handle_),
-    link_(node.link_)
+    link_(node.link_),
+    handle_(node.handle_)
 {}
 
 Node &Node::operator=(const Node &node)
