@@ -130,8 +130,8 @@ class DLL_EXPORT Node
     attribute::AttributeManager attributes;
 
   private:
-    ObjectHandle handle_; //!< access handle to the object
     Link link_;           //!< stores the link to the object
+    ObjectHandle handle_; //!< access handle to the object
 };
 
 DLL_EXPORT bool operator==(const Node &lhs, const Node &rhs);
