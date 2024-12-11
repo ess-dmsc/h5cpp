@@ -34,8 +34,8 @@ namespace hdf5 {
 namespace attribute {
 
 Attribute::Attribute(ObjectHandle &&handle,const node::Link &parent_link):
-    handle_(std::move(handle)),
-    parent_link_(parent_link)
+    parent_link_(parent_link),
+    handle_(std::move(handle))
 {
 }
 
