@@ -203,8 +203,8 @@ class DLL_EXPORT Attribute
     void read(T &data,const datatype::Datatype &mem_type) const;
 
   private:
-    ObjectHandle handle_;
     node::Link   parent_link_;
+    ObjectHandle handle_;
 
     template<typename T>
     void read(T &data,const datatype::Datatype &mem_type, const datatype::Datatype &file_type) const;
