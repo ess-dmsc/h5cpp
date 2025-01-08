@@ -26,8 +26,10 @@ class H5CppConan(ConanFile):
 
     def build_requirements(self):
         self.build_requires("catch2/3.3.2")
-        self.build_requires("ninja/1.10.2")
-        self.build_requires("zlib/1.2.13")
+        self.build_requires("ninja/1.12.1")
+        self.build_requires("zlib/1.3.1")
+        if self.settings.os == "Windows":
+           self.tool_requires("b2/5.2.1")
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -38,19 +40,19 @@ class H5CppConan(ConanFile):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
-        self.requires("hdf5/1.14.0")
+        self.requires("hdf5/1.14.5")
         self.requires("catch2/3.3.2")
-        self.requires("zlib/1.2.13")
+        self.requires("zlib/1.3.1")
         self.requires("szip/2.1.1")
         self.requires("bzip2/1.0.8")
 
         if self.options.get_safe("with_boost", False):
             if self.settings.os == "Windows":
-                self.requires("boost/1.81.0")
+                self.requires("boost/1.86.0")
             elif self.settings.os == "Macos":
-                self.requires("boost/1.81.0")
+                self.requires("boost/1.86.0")
             else:
-                self.requires("boost/1.81.0")
+                self.requires("boost/1.86.0")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.0")
 
