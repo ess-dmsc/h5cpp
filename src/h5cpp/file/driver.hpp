@@ -48,6 +48,7 @@ namespace file
 //!
 enum class DriverID : unsigned
 {
+  Custom = 0,
   Posix = 1,
   Direct = 2,
   Memory = 3,
