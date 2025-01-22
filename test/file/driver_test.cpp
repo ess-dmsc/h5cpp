@@ -35,7 +35,7 @@
 using namespace hdf5;
 
 
-class DLL_EXPORT MyPosixDriver : public hdf5::file::PosixDriver
+class MyPosixDriver : public hdf5::file::PosixDriver
 {
   public:
   MyPosixDriver() {}
