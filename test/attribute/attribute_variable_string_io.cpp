@@ -50,7 +50,7 @@ SCENARIO("variable string attribute IO") {
 
   GIVEN("a utf8 scalar attribute") {
     auto space = dataspace::Scalar();
-    auto attr = root_group.attributes.create("scalar", utf8_type, space);
+    auto attr = root_group.attributes.create("utf8_scalar", utf8_type, space);
     AND_GIVEN("a string of arbitrary length") {
       std::string write = "hello";
       THEN("we can write the string to the attribute") {
