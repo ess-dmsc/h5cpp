@@ -32,7 +32,7 @@ jobs:
     #   image: ${{ matrix.image }}
     #   options: '--user=root'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set environment variables
         run: |
             bash .github/workflows/set_env_vars.sh \
@@ -58,7 +58,7 @@ jobs:
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.conan/data
           key: conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
@@ -105,7 +105,7 @@ jobs:
         ]
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Add MSVC to PATH
         uses: ilammy/msvc-dev-cmd@v1
       - name: Set environment variables
@@ -126,7 +126,7 @@ jobs:
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.conan/data
           key: conan-vs2022-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
@@ -173,8 +173,8 @@ jobs:
         ]
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
       - name: Set environment variables
@@ -206,7 +206,7 @@ jobs:
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.conan/data
           key: conan-apple-clang12-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
@@ -262,7 +262,7 @@ jobs:
     container:
       image: debian:bookworm
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set environment variables
         run: |
           bash .github/workflows/set_env_vars.sh \
