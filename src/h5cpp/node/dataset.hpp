@@ -987,17 +987,32 @@ std::uint32_t Dataset::read_chunk(T &data,
 template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl)
 {
-  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder(space_pool);
-  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+  if(file_type_.get_class() == datatype::Class::String)
+    {
+      write_reshape(data, file_type_, mem_space_holder.get(data), dtpl);
+    }
+  else
+    {
+      hdf5::datatype::DatatypeHolder mem_type_holder;
+      write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+    }
 }
 
 template<typename T>
 void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) const
 {
-  hdf5::datatype::DatatypeHolder mem_type_holder;
   hdf5::dataspace::DataspaceHolder mem_space_holder;
-  write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+  if(file_type_.get_class() == datatype::Class::String)
+    {
+      hdf5::datatype::DatatypeHolder mem_type_holder;
+      write_reshape(data, file_type_, mem_space_holder.get(data), dtpl);
+    }
+  else
+    {
+      hdf5::datatype::DatatypeHolder mem_type_holder;
+      write_reshape(data, mem_type_holder.get(data), mem_space_holder.get(data), dtpl);
+    }
 }
 
 template<typename T>
