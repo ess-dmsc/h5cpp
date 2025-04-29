@@ -45,7 +45,37 @@ SCENARIO("variable string attribute IO") {
   auto simple_space = dataspace::Simple{{6}};
   auto scalar_space = dataspace::Scalar();
   auto string_type = datatype::create<std::string>();
+  auto utf8_type = datatype::create<std::string>();
+  utf8_type.encoding(datatype::CharacterEncoding::UTF8);
 
+  GIVEN("a utf8 scalar attribute") {
+    auto space = dataspace::Scalar();
+    auto attr = root_group.attributes.create("scalar", utf8_type, space);
+    AND_GIVEN("a string of arbitrary length") {
+      std::string write = "hello";
+      THEN("we can write the string to the attribute") {
+        REQUIRE_NOTHROW(attr.write(write));
+        std::string read;
+        AND_THEN("read the attribute using the default datatype") {
+          REQUIRE_NOTHROW(attr.read(read));
+          REQUIRE(write == read);
+        }
+        AND_THEN("read the attribute using the attributes datatype") {
+          REQUIRE_NOTHROW(attr.read(read, attr.datatype()));
+          REQUIRE(write == read);
+        }
+      }
+    }
+    THEN("we can write a const char string to the attribute") {
+      REQUIRE_NOTHROW(attr.write("A short notice"));
+      AND_THEN("read it again") {
+        std::string expect = "A short notice";
+        std::string read;
+        REQUIRE_NOTHROW(attr.read(read));
+        REQUIRE_THAT(expect, Catch::Matchers::Equals(read));
+      }
+    }
+  }
   GIVEN("a scalar attribute") {
     auto space = dataspace::Scalar();
     auto attr = root_group.attributes.create("scalar", string_type, space);
