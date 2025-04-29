@@ -1005,7 +1005,6 @@ void Dataset::write(const T &data,const property::DatasetTransferList &dtpl) con
   hdf5::dataspace::DataspaceHolder mem_space_holder;
   if(file_type_.get_class() == datatype::Class::String)
     {
-      hdf5::datatype::DatatypeHolder mem_type_holder;
       write_reshape(data, file_type_, mem_space_holder.get(data), dtpl);
     }
   else
