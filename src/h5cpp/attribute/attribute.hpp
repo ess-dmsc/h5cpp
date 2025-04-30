@@ -350,9 +350,16 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 template<typename T>
 void Attribute::write(const T &data) const
 {
-  hdf5::datatype::DatatypeHolder mem_type_holder;
-
-  write(data,mem_type_holder.get<T>());
+  auto file_type = datatype();
+  if(file_type.get_class() == datatype::Class::String)
+  {
+    write(data,file_type);
+  }
+  else
+  {
+    hdf5::datatype::DatatypeHolder mem_type_holder;
+    write(data,mem_type_holder.get<T>());
+  }
 }
 
 template<typename T>

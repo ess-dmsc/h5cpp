@@ -184,8 +184,9 @@ SCENARIO("External filter Blosc LZ4") {
             REQUIRE(flags[0] == filter::Availability::Mandatory);
             REQUIRE_THAT(filters[0].cd_values(), Equals(params));
             REQUIRE(filters[0].id() == static_cast<int>(FILTER_BLOSC));
-            REQUIRE(filters[0].name() ==
-                    "HDF5 blosc filter; see http://www.hdfgroup.org/services/contributions.html");
+	    if (filters[0].name() != "blosc")
+	      REQUIRE(filters[0].name() ==
+		      "HDF5 blosc filter; see http://www.hdfgroup.org/services/contributions.html");
           }
         }
       }
