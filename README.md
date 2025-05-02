@@ -1,6 +1,5 @@
 # A modern C++ interface for HDF5
 
-[![Build Status](https://jenkins.esss.dk/dm/job/ess-dmsc/job/h5cpp/job/master/badge/icon)](https://jenkins.esss.dk/dm/job/ess-dmsc/job/h5cpp/job/master/)
 ![github workflow](https://github.com/ess-dmsc/h5cpp/actions/workflows/cmake-build.yml/badge.svg)
 [![docs](https://img.shields.io/badge/Documentation-webpages-ADD8E6.svg)](https://ess-dmsc.github.io/h5cpp/index.html)
 [![Conan package](https://img.shields.io/badge/conan-package-blue)](https://github.com/ess-dmsc/conan-h5cpp)
@@ -127,5 +126,8 @@ where version number may vary.
 For OSX and Windows instructions, as well as instructions for building tests and documentation,
 see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
 
+## Documentation
 
-
+The documentation is maintained in the `gh-pages` branch.
+At this time, there is no automated deployment process.
+After publishing a new release, remember to update the documentation and deploy it manually.
