@@ -1,0 +1,84 @@
+default:
+  tags:
+    - docker
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+stages:
+  - build
+  - publish
+
+variables:
+  ALMALINUX9_IMAGE: "registry.esss.lu.se/ecdc/ess-dmsc/docker-almalinux9-conan:1.2.0"
+  CENTOS7_IMAGE: "registry.esss.lu.se/ecdc/ess-dmsc/docker-centos7-conan:1.0.0"
+  CONAN_USER_HOME: "$CI_PROJECT_DIR/.conan"
+  CONAN_CONFIG_REPO: "http://github.com/ess-dmsc/conan-configuration.git"
+  CONAN_REMOTE: "ecdc-conan-virtual"
+
+build_centos7:
+  stage: build
+  image: $CENTOS7_IMAGE
+  script:
+    - conan config install $CONAN_CONFIG_REPO
+    - conan install . --build=missing -pr=linux_x86_64_gcc11_legacy
+    - conan create . $CONAN_REF --build=missing -pr=linux_x86_64_gcc11_legacy
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_TAG}@ess-dmsc/stable"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_SHA:0:8}@ess-dmsc/testing"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_SHA:0:8}@ess-dmsc/dev"
+  artifacts:
+    paths:
+      - .conan
+    expire_in: 1 day
+
+build_almalinux9:
+  stage: build
+  image: $ALMALINUX9_IMAGE
+  script:
+    - conan config install $CONAN_CONFIG_REPO
+    - conan install . --build=missing -pr=linux_x86_64_gcc11
+    - conan create . $CONAN_REF --build=missing -pr=linux_x86_64_gcc11
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_TAG}@ess-dmsc/stable"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_SHA:0:8}@ess-dmsc/testing"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_SHA:0:8}@ess-dmsc/dev"
+  artifacts:
+    paths:
+      - .conan
+    expire_in: 1 day
+
+publish:
+  stage: publish
+  image: $ALMALINUX9_IMAGE
+  script:
+    - conan config install $CONAN_CONFIG_REPO
+    - conan user $ESS_ARTIFACTORY_ECDC_CONAN_USER --remote=$CONAN_REMOTE --password=$ESS_ARTIFACTORY_ECDC_CONAN_TOKEN
+    - conan upload h5cpp --all -r=$CONAN_REMOTE --confirm
+  rules:
+    - if: $CI_COMMIT_TAG
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_TAG}@ess-dmsc/stable"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      variables:
+        CONAN_REF: "h5cpp/${CI_COMMIT_SHA:0:8}@ess-dmsc/testing"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+  needs:
+    - build_centos7
+    - build_almalinux9
