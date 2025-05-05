@@ -3,6 +3,12 @@ if(H5CPP_WITH_MPI)
 endif()
 
 find_package(HDF5 REQUIRED COMPONENTS C HL)
+# We cannot use the `VERSION` argument to `find_package` due to a bug in the `FindHDF5.cmake`
+# script provided by cmake (see https://gitlab.kitware.com/cmake/cmake/-/issues/25358)
+# Until this has been fixed, we check for the minimum required HDF5 version ourself:
+if(NOT HDF5_VERSION VERSION_GREATER_EQUAL "1.8.13")
+  message(FATAL_ERROR "The HDF5 version is to low. At least 1.8.13 is required.")
+endif()
 message(STATUS "==============================================================")
 message(STATUS "========================Found HDF5============================")
 message(STATUS "==============================================================")
