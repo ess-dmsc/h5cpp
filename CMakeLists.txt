@@ -80,7 +80,7 @@ include(DoxygenUtilities)
 #=============================================================================
 # compiler and library configuration
 #=============================================================================
-option(H5CPP_WITH_BOOST "enable Boost filesystem support" ON)
+option(H5CPP_WITH_BOOST "enable Boost filesystem support" OFF)
 if(H5CPP_WITH_BOOST)
   find_package(Boost 1.41 COMPONENTS filesystem system REQUIRED)
 else()

@@ -27,7 +27,7 @@ mpi:
         H5CPP_WITH_MPI: ON
 
 filesystem:
-  default: boostfs
+  default: stdfs
   description: implementation of the filesystem namespace
   choices:
     boostfs:
