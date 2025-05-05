@@ -30,6 +30,6 @@ var classhdf5_1_1ObjectHandle =
     [ "get_type", "classhdf5_1_1ObjectHandle.html#a638771986c5776a459dd9fe879eb6c31", null ],
     [ "is_valid", "classhdf5_1_1ObjectHandle.html#a066c9c01ba917f94c6287832e919c1a2", null ],
     [ "operator hid_t", "classhdf5_1_1ObjectHandle.html#a67c2d14abf5baa4bc5dea83d3c36769c", null ],
-    [ "operator=", "classhdf5_1_1ObjectHandle.html#a8772d98d4982e132ad45b91d6c175629", null ],
-    [ "operator=", "classhdf5_1_1ObjectHandle.html#a75cc92d5beb3b0124dc52d0db7561bc0", null ]
+    [ "operator=", "classhdf5_1_1ObjectHandle.html#ac056681da0ec9126db88ee8305fc22c0", null ],
+    [ "operator=", "classhdf5_1_1ObjectHandle.html#ac9af38d3ea7ae2270c2a7ff114d4f455", null ]
 ];

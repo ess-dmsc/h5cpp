@@ -1,6 +1,6 @@
 var factory_8hpp =
 [
-    [ "DatatypeHolder", "classhdf5_1_1datatype_1_1DatatypeHolder.html", "classhdf5_1_1datatype_1_1DatatypeHolder" ],
-    [ "create", "factory_8hpp.html#a2ceccbf12e6ba3c23e58142ac683d7d5", null ],
-    [ "get", "factory_8hpp.html#af92d0647e0683af1d2081b757e1e578b", null ]
+    [ "hdf5::datatype::DatatypeHolder", "classhdf5_1_1datatype_1_1DatatypeHolder.html", "classhdf5_1_1datatype_1_1DatatypeHolder" ],
+    [ "create", "factory_8hpp.html#ae7ccf6c3453b26221fefab4666c5ca74", null ],
+    [ "get", "factory_8hpp.html#a3eacfefa06fdb7e4cb52a355dd46b186", null ]
 ];

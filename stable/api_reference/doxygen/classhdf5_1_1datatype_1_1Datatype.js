@@ -10,8 +10,8 @@ var classhdf5_1_1datatype_1_1Datatype =
     [ "is_valid", "classhdf5_1_1datatype_1_1Datatype.html#af7586202854365e8f70451445a1c7267", null ],
     [ "native_type", "classhdf5_1_1datatype_1_1Datatype.html#a2c06954d211eb34f2d6544c1aaa3cd84", null ],
     [ "operator hid_t", "classhdf5_1_1datatype_1_1Datatype.html#aec64627f4380919677d88822055d1841", null ],
-    [ "operator=", "classhdf5_1_1datatype_1_1Datatype.html#aba88d7e0e20f5d6804dd46ee117d59da", null ],
-    [ "operator=", "classhdf5_1_1datatype_1_1Datatype.html#a4fc37b90d9d7eb606603faeccdf69fca", null ],
+    [ "operator=", "classhdf5_1_1datatype_1_1Datatype.html#a1f71f8065150c1051d7ed69df8684edb", null ],
+    [ "operator=", "classhdf5_1_1datatype_1_1Datatype.html#ab194d052c3287b3986904925bf5c8346", null ],
     [ "size", "classhdf5_1_1datatype_1_1Datatype.html#a6f48b7b648435164f592db0adc9c10ba", null ],
     [ "size", "classhdf5_1_1datatype_1_1Datatype.html#ae7b3abdea9d2be6e88fe0377db7d4c47", null ],
     [ "super", "classhdf5_1_1datatype_1_1Datatype.html#acebfcaa2b4f1b35571e924d75aabf69c", null ]

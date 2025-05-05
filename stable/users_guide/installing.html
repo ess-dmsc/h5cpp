@@ -7,11 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Installing the library &#8212; h5cpp 0.6.1 documentation</title>
+    <title>Installing the library &#8212; h5cpp 0.7.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -36,7 +39,7 @@
         <li class="right" >
           <a href="index.html" title="Users guide"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installing the library</a></li> 
       </ul>
@@ -96,8 +99,9 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>h5cpp
 <p>which should do the job provided that all dependencies are installed in
 standard locations. We strongly recommend to set the particular build
 configuration with the <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code> variable.</p>
-<p>To attempt to build without Boost, additionally specify <cite>-DH5CPP_WITH_BOOST=OFF</cite>.
-This requires a recent compiler, for example gcc &gt;8, with filesystem in
+<p>To attempt to build with Boost, additionally specify <cite>-DH5CPP_WITH_BOOST=ON</cite>.
+The default <cite>-DH5CPP_WITH_BOOST=OFF</cite>
+requires a recent compiler, for example gcc &gt;8, with filesystem in
 the std or std::experimental namespace.</p>
 <p>On a Linux system the default build system used is
 <strong class="program">make</strong>. Thus, in the build directory, just run make</p>
@@ -149,10 +153,10 @@ Once you have downloaded the file use</p>
 </pre></div>
 </div>
 <p>to update your package list and</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libh5cpp0.6.1<span class="w"> </span>libh5cpp0.6.1-dbg<span class="w"> </span>libh5cpp0.6.1-doc<span class="w"> </span>libh5cpp0.6.1-dev
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libh5cpp0.7.0<span class="w"> </span>libh5cpp0.7.0-dbg<span class="w"> </span>libh5cpp0.7.0-doc<span class="w"> </span>libh5cpp0.7.0-dev
 </pre></div>
 </div>
-<p>to install the library of v0.6.1. Dependencies will be resolved automatically so you can
+<p>to install the library of v0.7.0. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.</p>
 </section>
 </section>
@@ -204,6 +208,7 @@ start with working right after the installation has finished.</p>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.7.0/index.html">v0.7.0</a></li>
       <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
       <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
       <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
@@ -231,16 +236,16 @@ start with working right after the installation has finished.</p>
         <li class="right" >
           <a href="index.html" title="Users guide"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.6.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Installing the library</a></li> 
       </ul>
     </div>
-<li>generated on 2024-11-11 06:44:04 from  (b494fa8)</li>
+<li>generated on 2025-05-05 17:47:04 from docs_stable (4ecf489)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2024-11-11 06:44:04 from  (b494fa8).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-05-05 17:47:04 from docs_stable (4ecf489).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
 
   </body>

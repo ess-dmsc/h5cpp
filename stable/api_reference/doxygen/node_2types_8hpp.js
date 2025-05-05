@@ -13,6 +13,6 @@ var node_2types_8hpp =
       [ "Dataset", "node_2types_8hpp.html#a8c9eab5788591df18cacf72403d7fa67a239658e016e3d5d06ae719d280a79fec", null ],
       [ "Datatype", "node_2types_8hpp.html#a8c9eab5788591df18cacf72403d7fa67a2a2e2590e2424e6a81cf9a78911f1462", null ]
     ] ],
-    [ "operator<<", "node_2types_8hpp.html#a4cbe73634cab25f1ff3c144369e55179", null ],
-    [ "operator<<", "node_2types_8hpp.html#aeca4e55d2f7a5fe95afefb00b04a6f58", null ]
+    [ "operator<<", "node_2types_8hpp.html#a9fb7dbcf89f2136ab5f46875c05514a8", null ],
+    [ "operator<<", "node_2types_8hpp.html#aa4b867a67eb2d0dbc6b694e5b54c65d5", null ]
 ];

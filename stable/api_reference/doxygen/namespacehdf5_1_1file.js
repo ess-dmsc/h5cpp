@@ -19,6 +19,7 @@ var namespacehdf5_1_1file =
       [ "SWMRWrite", "namespacehdf5_1_1file.html#a6985d28775d7cdd13325794921278bc0a006bed0629f62292a542ac86d7e72a5f", null ]
     ] ],
     [ "DriverID", "namespacehdf5_1_1file.html#ac574ff5eff78d2f642cff8648afea11d", [
+      [ "Custom", "namespacehdf5_1_1file.html#ac574ff5eff78d2f642cff8648afea11da90589c47f06eb971d548591f23c285af", null ],
       [ "Posix", "namespacehdf5_1_1file.html#ac574ff5eff78d2f642cff8648afea11da8523848e126afc1ef3693704374690f2", null ],
       [ "Direct", "namespacehdf5_1_1file.html#ac574ff5eff78d2f642cff8648afea11dafd1dd0c603be8170f9eae0be9f2f6afb", null ],
       [ "Memory", "namespacehdf5_1_1file.html#ac574ff5eff78d2f642cff8648afea11da4789f23283b3a61f858b641a1bef19a3", null ],
@@ -63,10 +64,10 @@ var namespacehdf5_1_1file =
     [ "operator&", "namespacehdf5_1_1file.html#aa6f2c57abbd85354432e163e4ea468aa", null ],
     [ "operator&", "namespacehdf5_1_1file.html#a87a9b27cd49194820297f1f016cce3b5", null ],
     [ "operator&", "namespacehdf5_1_1file.html#a73edf923e1e34112ac1d7ac7ca1ac71f", null ],
-    [ "operator<<", "namespacehdf5_1_1file.html#a976ae5247206ef88d3da2839cb9d028d", null ],
-    [ "operator<<", "namespacehdf5_1_1file.html#a8a90200e80c5e8b709aafd65598195f1", null ],
-    [ "operator<<", "namespacehdf5_1_1file.html#a4ed2a23ad41f7e8a067f37e62c66eaf6", null ],
-    [ "operator<<", "namespacehdf5_1_1file.html#a380ace429daf49540c9ecaff940e42bf", null ],
+    [ "operator<<", "namespacehdf5_1_1file.html#ac93e4222649943a0ba4ab60e0e32128f", null ],
+    [ "operator<<", "namespacehdf5_1_1file.html#a44d76a3d124cbe30d081940e86b6a08a", null ],
+    [ "operator<<", "namespacehdf5_1_1file.html#a5982c6f6ae70603eaa9b4e815efdcad4", null ],
+    [ "operator<<", "namespacehdf5_1_1file.html#aae7a1edfa1431b247f4b5b6305412dc2", null ],
     [ "operator|", "namespacehdf5_1_1file.html#afc02873d197b5b3d47ee9f9af7726c88", null ],
     [ "operator|", "namespacehdf5_1_1file.html#a13f5f05ba8e4b630fbe1210abaaa1197", null ],
     [ "operator|", "namespacehdf5_1_1file.html#ac8115f7b4ed4dbeb68509fdfb00e0c25", null ],

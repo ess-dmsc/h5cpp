@@ -7,6 +7,6 @@ var classhdf5_1_1property_1_1List =
     [ "List", "classhdf5_1_1property_1_1List.html#ae9642b2ab546f1cb47e2dbe5c8fa0862", null ],
     [ "get_class", "classhdf5_1_1property_1_1List.html#ae0189b30c74a7bed56ffa93e4ed8a8b9", null ],
     [ "operator hid_t", "classhdf5_1_1property_1_1List.html#a9f3dbd126afffa2a0b82f27520fdbfd5", null ],
-    [ "operator=", "classhdf5_1_1property_1_1List.html#a8e4ea3934ef550e75da481e1dc37c371", null ],
-    [ "operator=", "classhdf5_1_1property_1_1List.html#a12b6390b8e80b985a1177679c8a381d0", null ]
+    [ "operator=", "classhdf5_1_1property_1_1List.html#af49b6881ceac009822aededc2025d4c9", null ],
+    [ "operator=", "classhdf5_1_1property_1_1List.html#ab190bc38251cb373ab1dfe228c6c991d", null ]
 ];

@@ -18,7 +18,7 @@ var classhdf5_1_1Path =
     [ "is_root", "classhdf5_1_1Path.html#a2c781d0db94354d31d5f8948239309d9", null ],
     [ "name", "classhdf5_1_1Path.html#a339dd5485a217f0cf88bb357cec7d89f", null ],
     [ "operator std::string", "classhdf5_1_1Path.html#ad9eb6806ff36cf8143cfbd3b5cc3fea4", null ],
-    [ "operator+=", "classhdf5_1_1Path.html#a9d97b0db9259363bdb1ff90e1a8a86fc", null ],
+    [ "operator+=", "classhdf5_1_1Path.html#a078e888370da7454ed2a57e6b2062504", null ],
     [ "parent", "classhdf5_1_1Path.html#ad4a105e1733be2ee8eede78a90359093", null ],
     [ "rbegin", "classhdf5_1_1Path.html#ae0cea7a058e19d9ea7397ee704e2b271", null ],
     [ "relative_to", "classhdf5_1_1Path.html#affcedc8821ffb9d297c93e62165eb3ac", null ],
