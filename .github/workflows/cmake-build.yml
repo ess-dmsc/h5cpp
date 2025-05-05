@@ -341,7 +341,6 @@ jobs:
       - name: Append documentation for the latest release version
         if: (! startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: |
-          git config --unset-all remote.origin.fetch
           git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
           git fetch
           git clean -fd
@@ -368,7 +367,6 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: |
           echo Version: ${{ steps.extract_docver.outputs.docver }}
-          git config --unset-all remote.origin.fetch
           git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
           git fetch
           git clean -fd
