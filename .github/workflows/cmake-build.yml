@@ -308,6 +308,7 @@ jobs:
             -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}
           cmake --build . -- -j 2
       - name: Build html
+        if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: |
           apt-get update
           apt-get -y install \
