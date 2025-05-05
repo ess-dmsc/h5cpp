@@ -54,7 +54,7 @@ jobs:
             -o shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
           conan profile detect
-          conan remove -c zlib/* 
+          conan remove -c zlib/*
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
@@ -122,7 +122,7 @@ jobs:
             -o shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
           conan profile detect
-          conan remove -c zlib/* 
+          conan remove -c zlib/*
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
       - name: cache conan dependencies
@@ -269,7 +269,7 @@ jobs:
             ${{ matrix.shared }} \
             ${{ matrix.boost }} \
             ${{ matrix.mpi }}
-      - name: install serial prerequisites
+      - name: Install serial prerequisites
         if: ${{ matrix.mpi == 'serial' }}
         run: |
           apt-get update
@@ -292,13 +292,13 @@ jobs:
               libboost-filesystem-dev \
               libhdf5-mpi-dev \
               libopenmpi-dev
-      - name: build with cmake
+      - name: Build all
         run: |
           HDF5_STATIC=ON
           [ "${H5CPP_SHARED}" = "True" ] && HDF5_STATIC=OFF
-          mkdir build
-          cd build
-          cmake .. \
+          mkdir ../build
+          cd ../build
+          cmake ../h5cpp \
             -DCMAKE_BUILD_TYPE=Release \
             -DH5CPP_CONAN=DISABLE \
             -DH5CPP_CATCH2_V2=TRUE \
@@ -307,17 +307,88 @@ jobs:
             -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST} \
             -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}
           cmake --build . -- -j 2
-      - name: run tests
+      - name: Build html
+        run: |
+          apt-get update
+          apt-get -y install \
+            doxygen \
+            python3-sphinx \
+            git \
+            graphviz \
+            pkg-config \
+            texlive texlive-latex-extra texlive-latex-recommended texlive-pictures \
+            python3-pygments lsb-release  python3-breathe sphinx-rtd-theme \
+            libjs-mathjax fonts-mathjax fonts-mathjax-extras ghostscript \
+            wget
+          cmake --build . --target html
+        working-directory: ../build
+      - name: Run tests
         run: |
           ctest --extra-verbose --no-tests=error
-        working-directory: build
+        working-directory: ../build
       - name: install with cmake
         run: |
           cmake --build . --target install
-        working-directory: build
-      - name: build examples
-        run: | 
-          mkdir examples_build
-          cd examples_build
-          cmake ../examples -DCMAKE_BUILD_TYPE=Release
+        working-directory: ../build
+      - name: Build examples
+        run: |
+          mkdir ../examples_build
+          cd ../examples_build
+          cmake ../h5cpp/examples -DCMAKE_BUILD_TYPE=Release
           cmake --build . -- -j 2
+      - name: Append documentation for the latest release version
+        if: (! startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        run: |
+          git config --unset-all remote.origin.fetch
+          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+          git fetch
+          git clean -fd
+          git checkout gh-pages
+          git pull
+          mkdir -p ./latest && shopt -u dotglob && rm -rf ./latest/*
+          mv -f ../build/doc/build/* ./latest/
+          mv -f ../build/doc/doxygen_html ./latest/api_reference/doxygen
+          mv -f ../build/doc/index.html ./
+          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
+          find ./ -name "Makefile" -exec rm -rf {} \\;
+          find ./ -name "*.cmake" -exec rm -rf {} \\;
+          rm -rf ./latest/_sources
+          git add -A
+          git commit --amend -m 'Auto-publishing docs from github build for latest'
+
+      - name: Extract the code version from the branch name
+        if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        shell: bash
+        run: echo "##[set-output name=docver;]$(echo ${GITHUB_REF#refs/heads/docs_})"
+        id: extract_docver
+
+      - name: Append documentation for the extracted release version
+        if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        run: |
+          echo Version: ${{ steps.extract_docver.outputs.docver }}
+          git config --unset-all remote.origin.fetch
+          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+          git fetch
+          git clean -fd
+          git checkout gh-pages
+          git pull
+          mkdir -p ./${{ steps.extract_docver.outputs.docver }} && shopt -u dotglob && rm -rf ./${{ steps.extract_docver.outputs.docver }}/*
+          mv -f ../build/doc/build/* ./${{ steps.extract_docver.outputs.docver }}/
+          mv -f ../build/doc/doxygen_html ./${{ steps.extract_docver.outputs.docver }}/api_reference/doxygen
+          mv -f ../build/doc/index.html ./
+          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
+          find ./ -name "Makefile" -exec rm -rf {} \\;
+          find ./ -name "*.cmake" -exec rm -rf {} \\;
+          rm -rf ./${{ steps.extract_docver.outputs.docver }}/_sources
+          git add -A
+          git commit --amend -m 'Auto-publishing docs from github build for ${{ steps.extract_docver.outputs.docver }}'
+
+      - name: Deploy documentation
+        if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: .
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: "Build: ({sha}) {msg}"
