@@ -203,8 +203,8 @@ class DLL_EXPORT Attribute
     void read(T &data,const datatype::Datatype &mem_type) const;
 
   private:
-    ObjectHandle handle_;
     node::Link   parent_link_;
+    ObjectHandle handle_;
 
     template<typename T>
     void read(T &data,const datatype::Datatype &mem_type, const datatype::Datatype &file_type) const;
@@ -350,9 +350,16 @@ void Attribute::write(const T &data,const datatype::Datatype &mem_type) const
 template<typename T>
 void Attribute::write(const T &data) const
 {
-  hdf5::datatype::DatatypeHolder mem_type_holder;
-
-  write(data,mem_type_holder.get<T>());
+  auto file_type = datatype();
+  if(file_type.get_class() == datatype::Class::String)
+  {
+    write(data,file_type);
+  }
+  else
+  {
+    hdf5::datatype::DatatypeHolder mem_type_holder;
+    write(data,mem_type_holder.get<T>());
+  }
 }
 
 template<typename T>

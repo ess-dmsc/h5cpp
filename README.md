@@ -1,6 +1,5 @@
 # A modern C++ interface for HDF5
 
-[![Build Status](https://jenkins.esss.dk/dm/job/ess-dmsc/job/h5cpp/job/master/badge/icon)](https://jenkins.esss.dk/dm/job/ess-dmsc/job/h5cpp/job/master/)
 ![github workflow](https://github.com/ess-dmsc/h5cpp/actions/workflows/cmake-build.yml/badge.svg)
 [![docs](https://img.shields.io/badge/Documentation-webpages-ADD8E6.svg)](https://ess-dmsc.github.io/h5cpp/index.html)
 [![Conan package](https://img.shields.io/badge/conan-package-blue)](https://github.com/ess-dmsc/conan-h5cpp)
@@ -75,7 +74,7 @@ The minimum requirements for building the library are:
 * a C++ compiler, gcc>=4.9 should do well
 * the HDF5 C library (>=1.8.13 would do but >=1.10.0 is prefered)
 * cmake >= 3.10
-* _either_ the boost libraries _or_ a compiler with std::filesystem or std::experimental::filesystem (and specify H5CPP_WITH_BOOST=OFF to CMake)
+* _either_ a compiler with std::filesystem or std::experimental::filesystem  _or_ the boost libraries (and specify H5CPP_WITH_BOOST=ON to CMake)
 * [sphinx](http://www.sphinx-doc.org/en/stable/), [breathe](https://github.com/michaeljones/breathe) (with python) and  [doxygen](https://www.doxygen.nl/index.html) for the documentation build
 * [catch2](https://github.com/catchorg/catch2) to build the unit tests
 
@@ -120,12 +119,15 @@ cmake -DCMAKE_INSTALL_PREFIX=/home/user1/some/path ..
 ```
 and accordingly, when building the client program:
 ```bash
-cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.6.1 path/to/your/source
+cmake -Dh5cpp_DIR=/home/user1/some/path/lib/cmake/h5cpp-0.7.0 path/to/your/source
 ```
 where version number may vary.
 
 For OSX and Windows instructions, as well as instructions for building tests and documentation,
 see the [online documentation](https://ess-dmsc.github.io/h5cpp/index.html).
 
+## Documentation
 
-
+The documentation is maintained in the `gh-pages` branch.
+At this time, there is no automated deployment process.
+After publishing a new release, remember to update the documentation and deploy it manually.

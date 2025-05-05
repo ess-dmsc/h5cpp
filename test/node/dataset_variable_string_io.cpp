@@ -39,8 +39,31 @@ SCENARIO("testing variable length string IO") {
   auto string_type = hdf5::datatype::create<std::string>();
   hdf5::dataspace::Scalar scalar_space;
   hdf5::dataspace::Simple simple_space({7});
+  auto utf8_type = datatype::create<std::string>();
+  utf8_type.encoding(datatype::CharacterEncoding::UTF8);
   hdf5::property::DatasetTransferList dtpl;
 
+  GIVEN("a scalar dataset") {
+    node::Dataset dataset(f.root(), "utf_scalar", utf8_type, scalar_space);
+    THEN("we can write a single string value to it") {
+      std::string value = "hello";
+      dataset.write(value);
+      AND_THEN("read it back") {
+        std::string readback;
+        dataset.read(readback);
+        REQUIRE(readback == value);
+      }
+    }
+    THEN("we can write a string from a char pointer") {
+      dataset.write("this is a test");
+      AND_THEN("read this back") {
+        std::string readback;
+        dataset.read(readback);
+        REQUIRE(readback == "this is a test");
+      }
+    }
+  }
+  
   GIVEN("a scalar dataset") {
     node::Dataset dataset(f.root(), "scalar", string_type, scalar_space);
     THEN("we can write a single string value to it") {

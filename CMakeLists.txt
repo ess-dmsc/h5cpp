@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(h5cpp
     LANGUAGES CXX C
-      # VERSION 0.6.1
+      VERSION 0.7.0
       # documentation for VERSION with one '.' is stored as v:latest (see doc/conf.py.in)
-      VERSION 0.6.1
+      # VERSION 0.7
     )
 
 
@@ -80,7 +80,7 @@ include(DoxygenUtilities)
 #=============================================================================
 # compiler and library configuration
 #=============================================================================
-option(H5CPP_WITH_BOOST "enable Boost filesystem support" ON)
+option(H5CPP_WITH_BOOST "enable Boost filesystem support" OFF)
 if(H5CPP_WITH_BOOST)
   find_package(Boost 1.41 COMPONENTS filesystem system REQUIRED)
 else()
@@ -170,11 +170,6 @@ install(FILES
         cmake/FindSZIP.cmake
     DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
     COMPONENT development)
-
-install(FILES
-        cmake/FindHDF5.cmake
-        DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}/hdf5
-        COMPONENT development)
 
 #
 # uninstall target

@@ -72,8 +72,9 @@ which should do the job provided that all dependencies are installed in
 standard locations. We strongly recommend to set the particular build 
 configuration with the :envvar:`CMAKE_BUILD_TYPE` variable.
 
-To attempt to build without Boost, additionally specify `-DH5CPP_WITH_BOOST=OFF`.
-This requires a recent compiler, for example gcc >8, with filesystem in
+To attempt to build with Boost, additionally specify `-DH5CPP_WITH_BOOST=ON`.
+The default `-DH5CPP_WITH_BOOST=OFF`
+requires a recent compiler, for example gcc >8, with filesystem in
 the std or std::experimental namespace.
 
 On a Linux system the default build system used is 
@@ -146,7 +147,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.6.1 libh5cpp0.6.1-dbg libh5cpp0.6.1-doc libh5cpp0.6.1-dev
+   $ apt-get install libh5cpp0.7.0 libh5cpp0.7.0-dbg libh5cpp0.7.0-doc libh5cpp0.7.0-dev
 
-to install the library of v0.6.1. Dependencies will be resolved automatically so you can
+to install the library of v0.7.0. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.

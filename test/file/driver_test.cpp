@@ -34,6 +34,18 @@
 
 using namespace hdf5;
 
+
+class MyPosixDriver : public hdf5::file::PosixDriver
+{
+  public:
+  MyPosixDriver() {}
+
+  virtual hdf5::file::DriverID id() const noexcept override{
+    return hdf5::file::DriverID::Custom;
+  }
+};
+
+
 SCENARIO("Construction of a memory driver instance", "[file,h5cpp,driver]") {
   GIVEN("a default constructed instance") {
     file::MemoryDriver m;
@@ -97,6 +109,11 @@ REQUIRE(m.id() == file::DriverID::Direct);
 SECTION("the posix driver") {
   file::PosixDriver m;
   REQUIRE(m.id() == file::DriverID::Posix);
+}
+
+ SECTION("the custom driver") {
+  MyPosixDriver m;
+  REQUIRE(m.id() == file::DriverID::Custom);
 }
 
 #ifdef H5CPP_WITH_MPI
