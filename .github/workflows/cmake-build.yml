@@ -318,7 +318,7 @@ jobs:
             graphviz \
             pkg-config \
             texlive texlive-latex-extra texlive-latex-recommended texlive-pictures \
-            python3-pygments lsb-release  python3-breathe sphinx-rtd-theme \
+            python3-pygments lsb-release  python3-breathe \
             libjs-mathjax fonts-mathjax fonts-mathjax-extras ghostscript \
             python3-sphinx-rtd-theme \
             wget
