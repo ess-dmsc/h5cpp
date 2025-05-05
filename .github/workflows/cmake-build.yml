@@ -319,6 +319,7 @@ jobs:
             texlive texlive-latex-extra texlive-latex-recommended texlive-pictures \
             python3-pygments lsb-release  python3-breathe sphinx-rtd-theme \
             libjs-mathjax fonts-mathjax fonts-mathjax-extras ghostscript \
+            python3-sphinx-rtd-theme \
             wget
           cmake --build . --target html
         working-directory: ../build
