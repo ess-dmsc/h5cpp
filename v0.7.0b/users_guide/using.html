@@ -1,0 +1,191 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Using the library &#8212; h5cpp 0.7.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Design overview" href="overview.html" />
+    <link rel="prev" title="Installing the library" href="installing.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="Design overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installing.html" title="Installing the library"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using the library</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="using-the-library">
+<h1>Using the library<a class="headerlink" href="#using-the-library" title="Permalink to this heading">¶</a></h1>
+<section id="using-h5cpp-with-cmake">
+<h2>Using <em>h5cpp</em> with <strong class="program">cmake</strong><a class="headerlink" href="#using-h5cpp-with-cmake" title="Permalink to this heading">¶</a></h2>
+<p><em>h5cpp</em> not only uses <em>CMake</em> as a build system but also provides
+a <em>CMake</em> package which makes using the library with <em>CMake</em> quite simple.
+The <em>CMake</em> package is installed below <code class="file docutils literal notranslate"><span class="pre">PREFIX/lib/cmake/h5cpp-0.7.0</span></code>
+where <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">PREFIX</span></code> expands to the installation prefix used in the
+inital cmake call of the installation procedure.</p>
+<p>Consider a simple project with the following directory structure</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>h5cpp_test/
+   main.cpp
+   CMakeLists.txt
+</pre></div>
+</div>
+<p>To build a simple C++ program like this <code class="file docutils literal notranslate"><span class="pre">main.cpp</span></code></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;h5cpp/hdf5.hpp&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hdf5</span><span class="o">::</span><span class="n">datatype</span><span class="o">::</span><span class="n">TypeTrait</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">create</span><span class="p">();</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="n">type</span><span class="p">.</span><span class="n">get_class</span><span class="p">()</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>the following <code class="file docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> fiel is sufficient</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.5.0</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">h5cpp_test</span>
+<span class="w">        </span><span class="s">LANGUAGES</span><span class="w"> </span><span class="s">C</span><span class="w"> </span><span class="s">CXX</span>
+<span class="w">        </span><span class="s">VERSION</span><span class="w"> </span><span class="s">0.7.0</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">11</span><span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span><span class="s">h5cpp</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">h5cpp_test</span><span class="w"> </span><span class="s">main.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">h5cpp_test</span><span class="w"> </span><span class="s">h5cpp::h5cpp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Despite the C++ language standard all dependencies are provided by
+the package file via the imported target.
+You can build the code with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>h5cpp_test:$<span class="w"> </span>mkdir<span class="w"> </span>build
+h5cpp_test:$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+h5cpp_test:$<span class="w"> </span>cmake<span class="w"> </span>-Dh5cpp_DIR<span class="o">=</span>&lt;INSTALLPREFIX&gt;/lib/cmake/h5cpp-0.7.0<span class="w"> </span>../
+h5cpp_test:$<span class="w"> </span>make
+</pre></div>
+</div>
+<p>The cmake variable <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">h5cpp_DIR</span></code> tells <strong class="program">cmake</strong> where to look
+for the package files for <em>h5cpp</em>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using the library</a><ul>
+<li><a class="reference internal" href="#using-h5cpp-with-cmake">Using <em>h5cpp</em> with <strong class="program">cmake</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="installing.html"
+                          title="previous chapter">Installing the library</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="overview.html"
+                          title="next chapter">Design overview</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.7.0/index.html">v0.7.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="Design overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installing.html" title="Installing the library"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using the library</a></li> 
+      </ul>
+    </div>
+<li>generated on 2025-05-05 16:38:03 from docs_v0.7.0b (2f44953)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-05-05 16:38:03 from docs_v0.7.0b (2f44953).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+
+  </body>
+</html>
