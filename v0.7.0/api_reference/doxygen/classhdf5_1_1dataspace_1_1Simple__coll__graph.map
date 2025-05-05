@@ -1,0 +1,5 @@
+<map id="hdf5::dataspace::Simple" name="hdf5::dataspace::Simple">
+<area shape="rect" id="node1" title="simple multidimensional dataspace" alt="" coords="17,185,196,212"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1dataspace_1_1Dataspace.html" title="dataspace base class" alt="" coords="5,109,208,136"/>
+<area shape="rect" id="node3" href="$classhdf5_1_1dataspace_1_1SelectionManager.html" title="interface for selection management" alt="" coords="9,5,204,47"/>
+</map>

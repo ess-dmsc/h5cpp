@@ -1,0 +1,198 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Usage of H5F functions &#8212; h5cpp 0.7.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Usage of H5G functions" href="H5G.html" />
+    <link rel="prev" title="Usage of H5E functions" href="H5E.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="H5G.html" title="Usage of H5G functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="H5E.html" title="Usage of H5E functions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">C API Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Usage of H5F functions</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="usage-of-h5f-functions">
+<span id="capi-h5f"></span><h1>Usage of H5F functions<a class="headerlink" href="#usage-of-h5f-functions" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>H5Fclear_elink_file_cache</p></li>
+<li><p><strong>H5Fclose</strong></p></li>
+<li><p><strong>H5Fcreate</strong></p></li>
+<li><p>H5FDalloc</p></li>
+<li><p>H5FDclose</p></li>
+<li><p>H5FDcmp</p></li>
+<li><p>H5FDdriver_query</p></li>
+<li><p>H5Fdelete</p></li>
+<li><p>H5FDflush</p></li>
+<li><p>H5FDfree</p></li>
+<li><p>H5FDget_eoa</p></li>
+<li><p>H5FDget_eof</p></li>
+<li><p>H5FDget_vfd_handle</p></li>
+<li><p>H5FDlock</p></li>
+<li><p>H5FDopen</p></li>
+<li><p>H5FDquery</p></li>
+<li><p>H5FDread</p></li>
+<li><p>H5FDregister</p></li>
+<li><p>H5FDset_eoa</p></li>
+<li><p>H5FDtruncate</p></li>
+<li><p>H5FDunlock</p></li>
+<li><p>H5FDunregister</p></li>
+<li><p>H5FDwrite</p></li>
+<li><p><strong>H5Fflush</strong></p></li>
+<li><p>H5Fformat_convert</p></li>
+<li><p><strong>H5Fget_access_plist</strong></p></li>
+<li><p>H5Fget_create_plist</p></li>
+<li><p>H5Fget_dset_no_attrs_hint</p></li>
+<li><p>H5Fget_eoa</p></li>
+<li><p><strong>H5Fget_file_image</strong></p></li>
+<li><p>H5Fget_fileno</p></li>
+<li><p><strong>H5Fget_filesize</strong></p></li>
+<li><p>H5Fget_free_sections</p></li>
+<li><p>H5Fget_freespace</p></li>
+<li><p><strong>H5Fget_info</strong></p></li>
+<li><p><strong>H5Fget_intent</strong></p></li>
+<li><p>H5Fget_mdc_config</p></li>
+<li><p>H5Fget_mdc_hit_rate</p></li>
+<li><p>H5Fget_mdc_image_info</p></li>
+<li><p>H5Fget_mdc_logging_status</p></li>
+<li><p>H5Fget_mdc_size</p></li>
+<li><p>H5Fget_metadata_read_retry_info</p></li>
+<li><p>H5Fget_mpi_atomicity</p></li>
+<li><p><strong>H5Fget_name</strong></p></li>
+<li><p><strong>H5Fget_obj_count</strong></p></li>
+<li><p>H5Fget_obj_ids</p></li>
+<li><p>H5Fget_page_buffering_stats</p></li>
+<li><p>H5Fget_vfd_handle</p></li>
+<li><p>H5Fincrement_filesize</p></li>
+<li><p>H5Fis_accessible</p></li>
+<li><p><strong>H5Fis_hdf5</strong></p></li>
+<li><p>H5Fmount</p></li>
+<li><p><strong>H5Fopen</strong></p></li>
+<li><p>H5Freopen</p></li>
+<li><p>H5Freset_mdc_hit_rate_stats</p></li>
+<li><p>H5Freset_page_buffering_stats</p></li>
+<li><p>H5Fset_dset_no_attrs_hint</p></li>
+<li><p>H5Fset_latest_format</p></li>
+<li><p>H5Fset_libver_bounds</p></li>
+<li><p>H5Fset_mdc_config</p></li>
+<li><p>H5Fset_mpi_atomicity</p></li>
+<li><p>H5Fstart_mdc_logging</p></li>
+<li><p>H5Fstart_swmr_write</p></li>
+<li><p>H5Fstop_mdc_logging</p></li>
+<li><p>H5Funmount</p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="H5E.html"
+                          title="previous chapter">Usage of H5E functions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="H5G.html"
+                          title="next chapter">Usage of H5G functions</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script><p>
+  <h3 class='versions'>Versions</h3>
+  <p>
+    <ul>
+      <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
+      <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
+      
+      <li><a class="reference external" href="../index/../../v0.7.0/index.html">v0.7.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.1/index.html">v0.5.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.5.0/index.html">v0.5.0</a></li>
+      <li><a class="reference external" href="../index/../../v0.4.1/index.html">v0.4.1</a></li>
+      <li><a class="reference external" href="../index/../../v0.3.3/index.html">v0.3.3</a></li>
+      
+    </ul>
+  </p>
+</p>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="H5G.html" title="Usage of H5G functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="H5E.html" title="Usage of H5E functions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >C API Usage</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Usage of H5F functions</a></li> 
+      </ul>
+    </div>
+<li>generated on 2025-05-05 17:24:12 from docs_v0.7.0 (2e8da15)</li>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-05-05 17:24:12 from docs_v0.7.0 (2e8da15).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    </div>
+
+  </body>
+</html>

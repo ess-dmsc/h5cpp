@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classhdf5_1_1dataspace_1_1Selection.html" title="selection base class" alt="" coords="5,31,200,57"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1dataspace_1_1Hyperslab.html" title="hyperslab selection class" alt="" coords="248,5,448,32"/>
+<area shape="rect" id="node3" href="$classhdf5_1_1dataspace_1_1Points.html" title="point selection implementation" alt="" coords="261,56,435,83"/>
+</map>
