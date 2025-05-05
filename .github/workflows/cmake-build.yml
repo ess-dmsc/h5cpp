@@ -259,10 +259,14 @@ jobs:
           serial
         ]
     runs-on: ubuntu-24.04
-    container:
-      image: debian:bookworm
     steps:
       - uses: actions/checkout@v4
+      - name: Build the docker
+        run: docker build -t build .github/workflows/debian12
+
+      - name: Run the docker
+        run: docker run --name build -i -d -v"$PWD:/home/p00user/src"  build
+
       - name: Set environment variables
         run: |
           bash .github/workflows/set_env_vars.sh \
@@ -272,90 +276,42 @@ jobs:
       - name: Install serial prerequisites
         if: ${{ matrix.mpi == 'serial' }}
         run: |
-          apt-get update
-          apt-get -y install \
-            cmake \
-            catch2 \
-            g++ \
-            libhdf5-dev \
-            libboost-filesystem-dev \
-            wget
+          docker  exec  --user root build  /bin/bash -c "apt-get update && apt-get -y install libhdf5-dev"
       - name: Install MPI prerequisites
         if: ${{ matrix.mpi == 'mpi' }}
         run: |
-            apt-get update
-            apt-get install -y --no-install-recommends \
-              build-essential \
-              cmake \
-              catch2 \
-              g++ \
-              libboost-filesystem-dev \
-              libhdf5-mpi-dev \
-              libopenmpi-dev
-      - name: Build all
+          docker  exec  --user root build  /bin/bash -c "apt-get update && apt-get -y install --no-install-recommends build-essential libhdf5-dev libhdf5-mpi-dev libopenmpi-dev"
+      - name: Create Config
         run: |
-          HDF5_STATIC=ON
-          [ "${H5CPP_SHARED}" = "True" ] && HDF5_STATIC=OFF
-          mkdir ../build
-          cd ../build
-          cmake ../h5cpp \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DH5CPP_CONAN=DISABLE \
-            -DH5CPP_CATCH2_V2=TRUE \
-            -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} \
-            -DH5CPP_BUILD_SHARED=${H5CPP_SHARED} \
-            -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST} \
-            -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}
-          cmake --build . -- -j 2
+          docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
+          docker  exec build /bin/bash -c "HDF5_STATIC=ON; [ \"${H5CPP_SHARED}\" = \"True\" ] && HDF5_STATIC=OFF; git config --global --add safe.directory /home/p00user/src && mkdir ../build &&  cd ../build &&
+          cmake ../src -DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN=DISABLE -DH5CPP_CATCH2_V2=TRUE -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} -DH5CPP_BUILD_SHARED=${H5CPP_SHARED}  -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST} -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}"
+      - name: Build all
+        run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . -- -j 2"
       - name: Build html
         if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
-        run: |
-          apt-get update
-          apt-get -y install \
-            doxygen \
-            python3-sphinx \
-            git \
-            graphviz \
-            pkg-config \
-            texlive texlive-latex-extra texlive-latex-recommended texlive-pictures \
-            python3-pygments lsb-release  python3-breathe \
-            libjs-mathjax fonts-mathjax fonts-mathjax-extras ghostscript \
-            python3-sphinx-rtd-theme \
-            wget
-          cmake --build . --target html
-        working-directory: ../build
+        run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . --target html"
       - name: Run tests
-        run: |
-          ctest --extra-verbose --no-tests=error
-        working-directory: ../build
+        run: docker  exec build /bin/bash -c "cd ../build &&  ctest --extra-verbose --no-tests=error"
       - name: install with cmake
-        run: |
-          cmake --build . --target install
-        working-directory: ../build
+        run: docker  exec  --user root build /bin/bash -c "cd ../build &&  cmake --build . --target install"
       - name: Build examples
-        run: |
-          mkdir ../examples_build
-          cd ../examples_build
-          cmake ../h5cpp/examples -DCMAKE_BUILD_TYPE=Release
-          cmake --build . -- -j 2
+        run: docker  exec build /bin/bash -c "mkdir ../examples_build &&  cd ../examples_build && cmake ../src/examples -DCMAKE_BUILD_TYPE=Release  &&  cmake --build . -- -j 2 "
       - name: Append documentation for the latest release version
         if: (! startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: |
-          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-          git fetch
-          git clean -fd
-          git checkout gh-pages
-          git pull
-          mkdir -p ./latest && shopt -u dotglob && rm -rf ./latest/*
-          mv -f ../build/doc/build/* ./latest/
-          mv -f ../build/doc/doxygen_html ./latest/api_reference/doxygen
-          mv -f ../build/doc/index.html ./
-          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
-          find ./ -name "Makefile" -exec rm -rf {} \\;
-          find ./ -name "*.cmake" -exec rm -rf {} \\;
-          rm -rf ./latest/_sources
-          git add -A
-          git commit --amend -m 'Auto-publishing docs from github build for latest'
+          docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
+          docker  exec build /bin/bash -c "git config --unset-all remote.origin.fetch"
+          docker  exec build /bin/bash -c "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+          docker  exec build /bin/bash -c "git fetch && git clean -fd && git checkout gh-pages && git pull"
+          docker  exec build /bin/bash -c "mkdir -p ./latest && shopt -u dotglob && rm -rf ./latest/*"
+          docker  exec build /bin/bash -c "mv -f ../build/doc/build/* ./latest/"
+          docker  exec build /bin/bash -c "mv -f ../build/doc/doxygen_html ./latest/api_reference/doxygen"
+          docker  exec build /bin/bash -c "mv -f ../build/doc/index.html ./"
+          docker  exec build /bin/bash -c "find ./ -type d -name \"CMakeFiles\" -prune -exec rm -rf {} \\;"
+          docker  exec build /bin/bash -c "find ./ -name \"Makefile\" -exec rm -rf {} \\;"
+          docker  exec build /bin/bash -c "find ./ -name \"*.cmake\" -exec rm -rf {} \\;"
+          docker  exec build /bin/bash -c "rm -rf ./latest/_sources"
 
       - name: Extract the code version from the branch name
         if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
@@ -367,21 +323,19 @@ jobs:
         if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: |
           echo Version: ${{ steps.extract_docver.outputs.docver }}
-          git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-          git fetch
-          git clean -fd
-          git checkout gh-pages
-          git pull
-          mkdir -p ./${{ steps.extract_docver.outputs.docver }} && shopt -u dotglob && rm -rf ./${{ steps.extract_docver.outputs.docver }}/*
-          mv -f ../build/doc/build/* ./${{ steps.extract_docver.outputs.docver }}/
-          mv -f ../build/doc/doxygen_html ./${{ steps.extract_docver.outputs.docver }}/api_reference/doxygen
-          mv -f ../build/doc/index.html ./
-          find ./ -type d -name "CMakeFiles" -prune -exec rm -rf {} \\;
-          find ./ -name "Makefile" -exec rm -rf {} \\;
-          find ./ -name "*.cmake" -exec rm -rf {} \\;
-          rm -rf ./${{ steps.extract_docver.outputs.docver }}/_sources
-          git add -A
-          git commit --amend -m 'Auto-publishing docs from github build for ${{ steps.extract_docver.outputs.docver }}'
+          docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
+          docker  exec build /bin/bash -c "git config --unset-all remote.origin.fetch"
+          docker  exec build /bin/bash -c "git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'"
+          docker  exec build /bin/bash -c "git fetch && git clean -fd && git checkout gh-pages && git pull"
+          docker  exec build /bin/bash -c "mkdir -p ./${{ steps.extract_docver.outputs.docver }}"
+          docker  exec build /bin/bash -c "shopt -u dotglob && rm -rf ./${{ steps.extract_docver.outputs.docver }}/*"
+          docker  exec build /bin/bash -c "mv -f ../build/doc/build/* ./${{ steps.extract_docver.outputs.docver }}/"
+          docker  exec build /bin/bash -c "mv -f ../build/doc/doxygen_html ./${{ steps.extract_docver.outputs.docver }}/api_reference/doxygen"
+          docker  exec build /bin/bash -c "mv -f ../build/doc/index.html ./"
+          docker  exec build /bin/bash -c "find ./ -type d -name \"CMakeFiles\" -prune -exec rm -rf {} \\;"
+          docker  exec build /bin/bash -c "find ./ -name \"Makefile\" -exec rm -rf {} \\;"
+          docker  exec build /bin/bash -c "find ./ -name \"*.cmake\" -exec rm -rf {} \\;"
+          docker  exec build /bin/bash -c "rm -rf ./${{ steps.extract_docver.outputs.docver }}/_sources"
 
       - name: Deploy documentation
         if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
