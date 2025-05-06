@@ -171,6 +171,11 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
     COMPONENT development)
 
+install(FILES
+        cmake/FindHDF5.cmake
+        DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}/hdf5
+        COMPONENT development)
+
 #
 # uninstall target
 #
