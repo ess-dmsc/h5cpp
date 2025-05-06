@@ -249,9 +249,10 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  debian-12:
+  debian:
     strategy:
       matrix:
+        os: [debian12, debian11]
         shared: [shared, static]
         boost: [boost, stdfs]
         mpi: [
@@ -262,7 +263,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build the docker
-        run: docker build -t build .github/workflows/debian12
+        env:
+          OS: ${{ matrix.os }}
+        run: docker build -t build .github/workflows/${OS}
 
       - name: Run the docker
         run: docker run --name build -i -d -v"$PWD:/home/p00user/src"  build
@@ -289,7 +292,7 @@ jobs:
       - name: Build all
         run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . -- -j 2"
       - name: Build html
-        if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
         run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . --target html"
       - name: Run tests
         run: docker  exec build /bin/bash -c "cd ../build &&  ctest --extra-verbose --no-tests=error"
@@ -298,7 +301,7 @@ jobs:
       - name: Build examples
         run: docker  exec build /bin/bash -c "mkdir ../examples_build &&  cd ../examples_build && cmake ../src/examples -DCMAKE_BUILD_TYPE=Release  &&  cmake --build . -- -j 2 "
       - name: Append documentation for the latest release version
-        if: startsWith(github.ref, 'refs/heads/master') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: startsWith(github.ref, 'refs/heads/master') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
         run: |
           docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
           docker  exec build /bin/bash -c "git config --unset-all remote.origin.fetch"
@@ -314,14 +317,14 @@ jobs:
           docker  exec build /bin/bash -c "rm -rf ./latest/_sources"
 
       - name: Extract the code version from the branch name
-        if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
         shell: bash
         run: echo "docver=$(echo ${GITHUB_REF#refs/heads/docs_})" >> $GITHUB_OUTPUT
         # run: echo "##[set-output name=docver;]$(echo ${GITHUB_REF#refs/heads/docs_})"
         id: extract_docver
 
       - name: Append documentation for the extracted release version
-        if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
         run: |
           echo Version: ${{ steps.extract_docver.outputs.docver }}
           docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
@@ -339,7 +342,7 @@ jobs:
           docker  exec build /bin/bash -c "rm -rf ./${{ steps.extract_docver.outputs.docver }}/_sources"
 
       - name: Deploy documentation
-        if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: self
