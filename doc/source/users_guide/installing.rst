@@ -135,7 +135,7 @@ and for Ubuntu (Noble)
 
    $ wget http://repos.pni-hdri.de/noble-pni-hdri.list
 
-Similarly, proceed for Bullseye, Buster, Oracular, Jammy.
+Similarly, proceed for Bullseye, Buster, Plucky, Jammy.
 Once you have downloaded the file use
 
 .. code-block:: bash
