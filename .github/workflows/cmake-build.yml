@@ -249,7 +249,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  deb:
+  dpkg:
     strategy:
       matrix:
         os: [debian12, debian11]
