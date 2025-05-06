@@ -135,7 +135,7 @@ and for Ubuntu (Noble)
 
    $ wget http://repos.pni-hdri.de/noble-pni-hdri.list
 
-Similarly, proceed for Bullseye, Buster, Oracular, Jammy.
+Similarly, proceed for Bullseye, Buster, Plucky, Jammy.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -147,7 +147,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.6.1 libh5cpp0.6.1-dbg libh5cpp0.6.1-doc libh5cpp0.6.1-dev
+   $ apt-get install libh5cpp0.7.0 libh5cpp0.7.0-dbg libh5cpp0.7.0-doc libh5cpp0.7.0-dev
 
-to install the library of v0.6.1. Dependencies will be resolved automatically so you can
+to install the library of v0.7.0. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.

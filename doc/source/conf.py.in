@@ -76,7 +76,7 @@ if release.count('.') == 1:
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -196,6 +196,7 @@ html_sidebars = {
 
 html_context = {
     "docs_versions" : [
+        "v0.7.0",
         "v0.6.1", "v0.6.0", "v0.5.2", "v0.5.1", "v0.5.0", "v0.4.1", "v0.3.3"]
 }
 
