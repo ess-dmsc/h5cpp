@@ -57,7 +57,7 @@ jobs:
           conan remove -c zlib/*
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
-      - name: cache conan dependencies
+      - name: Cache conan dependencies
         uses: actions/cache@v4
         with:
           path: ~/.conan/data
@@ -65,7 +65,7 @@ jobs:
           restore-keys: |
             conan-${{ matrix.profile }}-${{ hashfiles('base.lock') }}
             conan-${{ matrix.profile }}
-      - name: install conan dependencies
+      - name: Install conan dependencies
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
@@ -78,7 +78,7 @@ jobs:
             --lockfile conan.lock \
             --build missing \
             --update
-      - name: build with cmake
+      - name: Build with cmake
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/${{ matrix.profile }} \
             -o with_boost=${H5CPP_WITH_BOOST} \
@@ -88,7 +88,7 @@ jobs:
           conan build .  ${CONAN_ARGS} \
             --lockfile conan.lock \
             --output-folder build
-      - name: run tests
+      - name: Run tests
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
@@ -125,7 +125,7 @@ jobs:
           conan remove -c zlib/*
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
-      - name: cache conan dependencies
+      - name: Cache conan dependencies
         uses: actions/cache@v4
         with:
           path: ~/.conan/data
@@ -133,7 +133,7 @@ jobs:
           restore-keys: |
             conan-vs-2022-${{ hashfiles('base.lock') }}
             conan-vs-2022
-      - name: install conan dependencies
+      - name: Install conan dependencies
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2022 \
             -o with_boost=${H5CPP_WITH_BOOST} \
@@ -146,7 +146,7 @@ jobs:
             --build missing \
             --update \
             --generator VirtualRunEnv
-      - name: build with cmake
+      - name: Build with cmake
         run: |
           CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2022 \
             -o with_boost=${H5CPP_WITH_BOOST} \
@@ -155,7 +155,7 @@ jobs:
           conan build . ${CONAN_ARGS} \
             --lockfile conan.lock \
             --output-folder build
-      - name: run tests
+      - name: Run tests
         run: |
           cd build
           .\conanbuildenv-release-x86_64.ps1
@@ -205,7 +205,7 @@ jobs:
           conan remove -c zlib/*
           conan lock create conanfile.py ${CONAN_ARGS} --lockfile-packages --lockfile-out base.lock
           conan lock create conanfile.py ${CONAN_ARGS} --build missing
-      - name: cache conan dependencies
+      - name: Cache conan dependencies
         uses: actions/cache@v4
         with:
           path: ~/.conan/data
@@ -213,7 +213,7 @@ jobs:
           restore-keys: |
             conan-apple-clang12-${{ hashfiles('base.lock') }}
             conan-apple-clang12
-      - name: install conan dependencies
+      - name: Install conan dependencies
         run: |
           HDF5_SHARED=${H5CPP_SHARED}
           if [ "${H5CPP_WITH_MPI}" = "True" ]; then
@@ -231,7 +231,7 @@ jobs:
             --build missing \
             --update \
             --generator VirtualRunEnv
-      - name: build with cmake
+      - name: Build with cmake
         run: |
           HDF5_SHARED=${H5CPP_SHARED}
           if [ "${H5CPP_WITH_MPI}" = "True" ]; then
@@ -245,7 +245,7 @@ jobs:
           conan build .  ${CONAN_ARGS}  \
             --lockfile conan.lock \
             --output-folder build
-      - name: run tests
+      - name: Run tests
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
@@ -293,7 +293,7 @@ jobs:
         run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . --target html"
       - name: Run tests
         run: docker  exec build /bin/bash -c "cd ../build &&  ctest --extra-verbose --no-tests=error"
-      - name: install with cmake
+      - name: Install with cmake
         run: docker  exec  --user root build /bin/bash -c "cd ../build &&  cmake --build . --target install"
       - name: Build examples
         run: docker  exec build /bin/bash -c "mkdir ../examples_build &&  cd ../examples_build && cmake ../src/examples -DCMAKE_BUILD_TYPE=Release  &&  cmake --build . -- -j 2 "
