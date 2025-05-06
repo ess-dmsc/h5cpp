@@ -1,8 +1,8 @@
 var property__class_8hpp =
 [
-    [ "Class", "classhdf5_1_1property_1_1Class.html", "classhdf5_1_1property_1_1Class" ],
+    [ "hdf5::property::Class", "classhdf5_1_1property_1_1Class.html", "classhdf5_1_1property_1_1Class" ],
     [ "operator!=", "property__class_8hpp.html#aebc353f41c6dcb50e1a701ad25ae8270", null ],
-    [ "operator<<", "property__class_8hpp.html#a96c5b2151d4bed3a83fa68792c986c85", null ],
+    [ "operator<<", "property__class_8hpp.html#a42cd853c16ad1b7efc9ae5fa275ad935", null ],
     [ "operator==", "property__class_8hpp.html#a4c03513cea9e4c97b4ee3ff3ed1b153f", null ],
     [ "kAttributeCreate", "property__class_8hpp.html#ab88dd86510f914d176cca86992ec3a77", null ],
     [ "kDatasetAccess", "property__class_8hpp.html#af02c6e8014f9e1913627c04568ab8825", null ],

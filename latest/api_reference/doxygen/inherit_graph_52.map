@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhdf5_1_1Version.html" title="a 3 number version class" alt="" coords="5,5,112,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,71,96,98"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1FixedLengthStringBuffer.html" title=" " alt="" coords="152,5,367,47"/>
+<area shape="rect" id="node3" href="$classhdf5_1_1filter_1_1ExternalFilters.html" title="utility container for external filters" alt="" coords="164,71,355,98"/>
+<area shape="rect" id="node4" href="$classhdf5_1_1property_1_1VirtualDataMaps.html" title="utility container for virtual data maps" alt="" coords="144,122,375,149"/>
 </map>

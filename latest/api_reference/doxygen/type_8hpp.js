@@ -21,7 +21,7 @@ var type_8hpp =
       [ "Simple", "type_8hpp.html#a3b7b3b477367d968955f89ebac18f67aa1fbb1e3943c2c6c560247ac8f9289780", null ],
       [ "NoData", "type_8hpp.html#a3b7b3b477367d968955f89ebac18f67aacbf169aecd4365561eb6b245659f55d8", null ]
     ] ],
-    [ "operator<<", "type_8hpp.html#a474c22b1cb9a27187d5430f1fe92c55f", null ],
-    [ "operator<<", "type_8hpp.html#a832ef23049f321788ff357e3c7c9cd04", null ],
-    [ "operator<<", "type_8hpp.html#ae322fbb017abb57350cdf930fa8445ea", null ]
+    [ "operator<<", "type_8hpp.html#adfd4d537f46992b3ee43d5c3e23f0a6c", null ],
+    [ "operator<<", "type_8hpp.html#a701b6c5c110b0295efa7674d6cb9860b", null ],
+    [ "operator<<", "type_8hpp.html#a452278d060fbe88b04399382f4d4aab4", null ]
 ];

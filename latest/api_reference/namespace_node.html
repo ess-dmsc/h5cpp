@@ -7,11 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Namespace hdf5::node &#8212; h5cpp (latest) documentation</title>
+    <title>Namespace hdf5::node &#8212; h5cpp 0.7.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -36,7 +39,7 @@
         <li class="right" >
           <a href="namespace_filter.html" title="Namespace hdf5::filter"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp (latest) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node</span></code></a></li> 
       </ul>
@@ -80,7 +83,7 @@
 <p>In order to store objects in a container like a std::vector they must be default constructible. A default constructed object cannot be used for anything. Use the <a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0e494f202b255d01a630807748f9c112"><span class="std std-ref">is_valid()</span></a> function to check whether or not a <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">Node</span></a> instance refers to a valid HDF5 object or not.</p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0e494f202b255d01a630807748f9c112"><span class="std std-ref">is_valid()</span></a></p>
+<p><a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0e494f202b255d01a630807748f9c112"><span class="std std-ref">is_valid()</span></a> </p>
 </div>
 </p>
 </dd></dl>
@@ -94,7 +97,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54node4NodeaSERK4Node">
-<span id="_CPPv3N4hdf54node4NodeaSERK4Node"></span><span id="_CPPv2N4hdf54node4NodeaSERK4Node"></span><span id="hdf5::node::Node::assign-operator__NodeCR"></span><span class="target" id="classhdf5_1_1node_1_1Node_1ad465a4369408f87549294e25ffa9f09b"></span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node4NodeaSERK4Node" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54node4NodeaSERK4Node"></span><span id="_CPPv2N4hdf54node4NodeaSERK4Node"></span><span id="hdf5::node::Node::assign-operator__NodeCR"></span><span class="target" id="classhdf5_1_1node_1_1Node_1adfd4b1d130790cf43a8b799862aa88c7"></span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node4NodeaSERK4Node" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>copy assignment </p>
 </dd></dl>
 
@@ -118,7 +121,7 @@
 <p>Return the unique ID of an object. This identifier must not be confused with an HDF5 handle (called <code class="docutils literal notranslate"><span class="pre">hid_t</span></code> in the C-API. This ID identifies an object uniquely within a program context.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>instance of <a class="reference internal" href="namespace_hdf5.html#classhdf5_1_1ObjectId"><span class="std std-ref">ObjectId</span></a></p>
+<dd class="field-odd"><p>instance of <a class="reference internal" href="namespace_hdf5.html#classhdf5_1_1ObjectId"><span class="std std-ref">ObjectId</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -129,7 +132,7 @@
 <dd><p>true if an object is valid </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0d7a908c195b4be32aabfd17575119c7"><span class="std std-ref">Node()</span></a></p>
+<p><a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0d7a908c195b4be32aabfd17575119c7"><span class="std std-ref">Node()</span></a> </p>
 </div>
 </p>
 </dd></dl>
@@ -143,7 +146,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54node4Node4linkEv">
-<span id="_CPPv3NK4hdf54node4Node4linkEv"></span><span id="_CPPv2NK4hdf54node4Node4linkEv"></span><span id="hdf5::node::Node::linkC"></span><span class="target" id="classhdf5_1_1node_1_1Node_1acb36c0387e486832270ac7db7876aea6"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><span class="n"><span class="pre">Link</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">link</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node4Node4linkEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54node4Node4linkEv"></span><span id="_CPPv2NK4hdf54node4Node4linkEv"></span><span id="hdf5::node::Node::linkC"></span><span class="target" id="classhdf5_1_1node_1_1Node_1ac567b561470c3dd18e9cae0dede5adfa"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><span class="n"><span class="pre">Link</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">link</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node4Node4linkEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>return link to object </p>
 <p>This returns the link which was used to access the node. </p>
 </dd></dl>
@@ -290,7 +293,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54nodelsERNSt7ostreamERK4Link">
-<span id="_CPPv3N4hdf54nodelsERNSt7ostreamERK4Link"></span><span id="_CPPv2N4hdf54nodelsERNSt7ostreamERK4Link"></span><span id="hdf5::node::lshift-operator__osR.LinkCR"></span><span class="target" id="namespacehdf5_1_1node_1a2af6e1cd23da26508d80f58a4ecfd3d2"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><span class="n"><span class="pre">Link</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">link</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54nodelsERNSt7ostreamERK4Link" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54nodelsERNSt7ostreamERK4Link"></span><span id="_CPPv2N4hdf54nodelsERNSt7ostreamERK4Link"></span><span id="hdf5::node::lshift-operator__osR.LinkCR"></span><span class="target" id="namespacehdf5_1_1node_1a96a77a20a32db892ec89260af2940892"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><span class="n"><span class="pre">Link</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">link</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54nodelsERNSt7ostreamERK4Link" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </section>
@@ -410,7 +413,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54node5GroupaSERK5Group">
-<span id="_CPPv3N4hdf54node5GroupaSERK5Group"></span><span id="_CPPv2N4hdf54node5GroupaSERK5Group"></span><span id="hdf5::node::Group::assign-operator__GroupCR"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a6b5988f0db267da838d708a735514a6f"></span><a class="reference internal" href="#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><span class="n"><span class="pre">Group</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><span class="n"><span class="pre">Group</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node5GroupaSERK5Group" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54node5GroupaSERK5Group"></span><span id="_CPPv2N4hdf54node5GroupaSERK5Group"></span><span id="hdf5::node::Group::assign-operator__GroupCR"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a498db549b3fabbdc4708828cf9b1a10c"></span><a class="reference internal" href="#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><span class="n"><span class="pre">Group</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">=</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><span class="n"><span class="pre">Group</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">group</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node5GroupaSERK5Group" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>copy assignment operator </p>
 </dd></dl>
 
@@ -427,7 +430,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54node5Group15iterator_configEv">
-<span id="_CPPv3N4hdf54node5Group15iterator_configEv"></span><span id="_CPPv2N4hdf54node5Group15iterator_configEv"></span><span id="hdf5::node::Group::iterator_config"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a6b5ac30412688204ce6b4cc68927a0d4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf514IteratorConfigE" title="hdf5::IteratorConfig"><span class="n"><span class="pre">IteratorConfig</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">iterator_config</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N4hdf54node5Group15iterator_configEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54node5Group15iterator_configEv"></span><span id="_CPPv2N4hdf54node5Group15iterator_configEv"></span><span id="hdf5::node::Group::iterator_config"></span><span class="target" id="classhdf5_1_1node_1_1Group_1ac28aa78065e5976986e4a326e5e775ad"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf514IteratorConfigE" title="hdf5::IteratorConfig"><span class="n"><span class="pre">IteratorConfig</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">iterator_config</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N4hdf54node5Group15iterator_configEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get reference to the iterator configuration </p>
 <p>Return a non-const reference to the iterator configuration for the group. </p>
 <dl class="field-list simple">
@@ -439,7 +442,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54node5Group15iterator_configEv">
-<span id="_CPPv3NK4hdf54node5Group15iterator_configEv"></span><span id="_CPPv2NK4hdf54node5Group15iterator_configEv"></span><span id="hdf5::node::Group::iterator_configC"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a8a066e8cf74886cfc82646f152598425"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf514IteratorConfigE" title="hdf5::IteratorConfig"><span class="n"><span class="pre">IteratorConfig</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">iterator_config</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node5Group15iterator_configEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54node5Group15iterator_configEv"></span><span id="_CPPv2NK4hdf54node5Group15iterator_configEv"></span><span id="hdf5::node::Group::iterator_configC"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a49200a3d3a3ffc6d9a9fdccc038b045b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf514IteratorConfigE" title="hdf5::IteratorConfig"><span class="n"><span class="pre">IteratorConfig</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">iterator_config</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node5Group15iterator_configEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get reference to the interator configuration </p>
 <p>Return a const reference to the iterator configuration of the gruop. </p>
 <dl class="field-list simple">
@@ -662,7 +665,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54node5Group9has_groupERK4PathRKN8property14LinkAccessListE">
 <span id="_CPPv3NK4hdf54node5Group9has_groupERK4PathRKN8property14LinkAccessListE"></span><span id="_CPPv2NK4hdf54node5Group9has_groupERK4PathRKN8property14LinkAccessListE"></span><span id="hdf5::node::Group::has_group__PathCR.property::LinkAccessListCRC"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a1b989277ec1d7a853bf0339e437a4eab"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_group</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf54PathE" title="hdf5::Path"><span class="n"><span class="pre">Path</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14LinkAccessListE" title="hdf5::property::LinkAccessList"><span class="n"><span class="pre">LinkAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lapl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14LinkAccessListE" title="hdf5::property::LinkAccessList"><span class="n"><span class="pre">LinkAccessList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node5Group9has_groupERK4PathRKN8property14LinkAccessListE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>reports if group has a link to a valid group at specified <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
+<dd><p>reports if group has a link to a valid group at specified <code class="docutils literal notranslate"><span class="pre">path</span></code> </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -679,7 +682,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54node5Group11has_datasetERK4PathRKN8property14LinkAccessListE">
 <span id="_CPPv3NK4hdf54node5Group11has_datasetERK4PathRKN8property14LinkAccessListE"></span><span id="_CPPv2NK4hdf54node5Group11has_datasetERK4PathRKN8property14LinkAccessListE"></span><span id="hdf5::node::Group::has_dataset__PathCR.property::LinkAccessListCRC"></span><span class="target" id="classhdf5_1_1node_1_1Group_1a756c13143b552b9d689de90a40064548"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">has_dataset</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf54PathE" title="hdf5::Path"><span class="n"><span class="pre">Path</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14LinkAccessListE" title="hdf5::property::LinkAccessList"><span class="n"><span class="pre">LinkAccessList</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">lapl</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">property</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_property.html#_CPPv4N4hdf58property14LinkAccessListE" title="hdf5::property::LinkAccessList"><span class="n"><span class="pre">LinkAccessList</span></span></a><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node5Group11has_datasetERK4PathRKN8property14LinkAccessListE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>reports if group has a link to a valid dataset at specified <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
+<dd><p>reports if group has a link to a valid dataset at specified <code class="docutils literal notranslate"><span class="pre">path</span></code> </p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -708,11 +711,11 @@
 </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a></p>
+<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a> </p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#classhdf5_1_1node_1_1Group_1a872a56342b190360247437ceeeedf7aa"><span class="std std-ref">get_dataset</span></a></p>
+<p><a class="reference internal" href="#classhdf5_1_1node_1_1Group_1a872a56342b190360247437ceeeedf7aa"><span class="std std-ref">get_dataset</span></a> </p>
 </div>
 </p>
 <dl class="field-list simple">
@@ -743,11 +746,11 @@
 </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a></p>
+<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a> </p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#classhdf5_1_1node_1_1Group_1a872a56342b190360247437ceeeedf7aa"><span class="std std-ref">get_dataset</span></a></p>
+<p><a class="reference internal" href="#classhdf5_1_1node_1_1Group_1a872a56342b190360247437ceeeedf7aa"><span class="std std-ref">get_dataset</span></a> </p>
 </div>
 </p>
 <dl class="field-list simple">
@@ -805,7 +808,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf54node9GroupView5groupEv">
-<span id="_CPPv3NK4hdf54node9GroupView5groupEv"></span><span id="_CPPv2NK4hdf54node9GroupView5groupEv"></span><span id="hdf5::node::GroupView::groupC"></span><span class="target" id="classhdf5_1_1node_1_1GroupView_1ac559ffd4e06f0e482561e7e82d652b57"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><span class="n"><span class="pre">Group</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">group</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node9GroupView5groupEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf54node9GroupView5groupEv"></span><span id="_CPPv2NK4hdf54node9GroupView5groupEv"></span><span id="hdf5::node::GroupView::groupC"></span><span class="target" id="classhdf5_1_1node_1_1GroupView_1aa16ff014f44cd9a2eaa679ff40f5f5a6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node5GroupE" title="hdf5::node::Group"><span class="n"><span class="pre">Group</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">group</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf54node9GroupView5groupEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>return reference to the parent group </p>
 <p>Returns a reference to the group this very view belongs to.</p>
 <dl class="field-list simple">
@@ -846,7 +849,7 @@
 <dd class="field-even"><p><strong>name</strong> – the name of the child to access </p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">Node</span></a></p>
+<dd class="field-odd"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">Node</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -857,7 +860,7 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54node12NodeIteratorE">
 <span id="_CPPv3N4hdf54node12NodeIteratorE"></span><span id="_CPPv2N4hdf54node12NodeIteratorE"></span><span id="hdf5::node::NodeIterator"></span><span class="target" id="classhdf5_1_1node_1_1NodeIterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NodeIterator</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf58IteratorE" title="hdf5::Iterator"><span class="n"><span class="pre">Iterator</span></span></a><a class="headerlink" href="#_CPPv4N4hdf54node12NodeIteratorE" title="Permalink to this definition">¶</a><br /></dt>
-<dd><p>bidirectional <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a></p>
+<dd><p>bidirectional <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a> </p>
 <p>This iterator iterates over the direct children (nodes) of a group. It is a full random access iterator using the index access methods provided by the <a class="reference internal" href="#classhdf5_1_1node_1_1NodeView"><span class="std std-ref">NodeView</span></a> interface.</p>
 <p>The interface follows the C++ specification for bidirectional constant iterators. See <a class="reference external" href="http://en.cppreference.com/w/cpp/concept/BidirectionalIterator">C++ reference on iterators</a> for details. </p>
 <div class="breathe-sectiondef docutils container">
@@ -881,7 +884,7 @@
 <dd class="field-odd"><p><strong>group</strong> – reference to the group over which to iterate </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a></p>
+<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -896,7 +899,7 @@
 <dd class="field-odd"><p><strong>group</strong> – reference to the group over which to iterate </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a></p>
+<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -909,7 +912,7 @@
 <span id="_CPPv3N4hdf54node21RecursiveNodeIteratorE"></span><span id="_CPPv2N4hdf54node21RecursiveNodeIteratorE"></span><span id="hdf5::node::RecursiveNodeIterator"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveNodeIterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RecursiveNodeIterator</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>recursive node iterator </p>
 <p><a class="reference internal" href="namespace_hdf5.html#classhdf5_1_1Iterator"><span class="std std-ref">Iterator</span></a> which recursively iterates over all subelements of a particular group. All relevant constructors are private. To construct an instance of this iterator use the two static factory functions <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator_1acf58819b5e0bdc5e3b08d4add499a2d3"><span class="std std-ref">begin()</span></a> and <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator_1a5da7b727d9b850c50ac54139976ffc9c"><span class="std std-ref">end()</span></a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Group</span> <span class="n">top</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Group</span> <span class="n">top</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
 <span class="n">auto</span> <span class="nb">iter</span> <span class="o">=</span> <span class="n">RecursiveNodeIterator</span><span class="p">::</span><span class="n">begin</span><span class="p">(</span><span class="n">top</span><span class="p">);</span>
 <span class="n">auto</span> <span class="n">end</span>  <span class="o">=</span> <span class="n">RecursiveNodeIterator</span><span class="p">::</span><span class="n">end</span><span class="p">(</span><span class="n">top</span><span class="p">);</span>
 
@@ -925,6 +928,7 @@
               <span class="p">[](</span><span class="n">const</span> <span class="n">Node</span> <span class="o">&amp;</span><span class="n">node</span><span class="p">)</span> <span class="p">{</span> <span class="o">...</span><span class="n">do</span> <span class="n">something</span> <span class="o">...</span> <span class="p">;</span> <span class="p">});</span>
 </pre></div>
 </div>
+</p>
 <p>Unlike <a class="reference internal" href="#classhdf5_1_1node_1_1NodeIterator"><span class="std std-ref">NodeIterator</span></a>, <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a> is a simple forward iterator. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -942,26 +946,26 @@
 <p>Returns an instance of the actual node the iterator refers to. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">node::Node</span></a></p>
+<dd class="field-odd"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">node::Node</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54node21RecursiveNodeIteratorptEv">
-<span id="_CPPv3N4hdf54node21RecursiveNodeIteratorptEv"></span><span id="_CPPv2N4hdf54node21RecursiveNodeIteratorptEv"></span><span id="hdf5::node::RecursiveNodeIterator::pointer-operator"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveNodeIterator_1a106e40facef816be1144d7a01266acac"></span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">-&gt;</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorptEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54node21RecursiveNodeIteratorptEv"></span><span id="_CPPv2N4hdf54node21RecursiveNodeIteratorptEv"></span><span id="hdf5::node::RecursiveNodeIterator::pointer-operator"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveNodeIterator_1a368052eaf01b0c344b5a9be3985b585e"></span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">-&gt;</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorptEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>return address of the actual <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">Node</span></a> instance </p>
 <p>Returns the adress of the actual node in memory. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>adress of current <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">Node</span></a></p>
+<dd class="field-odd"><p>adress of current <a class="reference internal" href="#classhdf5_1_1node_1_1Node"><span class="std std-ref">Node</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54node21RecursiveNodeIteratorppEv">
-<span id="_CPPv3N4hdf54node21RecursiveNodeIteratorppEv"></span><span id="_CPPv2N4hdf54node21RecursiveNodeIteratorppEv"></span><span id="hdf5::node::RecursiveNodeIterator::inc-operator"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveNodeIterator_1a269fcd22044d9f62b326f7cd403f07f8"></span><a class="reference internal" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorE" title="hdf5::node::RecursiveNodeIterator"><span class="n"><span class="pre">RecursiveNodeIterator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorppEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54node21RecursiveNodeIteratorppEv"></span><span id="_CPPv2N4hdf54node21RecursiveNodeIteratorppEv"></span><span id="hdf5::node::RecursiveNodeIterator::inc-operator"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveNodeIterator_1a0dd716201ef4b1660324743ef24c55a6"></span><a class="reference internal" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorE" title="hdf5::node::RecursiveNodeIterator"><span class="n"><span class="pre">RecursiveNodeIterator</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorppEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>advance to next element </p>
 <p>Advances to the next element in line. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RecursiveNodeIterator</span> <span class="nb">iter</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
 <span class="k">while</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -983,7 +987,7 @@
 <span id="_CPPv3N4hdf54node21RecursiveNodeIteratorppEi"></span><span id="_CPPv2N4hdf54node21RecursiveNodeIteratorppEi"></span><span id="hdf5::node::RecursiveNodeIterator::inc-operator__i"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveNodeIterator_1a933b2706324a18fd7ae997f1357d1dc2"></span><a class="reference internal" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorE" title="hdf5::node::RecursiveNodeIterator"><span class="n"><span class="pre">RecursiveNodeIterator</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">++</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveNodeIteratorppEi" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>advance to next element </p>
 <p>Advances to the next element in line but returns an iterator to the previous element.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RecursiveNodeIterator</span> <span class="nb">iter</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RecursiveNodeIterator</span> <span class="nb">iter</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
 
 <span class="k">while</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 <span class="p">{</span>
@@ -992,9 +996,10 @@
 <span class="p">}</span>
 </pre></div>
 </div>
+</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a></p>
+<dd class="field-odd"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1012,7 +1017,7 @@
 <dd class="field-odd"><p><strong>current_group</strong> – the top level group where to start with recursive iteration </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a></p>
+<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1027,7 +1032,7 @@
 <dd class="field-odd"><p><strong>current_group</strong> – the top level group at which to start the recursive iteration. </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a></p>
+<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveNodeIterator"><span class="std std-ref">RecursiveNodeIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1063,7 +1068,7 @@
 <span id="_CPPv3N4hdf54node21RecursiveLinkIteratorE"></span><span id="_CPPv2N4hdf54node21RecursiveLinkIteratorE"></span><span id="hdf5::node::RecursiveLinkIterator"></span><span class="target" id="classhdf5_1_1node_1_1RecursiveLinkIterator"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">RecursiveLinkIterator</span></span></span><a class="headerlink" href="#_CPPv4N4hdf54node21RecursiveLinkIteratorE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>recursive <a class="reference internal" href="#classhdf5_1_1node_1_1Link"><span class="std std-ref">Link</span></a> iterator </p>
 <p><a class="reference internal" href="namespace_hdf5.html#classhdf5_1_1Iterator"><span class="std std-ref">Iterator</span></a> which recursively iterates over all Links of a particular group. All relevant constructors are private. To construct an instance of this iterator use the two static factory functions <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator_1ae45c6fe87b874733925235fd4b1374dc"><span class="std std-ref">begin()</span></a> and <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator_1a130ec3d584c9dcdfe46025dc9d23bf22"><span class="std std-ref">end()</span></a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Group</span> <span class="n">top</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Group</span> <span class="n">top</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
 <span class="n">auto</span> <span class="nb">iter</span> <span class="o">=</span> <span class="n">RecursiveLinkIterator</span><span class="p">::</span><span class="n">begin</span><span class="p">(</span><span class="n">top</span><span class="p">);</span>
 <span class="n">auto</span> <span class="n">end</span>  <span class="o">=</span> <span class="n">RecursiveLinkIterator</span><span class="p">::</span><span class="n">end</span><span class="p">(</span><span class="n">top</span><span class="p">);</span>
 
@@ -1079,6 +1084,7 @@
               <span class="p">[](</span><span class="n">const</span> <span class="n">Link</span> <span class="o">&amp;</span><span class="n">link</span><span class="p">)</span> <span class="p">{</span> <span class="o">...</span><span class="n">do</span> <span class="n">something</span> <span class="o">...</span> <span class="p">;</span> <span class="p">});</span>
 </pre></div>
 </div>
+</p>
 <p>Unlike <a class="reference internal" href="#classhdf5_1_1node_1_1LinkIterator"><span class="std std-ref">LinkIterator</span></a>, <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator"><span class="std std-ref">RecursiveLinkIterator</span></a> is a simple forward iterator. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
@@ -1102,7 +1108,7 @@
 <dd class="field-odd"><p><strong>current_group</strong> – the top level group where to start with recursive iteration </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator"><span class="std std-ref">RecursiveLinkIterator</span></a></p>
+<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator"><span class="std std-ref">RecursiveLinkIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1117,7 +1123,7 @@
 <dd class="field-odd"><p><strong>current_group</strong> – the top level group at which to start the recursive iteration. </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator"><span class="std std-ref">RecursiveLinkIterator</span></a></p>
+<dd class="field-even"><p>instance of <a class="reference internal" href="#classhdf5_1_1node_1_1RecursiveLinkIterator"><span class="std std-ref">RecursiveLinkIterator</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1141,7 +1147,7 @@
 <p>Use default implementation here. We need this for some STL containers. After default construction the dataset is in an invalid state.</p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0e494f202b255d01a630807748f9c112"><span class="std std-ref">is_valid()</span></a></p>
+<p><a class="reference internal" href="#classhdf5_1_1node_1_1Node_1a0e494f202b255d01a630807748f9c112"><span class="std std-ref">is_valid()</span></a> </p>
 </div>
 </p>
 </dd></dl>
@@ -2034,11 +2040,11 @@ The user provided dataset creation property list will not be changed.</p>
 </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a></p>
+<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a> </p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#namespacehdf5_1_1node_1a6f632646f9466dcd09f1a8b137ef58d2"><span class="std std-ref">get_dataset</span></a></p>
+<p><a class="reference internal" href="#namespacehdf5_1_1node_1a6f632646f9466dcd09f1a8b137ef58d2"><span class="std std-ref">get_dataset</span></a> </p>
 </div>
 </p>
 <dl class="field-list simple">
@@ -2073,11 +2079,11 @@ The user provided dataset creation property list will not be changed.</p>
 </p>
 <p><div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a></p>
+<p><a class="reference internal" href="#namespacehdf5_1_1node_1a736c0eb0387c7891439a29b75db177b8"><span class="std std-ref">get_node</span></a> </p>
 </div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="#namespacehdf5_1_1node_1a6f632646f9466dcd09f1a8b137ef58d2"><span class="std std-ref">get_dataset</span></a></p>
+<p><a class="reference internal" href="#namespacehdf5_1_1node_1a6f632646f9466dcd09f1a8b137ef58d2"><span class="std std-ref">get_dataset</span></a> </p>
 </div>
 </p>
 <dl class="field-list simple">
@@ -2105,10 +2111,11 @@ The user provided dataset creation property list will not be changed.</p>
 <span id="_CPPv3N4hdf54node8is_groupERK4Node"></span><span id="_CPPv2N4hdf54node8is_groupERK4Node"></span><span id="hdf5::node::is_group__NodeCR"></span><span class="target" id="namespacehdf5_1_1node_1a159ba2479d424380babfdb2770e56fcd"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">is_group</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node8is_groupERK4Node" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>predicate function returning true if node is a group </p>
 <p>This predicate function is used to filter group nodes. A typical application would be for instance</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="n">groups</span><span class="p">;</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Group</span><span class="o">&gt;</span> <span class="n">groups</span><span class="p">;</span>
 <span class="n">std</span><span class="p">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span><span class="n">std</span><span class="p">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span><span class="n">is_group</span><span class="p">);</span>
 </pre></div>
 </div>
+</p>
 <p>or whenever you want to partition a vector <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">nodes</span><span class="p">;</span>
 <span class="n">std</span><span class="p">::</span><span class="n">copy</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span><span class="n">std</span><span class="p">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">nodes</span><span class="p">));</span>
 <span class="n">auto</span> <span class="n">first_dset</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">partition_by</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">nodes</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span><span class="n">is_group</span><span class="p">);</span>
@@ -2136,10 +2143,11 @@ The user provided dataset creation property list will not be changed.</p>
 <span id="_CPPv3N4hdf54node10is_datasetERK4Node"></span><span id="_CPPv2N4hdf54node10is_datasetERK4Node"></span><span id="hdf5::node::is_dataset__NodeCR"></span><span class="target" id="namespacehdf5_1_1node_1aa828834df48905d5c10de6749ee03c19"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">is_dataset</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node4NodeE" title="hdf5::node::Node"><span class="n"><span class="pre">Node</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">node</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54node10is_datasetERK4Node" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>predicate function returning true if a node is a dataset </p>
 <p>This predicate function is used to filter dataset nodes. A typical application would be for instance</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Dataset</span><span class="o">&gt;</span> <span class="n">datasets</span><span class="p">;</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Dataset</span><span class="o">&gt;</span> <span class="n">datasets</span><span class="p">;</span>
 <span class="n">std</span><span class="p">::</span><span class="n">copy_if</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span><span class="n">std</span><span class="p">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">datasets</span><span class="p">),</span><span class="n">is_dataset</span><span class="p">);</span>
 </pre></div>
 </div>
+</p>
 <p>or whenever you want to partition a vector <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Nodes</span><span class="o">&gt;</span> <span class="n">nodes</span><span class="p">;</span>
 <span class="n">std</span><span class="p">::</span><span class="n">copy</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">root</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span><span class="n">std</span><span class="p">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">nodes</span><span class="p">));</span>
 <span class="n">auto</span> <span class="n">first_group</span> <span class="o">=</span> <span class="n">std</span><span class="p">::</span><span class="n">partition_by</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">nodes</span><span class="o">.</span><span class="n">end</span><span class="p">(),</span><span class="n">is_dataset</span><span class="p">);</span>
@@ -2216,7 +2224,7 @@ The user provided dataset creation property list will not be changed.</p>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54nodelsERNSt7ostreamERK8NodeType">
-<span id="_CPPv3N4hdf54nodelsERNSt7ostreamERK8NodeType"></span><span id="_CPPv2N4hdf54nodelsERNSt7ostreamERK8NodeType"></span><span id="hdf5::node::lshift-operator__osR.NodeTypeCR"></span><span class="target" id="namespacehdf5_1_1node_1aeca4e55d2f7a5fe95afefb00b04a6f58"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node8NodeTypeE" title="hdf5::node::NodeType"><span class="n"><span class="pre">NodeType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54nodelsERNSt7ostreamERK8NodeType" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54nodelsERNSt7ostreamERK8NodeType"></span><span id="_CPPv2N4hdf54nodelsERNSt7ostreamERK8NodeType"></span><span id="hdf5::node::lshift-operator__osR.NodeTypeCR"></span><span class="target" id="namespacehdf5_1_1node_1aa4b867a67eb2d0dbc6b694e5b54c65d5"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node8NodeTypeE" title="hdf5::node::NodeType"><span class="n"><span class="pre">NodeType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54nodelsERNSt7ostreamERK8NodeType" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>output stream operator for the NodeType enumeration </p>
 <p>This operator writes a text representation of the node type to the output stream.</p>
 <dl class="field-list simple">
@@ -2265,7 +2273,7 @@ The user provided dataset creation property list will not be changed.</p>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf54nodelsERNSt7ostreamERK8LinkType">
-<span id="_CPPv3N4hdf54nodelsERNSt7ostreamERK8LinkType"></span><span id="_CPPv2N4hdf54nodelsERNSt7ostreamERK8LinkType"></span><span id="hdf5::node::lshift-operator__osR.LinkTypeCR"></span><span class="target" id="namespacehdf5_1_1node_1a4cbe73634cab25f1ff3c144369e55179"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node8LinkTypeE" title="hdf5::node::LinkType"><span class="n"><span class="pre">LinkType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54nodelsERNSt7ostreamERK8LinkType" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf54nodelsERNSt7ostreamERK8LinkType"></span><span id="_CPPv2N4hdf54nodelsERNSt7ostreamERK8LinkType"></span><span id="hdf5::node::lshift-operator__osR.LinkTypeCR"></span><span class="target" id="namespacehdf5_1_1node_1a9fb7dbcf89f2136ab5f46875c05514a8"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">hdf5</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">&lt;&lt;</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ostream</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">stream</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4hdf54node8LinkTypeE" title="hdf5::node::LinkType"><span class="n"><span class="pre">LinkType</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">type</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4hdf54nodelsERNSt7ostreamERK8LinkType" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>output stream operator for the link type enumeration </p>
 <p>This operator writes a textual representation of the link type to the output stream.</p>
 <dl class="field-list simple">
@@ -2359,6 +2367,7 @@ The user provided dataset creation property list will not be changed.</p>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.7.0/index.html">v0.7.0</a></li>
       <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
       <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
       <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
@@ -2386,16 +2395,16 @@ The user provided dataset creation property list will not be changed.</p>
         <li class="right" >
           <a href="namespace_filter.html" title="Namespace hdf5::filter"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp (latest) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::node</span></code></a></li> 
       </ul>
     </div>
-<li>generated on 2025-04-30 06:05:18 from  (3afccf2)</li>
+<li>generated on 2025-05-06 09:04:32 from master (16f4ce3)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-04-30 06:05:18 from  (3afccf2).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-05-06 09:04:32 from master (16f4ce3).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
 
   </body>

@@ -7,11 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Namespace hdf5::attribute &#8212; h5cpp (latest) documentation</title>
+    <title>Namespace hdf5::attribute &#8212; h5cpp 0.7.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -36,7 +39,7 @@
         <li class="right" >
           <a href="namespace_hdf5.html" title="Namespace hdf5"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp (latest) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::attribute</span></code></a></li> 
       </ul>
@@ -120,7 +123,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf59attribute9Attribute11parent_linkEv">
-<span id="_CPPv3NK4hdf59attribute9Attribute11parent_linkEv"></span><span id="_CPPv2NK4hdf59attribute9Attribute11parent_linkEv"></span><span id="hdf5::attribute::Attribute::parent_linkC"></span><span class="target" id="classhdf5_1_1attribute_1_1Attribute_1a7442436a95a3ae9f76f5cf95d0e93e57"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_node.html#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><span class="n"><span class="pre">Link</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">parent_link</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf59attribute9Attribute11parent_linkEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf59attribute9Attribute11parent_linkEv"></span><span id="_CPPv2NK4hdf59attribute9Attribute11parent_linkEv"></span><span id="hdf5::attribute::Attribute::parent_linkC"></span><span class="target" id="classhdf5_1_1attribute_1_1Attribute_1a45bb9c001cbcb4e256bda725f0761e90"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">node</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="namespace_node.html#_CPPv4N4hdf54node4LinkE" title="hdf5::node::Link"><span class="n"><span class="pre">Link</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">parent_link</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf59attribute9Attribute11parent_linkEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get the parent ndoe </p>
 <p>Return a reference to the node to which the attribute is attached. </p>
 </dd></dl>
@@ -148,10 +151,11 @@
 <span id="_CPPv3NK4hdf59attribute9Attribute5writeEPKc"></span><span id="_CPPv2NK4hdf59attribute9Attribute5writeEPKc"></span><span id="hdf5::attribute::Attribute::write__cCPC"></span><span class="target" id="classhdf5_1_1attribute_1_1Attribute_1ae5e19236b1692f971c5c944d9644f6cb"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4hdf59attribute9Attribute5writeEPKc" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>write string literal to disk </p>
 <p>This is used whenever a string literal must be written to disk.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attribute</span><span class="p">::</span><span class="n">Attribute</span> <span class="n">a</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">);</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">attribute</span><span class="p">::</span><span class="n">Attribute</span> <span class="n">a</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">create</span><span class="o">&lt;</span><span class="n">std</span><span class="p">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">);</span>
 <span class="n">a</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;a short text&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
+</p>
 <p>You should be aware that this currently only works if the string type used for the attribute is a variable length string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Throws<span class="colon">:</span></dt>
@@ -165,10 +169,11 @@
 <span id="_CPPv3I0ENK4hdf59attribute9Attribute5writeERKNSt16initializer_listI1TEE"></span><span id="_CPPv2I0ENK4hdf59attribute9Attribute5writeERKNSt16initializer_listI1TEE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classhdf5_1_1attribute_1_1Attribute_1a9d125f0237a19ca0bf918187298de9b5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">initializer_list</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0ENK4hdf59attribute9Attribute5writeEvRKNSt16initializer_listI1TEE" title="hdf5::attribute::Attribute::write::T"><span class="n"><span class="pre">T</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">list</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK4hdf59attribute9Attribute5writeEvRKNSt16initializer_listI1TEE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>write from initializer list </p>
 <p>This method is used if the data to write is provided via an initializer list.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Attribute</span> <span class="n">a</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">create</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;index_list&quot;</span><span class="p">,{</span><span class="mi">4</span><span class="p">});</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Attribute</span> <span class="n">a</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">create</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span><span class="p">(</span><span class="s2">&quot;index_list&quot;</span><span class="p">,{</span><span class="mi">4</span><span class="p">});</span>
 <span class="n">a</span><span class="o">.</span><span class="n">write</span><span class="p">({</span><span class="mi">56</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">12</span><span class="p">});</span>
 </pre></div>
 </div>
+</p>
 <p>Internaly this method stores the content of the list to an instance of std::vector&lt;T&gt; which is then written to the attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
@@ -185,7 +190,7 @@
 <span id="_CPPv3I0ENK4hdf59attribute9Attribute5writeERK1TRKN8datatype8DatatypeE"></span><span id="_CPPv2I0ENK4hdf59attribute9Attribute5writeERK1TRKN8datatype8DatatypeE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classhdf5_1_1attribute_1_1Attribute_1a49aeab931e9355535a594ee1ca3d0a29"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0ENK4hdf59attribute9Attribute5writeEvRK1TRKN8datatype8DatatypeE" title="hdf5::attribute::Attribute::write::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">data</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK4hdf59attribute9Attribute8datatypeEv" title="hdf5::attribute::Attribute::datatype"><span class="n"><span class="pre">datatype</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Datatype</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mem_type</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4I0ENK4hdf59attribute9Attribute5writeEvRK1TRKN8datatype8DatatypeE" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>write data to disk </p>
 <p>Write data to disk however we can pass a custom memory type to this method. This is particularly useful in the case of string types where the HDF5 datatype cannot be determined uniquely from a C++ type.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">fixed_type</span> <span class="o">=</span> <span class="n">String</span><span class="p">::</span><span class="n">fixed</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">fixed_type</span> <span class="o">=</span> <span class="n">String</span><span class="p">::</span><span class="n">fixed</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
 <span class="n">Attribute</span> <span class="n">a</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;note&quot;</span><span class="p">,</span><span class="n">fixed_type</span><span class="p">,</span><span class="n">Scalar</span><span class="p">());</span>
 
 <span class="o">//</span><span class="n">we</span> <span class="n">have</span> <span class="n">to</span> <span class="k">pass</span> <span class="n">the</span> <span class="nb">type</span> <span class="n">here</span> <span class="n">explicitely</span> <span class="n">otherwise</span> <span class="n">the</span> <span class="n">library</span>
@@ -195,6 +200,7 @@
 <span class="n">a</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">fixed_type</span><span class="p">);</span>
 </pre></div>
 </div>
+</p>
 <dl class="field-list simple">
 <dt class="field-odd">Throws<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of an error </p>
@@ -279,7 +285,7 @@
 <dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure</p>
 </dd>
 <dt class="field-even">Pre<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">index</span></code> must be &lt; <a class="reference internal" href="#classhdf5_1_1attribute_1_1AttributeManager_1a52b1c732dbc6774dddeafd52f11aa478"><span class="std std-ref">size()</span></a></p>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">index</span></code> must be &lt; <a class="reference internal" href="#classhdf5_1_1attribute_1_1AttributeManager_1a52b1c732dbc6774dddeafd52f11aa478"><span class="std std-ref">size()</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
@@ -369,10 +375,11 @@
 <span id="_CPPv3I0EN4hdf59attribute16AttributeManager11create_fromERKNSt6stringERK1T"></span><span id="_CPPv2I0EN4hdf59attribute16AttributeManager11create_fromERKNSt6stringERK1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classhdf5_1_1attribute_1_1AttributeManager_1ae4ae65e30cd6698e605702809b746e1f"></span><a class="reference internal" href="#_CPPv4N4hdf59attribute9AttributeE" title="hdf5::attribute::Attribute"><span class="n"><span class="pre">Attribute</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">create_from</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN4hdf59attribute16AttributeManager11create_fromE9AttributeRKNSt6stringERK1T" title="hdf5::attribute::AttributeManager::create_from::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN4hdf59attribute16AttributeManager11create_fromE9AttributeRKNSt6stringERK1T" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>create a new attribute of a given value </p>
 <p>This is a convenience method to create a new attribute with a given value. Technically this is a <a class="reference internal" href="#classhdf5_1_1attribute_1_1AttributeManager_1a6d756eda566e8dd593f01ba360a3683b"><span class="std std-ref">create()</span></a> including a subsequent call to write.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Node</span> <span class="n">n</span> <span class="o">=</span> <span class="o">....</span><span class="p">;</span>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Node</span> <span class="n">n</span> <span class="o">=</span> <span class="o">....</span><span class="p">;</span>
 <span class="n">n</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">create_from</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span><span class="s2">&quot;12-03-2017&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
+</p>
 <dl class="field-list simple">
 <dt class="field-odd">Throws<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span><span class="cpp-expr sig sig-inline cpp"><span class="n">std</span><span class="p">::</span><span class="n">runtime_error</span></span></span> – in case of a failure </p>
@@ -384,14 +391,14 @@
 </ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>new instance of <a class="reference internal" href="#classhdf5_1_1attribute_1_1Attribute"><span class="std std-ref">Attribute</span></a></p>
+<dd class="field-odd"><p>new instance of <a class="reference internal" href="#classhdf5_1_1attribute_1_1Attribute"><span class="std std-ref">Attribute</span></a> </p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N4hdf59attribute16AttributeManager15iterator_configEv">
-<span id="_CPPv3N4hdf59attribute16AttributeManager15iterator_configEv"></span><span id="_CPPv2N4hdf59attribute16AttributeManager15iterator_configEv"></span><span id="hdf5::attribute::AttributeManager::iterator_config"></span><span class="target" id="classhdf5_1_1attribute_1_1AttributeManager_1afb7d4db08c87d00944dd453e8de3afbd"></span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf514IteratorConfigE" title="hdf5::IteratorConfig"><span class="n"><span class="pre">IteratorConfig</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">iterator_config</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N4hdf59attribute16AttributeManager15iterator_configEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3N4hdf59attribute16AttributeManager15iterator_configEv"></span><span id="_CPPv2N4hdf59attribute16AttributeManager15iterator_configEv"></span><span id="hdf5::attribute::AttributeManager::iterator_config"></span><span class="target" id="classhdf5_1_1attribute_1_1AttributeManager_1ad3645a5f4f23b86aec4d228075a0c96e"></span><a class="reference internal" href="namespace_hdf5.html#_CPPv4N4hdf514IteratorConfigE" title="hdf5::IteratorConfig"><span class="n"><span class="pre">IteratorConfig</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">iterator_config</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N4hdf59attribute16AttributeManager15iterator_configEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get iterator configuration </p>
 <p>Use this method to get a reference to the iterator configuration for the attributes of a node. </p>
 <dl class="field-list simple">
@@ -403,7 +410,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK4hdf59attribute16AttributeManager4nodeEv">
-<span id="_CPPv3NK4hdf59attribute16AttributeManager4nodeEv"></span><span id="_CPPv2NK4hdf59attribute16AttributeManager4nodeEv"></span><span id="hdf5::attribute::AttributeManager::nodeC"></span><span class="target" id="classhdf5_1_1attribute_1_1AttributeManager_1ab49a2ad0b448786178706ec30e6a3b21"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK4hdf59attribute16AttributeManager4nodeEv" title="hdf5::attribute::AttributeManager::node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Node</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">node</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf59attribute16AttributeManager4nodeEv" title="Permalink to this definition">¶</a><br /></dt>
+<span id="_CPPv3NK4hdf59attribute16AttributeManager4nodeEv"></span><span id="_CPPv2NK4hdf59attribute16AttributeManager4nodeEv"></span><span id="hdf5::attribute::AttributeManager::nodeC"></span><span class="target" id="classhdf5_1_1attribute_1_1AttributeManager_1a656ad56104091a8feb3249fb951cc59a"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4NK4hdf59attribute16AttributeManager4nodeEv" title="hdf5::attribute::AttributeManager::node"><span class="n"><span class="pre">node</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Node</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">node</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4NK4hdf59attribute16AttributeManager4nodeEv" title="Permalink to this definition">¶</a><br /></dt>
 <dd><p>get parent node </p>
 <p>Return a reference to the parent node of the manager instance. </p>
 </dd></dl>
@@ -483,6 +490,7 @@
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.7.0/index.html">v0.7.0</a></li>
       <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
       <li><a class="reference external" href="../index/../../v0.6.0/index.html">v0.6.0</a></li>
       <li><a class="reference external" href="../index/../../v0.5.2/index.html">v0.5.2</a></li>
@@ -510,16 +518,16 @@
         <li class="right" >
           <a href="namespace_hdf5.html" title="Namespace hdf5"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp (latest) documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >API reference</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Namespace <code class="xref cpp cpp-any docutils literal notranslate"><span class="pre">hdf5::attribute</span></code></a></li> 
       </ul>
     </div>
-<li>generated on 2025-04-30 06:05:18 from  (3afccf2)</li>
+<li>generated on 2025-05-06 09:04:32 from master (16f4ce3)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-04-30 06:05:18 from  (3afccf2).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.0.0.
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-05-06 09:04:32 from master (16f4ce3).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
 
   </body>

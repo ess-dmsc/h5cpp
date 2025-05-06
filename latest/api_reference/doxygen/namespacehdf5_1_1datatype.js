@@ -1,16 +1,16 @@
 var namespacehdf5_1_1datatype =
 [
     [ "Array", "classhdf5_1_1datatype_1_1Array.html", "classhdf5_1_1datatype_1_1Array" ],
-    [ "VLengthArray", "classhdf5_1_1datatype_1_1VLengthArray.html", "classhdf5_1_1datatype_1_1VLengthArray" ],
     [ "Compound", "classhdf5_1_1datatype_1_1Compound.html", "classhdf5_1_1datatype_1_1Compound" ],
     [ "Datatype", "classhdf5_1_1datatype_1_1Datatype.html", "classhdf5_1_1datatype_1_1Datatype" ],
-    [ "Enum", "classhdf5_1_1datatype_1_1Enum.html", "classhdf5_1_1datatype_1_1Enum" ],
     [ "DatatypeHolder", "classhdf5_1_1datatype_1_1DatatypeHolder.html", "classhdf5_1_1datatype_1_1DatatypeHolder" ],
+    [ "Enum", "classhdf5_1_1datatype_1_1Enum.html", "classhdf5_1_1datatype_1_1Enum" ],
     [ "Float", "classhdf5_1_1datatype_1_1Float.html", "classhdf5_1_1datatype_1_1Float" ],
     [ "float16_t", "classhdf5_1_1datatype_1_1float16__t.html", "classhdf5_1_1datatype_1_1float16__t" ],
     [ "Integer", "classhdf5_1_1datatype_1_1Integer.html", "classhdf5_1_1datatype_1_1Integer" ],
     [ "String", "classhdf5_1_1datatype_1_1String.html", "classhdf5_1_1datatype_1_1String" ],
     [ "TypeTrait", "classhdf5_1_1datatype_1_1TypeTrait.html", "classhdf5_1_1datatype_1_1TypeTrait" ],
+    [ "VLengthArray", "classhdf5_1_1datatype_1_1VLengthArray.html", "classhdf5_1_1datatype_1_1VLengthArray" ],
     [ "CharacterEncoding", "namespacehdf5_1_1datatype.html#a34fe1939ec8dfe173711bb03e995192f", [
       [ "ASCII", "namespacehdf5_1_1datatype.html#a34fe1939ec8dfe173711bb03e995192fad2cd8253361a9c732d21ca1d336599cc", null ],
       [ "UTF8", "namespacehdf5_1_1datatype.html#a34fe1939ec8dfe173711bb03e995192faeb7ee0fb585e2ac64fdc086466c474b1", null ]
@@ -62,18 +62,18 @@ var namespacehdf5_1_1datatype =
       [ "NullPad", "namespacehdf5_1_1datatype.html#a59502b2f1a177524573f04e257a1aa7ca9f8f936ff634924fad8dc2f8b31e475e", null ],
       [ "SpacePad", "namespacehdf5_1_1datatype.html#a59502b2f1a177524573f04e257a1aa7caa13f85abfdb42bb1daedc4f0ad4f075e", null ]
     ] ],
-    [ "create", "namespacehdf5_1_1datatype.html#a2ceccbf12e6ba3c23e58142ac683d7d5", null ],
-    [ "get", "namespacehdf5_1_1datatype.html#af92d0647e0683af1d2081b757e1e578b", null ],
+    [ "create", "namespacehdf5_1_1datatype.html#ae7ccf6c3453b26221fefab4666c5ca74", null ],
+    [ "get", "namespacehdf5_1_1datatype.html#a3eacfefa06fdb7e4cb52a355dd46b186", null ],
     [ "is_bool", "namespacehdf5_1_1datatype.html#a5409bd098548daacffae8ffbd0303280", null ],
     [ "operator!=", "namespacehdf5_1_1datatype.html#a2904dc7dceaf5408edd7815edd625383", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#aac01c2084c309262d16149787338aa63", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#aa8912030d7923121856f4b2461971525", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#a8ffcaf6fe6f74e2a1a6c9c56ea17f099", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#a37dca027e6e9be3440e4050d46e5a610", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#ab47d63d32937a2dce6397057d50d1160", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#ac0345f3f9687cbdd3e34938db67ee1d0", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#a580b5ca8e2522547b89694a167a0fe96", null ],
-    [ "operator<<", "namespacehdf5_1_1datatype.html#a1580da9c3c31545b8ca28408bdaf8c14", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#aeb659e812911e9e39a0c7b13c6357637", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#a8d250dfa9eeb38c09cb9ba35c77517b3", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#a3105d86fb13664b955118076c7f82daf", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#af355765b696cde2ec7e22bdd9f671811", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#a361020a696e7e33d532cc3fc996f2134", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#a53d31726ca110a24bae889352db564d1", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#a53634c42187453717618fb50feb67ac3", null ],
+    [ "operator<<", "namespacehdf5_1_1datatype.html#a99805e897b4468d58dd5c5abe97481aa", null ],
     [ "operator==", "namespacehdf5_1_1datatype.html#a27d43941f30d005005836d9d1291c665", null ],
-    [ "kVariable", "namespacehdf5_1_1datatype.html#ae926120cc13739b6ec95738e78a845a5", null ]
+    [ "kVariable", "namespacehdf5_1_1datatype.html#a8d98ac233c5b2bb4a51151208df1cd90", null ]
 ];

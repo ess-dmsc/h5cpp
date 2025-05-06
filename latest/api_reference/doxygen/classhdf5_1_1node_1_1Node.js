@@ -7,9 +7,9 @@ var classhdf5_1_1node_1_1Node =
     [ "close", "classhdf5_1_1node_1_1Node.html#a566aab53e2eee53d188f28b8ed306aef", null ],
     [ "id", "classhdf5_1_1node_1_1Node.html#a0ca4ae5f4fa2f001ec3cd4da09b513ab", null ],
     [ "is_valid", "classhdf5_1_1node_1_1Node.html#a0e494f202b255d01a630807748f9c112", null ],
-    [ "link", "classhdf5_1_1node_1_1Node.html#acb36c0387e486832270ac7db7876aea6", null ],
+    [ "link", "classhdf5_1_1node_1_1Node.html#ac567b561470c3dd18e9cae0dede5adfa", null ],
     [ "operator hid_t", "classhdf5_1_1node_1_1Node.html#a62d3a985e842c543e8444480758444d3", null ],
-    [ "operator=", "classhdf5_1_1node_1_1Node.html#ad465a4369408f87549294e25ffa9f09b", null ],
+    [ "operator=", "classhdf5_1_1node_1_1Node.html#adfd4b1d130790cf43a8b799862aa88c7", null ],
     [ "type", "classhdf5_1_1node_1_1Node.html#a873cf180be639e2cc11729e2e163f63b", null ],
     [ "attributes", "classhdf5_1_1node_1_1Node.html#a17e5675214cbfea686c361d9ba4fd050", null ]
 ];

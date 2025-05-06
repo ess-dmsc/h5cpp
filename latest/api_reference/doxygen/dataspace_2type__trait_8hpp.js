@@ -1,9 +1,9 @@
 var dataspace_2type__trait_8hpp =
 [
-    [ "TypeTrait", "classhdf5_1_1dataspace_1_1TypeTrait.html", "classhdf5_1_1dataspace_1_1TypeTrait" ],
-    [ "DataspaceHolder", "classhdf5_1_1dataspace_1_1DataspaceHolder.html", "classhdf5_1_1dataspace_1_1DataspaceHolder" ],
-    [ "cptr", "dataspace_2type__trait_8hpp.html#a65316521d4c45cede8784a434775e5a0", null ],
-    [ "create", "dataspace_2type__trait_8hpp.html#ae0d7db43071de8786f76b675e2b83b4a", null ],
-    [ "get", "dataspace_2type__trait_8hpp.html#a8fbbe4b3f264f997633eda3335a5c1fa", null ],
-    [ "ptr", "dataspace_2type__trait_8hpp.html#ac795e06a088bf8cec065e7771ebff6ec", null ]
+    [ "hdf5::dataspace::TypeTrait< T >", "classhdf5_1_1dataspace_1_1TypeTrait.html", "classhdf5_1_1dataspace_1_1TypeTrait" ],
+    [ "hdf5::dataspace::DataspaceHolder", "classhdf5_1_1dataspace_1_1DataspaceHolder.html", "classhdf5_1_1dataspace_1_1DataspaceHolder" ],
+    [ "cptr", "dataspace_2type__trait_8hpp.html#ad46e58683ccdf655b75edcd2f7ffbdf6", null ],
+    [ "create", "dataspace_2type__trait_8hpp.html#a821b73fe27d1ab7611acf3ab125a2dbe", null ],
+    [ "get", "dataspace_2type__trait_8hpp.html#a929d6cf9b3baa61eff16ee178b74f53e", null ],
+    [ "ptr", "dataspace_2type__trait_8hpp.html#a2b9d3df352a67acddf95f6e61568a53f", null ]
 ];

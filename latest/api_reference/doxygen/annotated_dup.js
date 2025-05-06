@@ -7,39 +7,39 @@ var annotated_dup =
         [ "AttributeManager", "classhdf5_1_1attribute_1_1AttributeManager.html", "classhdf5_1_1attribute_1_1AttributeManager" ]
       ] ],
       [ "dataspace", "namespacehdf5_1_1dataspace.html", [
-        [ "TypeTrait< std::array< T, N > >", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1array_3_01T_00_01N_01_4_01_4.html", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1array_3_01T_00_01N_01_4_01_4" ],
-        [ "TypeTrait< std::vector< T > >", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1vector_3_01T_01_4_01_4.html", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1vector_3_01T_01_4_01_4" ],
         [ "Dataspace", "classhdf5_1_1dataspace_1_1Dataspace.html", "classhdf5_1_1dataspace_1_1Dataspace" ],
-        [ "Hyperslab", "classhdf5_1_1dataspace_1_1Hyperslab.html", "classhdf5_1_1dataspace_1_1Hyperslab" ],
-        [ "Points", "classhdf5_1_1dataspace_1_1Points.html", "classhdf5_1_1dataspace_1_1Points" ],
+        [ "DataspaceHolder", "classhdf5_1_1dataspace_1_1DataspaceHolder.html", "classhdf5_1_1dataspace_1_1DataspaceHolder" ],
         [ "DataspacePool", "classhdf5_1_1dataspace_1_1DataspacePool.html", "classhdf5_1_1dataspace_1_1DataspacePool" ],
+        [ "Hyperslab", "classhdf5_1_1dataspace_1_1Hyperslab.html", "classhdf5_1_1dataspace_1_1Hyperslab" ],
+        [ "OperationWithSelection", "structhdf5_1_1dataspace_1_1OperationWithSelection.html", "structhdf5_1_1dataspace_1_1OperationWithSelection" ],
+        [ "Points", "classhdf5_1_1dataspace_1_1Points.html", "classhdf5_1_1dataspace_1_1Points" ],
         [ "Scalar", "classhdf5_1_1dataspace_1_1Scalar.html", "classhdf5_1_1dataspace_1_1Scalar" ],
         [ "Selection", "classhdf5_1_1dataspace_1_1Selection.html", "classhdf5_1_1dataspace_1_1Selection" ],
-        [ "OperationWithSelection", "structhdf5_1_1dataspace_1_1OperationWithSelection.html", "structhdf5_1_1dataspace_1_1OperationWithSelection" ],
         [ "SelectionManager", "classhdf5_1_1dataspace_1_1SelectionManager.html", "classhdf5_1_1dataspace_1_1SelectionManager" ],
         [ "Simple", "classhdf5_1_1dataspace_1_1Simple.html", "classhdf5_1_1dataspace_1_1Simple" ],
         [ "TypeTrait", "classhdf5_1_1dataspace_1_1TypeTrait.html", "classhdf5_1_1dataspace_1_1TypeTrait" ],
-        [ "DataspaceHolder", "classhdf5_1_1dataspace_1_1DataspaceHolder.html", "classhdf5_1_1dataspace_1_1DataspaceHolder" ],
-        [ "View", "classhdf5_1_1dataspace_1_1View.html", "classhdf5_1_1dataspace_1_1View" ],
-        [ "TypeTrait< ArrayAdapter< T > >", "classhdf5_1_1dataspace_1_1TypeTrait_3_01ArrayAdapter_3_01T_01_4_01_4.html", "classhdf5_1_1dataspace_1_1TypeTrait_3_01ArrayAdapter_3_01T_01_4_01_4" ]
+        [ "TypeTrait< ArrayAdapter< T > >", "classhdf5_1_1dataspace_1_1TypeTrait_3_01ArrayAdapter_3_01T_01_4_01_4.html", "classhdf5_1_1dataspace_1_1TypeTrait_3_01ArrayAdapter_3_01T_01_4_01_4" ],
+        [ "TypeTrait< std::array< T, N > >", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1array_3_01T_00_01N_01_4_01_4.html", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1array_3_01T_00_01N_01_4_01_4" ],
+        [ "TypeTrait< std::vector< T > >", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1vector_3_01T_01_4_01_4.html", "classhdf5_1_1dataspace_1_1TypeTrait_3_01std_1_1vector_3_01T_01_4_01_4" ],
+        [ "View", "classhdf5_1_1dataspace_1_1View.html", "classhdf5_1_1dataspace_1_1View" ]
       ] ],
       [ "datatype", "namespacehdf5_1_1datatype.html", [
         [ "Array", "classhdf5_1_1datatype_1_1Array.html", "classhdf5_1_1datatype_1_1Array" ],
-        [ "VLengthArray", "classhdf5_1_1datatype_1_1VLengthArray.html", "classhdf5_1_1datatype_1_1VLengthArray" ],
         [ "Compound", "classhdf5_1_1datatype_1_1Compound.html", "classhdf5_1_1datatype_1_1Compound" ],
         [ "Datatype", "classhdf5_1_1datatype_1_1Datatype.html", "classhdf5_1_1datatype_1_1Datatype" ],
-        [ "Enum", "classhdf5_1_1datatype_1_1Enum.html", "classhdf5_1_1datatype_1_1Enum" ],
         [ "DatatypeHolder", "classhdf5_1_1datatype_1_1DatatypeHolder.html", "classhdf5_1_1datatype_1_1DatatypeHolder" ],
+        [ "Enum", "classhdf5_1_1datatype_1_1Enum.html", "classhdf5_1_1datatype_1_1Enum" ],
         [ "Float", "classhdf5_1_1datatype_1_1Float.html", "classhdf5_1_1datatype_1_1Float" ],
         [ "float16_t", "classhdf5_1_1datatype_1_1float16__t.html", "classhdf5_1_1datatype_1_1float16__t" ],
         [ "Integer", "classhdf5_1_1datatype_1_1Integer.html", "classhdf5_1_1datatype_1_1Integer" ],
         [ "String", "classhdf5_1_1datatype_1_1String.html", "classhdf5_1_1datatype_1_1String" ],
-        [ "TypeTrait", "classhdf5_1_1datatype_1_1TypeTrait.html", "classhdf5_1_1datatype_1_1TypeTrait" ]
+        [ "TypeTrait", "classhdf5_1_1datatype_1_1TypeTrait.html", "classhdf5_1_1datatype_1_1TypeTrait" ],
+        [ "VLengthArray", "classhdf5_1_1datatype_1_1VLengthArray.html", "classhdf5_1_1datatype_1_1VLengthArray" ]
       ] ],
       [ "error", "namespacehdf5_1_1error.html", [
         [ "Descriptor", "structhdf5_1_1error_1_1Descriptor.html", "structhdf5_1_1error_1_1Descriptor" ],
-        [ "Singleton", "classhdf5_1_1error_1_1Singleton.html", "classhdf5_1_1error_1_1Singleton" ],
-        [ "H5CError", "classhdf5_1_1error_1_1H5CError.html", "classhdf5_1_1error_1_1H5CError" ]
+        [ "H5CError", "classhdf5_1_1error_1_1H5CError.html", "classhdf5_1_1error_1_1H5CError" ],
+        [ "Singleton", "classhdf5_1_1error_1_1Singleton.html", "classhdf5_1_1error_1_1Singleton" ]
       ] ],
       [ "file", "namespacehdf5_1_1file.html", [
         [ "DirectDriver", "classhdf5_1_1file_1_1DirectDriver.html", "classhdf5_1_1file_1_1DirectDriver" ],
@@ -65,9 +65,9 @@ var annotated_dup =
         [ "Dataset", "classhdf5_1_1node_1_1Dataset.html", "classhdf5_1_1node_1_1Dataset" ],
         [ "Group", "classhdf5_1_1node_1_1Group.html", "classhdf5_1_1node_1_1Group" ],
         [ "GroupView", "classhdf5_1_1node_1_1GroupView.html", "classhdf5_1_1node_1_1GroupView" ],
-        [ "LinkTarget", "classhdf5_1_1node_1_1LinkTarget.html", "classhdf5_1_1node_1_1LinkTarget" ],
         [ "Link", "classhdf5_1_1node_1_1Link.html", "classhdf5_1_1node_1_1Link" ],
         [ "LinkIterator", "classhdf5_1_1node_1_1LinkIterator.html", "classhdf5_1_1node_1_1LinkIterator" ],
+        [ "LinkTarget", "classhdf5_1_1node_1_1LinkTarget.html", "classhdf5_1_1node_1_1LinkTarget" ],
         [ "LinkView", "classhdf5_1_1node_1_1LinkView.html", "classhdf5_1_1node_1_1LinkView" ],
         [ "Node", "classhdf5_1_1node_1_1Node.html", "classhdf5_1_1node_1_1Node" ],
         [ "NodeIterator", "classhdf5_1_1node_1_1NodeIterator.html", "classhdf5_1_1node_1_1NodeIterator" ],
@@ -78,8 +78,10 @@ var annotated_dup =
       ] ],
       [ "property", "namespacehdf5_1_1property.html", [
         [ "AttributeCreationList", "classhdf5_1_1property_1_1AttributeCreationList.html", "classhdf5_1_1property_1_1AttributeCreationList" ],
-        [ "CreationOrder", "classhdf5_1_1property_1_1CreationOrder.html", "classhdf5_1_1property_1_1CreationOrder" ],
         [ "ChunkCacheParameters", "classhdf5_1_1property_1_1ChunkCacheParameters.html", "classhdf5_1_1property_1_1ChunkCacheParameters" ],
+        [ "Class", "classhdf5_1_1property_1_1Class.html", "classhdf5_1_1property_1_1Class" ],
+        [ "CopyFlags", "classhdf5_1_1property_1_1CopyFlags.html", "classhdf5_1_1property_1_1CopyFlags" ],
+        [ "CreationOrder", "classhdf5_1_1property_1_1CreationOrder.html", "classhdf5_1_1property_1_1CreationOrder" ],
         [ "DatasetAccessList", "classhdf5_1_1property_1_1DatasetAccessList.html", "classhdf5_1_1property_1_1DatasetAccessList" ],
         [ "DatasetCreationList", "classhdf5_1_1property_1_1DatasetCreationList.html", "classhdf5_1_1property_1_1DatasetCreationList" ],
         [ "DatasetTransferList", "classhdf5_1_1property_1_1DatasetTransferList.html", "classhdf5_1_1property_1_1DatasetTransferList" ],
@@ -91,23 +93,22 @@ var annotated_dup =
         [ "GroupCreationList", "classhdf5_1_1property_1_1GroupCreationList.html", "classhdf5_1_1property_1_1GroupCreationList" ],
         [ "LinkAccessList", "classhdf5_1_1property_1_1LinkAccessList.html", "classhdf5_1_1property_1_1LinkAccessList" ],
         [ "LinkCreationList", "classhdf5_1_1property_1_1LinkCreationList.html", "classhdf5_1_1property_1_1LinkCreationList" ],
-        [ "CopyFlags", "classhdf5_1_1property_1_1CopyFlags.html", "classhdf5_1_1property_1_1CopyFlags" ],
+        [ "List", "classhdf5_1_1property_1_1List.html", "classhdf5_1_1property_1_1List" ],
         [ "ObjectCopyList", "classhdf5_1_1property_1_1ObjectCopyList.html", "classhdf5_1_1property_1_1ObjectCopyList" ],
         [ "ObjectCreationList", "classhdf5_1_1property_1_1ObjectCreationList.html", "classhdf5_1_1property_1_1ObjectCreationList" ],
-        [ "Class", "classhdf5_1_1property_1_1Class.html", "classhdf5_1_1property_1_1Class" ],
-        [ "List", "classhdf5_1_1property_1_1List.html", "classhdf5_1_1property_1_1List" ],
         [ "StringCreationList", "classhdf5_1_1property_1_1StringCreationList.html", "classhdf5_1_1property_1_1StringCreationList" ],
         [ "TypeCreationList", "classhdf5_1_1property_1_1TypeCreationList.html", "classhdf5_1_1property_1_1TypeCreationList" ],
         [ "VirtualDataMap", "classhdf5_1_1property_1_1VirtualDataMap.html", "classhdf5_1_1property_1_1VirtualDataMap" ],
         [ "VirtualDataMaps", "classhdf5_1_1property_1_1VirtualDataMaps.html", null ]
       ] ],
+      [ "ArrayAdapter", "classhdf5_1_1ArrayAdapter.html", "classhdf5_1_1ArrayAdapter" ],
       [ "Context", "classhdf5_1_1Context.html", "classhdf5_1_1Context" ],
       [ "FixedLengthStringBuffer", "classhdf5_1_1FixedLengthStringBuffer.html", "classhdf5_1_1FixedLengthStringBuffer" ],
       [ "FixedLengthStringTrait", "structhdf5_1_1FixedLengthStringTrait.html", "structhdf5_1_1FixedLengthStringTrait" ],
       [ "FixedLengthStringTrait< std::string >", "structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html", "structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4" ],
       [ "FixedLengthStringTrait< std::vector< std::string > >", "structhdf5_1_1FixedLengthStringTrait_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.html", "structhdf5_1_1FixedLengthStringTrait_3_01std_1_1vector_3_01std_1_1string_01_4_01_4" ],
-      [ "IOWriteBuffer", "classhdf5_1_1IOWriteBuffer.html", "classhdf5_1_1IOWriteBuffer" ],
       [ "IOReadBuffer", "classhdf5_1_1IOReadBuffer.html", "classhdf5_1_1IOReadBuffer" ],
+      [ "IOWriteBuffer", "classhdf5_1_1IOWriteBuffer.html", "classhdf5_1_1IOWriteBuffer" ],
       [ "Iterator", "classhdf5_1_1Iterator.html", "classhdf5_1_1Iterator" ],
       [ "IteratorConfig", "classhdf5_1_1IteratorConfig.html", "classhdf5_1_1IteratorConfig" ],
       [ "ObjectHandle", "classhdf5_1_1ObjectHandle.html", "classhdf5_1_1ObjectHandle" ],
@@ -117,7 +118,6 @@ var annotated_dup =
       [ "VarLengthStringTrait", "structhdf5_1_1VarLengthStringTrait.html", "structhdf5_1_1VarLengthStringTrait" ],
       [ "VarLengthStringTrait< std::string >", "structhdf5_1_1VarLengthStringTrait_3_01std_1_1string_01_4.html", "structhdf5_1_1VarLengthStringTrait_3_01std_1_1string_01_4" ],
       [ "VarLengthStringTrait< std::vector< std::string > >", "structhdf5_1_1VarLengthStringTrait_3_01std_1_1vector_3_01std_1_1string_01_4_01_4.html", "structhdf5_1_1VarLengthStringTrait_3_01std_1_1vector_3_01std_1_1string_01_4_01_4" ],
-      [ "Version", "classhdf5_1_1Version.html", "classhdf5_1_1Version" ],
-      [ "ArrayAdapter", "classhdf5_1_1ArrayAdapter.html", "classhdf5_1_1ArrayAdapter" ]
+      [ "Version", "classhdf5_1_1Version.html", "classhdf5_1_1Version" ]
     ] ]
 ];

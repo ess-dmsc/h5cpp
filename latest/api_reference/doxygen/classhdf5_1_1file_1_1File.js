@@ -13,7 +13,7 @@ var classhdf5_1_1file_1_1File =
     [ "intent", "classhdf5_1_1file_1_1File.html#a3f09fc02e3dafdfa962c052d816946ec", null ],
     [ "is_valid", "classhdf5_1_1file_1_1File.html#a46b672f9c888dd48fb8efad13d0275b9", null ],
     [ "operator hid_t", "classhdf5_1_1file_1_1File.html#a8dbd9a2526544ef065957328ee1d0887", null ],
-    [ "operator=", "classhdf5_1_1file_1_1File.html#a2c4923f7648b8357cc535541ce9e604b", null ],
+    [ "operator=", "classhdf5_1_1file_1_1File.html#a92bc5ca225e4dbb0421cb6e89cf21a1c", null ],
     [ "path", "classhdf5_1_1file_1_1File.html#ae89688a2c5fa38fdce01a8021abd96be", null ],
     [ "root", "classhdf5_1_1file_1_1File.html#a8e5ab559734e02414a55f66e84d097ee", null ],
     [ "size", "classhdf5_1_1file_1_1File.html#a79d58cc40a4d20c2daec946c52d89b88", null ],
