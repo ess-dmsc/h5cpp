@@ -289,7 +289,7 @@ jobs:
       - name: Build all
         run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . -- -j 2"
       - name: Build html
-        if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . --target html"
       - name: Run tests
         run: docker  exec build /bin/bash -c "cd ../build &&  ctest --extra-verbose --no-tests=error"
@@ -298,7 +298,7 @@ jobs:
       - name: Build examples
         run: docker  exec build /bin/bash -c "mkdir ../examples_build &&  cd ../examples_build && cmake ../src/examples -DCMAKE_BUILD_TYPE=Release  &&  cmake --build . -- -j 2 "
       - name: Append documentation for the latest release version
-        if: startsWith(github.ref, 'refs/heads/develop') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: startsWith(github.ref, 'refs/heads/master') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         run: |
           docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
           docker  exec build /bin/bash -c "git config --unset-all remote.origin.fetch"
@@ -339,7 +339,7 @@ jobs:
           docker  exec build /bin/bash -c "rm -rf ./${{ steps.extract_docver.outputs.docver }}/_sources"
 
       - name: Deploy documentation
-        if: (github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
+        if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: self
