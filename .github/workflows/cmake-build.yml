@@ -316,7 +316,8 @@ jobs:
       - name: Extract the code version from the branch name
         if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial'
         shell: bash
-        run: echo "##[set-output name=docver;]$(echo ${GITHUB_REF#refs/heads/docs_})"
+        run: echo "docver=$(echo ${GITHUB_REF#refs/heads/docs_})" >> $GITHUB_OUTPUT
+        # run: echo "##[set-output name=docver;]$(echo ${GITHUB_REF#refs/heads/docs_})"
         id: extract_docver
 
       - name: Append documentation for the extracted release version
