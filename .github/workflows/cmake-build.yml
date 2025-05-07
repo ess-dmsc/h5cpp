@@ -315,6 +315,7 @@ jobs:
           docker  exec build /bin/bash -c "find ./ -name \"Makefile\" -exec rm -rf {} \\;"
           docker  exec build /bin/bash -c "find ./ -name \"*.cmake\" -exec rm -rf {} \\;"
           docker  exec build /bin/bash -c "rm -rf ./latest/_sources"
+          docker  exec build /bin/bash -c "rm -rf ./src"
 
       - name: Extract the code version from the branch name
         if: startsWith(github.ref, 'refs/heads/docs_') && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
@@ -340,6 +341,7 @@ jobs:
           docker  exec build /bin/bash -c "find ./ -name \"Makefile\" -exec rm -rf {} \\;"
           docker  exec build /bin/bash -c "find ./ -name \"*.cmake\" -exec rm -rf {} \\;"
           docker  exec build /bin/bash -c "rm -rf ./${{ steps.extract_docver.outputs.docver }}/_sources"
+          docker  exec build /bin/bash -c "rm -rf ./src"
 
       - name: Deploy documentation
         if: (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/docs_')) && matrix.shared == 'shared' && matrix.boost == 'stdfs' && matrix.mpi == 'serial' && matrix.os == 'debian12'
