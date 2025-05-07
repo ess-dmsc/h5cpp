@@ -1,0 +1,5 @@
+<map id="hdf5::property::DatasetAccessList" name="hdf5::property::DatasetAccessList">
+<area shape="rect" id="node1" title="dataset access property list" alt="" coords="5,155,245,181"/>
+<area shape="rect" id="node2" href="$classhdf5_1_1property_1_1LinkAccessList.html" title="link access property list" alt="" coords="17,80,233,107"/>
+<area shape="rect" id="node3" href="$classhdf5_1_1property_1_1List.html" title="base class for property lists" alt="" coords="53,5,197,32"/>
+</map>
