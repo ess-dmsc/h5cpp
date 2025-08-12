@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['welcome_20to_20the_20h5cpp_20documentation_0',['Welcome to the h5cpp documentation',['../index.html',1,'']]]
+  ['library_20design_0',['Library Design',['../design.html',1,'']]],
+  ['list_1',['Deprecated List',['../deprecated.html',1,'']]]
 ];

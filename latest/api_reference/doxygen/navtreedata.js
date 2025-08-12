@@ -25,10 +25,10 @@
 var NAVTREE =
 [
   [ "h5cpp", "index.html", [
-    [ "Welcome to the h5cpp documentation", "index.html", null ],
+    [ "Welcome to the h5cpp documentation", "index.html", "index" ],
     [ "Library Design", "design.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
-    [ "Modules", "modules.html", "modules" ],
+    [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -50,7 +50,7 @@ var NAVTREE =
         [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
-        [ "Related Functions", "functions_rela.html", null ]
+        [ "Related Symbols", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -77,9 +77,9 @@ var NAVTREEINDEX =
 "classhdf5_1_1property_1_1FileCreationList.html#a2e74319edd3acd4231eda3c3b7eef08c",
 "dataset__transfer_8hpp.html",
 "functions_func_g.html",
-"namespacehdf5_1_1file.html#a6985d28775d7cdd13325794921278bc0aa8156810bfee2bd2b44765b9e91db3bd",
-"node__iterator_8hpp_source.html",
-"view_8hpp_source.html"
+"namespacehdf5_1_1file.html#a7007cb0349c7b7563f71a7da93d50474",
+"node__view_8hpp.html",
+"version_8hpp.html#a68f8343da5f678556d72d87e8e1efc1a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

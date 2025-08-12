@@ -1,10 +1,17 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classhdf5_1_1datatype_1_1Datatype.html" title="base class for all data types" alt="" coords="5,157,191,184"/>
-<area shape="rect" id="node2" href="$classhdf5_1_1datatype_1_1Array.html" title="array datatype" alt="" coords="265,5,425,32"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1datatype_1_1Compound.html" title="compound data type" alt="" coords="248,56,443,83"/>
-<area shape="rect" id="node4" href="$classhdf5_1_1datatype_1_1Enum.html" title="compound data type" alt="" coords="264,107,427,133"/>
-<area shape="rect" id="node5" href="$classhdf5_1_1datatype_1_1Float.html" title=" " alt="" coords="266,157,425,184"/>
-<area shape="rect" id="node6" href="$classhdf5_1_1datatype_1_1Integer.html" title="HDF5 integer datatype." alt="" coords="260,208,431,235"/>
-<area shape="rect" id="node7" href="$classhdf5_1_1datatype_1_1String.html" title="string datatype" alt="" coords="264,259,427,285"/>
-<area shape="rect" id="node8" href="$classhdf5_1_1datatype_1_1VLengthArray.html" title="variable length array type" alt="" coords="239,309,452,336"/>
+<area shape="rect" id="Node000000" href="$classhdf5_1_1datatype_1_1Datatype.html" title="base class for all data types" alt="" coords="5,153,191,179"/>
+<area shape="rect" id="Node000001" href="$classhdf5_1_1datatype_1_1Array.html" title="array datatype" alt="" coords="265,5,425,31"/>
+<area shape="poly" id="edge5_Node000000_Node000001" title=" " alt="" coords="117,141,167,90,201,62,237,40,266,28,268,33,240,44,204,67,171,93,120,145"/>
+<area shape="rect" id="Node000002" href="$classhdf5_1_1datatype_1_1Compound.html" title="compound data type" alt="" coords="248,55,443,80"/>
+<area shape="poly" id="edge6_Node000000_Node000002" title=" " alt="" coords="130,144,179,115,238,89,275,78,277,83,240,94,182,120,132,148"/>
+<area shape="rect" id="Node000003" href="$classhdf5_1_1datatype_1_1Enum.html" title="compound data type" alt="" coords="264,104,427,129"/>
+<area shape="poly" id="edge7_Node000000_Node000003" title=" " alt="" coords="175,148,280,127,281,132,176,153"/>
+<area shape="rect" id="Node000004" href="$classhdf5_1_1datatype_1_1Float.html" title=" " alt="" coords="266,153,425,179"/>
+<area shape="poly" id="edge8_Node000000_Node000004" title=" " alt="" coords="204,163,266,163,266,169,204,169"/>
+<area shape="rect" id="Node000005" href="$classhdf5_1_1datatype_1_1Integer.html" title="HDF5 integer datatype." alt="" coords="260,203,431,228"/>
+<area shape="poly" id="edge9_Node000000_Node000005" title=" " alt="" coords="176,179,281,200,280,205,175,184"/>
+<area shape="rect" id="Node000006" href="$classhdf5_1_1datatype_1_1String.html" title="string datatype" alt="" coords="264,252,427,277"/>
+<area shape="poly" id="edge10_Node000000_Node000006" title=" " alt="" coords="133,184,182,211,240,237,281,249,279,254,238,242,180,216,130,188"/>
+<area shape="rect" id="Node000007" href="$classhdf5_1_1datatype_1_1VLengthArray.html" title="variable length array type" alt="" coords="239,301,452,327"/>
+<area shape="poly" id="edge11_Node000000_Node000007" title=" " alt="" coords="121,187,172,238,204,264,240,286,271,299,269,304,237,291,201,268,168,242,117,191"/>
 </map>

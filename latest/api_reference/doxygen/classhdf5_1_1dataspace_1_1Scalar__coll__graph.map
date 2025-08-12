@@ -1,5 +1,7 @@
 <map id="hdf5::dataspace::Scalar" name="hdf5::dataspace::Scalar">
-<area shape="rect" id="node1" title="scalar dataspace" alt="" coords="19,185,194,212"/>
-<area shape="rect" id="node2" href="$classhdf5_1_1dataspace_1_1Dataspace.html" title="dataspace base class" alt="" coords="5,109,208,136"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1dataspace_1_1SelectionManager.html" title="interface for selection management" alt="" coords="9,5,204,47"/>
+<area shape="rect" id="Node000001" title="scalar dataspace" alt="" coords="19,183,194,208"/>
+<area shape="rect" id="Node000002" href="$classhdf5_1_1dataspace_1_1Dataspace.html" title="dataspace base class" alt="" coords="5,108,208,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,148,109,182,104,182,104,148"/>
+<area shape="rect" id="Node000003" href="$classhdf5_1_1dataspace_1_1SelectionManager.html" title="interface for selection management" alt="" coords="9,5,204,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="109,59,109,108,104,108,104,59"/>
 </map>

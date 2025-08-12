@@ -1,6 +1,9 @@
 <map id="/home/p00user/src/src/h5cpp/node/virtual_dataset.hpp" name="/home/p00user/src/src/h5cpp/node/virtual_dataset.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="67,5,298,47"/>
-<area shape="rect" id="node2" href="$hdf5_8hpp.html" title=" " alt="" coords="100,95,265,136"/>
-<area shape="rect" id="node3" href="$h5cpp_8hpp.html" title=" " alt="" coords="5,184,171,225"/>
-<area shape="rect" id="node4" href="$nexus_8hpp.html" title=" " alt="" coords="195,184,360,225"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="67,5,298,45"/>
+<area shape="rect" id="Node000002" href="$hdf5_8hpp.html" title=" " alt="" coords="100,93,265,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,59,185,93,180,93,180,59"/>
+<area shape="rect" id="Node000003" href="$h5cpp_8hpp.html" title=" " alt="" coords="5,181,171,221"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="153,145,111,183,107,179,150,141"/>
+<area shape="rect" id="Node000004" href="$nexus_8hpp.html" title=" " alt="" coords="195,181,360,221"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="216,141,258,179,255,183,212,145"/>
 </map>
