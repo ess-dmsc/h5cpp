@@ -162,7 +162,7 @@ jobs:
           .\conanrunenv-release-x86_64.ps1
           ctest --extra-verbose --no-tests=error --output-on-failure
         shell: pwsh
-  macos-13:
+  macos-15:
     strategy:
       matrix:
         shared: ["shared", "static"]
@@ -171,7 +171,7 @@ jobs:
           # "mpi",
           "serial"
         ]
-    runs-on: macos-13
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
@@ -196,7 +196,7 @@ jobs:
           if [ "${H5CPP_WITH_MPI}" = "True" ]; then
             HDF5_SHARED=False
           fi
-          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang15 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
@@ -209,17 +209,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.conan/data
-          key: conan-apple-clang12-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          key: conan-apple-clang15-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
-            conan-apple-clang12-${{ hashfiles('base.lock') }}
-            conan-apple-clang12
+            conan-apple-clang15-${{ hashfiles('base.lock') }}
+            conan-apple-clang15
       - name: Install conan dependencies
         run: |
           HDF5_SHARED=${H5CPP_SHARED}
           if [ "${H5CPP_WITH_MPI}" = "True" ]; then
             HDF5_SHARED=False
           fi
-          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang15 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
@@ -237,7 +237,7 @@ jobs:
           if [ "${H5CPP_WITH_MPI}" = "True" ]; then
             HDF5_SHARED=False
           fi
-          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang12 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/apple-clang15 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o with_mpi=${H5CPP_WITH_MPI} \
             -o shared=${H5CPP_SHARED} \
@@ -359,3 +359,8 @@ jobs:
           FOLDER: .
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MESSAGE: "Build: ({sha}) {msg}"
+
+      - name: Stop the docker
+        run: |
+             docker exec  --user root build  /bin/bash -c "chown -R 1001 /home/p00user/src "
+             docker container stop build          

@@ -109,6 +109,14 @@ To install the library to system, you would follow this up with:
 sudo make install
 ```
 
+The tests are configured to guarantee support to the following operating systems: 
+- Ubuntu 22.04
+- Ubuntu 24.04
+- macOS 15 (Sequoia)
+- Windows Server 2022 (=> Windows 11)
+
+but other recent OSes should also be fine 
+
 ### Alternate install directory
 
 If you do not wish to install *h5cpp* to your system folders you can slightly modify the
