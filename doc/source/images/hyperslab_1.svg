@@ -23,7 +23,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="154.82143"
+     inkscape:cx="155.17857"
      inkscape:cy="160.71429"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -353,18 +353,18 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#0963ff;fill-opacity:1;stroke:none"
-       x="17.716536"
-       y="655.51178"
+       x="15.723868"
+       y="649.90991"
        id="text4360-2"><tspan
          sodipodi:role="line"
          id="tspan4362-6"
-         x="17.716536"
-         y="655.51178"
+         x="15.723868"
+         y="649.90991"
          style="font-size:16px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#0963ff;fill-opacity:1;stroke:none">block</tspan><tspan
          id="tspan4817-1"
          sodipodi:role="line"
-         x="17.716536"
-         y="687.79077"
+         x="15.723868"
+         y="669.90991"
          style="font-size:16px;line-height:1.25;font-family:sans-serif;text-align:center;text-anchor:middle;fill:#0963ff;fill-opacity:1;stroke:none"> = [1,2]</tspan></text>
   </g>
 </svg>
