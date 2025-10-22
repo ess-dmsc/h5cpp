@@ -88,7 +88,7 @@ which are characterized by 4 quantities</p>
 <li><p><em>block</em> the number of elements along each dimension of the original dataspace
 in a signle block</p></li>
 <li><p><em>count</em> the number of blocks along each dimension</p></li>
-<li><p><em>stride</em> the offset between each block.</p></li>
+<li><p><em>stride</em> the step between each block including a size of the block</p></li>
 </ul>
 <p>Lets have a look on the following example with a original dataspace of shape
 (9,10).</p>
@@ -101,14 +101,14 @@ have the following parameters</p>
 <li><p><em>offset</em> = [1,1]</p></li>
 <li><p><em>block</em> = [1,2]</p></li>
 <li><p><em>count</em> = [3,3]</p></li>
-<li><p><em>stride</em> = [2,1]</p></li>
+<li><p><em>stride</em> = [3,3]</p></li>
 </ul>
 <p>To construct such a hyperslab you could use</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dataspace</span><span class="o">::</span><span class="n">Simple</span><span class="w"> </span><span class="nf">space</span><span class="p">({</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">});</span>
 <span class="n">Dimensions</span><span class="w"> </span><span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
 <span class="n">Dimensions</span><span class="w"> </span><span class="n">block</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">};</span>
 <span class="n">Dimensions</span><span class="w"> </span><span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
-<span class="n">Dimensions</span><span class="w"> </span><span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">stride</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 <span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">block</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span>
 </pre></div>
 </div>
@@ -137,7 +137,7 @@ dimension separated by a particular stride.</p>
 </figure>
 <p>The constructor call for such a selection would look like this</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Dimensions</span><span class="w"> </span><span class="n">offset</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
-<span class="n">Dimensions</span><span class="w"> </span><span class="n">stride</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+<span class="n">Dimensions</span><span class="w"> </span><span class="n">stride</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">};</span>
 <span class="n">Dimensions</span><span class="w"> </span><span class="n">count</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 <span class="n">dataspace</span><span class="o">::</span><span class="n">Hyperslab</span><span class="p">{</span><span class="n">offset</span><span class="p">,</span><span class="n">count</span><span class="p">,</span><span class="n">stride</span><span class="p">};</span>
 </pre></div>
@@ -441,10 +441,10 @@ case we have to distinguish two cases</p>
         <li class="nav-item nav-item-this"><a href="">Working with selections</a></li> 
       </ul>
     </div>
-<li>generated on 2025-05-07 12:25:57 from docs_stable (e7e0e7d)</li>
+<li>generated on 2025-10-22 10:43:22 from docs_stable (0a7199b)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-05-07 12:25:57 from docs_stable (e7e0e7d).
+        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-10-22 10:43:22 from docs_stable (0a7199b).
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
 
