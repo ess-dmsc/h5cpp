@@ -221,10 +221,10 @@ SCENARIO("Hyperslab modifications") {
         REQUIRE_THAT(h.block(), Catch::Matchers::Equals(Dimensions{3, 4}));
       }
     }
-    WHEN("trying to set the offset for index 2") {
+    WHEN("trying to set the block for index 2") {
       REQUIRE_THROWS_AS(h.block(2, 0), std::runtime_error);
     }
-    WHEN("trying to set the offset to {1") {
+    WHEN("trying to set the block to {1") {
       REQUIRE_THROWS_AS(h.block({1}), std::runtime_error);
     }
 

@@ -44,7 +44,7 @@ which are characterized by 4 quantities
 * *block* the number of elements along each dimension of the original dataspace 
   in a signle block
 * *count* the number of blocks along each dimension
-* *stride* the offset between each block. 
+* *stride* the step between each block including a size of the block
 
 Lets have a look on the following example with a original dataspace of shape
 (9,10). 
@@ -59,7 +59,7 @@ have the following parameters
 * *offset* = [1,1]
 * *block* = [1,2]
 * *count* = [3,3]
-* *stride* = [2,1]
+* *stride* = [3,3]
 
 To construct such a hyperslab you could use 
 
@@ -69,7 +69,7 @@ To construct such a hyperslab you could use
     Dimensions offset{1,1};
     Dimensions block{1,2};
     Dimensions count{3,3};
-    Dimensions stride{2,1};
+    Dimensions stride{3,3};
     dataspace::Hyperslab{offset,block,count,stride};
     
 For details of how to manipulate or alter an instance of 
@@ -108,7 +108,7 @@ The constructor call for such a selection would look like this
 .. code-block:: cpp
 
     Dimensions offset{1,1};
-    Dimensions stride{2,3};
+    Dimensions stride{3,4};
     Dimensions count{3,3};
     dataspace::Hyperslab{offset,count,stride};
     
