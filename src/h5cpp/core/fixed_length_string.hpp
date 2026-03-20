@@ -130,13 +130,13 @@ struct FixedLengthStringTrait<std::string>
         break;
       case datatype::StringPad::NullPad:
         // get iterator to last padding \0 character
-        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const auto &c)
+        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const BufferType::value_type &c)
                                   { return c == '\0'; })
                      .base();
         break;
       case datatype::StringPad::SpacePad:
         // get iterator to last padding space character
-        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const auto &c)
+        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const BufferType::value_type &c)
                                   { return c == ' '; })
                      .base();
         break;
