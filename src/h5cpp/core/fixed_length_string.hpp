@@ -25,6 +25,7 @@
 //
 #pragma once
 
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <h5cpp/dataspace/dataspace.hpp>
@@ -117,10 +118,32 @@ struct FixedLengthStringTrait<std::string>
     //! @param buffer reference to the IO buffer
     //! @return new data instance
     static DataType from_buffer(const BufferType &buffer,
-                                const datatype::String &,
+                                const datatype::String &memory_type,
                                 const dataspace::Dataspace &)
     {
-      return DataType(buffer.begin(),buffer.end());
+      const auto padding = memory_type.padding();
+      auto end_it = buffer.end();
+      switch (padding)
+      {
+      case datatype::StringPad::NullTerm:
+        end_it = std::find(buffer.begin(), buffer.end(), '\0');
+        break;
+      case datatype::StringPad::NullPad:
+        // get iterator to last padding \0 character
+        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const auto &c)
+                                  { return c == '\0'; })
+                     .base();
+        break;
+      case datatype::StringPad::SpacePad:
+        // get iterator to last padding space character
+        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const auto &c)
+                                  { return c == ' '; })
+                     .base();
+        break;
+      default:
+        break;
+      }
+      return DataType(buffer.begin(), end_it);
     }
 };
 
