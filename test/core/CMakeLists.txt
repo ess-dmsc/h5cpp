@@ -1,5 +1,5 @@
 
-set(test_sources 
+set(test_sources
     ObjectHandleDefault.cpp
     object_handle_test.cpp
     file_object_handle_test.cpp
@@ -10,6 +10,7 @@ set(test_sources
     attribute_object_handle_test.cpp
     property_objects_handle_test.cpp
     error_objects_handle_test.cpp
+    fixed_length_string_test.cpp
     test_environment.cpp
     iteration_index_test.cpp
     iteration_order_test.cpp
