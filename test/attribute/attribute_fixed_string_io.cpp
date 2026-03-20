@@ -66,9 +66,6 @@ SCENARIO("Working with attributes and fixed UTF8 strings") {
           THEN("we can read the data using this type") {
             std::string read;
             REQUIRE_NOTHROW(a.read(read, read_type));
-            // need to remove trailing \0 from the string
-            read.erase(std::remove(read.begin(), read.end(), '\0'), read.end());
-
             REQUIRE(write == read);
           }
         }
@@ -77,20 +74,17 @@ SCENARIO("Working with attributes and fixed UTF8 strings") {
 
     AND_GIVEN("an instance of a smaller string") {
       std::string write = "hell";
-      THEN("we have to resize the string to the appropriate size") {
-        write.resize(5);
-        AND_THEN("we can write it to the attribute") {
-          REQUIRE_NOTHROW(a.write(write, string_type));
-          AND_THEN("read it with the attribte datatype") {
-            std::string read;
-            REQUIRE_NOTHROW(a.read(read, a.datatype()));
-            REQUIRE_THAT(write, Catch::Matchers::Equals(read));
-          }
-          AND_THEN("read it with the default datatype") {
-            std::string read;
-            REQUIRE_NOTHROW(a.read(read));
-            REQUIRE_THAT(write, Catch::Matchers::Equals(read));
-          }
+      AND_THEN("we can write it to the attribute") {
+        REQUIRE_NOTHROW(a.write(write, string_type));
+        AND_THEN("read it with the attribte datatype") {
+          std::string read;
+          REQUIRE_NOTHROW(a.read(read, a.datatype()));
+          REQUIRE_THAT(write, Catch::Matchers::Equals(read));
+        }
+        AND_THEN("read it with the default datatype") {
+          std::string read;
+          REQUIRE_NOTHROW(a.read(read));
+          REQUIRE_THAT(write, Catch::Matchers::Equals(read));
         }
       }
     }
@@ -117,20 +111,17 @@ SCENARIO("Working with attributes and fixed UTF8 strings") {
                                           dataspace::Simple({1}));
     AND_GIVEN("a string of size 4") {
       std::string write = "hell";
-      THEN("we have to resize the string") {
-        write.resize(5);
-        AND_THEN("write it to the attribute") {
-          REQUIRE_NOTHROW(a.write(write, string_type));
-          AND_THEN("we can read it back using the attribute datatype") {
-            std::string read;
-            REQUIRE_NOTHROW(a.read(read, a.datatype()));
-            REQUIRE(write == read);
-          }
-          AND_THEN("read the data with the default datatype") {
-            std::string read;
-            REQUIRE_NOTHROW(a.read(read));
-            REQUIRE(write == read);
-          }
+      AND_THEN("write it to the attribute") {
+        REQUIRE_NOTHROW(a.write(write, string_type));
+        AND_THEN("we can read it back using the attribute datatype") {
+          std::string read;
+          REQUIRE_NOTHROW(a.read(read, a.datatype()));
+          REQUIRE(write == read);
+        }
+        AND_THEN("read the data with the default datatype") {
+          std::string read;
+          REQUIRE_NOTHROW(a.read(read));
+          REQUIRE(write == read);
         }
       }
     }
