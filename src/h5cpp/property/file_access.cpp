@@ -50,6 +50,9 @@ std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
 #if H5_VERSION_GE(1,13,0)
     case LibVersion::V114: return stream << "V114";
 #endif
+#if H5_VERSION_GE(2,0,0)
+    case LibVersion::V200: return stream << "V200";
+#endif
   }
   return stream;
 }

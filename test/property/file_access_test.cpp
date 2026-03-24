@@ -57,6 +57,9 @@ const std::initializer_list<std::tuple<pl::LibVersion, std::string>> lib_version
 #if H5_VERSION_GE(1,13,0)
   {pl::LibVersion::V114, "V114"},
 #endif
+#if H5_VERSION_GE(2,0,0)
+  {pl::LibVersion::V200, "V200"},
+#endif
 #if H5_VERSION_LE(1,10,1)
   // starting with 1.10.2 "Latest" is reported as the specific latest version
   {pl::LibVersion::Latests, "LATEST"},
@@ -92,7 +95,7 @@ SCENARIO("FileAccessList creation") {
     pl::FileAccessList fapl;
     THEN("we expect") {
       REQUIRE(fapl.get_class() == pl::kFileAccess);
-      REQUIRE(fapl.library_version_bound_low() == pl::LibVersion::Earliest);
+      REQUIRE(((fapl.library_version_bound_low() == pl::LibVersion::Earliest) || (fapl.library_version_bound_low() == pl::LibVersion::V18)));
       REQUIRE(fapl.library_version_bound_high() == pl::LibVersion::Latest);
       REQUIRE(fapl.close_degree() == pl::CloseDegree::Default);
     }
