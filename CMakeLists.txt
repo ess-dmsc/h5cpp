@@ -6,12 +6,18 @@ project(h5cpp
       VERSION 0.7
     )
 
+option(H5CPP_OLD_CMAKE "enable support for old cmake versions" OFF)
 
 #=============================================================================
 # Augment CMake with our custom scripts
 #=============================================================================
 set(EXTRA_MODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 list(APPEND CMAKE_MODULE_PATH ${EXTRA_MODULES_DIR})
+
+if (H5CPP_OLD_CMAKE)
+  set(EXTRA_OLDMODULES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake/old)
+  list(APPEND CMAKE_MODULE_PATH ${EXTRA_OLDMODULES_DIR})
+endif()
 
 if (NOT DEFINED BUILD_SHARED_LIBS)
   set(BUILD_SHARED_LIBS ON)
@@ -171,10 +177,12 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}
     COMPONENT development)
 
-install(FILES
-        cmake/FindHDF5.cmake
-        DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}/hdf5
-        COMPONENT development)
+if (H5CPP_OLD_CMAKE)
+  install(FILES
+    cmake/old/FindHDF5.cmake
+    DESTINATION ${CMAKE_INSTALL_PACKAGEDIR}/hdf5
+    COMPONENT development)
+endif()
 
 #
 # uninstall target

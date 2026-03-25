@@ -295,7 +295,7 @@ jobs:
         run: |
           docker  exec  --user root build  /bin/bash -c "chown -R p00user /home/p00user/src"
           docker  exec build /bin/bash -c "HDF5_STATIC=ON; [ \"${H5CPP_SHARED}\" = \"True\" ] && HDF5_STATIC=OFF; git config --global --add safe.directory /home/p00user/src && mkdir ../build &&  cd ../build &&
-          cmake ../src -DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN=DISABLE -DH5CPP_CATCH2_V2=TRUE -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} -DH5CPP_BUILD_SHARED=${H5CPP_SHARED}  -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST} -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}"
+          cmake ../src -DCMAKE_BUILD_TYPE=Release -DH5CPP_CONAN=DISABLE -DH5CPP_OLD_CMAKE=ON -DH5CPP_CATCH2_V2=TRUE -DHDF5_USE_STATIC_LIBRARIES=${HDF5_STATIC} -DH5CPP_BUILD_SHARED=${H5CPP_SHARED}  -DH5CPP_WITH_BOOST=${H5CPP_WITH_BOOST} -DH5CPP_WITH_MPI=${H5CPP_WITH_MPI}"
       - name: Build all
         run: docker  exec build /bin/bash -c "cd ../build &&  cmake --build . -- -j 2"
       - name: Build html
