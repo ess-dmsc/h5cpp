@@ -88,12 +88,12 @@ SCENARIO("testing fixed string IO") {
           THEN("we can read the first element with a hyperslab") {
             dataset.read(buffer, read_type, scalar_space,
                          dataspace::Hyperslab{{0, 0}, {1, 1}});
-            REQUIRE(buffer == "AAAAA");
+            REQUIRE(buffer == "AAAAA     ");
           }
           THEN("we can read the last element with a hyperslab") {
             dataset.read(buffer, read_type, scalar_space,
                          dataspace::Hyperslab{{1, 2}, {1, 1}});
-            REQUIRE(buffer == "FFFFF");
+            REQUIRE(buffer == "FFFFF     ");
           }
         }
         GIVEN("a 6 character fixed length string type") {

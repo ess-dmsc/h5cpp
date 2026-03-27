@@ -46,7 +46,7 @@ SCENARIO("testing h5py compatible string IO") {
       THEN("we can read the content from the dataset to a buffer") {
         std::string buffer;
         dataset.read(buffer, memory_type, memory_space, dataset.dataspace());
-        REQUIRE(buffer == "hello from h5py");
+        REQUIRE(buffer == "hello from h5py     ");
       }
     }
   }
