@@ -18,10 +18,20 @@ SCENARIO("testing reading of fixed-size string attributes")
     SECTION("written string was empty")
     {
       auto attribute = root_group.attributes["fixed_size_string_nullterm_empty"];
-      WHEN("reading back the value into a std::string")
+      WHEN("reading back the value into a std::string with trimming disabled")
       {
         std::string value;
         attribute.read(value);
+        THEN("the std::string should be of length 4 and start with \\0")
+        {
+          REQUIRE(value.size() == 4);
+          REQUIRE(value[0] == '\0');
+        }
+      }
+      WHEN("reading back the value into a std::string with trimming enabled")
+      {
+        std::string value;
+        attribute.read(value, true);
         THEN("the std::string should be empty (i.e., contain \"\", without trailing \\0)")
         {
           REQUIRE(value == "");
@@ -31,11 +41,22 @@ SCENARIO("testing reading of fixed-size string attributes")
     SECTION("written string was \"1\"")
     {
       auto attribute = root_group.attributes["fixed_size_string_nullterm_part"];
-      WHEN("reading back the value into a std::string")
+      WHEN("reading back the value into a std::string with trimming disabled")
       {
         std::string value;
         attribute.read(value);
-        THEN("the std::string should contain the string '1' (without trailing \\0)")
+        THEN("the std::string should be of length 4 and start with \"1\\0\"")
+        {
+          REQUIRE(value.size() == 4);
+          REQUIRE(value[0] == '1');
+          REQUIRE(value[1] == '\0');
+        }
+      }
+      WHEN("reading back the value into a std::string with trimming enabled")
+      {
+        std::string value;
+        attribute.read(value, true);
+        THEN("the std::string should contain the string \"1\" (without trailing \\0)")
         {
           REQUIRE(value == "1");
         }
@@ -44,10 +65,20 @@ SCENARIO("testing reading of fixed-size string attributes")
     SECTION("written string was \"123\"")
     {
       auto attribute = root_group.attributes["fixed_size_string_nullterm_full"];
-      WHEN("reading back the value into a std::string")
+      WHEN("reading back the value into a std::string with trimming disabled")
       {
         std::string value;
         attribute.read(value);
+        THEN("the std::string should of length 4 and contain \"123\0\"")
+        {
+          std::string expected("123\0", 4);
+          REQUIRE(value == expected);
+        }
+      }
+      WHEN("reading back the value into a std::string with trimming enabled")
+      {
+        std::string value;
+        attribute.read(value, true);
         THEN("the std::string should contain the entire string '123' (without trailing \\0)")
         {
           REQUIRE(value == "123");
@@ -57,11 +88,21 @@ SCENARIO("testing reading of fixed-size string attributes")
     SECTION("written string was \"1234\"")
     {
       auto attribute = root_group.attributes["fixed_size_string_nullterm_trunc"];
-      WHEN("reading back the value into a std::string")
+      WHEN("reading back the value into a std::string with trimming disabled")
       {
         std::string value;
         attribute.read(value);
-        THEN("the std::string should contain the truncated string '123' (without trailing \\0)")
+        THEN("the std::string should be of length 4 and contain the truncated string \"123\0\"")
+        {
+          std::string expected("123\0",4);
+          REQUIRE(value == expected);
+        }
+      }
+       WHEN("reading back the value into a std::string with trimming enabled")
+      {
+        std::string value;
+        attribute.read(value, true);
+        THEN("the std::string should be of length 4 and contain the truncated string '123' (without trailing \\0)")
         {
           REQUIRE(value == "123");
         }
@@ -77,9 +118,10 @@ SCENARIO("testing reading of fixed-size string attributes")
       {
         std::string value;
         attribute.read(value);
-        THEN("the std::string should be empty (i.e., contain \"\", without any \\0-padding)")
+        THEN("the std::string should consist only \\0 characters")
         {
-          REQUIRE(value == "");
+          std::string expected("\0\0\0\0", 4);
+          REQUIRE(value == expected);
         }
       }
     }
@@ -92,7 +134,8 @@ SCENARIO("testing reading of fixed-size string attributes")
         attribute.read(value);
         THEN("the std::string should contain the string '1' (without any \\0-padding)")
         {
-          REQUIRE(value == "1");
+          std::string expected("1\0\0\0", 4);
+          REQUIRE(value == expected);
         }
       }
     }
@@ -132,9 +175,9 @@ SCENARIO("testing reading of fixed-size string attributes")
       {
         std::string value;
         attribute.read(value);
-        THEN("the std::string should be empty (i.e., contain \"\", without any space-padding)")
+        THEN("the std::string should contain only spaces")
         {
-          REQUIRE(value == "");
+          REQUIRE(value == "    ");
         }
       }
     }
@@ -145,9 +188,9 @@ SCENARIO("testing reading of fixed-size string attributes")
       {
         std::string value;
         attribute.read(value);
-        THEN("the std::string should contain the string '1' (without any space-padding)")
+        THEN("the std::string should contain the string '1   ' ('1' with three padding spaces)")
         {
-          REQUIRE(value == "1");
+          REQUIRE(value == "1   ");
         }
       }
     }

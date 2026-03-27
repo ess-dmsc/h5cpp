@@ -118,8 +118,21 @@ struct FixedLengthStringTrait<std::string>
     //! @param buffer reference to the IO buffer
     //! @return new data instance
     static DataType from_buffer(const BufferType &buffer,
-                                const datatype::String &memory_type,
+                                const datatype::String &,
                                 const dataspace::Dataspace &)
+    {
+      return DataType(buffer.begin(), buffer.end());
+    }
+
+    //!
+    //! @brief store data from buffer in target memory and trim any tailing null-terminating characters
+    //!
+    //! @param buffer reference to the IO buffer
+    //! @param memory_type the datatype describing how the string is stored in the file
+    //! @return new data instance
+    static DataType from_buffer_trimmed(const BufferType &buffer,
+                                        const datatype::String &memory_type,
+                                        const dataspace::Dataspace &)
     {
       const auto padding = memory_type.padding();
       auto end_it = buffer.end();
