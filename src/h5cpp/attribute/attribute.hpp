@@ -202,12 +202,18 @@ class DLL_EXPORT Attribute
     template<typename T>
     void read(T &data,const datatype::Datatype &mem_type) const;
 
+    void read(std::string &data, bool trim = false) const;
+
+    void read(std::string &data, const datatype::Datatype &mem_type, bool trim = false) const;
+
   private:
     node::Link   parent_link_;
     ObjectHandle handle_;
 
     template<typename T>
     void read(T &data,const datatype::Datatype &mem_type, const datatype::Datatype &file_type) const;
+
+  void read(std::string &data, const datatype::Datatype &mem_type, const datatype::Datatype &file_type, bool trim = false) const;
 
     template<typename T>
     void write_fixed_length_string(const T &data,
@@ -273,7 +279,32 @@ class DLL_EXPORT Attribute
 
     }
 
-    template<typename T>
+    void read_fixed_length_string(std::string &data,
+                                  const datatype::Datatype &mem_type, bool trim = false) const
+    {
+      using Trait = FixedLengthStringTrait<std::string>;
+      using SpaceTrait = hdf5::dataspace::TypeTrait<std::string>;
+
+      auto buffer = Trait::BufferType::create(mem_type, SpaceTrait::create(data));
+
+      if (H5Aread(static_cast<hid_t>(handle_),
+                  static_cast<hid_t>(mem_type),
+                  buffer.data()) < 0)
+      {
+        error::Singleton::instance().throw_with_stack("Failure to read data from attribute!");
+      }
+
+      if (trim)
+      {
+        data = Trait::from_buffer_trimmed(buffer, mem_type, SpaceTrait::create(data));
+      }
+      else
+      {
+        data = Trait::from_buffer(buffer, mem_type, SpaceTrait::create(data));
+      }
+    }
+
+    template <typename T>
     void read_variable_length_string(T &data,
                                      const datatype::Datatype &mem_type) const
     {
