@@ -6,13 +6,7 @@ package:
   version: ${{ version }}
 
 source:
-  url: https://github.com/ess-dmsc/h5cpp/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: e832fb729aaf328d0f30b34e577645f33fdaccda0e1b0c06cb9a3d412a728ad3
-  patches:
-    - relax_version_checks.patch
-    - if: win
-      then:
-        - remove-findhdf5.patch
+  - path: ../../../
 
 build:
   number: 2
