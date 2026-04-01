@@ -11,24 +11,10 @@ source:
 build:
   number: 2
   script:
-    - if: win
-      then:
-        - set CL=/DH5_BUILT_AS_DYNAMIC_LIB=1 %CL%
-        - cmake -B build -G Ninja  %CMAKE_ARGS%  -DH5CPP_CONAN=DISABLE -DHDF5_FIND_DEBUG=ON  -DHDF5_USE_STATIC_LIBRARIES=OFF
-    - if: linux
-      then: cmake -B build  ${CMAKE_ARGS}  -DH5CPP_CONAN=DISABLE
-    - if: osx and build_platform == target_platform
-      then: cmake -B build  ${CMAKE_ARGS}  -DH5CPP_CONAN=DISABLE
-    - if: osx and build_platform != target_platform
-      then: cmake -B build  ${CMAKE_ARGS}  -DH5CPP_CONAN=DISABLE -DH5CPP_DISABLE_TESTS=ON
+    - cmake -B build  ${CMAKE_ARGS}  -DH5CPP_CONAN=DISABLE -DCMAKE_INSTALL_PREFIX=${PREFIX}
     - cmake --build build
     - cmake --install build
-    - if: win
-      then: ctest --test-dir build --extra-verbose --no-tests=error
-    - if: linux
-      then: ctest --test-dir build --extra-verbose --no-tests=error --exclude-regex='signed integer properties - char|signed integer properties with cref - char'
-    - if: osx and build_platform == target_platform
-      then: ctest --test-dir build --extra-verbose --no-tests=error --exclude-regex='signed integer properties - char|signed integer properties with cref - char'
+    - ctest --test-dir build --extra-verbose --no-tests=error
 
 requirements:
   build:
@@ -36,8 +22,7 @@ requirements:
     - cmake
     - ninja
     - zlib
-    - if: not win
-      then: make
+    - make
   host:
     - hdf5
     - catch2
