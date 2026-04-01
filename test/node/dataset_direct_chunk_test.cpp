@@ -112,6 +112,13 @@ SCENARIO("testing dataset access via chunks") {
           REQUIRE(frame == read_value);
         }
       }
+      THEN("we can read chunk the data back") {
+        UShorts read_chunk_value(xdim * ydim);
+	for (long long unsigned int i = 0; i != nframe; i++) {
+	  dataset.read_chunk(read_chunk_value, {i, 0, 0});
+          REQUIRE(frame == read_chunk_value);
+        }
+      }
     }
   }
 
