@@ -363,4 +363,29 @@ jobs:
       - name: Stop the docker
         run: |
              docker exec  --user root build  /bin/bash -c "chown -R 1001 /home/p00user/src "
-             docker container stop build          
+             docker container stop build
+
+  pixi_tests:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:trixie
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+
+      - name: install pixi
+        shell: bash
+        run: |
+          apt-get update
+          apt-get -qq -y dist-upgrade
+          apt-get -qq update && apt-get install  -qq  -y flake8 python3 curl bash
+          curl -fsSL https://pixi.sh/install.sh | sh
+          export PATH=/github/home/.pixi/bin:$PATH
+          pixi shell-hook > .sh.sh
+          source .sh.sh
+          pixi add rattler-build compilers hdf5=2.0.0
+      - name: build h5cpp
+        shell: bash
+        run: |
+          source .sh.sh
+          pixi run rattler-build build  --recipe .github/workflows/pixi/recipe.yaml
