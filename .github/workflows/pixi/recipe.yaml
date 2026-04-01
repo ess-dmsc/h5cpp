@@ -32,8 +32,10 @@ build:
 
 requirements:
   build:
+    - hdf5
     - cmake
     - ninja
+    - zlib
     - if: not win
       then: make
   host:
