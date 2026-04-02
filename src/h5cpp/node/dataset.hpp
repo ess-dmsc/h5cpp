@@ -949,18 +949,7 @@ std::uint32_t Dataset::read_chunk(T &data,
   std::uint32_t filter_mask;
   if(mem_type.get_class() == datatype::Class::Integer)
     {
-#if H5_VERSION_GE(2,0,0)
-      if(H5Dread_chunk1(static_cast<hid_t>(*this),
-		       static_cast<hid_t>(dtpl),
-		       offset.data(),
-		       &filter_mask,
-		       dataspace::ptr(data))<0)
-	{
-	  std::stringstream ss;
-	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
-	  error::Singleton::instance().throw_with_stack(ss.str());
-	}
-#elif H5_VERSION_GE(1,10,3)
+#if H5_VERSION_GE(1,10,3)
       if(H5Dread_chunk(static_cast<hid_t>(*this),
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
