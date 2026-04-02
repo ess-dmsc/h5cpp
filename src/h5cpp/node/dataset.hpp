@@ -416,6 +416,50 @@ class DLL_EXPORT Dataset : public Node
 
 
     //!
+    //! \brief read dataset chunk  (*since hdf5 1.10.2*)
+    //!
+    //! Read a chunk from a dataset to an instance of T with given byte size.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param byte_size of data
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \param dtpl reference to a dataset transfer property list
+    //! \return filter_mask mask of which filters are used with the chunk
+    //!
+    template<typename T>
+      std::uint32_t read_chunk(T &data,
+			       size_t byte_size,
+			       std::vector<hsize_t> offset,
+			       const property::DatasetTransferList &dtpl =
+			       property::DatasetTransferList::get())  const;
+
+
+    //!
+    //! \brief read dataset chunk
+    //!
+    //! Read a chunk from a dataset to an instance of T.
+    //!
+    //! \throws std::runtime_error in case of a failure
+    //! \tparam T source type
+    //! \param data reference to the source instance of T
+    //! \param byte_size of data
+    //! \param mem_type reference to the memory data type
+    //! \param offset logical position of the first element of the chunk in the dataset's dataspace
+    //! \param dtpl reference to a dataset transfer property list
+    //! \return filter_mask mask of which filters are used with the chunk
+    //!
+    template<typename T>
+      std::uint32_t read_chunk(T &data,
+			       size_t byte_size,
+			       const datatype::Datatype &mem_type,
+			       std::vector<hsize_t> & offset,
+			       const property::DatasetTransferList &dtpl =
+			       property::DatasetTransferList::get())  const;
+
+
+    //!
     //! \brief read dataset chunk
     //!
     //! Read a chunk storage size from a dataset to an instance of T.
@@ -942,6 +986,16 @@ std::uint32_t Dataset::read_chunk(T &data,
 
 template<typename T>
 std::uint32_t Dataset::read_chunk(T &data,
+				  size_t byte_size,
+				  std::vector<hsize_t> offset,
+				  const property::DatasetTransferList &dtpl) const
+{
+  hdf5::datatype::DatatypeHolder mem_type_holder;
+  return read_chunk(data, byte_size, mem_type_holder.get(data), offset, dtpl);
+}
+
+template<typename T>
+std::uint32_t Dataset::read_chunk(T &data,
 				  const datatype::Datatype &mem_type,
 				  std::vector<hsize_t> & offset,
 				  const property::DatasetTransferList &dtpl) const
@@ -992,6 +1046,42 @@ std::uint32_t Dataset::read_chunk(T &data,
     }
   return filter_mask;
 }
+
+
+template<typename T>
+std::uint32_t Dataset::read_chunk(T &data,
+				  size_t byte_size,
+				  const datatype::Datatype &mem_type,
+				  std::vector<hsize_t> & offset,
+				  const property::DatasetTransferList &dtpl) const
+{
+  std::uint32_t filter_mask;
+  if(mem_type.get_class() == datatype::Class::Integer)
+    {
+#if H5_VERSION_GE(2,0,0)
+      if(H5Dread_chunk(static_cast<hid_t>(*this),
+		       static_cast<hid_t>(dtpl),
+		       offset.data(),
+		       &filter_mask,
+		       dataspace::ptr(data), byte_size)<0)
+	{
+	  std::stringstream ss;
+	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
+	  error::Singleton::instance().throw_with_stack(ss.str());
+	}
+#else
+      read_chunk(data, men_type, offset, dtpl);
+#endif
+    }
+  else
+    {
+      std::stringstream ss;
+      ss<<"Failure to read non-integer chunk data from dataset ["<<link().path()<<"]!";
+      error::Singleton::instance().throw_with_stack(ss.str());
+    }
+  return filter_mask;
+}
+
 
 #endif
 
