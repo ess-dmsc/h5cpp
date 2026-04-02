@@ -1063,7 +1063,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 		       static_cast<hid_t>(dtpl),
 		       offset.data(),
 		       &filter_mask,
-		       dataspace::ptr(data), byte_size)<0)
+		       dataspace::ptr(data), &byte_size)<0)
 	{
 	  std::stringstream ss;
 	  ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
