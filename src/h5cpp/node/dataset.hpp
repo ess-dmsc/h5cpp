@@ -1070,7 +1070,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 	  error::Singleton::instance().throw_with_stack(ss.str());
 	}
 #else
-      read_chunk(data, men_type, offset, dtpl);
+      read_chunk(data, mem_type, offset, dtpl);
 #endif
     }
   else
