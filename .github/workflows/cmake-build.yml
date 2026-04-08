@@ -383,7 +383,7 @@ jobs:
           export PATH=/github/home/.pixi/bin:$PATH
           pixi shell-hook > .sh.sh
           source .sh.sh
-          pixi add rattler-build compilers
+          pixi add rattler-build compilers libaec
       - name: build h5cpp
         shell: bash
         run: |
