@@ -23,10 +23,12 @@ requirements:
     - ninja
     - zlib
     - make
+    - libaec
   host:
     - hdf5
     - catch2
     - zlib
+    - libaec
   run_exports:
     - ${{ pin_subpackage("h5cpp", upper_bound="x.x") }}
 
