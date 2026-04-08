@@ -19,6 +19,8 @@ var classhdf5_1_1node_1_1Dataset =
     [ "read", "classhdf5_1_1node_1_1Dataset.html#afd44d8d9c373500959e789455d57f7ed", null ],
     [ "read", "classhdf5_1_1node_1_1Dataset.html#a09739fcf3264a0175241c4be9617a09c", null ],
     [ "read_chunk", "classhdf5_1_1node_1_1Dataset.html#a7604c1e06070373961d0d037c761af4a", null ],
+    [ "read_chunk", "classhdf5_1_1node_1_1Dataset.html#ae3aca00974150df42eaad9a22bbfc8b3", null ],
+    [ "read_chunk", "classhdf5_1_1node_1_1Dataset.html#af91d7a823deede679c5781c0a9507203", null ],
     [ "read_chunk", "classhdf5_1_1node_1_1Dataset.html#acf9aba6c1e29c9f7d8f65ca7569f1eda", null ],
     [ "read_reshape", "classhdf5_1_1node_1_1Dataset.html#a685e3aec5242b0904f36493f1257aca5", null ],
     [ "read_reshape", "classhdf5_1_1node_1_1Dataset.html#a157974a7c1a7251a32d3598094101bb4", null ],
