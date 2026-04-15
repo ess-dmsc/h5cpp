@@ -1055,7 +1055,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 				  std::vector<hsize_t> & offset,
 				  const property::DatasetTransferList &dtpl) const
 {
-  std::uint32_t filter_mask;
+  std::uint32_t filter_mask = 0;
   if(mem_type.get_class() == datatype::Class::Integer)
     {
 #if H5_VERSION_GE(2,0,0)

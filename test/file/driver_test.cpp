@@ -39,12 +39,13 @@ class MyPosixDriver : public hdf5::file::PosixDriver
 {
   public:
   MyPosixDriver() {}
-
-  virtual hdf5::file::DriverID id() const noexcept override{
-    return hdf5::file::DriverID::Custom;
-  }
+  virtual hdf5::file::DriverID id() const noexcept override;
 };
 
+
+virtual hdf5::file::DriverID MyPosixDriver::id() const noexcept override{
+  return hdf5::file::DriverID::Custom;
+}
 
 SCENARIO("Construction of a memory driver instance", "[file,h5cpp,driver]") {
   GIVEN("a default constructed instance") {
