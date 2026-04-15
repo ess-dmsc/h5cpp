@@ -148,7 +148,7 @@ SCENARIO("Creating a pixel datatype using the trait") {
 
 SCENARIO("Creating a pixel datatype using the trait with cref") {
   GIVEN("a pixel type") {
-    auto & type = datatype::get<Pixel>();
+    auto & type = datatype::create<Pixel>();
     THEN("the compound type") { REQUIRE(type.size() == 3ul); }
     THEN("the type contains an INTEGER") {
       REQUIRE(type.has_class(datatype::Class::Integer));
