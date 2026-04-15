@@ -40,11 +40,6 @@
 #endif
 
 #ifdef _MSC_VER
-#if defined _M_IX86
-    using ssize_t = int;
-#elif defined _M_X64
     #include <BaseTsd.h>
     using ssize_t = SSIZE_T;
 #endif
-#endif
-
