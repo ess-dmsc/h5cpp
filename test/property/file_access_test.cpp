@@ -46,7 +46,8 @@ namespace pl = hdf5::property;
 // we need to define these test cases outside of any catch2 MACRO as '#if'-directives inside a
 // macro are not portable
 // tuple contents: (library version enum value, library version string representation)
-constexpr std::initializer_list<std::tuple<pl::LibVersion, std::string>> lib_version_to_strings {
+__attribute__((constructor))
+const std::initializer_list<std::tuple<pl::LibVersion, std::string>> lib_version_to_strings {
 #if H5_VERSION_GE(1,10,2)
   {pl::LibVersion::V18, "V18"}, 
   {pl::LibVersion::V110, "V110"},
