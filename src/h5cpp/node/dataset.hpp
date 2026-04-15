@@ -1055,7 +1055,7 @@ std::uint32_t Dataset::read_chunk(T &data,
 				  std::vector<hsize_t> & offset,
 				  const property::DatasetTransferList &dtpl) const
 {
-  std::uint32_t filter_mask;
+  std::uint32_t filter_mask = 0;
   if(mem_type.get_class() == datatype::Class::Integer)
     {
 #if H5_VERSION_GE(2,0,0)
@@ -1070,7 +1070,14 @@ std::uint32_t Dataset::read_chunk(T &data,
 	  error::Singleton::instance().throw_with_stack(ss.str());
 	}
 #else
-      read_chunk(data, mem_type, offset, dtpl);
+      if(chunk_storage_size(offset) <= byte_size){
+	read_chunk(data, mem_type, offset, dtpl);
+      }
+      else {
+	std::stringstream ss;
+	ss<<"Failure to read chunk data from dataset ["<<link().path()<<"]!";
+	error::Singleton::instance().throw_with_stack(ss.str());
+      }
 #endif
     }
   else

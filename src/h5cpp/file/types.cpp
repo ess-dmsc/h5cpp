@@ -42,6 +42,15 @@ std::ostream &operator<<(std::ostream &stream,const AccessFlags &flags)
     case AccessFlags::SWMRRead: return stream<<"SWMR READ";
     case AccessFlags::SWMRWrite: return stream<<"SWMR WRITE";
 #endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -86,6 +95,15 @@ std::ostream &operator<<(std::ostream &stream,const ImageFlags &flags)
     case ImageFlags::DontCopy: return stream<<"DONT COPY";
     case ImageFlags::DontRelease: return stream<<"DONT RELEASE";
     case ImageFlags::All: return stream<<"ALL";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -132,6 +150,15 @@ std::ostream &operator<<(std::ostream &stream,const SearchFlags &flags)
     case SearchFlags::File: return stream<<"FILE";
     case SearchFlags::Group: return stream<<"GROUP";
     case SearchFlags::Local: return stream<<"LOCAL";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -172,6 +199,15 @@ std::ostream &operator<<(std::ostream &stream,const Scope &scope)
   {
     case Scope::Global: return stream<<"GLOBAL";
     case Scope::Local: return stream<<"LOCAL";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }

@@ -54,11 +54,14 @@ struct Flip {
   std::int32_t data_[1];
 };
 
-static bool operator==(const Flip& lhs, const Flip& rhs) {
+bool operator==(const Flip& lhs, const Flip& rhs);
+bool operator!=(const Flip& lhs, const Flip& rhs);
+
+bool operator==(const Flip& lhs, const Flip& rhs) {
   return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
 
-static bool operator!=(const Flip& lhs, const Flip& rhs) {
+bool operator!=(const Flip& lhs, const Flip& rhs) {
   return !(lhs == rhs);
 }
 
@@ -105,6 +108,9 @@ SCENARIO("writing a vector with an dynamic element type") {
         dset.write(write);
         AND_THEN("we can read it back") {
           Elements read(2);
+	  AND_THEN("the initial read element is different than the write element") {
+	    REQUIRE((write != read));
+	  }
           dset.read(read);
           REQUIRE_THAT(read, Catch::Matchers::Equals(write));
         }

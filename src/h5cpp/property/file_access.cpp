@@ -53,6 +53,15 @@ std::ostream &operator<<(std::ostream &stream, const LibVersion &version) {
 #if H5_VERSION_GE(2,0,0)
     case LibVersion::V200: return stream << "V200";
 #endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -63,6 +72,15 @@ std::ostream &operator<<(std::ostream &stream, const CloseDegree &version) {
     case CloseDegree::Semi: return stream << "SEMI";
     case CloseDegree::Strong: return stream << "STRONG";
     case CloseDegree::Default: return stream << "DEFAULT";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }

@@ -151,6 +151,15 @@ LinkTarget Link::target(const property::LinkAccessList &lapl) const
       return get_external_link_target(lapl);
     case LinkType::Error:
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   throw std::runtime_error("Unkown link type - cannot determine target!");
 }
@@ -170,6 +179,15 @@ LinkType Link::type(const property::LinkAccessList &lapl) const
     case H5L_TYPE_ERROR:
     case H5L_TYPE_MAX:
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return LinkType::Error;
 }

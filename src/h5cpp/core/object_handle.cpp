@@ -308,6 +308,15 @@ ObjectHandle::Type ObjectHandle::get_type() const
 #endif
     case H5I_NTYPES:
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   std::stringstream ss;
   ss << "ObjectHandle: unknown object type=" << type;

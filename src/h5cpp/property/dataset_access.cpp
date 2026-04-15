@@ -71,6 +71,15 @@ std::ostream &operator<<(std::ostream &stream, const VirtualDataView &view) {
   switch (view) {
     case VirtualDataView::FirstMissing:return stream << "FIRST_MISSING";
     case VirtualDataView::LastAvailable:return stream << "LAST_AVAILABLE";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
