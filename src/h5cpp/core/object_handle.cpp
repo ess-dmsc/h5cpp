@@ -308,6 +308,8 @@ ObjectHandle::Type ObjectHandle::get_type() const
 #endif
     case H5I_NTYPES:
       break;
+    default:
+      break;
   }
   std::stringstream ss;
   ss << "ObjectHandle: unknown object type=" << type;

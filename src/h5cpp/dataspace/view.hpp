@@ -100,7 +100,7 @@ class DLL_EXPORT View {
   //! them by the new set of selections provided by the \c selections
   //! argument.
   //!
-  //! \throws std::runtime_error
+  //! \throws std::runtime_error in case of a failure
   void operator()(const SelectionList &selections) const;
 
   //!
