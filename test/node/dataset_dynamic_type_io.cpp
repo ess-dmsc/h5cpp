@@ -54,6 +54,9 @@ struct Flip {
   std::int32_t data_[1];
 };
 
+bool operator==(const Flip& lhs, const Flip& rhs);
+bool operator!=(const Flip& lhs, const Flip& rhs);
+
 bool operator==(const Flip& lhs, const Flip& rhs) {
   return std::equal(lhs.begin(), lhs.end(), rhs.begin());
 }
