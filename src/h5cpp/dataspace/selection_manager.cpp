@@ -57,7 +57,15 @@ SelectionType SelectionManager::type() const {
     case H5S_SEL_HYPERSLABS:return SelectionType::Hyperslab;
     case H5S_SEL_ALL:return SelectionType::All;
     case H5S_SEL_N:assert(false); // Added H5S_SEL_N to silence compiler
-    default: break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return {};
 }

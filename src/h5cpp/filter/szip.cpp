@@ -97,6 +97,15 @@ std::ostream &operator<<(std::ostream &stream,const SZip::OptionMask &flags)
     case SZip::OptionMask::Chip : return stream<<"CHIP_CODING";
     case SZip::OptionMask::EntropyCoding : return stream<<"ENTROPY_CODING";
     case SZip::OptionMask::NearestNeighbor : return stream<<"NEAREST_NEIGHBOR_CODING";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }

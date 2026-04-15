@@ -68,6 +68,15 @@ static std::shared_ptr<ObjectHandleTest> create_test(hdf5::ObjectHandle::Type ty
     case hdf5::ObjectHandle::Type::BadObject:
     case hdf5::ObjectHandle::Type::VirtualFileLayer:
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return ptr_type(nullptr);
 }

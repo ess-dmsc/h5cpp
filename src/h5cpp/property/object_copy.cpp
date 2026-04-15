@@ -41,6 +41,15 @@ std::ostream &operator<<(std::ostream &stream, const CopyFlag &flag) {
     case CopyFlag::ExpandReferences:return stream << "EXPAND_REFERENCES";
     case CopyFlag::WithoutAttributes:return stream << "WITHOUT_ATTRIBUTES";
     case CopyFlag::MergeCommittedTypes:return stream << "MERGE_COMMITTED_TYPES";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream << "NONE"; //should never happen
 }

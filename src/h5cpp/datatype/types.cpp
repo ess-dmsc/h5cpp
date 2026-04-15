@@ -44,6 +44,15 @@ std::ostream &operator<<(std::ostream &stream, const Class &c) {
     case Class::Enum: return stream << "ENUM";
     case Class::VarLength: return stream << "VARLENGTH";
     case Class::Array: return stream << "ARRAY";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -54,6 +63,15 @@ std::ostream &operator<<(std::ostream &stream, const Order &o) {
     case Order::LE: return stream << "LE";
     case Order::Vax: return stream << "VAX";
     case Order::None: return stream << "NONE";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -62,6 +80,15 @@ std::ostream &operator<<(std::ostream &stream, const Sign &s) {
   switch (s) {
     case Sign::TwosComplement: return stream << "TWOS COMPLEMENT";
     case Sign::Unsigned: return stream << "UNSIGNED";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -71,6 +98,15 @@ std::ostream &operator<<(std::ostream &stream, const Norm &n) {
     case Norm::Implied: return stream << "IMPLIED";
     case Norm::MSBSet: return stream << "MSBSET";
     case Norm::None: return stream << "NONE";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -80,6 +116,15 @@ std::ostream &operator<<(std::ostream &stream, const Pad &p) {
     case Pad::Background: return stream << "BACKGROUND";
     case Pad::One: return stream << "ONE";
     case Pad::Zero: return stream << "ZERO";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -89,6 +134,15 @@ std::ostream &operator<<(std::ostream &stream, const StringPad &pad) {
     case StringPad::NullPad: return stream << "NULLPAD";
     case StringPad::NullTerm: return stream << "NULLTERM";
     case StringPad::SpacePad: return stream << "SPACEPAD";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -97,6 +151,15 @@ std::ostream &operator<<(std::ostream &stream, const Direction &d) {
   switch (d) {
     case Direction::Ascend: return stream << "ASCEND";
     case Direction::Descend: return stream << "DESCEND";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -105,6 +168,15 @@ std::ostream &operator<<(std::ostream &stream, const CharacterEncoding &enc) {
   switch (enc) {
     case CharacterEncoding::ASCII: return stream << "ASCII";
     case CharacterEncoding::UTF8: return stream << "UTF8";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }

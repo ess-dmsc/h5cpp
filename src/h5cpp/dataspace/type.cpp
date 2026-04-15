@@ -35,8 +35,17 @@ std::ostream &operator<<(std::ostream &stream, const Type &t) {
     case Type::Scalar: return stream << "SCALAR";
     case Type::Simple: return stream << "SIMPLE";
     case Type::NoData: return stream << "NODATA";
-    default:return stream;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
+  return stream;
 }
 
 std::ostream &operator<<(std::ostream &stream, const SelectionType &t) {
@@ -45,8 +54,17 @@ std::ostream &operator<<(std::ostream &stream, const SelectionType &t) {
     case SelectionType::Points: return stream << "POINTS";
     case SelectionType::Hyperslab: return stream << "HYPERSLAB";
     case SelectionType::All: return stream << "ALL";
-    default:return stream;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
+  return stream;
 
 }
 
@@ -60,8 +78,17 @@ std::ostream &operator<<(std::ostream &stream, const SelectionOperation &o) {
     case SelectionOperation::NotA: return stream << "NOTA";
     case SelectionOperation::Append: return stream << "APPEND";
     case SelectionOperation::Prepend: return stream << "PREPEND";
-    default:return stream;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
+  return stream;
 
 }
 
