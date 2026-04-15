@@ -43,7 +43,7 @@ class MyPosixDriver : public hdf5::file::PosixDriver
 };
 
 
-virtual hdf5::file::DriverID MyPosixDriver::id() const noexcept override{
+hdf5::file::DriverID MyPosixDriver::id() const noexcept {
   return hdf5::file::DriverID::Custom;
 }
 
