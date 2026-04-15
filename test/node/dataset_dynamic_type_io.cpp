@@ -103,11 +103,11 @@ SCENARIO("writing a vector with an dynamic element type") {
       Elements write{1, 2};
       THEN("we can write this data to the dataset") {
         dset.write(write);
-        AND_THEN("the read element is different than the write element") {
-	  REQUIRE(write != read);
-	}
         AND_THEN("we can read it back") {
           Elements read(2);
+	  AND_THEN("the initial read element is different than the write element") {
+	    REQUIRE(write != read);
+	  }
           dset.read(read);
           REQUIRE_THAT(read, Catch::Matchers::Equals(write));
         }
