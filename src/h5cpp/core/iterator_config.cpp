@@ -34,6 +34,14 @@ std::ostream &operator<<(std::ostream &stream,const IterationOrder &order)
     case IterationOrder::Decreasing: return stream<<"DECREASING";
     case IterationOrder::Increasing: return stream<<"INCREASING";
     case IterationOrder::Native: return stream<<"NATIVE";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default: break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -44,6 +52,14 @@ std::ostream &operator<<(std::ostream &stream,const IterationIndex &index)
   {
     case IterationIndex::CreationOrder: return stream<<"CREATION_ORDER";
     case IterationIndex::Name: return stream<<"NAME";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default: break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }

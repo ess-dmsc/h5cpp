@@ -37,6 +37,15 @@ std::ostream &operator<<(std::ostream &stream, const DatasetFillValueStatus &sta
     case DatasetFillValueStatus::Undefined:return stream << "UNDEFINED";
     case DatasetFillValueStatus::Default:return stream << "DEFAULT";
     case DatasetFillValueStatus::UserDefined:return stream << "USER_DEFINED";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -46,6 +55,15 @@ std::ostream &operator<<(std::ostream &stream, const DatasetFillTime &time) {
     case DatasetFillTime::IfSet:return stream << "IFSET";
     case DatasetFillTime::Alloc:return stream << "ALLOC";
     case DatasetFillTime::Never:return stream << "NEVER";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -56,6 +74,15 @@ std::ostream &operator<<(std::ostream &stream, const DatasetAllocTime &time) {
     case DatasetAllocTime::Early:return stream << "EARLY";
     case DatasetAllocTime::Incr:return stream << "INCR";
     case DatasetAllocTime::Late:return stream << "LATE";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -67,6 +94,15 @@ std::ostream &operator<<(std::ostream &stream, const DatasetLayout &layout) {
     case DatasetLayout::Chunked:return stream << "CHUNKED";
 #if H5_VERSION_GE(1, 10, 0)
     case DatasetLayout::Virtual:return stream << "VIRTUAL";
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
 #endif
   }
   return stream;
@@ -103,6 +139,15 @@ DatasetLayout DatasetCreationList::layout() const {
     case H5D_LAYOUT_ERROR:
     case H5D_NLAYOUTS:
       break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   error::Singleton::instance().throw_with_stack("Failure retrieving the dataset layout!");
 #ifndef __clang__

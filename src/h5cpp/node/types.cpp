@@ -37,6 +37,15 @@ std::ostream &operator<<(std::ostream &stream,const NodeType &type)
     case NodeType::Group: return stream<<"GROUP";
     case NodeType::Dataset: return stream<<"DATASET";
     case NodeType::Datatype: return stream<<"DATATYPE";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
@@ -49,6 +58,15 @@ std::ostream &operator<<(std::ostream &stream,const LinkType &type)
     case LinkType::External: return stream<<"EXTERNAL";
     case LinkType::Hard: return stream<<"HARD";
     case LinkType::Soft: return stream<<"SOFT";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }

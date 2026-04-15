@@ -82,6 +82,15 @@ std::ostream &operator<<(std::ostream &stream, const ScaleOffset::ScaleType &sca
     case ScaleOffset::ScaleType::FloatDScale: return stream << "FLOAT_DSCALE";
     case ScaleOffset::ScaleType::FloatEScale: return stream << "FLOAT_ESCALE";
     case ScaleOffset::ScaleType::Int: return stream << "INT";
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
+    default:
+      break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
   }
   return stream;
 }
