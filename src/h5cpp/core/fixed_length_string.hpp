@@ -25,6 +25,7 @@
 //
 #pragma once
 
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <h5cpp/dataspace/dataspace.hpp>
@@ -120,7 +121,42 @@ struct FixedLengthStringTrait<std::string>
                                 const datatype::String &,
                                 const dataspace::Dataspace &)
     {
-      return DataType(buffer.begin(),buffer.end());
+      return DataType(buffer.begin(), buffer.end());
+    }
+
+    //!
+    //! @brief store data from buffer in target memory and trim any tailing null-terminating characters
+    //!
+    //! @param buffer reference to the IO buffer
+    //! @param memory_type the datatype describing how the string is stored in the file
+    //! @return new data instance
+    static DataType from_buffer_trimmed(const BufferType &buffer,
+                                        const datatype::String &memory_type,
+                                        const dataspace::Dataspace &)
+    {
+      const auto padding = memory_type.padding();
+      auto end_it = buffer.end();
+      switch (padding)
+      {
+      case datatype::StringPad::NullTerm:
+        end_it = std::find(buffer.begin(), buffer.end(), '\0');
+        break;
+      case datatype::StringPad::NullPad:
+        // get iterator to last padding \0 character
+        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const BufferType::value_type &c)
+                                  { return c == '\0'; })
+                     .base();
+        break;
+      case datatype::StringPad::SpacePad:
+        // get iterator to last padding space character
+        end_it = std::find_if_not(buffer.rbegin(), buffer.rend(), [](const BufferType::value_type &c)
+                                  { return c == ' '; })
+                     .base();
+        break;
+      default:
+        break;
+      }
+      return DataType(buffer.begin(), end_it);
     }
 };
 

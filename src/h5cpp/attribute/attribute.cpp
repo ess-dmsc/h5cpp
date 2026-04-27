@@ -128,6 +128,52 @@ void Attribute::close()
 }
 
 
+// special overload for reading attributes into a std::string
+void Attribute::read(std::string &data, bool trim) const
+{
+  auto file_type = datatype();
+  if (file_type.get_class() == datatype::Class::String)
+  {
+    read(data, file_type, trim);
+  }
+  else
+  {
+    hdf5::datatype::DatatypeHolder mem_type_holder;
+    read(data, mem_type_holder.get<std::string>(), file_type, trim);
+  }
+}
+
+
+void Attribute::read(std::string &data, const datatype::Datatype &mem_type, bool trim) const
+{
+  datatype::Datatype file_type = datatype();
+  read(data, mem_type, file_type, trim);
+}
+
+
+void Attribute::read(std::string &data, const datatype::Datatype &mem_type, const datatype::Datatype &file_type, bool trim) const
+{
+  check_size(dataspace::create(data), dataspace(), "read");
+
+  if (file_type.get_class() == datatype::Class::String)
+  {
+    datatype::String string_type(file_type);
+
+    if (string_type.is_variable_length())
+    {
+      read_variable_length_string(data, mem_type);
+    }
+    else
+    {
+      read_fixed_length_string(data, mem_type, trim);
+    }
+  }
+  else
+  {
+    read_contiguous_data(data, mem_type);
+  }
+}
+
 
 } // namespace attribute
 } // namespace hdf5
