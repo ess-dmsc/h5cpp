@@ -152,6 +152,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1c26fe575a2ac289e6ec9114ee12a0d5" id="r_a1c26fe575a2ac289e6ec9114ee12a0d5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a1c26fe575a2ac289e6ec9114ee12a0d5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classhdf5_1_1attribute_1_1Attribute.html#a1c26fe575a2ac289e6ec9114ee12a0d5">read</a> (T &amp;data, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">datatype::Datatype</a> &amp;mem_type) const</td></tr>
 <tr class="separator:a1c26fe575a2ac289e6ec9114ee12a0d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0319ddd6649335828d6a6d9bdf8a95fe" id="r_a0319ddd6649335828d6a6d9bdf8a95fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1attribute_1_1Attribute.html#a0319ddd6649335828d6a6d9bdf8a95fe">read</a> (std::string &amp;data, bool trim=false) const</td></tr>
+<tr class="separator:a0319ddd6649335828d6a6d9bdf8a95fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dc9c7d0873ca354cc91564e6134c312" id="r_a8dc9c7d0873ca354cc91564e6134c312"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhdf5_1_1attribute_1_1Attribute.html#a8dc9c7d0873ca354cc91564e6134c312">read</a> (std::string &amp;data, const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">datatype::Datatype</a> &amp;mem_type, bool trim=false) const</td></tr>
+<tr class="separator:a8dc9c7d0873ca354cc91564e6134c312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2935c9bccd7d12b8c7ed7d4f034bfb35" name="a2935c9bccd7d12b8c7ed7d4f034bfb35"></a>
@@ -355,8 +359,70 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a0319ddd6649335828d6a6d9bdf8a95fe" name="a0319ddd6649335828d6a6d9bdf8a95fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0319ddd6649335828d6a6d9bdf8a95fe">&#9670;&#160;</a></span>read() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hdf5::attribute::Attribute::read </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>trim</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8dc9c7d0873ca354cc91564e6134c312" name="a8dc9c7d0873ca354cc91564e6134c312"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dc9c7d0873ca354cc91564e6134c312">&#9670;&#160;</a></span>read() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hdf5::attribute::Attribute::read </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhdf5_1_1datatype_1_1Datatype.html">datatype::Datatype</a> &amp;&#160;</td>
+          <td class="paramname"><em>mem_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>trim</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9f651b3f1183bcf233f0eef70677cc93" name="a9f651b3f1183bcf233f0eef70677cc93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f651b3f1183bcf233f0eef70677cc93">&#9670;&#160;</a></span>read() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f651b3f1183bcf233f0eef70677cc93">&#9670;&#160;</a></span>read() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -376,7 +442,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <a id="a1c26fe575a2ac289e6ec9114ee12a0d5" name="a1c26fe575a2ac289e6ec9114ee12a0d5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c26fe575a2ac289e6ec9114ee12a0d5">&#9670;&#160;</a></span>read() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c26fe575a2ac289e6ec9114ee12a0d5">&#9670;&#160;</a></span>read() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -424,7 +490,7 @@ template&lt;typename T &gt; </div>
 <div class="fragment"><div class="line"><a class="code hl_class" href="classhdf5_1_1attribute_1_1Attribute.html">attribute::Attribute</a> a = dataset.attributes.create&lt;std::string&gt;(<span class="stringliteral">&quot;note&quot;</span>);</div>
 <div class="line">a.<a class="code hl_function" href="classhdf5_1_1attribute_1_1Attribute.html#a494d3b6a9b61f8dc38bda2369df96675">write</a>(<span class="stringliteral">&quot;a short text&quot;</span>);</div>
 <div class="ttc" id="aclasshdf5_1_1attribute_1_1Attribute_html"><div class="ttname"><a href="classhdf5_1_1attribute_1_1Attribute.html">hdf5::attribute::Attribute</a></div><div class="ttdef"><b>Definition</b> attribute.hpp:49</div></div>
-<div class="ttc" id="aclasshdf5_1_1attribute_1_1Attribute_html_a494d3b6a9b61f8dc38bda2369df96675"><div class="ttname"><a href="classhdf5_1_1attribute_1_1Attribute.html#a494d3b6a9b61f8dc38bda2369df96675">hdf5::attribute::Attribute::write</a></div><div class="ttdeci">void write(const T &amp;data) const</div><div class="ttdoc">write data to attribute</div><div class="ttdef"><b>Definition</b> attribute.hpp:351</div></div>
+<div class="ttc" id="aclasshdf5_1_1attribute_1_1Attribute_html_a494d3b6a9b61f8dc38bda2369df96675"><div class="ttname"><a href="classhdf5_1_1attribute_1_1Attribute.html#a494d3b6a9b61f8dc38bda2369df96675">hdf5::attribute::Attribute::write</a></div><div class="ttdeci">void write(const T &amp;data) const</div><div class="ttdoc">write data to attribute</div><div class="ttdef"><b>Definition</b> attribute.hpp:382</div></div>
 </div><!-- fragment --><p>You should be aware that this currently only works if the string type used for the attribute is a variable length string.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
@@ -613,7 +679,7 @@ template&lt;typename T &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="namespacehdf5_1_1attribute.html">attribute</a></li><li class="navelem"><a class="el" href="classhdf5_1_1attribute_1_1Attribute.html">Attribute</a></li>
-    <li class="footer">Generated on Wed Apr 15 2026 14:24:18 for h5cpp by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Mon Apr 27 2026 13:25:22 for h5cpp by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

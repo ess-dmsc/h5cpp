@@ -116,6 +116,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab2c9dd624189d78070b4d0c1868b95d7" id="r_ab2c9dd624189d78070b4d0c1868b95d7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a5617d363419c07f79b254aa56fa59957">DataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#ab2c9dd624189d78070b4d0c1868b95d7">from_buffer</a> (const <a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a09772b20db8482f42ca2ba4d70de90d8">BufferType</a> &amp;buffer, const <a class="el" href="classhdf5_1_1datatype_1_1String.html">datatype::String</a> &amp;, const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">dataspace::Dataspace</a> &amp;)</td></tr>
 <tr class="memdesc:ab2c9dd624189d78070b4d0c1868b95d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">store data from buffer in target memory  <br /></td></tr>
 <tr class="separator:ab2c9dd624189d78070b4d0c1868b95d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a444c716ccec165f4074baa436ac2ac44" id="r_a444c716ccec165f4074baa436ac2ac44"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a5617d363419c07f79b254aa56fa59957">DataType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a444c716ccec165f4074baa436ac2ac44">from_buffer_trimmed</a> (const <a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a09772b20db8482f42ca2ba4d70de90d8">BufferType</a> &amp;buffer, const <a class="el" href="classhdf5_1_1datatype_1_1String.html">datatype::String</a> &amp;memory_type, const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">dataspace::Dataspace</a> &amp;)</td></tr>
+<tr class="memdesc:a444c716ccec165f4074baa436ac2ac44"><td class="mdescLeft">&#160;</td><td class="mdescRight">store data from buffer in target memory and trim any tailing null-terminating characters  <br /></td></tr>
+<tr class="separator:a444c716ccec165f4074baa436ac2ac44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a09772b20db8482f42ca2ba4d70de90d8" name="a09772b20db8482f42ca2ba4d70de90d8"></a>
@@ -196,6 +199,56 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a444c716ccec165f4074baa436ac2ac44" name="a444c716ccec165f4074baa436ac2ac44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a444c716ccec165f4074baa436ac2ac44">&#9670;&#160;</a></span>from_buffer_trimmed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a5617d363419c07f79b254aa56fa59957">DataType</a> <a class="el" href="structhdf5_1_1FixedLengthStringTrait.html">hdf5::FixedLengthStringTrait</a>&lt; std::string &gt;::from_buffer_trimmed </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html#a09772b20db8482f42ca2ba4d70de90d8">BufferType</a> &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhdf5_1_1datatype_1_1String.html">datatype::String</a> &amp;&#160;</td>
+          <td class="paramname"><em>memory_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhdf5_1_1dataspace_1_1Dataspace.html">dataspace::Dataspace</a> &amp;&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>reference to the IO buffer </td></tr>
+    <tr><td class="paramname">memory_type</td><td>the datatype describing how the string is stored in the file </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>new data instance </dd></dl>
+
+</div>
+</div>
 <a id="ac2dc0b88a016facdb0f23b2fd54160fa" name="ac2dc0b88a016facdb0f23b2fd54160fa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac2dc0b88a016facdb0f23b2fd54160fa">&#9670;&#160;</a></span>to_buffer()</h2>
 
@@ -257,7 +310,7 @@ Static Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacehdf5.html">hdf5</a></li><li class="navelem"><a class="el" href="structhdf5_1_1FixedLengthStringTrait_3_01std_1_1string_01_4.html">FixedLengthStringTrait&lt; std::string &gt;</a></li>
-    <li class="footer">Generated on Wed Apr 15 2026 14:24:18 for h5cpp by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Mon Apr 27 2026 13:25:22 for h5cpp by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
