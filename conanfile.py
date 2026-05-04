@@ -52,7 +52,7 @@ class H5CppConan(ConanFile):
             elif self.settings.os == "Macos":
                 self.requires("boost/1.86.0")
             else:
-                self.requires("boost/1.8.0")
+                self.requires("boost/1.86.0")
         if self.options.get_safe("with_mpi", False):
             self.requires("openmpi/4.1.8")
 
