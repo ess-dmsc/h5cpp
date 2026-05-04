@@ -54,7 +54,7 @@ class H5CppConan(ConanFile):
             else:
                 self.requires("boost/1.86.0")
         if self.options.get_safe("with_mpi", False):
-            self.requires("openmpi/4.1.0")
+            self.requires("openmpi/4.1.8")
 
     def build(self):
         cmake = CMake(self)
