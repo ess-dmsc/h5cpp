@@ -127,15 +127,16 @@ For Debian (Trixie) use
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/trixie-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/trixie-pni-hdri.sources
 
-and for Ubuntu (Noble)
+and for Ubuntu (Resolute)
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/noble-pni-hdri.list
+   $ wget http://repos.pni-hdri.de/resolute-pni-hdri.sources
 
-Similarly, proceed for Bookworm, Bullseye, Buster, Plucky, Jammy.
+Similarly, proceed for Bookworm, Bullseye, Noble, Jammy.
+For older releases the ATP source file has the .list extension.
 Once you have downloaded the file use
 
 .. code-block:: bash
@@ -147,7 +148,7 @@ to update your package list and
 
 .. code-block:: bash
 
-   $ apt-get install libh5cpp0.7.1 libh5cpp0.7.1-dbg libh5cpp0.7.1-doc libh5cpp0.7.1-dev
+   $ apt-get install libh5cpp0.8.0 libh5cpp0.8.0-dbg libh5cpp0.8.0-doc libh5cpp0.8.0-dev
 
-to install the library of v0.7.1. Dependencies will be resolved automatically so you can
+to install the library of v0.8.0. Dependencies will be resolved automatically so you can
 start with working right after the installation has finished.
