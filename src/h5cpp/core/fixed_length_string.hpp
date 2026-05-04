@@ -153,8 +153,15 @@ struct FixedLengthStringTrait<std::string>
                                   { return c == ' '; })
                      .base();
         break;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcovered-switch-default"
+#endif
       default:
         break;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
       }
       return DataType(buffer.begin(), end_it);
     }
