@@ -40,7 +40,7 @@ class H5CppConan(ConanFile):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
-        self.requires("hdf5/1.14.5")
+        self.requires("hdf5/1.14.6")
         self.requires("catch2/3.3.2")
         self.requires("zlib/1.3.1")
         self.requires("szip/2.1.1")
@@ -52,9 +52,9 @@ class H5CppConan(ConanFile):
             elif self.settings.os == "Macos":
                 self.requires("boost/1.86.0")
             else:
-                self.requires("boost/1.86.0")
+                self.requires("boost/1.8.0")
         if self.options.get_safe("with_mpi", False):
-            self.requires("openmpi/4.1.0")
+            self.requires("openmpi/4.1.8")
 
     def build(self):
         cmake = CMake(self)
