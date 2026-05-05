@@ -1,0 +1,9 @@
+<map id="hdf5::node::VirtualDataset" name="hdf5::node::VirtualDataset">
+<area shape="rect" id="Node000001" title="virtual dataset class" alt="" coords="5,257,199,283"/>
+<area shape="rect" id="Node000002" href="$classhdf5_1_1node_1_1Dataset.html" title=" " alt="" coords="27,183,177,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,222,105,257,99,257,99,222"/>
+<area shape="rect" id="Node000003" href="$classhdf5_1_1node_1_1Node.html" title=" " alt="" coords="35,108,169,133"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="105,148,105,182,99,182,99,148"/>
+<area shape="rect" id="Node000004" href="$classhdf5_1_1attribute_1_1AttributeManager.html" title="provides STL interface for attributes" alt="" coords="12,5,192,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="105,59,105,108,99,108,99,59"/>
+</map>

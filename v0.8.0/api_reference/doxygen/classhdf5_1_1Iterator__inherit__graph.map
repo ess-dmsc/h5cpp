@@ -1,0 +1,9 @@
+<map id="hdf5::Iterator" name="hdf5::Iterator">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,70,112,95"/>
+<area shape="rect" id="Node000002" href="$classhdf5_1_1attribute_1_1AttributeIterator.html" title=" " alt="" coords="161,5,341,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,64,182,43,184,48,116,69"/>
+<area shape="rect" id="Node000003" href="$classhdf5_1_1node_1_1LinkIterator.html" title=" " alt="" coords="163,70,338,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,80,163,80,163,85,126,85"/>
+<area shape="rect" id="Node000004" href="$classhdf5_1_1node_1_1NodeIterator.html" title="bidirectional NodeIterator" alt="" coords="160,119,341,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="122,96,201,117,199,122,121,101"/>
+</map>
