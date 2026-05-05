@@ -1,6 +1,9 @@
 <map id="hdf5::node::ChunkedDataset" name="hdf5::node::ChunkedDataset">
-<area shape="rect" id="node1" title="dataset with chunked layout" alt="" coords="5,261,212,288"/>
-<area shape="rect" id="node2" href="$classhdf5_1_1node_1_1Dataset.html" title=" " alt="" coords="33,185,184,212"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1node_1_1Node.html" title=" " alt="" coords="42,109,175,136"/>
-<area shape="rect" id="node4" href="$classhdf5_1_1attribute_1_1AttributeManager.html" title="provides STL interface for attributes" alt="" coords="19,5,199,47"/>
+<area shape="rect" id="Node000001" title="dataset with chunked layout" alt="" coords="5,257,212,283"/>
+<area shape="rect" id="Node000002" href="$classhdf5_1_1node_1_1Dataset.html" title=" " alt="" coords="33,183,184,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,222,111,257,106,257,106,222"/>
+<area shape="rect" id="Node000003" href="$classhdf5_1_1node_1_1Node.html" title=" " alt="" coords="42,108,175,133"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="111,148,111,182,106,182,106,148"/>
+<area shape="rect" id="Node000004" href="$classhdf5_1_1attribute_1_1AttributeManager.html" title="provides STL interface for attributes" alt="" coords="19,5,199,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="111,59,111,108,106,108,106,59"/>
 </map>

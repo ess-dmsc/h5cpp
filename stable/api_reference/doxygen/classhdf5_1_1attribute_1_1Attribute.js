@@ -9,6 +9,8 @@ var classhdf5_1_1attribute_1_1Attribute =
     [ "name", "classhdf5_1_1attribute_1_1Attribute.html#af513feb8f60744d3440b0a4bc9931085", null ],
     [ "operator hid_t", "classhdf5_1_1attribute_1_1Attribute.html#a2e2c6c0cd70308d12dec348b4249763e", null ],
     [ "parent_link", "classhdf5_1_1attribute_1_1Attribute.html#a45bb9c001cbcb4e256bda725f0761e90", null ],
+    [ "read", "classhdf5_1_1attribute_1_1Attribute.html#a0319ddd6649335828d6a6d9bdf8a95fe", null ],
+    [ "read", "classhdf5_1_1attribute_1_1Attribute.html#a8dc9c7d0873ca354cc91564e6134c312", null ],
     [ "read", "classhdf5_1_1attribute_1_1Attribute.html#a9f651b3f1183bcf233f0eef70677cc93", null ],
     [ "read", "classhdf5_1_1attribute_1_1Attribute.html#a1c26fe575a2ac289e6ec9114ee12a0d5", null ],
     [ "write", "classhdf5_1_1attribute_1_1Attribute.html#ae5e19236b1692f971c5c944d9644f6cb", null ],

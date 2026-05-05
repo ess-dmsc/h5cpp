@@ -1,6 +1,9 @@
 <map id="/home/p00user/src/src/h5cpp/core/variable_length_string.hpp" name="/home/p00user/src/src/h5cpp/core/variable_length_string.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="53,5,218,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,109,68,136"/>
-<area shape="rect" id="node3" title=" " alt="" coords="93,109,178,136"/>
-<area shape="rect" id="node4" title=" " alt="" coords="202,109,269,136"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="53,5,218,60"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,108,68,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,62,62,101,59,97,103,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="93,108,178,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,60,138,94,133,94,133,60"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="202,108,269,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,58,213,97,209,101,164,62"/>
 </map>

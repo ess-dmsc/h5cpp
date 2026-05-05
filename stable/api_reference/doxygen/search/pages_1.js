@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['library_20design_0',['Library Design',['../design.html',1,'']]]
+  ['guide_0',['Users Guide',['../uguide.html',1,'index']]]
 ];

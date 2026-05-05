@@ -1,9 +1,15 @@
 <map id="/home/p00user/src/src/h5cpp/datatype/types.hpp" name="/home/p00user/src/src/h5cpp/datatype/types.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="140,5,335,47"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,95,85,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="110,95,202,121"/>
-<area shape="rect" id="node4" href="$hdf5__capi_8hpp.html" title=" " alt="" coords="226,95,414,121"/>
-<area shape="rect" id="node7" href="$windows_8hpp.html" title=" " alt="" coords="438,95,621,121"/>
-<area shape="rect" id="node5" title=" " alt="" coords="239,169,302,196"/>
-<area shape="rect" id="node6" title=" " alt="" coords="327,169,409,196"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="140,5,335,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,85,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,48,87,91,85,86,190,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="110,93,202,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,47,180,85,176,82,216,44"/>
+<area shape="rect" id="Node000004" href="$hdf5__capi_8hpp.html" title=" " alt="" coords="226,93,414,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="259,44,300,82,296,86,256,47"/>
+<area shape="rect" id="Node000007" href="$windows_8hpp.html" title=" " alt="" coords="438,93,621,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="308,43,474,87,473,92,307,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="239,167,302,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="314,121,289,157,284,154,310,117"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="327,167,409,192"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="330,118,355,154,350,157,326,121"/>
 </map>

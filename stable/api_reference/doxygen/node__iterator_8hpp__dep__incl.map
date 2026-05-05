@@ -1,7 +1,12 @@
 <map id="/home/p00user/src/src/h5cpp/node/node_iterator.hpp" name="/home/p00user/src/src/h5cpp/node/node_iterator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="73,5,292,47"/>
-<area shape="rect" id="node2" href="$hdf5_8hpp.html" title=" " alt="" coords="100,199,265,240"/>
-<area shape="rect" id="node5" href="$recursive__node__iterator_8hpp.html" title=" " alt="" coords="160,95,325,151"/>
-<area shape="rect" id="node3" href="$h5cpp_8hpp.html" title=" " alt="" coords="5,288,171,329"/>
-<area shape="rect" id="node4" href="$nexus_8hpp.html" title=" " alt="" coords="195,288,360,329"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="73,5,292,45"/>
+<area shape="rect" id="Node000002" href="$hdf5_8hpp.html" title=" " alt="" coords="100,196,265,236"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,58,151,94,146,121,151,147,160,172,172,195,167,197,155,175,145,149,141,121,145,93,161,56"/>
+<area shape="rect" id="Node000005" href="$recursive__node__iterator_8hpp.html" title=" " alt="" coords="160,93,325,148"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="204,55,228,92,224,95,200,58"/>
+<area shape="rect" id="Node000003" href="$h5cpp_8hpp.html" title=" " alt="" coords="5,284,171,324"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="153,247,111,286,107,282,150,243"/>
+<area shape="rect" id="Node000004" href="$nexus_8hpp.html" title=" " alt="" coords="195,284,360,324"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="216,243,258,282,255,286,212,247"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="220,161,197,197,193,194,216,158"/>
 </map>

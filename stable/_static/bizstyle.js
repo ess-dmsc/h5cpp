@@ -1,14 +1,8 @@
-//
-// bizstyle.js
-// ~~~~~~~~~~~
-//
-// Sphinx javascript -- for bizstyle theme.
-//
-// This theme was created by referring to 'sphinxdoc'
-//
-// :copyright: Copyright 2012-2014 by Sphinx team, see AUTHORS.
-// :license: BSD, see LICENSE for details.
-//
+/*
+ * Sphinx javascript -- for bizstyle theme.
+ *
+ * This theme was created by referring to 'sphinxdoc'
+ */
 const initialiseBizStyle = () => {
     if (navigator.userAgent.indexOf("iPhone") > 0 || navigator.userAgent.indexOf("Android") > 0) {
         document.querySelector("li.nav-item-0 a").innerText = "Top"
@@ -23,7 +17,7 @@ const initialiseBizStyle = () => {
 }
 
 window.addEventListener("resize",
-  () => (document.querySelector("li.nav-item-0 a").innerText = (window.innerWidth <= 776) ? "Top" : "h5cpp 0.7.1 documentation")
+  () => (document.querySelector("li.nav-item-0 a").innerText = (window.innerWidth <= 776) ? "Top" : "h5cpp 0.8.0 documentation")
 )
 
 if (document.readyState !== "loading") initialiseBizStyle()

@@ -25,10 +25,10 @@
 var NAVTREE =
 [
   [ "h5cpp", "index.html", [
-    [ "Welcome to the h5cpp documentation", "index.html", null ],
+    [ "Welcome to the h5cpp documentation", "index.html", "index" ],
     [ "Library Design", "design.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
-    [ "Modules", "modules.html", "modules" ],
+    [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -50,7 +50,7 @@ var NAVTREE =
         [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
-        [ "Related Functions", "functions_rela.html", null ]
+        [ "Related Symbols", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -69,17 +69,17 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "classhdf5_1_1Path.html#ad16c76a8c3ed4fa54dc12053a2c25757",
-"classhdf5_1_1dataspace_1_1Points.html#a8c50974feda4330cc845910f037f6b90",
-"classhdf5_1_1datatype_1_1Float.html",
-"classhdf5_1_1file_1_1PosixDriver.html#a2f2aa8e4ab1107e0293178bfbe0e015b",
-"classhdf5_1_1node_1_1Group.html#a81d11a1b4e263b89135a38e5e94eab99",
-"classhdf5_1_1node_1_1RecursiveNodeIterator.html",
-"classhdf5_1_1property_1_1FileCreationList.html#a2e74319edd3acd4231eda3c3b7eef08c",
-"dataset__transfer_8hpp.html",
-"functions_func_g.html",
-"namespacehdf5_1_1file.html#a6985d28775d7cdd13325794921278bc0aa8156810bfee2bd2b44765b9e91db3bd",
-"node__iterator_8hpp_source.html",
-"view_8hpp_source.html"
+"classhdf5_1_1dataspace_1_1Points.html#a733d7644d924c8d507350167f9f89a1a",
+"classhdf5_1_1datatype_1_1Enum.html#ae7e8c2534308860c28e2a0f09b5c6e85",
+"classhdf5_1_1file_1_1MemoryDriver.html#af21bd644cac0d011820594fd1178e741",
+"classhdf5_1_1node_1_1Group.html#a50fd1feebf62e4dcb3e47affca04ba31",
+"classhdf5_1_1node_1_1RecursiveLinkIterator.html#accbef8846bb256c7bef620de7900dd9f",
+"classhdf5_1_1property_1_1FileAccessList.html#af0330afc7b411c9e3b65d3e754ef4a04",
+"dataset__creation_8hpp.html#aa0997cba67e24b505b25f50da5336aa4",
+"functions_f.html",
+"namespacehdf5_1_1file.html#a669f989b0b9f650268d88c1a479e3713",
+"node_2types_8hpp.html#aa4b867a67eb2d0dbc6b694e5b54c65d5",
+"utilities_8hpp_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

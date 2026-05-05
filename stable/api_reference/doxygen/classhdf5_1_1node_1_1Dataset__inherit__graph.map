@@ -1,6 +1,9 @@
 <map id="hdf5::node::Dataset" name="hdf5::node::Dataset">
-<area shape="rect" id="node1" title=" " alt="" coords="145,80,296,107"/>
-<area shape="rect" id="node3" href="$classhdf5_1_1node_1_1ChunkedDataset.html" title="dataset with chunked layout" alt="" coords="5,155,212,181"/>
-<area shape="rect" id="node4" href="$classhdf5_1_1node_1_1VirtualDataset.html" title="virtual dataset class" alt="" coords="236,155,429,181"/>
-<area shape="rect" id="node2" href="$classhdf5_1_1node_1_1Node.html" title=" " alt="" coords="154,5,287,32"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="145,79,296,104"/>
+<area shape="rect" id="Node000003" href="$classhdf5_1_1node_1_1ChunkedDataset.html" title="dataset with chunked layout" alt="" coords="5,152,212,177"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="192,114,128,154,126,150,189,109"/>
+<area shape="rect" id="Node000004" href="$classhdf5_1_1node_1_1VirtualDataset.html" title="virtual dataset class" alt="" coords="236,152,429,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="252,109,316,150,313,154,249,114"/>
+<area shape="rect" id="Node000002" href="$classhdf5_1_1node_1_1Node.html" title=" " alt="" coords="154,5,287,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,44,223,79,218,79,218,44"/>
 </map>

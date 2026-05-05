@@ -1,22 +1,18 @@
 
+<!DOCTYPE html>
 
-<!doctype html>
-
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Class diagrams &#8212; h5cpp 0.7.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <title>Class diagrams &#8212; h5cpp 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=486e5634"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -27,7 +23,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -39,7 +35,7 @@
         <li class="right" >
           <a href="links_and_paths.html" title="Dealing with links and paths"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.8.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Users guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Class diagrams</a></li> 
       </ul>
@@ -51,14 +47,15 @@
           <div class="body" role="main">
             
   <section id="class-diagrams">
-<h1>Class diagrams<a class="headerlink" href="#class-diagrams" title="Permalink to this heading">¶</a></h1>
+<h1>Class diagrams<a class="headerlink" href="#class-diagrams" title="Link to this heading">¶</a></h1>
 <section id="basic-objects-facing-the-dangling-id-problem">
-<h2>Basic objects - facing the dangling ID problem<a class="headerlink" href="#basic-objects-facing-the-dangling-id-problem" title="Permalink to this heading">¶</a></h2>
+<h2>Basic objects - facing the dangling ID problem<a class="headerlink" href="#basic-objects-facing-the-dangling-id-problem" title="Link to this heading">¶</a></h2>
 <figure class="align-center" id="id1">
-<a class="reference internal image-reference" href="../_images/base_classes_uml.png"><img alt="../_images/base_classes_uml.png" src="../_images/base_classes_uml.png" style="width: 75%;" /></a>
+<a class="reference internal image-reference" href="../_images/base_classes_uml.png"><img alt="../_images/base_classes_uml.png" src="../_images/base_classes_uml.png" style="width: 75%;" />
+</a>
 <figcaption>
 <p><span class="caption-text">The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">id_t</span></code> type ensures that every every object is closed
-whenever it looses scope.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+whenever it looses scope.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 <p>A major problem with the C-API for HDF5 is the high risk of resource leakage
@@ -75,9 +72,10 @@ for a raw HDF5 id. It has to major duties</p>
 </ul>
 </section>
 <section id="property-lists-compile-time-checks">
-<h2>Property lists - compile time checks<a class="headerlink" href="#property-lists-compile-time-checks" title="Permalink to this heading">¶</a></h2>
+<h2>Property lists - compile time checks<a class="headerlink" href="#property-lists-compile-time-checks" title="Link to this heading">¶</a></h2>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../_images/property_lists_uml.png"><img alt="../_images/property_lists_uml.png" src="../_images/property_lists_uml.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/property_lists_uml.png"><img alt="../_images/property_lists_uml.png" src="../_images/property_lists_uml.png" style="width: 100%;" />
+</a>
 </figure>
 <p>Many functions of the C-API rely on property lists to control their behavior.
 As shown in the figure above there are quite a lot of these property lists
@@ -116,18 +114,20 @@ time and thus eliminate another source of runtime errors which are maybe hard
 to find.</p>
 </section>
 <section id="attribute-management">
-<h2>Attribute management<a class="headerlink" href="#attribute-management" title="Permalink to this heading">¶</a></h2>
+<h2>Attribute management<a class="headerlink" href="#attribute-management" title="Link to this heading">¶</a></h2>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../_images/attribute_manager_uml.png"><img alt="../_images/attribute_manager_uml.png" src="../_images/attribute_manager_uml.png" style="width: 50%;" /></a>
+<a class="reference internal image-reference" href="../_images/attribute_manager_uml.png"><img alt="../_images/attribute_manager_uml.png" src="../_images/attribute_manager_uml.png" style="width: 50%;" />
+</a>
 </figure>
 <p>Types that can have attribute (<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">group_t</span></code> and <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">dataset_t</span></code>)
 have a public attribute of type <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">attribute_manager_t</span></code> providing an
 STL compliant interface to the attached attributes.</p>
 </section>
 <section id="managing-selections">
-<h2>Managing selections<a class="headerlink" href="#managing-selections" title="Permalink to this heading">¶</a></h2>
+<h2>Managing selections<a class="headerlink" href="#managing-selections" title="Link to this heading">¶</a></h2>
 <figure class="align-center">
-<a class="reference internal image-reference" href="../_images/hyperslab_uml.png"><img alt="../_images/hyperslab_uml.png" src="../_images/hyperslab_uml.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/hyperslab_uml.png"><img alt="../_images/hyperslab_uml.png" src="../_images/hyperslab_uml.png" style="width: 100%;" />
+</a>
 </figure>
 <p>A selection (hyperslab) is represented by an instance of
 <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">hyperslab_t</span></code>. It provides the same IO functionality as a field or
@@ -148,7 +148,7 @@ is used for the C++ mutex types in the threading interface.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="../index.html">Table of Contents</a></h3>
@@ -173,7 +173,7 @@ is used for the C++ mutex types in the threading interface.</p>
     <p class="topless"><a href="adapters.html"
                           title="next chapter">Adapters and the return value problem</a></p>
   </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -181,7 +181,7 @@ is used for the C++ mutex types in the threading interface.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script><p>
   <h3 class='versions'>Versions</h3>
   <p>
@@ -189,6 +189,7 @@ is used for the C++ mutex types in the threading interface.</p>
       <li><a class="reference external" href="../index/../../latest/index.html">v:latest</a></li>
       <li><a class="reference external" href="../index/../../stable/index.html">v:stable</a></li>
       
+      <li><a class="reference external" href="../index/../../v0.8.0/index.html">v0.8.0</a></li>
       <li><a class="reference external" href="../index/../../v0.7.1/index.html">v0.7.1</a></li>
       <li><a class="reference external" href="../index/../../v0.7.0/index.html">v0.7.0</a></li>
       <li><a class="reference external" href="../index/../../v0.6.1/index.html">v0.6.1</a></li>
@@ -206,7 +207,7 @@ is used for the C++ mutex types in the threading interface.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -218,16 +219,16 @@ is used for the C++ mutex types in the threading interface.</p>
         <li class="right" >
           <a href="links_and_paths.html" title="Dealing with links and paths"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.7.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">h5cpp 0.8.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Users guide</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Class diagrams</a></li> 
       </ul>
     </div>
-<li>generated on 2025-10-22 10:43:22 from docs_stable (0a7199b)</li>
+<li>generated on 2026-05-05 05:53:45 from docs_stable (dcc309e)</li>
 
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2025-10-22 10:43:22 from docs_stable (0a7199b).
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+    &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2026-05-05 05:53:45 from docs_stable (dcc309e).
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
 
   </body>
