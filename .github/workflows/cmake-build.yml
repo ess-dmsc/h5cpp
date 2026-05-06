@@ -92,7 +92,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  windows-2022:
+  windows-2025:
     strategy:
       matrix:
         shared: [
@@ -103,7 +103,7 @@ jobs:
           "boost",
           "stdfs"
         ]
-    runs-on: windows-2022
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
       - name: Add MSVC to PATH
@@ -117,7 +117,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade conan
-          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2022 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2025 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
@@ -129,13 +129,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.conan/data
-          key: conan-vs2022-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
+          key: conan-vs2025-${{ hashfiles('base.lock') }}-${{ hashFiles('conan.lock') }}
           restore-keys: |
-            conan-vs-2022-${{ hashfiles('base.lock') }}
-            conan-vs-2022
+            conan-vs-2025-${{ hashfiles('base.lock') }}
+            conan-vs-2025
       - name: Install conan dependencies
         run: |
-          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2022 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2025 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
@@ -148,7 +148,7 @@ jobs:
             --generator VirtualRunEnv
       - name: Build with cmake
         run: |
-          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2022 \
+          CONAN_ARGS="--profile .github/workflows/conan/profiles/vs2025 \
             -o with_boost=${H5CPP_WITH_BOOST} \
             -o shared=${H5CPP_SHARED} \
             -o *:shared=${H5CPP_SHARED}"
