@@ -52,6 +52,9 @@ enum class LibVersion : std::underlying_type<H5F_libver_t>::type {
 #if H5_VERSION_GE(2,0,0)
   V200 = H5F_LIBVER_V200,
 #endif
+#if H5_VERSION_GE(2,2,0)
+  V220 = H5F_LIBVER_V220,
+#endif
   Earliest = H5F_LIBVER_EARLIEST
 };
 
