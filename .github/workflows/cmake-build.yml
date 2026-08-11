@@ -92,7 +92,7 @@ jobs:
         run: |
           cd build
           ctest --extra-verbose --no-tests=error
-  windows-2025:
+  windows-2022:
     strategy:
       matrix:
         shared: [
@@ -103,7 +103,7 @@ jobs:
           "boost",
           "stdfs"
         ]
-    runs-on: windows-2025
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
       - name: Add MSVC to PATH
