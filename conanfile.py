@@ -30,6 +30,7 @@ class H5CppConan(ConanFile):
         self.build_requires("zlib/1.3.1")
         if self.settings.os == "Windows":
            self.tool_requires("b2/5.2.1")
+           self.tool_requires("cmake/4.2.0") 
 
     def config_options(self):
         if self.settings.os == "Windows":
