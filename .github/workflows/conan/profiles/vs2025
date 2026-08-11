@@ -4,7 +4,6 @@ build_type=Release
 compiler=msvc
 compiler.version=194
 compiler.runtime=dynamic
-compiler.toolset=v143
 os=Windows
 
 [conf]
