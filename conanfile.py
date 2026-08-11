@@ -41,7 +41,10 @@ class H5CppConan(ConanFile):
             self.options["hdf5"].parallel = True
 
     def requirements(self):
-        self.requires("hdf5/1.14.5")
+        if self.settings.os == "Windows":
+            self.requires("hdf5/2.0.0")
+        else:
+            self.requires("hdf5/1.14.5")
         self.requires("catch2/3.3.2")
         self.requires("zlib/1.3.1")
         self.requires("szip/2.1.1")
