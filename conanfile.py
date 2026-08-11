@@ -42,7 +42,7 @@ class H5CppConan(ConanFile):
 
     def requirements(self):
         if self.settings.os == "Windows":
-            self.requires("hdf5/2.0.0")
+            self.requires("hdf5/1.14.6")
         else:
             self.requires("hdf5/1.14.5")
         self.requires("catch2/3.3.2")
