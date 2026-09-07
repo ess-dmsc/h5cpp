@@ -252,7 +252,7 @@ jobs:
   dpkg:
     strategy:
       matrix:
-        os: [debian13, debian11]
+        os: [debian13, debian12]
         shared: [shared, static]
         boost: [boost, stdfs]
         mpi: [
