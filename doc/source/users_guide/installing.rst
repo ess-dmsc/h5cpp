@@ -116,7 +116,7 @@ keyring
 
 .. code-block:: bash
 
-   $ curl -s http://repos.pni-hdri.de/debian_repo.pub.gpg  | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg --import
+   $ curl -s https://repos.desy.de/pni-hdri/debian_repo.pub.gpg  | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg --import
    $ chmod 644 /etc/apt/trusted.gpg.d/debian-hdri-repo.gpg
 
 
@@ -127,15 +127,15 @@ For Debian (Trixie) use
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/trixie-pni-hdri.sources
+   $ wget https://repos.desy.de/pni-hdri/trixie-pni-hdri.sources
 
 and for Ubuntu (Resolute)
 
 .. code-block:: bash
 
-   $ wget http://repos.pni-hdri.de/resolute-pni-hdri.sources
+   $ wget https://repos.desy.de/pni-hdri/resolute-pni-hdri.sources
 
-Similarly, proceed for Bookworm, Bullseye, Noble, Jammy.
+Similarly, proceed for Bookworm, Bullseye, Noble, Stonking.
 For older releases the ATP source file has the .list extension.
 Once you have downloaded the file use
 
