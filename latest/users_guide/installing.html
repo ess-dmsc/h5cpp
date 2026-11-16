@@ -128,7 +128,7 @@ package sources you need to login as <cite>root</cite> user. Use <strong class="
 <strong class="command">sudo su</strong> on Debian and Ubuntu respectively.
 The first task is to add the GPG key of the HDRI repository to your local
 keyring</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>http://repos.pni-hdri.de/debian_repo.pub.gpg<span class="w">  </span><span class="p">|</span><span class="w"> </span>gpg<span class="w"> </span>--no-default-keyring<span class="w"> </span>--keyring<span class="w"> </span>gnupg-ring:/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg<span class="w"> </span>--import
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>curl<span class="w"> </span>-s<span class="w"> </span>https://repos.desy.de/pni-hdri/debian_repo.pub.gpg<span class="w">  </span><span class="p">|</span><span class="w"> </span>gpg<span class="w"> </span>--no-default-keyring<span class="w"> </span>--keyring<span class="w"> </span>gnupg-ring:/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg<span class="w"> </span>--import
 $<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/etc/apt/trusted.gpg.d/debian-hdri-repo.gpg
 </pre></div>
 </div>
@@ -136,14 +136,14 @@ $<span class="w"> </span>chmod<span class="w"> </span><span class="m">644</span>
 In a next step you have to add new package sources to your system. For this
 purpose go to <code class="file docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d</span></code> and download the sources file.
 For Debian (Trixie) use</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>http://repos.pni-hdri.de/trixie-pni-hdri.sources
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://repos.desy.de/pni-hdri/trixie-pni-hdri.sources
 </pre></div>
 </div>
 <p>and for Ubuntu (Resolute)</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>http://repos.pni-hdri.de/resolute-pni-hdri.sources
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>wget<span class="w"> </span>https://repos.desy.de/pni-hdri/resolute-pni-hdri.sources
 </pre></div>
 </div>
-<p>Similarly, proceed for Bookworm, Bullseye, Noble, Jammy.
+<p>Similarly, proceed for Bookworm, Bullseye, Noble, Stonking.
 For older releases the ATP source file has the .list extension.
 Once you have downloaded the file use</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>apt-get<span class="w"> </span>update
@@ -240,10 +240,10 @@ start with working right after the installation has finished.</p>
         <li class="nav-item nav-item-this"><a href="">Installing the library</a></li> 
       </ul>
     </div>
-<li>generated on 2026-09-08 12:46:28 from master (e821542)</li>
+<li>generated on 2026-11-16 10:09:16 from master (dd3aa46)</li>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2026-09-08 12:46:28 from master (e821542).
+    &#169; Copyright 2017, Deutsches Elektronen-Synchrotron, European Spallation Source ERIC; generated on 2026-11-16 10:09:16 from master (dd3aa46).
       Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
 
